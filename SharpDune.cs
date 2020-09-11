@@ -1037,9 +1037,6 @@ namespace SharpDune
 
 			Cutscene.g_canSkipIntro = CFile.File_Exists_Personal("ONETIME.DAT");
 
-			//TODO: Remove
-			Cutscene.g_canSkipIntro = true;
-
 			for (; ; Sleep.sleepIdle())
 			{
 				if (g_gameMode == GameMode.GM_MENU)

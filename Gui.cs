@@ -4859,7 +4859,7 @@ namespace SharpDune
 				oi = item.objectInfo;
 				if (oi.available == -1)
 				{
-					GUI_DrawSprite(Screen.SCREEN_1, Sprites.g_sprites[oi.spriteID], 72, (short)(24 + i * 32), 0, DRAWSPRITE_FLAG_REMAP, s_factoryWindowGraymapTbl, 1);
+					GUI_DrawSprite(Screen.SCREEN_1, Sprites.g_sprites[oi.spriteID], 72, (short)(24 + i * 32), 0, DRAWSPRITE_FLAG_REMAP, s_factoryWindowGraymapTbl, (short)1);
 				}
 				else
 				{
