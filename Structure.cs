@@ -189,7 +189,7 @@ namespace SharpDune
                             availableCampaign = 1,
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NONE,
                             sortPriority = 2,
-                            upgradeLevelRequired  = 0,
+                            upgradeLevelRequired = 0,
                             actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_CONCRETE_USE_CONCRETE_TO_MAKE_A_STURDY_FOUNDATION_FOR_YOUR_STRUCTURES,
@@ -1754,7 +1754,7 @@ namespace SharpDune
             if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) return false;
             if (s.o.houseID == (byte)HouseType.HOUSE_ORDOS && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE && s.upgradeLevel == 1 && si.upgradeCampaign[2] > CSharpDune.g_campaignID) return false;
 
-            if (si.upgradeCampaign[s.upgradeLevel] != 0 && si.upgradeCampaign[s.upgradeLevel] <= CSharpDune.g_campaignID + 1)
+            if (s.upgradeLevel < si.upgradeCampaign.Length && si.upgradeCampaign[s.upgradeLevel] != 0 && si.upgradeCampaign[s.upgradeLevel] <= CSharpDune.g_campaignID + 1)
             {
                 House h;
 
