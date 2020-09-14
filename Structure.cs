@@ -2156,7 +2156,7 @@ namespace SharpDune
                 if (s == null) break;
                 if (s.o.flags.isNotOnMap) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
-                result |= (ushort)(1 << s.o.type);
+                result |= (uint)(1 << s.o.type);
 
                 if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP) h.windtrapCount++;
             }
