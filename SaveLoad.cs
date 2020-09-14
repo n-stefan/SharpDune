@@ -12,7 +12,7 @@ namespace SharpDune
 {
     delegate uint SaveLoadDescCallback(object obj, uint value, bool loading); //Func<object, uint, bool, uint>
 	delegate object SaveLoadDescGetter();
-	delegate void SaveLoadDescSetter(object value);
+	delegate void SaveLoadDescSetter(object value, int index);
 
 	/*
 	 * Types of storage we support / understand.
@@ -309,8 +309,8 @@ namespace SharpDune
 		internal static SaveLoadDesc SLD_ARRAY(/*Type c,*/ SaveLoadType t, string m, ushort n) =>
 			new SaveLoadDesc { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = item_size(c, m) / n,*/ callback = null };
 
-		internal static SaveLoadDesc SLD_GARRAY(SaveLoadType t, SaveLoadDescGetter g, ushort n) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, getter = g };
+		internal static SaveLoadDesc SLD_GARRAY(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescSetter s, ushort n) =>
+			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, getter = g, setter = s };
 
 		//internal static SaveLoadDesc SLD_GARRAY<M>(SaveLoadType t, M m, ushort n) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, address = m };
@@ -542,14 +542,7 @@ namespace SharpDune
                             }
 							else
                             {
-								if (sld[c].setter != null)
-                                {
-									sld[c].setter(value);
-                                }
-								else if (ptr is Array ptrArr)
-                                {
-									ptrArr.SetValue(value, i);
-                                }
+								sld[c].setter?.Invoke(value, i);
 							}
 							break;
 

@@ -8,34 +8,34 @@ namespace SharpDune
     {
         static SaveLoadDesc[] s_saveInfoOld = {
             SaveLoad.SLD_EMPTY2(SaveLoadType.SLDT_UINT8, 250),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, v => CSharpDune.g_scenarioID = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, v => CSharpDune.g_campaignID = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, (v, _) => CSharpDune.g_scenarioID = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, (v, _) => CSharpDune.g_campaignID = (ushort)v),
             SaveLoad.SLD_END()
         };
 
         static SaveLoadDesc[] s_saveInfo = {
             SaveLoad.SLD_GSLD(() => CScenario.g_scenario, SaveLoad.g_saveScenario),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, v => CHouse.g_playerCreditsNoSilo = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.g_minimapPosition, v => Gui.g_minimapPosition = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.g_selectionRectanglePosition, v => Gui.g_selectionRectanglePosition = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, (v, _) => CHouse.g_playerCreditsNoSilo = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.g_minimapPosition, (v, _) => Gui.g_minimapPosition = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.g_selectionRectanglePosition, (v, _) => Gui.g_selectionRectanglePosition = (ushort)v),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_INT8, () => CSharpDune.g_selectionType, SaveLoad_SelectionType),
-            SaveLoad.SLD_GENTRY2(SaveLoadType.SLDT_INT8, SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActiveType, v => CStructure.g_structureActiveType = (ushort)(sbyte)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActivePosition, v => CStructure.g_structureActivePosition = (ushort)v),
+            SaveLoad.SLD_GENTRY2(SaveLoadType.SLDT_INT8, SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActiveType, (v, _) => CStructure.g_structureActiveType = (ushort)(sbyte)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActivePosition, (v, _) => CStructure.g_structureActivePosition = (ushort)v),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActive, SaveLoad_StructureActive),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitSelected, SaveLoad_UnitSelected),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitActive, SaveLoad_UnitActive),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_activeAction, v => CSharpDune.g_activeAction = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => Gui.g_strategicRegionBits, v => Gui.g_strategicRegionBits = (uint)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, v => CSharpDune.g_scenarioID = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, v => CSharpDune.g_campaignID = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_hintsShown1, v => CSharpDune.g_hintsShown1 = (uint)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_hintsShown2, v => CSharpDune.g_hintsShown2 = (uint)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_activeAction, (v, _) => CSharpDune.g_activeAction = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => Gui.g_strategicRegionBits, (v, _) => Gui.g_strategicRegionBits = (uint)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, (v, _) => CSharpDune.g_scenarioID = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, (v, _) => CSharpDune.g_campaignID = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_hintsShown1, (v, _) => CSharpDune.g_hintsShown1 = (uint)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_hintsShown2, (v, _) => CSharpDune.g_hintsShown2 = (uint)v),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_tickScenarioStart, SaveLoad_TickScenarioStart),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, v => CHouse.g_playerCreditsNoSilo = (ushort)v),
-            SaveLoad.SLD_GARRAY(SaveLoadType.SLDT_INT16, () => CUnit.g_starportAvailable, (ushort)UnitType.UNIT_MAX),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_houseMissileCountdown, v => CHouse.g_houseMissileCountdown = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, (v, _) => CHouse.g_playerCreditsNoSilo = (ushort)v),
+            SaveLoad.SLD_GARRAY(SaveLoadType.SLDT_INT16, () => CUnit.g_starportAvailable, (v, i) => CUnit.g_starportAvailable[i] = (short)v, (ushort)UnitType.UNIT_MAX),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_houseMissileCountdown, (v, _) => CHouse.g_houseMissileCountdown = (ushort)v),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitHouseMissile, SaveLoad_UnitHouseMissile),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureIndex, v => CStructure.g_structureIndex = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureIndex, (v, _) => CStructure.g_structureIndex = (ushort)v),
             SaveLoad.SLD_END()
         };
 
