@@ -5180,7 +5180,7 @@ namespace SharpDune
 		{
 			for (var i = 0; i < str.Length; i++)
 			{
-				GUI_DrawText($" {str[i]}", (short)left, (short)top, fgColour, bgColour);
+				GUI_DrawText(str[i].ToString(), (short)left, (short)top, fgColour, bgColour);
 				left += charWidth;
 			}
 		}
