@@ -20,15 +20,15 @@ namespace SharpDune
 			ushort oldWidgetID;
 			bool isNotPlayerOwned;
 			Object o;
-			Unit u = default;
-			Structure s = default;
+			Unit u;
+			Structure s;
 			House h;
 			Widget[] buttons = new Widget[4];
 			Widget widget24 = null, widget28 = null, widget2C = null, widget30 = null, widget34 = null;
 
 			o = null;
-			//u = null;
-			//s = null;
+			u = null;
+			s = null;
 			h = null;
 
 			oi = null;
@@ -494,8 +494,8 @@ namespace SharpDune
 		static ushort GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 		{
 			ushort actionType = 0;
-			Structure s = default;
-			Unit u = default;
+			Structure s = null;
+			Unit u = null;
 
 			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
 			{

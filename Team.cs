@@ -83,11 +83,11 @@ namespace SharpDune
 			return g_teamArray[index];
 		}
 
-		internal static void Team_Set_ByIndex(Team t)
-		{
-			Debug.Assert(t.index < (ushort)TeamIndex.TEAM_INDEX_MAX);
-			g_teamArray[t.index] = t;
-		}
+		//internal static void Team_Set_ByIndex(Team t)
+		//{
+		//	Debug.Assert(t.index < (ushort)TeamIndex.TEAM_INDEX_MAX);
+		//	g_teamArray[t.index] = t;
+		//}
 
 		/*
 		 * Find the first matching Team based on the PoolFindStruct filter data.

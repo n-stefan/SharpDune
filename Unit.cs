@@ -2395,11 +2395,11 @@ namespace SharpDune
 			return g_unitArray[index];
 		}
 
-		internal static void Unit_Set_ByIndex(Unit u)
-		{
-			Debug.Assert(u.o.index < (ushort)UnitIndex.UNIT_INDEX_MAX);
-			g_unitArray[u.o.index] = u;
-		}
+		//internal static void Unit_Set_ByIndex(Unit u)
+		//{
+		//	Debug.Assert(u.o.index < (ushort)UnitIndex.UNIT_INDEX_MAX);
+		//	g_unitArray[u.o.index] = u;
+		//}
 
 		/*
 		 * Get the unit on the given packed tile.

@@ -801,10 +801,16 @@ namespace SharpDune
 		{
 			while (length > 0)
 			{
-				//Structure s;
 				Structure sl;
 
-				sl = new Structure(); //memset(&sl, 0, sizeof(sl));
+				/* Read the next index from disk */
+				var index = fp.ReadUInt16();
+
+				/* Get the Structure from the pool */
+				sl = CStructure.Structure_Get_ByIndex(index);
+				if (sl == null) return false;
+
+				fp.BaseStream.Seek(-2, SeekOrigin.Current);
 
 				/* Read the next Structure from disk */
 				if (!SaveLoad_Load(s_saveStructure, fp, sl)) return false;
@@ -812,15 +818,7 @@ namespace SharpDune
 				length -= SaveLoad_GetLength(s_saveStructure);
 
 				sl.o.script.scriptInfo = Script.g_scriptStructure;
-				//sl.o.script.script.Arr = Script.g_scriptStructure.start.Arr[sl.o.script.script.Ptr..];
 				if (sl.upgradeTimeLeft == 0) sl.upgradeTimeLeft = (byte)(CStructure.Structure_IsUpgradable(sl) ? 100 : 0);
-
-				/* Get the Structure from the pool */
-				/*s = */CStructure.Structure_Set_ByIndex(sl/*.o.index*/);
-				//if (s == null) return false;
-
-				/* Copy over the data */
-				//s = sl;
 			}
 			if (length != 0) return false;
 
@@ -839,18 +837,23 @@ namespace SharpDune
 		{
 			while (length > 0)
 			{
-				//Unit u;
 				Unit ul;
 
-				ul = new Unit(); //memset(&ul, 0, sizeof(ul));
+				/* Read the next index from disk */
+				var index = fp.ReadUInt16();
 
-				/* Read the next Structure from disk */
+				/* Get the Unit from the pool */
+				ul = CUnit.Unit_Get_ByIndex(index);
+				if (ul == null) return false;
+
+				fp.BaseStream.Seek(-2, SeekOrigin.Current);
+
+				/* Read the next Unit from disk */
 				if (!SaveLoad_Load(s_saveUnit, fp, ul)) return false;
 
 				length -= SaveLoad_GetLength(s_saveUnit);
 
 				ul.o.script.scriptInfo = Script.g_scriptUnit;
-				//ul.o.script.script.Arr = Script.g_scriptUnit.start.Arr[ul.o.script.script.Ptr..];
 				ul.o.script.delay = 0;
 				ul.timer = 0;
 				ul.o.seenByHouses |= (byte)(1 << ul.o.houseID);
@@ -862,13 +865,6 @@ namespace SharpDune
 				 *  it happened that units exists with houseID 13. This in fact are Trikes with
 				 *  the wrong houseID. So remove those units completely from the savegame. */
 				if (ul.o.houseID == 13) continue;
-
-				/* Get the Structure from the pool */
-				/*u = */CUnit.Unit_Set_ByIndex(ul/*.o.index*/);
-				//if (u == null) return false;
-
-				/* Copy over the data */
-				//u = ul;
 			}
 			if (length != 0) return false;
 
@@ -919,22 +915,21 @@ namespace SharpDune
 		{
 			while (length > 0)
 			{
-				//House h;
 				House hl;
 
-				hl = new House(); //memset(&hl, 0, sizeof(hl));
+				/* Read the next index from disk */
+				var index = fp.ReadUInt16();
+
+				/* Create the House in the pool */
+				hl = CHouse.House_Allocate((byte)index);
+				if (hl == null) return false;
+
+				fp.BaseStream.Seek(-2, SeekOrigin.Current);
 
 				/* Read the next House from disk */
 				if (!SaveLoad_Load(s_saveHouse, fp, hl)) return false;
 
 				length -= SaveLoad_GetLength(s_saveHouse);
-
-				/* Create the House in the pool */
-				/*h = */CHouse.House_Allocate(hl/*.index*/);
-				//if (h == null) return false;
-
-				/* Copy over the data */
-				//h = hl;
 
 				/* See if it is a human house */
 				if (hl.flags.human)
@@ -989,25 +984,23 @@ namespace SharpDune
 		{
 			while (length > 0)
 			{
-				//Team t;
 				Team tl;
 
-				tl = new Team(); //memset(&tl, 0, sizeof(tl));
+				/* Read the next index from disk */
+				var index = fp.ReadUInt16();
 
-				/* Read the next Structure from disk */
+				/* Get the Team from the pool */
+				tl = CTeam.Team_Get_ByIndex(index);
+				if (tl == null) return false;
+
+				fp.BaseStream.Seek(-2, SeekOrigin.Current);
+
+				/* Read the next Team from disk */
 				if (!SaveLoad_Load(s_saveTeam, fp, tl)) return false;
 
 				length -= SaveLoad_GetLength(s_saveTeam);
 
 				tl.script.scriptInfo = Script.g_scriptTeam;
-				//tl.script.script.Arr = Script.g_scriptTeam.start.Arr[tl.script.script.Ptr..];
-
-				/* Get the Structure from the pool */
-				/*t = */CTeam.Team_Set_ByIndex(tl/*.index*/);
-				//if (t == null) return false;
-
-				/* Copy over the data */
-				//t = tl;
 			}
 			if (length != 0) return false;
 

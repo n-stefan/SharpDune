@@ -338,11 +338,11 @@ namespace SharpDune
             return g_houseArray[index];
         }
 
-        internal static void House_Set_ByIndex(House h)
-        {
-            Debug.Assert(h.index < (byte)HouseIndex.HOUSE_INDEX_MAX);
-            g_houseArray[h.index] = h;
-        }
+        //internal static void House_Set_ByIndex(House h)
+        //{
+        //    Debug.Assert(h.index < (byte)HouseIndex.HOUSE_INDEX_MAX);
+        //    g_houseArray[h.index] = h;
+        //}
 
         /*
          * Checks if two houses are allied.
@@ -953,13 +953,13 @@ namespace SharpDune
             return h;
         }
 
-        internal static void House_Allocate(House h)
-        {
-            if (h.index >= (byte)HouseIndex.HOUSE_INDEX_MAX) return;
+        //internal static void House_Allocate(House h)
+        //{
+        //    if (h.index >= (byte)HouseIndex.HOUSE_INDEX_MAX) return;
 
-            House_Set_ByIndex(h);
+        //    House_Set_ByIndex(h);
 
-            g_houseFindArray[g_houseFindCount++] = h;
-        }
+        //    g_houseFindArray[g_houseFindCount++] = h;
+        //}
     }
 }

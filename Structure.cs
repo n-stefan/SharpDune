@@ -1487,11 +1487,11 @@ namespace SharpDune
             return g_structureArray[index];
         }
 
-        internal static void Structure_Set_ByIndex(Structure s)
-        {
-            Debug.Assert(s.o.index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD);
-            g_structureArray[s.o.index] = s;
-        }
+        //internal static void Structure_Set_ByIndex(Structure s)
+        //{
+        //    Debug.Assert(s.o.index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD);
+        //    g_structureArray[s.o.index] = s;
+        //}
 
         /*
         * Find the first matching Structure based on the PoolFindStruct filter data.
