@@ -4073,7 +4073,7 @@ namespace SharpDune
                 tile32 tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
 
                 oi = CUnit.g_table_unitInfo[objectType].o;
-                o = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0).o;
+                o = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
                 str = CString.String_Get_ByIndex(CUnit.g_table_unitInfo[objectType].o.stringID_full);
             }
             else
