@@ -1313,39 +1313,39 @@ namespace SharpDune
 		 */
 		internal static void GUI_DisplayText(string str, int importance, params object[] ap)
 		{
-			string buffer = null; //char[80]		  /* Formatting buffer of new message. */
+			string buffer; //char[80]		  /* Formatting buffer of new message. */
 
-			//buffer[0] = '\0';
+			buffer = string.Empty; //buffer[0] = '\0';
 
 			if (str != null)
 			{
 				buffer = new StringBuilder().AppendFormat(str, ap).ToString(); //vsnprintf(buffer, sizeof(buffer), str, ap);
 			}
 
-			if (importance == -1)
-			{ /* Remove all displayed lines. */
+			if (importance == -1) /* Remove all displayed lines. */
+			{
 				line1Importance = -1;
 				line2Importance = -1;
 				line3Importance = -1;
 
-				//displayLine1[0] = '\0';
-				//displayLine2[0] = '\0';
-				//displayLine3[0] = '\0';
+				displayLine1 = string.Empty; //displayLine1[0] = '\0';
+				displayLine2 = string.Empty; //displayLine2[0] = '\0';
+				displayLine3 = string.Empty; //displayLine3[0] = '\0';
 
 				scrollInProgress = false;
 				displayTimer = 0;
 				return;
 			}
 
-			if (importance == -2)
-			{ /* Remove next line and next message. */
+			if (importance == -2) /* Remove next line and next message. */
+			{
 				if (!scrollInProgress)
 				{
 					line2Importance = -1;
-					//displayLine2[0] = '\0';
+					displayLine2 = string.Empty; //displayLine2[0] = '\0';
 				}
 				line3Importance = -1;
-				//displayLine3[0] = '\0';
+				displayLine3 = string.Empty; //displayLine3[0] = '\0';
 			}
 
 			if (scrollInProgress)
@@ -1353,10 +1353,10 @@ namespace SharpDune
 				ushort oldWidgetId;
 				ushort height;
 
-				if (buffer != null)
-				{ //buffer[0] != '\0') {
-					if (string.Compare(buffer, displayLine2, StringComparison.OrdinalIgnoreCase) != 0 && importance >= line3Importance)
-					{ //strcasecmp(buffer, displayLine2) != 0
+				if (buffer != string.Empty) //buffer[0] != '\0'
+				{
+					if (string.Compare(buffer, displayLine2, StringComparison.OrdinalIgnoreCase) != 0 && importance >= line3Importance) //strcasecmp(buffer, displayLine2) != 0
+					{
 						displayLine3 = buffer; //strncpy(displayLine3, buffer, sizeof(displayLine3));
 						line3Importance = (short)importance;
 					}
@@ -1414,7 +1414,7 @@ namespace SharpDune
 				displayLine2 = displayLine3; //strncpy(displayLine2, displayLine3, sizeof(displayLine2));
 				line2Importance = line3Importance;
 				fgColour2 = fgColour3;
-				//displayLine3[0] = '\0';
+				displayLine3 = string.Empty; //displayLine3[0] = '\0';
 
 				line3Importance = -1;
 				g_textDisplayNeedsUpdate = true;
@@ -1423,15 +1423,15 @@ namespace SharpDune
 				return;
 			}
 
-			if (buffer != null)
-			{ //buffer[0] != '\0') {
+			if (buffer != string.Empty) //buffer[0] != '\0'
+			{
 				/* If new line arrived, different from every line that is in the display buffers, and more important than existing messages,
 				 * insert it at the right place.
 				 */
 				if (string.Compare(buffer, displayLine1, StringComparison.OrdinalIgnoreCase) != 0 && //strcasecmp(buffer, displayLine1) != 0
 					string.Compare(buffer, displayLine2, StringComparison.OrdinalIgnoreCase) != 0 && //strcasecmp(buffer, displayLine2) != 0
-					string.Compare(buffer, displayLine3, StringComparison.OrdinalIgnoreCase) != 0)
-				{ //strcasecmp(buffer, displayLine3) != 0
+					string.Compare(buffer, displayLine3, StringComparison.OrdinalIgnoreCase) != 0) //strcasecmp(buffer, displayLine3) != 0
+				{
 					if (importance >= line2Importance)
 					{
 						/* Move line 2 to line 2 to make room for the new line. */
@@ -1455,7 +1455,7 @@ namespace SharpDune
 			}
 			else
 			{
-				if (displayLine1 == null && displayLine2 == null) return; //displayLine1[0] == '\0' && displayLine2[0] == '\0'
+				if (displayLine1 == string.Empty && displayLine2 == string.Empty) return; //displayLine1[0] == '\0' && displayLine2[0] == '\0'
 			}
 
 			if (line2Importance <= line1Importance && displayTimer >= Timer.g_timerGUI) return;
