@@ -336,7 +336,7 @@ namespace SharpDune
 
 			//s = strtok(NULL, ",\r\n");
 			t.groundTileID = (ushort)(ushort.Parse(s[1]) & 0x01FF);
-			if (Map.g_mapTileID[packed] != t.groundTileID) Map.g_mapTileID[packed] |= 0x8000;
+			//if (Map.g_mapTileID[packed] != t.groundTileID) Map.g_mapTileID[packed] |= 0x8000;
 
 			if (!t.isUnveiled) t.overlayTileID = Sprites.g_veiledTileID;
 		}
@@ -344,7 +344,7 @@ namespace SharpDune
 		static void Scenario_Load_Map_Bloom(ushort packed, Tile t)
 		{
 			t.groundTileID = Sprites.g_bloomTileID;
-			Map.g_mapTileID[packed] |= 0x8000;
+			//Map.g_mapTileID[packed] |= 0x8000;
 		}
 
 		static void Scenario_Load_Map_Field(ushort packed, Tile t)
@@ -361,7 +361,7 @@ namespace SharpDune
 		static void Scenario_Load_Map_Special(ushort packed, Tile t)
 		{
 			t.groundTileID = (ushort)(Sprites.g_bloomTileID + 1);
-			Map.g_mapTileID[packed] |= 0x8000;
+			//Map.g_mapTileID[packed] |= 0x8000;
 		}
 
 		static void Scenario_Load_Team(string key, string settings)
