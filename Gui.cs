@@ -5314,7 +5314,7 @@ namespace SharpDune
 					g_factoryWindowItems[g_factoryWindowTotal].credits = (short)oi.buildCredits;
 					g_factoryWindowItems[g_factoryWindowTotal].sortPriority = oi.sortPriority;
 
-					if (i == 0 || i == 1) g_factoryWindowItems[g_factoryWindowTotal].sortPriority = 0x64;
+					if (i == 0 || i == 1) g_factoryWindowItems[g_factoryWindowTotal].sortPriority = (short)(0x64 + i);
 
 					g_factoryWindowTotal++;
 				}
