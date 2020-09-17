@@ -117,12 +117,6 @@ namespace SharpDune
 				/* Rewind, and read other chunks */
 				fp.Seek(position, SeekOrigin.Begin); //fseek(fp, position, SEEK_SET);
 
-				//header = uint.MaxValue;
-				//while ((header = br.ReadUInt32()) != uint.MaxValue) //(fread(&header, sizeof(uint32), 1, fp) == 1)
-				//{
-					//length = uint.MaxValue;
-					//if ((length = br.ReadUInt32()) == uint.MaxValue) return false; //(fread(&length, sizeof(uint32), 1, fp) != 1)
-
 				while (true) //(fread(&header, sizeof(uint32), 1, fp) == 1)
 				{
 					header = br.ReadUInt32();
@@ -207,21 +201,6 @@ namespace SharpDune
             {
 				return 0;
 			}
-
-			//header = uint.MaxValue;
-			//while ((header = br.ReadUInt32()) != uint.MaxValue) //(fread(&header, sizeof(uint32), 1, fp) == 1)
-			//{
-			//	length = uint.MaxValue;
-			//	if ((length = br.ReadUInt32()) == uint.MaxValue) return 0; //(fread(&length, sizeof(uint32), 1, fp) != 1)
-			//	length = Endian.BETOH32(length);
-			//	if (Endian.BETOH32(header) != chunk)
-			//	{
-			//		br.BaseStream.Seek(length + (length & 1), SeekOrigin.Current); //fseek(fp, length + (length & 1), SEEK_CUR);
-			//		continue;
-			//	}
-			//	return length;
-			//}
-			//return 0;
 		}
 	}
 }
