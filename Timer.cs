@@ -158,11 +158,11 @@ namespace SharpDune
 			//VARIABLE_NOT_USED(arg);
 			//VARIABLE_NOT_USED(TimerOrWaitFired);
 
-			Kernel32.SuspendThread(s_timerMainThread);
+			//Kernel32.SuspendThread(s_timerMainThread);
 
 			s_timer_count++;
 
-			Kernel32.ResumeThread(s_timerMainThread);
+			//Kernel32.ResumeThread(s_timerMainThread);
 		}
 
 		internal static void SleepAndProcessBackgroundTasks()
