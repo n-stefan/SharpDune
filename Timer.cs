@@ -2,7 +2,8 @@
 
 using System;
 using System.Diagnostics;
-using Vanara.PInvoke;
+using System.Threading;
+//using Vanara.PInvoke;
 
 namespace SharpDune
 {
@@ -41,10 +42,12 @@ namespace SharpDune
 
 		const uint s_timerSpeed = 1000000 / 120; /* Our timer runs at 120Hz */
 
-		static /*HANDLE*/IntPtr s_timerMainThread = IntPtr.Zero;
-		static /*HANDLE*/Kernel32.TimerQueueTimerHandle s_timerThread = Kernel32.TimerQueueTimerHandle.NULL;
-        
-		readonly static Kernel32.WaitOrTimerCallback Timer_InterruptWindows_Del = Timer_InterruptWindows;
+		static System.Threading.Timer s_timer;
+
+		//static /*HANDLE*/IntPtr s_timerMainThread = IntPtr.Zero;
+		//static /*HANDLE*/Kernel32.TimerQueueTimerHandle s_timerThread = Kernel32.TimerQueueTimerHandle.NULL;
+
+		//readonly static Kernel32.WaitOrTimerCallback Timer_InterruptWindows_Del = Timer_InterruptWindows;
 
 		/*
 		 * Sleep for an amount of ticks.
@@ -116,7 +119,7 @@ namespace SharpDune
 		{
 			Timer_InterruptSuspend();
 
-			Kernel32.CloseHandle(s_timerMainThread);
+			//Kernel32.CloseHandle(s_timerMainThread);
 
 			s_timerNodes = null; //free(s_timerNodes);
 			s_timerNodeCount = 0;
@@ -128,9 +131,13 @@ namespace SharpDune
 		 */
 		static void Timer_InterruptSuspend()
 		{
-			if (s_timerThread != IntPtr.Zero) Kernel32.DeleteTimerQueueTimer(Kernel32.TimerQueueHandle.NULL, s_timerThread, Kernel32.SafeEventHandle.Null);
+			s_timer?.Change(Timeout.Infinite, Timeout.Infinite);
+			s_timer?.Dispose();
+			s_timer = null;
 
-			s_timerThread = IntPtr.Zero;
+			//if (s_timerThread != IntPtr.Zero) Kernel32.DeleteTimerQueueTimer(Kernel32.TimerQueueHandle.NULL, s_timerThread, Kernel32.SafeEventHandle.Null);
+
+			//s_timerThread = IntPtr.Zero;
 		}
 
 		/*
@@ -142,7 +149,7 @@ namespace SharpDune
 
 			s_timerTime = (int)(s_timerSpeed / 1000);
 
-			Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), (IntPtr)Kernel32.GetCurrentThread(), Kernel32.GetCurrentProcess(), out s_timerMainThread, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS);
+			//Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), (IntPtr)Kernel32.GetCurrentThread(), Kernel32.GetCurrentProcess(), out s_timerMainThread, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS);
 
 			Timer_InterruptResume();
 		}
@@ -151,19 +158,21 @@ namespace SharpDune
 		 * Resume the timer interrupt handling.
 		 */
 		static void Timer_InterruptResume() =>
-			Kernel32.CreateTimerQueueTimer(out s_timerThread, Kernel32.TimerQueueHandle.NULL, Timer_InterruptWindows_Del, IntPtr.Zero, (uint)s_timerTime, (uint)s_timerTime, Kernel32.WT.WT_EXECUTEINTIMERTHREAD);
+			s_timer = new System.Threading.Timer(_ => s_timer_count++, null, s_timerTime, s_timerTime);
 
-		static void Timer_InterruptWindows(IntPtr arg, bool TimerOrWaitFired)
-		{
-			//VARIABLE_NOT_USED(arg);
-			//VARIABLE_NOT_USED(TimerOrWaitFired);
+			//Kernel32.CreateTimerQueueTimer(out s_timerThread, Kernel32.TimerQueueHandle.NULL, Timer_InterruptWindows_Del, IntPtr.Zero, (uint)s_timerTime, (uint)s_timerTime, Kernel32.WT.WT_EXECUTEINTIMERTHREAD);
 
-			//Kernel32.SuspendThread(s_timerMainThread);
+		//static void Timer_InterruptWindows(IntPtr arg, bool TimerOrWaitFired)
+		//{
+		//	//VARIABLE_NOT_USED(arg);
+		//	//VARIABLE_NOT_USED(TimerOrWaitFired);
 
-			s_timer_count++;
+		//	//Kernel32.SuspendThread(s_timerMainThread);
 
-			//Kernel32.ResumeThread(s_timerMainThread);
-		}
+		//	s_timer_count++;
+
+		//	//Kernel32.ResumeThread(s_timerMainThread);
+		//}
 
 		internal static void SleepAndProcessBackgroundTasks()
 		{
