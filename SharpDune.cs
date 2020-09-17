@@ -1,7 +1,6 @@
 ﻿/* Gameloop and other main routines */
 
 // Master TODO list:
-// - debug occasional hang
 // - reduce casts
 // - speed up array operations: Array.Copy => Buffer.BlockCopy(faster?), ...
 // - clean up
