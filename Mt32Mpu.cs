@@ -91,7 +91,8 @@ namespace SharpDune
         static bool s_mpu_initialized;
 
         static Kernel32.SafeSemaphoreHandle/*Semaphore*/ s_mpu_sem;
-        static Kernel32.SafeHTHREAD/*Thread*/ s_mpu_thread;
+        static System.Threading.Thread s_mpu_thread;
+        //static Kernel32.SafeHTHREAD/*Thread*/ s_mpu_thread;
         static uint s_mpu_usec = 0;
 
         static void MPU_Send(byte status, byte data1, byte data2)
@@ -466,7 +467,8 @@ namespace SharpDune
         internal static ushort MPU_GetDataSize() =>
             1;
 
-        static uint/*ThreadStatus WINAPI*/ MPU_ThreadProc(IntPtr data)
+        //static uint/*ThreadStatus WINAPI*/ MPU_ThreadProc(IntPtr data)
+        static void MPU_ThreadProc()
         {
             //VARIABLE_NOT_USED(data);
 
@@ -478,7 +480,7 @@ namespace SharpDune
             }
             Thread.Semaphore_Unlock(s_mpu_sem);
 
-            return 0;
+            //return 0;
         }
 
         static byte[] defaultPrograms = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
@@ -495,13 +497,15 @@ namespace SharpDune
                 return false;
             }
 
-            s_mpu_thread = Thread.Thread_Create(MPU_ThreadProc, IntPtr.Zero);
+            //s_mpu_thread = Thread.Thread_Create(MPU_ThreadProc, IntPtr.Zero);
+            s_mpu_thread = new System.Threading.Thread(MPU_ThreadProc);
             if (s_mpu_thread == null)
             {
                 Trace.WriteLine("ERROR: Failed to create thread");
                 Thread.Semaphore_Destroy(s_mpu_sem);
                 return false;
             }
+            s_mpu_thread.Start();
 
             s_mpu_msdataSize = 0;
             s_mpu_msdataCurrent = 0;
@@ -591,7 +595,8 @@ namespace SharpDune
         internal static void MPU_StopThread()
         {
             Thread.Semaphore_Unlock(s_mpu_sem);
-            Thread.Thread_Wait(s_mpu_thread, out uint _);
+            s_mpu_thread.Join();
+            //Thread.Thread_Wait(s_mpu_thread, out uint _);
         }
 
         static bool locked = false;
