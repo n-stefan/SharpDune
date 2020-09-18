@@ -4,10 +4,10 @@ using System;
 
 namespace SharpDune
 {
-	/*
+    /*
     * Information about reinforcements in the scenario.
     */
-	class Reinforcement
+    class Reinforcement
 	{
 		internal ushort unitID;                                 /*!< The Unit which is already created and ready to join the game. */
 		internal ushort locationID;                             /*!< The location where the Unit will appear. */
@@ -209,8 +209,8 @@ namespace SharpDune
 
 			/* Fourth value is the time between reinforcement */
 			//settings = split + 1;
-			timeBetween = (ushort)(ushort.Parse(split[3]) * 6 + 1);
 			repeat = split[3].EndsWith('+'); //settings[strlen(settings) - 1] == '+') ? true : false;
+			timeBetween = repeat ? (ushort)(ushort.Parse(split[3][..^1]) * 6 + 1) : (ushort)(ushort.Parse(split[3]) * 6 + 1);
 			/* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
 			if (!CSharpDune.g_dune2_enhanced) repeat = false;
 
