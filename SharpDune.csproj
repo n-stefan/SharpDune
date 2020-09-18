@@ -21,17 +21,19 @@
     <Compile Remove="Scale2x.cs" />
     <Compile Remove="ScaleBit.cs" />
     <Compile Remove="SdlDsp.cs" />
+    <Compile Remove="Thread.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Scale2x.cs" />
     <None Include="ScaleBit.cs" />
     <None Include="SdlDsp.cs" />
+    <None Include="Thread.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
-    <PackageReference Include="Vanara.PInvoke.Kernel32" Version="3.2.16" />
+    <!--<PackageReference Include="Vanara.PInvoke.Kernel32" Version="3.2.16" />-->
   </ItemGroup>
 
   <ItemGroup>

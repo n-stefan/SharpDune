@@ -2,7 +2,8 @@
 
 using System;
 using System.Diagnostics;
-using Vanara.PInvoke;
+using System.Threading;
+//using Vanara.PInvoke;
 using static System.Math;
 
 namespace SharpDune
@@ -90,9 +91,11 @@ namespace SharpDune
         static bool s_mpuIgnore = false;
         static bool s_mpu_initialized;
 
-        static Kernel32.SafeSemaphoreHandle/*Semaphore*/ s_mpu_sem;
-        static System.Threading.Thread s_mpu_thread;
+        static Semaphore s_mpu_sem;
+        //static Kernel32.SafeSemaphoreHandle/*Semaphore*/ s_mpu_sem;
+        static Thread s_mpu_thread;
         //static Kernel32.SafeHTHREAD/*Thread*/ s_mpu_thread;
+
         static uint s_mpu_usec = 0;
 
         static void MPU_Send(byte status, byte data1, byte data2)
@@ -472,13 +475,16 @@ namespace SharpDune
         {
             //VARIABLE_NOT_USED(data);
 
-            Thread.Semaphore_Lock(s_mpu_sem);
-            while (!Thread.Semaphore_TryLock(s_mpu_sem))
+            s_mpu_sem.WaitOne(Timeout.Infinite);
+            //Thread.Semaphore_Lock(s_mpu_sem);
+            while (!s_mpu_sem.WaitOne(0))
+            //while (!Thread.Semaphore_TryLock(s_mpu_sem))
             {
                 Sleep.msleep((int)(s_mpu_usec / 1000));
                 MPU_Interrupt();
             }
-            Thread.Semaphore_Unlock(s_mpu_sem);
+            s_mpu_sem.Release(1);
+            //Thread.Semaphore_Unlock(s_mpu_sem);
 
             //return 0;
         }
@@ -490,7 +496,8 @@ namespace SharpDune
 
             if (!Midi.midi_init()) return false;
 
-            s_mpu_sem = Thread.Semaphore_Create(0);
+            //s_mpu_sem = Thread.Semaphore_Create(0);
+            s_mpu_sem = new Semaphore(0, 1);
             if (s_mpu_sem == null)
             {
                 Trace.WriteLine("ERROR: Failed to create semaphore");
@@ -498,11 +505,12 @@ namespace SharpDune
             }
 
             //s_mpu_thread = Thread.Thread_Create(MPU_ThreadProc, IntPtr.Zero);
-            s_mpu_thread = new System.Threading.Thread(MPU_ThreadProc);
+            s_mpu_thread = new Thread(MPU_ThreadProc);
             if (s_mpu_thread == null)
             {
                 Trace.WriteLine("ERROR: Failed to create thread");
-                Thread.Semaphore_Destroy(s_mpu_sem);
+                s_mpu_sem.Dispose();
+                //Thread.Semaphore_Destroy(s_mpu_sem);
                 return false;
             }
             s_mpu_thread.Start();
@@ -583,18 +591,21 @@ namespace SharpDune
             Midi.midi_uninit();
             s_mpuIgnore = false;
 
-            Thread.Semaphore_Destroy(s_mpu_sem);
+            s_mpu_sem.Dispose();
+            //Thread.Semaphore_Destroy(s_mpu_sem);
         }
 
         internal static void MPU_StartThread(uint usec)
         {
             s_mpu_usec = usec;
-            Thread.Semaphore_Unlock(s_mpu_sem);
+            s_mpu_sem.Release(1);
+            //Thread.Semaphore_Unlock(s_mpu_sem);
         }
 
         internal static void MPU_StopThread()
         {
-            Thread.Semaphore_Unlock(s_mpu_sem);
+            s_mpu_sem.Release(1);
+            //Thread.Semaphore_Unlock(s_mpu_sem);
             s_mpu_thread.Join();
             //Thread.Thread_Wait(s_mpu_thread, out uint _);
         }

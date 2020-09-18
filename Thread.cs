@@ -5,7 +5,6 @@ using Vanara.PInvoke;
 
 namespace SharpDune
 {
-    //TODO: Use SDL or .NET Thread/Semaphore?
     class Thread
     {
         internal static Kernel32.SafeHTHREAD/*Thread*/ Thread_Create(Kernel32.ThreadProc/*ThreadProc*/ proc, IntPtr data) =>
