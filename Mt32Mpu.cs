@@ -91,7 +91,7 @@ namespace SharpDune
         static bool s_mpuIgnore = false;
         static bool s_mpu_initialized;
 
-        static Semaphore s_mpu_sem;
+        static SemaphoreSlim s_mpu_sem;
         //static Kernel32.SafeSemaphoreHandle/*Semaphore*/ s_mpu_sem;
         static Thread s_mpu_thread;
         //static Kernel32.SafeHTHREAD/*Thread*/ s_mpu_thread;
@@ -475,9 +475,9 @@ namespace SharpDune
         {
             //VARIABLE_NOT_USED(data);
 
-            s_mpu_sem.WaitOne(Timeout.Infinite);
+            s_mpu_sem.Wait(Timeout.Infinite);
             //Thread.Semaphore_Lock(s_mpu_sem);
-            while (!s_mpu_sem.WaitOne(0))
+            while (!s_mpu_sem.Wait(0))
             //while (!Thread.Semaphore_TryLock(s_mpu_sem))
             {
                 Sleep.msleep((int)(s_mpu_usec / 1000));
@@ -497,7 +497,7 @@ namespace SharpDune
             if (!Midi.midi_init()) return false;
 
             //s_mpu_sem = Thread.Semaphore_Create(0);
-            s_mpu_sem = new Semaphore(0, 1);
+            s_mpu_sem = new SemaphoreSlim(0, 1);
             if (s_mpu_sem == null)
             {
                 Trace.WriteLine("ERROR: Failed to create semaphore");
