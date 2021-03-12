@@ -104,7 +104,7 @@ namespace SharpDune
 
 			for (; find.index < g_teamFindCount; find.index++)
 			{
-				Team t = g_teamFindArray[find.index];
+				var t = g_teamFindArray[find.index];
 				if (t == null) continue;
 
 				if (find.houseID == (byte)HouseType.HOUSE_INVALID || find.houseID == t.houseID) return t;
@@ -168,7 +168,7 @@ namespace SharpDune
 			Unit closest2 = null;
 			ushort minDistance = 0;
 			ushort minDistance2 = 0;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			//VARIABLE_NOT_USED(script);
 
@@ -232,7 +232,7 @@ namespace SharpDune
 			ushort count = 0;
 			ushort distance = 0;
 			Team t;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			//VARIABLE_NOT_USED(script);
 
@@ -296,7 +296,7 @@ namespace SharpDune
 			Team t;
 			ushort count = 0;
 			ushort distance;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			t = Script.g_scriptCurrentTeam;
 			distance = Script.STACK_PEEK(script, 1);
@@ -359,7 +359,7 @@ namespace SharpDune
 		internal static ushort Script_Team_FindBestTarget(ScriptEngine script)
 		{
 			Team t;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			//VARIABLE_NOT_USED(script);
 
@@ -483,7 +483,7 @@ namespace SharpDune
 		{
 			Team t;
 			tile32 tile;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			//VARIABLE_NOT_USED(script);
 
@@ -564,7 +564,7 @@ namespace SharpDune
 
 			for (index = 0; index < (ushort)TeamIndex.TEAM_INDEX_MAX; index++)
 			{
-				Team t = Team_Get_ByIndex(index);
+				var t = Team_Get_ByIndex(index);
 				if (t.flags.used) g_teamFindArray[g_teamFindCount++] = t;
 			}
 		}
@@ -574,7 +574,7 @@ namespace SharpDune
 		 */
 		internal static void GameLoop_Team()
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			if (s_tickTeamGameLoop > Timer.g_timerGame) return;
 			s_tickTeamGameLoop = (uint)(Timer.g_timerGame + (Tools.Tools_Random_256() & 7) + 5);

@@ -111,14 +111,14 @@ namespace SharpDune
 
             if (min > max)
             {
-                ushort temp = min;
+                var temp = min;
                 min = max;
                 max = temp;
             }
 
             do
             {
-                ushort value = (ushort)(Tools_RandomLCG() * (max - min + 1) / 0x8000 + min);
+                var value = (ushort)(Tools_RandomLCG() * (max - min + 1) / 0x8000 + min);
                 ret = value;
             } while (ret > max);
 
@@ -286,7 +286,7 @@ namespace SharpDune
 
         internal static ushort Tools_AdjustToGameSpeed(ushort normal, ushort minimum, ushort maximum, bool inverseSpeed)
         {
-            ushort gameSpeed = Config.g_gameConfig.gameSpeed;
+            var gameSpeed = Config.g_gameConfig.gameSpeed;
 
             if (gameSpeed == 2) return normal;
             if (gameSpeed > 4) return normal;
@@ -317,7 +317,7 @@ namespace SharpDune
         internal static tile32 Tools_Index_GetTile(ushort encoded)
         {
             ushort index;
-            tile32 tile = new tile32();
+            var tile = new tile32();
 
             index = Tools_Index_Decode(encoded);
             tile.x = 0;

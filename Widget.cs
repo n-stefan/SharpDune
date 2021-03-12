@@ -692,7 +692,7 @@ namespace SharpDune
          */
 		internal static ushort Widget_SetCurrentWidget(ushort index)
 		{
-			ushort oldIndex = g_curWidgetIndex;
+			var oldIndex = g_curWidgetIndex;
 			g_curWidgetIndex = index;
 
 			g_curWidgetXBase = g_widgetProperties[index].xBase;
@@ -998,8 +998,8 @@ namespace SharpDune
 		{
 			Widget w;
 			byte drawMode;
-			WidgetDrawParameter drawParam1 = new WidgetDrawParameter();
-			WidgetDrawParameter drawParam2 = new WidgetDrawParameter();
+			var drawParam1 = new WidgetDrawParameter();
+			var drawParam2 = new WidgetDrawParameter();
 
 			w = new Widget(); //(Widget *)calloc(1, sizeof(Widget));
 			w.index = index;
@@ -1440,7 +1440,7 @@ namespace SharpDune
 		 */
 		internal static Widget GUI_Widget_Link(Widget w1, Widget w2)
 		{
-			Widget first = w1;
+			var first = w1;
 
 			s_widgetReset = true;
 

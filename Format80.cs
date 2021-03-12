@@ -15,8 +15,8 @@ namespace SharpDune
 		 */
 		internal static ushort Format80_Decode(/* uint8 * */byte[] dest, /* uint8 * */byte[] source, ushort destLength, int destPointer/* = 0*/, int sourcePointer/* = 0*/)
 		{
-			int start = destPointer;
-			int end = destPointer + destLength;
+			var start = destPointer;
+			var end = destPointer + destLength;
 
 			while (destPointer != end)
 			{

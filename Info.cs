@@ -211,7 +211,7 @@ namespace SharpDune
 
         internal static uint SaveLoad_Script_Script(object obj, uint value, bool loading)
         {
-            ScriptEngine script = (ScriptEngine)obj;
+            var script = (ScriptEngine)obj;
 
             if (loading)
             {

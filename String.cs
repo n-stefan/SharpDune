@@ -622,7 +622,7 @@ namespace SharpDune
 				prev = to;
 				range = from == to ? from..to : from..(to - 1);
 
-				string src = CSharpDune.Encoding.GetString(buf[range]);
+				var src = CSharpDune.Encoding.GetString(buf[range]);
 				string dst;
 
 				if (compressed)
@@ -742,12 +742,12 @@ namespace SharpDune
 		internal static ushort String_Decompress(string s, ref string result, ushort destLen)
 		{
 			ushort count;
-			int sPointer = 0;
-			char[] dest = new char[destLen];
+			var sPointer = 0;
+			var dest = new char[destLen];
 
 			for (count = 0; sPointer < s.Length; sPointer++)
 			{
-				byte c = (byte)s[sPointer];
+				var c = (byte)s[sPointer];
 				if ((c & 0x80) != 0)
 				{
 					c &= 0x7F;
@@ -778,13 +778,13 @@ namespace SharpDune
 			if (str == null) return null;
 
 			char[] dest;
-			int strPointer = 0;
-			int destPointer = 0;
+			var strPointer = 0;
+			var destPointer = 0;
 
 			dest = str.ToCharArray();
 			while (strPointer < str.Length)
 			{
-				char c = str[strPointer++];
+				var c = str[strPointer++];
 				if (c == 0x1B)
 				{
 					c = (char)(0x7F + str[strPointer++]);

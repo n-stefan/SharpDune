@@ -85,7 +85,7 @@ namespace SharpDune
 		internal static void Sprites_SetMouseSprite(ushort hotSpotX, ushort hotSpotY, /*uint8 * */byte[] sprite)
 		{
 			ushort size;
-			int spritePointer = 0;
+			var spritePointer = 0;
 
 			if (sprite == null || Mouse.g_mouseDisabled != 0) return;
 
@@ -118,9 +118,9 @@ namespace SharpDune
 			}
 			else
 			{
-				byte[] dst = g_mouseSprite;
-				byte flags = (byte)(sprite[0] | 0x2);
-				int dstPointer = 0;
+				var dst = g_mouseSprite;
+				var flags = (byte)(sprite[0] | 0x2);
+				var dstPointer = 0;
 
 				dst[0] = flags;
 				dst[1] = sprite[1];
@@ -210,7 +210,7 @@ namespace SharpDune
 			ushort size;
 			byte[] buffer;
 			byte[] buffer2;
-			int buffer2Pointer = 0;
+			var buffer2Pointer = 0;
 			ushort paletteSize;
 
 			buffer = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
@@ -259,7 +259,7 @@ namespace SharpDune
 		static uint Sprites_Decode(byte[] source, byte[] dest)
 		{
 			uint size = 0;
-			int sourcePointer = 0;
+			var sourcePointer = 0;
 
 			switch (source[0])
 			{
@@ -336,7 +336,7 @@ namespace SharpDune
 
 			for (i = 0; i < count; i++)
 			{
-				byte[] src = Sprites_GetSprite(buffer, i);
+				var src = Sprites_GetSprite(buffer, i);
 				byte[] dst = null;
 
 				Debug.WriteLine($"DEBUG: Sprites: {filename} {i} {Endian.READ_LE_UINT16(src)} {Endian.READ_LE_UINT16(src[3..]) /* flags */} {src[2] /* width */} {src[5] /* height */} {Endian.READ_LE_UINT16(src[6..]) /* packed size */} {Endian.READ_LE_UINT16(src[8..]) /* decoded size */}");
@@ -356,10 +356,10 @@ namespace SharpDune
 						}
 						else
 						{
-							byte[] encoded_data = src;
-							byte[] decoded_data = dst;
-							int encoded_dataPointer = 0;
-							int decoded_dataPointer = 0;
+							var encoded_data = src;
+							var decoded_data = dst;
+							var encoded_dataPointer = 0;
+							var decoded_dataPointer = 0;
 							decoded_data[decoded_dataPointer++] = (byte)(encoded_data[encoded_dataPointer++] | 0x2);    /* the sprite is not Format80 encoded any more */
 							Array.Copy(encoded_data, encoded_dataPointer, decoded_data, decoded_dataPointer, 5); //memcpy(decoded_data, encoded_data, 5);
 							decoded_dataPointer += 5;
@@ -490,7 +490,7 @@ namespace SharpDune
 			byte[] buf;
 			byte i;
 			string filename; //char[16];
-			int bufPointer = 0;
+			var bufPointer = 0;
 
 			buf = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2);
 
@@ -519,7 +519,7 @@ namespace SharpDune
 		static byte[] Sprites_GetSprite(byte[] buffer, ushort index)
 		{
 			uint offset;
-			int bufferPointer = 0;
+			var bufferPointer = 0;
 
 			if (buffer == null) return null;
 			if (Endian.READ_LE_UINT16(buffer) <= index) return null;
@@ -547,7 +547,7 @@ namespace SharpDune
 			uint tilesDataLength;
 			uint tableLength;
 			uint paletteLength;
-			sbyte[] info = new sbyte[4];
+			var info = new sbyte[4];
 
 			fileIndex = CFile.ChunkFile_Open(filename);
 

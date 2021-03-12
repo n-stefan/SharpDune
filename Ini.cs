@@ -67,20 +67,20 @@ namespace SharpDune
 			if (s != null)
 			{
 				//TODO: Check and try to simplify
-				int count = s.IndexOfAny(new char[] { '\r', '\n' }); //uint16 count = (uint16)strcspn(s, "\r\n");
+				var count = s.IndexOfAny(new char[] { '\r', '\n' }); //uint16 count = (uint16)strcspn(s, "\r\n");
 				if (count != 0)
 				{
 					/* Drop first line if not empty */
-					int len = s.Length + count + 1 + 1; //size_t len = strlen(s + count + 1) + 1;
-					char[] array = s.ToCharArray();
+					var len = s.Length + count + 1 + 1; //size_t len = strlen(s + count + 1) + 1;
+					var array = s.ToCharArray();
 					Array.Copy(array, count + 1, array, 0, len); //memmove(s, s + count + 1, len);
 					s = new string(array);
 				}
 				if (s[0] == '\n')
 				{
 					/* Drop first line if empty */
-					int len = s.Length + 1 + 1; //size_t len = strlen(s + 1) + 1;
-					char[] array = s.ToCharArray();
+					var len = s.Length + 1 + 1; //size_t len = strlen(s + 1) + 1;
+					var array = s.ToCharArray();
 					Array.Copy(array, 1, array, 0, len); //memmove(s, s + 1, len);
 					s = new string(array);
 				}
@@ -93,7 +93,7 @@ namespace SharpDune
 			if (value != null)
 			{
 				buffer = $"{key}={value}{Environment.NewLine}"; //sprintf(buffer, "%s=%s\r\n", key, value);
-				char[] array = s.ToCharArray();
+				var array = s.ToCharArray();
 				Array.Copy(array, 0, array, buffer.Length, s.Length + 1); //memmove(s + strlen(buffer), s, strlen(s) + 1);
 				s = new string(array);
 				s += buffer; //memcpy(s, buffer, strlen(buffer));

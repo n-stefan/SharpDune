@@ -21,7 +21,7 @@ namespace SharpDune
 			{
 				int x, i;
 				/* calculate average frames per 1000sec on the 16 last time measures */
-				uint kfps = 16000000 / (timeStamp - s_previousTimeStamps[s_previousTimeStampsIndex]);
+				var kfps = 16000000 / (timeStamp - s_previousTimeStamps[s_previousTimeStampsIndex]);
 				for (x = 320 - 4; kfps > 0; kfps /= 10, x -= 4)
 				{
 					/* draw the digits */
@@ -44,8 +44,8 @@ namespace SharpDune
 		static void Video_ShowFPS_DrawChar(byte[] screen, int bytes_per_row, ushort x, byte digit)
 		{
 			int i;
-			byte segments = fontdigits[digit];
-			int offset = 0;
+			var segments = fontdigits[digit];
+			var offset = 0;
 			for (i = 0; i < 15; i++)
 			{
 				screen[x + offset] = (byte)(((segments & fonttestsegments[i]) == fonttestsegments[i]) ? 15 : 0);

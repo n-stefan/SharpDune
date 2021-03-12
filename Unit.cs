@@ -2593,7 +2593,7 @@ namespace SharpDune
 			}
 			else
 			{
-				string houseName = CHouse.g_table_houseInfo[Unit_GetHouseID(unit)].name;
+				var houseName = CHouse.g_table_houseInfo[Unit_GetHouseID(unit)].name;
 				if (Config.g_config.language == (byte)Language.LANGUAGE_FRENCH)
 				{
 					buffer = $"{CString.String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
@@ -2612,7 +2612,7 @@ namespace SharpDune
 
 				if (unit.actionID == (byte)ActionType.ACTION_HARVEST && unit.amount < 100)
 				{
-					ushort type = Map.Map_GetLandscapeType(CTile.Tile_PackTile(unit.o.position));
+					var type = Map.Map_GetLandscapeType(CTile.Tile_PackTile(unit.o.position));
 
 					if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE) stringID = (ushort)Text.STR_IS_D_PERCENT_FULL_AND_HARVESTING;
 				}
@@ -2656,7 +2656,7 @@ namespace SharpDune
 		 */
 		internal static void Unit_RemoveFromTile(Unit unit, ushort packed)
 		{
-			Tile t = Map.g_map[packed];
+			var t = Map.g_map[packed];
 
 			if (t.hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != CTile.Tile_PackTile(unit.currentDestination) || unit.o.flags.bulletIsBig))
 			{
@@ -2729,7 +2729,7 @@ namespace SharpDune
 				if (!CHouse.House_AreAllied(houseID, Unit_GetHouseID(unit)))
 				{
 					h.flags.isAIActive = true;
-					House t = CHouse.House_Get_ByIndex(Unit_GetHouseID(unit));
+					var t = CHouse.House_Get_ByIndex(Unit_GetHouseID(unit));
 					t.flags.isAIActive = true;
 				}
 			}
@@ -2768,7 +2768,7 @@ namespace SharpDune
 						{
 							if (CSharpDune.g_scenarioID < 3)
 							{
-								PoolFindStruct find = new PoolFindStruct();
+								var find = new PoolFindStruct();
 								Structure s;
 								ushort feedbackID;
 
@@ -2821,7 +2821,7 @@ namespace SharpDune
 		 */
 		static void Unit_HouseUnitCount_Remove(Unit unit)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			if (unit == null) return;
 
@@ -2917,7 +2917,7 @@ namespace SharpDune
 
 			for (; find.index < g_unitFindCount; find.index++)
 			{
-				Unit u = g_unitFindArray[find.index];
+				var u = g_unitFindArray[find.index];
 				if (u == null) continue;
 
 				if (u.o.flags.isNotOnMap && CSharpDune.g_validateStrictIfZero == 0) continue;
@@ -2939,7 +2939,7 @@ namespace SharpDune
 		static Unit Unit_Sandworm_FindBestTarget(Unit unit)
 		{
 			Unit best = null;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			ushort bestPriority = 0;
 
 			if (unit == null) return null;
@@ -3252,8 +3252,8 @@ namespace SharpDune
 		 */
 		static void Unit_UntargetMe(Unit unit)
 		{
-			PoolFindStruct find = new PoolFindStruct();
-			ushort encoded = Tools.Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT);
+			var find = new PoolFindStruct();
+			var encoded = Tools.Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT);
 
 			CObject.Object_Script_Variable4_Clear(unit.o);
 
@@ -3328,7 +3328,7 @@ namespace SharpDune
 			g_unitFindCount--;
 
 			{
-				House h = CHouse.House_Get_ByIndex(u.o.houseID);
+				var h = CHouse.House_Get_ByIndex(u.o.houseID);
 				h.unitCount--;
 			}
 
@@ -3370,7 +3370,7 @@ namespace SharpDune
 		internal static bool Unit_Damage(Unit unit, ushort damage, ushort range)
 		{
 			UnitInfo ui;
-			bool alive = false;
+			var alive = false;
 			byte houseID;
 
 			if (unit == null || !unit.o.flags.allocated) return false;
@@ -3638,9 +3638,9 @@ namespace SharpDune
 		internal static void Unit_Recount()
 		{
 			ushort index;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			unchecked { find.houseID = (byte)-1; find.type = (ushort)-1; find.index = (ushort)-1; }
-			House h = CHouse.House_Find(find);
+			var h = CHouse.House_Find(find);
 
 			while (h != null)
 			{
@@ -3652,7 +3652,7 @@ namespace SharpDune
 
 			for (index = 0; index < (ushort)UnitIndex.UNIT_INDEX_MAX; index++)
 			{
-				Unit u = Unit_Get_ByIndex(index);
+				var u = Unit_Get_ByIndex(index);
 				if (!u.o.flags.used) continue;
 
 				h = CHouse.House_Get_ByIndex(u.o.houseID);
@@ -3667,14 +3667,14 @@ namespace SharpDune
 		 */
 		internal static void GameLoop_Unit()
 		{
-			PoolFindStruct find = new PoolFindStruct();
-			bool tickMovement = false;
-			bool tickRotation = false;
-			bool tickBlinking = false;
-			bool tickUnknown4 = false;
-			bool tickScript = false;
-			bool tickUnknown5 = false;
-			bool tickDeviation = false;
+			var find = new PoolFindStruct();
+			var tickMovement = false;
+			var tickRotation = false;
+			var tickBlinking = false;
+			var tickUnknown4 = false;
+			var tickScript = false;
+			var tickUnknown5 = false;
+			var tickDeviation = false;
 
 			if (CSharpDune.g_debugScenario) return;
 
@@ -3869,7 +3869,7 @@ namespace SharpDune
 					{
 						if (Script.Script_IsLoaded(u.o.script))
 						{
-							int opcodesLeft = Script.SCRIPT_UNIT_OPCODES_PER_TICK + 2;
+							var opcodesLeft = Script.SCRIPT_UNIT_OPCODES_PER_TICK + 2;
 							if (!ui.o.flags.scriptNoSlowdown && !Map.Map_IsPositionInViewport(u.o.position, out _, out _))
 							{
 								opcodesLeft = 3;
@@ -4002,7 +4002,7 @@ namespace SharpDune
 		 */
 		internal static Unit Unit_CallUnitByType(UnitType type, byte houseID, ushort target, bool createCarryall)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			Unit unit = null;
 
 			find.houseID = houseID;
@@ -4022,7 +4022,7 @@ namespace SharpDune
 
 			if (createCarryall && unit == null && type == UnitType.UNIT_CARRYALL)
 			{
-				tile32 position = new tile32();
+				var position = new tile32();
 
 				CSharpDune.g_validateStrictIfZero++;
 				position.x = 0;
@@ -4150,7 +4150,7 @@ namespace SharpDune
 			ushort mind = 0;
 			Structure s2;
 			ushort d;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			res = (ushort)((unit.originEncoded == 0) ? 0 : 1);
 
@@ -4347,7 +4347,7 @@ namespace SharpDune
 			h = CHouse.House_Get_ByIndex(houseID);
 
 			{
-				tile32 t = new tile32();
+				var t = new tile32();
 				t.x = 0x2000;
 				t.y = 0x2000;
 				orientation = CTile.Tile_GetDirection(tile, t);
@@ -4509,8 +4509,8 @@ namespace SharpDune
 
 			if (index == 0 || index == (ushort)UnitIndex.UNIT_INDEX_INVALID)
 			{
-				ushort indexStart = g_table_unitInfo[type].indexStart;
-				ushort indexEnd = g_table_unitInfo[type].indexEnd;
+				var indexStart = g_table_unitInfo[type].indexStart;
+				var indexEnd = g_table_unitInfo[type].indexEnd;
 
 				for (index = indexStart; index <= indexEnd; index++)
 				{
@@ -4831,7 +4831,7 @@ namespace SharpDune
 		{
 			tile32 position;
 			ushort distance;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			Unit best = null;
 			ushort bestPriority = 0;
 
@@ -4902,7 +4902,7 @@ namespace SharpDune
 			ushort bestPriority = 0;
 			tile32 position;
 			ushort distance;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			if (unit == null) return null;
 
@@ -4916,7 +4916,7 @@ namespace SharpDune
 			while (true)
 			{
 				Structure s;
-				tile32 curPosition = new tile32();
+				var curPosition = new tile32();
 				ushort priority;
 
 				s = CStructure.Structure_Find(find);
@@ -5047,8 +5047,8 @@ namespace SharpDune
 			tile32 newPosition;
 			bool ret;
 			tile32 currentDestination;
-			bool isSpiceBloom = false;
-			bool isSpecialBloom = false;
+			var isSpiceBloom = false;
+			var isSpecialBloom = false;
 
 			if (unit == null || !unit.o.flags.used) return false;
 
@@ -5101,11 +5101,11 @@ namespace SharpDune
 				}
 				else
 				{
-					ushort type = Map.Map_GetLandscapeType(packed);
+					var type = Map.Map_GetLandscapeType(packed);
 					/* Produce tracks in the sand */
 					if ((type == (ushort)LandscapeType.LST_NORMAL_SAND || type == (ushort)LandscapeType.LST_ENTIRELY_DUNE) && Map.g_map[packed].overlayTileID == 0)
 					{
-						byte animationID = CTile.Orientation_Orientation256ToOrientation8((byte)unit.orientation[0].current);
+						var animationID = CTile.Orientation_Orientation256ToOrientation8((byte)unit.orientation[0].current);
 
 						Debug.Assert(animationID < 8);
 						CAnimation.Animation_Start(CAnimation.g_table_animation_unitMove[animationID], unit.o.position, 0, unit.o.houseID, 5);
@@ -5177,7 +5177,7 @@ namespace SharpDune
 			{
 				if (unit.o.type == (byte)UnitType.UNIT_BULLET)
 				{
-					ushort type = Map.Map_GetLandscapeType(CTile.Tile_PackTile(newPosition));
+					var type = Map.Map_GetLandscapeType(CTile.Tile_PackTile(newPosition));
 					if (type == (ushort)LandscapeType.LST_WALL || type == (ushort)LandscapeType.LST_STRUCTURE)
 					{
 						if (Tools.Tools_Index_GetType(unit.originEncoded) == IndexType.IT_STRUCTURE)
@@ -5214,7 +5214,7 @@ namespace SharpDune
 
 								for (i = 0; i < 17; i++)
 								{
-									tile32 p = newPosition;
+									var p = newPosition;
 									p.y += (ushort)offsetY[i];
 									p.x += (ushort)offsetX[i];
 
@@ -5259,7 +5259,7 @@ namespace SharpDune
 
 						if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR)
 						{
-							bool detonate = (Map.Map_GetLandscapeType(CTile.Tile_PackTile(newPosition)) == (ushort)LandscapeType.LST_WALL);
+							var detonate = (Map.Map_GetLandscapeType(CTile.Tile_PackTile(newPosition)) == (ushort)LandscapeType.LST_WALL);
 
 							if (!detonate)
 							{
@@ -5337,7 +5337,7 @@ namespace SharpDune
 		 */
 		static void Map_DeviateArea(ushort type, tile32 position, ushort radius, byte houseID)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			CExplosion.Explosion_Start(type, position);
 
@@ -5497,7 +5497,7 @@ namespace SharpDune
 
 				if (s.o.linkedID != 0xFF)
 				{
-					Unit u = Unit_Get_ByIndex(s.o.linkedID);
+					var u = Unit_Get_ByIndex(s.o.linkedID);
 					if (u != null) u.o.houseID = Unit_GetHouseID(unit);
 				}
 
@@ -6260,7 +6260,7 @@ namespace SharpDune
 		internal static ushort Script_Unit_FindStructure(ScriptEngine script)
 		{
 			Unit u;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			u = Script.g_scriptCurrentUnit;
 
@@ -6494,7 +6494,7 @@ namespace SharpDune
 		{
 			Unit u;
 			Structure s = null;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			ushort distanceMin = 0;
 
 			u = Script.g_scriptCurrentUnit;
@@ -6716,7 +6716,7 @@ namespace SharpDune
 			if (u.route[0] == 0xFF)
 			{
 				Pathfinder_Data res;
-				byte[] buffer = new byte[42];
+				var buffer = new byte[42];
 
 				res = Script_Unit_Pathfinder(packedSrc, packedDst, buffer, 40);
 
@@ -6770,7 +6770,7 @@ namespace SharpDune
 		static Pathfinder_Data Script_Unit_Pathfinder(ushort packedSrc, ushort packedDst, /*object*/byte[] buffer, short bufferSize)
 		{
 			ushort packedCur;
-			Pathfinder_Data res = new Pathfinder_Data();
+			var res = new Pathfinder_Data();
 
 			res.packed = packedSrc;
 			res.score = 0;
@@ -6804,8 +6804,8 @@ namespace SharpDune
 				else
 				{
 					byte dir;
-					bool foundCounterclockwise = false;
-					bool foundClockwise = false;
+					var foundCounterclockwise = false;
+					var foundClockwise = false;
 					short routeSize;
 					Pathfinder_Data[] routes = { new Pathfinder_Data(), new Pathfinder_Data() }; //new Pathfinder_Data[2];
 					byte[][] routesBuffer = { new byte[102], new byte[102] }; //new byte[2][]; //[2][102]
@@ -6895,9 +6895,9 @@ namespace SharpDune
 		{
 			ushort packed;
 			/*byte[]*/
-			CArray<byte> bufferFrom = new CArray<byte> { Arr = data.buffer };
+			var bufferFrom = new CArray<byte> { Arr = data.buffer };
 			/*byte[]*/
-			CArray<byte> bufferTo = new CArray<byte> { Arr = data.buffer };
+			var bufferTo = new CArray<byte> { Arr = data.buffer };
 			//int bufferFromPointer = 0;
 			//int bufferToPointer = 0;
 
@@ -7050,7 +7050,7 @@ namespace SharpDune
 			ushort packedCur;
 			byte[] buffer;
 			ushort bufferSize;
-			int bufferPointer = 0;
+			var bufferPointer = 0;
 
 			packedCur = data.packed;
 			buffer = data.buffer;
@@ -7058,7 +7058,7 @@ namespace SharpDune
 
 			while (bufferSize < 100)
 			{
-				byte direction = directionStart;
+				var direction = directionStart;
 
 				while (true)
 				{
@@ -7120,7 +7120,7 @@ namespace SharpDune
 		internal static ushort Script_Unit_MoveToStructure(ScriptEngine script)
 		{
 			Unit u;
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			u = Script.g_scriptCurrentUnit;
 
@@ -7307,7 +7307,7 @@ namespace SharpDune
 					{
 						Unit u2;
 						Structure s = null;
-						PoolFindStruct find = new PoolFindStruct();
+						var find = new PoolFindStruct();
 						short minDistance = 0;
 
 						u2 = Tools.Tools_Index_GetUnit(u.targetMove);

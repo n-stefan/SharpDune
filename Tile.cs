@@ -126,7 +126,7 @@ namespace SharpDune
          */
         internal static tile32 Tile_AddTileDiff(tile32 from, tile32 diff)
         {
-            tile32 result = new tile32();
+            var result = new tile32();
 
             result.x = (ushort)(from.x + diff.x);
             result.y = (ushort)(from.y + diff.y);
@@ -166,8 +166,8 @@ namespace SharpDune
                     if ((x + i) < 0 || (x + i) >= 64) continue;
                     if ((y + j) < 0 || (y + j) >= 64) continue;
 
-                    ushort xi = (ushort)(x + i);
-                    ushort yj = (ushort)(y + j);
+                    var xi = (ushort)(x + i);
+                    var yj = (ushort)(y + j);
 
                     packed = Tile_PackXY(xi, yj);
                     Tile_MakeXY(ref t, xi, yj);
@@ -212,8 +212,8 @@ namespace SharpDune
          */
         internal static ushort Tile_GetDistance(tile32 from, tile32 to)
         {
-            ushort distance_x = (ushort)Abs(from.x - to.x);
-            ushort distance_y = (ushort)Abs(from.y - to.y);
+            var distance_x = (ushort)Abs(from.x - to.x);
+            var distance_y = (ushort)Abs(from.y - to.y);
 
             if (distance_x > distance_y) return (ushort)(distance_x + (distance_y / 2));
             return (ushort)(distance_y + (distance_x / 2));
@@ -310,7 +310,7 @@ namespace SharpDune
          */
         internal static tile32 Tile_UnpackTile(ushort packed)
         {
-            tile32 tile = new tile32();
+            var tile = new tile32();
 
             tile.x = (ushort)((((packed >> 0) & 0x3F) << 8) | 0x80);
             tile.y = (ushort)((((packed >> 6) & 0x3F) << 8) | 0x80);
@@ -327,8 +327,8 @@ namespace SharpDune
          */
         internal static ushort Tile_GetDistancePacked(ushort packed_from, ushort packed_to)
         {
-            tile32 from = Tile_UnpackTile(packed_from);
-            tile32 to = Tile_UnpackTile(packed_to);
+            var from = Tile_UnpackTile(packed_from);
+            var to = Tile_UnpackTile(packed_to);
 
             return (ushort)(Tile_GetDistance(from, to) >> 8);
         }
@@ -379,7 +379,7 @@ namespace SharpDune
         {
             ushort x;
             ushort y;
-            tile32 ret = new tile32();
+            var ret = new tile32();
             byte orientation;
             ushort newDistance;
 

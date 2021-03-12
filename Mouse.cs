@@ -222,13 +222,13 @@ namespace SharpDune
 
                     g_mouseNoRecordedValue = true;
 
-                    byte[] buffer = new byte[2];
+                    var buffer = new byte[2];
 
                     CFile.File_Read(g_mouseFileID, ref buffer, 2);
                     g_mouseInputValue = Endian.READ_LE_UINT16(buffer);
                     Array.Clear(buffer, 0, 2);
 
-                    uint length = CFile.File_Read(g_mouseFileID, ref buffer, 2);
+                    var length = CFile.File_Read(g_mouseFileID, ref buffer, 2);
                     g_mouseRecordedTimer = Endian.READ_LE_UINT16(buffer);
                     Array.Clear(buffer, 0, 2);
 
@@ -281,13 +281,13 @@ namespace SharpDune
         {
             if (left > right)
             {
-                ushort temp = left;
+                var temp = left;
                 left = right;
                 right = temp;
             }
             if (top > bottom)
             {
-                ushort temp = top;
+                var temp = top;
                 top = bottom;
                 bottom = temp;
             }
@@ -310,7 +310,7 @@ namespace SharpDune
          */
         internal static void Mouse_EventHandler(ushort mousePosX, ushort mousePosY, bool mouseButtonLeft, bool mouseButtonRight)
         {
-            byte newButtonState = (byte)((mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0));
+            var newButtonState = (byte)((mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0));
 
             if (g_mouseDisabled == 0)
             {

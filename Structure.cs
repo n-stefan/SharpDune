@@ -1717,7 +1717,7 @@ namespace SharpDune
 
             if (s.state >= (short)StructureState.STRUCTURE_STATE_IDLE)
             {
-                ushort animationIndex = (ushort)((s.state > (short)StructureState.STRUCTURE_STATE_READY) ? (short)StructureState.STRUCTURE_STATE_READY : s.state);
+                var animationIndex = (ushort)((s.state > (short)StructureState.STRUCTURE_STATE_READY) ? (short)StructureState.STRUCTURE_STATE_READY : s.state);
 
                 if (si.animationIndex[animationIndex] == 0xFF)
                 {
@@ -1725,7 +1725,7 @@ namespace SharpDune
                 }
                 else
                 {
-                    byte animationID = si.animationIndex[animationIndex];
+                    var animationID = si.animationIndex[animationIndex];
 
                     Debug.Assert(animationID < 29);
                     CAnimation.Animation_Start(CAnimation.g_table_animation_structure[animationID], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
@@ -1802,7 +1802,7 @@ namespace SharpDune
          */
         internal static void Structure_HouseUnderAttack(byte houseID)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             House h;
 
             h = CHouse.House_Get_ByIndex(houseID);
@@ -1927,8 +1927,8 @@ namespace SharpDune
          */
         internal static void Structure_UntargetMe(Structure s)
         {
-            PoolFindStruct find = new PoolFindStruct();
-            ushort encoded = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+            var find = new PoolFindStruct();
+            var encoded = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
             CObject.Object_Script_Variable4_Clear(s.o);
 
@@ -2005,7 +2005,7 @@ namespace SharpDune
                 {
                     while (linkedID != 0xFF)
                     {
-                        Unit u = CUnit.Unit_Get_ByIndex(linkedID);
+                        var u = CUnit.Unit_Get_ByIndex(linkedID);
 
                         linkedID = u.o.linkedID;
 
@@ -2045,7 +2045,7 @@ namespace SharpDune
             for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
             {
                 Tile t;
-                ushort curPacked = (ushort)(packed + g_table_structure_layoutTiles[si.layout][i]);
+                var curPacked = (ushort)(packed + g_table_structure_layoutTiles[si.layout][i]);
 
                 CAnimation.Animation_Stop_ByTile(curPacked);
 
@@ -2135,7 +2135,7 @@ namespace SharpDune
          */
         internal static uint Structure_GetStructuresBuilt(House h)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             uint result;
 
             if (h == null) return 0;
@@ -2201,13 +2201,13 @@ namespace SharpDune
 
             for (i = 0; i < 4; i++)
             {
-                ushort curPos = (ushort)(position + Map.g_table_mapDiff[i]);
+                var curPos = (ushort)(position + Map.g_table_mapDiff[i]);
 
                 if (recurse && Map.Map_GetLandscapeType(curPos) == (ushort)LandscapeType.LST_WALL) Structure_ConnectWall(curPos, false);
 
                 if (isDestroyedWall) continue;
 
-                LandscapeType landscapeType = (LandscapeType)Map.Map_GetLandscapeType(curPos);
+                var landscapeType = (LandscapeType)Map.Map_GetLandscapeType(curPos);
                 if (landscapeType == LandscapeType.LST_DESTROYED_WALL)
                     bits |= (ushort)(1 << (i + 4));
                 if (landscapeType == LandscapeType.LST_WALL)
@@ -2299,9 +2299,9 @@ namespace SharpDune
         internal static void Structure_Recount()
         {
             ushort index;
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             unchecked { find.houseID = (byte)-1; find.type = (ushort)-1; find.index = (ushort)-1; }
-            House h = CHouse.House_Find(find);
+            var h = CHouse.House_Find(find);
 
             while (h != null)
             {
@@ -2313,7 +2313,7 @@ namespace SharpDune
 
             for (index = 0; index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT; index++)
             {
-                Structure s = Structure_Get_ByIndex(index);
+                var s = Structure_Get_ByIndex(index);
                 if (s.o.flags.used) g_structureFindArray[g_structureFindCount++] = s;
             }
         }
@@ -2323,11 +2323,11 @@ namespace SharpDune
          */
         internal static void GameLoop_Structure()
         {
-            PoolFindStruct find = new PoolFindStruct();
-            bool tickDegrade = false;
-            bool tickStructure = false;
-            bool tickScript = false;
-            bool tickPalace = false;
+            var find = new PoolFindStruct();
+            var tickDegrade = false;
+            var tickStructure = false;
+            var tickScript = false;
+            var tickPalace = false;
 
             if (s_tickStructureDegrade <= Timer.g_timerGame && CSharpDune.g_campaignID > 1)
             {
@@ -2407,7 +2407,7 @@ namespace SharpDune
                 {
                     if (s.o.flags.upgrading)
                     {
-                        ushort upgradeCost = (ushort)(si.o.buildCredits / 40);
+                        var upgradeCost = (ushort)(si.o.buildCredits / 40);
 
                         if (upgradeCost <= h.credits)
                         {
@@ -2540,7 +2540,7 @@ namespace SharpDune
                                     {
                                         if (s.o.type != (byte)StructureType.STRUCTURE_BARRACKS && s.o.type != (byte)StructureType.STRUCTURE_WOR_TROOPER)
                                         {
-                                            ushort stringID = (ushort)Text.STR_IS_COMPLETED_AND_AWAITING_ORDERS;
+                                            var stringID = (ushort)Text.STR_IS_COMPLETED_AND_AWAITING_ORDERS;
                                             if (s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) stringID = (ushort)Text.STR_IS_COMPLETE;
                                             if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) stringID = (ushort)Text.STR_IS_COMPLETED_AND_READY_TO_PLACE;
 
@@ -2576,7 +2576,7 @@ namespace SharpDune
                                         /* If the AI no longer had in memory where to store the structure, free it and forget about it */
                                         if (i == 5)
                                         {
-                                            StructureInfo nsi = g_table_structureInfo[ns.o.type];
+                                            var nsi = g_table_structureInfo[ns.o.type];
 
                                             h.credits += nsi.o.buildCredits;
 
@@ -2652,7 +2652,7 @@ namespace SharpDune
                             /* If the structure is not doing something, but can build stuff, see if there is stuff to build */
                             if (si.o.flags.factory && s.countDown == 0 && s.o.linkedID == 0xFF)
                             {
-                                ushort type = Structure_AI_PickNextToBuild(s);
+                                var type = Structure_AI_PickNextToBuild(s);
 
                                 if (type != 0xFFFF) Structure_BuildObject(s, type);
                             }
@@ -2912,7 +2912,7 @@ namespace SharpDune
          */
         internal static ushort Script_Structure_FindTargetUnit(ScriptEngine script)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             Structure s;
             Unit u;
             uint distanceCurrent;
@@ -3096,7 +3096,7 @@ namespace SharpDune
         {
             Structure s;
             Unit u;
-            tile32 position = new tile32();
+            var position = new tile32();
             ushort target;
             ushort damage;
             ushort fireDelay;
@@ -3356,7 +3356,7 @@ namespace SharpDune
          */
         internal static void Structure_CalculateHitpointsMax(House h)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             ushort power = 0;
 
             if (h == null) return;
@@ -3461,7 +3461,7 @@ namespace SharpDune
          */
         internal static bool Structure_SetRepairingState(Structure s, sbyte state, Widget w)
         {
-            bool ret = false;
+            var ret = false;
 
             if (s == null) return false;
 
@@ -3509,7 +3509,7 @@ namespace SharpDune
          */
         static ushort Structure_AI_PickNextToBuild(Structure s)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             /*ushort*/
             int buildable;
             ushort type;
@@ -3597,7 +3597,7 @@ namespace SharpDune
                 case HouseWeapon.HOUSE_WEAPON_MISSILE:
                     {
                         Unit u;
-                        tile32 position = new tile32();
+                        var position = new tile32();
 
                         position.x = 0xFFFF;
                         position.y = 0xFFFF;
@@ -3613,7 +3613,7 @@ namespace SharpDune
 
                         if (!h.flags.human)
                         {
-                            PoolFindStruct find = new PoolFindStruct();
+                            var find = new PoolFindStruct();
 
                             find.houseID = (byte)HouseType.HOUSE_INVALID;
                             find.type = 0xFFFF;
@@ -3750,7 +3750,7 @@ namespace SharpDune
                     {
                         UnitInfo ui;
                         ushort upgradeLevelRequired;
-                        byte unitType = si.buildableUnits[i];
+                        var unitType = si.buildableUnits[i];
 
                         if (unitType == (byte)UnitType.UNIT_INVALID) continue;
 
@@ -3782,7 +3782,7 @@ namespace SharpDune
                 case StructureType.STRUCTURE_CONSTRUCTION_YARD:
                     for (i = 0; i < (int)StructureType.STRUCTURE_MAX; i++)
                     {
-                        StructureInfo localsi = g_table_structureInfo[i];
+                        var localsi = g_table_structureInfo[i];
                         ushort availableCampaign;
                         uint structuresRequired;
 
@@ -3900,7 +3900,7 @@ namespace SharpDune
                     if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT)
                     {
                         byte linkedID = 0xFF;
-                        short[] availableUnits = new short[(int)UnitType.UNIT_MAX];
+                        var availableUnits = new short[(int)UnitType.UNIT_MAX];
                         Unit u;
                         bool loop;
 
@@ -3914,7 +3914,7 @@ namespace SharpDune
 
                             for (i = 0; i < (byte)UnitType.UNIT_MAX; i++)
                             {
-                                short unitsAtStarport = CUnit.g_starportAvailable[i];
+                                var unitsAtStarport = CUnit.g_starportAvailable[i];
 
                                 if (unitsAtStarport == 0)
                                 {
@@ -4028,7 +4028,7 @@ namespace SharpDune
 
                             CSharpDune.g_validateStrictIfZero++;
                             {
-                                tile32 tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
+                                var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
                                 u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
                             }
                             CSharpDune.g_validateStrictIfZero--;
@@ -4070,7 +4070,7 @@ namespace SharpDune
 
             if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
             {
-                tile32 tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
+                var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
 
                 oi = CUnit.g_table_unitInfo[objectType].o;
                 o = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
@@ -4117,7 +4117,7 @@ namespace SharpDune
          */
         internal static bool Structure_SetUpgradingState(Structure s, sbyte state, Widget w)
         {
-            bool ret = false;
+            var ret = false;
 
             if (s == null) return false;
 
@@ -4167,13 +4167,13 @@ namespace SharpDune
 
             if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
             {
-                Structure s2 = Structure_Get_ByIndex(s.o.linkedID);
+                var s2 = Structure_Get_ByIndex(s.o.linkedID);
                 oi = g_table_structureInfo[s2.o.type].o;
                 Structure_Free(s2);
             }
             else
             {
-                Unit u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
+                var u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
                 oi = CUnit.g_table_unitInfo[u.o.type].o;
                 CUnit.Unit_Free(u);
             }
@@ -4207,12 +4207,12 @@ namespace SharpDune
 
             for (i = 0; i < 4096; i++)
             {
-                bool stop = true;
+                var stop = true;
                 ushort j;
 
                 for (j = 0; j < tileCount; j++)
                 {
-                    ushort packed = (ushort)(i + g_table_structure_layoutTiles[si.layout][j]);
+                    var packed = (ushort)(i + g_table_structure_layoutTiles[si.layout][j]);
                     /* XXX -- This can overflow, and we should check for that */
 
                     if (Map.Map_GetLandscapeType(packed) == (ushort)LandscapeType.LST_CONCRETE_SLAB && Map.g_map[packed].houseID == houseID) continue;
@@ -4278,8 +4278,8 @@ namespace SharpDune
 
                         for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
                         {
-                            ushort curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
-                            Tile t = Map.g_map[curPos];
+                            var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
+                            var t = Map.g_map[curPos];
 
                             if (Structure_IsValidBuildLocation(curPos, StructureType.STRUCTURE_SLAB_1x1) == 0) continue;
 
@@ -4302,8 +4302,8 @@ namespace SharpDune
                         {
                             for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
                             {
-                                ushort curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
-                                Tile t = Map.g_map[curPos];
+                                var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
+                                var t = Map.g_map[curPos];
 
                                 if (Structure_IsValidBuildLocation(curPos, StructureType.STRUCTURE_SLAB_1x1) == 0) continue;
 
@@ -4353,8 +4353,8 @@ namespace SharpDune
             /* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
             if (validBuildLocation < 0)
             {
-                ushort tilesWithoutSlab = (ushort)-validBuildLocation;
-                ushort structureTileCount = g_table_structure_layoutTileCount[si.layout];
+                var tilesWithoutSlab = (ushort)-validBuildLocation;
+                var structureTileCount = g_table_structure_layoutTileCount[si.layout];
 
                 s.o.hitpoints -= (ushort)((si.o.hitpoints / 2) * tilesWithoutSlab / structureTileCount);
 
@@ -4387,7 +4387,7 @@ namespace SharpDune
 
                 for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
                 {
-                    ushort curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
+                    var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
                     Unit u;
 
                     u = CUnit.Unit_Get_ByPackedTile(curPos);

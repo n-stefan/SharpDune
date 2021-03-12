@@ -460,7 +460,7 @@ namespace SharpDune
             uint len;
             int freq;
             MMSYSERROR res;
-            int dataPointer = 0;
+            var dataPointer = 0;
 
             DSP_Stop();
 

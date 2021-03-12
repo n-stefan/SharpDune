@@ -79,8 +79,8 @@ namespace SharpDune
 
         internal static void Driver_Music_Stop()
         {
-            Driver music = g_driverMusic;
-            MSBuffer musicBuffer = g_bufferMusic;
+            var music = g_driverMusic;
+            var musicBuffer = g_bufferMusic;
 
             if (music.index == 0xFFFF) return;
             if (musicBuffer.index == 0xFFFF) return;
@@ -98,7 +98,7 @@ namespace SharpDune
 
         internal static bool Driver_Music_IsPlaying()
         {
-            MSBuffer buffer = g_bufferMusic;
+            var buffer = g_bufferMusic;
 
             if (g_driverMusic.index == 0xFFFF) return false;
             if (buffer.index == 0xFFFF) return false;
@@ -108,7 +108,7 @@ namespace SharpDune
 
         internal static void Driver_Voice_Stop()
         {
-            Driver voice = g_driverVoice;
+            var voice = g_driverVoice;
 
             if (Driver_Voice_IsPlaying()) Dsp.DSP_Stop();
 
@@ -124,7 +124,7 @@ namespace SharpDune
         static short l_currentPriority = -1;   /* priority of sound currently playing */
         internal static void Driver_Voice_Play(byte[] data, short priority)
         {
-            Driver voice = g_driverVoice;
+            var voice = g_driverVoice;
 
             if (Config.g_gameConfig.sounds == 0 || voice.index == 0xFFFF) return;
 
@@ -189,14 +189,14 @@ namespace SharpDune
 
         internal static void Driver_Sound_Stop()
         {
-            Driver sound = g_driverSound;
+            var sound = g_driverSound;
             byte i;
 
             if (sound.index == 0xFFFF) return;
 
             for (i = 0; i < 4; i++)
             {
-                MSBuffer soundBuffer = g_bufferSound[i];
+                var soundBuffer = g_bufferSound[i];
                 if (soundBuffer.index == 0xFFFF) continue;
 
                 Mt32Mpu.MPU_Stop(soundBuffer.index);
@@ -207,8 +207,8 @@ namespace SharpDune
 
         internal static void Driver_Sound_LoadFile(string musicName)
         {
-            Driver sound = g_driverSound;
-            Driver music = g_driverMusic;
+            var sound = g_driverSound;
+            var music = g_driverMusic;
 
             Driver_Sound_Stop();
 
@@ -245,8 +245,8 @@ namespace SharpDune
 
         internal static void Driver_Sound_Play(short index, short volume)
         {
-            Driver sound = g_driverSound;
-            MSBuffer soundBuffer = g_bufferSound[s_bufferSoundIndex];
+            var sound = g_driverSound;
+            var soundBuffer = g_bufferSound[s_bufferSoundIndex];
 
             if (index < 0 || index >= 120) return;
 
@@ -285,8 +285,8 @@ namespace SharpDune
 
         internal static void Driver_Music_FadeOut()
         {
-            Driver music = g_driverMusic;
-            MSBuffer musicBuffer = g_bufferMusic;
+            var music = g_driverMusic;
+            var musicBuffer = g_bufferMusic;
 
             if (music.index == 0xFFFF) return;
             if (musicBuffer.index == 0xFFFF) return;
@@ -332,7 +332,7 @@ namespace SharpDune
 
             for (i = 0; i < 4; i++)
             {
-                MSBuffer buf = g_bufferSound[i];
+                var buf = g_bufferSound[i];
                 buf.buffer = new MSData[size]; //calloc(1, size);
                 for (var j = 0; j < size; j++) buf.buffer[j] = new MSData();
                 buf.index = 0xFFFF;
@@ -364,8 +364,8 @@ namespace SharpDune
 
         static void Drivers_SoundMusic_Uninit()
         {
-            Driver sound = g_driverSound;
-            Driver music = g_driverMusic;
+            var sound = g_driverSound;
+            var music = g_driverMusic;
 
             if (Config.g_enableSoundMusic)
             {

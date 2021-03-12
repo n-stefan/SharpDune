@@ -559,8 +559,8 @@ namespace SharpDune
 
 		static void Driver_Music_Play(short index, ushort volume)
 		{
-			Driver music = CDriver.g_driverMusic;
-			MSBuffer musicBuffer = CDriver.g_bufferMusic;
+			var music = CDriver.g_driverMusic;
+			var musicBuffer = CDriver.g_bufferMusic;
 
 			if (index < 0 || index > 120 || Config.g_gameConfig.music == 0) return;
 
@@ -581,8 +581,8 @@ namespace SharpDune
 
 		static void Driver_Music_LoadFile(string musicName)
 		{
-			Driver music = CDriver.g_driverMusic;
-			Driver sound = CDriver.g_driverSound;
+			var music = CDriver.g_driverMusic;
+			var sound = CDriver.g_driverSound;
 
 			CDriver.Driver_Music_Stop();
 
@@ -801,7 +801,7 @@ namespace SharpDune
 		 */
 		internal static void Voice_Play(short voiceID)
 		{
-			tile32 tile = new tile32();
+			var tile = new tile32();
 
 			tile.x = 0;
 			tile.y = 0;
@@ -893,7 +893,7 @@ namespace SharpDune
 			for (voice = 0; voice < NUM_VOICES; voice++)
 			{
 				string filename; //char[16]
-				string str = g_table_voices[voice].str;
+				var str = g_table_voices[voice].str;
 				Sleep.sleepIdle();  /* let a chance to update screen, etc. */
 				switch (str[0])
 				{
@@ -993,7 +993,7 @@ namespace SharpDune
 			retFileSize = 0;
 
 			if (filename == null) return null;
-			if (!CFile.File_Exists_GetSize(filename, out uint fileSize)) return null;
+			if (!CFile.File_Exists_GetSize(filename, out var fileSize)) return null;
 
 			fileSize += 1;
 			fileSize &= 0xFFFFFFFE;

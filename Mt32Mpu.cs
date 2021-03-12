@@ -275,7 +275,7 @@ namespace SharpDune
             uint total;
             uint header;
             uint size;
-            int pointer = 0;
+            var pointer = 0;
 
             index++;
 
@@ -340,11 +340,11 @@ namespace SharpDune
 
         internal static ushort MPU_SetData(/* uint8 * */byte[] file, ushort index, MSData msdata)
         {
-            MSData data = msdata;
+            var data = msdata;
             uint header;
             uint size;
             ushort i;
-            int pointer = 0;
+            var pointer = 0;
 
             if (file == null) return 0xFFFF;
 
@@ -534,7 +534,7 @@ namespace SharpDune
 
             for (i = 0; i < 9; i++)
             {
-                byte chan = (byte)(i + 1);
+                var chan = (byte)(i + 1);
 
                 /* default controller/program change
                  * values for startup initialization */
@@ -948,7 +948,7 @@ namespace SharpDune
                     else
                     {
                         /* lock */
-                        byte newChan = MPU_LockChannel();  /* lock new channel and map to current channel in sequence */
+                        var newChan = MPU_LockChannel();  /* lock new channel and map to current channel in sequence */
                         if (newChan == 0xFF) newChan = chan;
 
                         data.chanMaps[chan] = newChan;

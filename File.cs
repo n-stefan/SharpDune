@@ -374,7 +374,7 @@ namespace SharpDune
 		 */
 		static bool File_Exists_Ex(SearchDirectory dir, string filename, out uint fileSize)
 		{
-			bool exists = false;
+			var exists = false;
 			FileInfo pakInfo = null;
 			fileSize = 0;
 
@@ -715,7 +715,7 @@ namespace SharpDune
 		 */
 		internal static ushort File_Read_LE16(byte index)
 		{
-			byte[] buffer = new byte[2];
+			var buffer = new byte[2];
 			File_Read(index, ref buffer, (uint)buffer.Length);
 			return Endian.READ_LE_UINT16(buffer);
 		}
@@ -728,7 +728,7 @@ namespace SharpDune
 		 */
 		internal static uint File_Read_LE32(byte index)
 		{
-			byte[] buffer = new byte[4];
+			var buffer = new byte[4];
 			File_Read(index, ref buffer, (uint)buffer.Length);
 			return Endian.READ_LE_UINT32(buffer);
 		}
@@ -742,7 +742,7 @@ namespace SharpDune
 		 */
 		internal static bool File_Write_LE16(byte index, ushort value)
 		{
-			byte[] buffer = new byte[2];
+			var buffer = new byte[2];
 			Endian.WRITE_LE_UINT16(buffer, value);
 			return (File_Write(index, buffer, 2) == 2);
 		}
@@ -758,7 +758,7 @@ namespace SharpDune
 		 */
 		internal static bool fread_le_uint16(ref ushort value, FileStream stream)
 		{
-			byte[] buffer = new byte[2];
+			var buffer = new byte[2];
 			//if (value == null) return false;
 			if (stream.Read(buffer, 0, 2) != 2) return false; //fread(buffer, 1, 2, stream) != 2)
 			value = Endian.READ_LE_UINT16(buffer);
@@ -776,7 +776,7 @@ namespace SharpDune
 		 */
 		internal static bool fread_le_uint32(ref uint value, FileStream stream)
 		{
-			byte[] buffer = new byte[4];
+			var buffer = new byte[4];
 			//if (value == null) return false;
 			if (stream.Read(buffer, 0, 4) != 4) return false; //fread(buffer, 1, 4, stream) != 4)
 			value = Endian.READ_LE_UINT32(buffer);
@@ -842,14 +842,14 @@ namespace SharpDune
 			s_currentPakInfo = null;
 			while (s_files_in_root != null)
 			{
-				FileInfoLinkedElem e = s_files_in_root;
+				var e = s_files_in_root;
 				s_files_in_root = e.next;
 				e = null; //free(e);
 			}
 
 			while (s_files_in_pak != null)
 			{
-				PakFileInfoLinkedElem e = s_files_in_pak;
+				var e = s_files_in_pak;
 				s_files_in_pak = e.next;
 				e = null; //free(e);
 			}
@@ -862,7 +862,7 @@ namespace SharpDune
 		 */
 		internal static bool File_Init()
 		{
-			string buf = string.Empty; //char[1024]
+			var buf = string.Empty; //char[1024]
 
 			if (IniFile.IniFile_GetString("savedir", null, buf, (ushort)(buf == null ? 0 : buf.Length)) != null)
 			{
@@ -989,7 +989,7 @@ namespace SharpDune
 		{
 			uint value = 0;
 			uint length = 0;
-			bool first = true;
+			var first = true;
 
 			while (true)
 			{
@@ -1033,7 +1033,7 @@ namespace SharpDune
 		{
 			uint value = 0;
 			uint length = 0;
-			bool first = true;
+			var first = true;
 
 			while (true)
 			{
@@ -1244,7 +1244,7 @@ namespace SharpDune
 			uint position;
 			uint nextposition = 0;
 			uint size;
-			char[] filename = new char[256];
+			var filename = new char[256];
 			uint i;
 
 			f = new FileStream(pakpath, System.IO.FileMode.Open, FileAccessFromString("rb")); //fopen(pakpath, "rb");

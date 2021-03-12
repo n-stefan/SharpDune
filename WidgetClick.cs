@@ -26,7 +26,7 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Widget_SaveLoad_Click(bool save)
 		{
-			WindowDesc desc = CWindowDesc.g_saveLoadWindowDesc;
+			var desc = CWindowDesc.g_saveLoadWindowDesc;
 			bool loop;
 
 			s_savegameCountOnDisk = GetSavegameCount();
@@ -45,8 +45,8 @@ namespace SharpDune
 
 			for (loop = true; loop; Sleep.sleepIdle())
 			{
-				Widget w = CWidget.g_widgetLinkedListTail;
-				ushort key = CWidget.GUI_Widget_HandleEvents(w);
+				var w = CWidget.g_widgetLinkedListTail;
+				var key = CWidget.GUI_Widget_HandleEvents(w);
 
 				UpdateArrows(save, false);
 
@@ -190,7 +190,7 @@ namespace SharpDune
 
 			if (unitAction == action) return true;
 
-			int index = Array.FindIndex(actions[..4], a => a == (ushort)unitAction);
+			var index = Array.FindIndex(actions[..4], a => a == (ushort)unitAction);
 			if (index == -1) return true;
 			//found = memchr(actions, unitAction, 4);
 			//if (found == NULL) return true;
@@ -328,7 +328,7 @@ namespace SharpDune
 			/* "Are you sure you want to clear the high scores?" */
 			if (GUI_YesNo((ushort)Text.STR_ARE_YOU_SURE_YOU_WANT_TO_CLEAR_THE_HIGH_SCORES))
 			{
-				HallOfFameStruct[] data = (HallOfFameStruct[])w.data;
+				var data = (HallOfFameStruct[])w.data;
 
 				for (var i = 0; i < data.Length; i++) data[i] = new HallOfFameStruct(); //memset(data, 0, 128);
 
@@ -369,8 +369,8 @@ namespace SharpDune
 
 			if (CStructure.g_structureActiveType != 0xFFFF)
 			{
-				Structure s = CStructure.Structure_Get_ByPackedTile(CStructure.g_structureActivePosition);
-				Structure s2 = CStructure.g_structureActive;
+				var s = CStructure.Structure_Get_ByPackedTile(CStructure.g_structureActivePosition);
+				var s2 = CStructure.g_structureActive;
 
 				Debug.Assert(s2 != null);
 
@@ -538,7 +538,7 @@ namespace SharpDune
 		 */
 		static bool GUI_Widget_Savegame_Click(ushort index)
 		{
-			WindowDesc desc = CWindowDesc.g_savegameNameWindowDesc;
+			var desc = CWindowDesc.g_savegameNameWindowDesc;
 			bool loop;
 			//string saveDesc = g_savegameDesc[index];
 			bool widgetPaint;
@@ -566,7 +566,7 @@ namespace SharpDune
 			for (loop = true; loop; Sleep.sleepIdle())
 			{
 				ushort eventKey;
-				Widget w = CWidget.g_widgetLinkedListTail;
+				var w = CWidget.g_widgetLinkedListTail;
 
 				Gui.GUI_DrawText_Wrapper(null, 0, 0, 232, 235, 0x22);
 
@@ -604,9 +604,9 @@ namespace SharpDune
 
 		static bool GUI_YesNo(ushort stringID)
 		{
-			WindowDesc desc = CWindowDesc.g_yesNoWindowDesc;
+			var desc = CWindowDesc.g_yesNoWindowDesc;
 			bool loop;
-			bool ret = false;
+			var ret = false;
 
 			desc.stringID = (short)stringID;
 
@@ -616,7 +616,7 @@ namespace SharpDune
 
 			for (loop = true; loop; Sleep.sleepIdle())
 			{
-				ushort key = CWidget.GUI_Widget_HandleEvents(CWidget.g_widgetLinkedListTail);
+				var key = CWidget.GUI_Widget_HandleEvents(CWidget.g_widgetLinkedListTail);
 
 				if ((key & 0x8000) != 0)
 				{
@@ -673,7 +673,7 @@ namespace SharpDune
 
 			for (i = 0; i < desc.widgetCount; i++)
 			{
-				Widget w = CWidget.g_table_windowWidgets[i];
+				var w = CWidget.g_table_windowWidgets[i];
 
 				if (Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].stringID) == null) continue;
 
@@ -733,7 +733,7 @@ namespace SharpDune
 
 			if (s_savegameCountOnDisk >= 5 && desc.addArrows)
 			{
-				Widget w = CWidget.g_table_windowWidgets[7];
+				var w = CWidget.g_table_windowWidgets[7];
 
 				w.drawParameterNormal.sprite = Sprites.g_sprites[59];
 				w.drawParameterSelected.sprite = Sprites.g_sprites[60];
@@ -949,7 +949,7 @@ namespace SharpDune
 			if (Gui.g_factoryWindowStarport)
 			{
 				byte i = 0;
-				House h = CHouse.g_playerHouse;
+				var h = CHouse.g_playerHouse;
 				while (Gui.g_factoryWindowOrdered != 0)
 				{
 					if (Gui.g_factoryWindowItems[i].amount != 0)
@@ -1017,7 +1017,7 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Production_Down_Click(Widget w)
 		{
-			bool drawDetails = false;
+			var drawDetails = false;
 
 			if (Gui.g_factoryWindowSelected < 3 && (Gui.g_factoryWindowSelected + 1) < Gui.g_factoryWindowTotal)
 			{
@@ -1068,7 +1068,7 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Production_Up_Click(Widget w)
 		{
-			bool drawDetails = false;
+			var drawDetails = false;
 
 			if (Gui.g_factoryWindowSelected != 0)
 			{
@@ -1183,11 +1183,11 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Purchase_Plus_Click(Widget w)
 		{
-			FactoryWindowItem item = Gui.GUI_FactoryWindow_GetItem((short)Gui.g_factoryWindowSelected);
-			ObjectInfo oi = item.objectInfo;
-			House h = CHouse.g_playerHouse;
-			bool canCreateMore = true;
-			ushort type = item.objectType;
+			var item = Gui.GUI_FactoryWindow_GetItem((short)Gui.g_factoryWindowSelected);
+			var oi = item.objectInfo;
+			var h = CHouse.g_playerHouse;
+			var canCreateMore = true;
+			var type = item.objectType;
 
 			CWidget.GUI_Widget_MakeNormal(w, false);
 
@@ -1220,7 +1220,7 @@ namespace SharpDune
 		internal static bool GUI_Purchase_Minus_Click(Widget w)
 		{
 			FactoryWindowItem item;
-			House h = CHouse.g_playerHouse;
+			var h = CHouse.g_playerHouse;
 
 			CWidget.GUI_Widget_MakeNormal(w, false);
 
@@ -1258,7 +1258,7 @@ namespace SharpDune
 
 		static void GUI_Purchase_ShowInvoice()
 		{
-			Widget w = CWidget.g_widgetInvoiceTail;
+			var w = CWidget.g_widgetInvoiceTail;
 			Screen oldScreenID;
 			ushort y = 48;
 			ushort total = 0;
@@ -1357,8 +1357,8 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Widget_Options_Click(Widget w)
 		{
-			WindowDesc desc = CWindowDesc.g_optionsWindowDesc;
-			ushort cursor = Gui.g_cursorSpriteID;
+			var desc = CWindowDesc.g_optionsWindowDesc;
+			var cursor = Gui.g_cursorSpriteID;
 			bool loop;
 
 			Gui.g_cursorSpriteID = 0;
@@ -1383,8 +1383,8 @@ namespace SharpDune
 
 			for (loop = true; loop; Sleep.sleepIdle())
 			{
-				Widget w2 = CWidget.g_widgetLinkedListTail;
-				ushort key = CWidget.GUI_Widget_HandleEvents(w2);
+				var w2 = CWidget.g_widgetLinkedListTail;
+				var key = CWidget.GUI_Widget_HandleEvents(w2);
 
 				if ((key & 0x8000) != 0)
 				{
@@ -1501,7 +1501,7 @@ namespace SharpDune
 		 */
 		static void GUI_Widget_GameControls_Click(Widget w)
 		{
-			WindowDesc desc = CWindowDesc.g_gameControlWindowDesc;
+			var desc = CWindowDesc.g_gameControlWindowDesc;
 			bool loop;
 
 			GUI_Window_BackupScreen(desc);
@@ -1510,8 +1510,8 @@ namespace SharpDune
 
 			for (loop = true; loop; Sleep.sleepIdle())
 			{
-				Widget w2 = CWidget.g_widgetLinkedListTail;
-				ushort key = CWidget.GUI_Widget_HandleEvents(w2);
+				var w2 = CWidget.g_widgetLinkedListTail;
+				var key = CWidget.GUI_Widget_HandleEvents(w2);
 
 				if ((key & 0x8000) != 0)
 				{

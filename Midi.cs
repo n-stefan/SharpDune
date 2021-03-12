@@ -109,12 +109,12 @@ namespace SharpDune
 		{
 			uint devID = 0;
 			uint i;
-			int numDevs = midiOutGetNumDevs();
+			var numDevs = midiOutGetNumDevs();
 			if (IniFile.IniFile_GetInteger("mt32midi", 0) != 0)
 			{
 				for (i = 0; i < numDevs; i++)
 				{
-					if (midiOutGetDevCaps((UIntPtr)i, out MidiOutCaps caps, (uint)Marshal.SizeOf<MidiOutCaps>()) == MMSYSERR_NOERROR)
+					if (midiOutGetDevCaps((UIntPtr)i, out var caps, (uint)Marshal.SizeOf<MidiOutCaps>()) == MMSYSERR_NOERROR)
 					{
 						Debug.WriteLine($"DEBUG: MidiOutdevice #{i}: {caps.Mid}:{caps.Pid} v{caps.DriverVersion >> 8}.{caps.DriverVersion & 0xff}" +
 										  $" voices={caps.Voices} notes={caps.Notes} channels={caps.ChannelMask} {caps.Name}");

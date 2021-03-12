@@ -110,8 +110,8 @@ namespace SharpDune
 		{
 			/* uint8 * */
 			byte[] screen;
-			int screenPointer = 0;
-			int bufferPointer = 0;
+			var screenPointer = 0;
+			var bufferPointer = 0;
 
 			if (width == 0) return;
 			if (height == 0) return;
@@ -150,8 +150,8 @@ namespace SharpDune
 		{
 			/* uint8 * */
 			byte[] screen;
-			int screenPointer = 0;
-			int bufferPointer = 0;
+			var screenPointer = 0;
+			var bufferPointer = 0;
 
 			if (width == 0) return;
 			if (height == 0) return;
@@ -183,7 +183,7 @@ namespace SharpDune
 		 */
 		internal static Screen GFX_Screen_SetActive(Screen screenID)
 		{
-			Screen oldScreen = s_screenActiveID;
+			var oldScreen = s_screenActiveID;
 			if (screenID != Screen.SCREEN_ACTIVE)
 			{
 				s_screenActiveID = screenID;
@@ -214,10 +214,10 @@ namespace SharpDune
 			int i, j;
 			byte[] icon_palette;
 			byte[] wArray;
-			int wPointer = 0;
+			var wPointer = 0;
 			byte[] rArray;
-			int rPointer = 0;
-			byte[] local_palette = new byte[16];
+			var rPointer = 0;
+			var local_palette = new byte[16];
 
 			Debug.Assert(houseID < (byte)HouseType.HOUSE_MAX);
 
@@ -230,7 +230,7 @@ namespace SharpDune
 				/* Remap colors for the right house */
 				for (i = 0; i < 16; i++)
 				{
-					byte colour = icon_palette[i];
+					var colour = icon_palette[i];
 
 					/* ENHANCEMENT -- Dune2 recolours too many colours, causing clear graphical glitches in the IX building */
 					if ((colour & 0xF0) == 0x90)
@@ -256,8 +256,8 @@ namespace SharpDune
 				{
 					for (i = 0; i < s_tileWidth; i++)
 					{
-						byte left = icon_palette[rArray[rPointer] >> 4];
-						byte right = icon_palette[rArray[rPointer] & 0xF];
+						var left = icon_palette[rArray[rPointer] >> 4];
+						var right = icon_palette[rArray[rPointer] & 0xF];
 						rPointer++;
 
 						if (left != 0) wArray[wPointer] = left;
@@ -349,8 +349,8 @@ namespace SharpDune
 		{
 			byte[] src;
 			byte[] dst;
-			int srcPointer = 0;
-			int dstPointer = 0;
+			var srcPointer = 0;
+			var dstPointer = 0;
 
 			if (xSrc >= SCREEN_WIDTH) return;
 			if (xSrc < 0) xSrc = 0;
@@ -482,8 +482,8 @@ namespace SharpDune
 		{
 			byte[] src;
 			byte[] dst;
-			int srcPointer = 0;
-			int dstPointer = 0;
+			var srcPointer = 0;
+			var dstPointer = 0;
 
 			if (xSrc >= SCREEN_WIDTH) return;
 			if (xSrc < 0)

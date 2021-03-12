@@ -368,7 +368,7 @@ namespace SharpDune
 		internal static uint SaveLoad_GetLength(SaveLoadDesc[] sld)
 		{
 			uint length = 0;
-			int i = 0;
+			var i = 0;
 
 			while (sld[i].type_disk != SaveLoadType.SLDT_NULL)
 			{
@@ -884,7 +884,7 @@ namespace SharpDune
 			while (length > 0)
 			{
 				Unit u;
-				Object o = new Object();
+				var o = new Object();
 
 				/* Read the next index from disk */
 				if (!SaveLoad_Load(s_saveUnitNewIndex, fp, o)) return false;
@@ -1021,7 +1021,7 @@ namespace SharpDune
 
 			for (i = 0; i < 0x1000; i++)
 			{
-				Tile t = Map.g_map[i];
+				var t = Map.g_map[i];
 
 				t.isUnveiled = false;
 				t.overlayTileID = Sprites.g_veiledTileID;
@@ -1058,7 +1058,7 @@ namespace SharpDune
 		 */
 		static bool fread_tile(Tile t, FileStream fp)
 		{
-			byte[] buffer = new byte[4];
+			var buffer = new byte[4];
 
 			if (fp.Read(buffer, 0, 4) != 4) return false; //(fread(buffer, 1, 4, fp) != 4)
 
@@ -1081,7 +1081,7 @@ namespace SharpDune
 		 */
 		internal static bool House_Save(BinaryWriter fp)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.type = 0xFFFF;
@@ -1107,7 +1107,7 @@ namespace SharpDune
 		 */
 		internal static bool Unit_Save(BinaryWriter fp)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.type = 0xFFFF;
@@ -1134,7 +1134,7 @@ namespace SharpDune
 		 */
 		internal static bool UnitNew_Save(BinaryWriter fp)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.type = 0xFFFF;
@@ -1161,7 +1161,7 @@ namespace SharpDune
 		 */
 		internal static bool Structure_Save(BinaryWriter fp)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.type = 0xFFFF;
@@ -1187,7 +1187,7 @@ namespace SharpDune
 		 */
 		internal static bool Team_Save(BinaryWriter fp)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.type = 0xFFFF;
@@ -1217,7 +1217,7 @@ namespace SharpDune
 
 			for (i = 0; i < 0x1000; i++)
 			{
-				Tile tile = Map.g_map[i];
+				var tile = Map.g_map[i];
 
 				/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
 				if (!tile.isUnveiled && !tile.hasStructure && !tile.hasUnit && !tile.hasAnimation && !tile.hasExplosion && (Map.g_mapTileID[i] & 0x8000) == 0 && Map.g_mapTileID[i] == tile.groundTileID) continue;
@@ -1239,14 +1239,14 @@ namespace SharpDune
 		 */
 		static bool fwrite_tile(Tile t, BinaryWriter fp)
 		{
-			byte value = t.houseID;
+			var value = t.houseID;
 			if (t.isUnveiled) value |= 1 << 3;
 			if (t.hasUnit) value |= 1 << 4;
 			if (t.hasStructure) value |= 1 << 5;
 			if (t.hasAnimation) value |= 1 << 6;
 			if (t.hasExplosion) value |= 1 << 7;
 
-			byte[] buffer = new byte[4];
+			var buffer = new byte[4];
 			buffer[0] = (byte)(t.groundTileID & 0xff);
 			buffer[1] = (byte)((t.groundTileID >> 8) | (t.overlayTileID << 1));
 			buffer[2] = value;

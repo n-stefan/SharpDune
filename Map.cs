@@ -1000,7 +1000,7 @@ namespace SharpDune
         internal static void Map_UpdateAround(ushort radius, tile32 position, Unit unit, byte function)
         {
             short i, j;
-            tile32 diff = new tile32();
+            var diff = new tile32();
             ushort lastPacked;
 
             if (radius == 0 || (position.x == 0 && position.y == 0)) return;
@@ -1049,11 +1049,11 @@ namespace SharpDune
             i = 0;
             do
             {
-                tile32 curTile = CTile.Tile_AddTileDiff(position, diff);
+                var curTile = CTile.Tile_AddTileDiff(position, diff);
 
                 if (CTile.Tile_IsValid(curTile))
                 {
-                    ushort curPacked = CTile.Tile_PackTile(curTile);
+                    var curPacked = CTile.Tile_PackTile(curTile);
 
                     if (curPacked != lastPacked)
                     {
@@ -1119,7 +1119,7 @@ namespace SharpDune
             s = CStructure.Structure_Get_ByPackedTile(packed);
             if (s != null)
             {
-                Structure sv = s;
+                var sv = s;
                 sv.o.seenByHouses |= (byte)(1 << houseID);
                 if (houseID == (byte)HouseType.HOUSE_ATREIDES) sv.o.seenByHouses |= 1 << (byte)HouseType.HOUSE_FREMEN;
             }
@@ -1157,7 +1157,7 @@ namespace SharpDune
 
                 for (i = 0; i < 4; i++)
                 {
-                    ushort neighbour = (ushort)(packed + g_table_mapDiff[i]);
+                    var neighbour = (ushort)(packed + g_table_mapDiff[i]);
 
                     if (CTile.Tile_IsOutOfMap(neighbour) || !g_map[neighbour].isUnveiled)
                     {
@@ -1170,7 +1170,7 @@ namespace SharpDune
             {
                 if (tileID != 15)
                 {
-                    Unit u = CUnit.Unit_Get_ByPackedTile(packed);
+                    var u = CUnit.Unit_Get_ByPackedTile(packed);
                     if (u != null) CUnit.Unit_HouseUnitCount_Add(u, (byte)CHouse.g_playerHouseID);
                 }
 
@@ -1217,8 +1217,8 @@ namespace SharpDune
 
             if (minimapPreviousPosition != 0xFFFF && minimapPreviousPosition != packed)
             {
-                ushort[] m = viewportBorder;
-                int mPointer = 0;
+                var m = viewportBorder;
+                var mPointer = 0;
 
                 cleared = true;
 
@@ -1235,8 +1235,8 @@ namespace SharpDune
 
             if (packed != 0xFFFF && (packed != minimapPreviousPosition || forceUpdate))
             {
-                ushort[] m = viewportBorder;
-                int mPointer = 0;
+                var m = viewportBorder;
+                var mPointer = 0;
                 ushort mapScale;
                 MapInfo mapInfo;
                 ushort left, top, right, bottom;
@@ -1281,7 +1281,7 @@ namespace SharpDune
         {
             if (CSharpDune.g_validateStrictIfZero == 0)
             {
-                Unit u = CUnit.Unit_Get_ByPackedTile(packed);
+                var u = CUnit.Unit_Get_ByPackedTile(packed);
                 CUnit.Unit_Remove(u);
                 g_map[packed].groundTileID = (ushort)(g_mapTileID[packed] & 0x1FF);
                 Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SPICE_BLOOM_TREMOR, CTile.Tile_UnpackTile(packed), 0, 0);
@@ -1353,7 +1353,7 @@ namespace SharpDune
 
                 for (i = 0; i < 4; i++)
                 {
-                    ushort curPacked = (ushort)(packed + g_table_mapDiff[i]);
+                    var curPacked = (ushort)(packed + g_table_mapDiff[i]);
                     ushort curType;
 
                     if (CTile.Tile_IsOutOfMap(curPacked))
@@ -1394,12 +1394,12 @@ namespace SharpDune
          */
         internal static void Map_MakeExplosion(ushort type, tile32 position, ushort hitpoints, ushort unitOriginEncoded)
         {
-            ushort reactionDistance = (ushort)((type == (ushort)ExplosionType.EXPLOSION_DEATH_HAND) ? 32 : 16);
-            ushort positionPacked = CTile.Tile_PackTile(position);
+            var reactionDistance = (ushort)((type == (ushort)ExplosionType.EXPLOSION_DEATH_HAND) ? 32 : 16);
+            var positionPacked = CTile.Tile_PackTile(position);
 
             if (!s_debugNoExplosionDamage && hitpoints != 0)
             {
-                PoolFindStruct find = new PoolFindStruct();
+                var find = new PoolFindStruct();
                 find.houseID = (byte)HouseType.HOUSE_INVALID;
                 find.index = 0xFFFF;
                 find.type = 0xFFFF;
@@ -1456,7 +1456,7 @@ namespace SharpDune
 
                     if (u.o.type == (byte)UnitType.UNIT_HARVESTER)
                     {
-                        UnitInfo uis = CUnit.g_table_unitInfo[us.o.type];
+                        var uis = CUnit.g_table_unitInfo[us.o.type];
 
                         if (uis.movementType == (ushort)MovementType.MOVEMENT_FOOT && u.targetMove == 0)
                         {
@@ -1478,7 +1478,7 @@ namespace SharpDune
                     attack = Tools.Tools_Index_GetUnit(u.targetAttack);
                     if (attack != null)
                     {
-                        ushort packed = CTile.Tile_PackTile(u.o.position);
+                        var packed = CTile.Tile_PackTile(u.o.position);
                         if (CTile.Tile_GetDistancePacked(Tools.Tools_Index_GetPackedTile(u.targetAttack), packed) <= ui.fireDistance) continue;
                     }
 
@@ -1488,13 +1488,13 @@ namespace SharpDune
 
             if (!s_debugNoExplosionDamage && hitpoints != 0)
             {
-                Structure s = CStructure.Structure_Get_ByPackedTile(positionPacked);
+                var s = CStructure.Structure_Get_ByPackedTile(positionPacked);
 
                 if (s != null)
                 {
                     if (type == (ushort)ExplosionType.EXPLOSION_IMPACT_LARGE)
                     {
-                        StructureInfo si = CStructure.g_table_structureInfo[s.o.type];
+                        var si = CStructure.g_table_structureInfo[s.o.type];
 
                         if (si.o.hitpoints / 2 > s.o.hitpoints)
                         {
@@ -1540,8 +1540,8 @@ namespace SharpDune
             {
                 for (j = -radius; j <= radius; j++)
                 {
-                    ushort curPacked = CTile.Tile_PackXY((ushort)(x + j), (ushort)(y + i));
-                    ushort distance = CTile.Tile_GetDistancePacked(packed, curPacked);
+                    var curPacked = CTile.Tile_PackXY((ushort)(x + j), (ushort)(y + i));
+                    var distance = CTile.Tile_GetDistancePacked(packed, curPacked);
 
                     if (distance > radius) continue;
 
@@ -1637,14 +1637,14 @@ namespace SharpDune
 
         internal static void Map_SelectNext(bool getNext)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             Object selected = null;
             Object previous = null;
             Object next = null;
             Object first = null;
             Object last = null;
-            bool hasPrevious = false;
-            bool hasNext = false;
+            var hasPrevious = false;
+            var hasNext = false;
 
             if (CUnit.g_unitSelected != null)
             {
@@ -1761,14 +1761,14 @@ namespace SharpDune
          */
         internal static ushort Map_FindLocationTile(ushort locationID, byte houseID)
         {
-            MapInfo mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
-            ushort mapOffset = (ushort)mapBase[CScenario.g_scenario.mapScale];
+            var mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
+            var mapOffset = (ushort)mapBase[CScenario.g_scenario.mapScale];
 
             ushort ret = 0;
 
             if (locationID == 6)
             { /* Enemy Base */
-                PoolFindStruct find = new PoolFindStruct();
+                var find = new PoolFindStruct();
 
                 find.houseID = (byte)HouseType.HOUSE_INVALID;
                 find.index = 0xFFFF;
@@ -1823,7 +1823,7 @@ namespace SharpDune
                     case 6: /* Enemy Base */
                     case 7:
                         { /* Home Base */
-                            PoolFindStruct find = new PoolFindStruct();
+                            var find = new PoolFindStruct();
                             Structure s;
 
                             find.houseID = houseID;
@@ -1909,7 +1909,7 @@ namespace SharpDune
             {
                 for (x = xmin; x <= xmax; x++)
                 {
-                    ushort curPacked = CTile.Tile_PackXY(x, y);
+                    var curPacked = CTile.Tile_PackXY(x, y);
                     ushort type;
                     ushort distance;
 
@@ -1958,7 +1958,7 @@ namespace SharpDune
         internal static void Map_Bloom_ExplodeSpecial(ushort packed, byte houseID)
         {
             House h;
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             byte enemyHouseID;
 
             h = CHouse.House_Get_ByIndex(houseID);
@@ -1996,7 +1996,7 @@ namespace SharpDune
 
                 case 1:
                     {
-                        tile32 position = CTile.Tile_UnpackTile(packed);
+                        var position = CTile.Tile_UnpackTile(packed);
 
                         position = CTile.Tile_MoveByRandom(position, 16, true);
 
@@ -2007,7 +2007,7 @@ namespace SharpDune
 
                 case 2:
                     {
-                        tile32 position = CTile.Tile_UnpackTile(packed);
+                        var position = CTile.Tile_UnpackTile(packed);
                         Unit u;
 
                         position = CTile.Tile_MoveByRandom(position, 16, true);
@@ -2021,7 +2021,7 @@ namespace SharpDune
 
                 case 3:
                     {
-                        tile32 position = CTile.Tile_UnpackTile(packed);
+                        var position = CTile.Tile_UnpackTile(packed);
                         Unit u;
 
                         position = CTile.Tile_MoveByRandom(position, 16, true);
@@ -2069,9 +2069,9 @@ namespace SharpDune
             ushort i;
             ushort j;
             ushort k;
-            byte[] memory = new byte[273];
-            ushort[] currentRow = new ushort[64];
-            ushort[] previousRow = new ushort[64];
+            var memory = new byte[273];
+            var currentRow = new ushort[64];
+            var previousRow = new ushort[64];
             ushort spriteID1;
             ushort spriteID2;
             ushort[] iconMap;
@@ -2092,7 +2092,7 @@ namespace SharpDune
 
                 for (j = 0; j < around.Length; j++)
                 {
-                    short index = (short)Min(Max(0, baseline + around[j]), 272);
+                    var index = (short)Min(Max(0, baseline + around[j]), 272);
 
                     memory[index] = (byte)((memory[index] + (Tools.Tools_Random_256() & 0xF)) & 0xF);
                 }
@@ -2105,7 +2105,7 @@ namespace SharpDune
 
                 for (j = 0; j < around.Length; j++)
                 {
-                    short index = (short)Min(Max(0, baseline + around[j]), 272);
+                    var index = (short)Min(Max(0, baseline + around[j]), 272);
 
                     memory[index] = (byte)(Tools.Tools_Random_256() & 0x3);
                 }
@@ -2126,7 +2126,7 @@ namespace SharpDune
                 {
                     for (k = 0; k < 21; k++)
                     {
-                        ushort[] offsets = _offsetTable[(i + 1) % 2][k];
+                        var offsets = _offsetTable[(i + 1) % 2][k];
                         ushort packed1;
                         ushort packed2;
                         ushort packed;
@@ -2162,7 +2162,7 @@ namespace SharpDune
             /* Average each tile with its neighbours. */
             for (j = 0; j < 64; j++)
             {
-                Tile[] t = g_map[(j * 64)..];
+                var t = g_map[(j * 64)..];
                 //Span<Tile> t = g_map.AsSpan(j * 64);
 
                 Buffer.BlockCopy(currentRow, 0, previousRow, 0, 128); //memcpy(previousRow, currentRow, 128);
@@ -2171,7 +2171,7 @@ namespace SharpDune
 
                 for (i = 0; i < 64; i++)
                 {
-                    ushort[] neighbours = new ushort[9];
+                    var neighbours = new ushort[9];
                     ushort total = 0;
 
                     neighbours[0] = (i == 0 || j == 0) ? currentRow[i] : previousRow[i - 1];
@@ -2199,7 +2199,7 @@ namespace SharpDune
 
             for (i = 0; i < 4096; i++)
             {
-                ushort spriteID = g_map[i].groundTileID;
+                var spriteID = g_map[i].groundTileID;
 
                 if (spriteID > spriteID1 + 4)
                 {
@@ -2257,7 +2257,7 @@ namespace SharpDune
             /* Make everything smoother and use the right sprite indexes. */
             for (j = 0; j < 64; j++)
             {
-                Tile[] t = g_map[(j * 64)..];
+                var t = g_map[(j * 64)..];
                 //Span<Tile> t = g_map.AsSpan(j * 64);
 
                 Buffer.BlockCopy(currentRow, 0, previousRow, 0, 128); //memcpy(previousRow, currentRow, 128);
@@ -2266,11 +2266,11 @@ namespace SharpDune
 
                 for (i = 0; i < 64; i++)
                 {
-                    ushort current = t[i].groundTileID;
-                    ushort up = (j == 0) ? current : previousRow[i];
-                    ushort right = (i == 63) ? current : currentRow[i + 1];
-                    ushort down = (j == 63) ? current : t[i + 64].groundTileID;
-                    ushort left = (i == 0) ? current : currentRow[i - 1];
+                    var current = t[i].groundTileID;
+                    var up = (j == 0) ? current : previousRow[i];
+                    var right = (i == 63) ? current : currentRow[i + 1];
+                    var down = (j == 63) ? current : t[i + 64].groundTileID;
+                    var left = (i == 0) ? current : currentRow[i - 1];
                     ushort spriteID = 0;
 
                     if (up == current) spriteID |= 1;
@@ -2318,7 +2318,7 @@ namespace SharpDune
 
             for (i = 0; i < 4096; i++)
             {
-                Tile t = g_map[i];
+                var t = g_map[i];
 
                 t.groundTileID = iconMap[t.groundTileID];
                 t.overlayTileID = Sprites.g_veiledTileID;
@@ -2362,7 +2362,7 @@ namespace SharpDune
                             for (i = -1; i <= 1; i++)
                             {
                                 Tile t2;
-                                ushort packed2 = CTile.Tile_PackXY((ushort)(CTile.Tile_GetPackedX(packed) + i), (ushort)(CTile.Tile_GetPackedY(packed) + j));
+                                var packed2 = CTile.Tile_PackXY((ushort)(CTile.Tile_GetPackedX(packed) + i), (ushort)(CTile.Tile_GetPackedY(packed) + j));
 
                                 if (CTile.Tile_IsOutOfMap(packed2)) continue;
 

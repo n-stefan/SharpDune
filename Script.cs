@@ -406,7 +406,7 @@ namespace SharpDune
             byte houseID;
             ushort index;
             Structure s;
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
 
             index = STACK_PEEK(script, 1);
 
@@ -546,7 +546,7 @@ namespace SharpDune
         static ushort Script_General_UnitCount(ScriptEngine script)
         {
             ushort count = 0;
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
 
             find.houseID = g_scriptCurrentObject.houseID;
             find.type = STACK_PEEK(script, 1);
@@ -554,7 +554,7 @@ namespace SharpDune
 
             while (true)
             {
-                Unit u = CUnit.Unit_Find(find);
+                var u = CUnit.Unit_Find(find);
                 if (u == null) break;
                 count++;
             }
@@ -827,7 +827,7 @@ namespace SharpDune
          */
         static void Script_Error(string error, params object[] va)
         {
-            string type = l_types[3];
+            var type = l_types[3];
             string buffer; //char[256]
 
             if (g_scriptCurrentUnit != null) type = l_types[0];
@@ -853,7 +853,7 @@ namespace SharpDune
             uint length;
             byte index;
             short i;
-            int dataPointer = 0;
+            var dataPointer = 0;
 
             if (scriptInfo == null) return 0;
             if (filename == null) return 0;
@@ -1191,8 +1191,8 @@ namespace SharpDune
 
                 case ScriptCommand.SCRIPT_BINARY:
                     {
-                        short right = (short)STACK_POP(script);
-                        short left = (short)STACK_POP(script);
+                        var right = (short)STACK_POP(script);
+                        var left = (short)STACK_POP(script);
 
                         switch (parameter)
                         {

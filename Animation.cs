@@ -497,11 +497,11 @@ namespace SharpDune
 		 */
 		static void Animation_Func_Stop(Animation animation, short parameter)
 		{
-			ushort[] layout = CStructure.g_table_structure_layoutTiles[animation.tileLayout];
-			ushort layoutTileCount = CStructure.g_table_structure_layoutTileCount[animation.tileLayout];
-			ushort packed = CTile.Tile_PackTile(animation.tile);
+			var layout = CStructure.g_table_structure_layoutTiles[animation.tileLayout];
+			var layoutTileCount = CStructure.g_table_structure_layoutTileCount[animation.tileLayout];
+			var packed = CTile.Tile_PackTile(animation.tile);
 			int i;
-			int layoutPointer = 0;
+			var layoutPointer = 0;
 			//VARIABLE_NOT_USED(parameter);
 
 			Map.g_map[packed].hasAnimation = false;
@@ -509,8 +509,8 @@ namespace SharpDune
 
 			for (i = 0; i < layoutTileCount; i++)
 			{
-				ushort position = (ushort)(packed + layout[layoutPointer++]);
-				Tile t = Map.g_map[position];
+				var position = (ushort)(packed + layout[layoutPointer++]);
+				var t = Map.g_map[position];
 
 				if (animation.tileLayout != 0)
 				{
@@ -533,7 +533,7 @@ namespace SharpDune
 		 */
 		static void Animation_Func_Abort(Animation animation, short parameter)
 		{
-			ushort packed = CTile.Tile_PackTile(animation.tile);
+			var packed = CTile.Tile_PackTile(animation.tile);
 			//VARIABLE_NOT_USED(parameter);
 
 			Map.g_map[packed].hasAnimation = false;
@@ -549,8 +549,8 @@ namespace SharpDune
 		 */
 		static void Animation_Func_SetOverlayTile(Animation animation, short parameter)
 		{
-			ushort packed = CTile.Tile_PackTile(animation.tile);
-			Tile t = Map.g_map[packed];
+			var packed = CTile.Tile_PackTile(animation.tile);
+			var t = Map.g_map[packed];
 			Debug.Assert(parameter >= 0);
 
 			if (!Map.Map_IsPositionUnveiled(packed)) return;
@@ -601,21 +601,21 @@ namespace SharpDune
 		 */
 		static void Animation_Func_SetGroundTile(Animation animation, short parameter)
 		{
-			ushort[] specialMap = new ushort[1];
+			var specialMap = new ushort[1];
 			ushort[] iconMap;
-			ushort[] layout = CStructure.g_table_structure_layoutTiles[animation.tileLayout];
-			ushort layoutTileCount = CStructure.g_table_structure_layoutTileCount[animation.tileLayout];
-			ushort packed = CTile.Tile_PackTile(animation.tile);
+			var layout = CStructure.g_table_structure_layoutTiles[animation.tileLayout];
+			var layoutTileCount = CStructure.g_table_structure_layoutTileCount[animation.tileLayout];
+			var packed = CTile.Tile_PackTile(animation.tile);
 			int i;
-			int layoutPointer = 0;
-			int iconMapPointer = 0;
+			var layoutPointer = 0;
+			var iconMapPointer = 0;
 
 			iconMap = Sprites.g_iconMap[(Sprites.g_iconMap[animation.iconGroup] + layoutTileCount * parameter)..];
 
 			/* Some special case for turrets */
 			if ((parameter > 1) && (animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET || animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET))
 			{
-				Structure s = CStructure.Structure_Get_ByPackedTile(packed);
+				var s = CStructure.Structure_Get_ByPackedTile(packed);
 				Debug.Assert(s != null);
 				Debug.Assert(layoutTileCount == 1);
 
@@ -625,9 +625,9 @@ namespace SharpDune
 
 			for (i = 0; i < layoutTileCount; i++)
 			{
-				ushort position = (ushort)(packed + layout[layoutPointer++]);
-				ushort tileID = iconMap[iconMapPointer++];
-				Tile t = Map.g_map[position];
+				var position = (ushort)(packed + layout[layoutPointer++]);
+				var tileID = iconMap[iconMapPointer++];
+				var t = Map.g_map[position];
 
 				if (t.groundTileID == tileID) continue;
 				t.groundTileID = tileID;
@@ -671,8 +671,8 @@ namespace SharpDune
 		 */
 		internal static void Animation_Stop_ByTile(ushort packed)
 		{
-			Animation[] animation = g_animations;
-			Tile t = Map.g_map[packed];
+			var animation = g_animations;
+			var t = Map.g_map[packed];
 			int i;
 
 			if (!t.hasAnimation) return;
@@ -697,8 +697,8 @@ namespace SharpDune
 		 */
 		internal static void Animation_Start(AnimationCommandStruct[] commands, tile32 tile, ushort tileLayout, byte houseID, byte iconGroup)
 		{
-			Animation[] animation = g_animations;
-			ushort packed = CTile.Tile_PackTile(tile);
+			var animation = g_animations;
+			var packed = CTile.Tile_PackTile(tile);
 			Tile t;
 			int i;
 
@@ -730,7 +730,7 @@ namespace SharpDune
 		 */
 		internal static void Animation_Tick()
 		{
-			Animation[] animation = g_animations;
+			var animation = g_animations;
 			int i;
 
 			if (s_animationTimer > Timer.g_timerGUI) return;
@@ -742,8 +742,8 @@ namespace SharpDune
 
 				if (animation[i].tickNext <= Timer.g_timerGUI)
 				{
-					AnimationCommandStruct commands = animation[i].commands[animation[i].current];
-					short parameter = (short)commands.parameter;
+					var commands = animation[i].commands[animation[i].current];
+					var parameter = (short)commands.parameter;
 					Debug.Assert((parameter & 0x0800) == 0 || (parameter & 0xF000) != 0); /* Validate if the compiler sign-extends correctly */
 
 					animation[i].current++;

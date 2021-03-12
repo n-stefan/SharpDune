@@ -600,7 +600,7 @@ namespace SharpDune
 			uint textDelay;
 			ushort lines;
 			ushort step;
-			int partsPointer = 0;
+			var partsPointer = 0;
 
 			dirty = false;
 			textTick = 0;
@@ -841,7 +841,7 @@ namespace SharpDune
 			//ushort lines = 0;
 			ushort height = 0;
 			char[] str;
-			int i = 0;
+			var i = 0;
 
 			if (text == null) return null; //(null, 0);
 
@@ -929,7 +929,7 @@ namespace SharpDune
 		{
 			Screen oldScreenID;
 			string[] split;
-			int index = 0;
+			var index = 0;
 
 			if (lines <= 0) return false;
 
@@ -1146,11 +1146,11 @@ namespace SharpDune
 		{
 			Screen oldScreenID;
 			Widget line;
-			Widget w = CWidget.g_widgetMentatTail;
-			byte[] helpSubjects = s_helpSubjects;
+			var w = CWidget.g_widgetMentatTail;
+			var helpSubjects = s_helpSubjects;
 			ushort i;
 			string text;
-			int helpSubjectsPointer = s_helpSubjectsPointer;
+			var helpSubjectsPointer = s_helpSubjectsPointer;
 
 			if (!force && s_topHelpList == displayedHelpSubject) return;
 
@@ -1184,7 +1184,7 @@ namespace SharpDune
 				}
 				else
 				{
-					byte colour = (byte)((i == s_selectedHelpSubject) ? 8 : 15);
+					var colour = (byte)((i == s_selectedHelpSubject) ? 8 : 15);
 					line.offsetX = 24;
 					line.fgColourSelected = colour;
 					line.fgColourDown = colour;
@@ -1216,7 +1216,7 @@ namespace SharpDune
 
 			for (key = 0; key != 0x8001; Sleep.sleepIdle())
 			{
-				Widget w = CWidget.g_widgetMentatTail;
+				var w = CWidget.g_widgetMentatTail;
 
 				GUI_Mentat_Animation(0);
 
@@ -1303,7 +1303,7 @@ namespace SharpDune
 			uint counter;
 			byte[] helpSubjects;
 			ushort i;
-			int helpSubjectsPointer = 0;
+			var helpSubjectsPointer = 0;
 
 			if (init)
 			{
@@ -1330,7 +1330,7 @@ namespace SharpDune
 			counter = 0;
 			while (counter < length)
 			{
-				byte size = helpSubjects[helpSubjectsPointer];
+				var size = helpSubjects[helpSubjectsPointer];
 
 				counter += size;
 
@@ -1416,7 +1416,7 @@ namespace SharpDune
 			bool loopAnimation;
 			MentatInfo info;
 			int subjectPointer;
-			int textPointer = 0;
+			var textPointer = 0;
 
 			info = new MentatInfo();
 			subject = s_helpSubjects;

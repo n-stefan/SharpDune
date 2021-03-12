@@ -18,7 +18,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_Widget_Viewport_RedrawMap(Screen screenID)
 		{
-			Screen oldScreenID = Screen.SCREEN_1;
+			var oldScreenID = Screen.SCREEN_1;
 			ushort i;
 
 			if (screenID == Screen.SCREEN_0) oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
@@ -60,7 +60,7 @@ namespace SharpDune
 
 			if ((Map.g_map[packed].isUnveiled && CHouse.g_playerHouse.flags.radarActivated) || CSharpDune.g_debugScenario)
 			{
-				ushort type = Map.Map_GetLandscapeType(packed);
+				var type = Map.Map_GetLandscapeType(packed);
 				Unit u;
 
 				if (mapScale > 1)
@@ -202,7 +202,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_Widget_Viewport_Draw(bool forceRedraw, bool hasScrolled, bool drawToMainScreen)
 		{
-			byte[] paletteHouse = new byte[16]; /*!< Used for palette manipulation to get housed coloured units etc. */
+			var paletteHouse = new byte[16]; /*!< Used for palette manipulation to get housed coloured units etc. */
 			paletteHouse[0] = 0;
 			ushort x;
 			ushort y;
@@ -211,10 +211,10 @@ namespace SharpDune
 			bool updateDisplay;
 			Screen oldScreenID;
 			ushort oldWidgetID;
-			short[] minX = new short[10];
-			short[] maxX = new short[10];
+			var minX = new short[10];
+			var maxX = new short[10];
 
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 
 			updateDisplay = forceRedraw;
 
@@ -229,7 +229,7 @@ namespace SharpDune
 			{
 				for (y = 0; y < 10; y++)
 				{
-					ushort top = (ushort)((y << 4) + 0x28); /* 40 */
+					var top = (ushort)((y << 4) + 0x28); /* 40 */
 					for (x = 0; x < (drawToMainScreen ? 15 : 16); x++)
 					{
 						Tile t;
@@ -318,10 +318,10 @@ namespace SharpDune
 
 			if (CUnit.g_unitSelected == null && (Map.g_selectionRectangleNeedRepaint || hasScrolled) && (CStructure.Structure_Get_ByPackedTile(Gui.g_selectionRectanglePosition) != null || CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE || CSharpDune.g_debugScenario))
 			{
-				ushort x1 = (ushort)((CTile.Tile_GetPackedX(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedX(Gui.g_minimapPosition)) << 4);
-				ushort y1 = (ushort)(((CTile.Tile_GetPackedY(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedY(Gui.g_minimapPosition)) << 4) + 0x28);
-				ushort x2 = (ushort)(x1 + (Gui.g_selectionWidth << 4) - 1);
-				ushort y2 = (ushort)(y1 + (Gui.g_selectionHeight << 4) - 1);
+				var x1 = (ushort)((CTile.Tile_GetPackedX(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedX(Gui.g_minimapPosition)) << 4);
+				var y1 = (ushort)(((CTile.Tile_GetPackedY(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedY(Gui.g_minimapPosition)) << 4) + 0x28);
+				var x2 = (ushort)(x1 + (Gui.g_selectionWidth << 4) - 1);
+				var y2 = (ushort)(y1 + (Gui.g_selectionHeight << 4) - 1);
 
 				Gui.GUI_SetClippingArea(0, 40, 239, Gfx.SCREEN_HEIGHT - 1);
 				Gui.GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
@@ -430,7 +430,7 @@ namespace SharpDune
 
 					if (u.o.type == (byte)UnitType.UNIT_HARVESTER && u.actionID == (byte)ActionType.ACTION_HARVEST && u.spriteOffset >= 0 && (u.actionID == (byte)ActionType.ACTION_HARVEST || u.actionID == (byte)ActionType.ACTION_MOVE))
 					{
-						ushort type = Map.Map_GetLandscapeType(packed);
+						var type = Map.Map_GetLandscapeType(packed);
 						if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE)
 						{
 							/*GUI_Widget_Viewport_GetSprite_HousePalette(..., Unit_GetHouseID(u), paletteHouse),*/
@@ -445,7 +445,7 @@ namespace SharpDune
 					{
 						short offsetX = 0;
 						short offsetY = 0;
-						ushort spriteID = ui.turretSpriteID;
+						var spriteID = ui.turretSpriteID;
 
 						orientation = CTile.Orientation_Orientation256ToOrientation8((byte)u.orientation[ui.o.flags.hasTurret ? 1 : 0].current);
 
@@ -495,7 +495,7 @@ namespace SharpDune
 
 					if (u.o.flags.isSmoking)
 					{
-						ushort spriteID = (ushort)(180 + (u.spriteOffset & 3));
+						var spriteID = (ushort)(180 + (u.spriteOffset & 3));
 						if (spriteID == 183) spriteID = 181;
 
 						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID], (short)x, (short)(y - 14), 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
@@ -512,7 +512,7 @@ namespace SharpDune
 			/* draw explosions */
 			for (i = 0; i < CExplosion.EXPLOSION_MAX; i++)
 			{
-				Explosion e = CExplosion.Explosion_Get_ByIndex(i);
+				var e = CExplosion.Explosion_Get_ByIndex(i);
 
 				curPos = CTile.Tile_PackTile(e.position);
 
@@ -636,11 +636,11 @@ namespace SharpDune
 
 			if (Map.g_changedTilesCount != 0)
 			{
-				bool init = false;
-				bool update = false;
+				var init = false;
+				var update = false;
 				ushort minY = 0xffff;
 				ushort maxY = 0;
-				Screen oldScreenID2 = Screen.SCREEN_1;
+				var oldScreenID2 = Screen.SCREEN_1;
 
 				for (i = 0; i < Map.g_changedTilesCount; i++)
 				{
@@ -717,7 +717,7 @@ namespace SharpDune
 					/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 					if (CSharpDune.g_dune2_enhanced)
 					{
-						Screen oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+						var oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
 						Gui.GUI_DrawFilledRectangle((short)(CWidget.g_curWidgetXBase << 3), (short)CWidget.g_curWidgetYBase, (short)((CWidget.g_curWidgetXBase + CWidget.g_curWidgetWidth) << 3), (short)(CWidget.g_curWidgetYBase + CWidget.g_curWidgetHeight), 0);
 						Gfx.GFX_Screen_SetActive(oldScreenID2);
 					}
@@ -729,7 +729,7 @@ namespace SharpDune
 				}
 				else
 				{
-					bool init = false;
+					var init = false;
 
 					for (i = 0; i < 10; i++)
 					{
@@ -792,7 +792,7 @@ namespace SharpDune
 			{
 				for (i = 0; i < 16; i++)
 				{
-					byte v = sprite[10 + i];
+					var v = sprite[10 + i];
 
 					if (v >= 0x90 && v <= 0x98)
 					{

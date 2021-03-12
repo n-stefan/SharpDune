@@ -380,7 +380,7 @@ namespace SharpDune
 
             for (; find.index < g_houseFindCount; find.index++)
             {
-                House h = g_houseFindArray[find.index];
+                var h = g_houseFindArray[find.index];
                 if (h != null) return h;
             }
 
@@ -394,10 +394,10 @@ namespace SharpDune
          */
         internal static void House_UpdateCreditsStorage(byte houseID)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             uint creditsStorage;
 
-            ushort oldValidateStrictIfZero = CSharpDune.g_validateStrictIfZero;
+            var oldValidateStrictIfZero = CSharpDune.g_validateStrictIfZero;
             CSharpDune.g_validateStrictIfZero = 0;
 
             find.houseID = houseID;
@@ -431,7 +431,7 @@ namespace SharpDune
          */
         internal static void House_CalculatePowerAndCredit(House h)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
 
             if (h == null) return;
 
@@ -578,14 +578,14 @@ namespace SharpDune
          */
         internal static void GameLoop_House()
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             House h; // = NULL;
-            bool tickHouse = false;
-            bool tickPowerMaintenance = false;
-            bool tickStarport = false;
-            bool tickReinforcement = false;
-            bool tickMissileCountdown = false;
-            bool tickStarportAvailability = false;
+            var tickHouse = false;
+            var tickPowerMaintenance = false;
+            var tickStarport = false;
+            var tickReinforcement = false;
+            var tickMissileCountdown = false;
+            var tickStarportAvailability = false;
 
             if (CSharpDune.g_debugScenario) return;
 
@@ -708,7 +708,7 @@ namespace SharpDune
 
                     if (deployed && CScenario.g_scenario.reinforcement[i].repeat != 0)
                     {
-                        tile32 tile = new tile32();
+                        var tile = new tile32();
                         tile.x = 0xFFFF;
                         tile.y = 0xFFFF;
 
@@ -747,7 +747,7 @@ namespace SharpDune
                     }
                     else
                     {
-                        ushort maxCredits = Max(h.creditsStorage, g_playerCreditsNoSilo);
+                        var maxCredits = Max(h.creditsStorage, g_playerCreditsNoSilo);
                         if (h.credits > maxCredits)
                         {
                             h.credits = maxCredits;
@@ -798,7 +798,7 @@ namespace SharpDune
                         }
                         else
                         {
-                            PoolFindStruct find2 = new PoolFindStruct();
+                            var find2 = new PoolFindStruct();
 
                             find2.houseID = h.index;
                             find2.index = 0xFFFF;
@@ -841,7 +841,7 @@ namespace SharpDune
 
                 if (tickPowerMaintenance)
                 {
-                    ushort powerMaintenanceCost = (ushort)((h.powerUsage / 32) + 1);
+                    var powerMaintenanceCost = (ushort)((h.powerUsage / 32) + 1);
                     h.credits -= Min(h.credits, powerMaintenanceCost);
                 }
             }
@@ -861,7 +861,7 @@ namespace SharpDune
          */
         static void House_EnsureHarvesterAvailable(byte houseID)
         {
-            PoolFindStruct find = new PoolFindStruct();
+            var find = new PoolFindStruct();
             Structure s;
 
             find.houseID = houseID;

@@ -23,7 +23,7 @@ namespace SharpDune
 			Unit u;
 			Structure s;
 			House h;
-			Widget[] buttons = new Widget[4];
+			var buttons = new Widget[4];
 			Widget widget24 = null, widget28 = null, widget2C = null, widget30 = null, widget34 = null;
 
 			o = null;
@@ -111,7 +111,7 @@ namespace SharpDune
 
 			if (actionType != 0)
 			{
-				Widget w = CWidget.g_widgetLinkedListHead;
+				var w = CWidget.g_widgetLinkedListHead;
 				int i;
 
 				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
@@ -144,7 +144,7 @@ namespace SharpDune
 
 			if (actionType > 1)
 			{
-				ushort stringID = (ushort)Text.STR_NULL;
+				var stringID = (ushort)Text.STR_NULL;
 				ushort spriteID = 0xFFFF;
 
 				switch (actionType)
@@ -339,8 +339,8 @@ namespace SharpDune
 
 									case (byte)StructureType.STRUCTURE_WINDTRAP:
 										{
-											ushort powerOutput = (ushort)(o.hitpoints * -si.powerUsage / oi.hitpoints);
-											ushort powerAverage = (ushort)((h.windtrapCount == 0) ? 0 : h.powerUsage / h.windtrapCount);
+											var powerOutput = (ushort)(o.hitpoints * -si.powerUsage / oi.hitpoints);
+											var powerAverage = (ushort)((h.windtrapCount == 0) ? 0 : h.powerUsage / h.windtrapCount);
 
 											Gui.GUI_DrawLine(261, 95, 312, 95, 16);
 											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_POWER_INFONEEDEDOUTPUT), 258, 88, 29, 0, 0x11);
@@ -407,7 +407,7 @@ namespace SharpDune
 
 						case 8: /* House Missile */
 							{
-								short count = (short)(CHouse.g_houseMissileCountdown - 1);
+								var count = (short)(CHouse.g_houseMissileCountdown - 1);
 								if (count <= 0) count = 0;
 
 								Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_PICK_TARGETTMINUS_D), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11, count);
@@ -445,12 +445,12 @@ namespace SharpDune
 		 */
 		internal static void GUI_Widget_DrawBorder(ushort widgetIndex, ushort borderType, bool pressed)
 		{
-			ushort left = (ushort)(CWidget.g_widgetProperties[widgetIndex].xBase << 3);
-			ushort top = CWidget.g_widgetProperties[widgetIndex].yBase;
-			ushort width = (ushort)(CWidget.g_widgetProperties[widgetIndex].width << 3);
-			ushort height = CWidget.g_widgetProperties[widgetIndex].height;
+			var left = (ushort)(CWidget.g_widgetProperties[widgetIndex].xBase << 3);
+			var top = CWidget.g_widgetProperties[widgetIndex].yBase;
+			var width = (ushort)(CWidget.g_widgetProperties[widgetIndex].width << 3);
+			var height = CWidget.g_widgetProperties[widgetIndex].height;
 
-			ushort colourSchemaIndex = (ushort)(pressed ? 2 : 0);
+			var colourSchemaIndex = (ushort)(pressed ? 2 : 0);
 			ushort size;
 
 			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
@@ -509,7 +509,7 @@ namespace SharpDune
 			{
 				if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_TARGET)
 				{
-					ushort activeAction = CSharpDune.g_activeAction;
+					var activeAction = CSharpDune.g_activeAction;
 
 					if (activeAction != displayedActiveAction || forceDraw)
 					{

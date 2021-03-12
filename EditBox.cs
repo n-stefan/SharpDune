@@ -56,7 +56,7 @@ namespace SharpDune
 			ushort textWidth;
 			ushort textLength;
 			ushort returnValue;
-			StringBuilder t = new StringBuilder();
+			var t = new StringBuilder();
 
 			/* Initialize */
 			{
@@ -78,7 +78,7 @@ namespace SharpDune
 			t.Append(text);
 
 			/* Calculate the length and width of the current string */
-			for (int i = 0; i < t.Length; i++)
+			for (var i = 0; i < t.Length; i++)
 			{
 				textWidth += CFont.Font_GetCharWidth(t[i]);
 				textLength++;

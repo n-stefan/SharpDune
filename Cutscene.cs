@@ -61,9 +61,9 @@ namespace SharpDune
 
 			if (Input.Input_Keyboard_NextKey() == 0 || !g_canSkipIntro)
 			{
-				HouseAnimation_Animation[] animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
-				HouseAnimation_Subtitle[] subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
-				HouseAnimation_SoundEffect[] soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
+				var animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
+				var subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
+				var soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
 
 				Sound.Music_Play(0x1B);
 
@@ -221,7 +221,7 @@ namespace SharpDune
 		static void GameLoop_PrepareAnimation(HouseAnimation_Subtitle[] subtitle, ushort feedback_base_index, HouseAnimation_SoundEffect[] soundEffect)
 		{
 			byte i;
-			byte[] colors = new byte[16];
+			var colors = new byte[16];
 
 			s_houseAnimation_subtitle = subtitle;
 			s_houseAnimation_soundEffect = soundEffect;
@@ -267,18 +267,18 @@ namespace SharpDune
 		static void GameLoop_PlayAnimation(HouseAnimation_Animation[] animation)
 		{
 			byte animationStep = 0;
-			int pointer = 0;
+			var pointer = 0;
 
 			while (animation[pointer].duration != 0)
 			{
 				ushort frameCount;
 				ushort posX;
 				ushort posY;
-				uint timeout = (uint)(Timer.g_timerGUI + animation[pointer].duration * 6);
-				uint timeout2 = timeout + 30;   /* timeout + 0.5 s */
+				var timeout = (uint)(Timer.g_timerGUI + animation[pointer].duration * 6);
+				var timeout2 = timeout + 30;   /* timeout + 0.5 s */
 				uint timeLeftForFrame;
 				uint timeLeft;
-				ushort mode = (ushort)(animation[pointer].flags & 0x3);
+				var mode = (ushort)(animation[pointer].flags & 0x3);
 				ushort addFrameCount;   /* additional frame count */
 				ushort frame;
 				/*WSAObject*/
@@ -546,7 +546,7 @@ namespace SharpDune
 		{
 			HouseAnimation_Subtitle subtitle;
 			byte i;
-			byte[] colors = new byte[16];
+			var colors = new byte[16];
 
 			s_subtitleIndex++;
 
@@ -596,7 +596,7 @@ namespace SharpDune
 			{
 				/* specific code for Intro
 				 * @see GameLoop_GameIntroAnimation() */
-				ushort feedback_index = (ushort)(s_feedback_base_index + s_houseAnimation_currentSubtitle);
+				var feedback_index = (ushort)(s_feedback_base_index + s_houseAnimation_currentSubtitle);
 
 				Sound.Sound_Output_Feedback(feedback_index);
 
@@ -661,7 +661,7 @@ namespace SharpDune
 
 		static void GameLoop_PlaySoundEffect(byte animation)
 		{
-			HouseAnimation_SoundEffect soundEffect = s_houseAnimation_soundEffect[s_houseAnimation_currentSoundEffect];
+			var soundEffect = s_houseAnimation_soundEffect[s_houseAnimation_currentSoundEffect];
 
 			if (soundEffect.animationID > animation || soundEffect.wait > s_subtitleIndex) return;
 
@@ -760,7 +760,7 @@ namespace SharpDune
 		static void GameLoop_GameCredits()
 		{
 			ushort i;
-			byte[] remap = new byte[256];
+			var remap = new byte[256];
 			char[] credits_buffer;
 
 			Gui.GUI_Mouse_Hide_Safe();
@@ -854,7 +854,7 @@ namespace SharpDune
 			for (i = 0; i < 10; i++)
 			{
 				ushort j;
-				byte[] pr = Gfx.g_palette1;
+				var pr = Gfx.g_palette1;
 
 				for (j = 0; j < 255 * 3; j++) p[j] = (byte)(pr[j] * (9 - i) / 9); //*p++ = *pr++ * (9 - i) / 9;
 
@@ -870,12 +870,12 @@ namespace SharpDune
 			ushort stringCount = 0;
 			uint timetoWait;
 			ushort spriteID = 514;
-			bool textEnd = false;
+			var textEnd = false;
 			ushort spriteX;
 			ushort spriteY;
 			ushort spritePos = 0;
-			CreditString[] strings = new CreditString[33];
-			CreditPosition[] positions = new CreditPosition[6];
+			var strings = new CreditString[33];
+			var positions = new CreditPosition[6];
 			ushort stage = 4;
 			ushort counter = 60;
 
@@ -936,7 +936,7 @@ namespace SharpDune
 
 					text = data.ToString();
 
-					int index = text.IndexOfAny(new[] { '\x05', '\r' });
+					var index = text.IndexOfAny(new[] { '\x05', '\r' });
 					data = (index != -1) ? new[] { text[index] } : null; //strpbrk(data, "\x05\r");
 					if (data == null) data = Environment.NewLine.ToCharArray(); //strchr(text, '\0');
 
@@ -1089,13 +1089,13 @@ namespace SharpDune
 
 		static void GameCredits_SwapScreen(ushort top, ushort height, Screen srcScreenID, Screen dstScreenID)
 		{
-			int bPointer = 0;
-			int screen1Pointer = 0;
-			int screen2Pointer = 0;
+			var bPointer = 0;
+			var screen1Pointer = 0;
+			var screen2Pointer = 0;
 
-			ushort[] b = (ushort[])Gfx.GFX_Screen_Get_ByIndex(dstScreenID);   /* destination */
-			ushort[] screen1 = ((ushort[])Gfx.GFX_Screen_Get_ByIndex(srcScreenID))[(top * Gfx.SCREEN_WIDTH / 2)..];  /* source */
-			ushort[] screen2 = ((ushort[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0))[(top * Gfx.SCREEN_WIDTH / 2)..];   /* secondary destination : Video RAM*/
+			var b = (ushort[])Gfx.GFX_Screen_Get_ByIndex(dstScreenID);   /* destination */
+			var screen1 = ((ushort[])Gfx.GFX_Screen_Get_ByIndex(srcScreenID))[(top * Gfx.SCREEN_WIDTH / 2)..];  /* source */
+			var screen2 = ((ushort[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0))[(top * Gfx.SCREEN_WIDTH / 2)..];   /* secondary destination : Video RAM*/
 			ushort count;
 
 			for (count = (ushort)(height * Gfx.SCREEN_WIDTH / 2); count > 0; count--)

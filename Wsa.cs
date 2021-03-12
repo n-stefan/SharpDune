@@ -72,7 +72,7 @@ namespace SharpDune
          */
 		internal static ushort WSA_GetFrameCount(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa)
 		{
-			WSAHeader header = wsa.header;
+			var header = wsa.header;
 
 			if (header == null) return 0;
 			return header.frames;
@@ -84,7 +84,7 @@ namespace SharpDune
 		 */
 		internal static void WSA_Unload(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa)
 		{
-			WSAHeader header = wsa.header;
+			var header = wsa.header;
 
 			if (wsa == (null, null)) return;
 			if (!header.flags.malloced) return;
@@ -103,7 +103,7 @@ namespace SharpDune
          */
 		internal static bool WSA_DisplayFrame(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa, ushort frameNext, ushort posX, ushort posY, Screen screenID)
 		{
-			WSAHeader header = wsa.header;
+			var header = wsa.header;
 			CArray<byte> dst;
 
 			ushort i;
@@ -216,10 +216,10 @@ namespace SharpDune
 		 */
 		static ushort WSA_GotoNextFrame(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa, ushort frame, CArray<byte> dst)
 		{
-			WSAHeader header = wsa.header;
+			var header = wsa.header;
 			ushort lengthPalette;
 			byte[] buffer;
-			int bufferPointer = 0;
+			var bufferPointer = 0;
 
 			lengthPalette = (ushort)(header.flags.hasPalette ? 0x300 : 0);
 
@@ -294,9 +294,9 @@ namespace SharpDune
 		 */
 		internal static /*WSAObject*/(WSAHeader, CArray<byte>) WSA_LoadFile(string filename, /*WSAObject*/byte[] wsa, uint wsaSize, bool reserveDisplayFrame)
 		{
-			WSAFlags flags = new WSAFlags();
-			WSAFileHeader fileheader = new WSAFileHeader();
-			WSAHeader header = new WSAHeader();
+			var flags = new WSAFlags();
+			var fileheader = new WSAFileHeader();
+			var header = new WSAHeader();
 			//WSAObject result = new WSAObject();
 			uint bufferSizeMinimal;
 			uint bufferSizeOptimal;
@@ -434,7 +434,7 @@ namespace SharpDune
 				if (WSA_GetFrameOffset_FromDisk(fileno, (ushort)(header.frames + 1)) == 0) header.flags.noAnimation = true;
 			}
 
-			byte[] b = wsa[(wsaPointer + header.bufferLength - lengthFirstFrame)..];
+			var b = wsa[(wsaPointer + header.bufferLength - lengthFirstFrame)..];
 
 			CFile.File_Seek(fileno, lengthHeader + lengthPalette + 10, 0);
 			CFile.File_Read(fileno, ref b, lengthFirstFrame);
@@ -467,7 +467,7 @@ namespace SharpDune
 			short skipAfter;
 			byte[] dst;
 			//int srcPointer = 0;
-			int dstPointer = 0;
+			var dstPointer = 0;
 
 			dst = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
 

@@ -122,7 +122,7 @@ namespace SharpDune
 
 			for (i = 0; i < f.count; i++)
 			{
-				FontChar fc = f.chars[i];
+				var fc = f.chars[i];
 				ushort dataOffset;
 				byte x;
 				byte y;
@@ -140,7 +140,7 @@ namespace SharpDune
 				{
 					for (x = 0; x < fc.width; x++)
 					{
-						byte data = buf[dataOffset + y * ((fc.width + 1) / 2) + x / 2];
+						var data = buf[dataOffset + y * ((fc.width + 1) / 2) + x / 2];
 						if (x % 2 != 0) data >>= 4;
 						fc.data[y * fc.width + x] = (byte)(data & 0xF);
 					}

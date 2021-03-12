@@ -511,7 +511,7 @@ namespace SharpDune
 
 				if (e.timeOut <= Timer.g_timerGUI)
 				{
-					ushort parameter = e.commands[e.current].parameter;
+					var parameter = e.commands[e.current].parameter;
 					ushort command = e.commands[e.current].command;
 
 					e.current++;

@@ -121,8 +121,8 @@ namespace SharpDune
 		 */
 		internal static void Video_SetPalette(/*void*/byte[] palette, int from, int length)
 		{
-			byte[] p = palette;
-			int pPointer = 0;
+			var p = palette;
+			var pPointer = 0;
 			int i;
 
 			s_video_lock = true;
@@ -242,7 +242,7 @@ namespace SharpDune
 		internal static void Video_Tick()
 		{
 			SDL.SDL_Event evt;
-			bool draw = true;
+			var draw = true;
 
 			if (!s_video_initialized) return;
 			if (s_video_lock) return;
@@ -287,7 +287,7 @@ namespace SharpDune
 							if (evt.type == SDL.SDL_EventType.SDL_KEYDOWN)
 								keyup = 0;
 
-							SDL.SDL_Keycode sym = evt.key.keysym.sym;
+							var sym = evt.key.keysym.sym;
 							byte code = 0;
 							if ((sym == SDL.SDL_Keycode.SDLK_RETURN && ((evt.key.keysym.mod & SDL.SDL_Keymod.KMOD_ALT) == SDL.SDL_Keymod.KMOD_ALT)) || sym == SDL.SDL_Keycode.SDLK_F11)
 							{
@@ -337,7 +337,7 @@ namespace SharpDune
 							/* Clear area outside the 4:3 logical screen, if any */
 							SDL.SDL_RenderClear(s_renderer);
 
-							SDL.SDL_Rect rect = new SDL.SDL_Rect();
+							var rect = new SDL.SDL_Rect();
 							if (SDL.SDL_RenderCopy(s_renderer, s_texture, ref rect, ref rect) != 0)
 							{
 								Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL.SDL_GetError()}");
@@ -619,16 +619,16 @@ namespace SharpDune
 		 */
 		static void Video_DrawScreen_Nearest_Neighbor()
 		{
-			byte[] gfx_screen8 = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
-			dirty_area area = Gfx.GFX_Screen_GetDirtyArea(Screen.SCREEN_0);
+			var gfx_screen8 = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+			var area = Gfx.GFX_Screen_GetDirtyArea(Screen.SCREEN_0);
 			IntPtr pixels;
 			int pitch;
 			int x, y;
 			uint[] p;
 			SDL.SDL_Rect rect;
-			SDL.SDL_Rect prect = new SDL.SDL_Rect { w = Gfx.SCREEN_WIDTH, h = Gfx.SCREEN_HEIGHT }; //SDL_Rect* prect = NULL;
-			int gfx_screen8Pointer = 0;
-			int pPointer = 0;
+			var prect = new SDL.SDL_Rect { w = Gfx.SCREEN_WIDTH, h = Gfx.SCREEN_HEIGHT }; //SDL_Rect* prect = NULL;
+			var gfx_screen8Pointer = 0;
+			var pPointer = 0;
 
 			gfx_screen8Pointer += s_screenOffset << 2;
 			if (SDL.SDL_LockTexture(s_texture, IntPtr.Zero, out pixels, out pitch) != 0)

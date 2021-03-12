@@ -242,11 +242,11 @@ namespace SharpDune
 		static void Input_ReadInputFromFile()
 		{
 			ushort value;
-			ushort[] mouseBuffer = new ushort[2];
+			var mouseBuffer = new ushort[2];
 
 			if (Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL || Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) return;
 
-			byte[] byteMouseBuffer = Array.ConvertAll(mouseBuffer, x => (byte)x);
+			var byteMouseBuffer = Array.ConvertAll(mouseBuffer, x => (byte)x);
 
 			if (CFile.File_Read(Mouse.g_mouseFileID, ref byteMouseBuffer, 4) != 4)
 			{
@@ -322,7 +322,7 @@ namespace SharpDune
 
 			if (value < 0x3E)
 			{   /* Printables Chars */
-				byte keySave = (byte)(value & 0x3F);
+				var keySave = (byte)(value & 0x3F);
 				ushort asciiValue;
 
 				if ((keyFlags & 0x100) != 0)
@@ -426,7 +426,7 @@ namespace SharpDune
 
 			ushort inputMouseX;
 			ushort inputMouseY;
-			ushort[] tempBuffer = new ushort[4];
+			var tempBuffer = new ushort[4];
 			ushort flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
 			flags = Mouse.g_inputFlags;

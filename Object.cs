@@ -135,7 +135,7 @@ namespace SharpDune
         internal static void Object_Script_Variable4_Clear(Object obj)
         {
             Object objectVariable;
-            ushort encoded = obj.script.variables[4];
+            var encoded = obj.script.variables[4];
 
             if (encoded == 0) return;
 

@@ -4,7 +4,6 @@
 // - reduce casts
 // - speed up array operations: Array.Copy => Buffer.BlockCopy(faster?), ...
 // - clean up
-// - use var
 // - remove default value initializations
 // - use CArray where appropriate
 // - prefix all top level class names with "C"?
@@ -80,7 +79,7 @@ namespace SharpDune
         */
 		static bool GameLoop_IsLevelFinished()
 		{
-			bool finish = false;
+			var finish = false;
 
 			if (s_debugForceWin) return true;
 
@@ -90,7 +89,7 @@ namespace SharpDune
 			/* Check for structure counts hitting zero */
 			if ((CScenario.g_scenario.winFlags & 0x3) != 0)
 			{
-				PoolFindStruct find = new PoolFindStruct();
+				var find = new PoolFindStruct();
 				ushort countStructureEnemy = 0;
 				ushort countStructureFriendly = 0;
 
@@ -161,14 +160,14 @@ namespace SharpDune
         */
 		static bool GameLoop_IsLevelWon()
 		{
-			bool win = false;
+			var win = false;
 
 			if (s_debugForceWin) return true;
 
 			/* Check for structure counts hitting zero */
 			if ((CScenario.g_scenario.loseFlags & 0x3) != 0)
 			{
-				PoolFindStruct find = new PoolFindStruct();
+				var find = new PoolFindStruct();
 				ushort countStructureEnemy = 0;
 				ushort countStructureFriendly = 0;
 
@@ -228,7 +227,7 @@ namespace SharpDune
 		{
 			while (CWidget.g_widgetLinkedListHead != null)
 			{
-				Widget w = CWidget.g_widgetLinkedListHead;
+				var w = CWidget.g_widgetLinkedListHead;
 				CWidget.g_widgetLinkedListHead = w.next;
 
 				w = null;
@@ -350,7 +349,7 @@ namespace SharpDune
 
 			for (i = 0; i < props.height; i++)
 			{
-				ushort pos = (ushort)(top + CFont.g_fontCurrent.height * i);
+				var pos = (ushort)(top + CFont.g_fontCurrent.height * i);
 
 				if (i == props.fgColourBlink)
 				{
@@ -434,7 +433,7 @@ namespace SharpDune
 
 			if (Mouse.g_mouseDisabled == 0)
 			{
-				ushort y = Mouse.g_mouseY;
+				var y = Mouse.g_mouseY;
 
 				if (GameLoop_IsInRange(Mouse.g_mouseX, y, minX, minY, maxX, maxY))
 				{
@@ -484,10 +483,10 @@ namespace SharpDune
 						for (i = 0; i < props.height; i++)
 						{
 							char c1;
-							char c2 = (char)27;
+							var c2 = (char)27;
 
 							c1 = char.ToUpper(strings[0][i]); //TODO: Or strings[i][0]?
-							char chr = (char)Input.Input_Keyboard_HandleKeys((ushort)(key & 0xFF));
+							var chr = (char)Input.Input_Keyboard_HandleKeys((ushort)(key & 0xFF));
 							if (char.IsLetterOrDigit(chr))
 								c2 = char.ToUpper(chr);
 
@@ -575,7 +574,7 @@ namespace SharpDune
 			sourceString = Encoding.GetString(source);
 			keys = Ini.Ini_GetString("construct", null, keys, /*ref keys,*/ 2000, sourceString);
 
-			int keyPointer = 0;
+			var keyPointer = 0;
 			for (key = keys; key[keyPointer] != '\r'; keyPointer++)
 			{ //key += strlen(key) + 1) {
 				ObjectInfo oi = null;
@@ -630,7 +629,7 @@ namespace SharpDune
 			{
 				for (locsi = 0; locsi < (ushort)UnitType.UNIT_MAX; locsi++)
 				{
-					ObjectInfo oi = CUnit.g_table_unitInfo[locsi].o;
+					var oi = CUnit.g_table_unitInfo[locsi].o;
 
 					buffer = $"{oi.name.PadRight(15 - oi.name.Length, ' ')}{oi.buildCredits},{oi.buildTime},{oi.hitpoints},{oi.fogUncoverRadius},{oi.availableCampaign},{oi.priorityBuild},{oi.priorityTarget},{oi.sortPriority}";
 					//sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
@@ -642,7 +641,7 @@ namespace SharpDune
 
 				for (locsi = 0; locsi < (ushort)StructureType.STRUCTURE_MAX; locsi++)
 				{
-					ObjectInfo oi = CStructure.g_table_structureInfo[locsi].o;
+					var oi = CStructure.g_table_structureInfo[locsi].o;
 
 					buffer = $"{oi.name.PadRight(15 - oi.name.Length, ' ')}{oi.buildCredits},{oi.buildTime},{oi.hitpoints},{oi.fogUncoverRadius},{oi.availableCampaign},{oi.priorityBuild},{oi.priorityTarget},{oi.sortPriority}";
 					//sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
@@ -676,7 +675,7 @@ namespace SharpDune
 
 				for (locsi = 0; locsi < (ushort)UnitType.UNIT_MAX; locsi++)
 				{
-					UnitInfo ui = CUnit.g_table_unitInfo[locsi];
+					var ui = CUnit.g_table_unitInfo[locsi];
 
 					if (!string.Equals(ui.o.name, key, StringComparison.OrdinalIgnoreCase)) continue;
 					//if (strcasecmp(ui->o.name, key) != 0) continue;
@@ -693,7 +692,7 @@ namespace SharpDune
 
 			for (locsi = 0; locsi < (ushort)UnitType.UNIT_MAX; locsi++)
 			{
-				UnitInfo ui = CUnit.g_table_unitInfo[locsi];
+				var ui = CUnit.g_table_unitInfo[locsi];
 
 				buffer = $"{ui.o.name.PadRight(15 - ui.o.name.Length, ' ')}{ui.fireDistance},{ui.damage},{ui.fireDelay},{ui.movingSpeedFactor}";
 				//sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), string.Empty, ui->fireDistance, ui->damage, ui->fireDelay, ui->movingSpeedFactor);
@@ -718,7 +717,7 @@ namespace SharpDune
 		 */
 		static void GameLoop_GameIntroAnimationMenu()
 		{
-			bool loadGame = false;
+			var loadGame = false;
 			ushort maxWidth;
 
 			if (index == 0xFFFF)
@@ -1253,10 +1252,10 @@ namespace SharpDune
 
 		static int Main(string[] args) //int main(int argc, char **argv)
 		{
-			bool commit_dune_cfg = false;
-			VideoScaleFilter scale_filter = VideoScaleFilter.FILTER_NEAREST_NEIGHBOR;
-			int scaling_factor = 2;
-			int frame_rate = 60;
+			var commit_dune_cfg = false;
+			var scale_filter = VideoScaleFilter.FILTER_NEAREST_NEIGHBOR;
+			var scaling_factor = 2;
+			var frame_rate = 60;
 			string filter_text = null; //char[64]
 
 			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
@@ -1369,10 +1368,10 @@ namespace SharpDune
 		 */
 		internal static void Game_Prepare()
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			ushort oldSelectionType;
 			Tile[] t;
-			int tPointer = 0;
+			var tPointer = 0;
 			int i;
 
 			g_validateStrictIfZero++;
@@ -1433,7 +1432,7 @@ namespace SharpDune
 
 				if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT && s.o.linkedID != 0xFF)
 				{
-					Unit u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
+					var u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
 
 					if (!u.o.flags.used || !u.o.flags.isNotOnMap)
 					{
@@ -1483,7 +1482,7 @@ namespace SharpDune
 			}
 			else
 			{
-				Structure s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+				var s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
 				if (s != null) Map.Map_SetSelectionSize(CStructure.g_table_structureInfo[s.o.type].layout);
 			}

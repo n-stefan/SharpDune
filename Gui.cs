@@ -418,11 +418,11 @@ namespace SharpDune
 			byte[] buf = null;
 			short count;
 			short buf_incr;
-			int bufPointer = 0;
-			int bPointer = 0;
-			int spritePointer = 0;
-			int spriteSavePointer = 0;
-			int apPointer = 0;
+			var bufPointer = 0;
+			var bPointer = 0;
+			var spritePointer = 0;
+			var spriteSavePointer = 0;
+			var apPointer = 0;
 
 			if (sprite == null) return;
 
@@ -633,7 +633,7 @@ namespace SharpDune
 			if ((flags & DRAWSPRITE_FLAG_RTL) != 0)
 			{
 				/* XCHG pixelSkipStart, pixelSkipEnd */
-				short tmp = pixelSkipStart;
+				var tmp = pixelSkipStart;
 				pixelSkipStart = pixelSkipEnd;
 				pixelSkipEnd = tmp;
 				bufPointer += pixelCountPerRow - 1;
@@ -737,7 +737,7 @@ namespace SharpDune
 						case 0:
 							while (count > 0)
 							{
-								byte v = sprite[spritePointer++];
+								var v = sprite[spritePointer++];
 								if (v == 0)
 								{
 									v = sprite[spritePointer++]; /* run length encoding of transparent pixels */
@@ -757,7 +757,7 @@ namespace SharpDune
 						case (DRAWSPRITE_FLAG_REMAP):   /* remap */
 							while (count > 0)
 							{
-								byte v = sprite[spritePointer++];
+								var v = sprite[spritePointer++];
 								if (v == 0)
 								{
 									v = sprite[spritePointer++]; /* run length encoding of transparent pixels */
@@ -779,7 +779,7 @@ namespace SharpDune
 						case (DRAWSPRITE_FLAG_BLUR):    /* blur/Sandworm effect */
 							while (count > 0)
 							{
-								byte v = sprite[spritePointer++];
+								var v = sprite[spritePointer++];
 								if (v == 0)
 								{
 									v = sprite[spritePointer++]; /* run length encoding of transparent pixels */
@@ -811,7 +811,7 @@ namespace SharpDune
 							/* remap + blur ? (+ has house colors) */
 							while (count > 0)
 							{
-								byte v = sprite[spritePointer++];
+								var v = sprite[spritePointer++];
 								if (v == 0)
 								{
 									v = sprite[spritePointer++]; /* run length encoding of transparent pixels */
@@ -834,7 +834,7 @@ namespace SharpDune
 						case (DRAWSPRITE_FLAG_SPRITEPAL):   /* sprite has palette */
 							while (count > 0)
 							{
-								byte v = sprite[spritePointer++];
+								var v = sprite[spritePointer++];
 								if (v == 0)
 								{
 									v = sprite[spritePointer++]; /* run length encoding of transparent pixels */
@@ -855,7 +855,7 @@ namespace SharpDune
 							/* remap +  sprite has palette */
 							while (count > 0)
 							{
-								byte v = sprite[spritePointer++];
+								var v = sprite[spritePointer++];
 								if (v == 0)
 								{
 									v = sprite[spritePointer++]; /* run length encoding of transparent pixels */
@@ -879,7 +879,7 @@ namespace SharpDune
 							/* blur/sandworm effect + sprite has palette */
 							while (count > 0)
 							{
-								byte v = sprite[spritePointer++];
+								var v = sprite[spritePointer++];
 								if (v == 0)
 								{
 									v = sprite[spritePointer++]; /* run length encoding of transparent pixels */
@@ -968,7 +968,7 @@ namespace SharpDune
 
 			if (CSharpDune.g_selectionType != selectionType)
 			{
-				ushort oldSelectionType = CSharpDune.g_selectionType;
+				var oldSelectionType = CSharpDune.g_selectionType;
 
 				Timer.Timer_SetTimer(TimerType.TIMER_GAME, false);
 
@@ -1017,12 +1017,12 @@ namespace SharpDune
 
 				if (selectionType != (ushort)SelectionType.SELECTIONTYPE_MENTAT)
 				{
-					Widget w = CWidget.g_widgetLinkedListHead;
+					var w = CWidget.g_widgetLinkedListHead;
 
 					while (w != null)
 					{
-						sbyte[] s = g_table_selectionType[selectionType].visibleWidgets;
-						int sPointer = 0;
+						var s = g_table_selectionType[selectionType].visibleWidgets;
+						var sPointer = 0;
 
 						w.state.selected = false;
 						w.flags.invisible = true;
@@ -1367,7 +1367,7 @@ namespace SharpDune
 
 				if (g_textDisplayNeedsUpdate)
 				{
-					Screen oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+					var oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
 
 					GUI_DrawFilledRectangle(0, 0, Gfx.SCREEN_WIDTH - 1, 23, CWidget.g_curWidgetFGColourNormal);
 
@@ -1491,8 +1491,8 @@ namespace SharpDune
 		{
 			string textBuffer; //char[240]
 
-			byte arg12low = (byte)(flags & 0x0F);   /* font : 1 => 6p, 2 => 8p */
-			byte arg2mid = (byte)(flags & 0xF0);    /* style */
+			var arg12low = (byte)(flags & 0x0F);   /* font : 1 => 6p, 2 => 8p */
+			var arg2mid = (byte)(flags & 0xF0);    /* style */
 
 			if ((arg12low != displayedarg12low && arg12low != 0) || str == null)
 			{
@@ -1508,7 +1508,7 @@ namespace SharpDune
 
 			if ((arg2mid != displayedarg2mid && arg2mid != 0) || str == null)
 			{
-				byte[] colours = new byte[16];
+				var colours = new byte[16];
 				//memset(colours, 0, sizeof(colours));
 
 				switch (arg2mid)
@@ -1571,7 +1571,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_UpdateProductionStringID()
 		{
-			Structure s = CStructure.Structure_Get_ByPackedTile(g_selectionPosition);
+			var s = CStructure.Structure_Get_ByPackedTile(g_selectionPosition);
 
 			if (s == null) return;
 
@@ -1728,7 +1728,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_DrawText(string str, short left, short top, byte fgColour, byte bgColour)
 		{
-			byte[] colours = new byte[2];
+			var colours = new byte[2];
 			ushort x;
 			ushort y;
 			string s;
@@ -1748,7 +1748,7 @@ namespace SharpDune
 			s = str;
 			x = (ushort)left;
 			y = (ushort)top;
-			int i = 0;
+			var i = 0;
 			while (i < s.Length) //while (*s != '\0') {
 			{
 				ushort width;
@@ -1786,7 +1786,7 @@ namespace SharpDune
 		 */
 		static void GUI_DrawChar(char c, ushort x, ushort y)
 		{
-			byte[] screen = (byte[])Gfx.GFX_Screen_GetActive();
+			var screen = (byte[])Gfx.GFX_Screen_GetActive();
 
 			FontChar fc;
 
@@ -1825,7 +1825,7 @@ namespace SharpDune
 			{
 				for (i = 0; i < fc.width; i++)
 				{
-					byte data = fc.data[j * fc.width + i];
+					var data = fc.data[j * fc.width + i];
 
 					if (g_colours[data & 0xF] != 0) screen[x] = g_colours[data & 0xF];
 					x++;
@@ -1853,7 +1853,7 @@ namespace SharpDune
 		internal static void GUI_DrawBlockedRectangle(short left, short top, short width, short height, byte colour)
 		{
 			byte[] screen;
-			int screenPointer = 0;
+			var screenPointer = 0;
 
 			if (width <= 0) return;
 			if (height <= 0) return;
@@ -1938,8 +1938,8 @@ namespace SharpDune
 			ushort height;
 			ushort width;
 
-			byte[] screen = (byte[])Gfx.GFX_Screen_GetActive();
-			int screenPointer = 0;
+			var screen = (byte[])Gfx.GFX_Screen_GetActive();
+			var screenPointer = 0;
 
 			if (left >= Gfx.SCREEN_WIDTH) return;
 			if (left < 0) left = 0;
@@ -1984,8 +1984,8 @@ namespace SharpDune
 			ushort height;
 			ushort width;
 
-			byte[] screen = (byte[])Gfx.GFX_Screen_GetActive();
-			int screenPointer = 0;
+			var screen = (byte[])Gfx.GFX_Screen_GetActive();
+			var screenPointer = 0;
 
 			if (left >= Gfx.SCREEN_WIDTH) return;
 			if (left < 0) left = 0;
@@ -2060,16 +2060,16 @@ namespace SharpDune
 		 */
 		internal static void GUI_DrawLine(short x1, short y1, short x2, short y2, byte colour)
 		{
-			byte[] screen = (byte[])Gfx.GFX_Screen_GetActive();
-			int screenPointer = 0;
+			var screen = (byte[])Gfx.GFX_Screen_GetActive();
+			var screenPointer = 0;
 			short increment = 1;
 
 			if (x1 < g_clipping.left || x1 > g_clipping.right || y1 < g_clipping.top || y1 > g_clipping.bottom || x2 < g_clipping.left || x2 > g_clipping.right || y2 < g_clipping.top || y2 > g_clipping.bottom)
 			{
 				while (true)
 				{
-					ushort clip1 = GetNeededClipping(x1, y1);
-					ushort clip2 = GetNeededClipping(x2, y2);
+					var clip1 = GetNeededClipping(x1, y1);
+					var clip2 = GetNeededClipping(x2, y2);
 
 					if (clip1 == 0 && clip2 == 0) break;
 					if ((clip1 & clip2) != 0) return;
@@ -2100,7 +2100,7 @@ namespace SharpDune
 			{
 				if (x1 >= x2)
 				{
-					short x = x1;
+					var x = x1;
 					x1 = x2;
 					x2 = x;
 				}
@@ -2116,7 +2116,7 @@ namespace SharpDune
 
 			if (y2 < 0)
 			{
-				short x = x1;
+				var x = x1;
 				x1 = x2;
 				x2 = x;
 				y2 = (short)-y2;
@@ -2147,8 +2147,8 @@ namespace SharpDune
 
 			if (x2 < y2)
 			{
-				short full = y2;
-				short half = (short)(y2 / 2);
+				var full = y2;
+				var half = (short)(y2 / 2);
 				screenPointer += x1;
 				while (true)
 				{
@@ -2165,8 +2165,8 @@ namespace SharpDune
 			}
 			else
 			{
-				short full = x2;
-				short half = (short)(x2 / 2);
+				var full = x2;
+				var half = (short)(x2 / 2);
 				screenPointer += x1;
 				while (true)
 				{
@@ -2349,7 +2349,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_DrawInterfaceAndRadar(Screen screenID)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			Screen oldScreenID;
 			Widget w;
 
@@ -2435,7 +2435,7 @@ namespace SharpDune
 		internal static ushort GUI_SplitText(ref string text, ushort maxwidth, char delimiter)
 		{
 			ushort lines = 0;
-			int i = 0;
+			var i = 0;
 
 			if (text == null) return 0;
 
@@ -2473,7 +2473,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_PaletteAnimate()
 		{
-			bool shouldSetPalette = false;
+			var shouldSetPalette = false;
 
 			if (timerAnimation < Timer.g_timerGUI)
 			{
@@ -2559,7 +2559,7 @@ namespace SharpDune
 		 */
 		static bool GUI_Palette_ShiftColour(byte[] palette, ushort colour, ushort reference)
 		{
-			bool ret = false;
+			var ret = false;
 			ushort i;
 
 			colour *= 3;
@@ -2660,8 +2660,8 @@ namespace SharpDune
 		 */
 		internal static void GUI_Palette_RemapScreen(ushort left, ushort top, ushort width, ushort height, Screen screenID, byte[] remap)
 		{
-			byte[] screen = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
-			int screenPointer = 0;
+			var screen = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
+			var screenPointer = 0;
 
 			screenPointer += top * Gfx.SCREEN_WIDTH + left;
 			for (; height > 0; height--)
@@ -2669,7 +2669,7 @@ namespace SharpDune
 				int i;
 				for (i = width; i > 0; i--)
 				{
-					byte pixel = screen[screenPointer];
+					var pixel = screen[screenPointer];
 					screen[screenPointer++] = remap[pixel];
 				}
 				screenPointer += Gfx.SCREEN_WIDTH - width;
@@ -2716,7 +2716,7 @@ namespace SharpDune
 			creditsDiff = (short)(h.credits - creditsAnimation);
 			if (creditsDiff != 0)
 			{
-				short diff = (short)(creditsDiff / 4);
+				var diff = (short)(creditsDiff / 4);
 				if (diff == 0) diff = (short)(creditsDiff < 0 ? -1 : 1);
 				if (diff > 128) diff = 128;
 				if (diff < -128) diff = -128;
@@ -2765,7 +2765,7 @@ namespace SharpDune
 
 			for (i = 0; i < 6; i++)
 			{
-				ushort left = (ushort)(i * 10 + 4);
+				var left = (ushort)(i * 10 + 4);
 				ushort spriteID;
 
 				spriteID = (ushort)((charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34);
@@ -2805,7 +2805,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_DrawScreen(Screen screenID)
 		{
-			bool hasScrolled = false;
+			var hasScrolled = false;
 			Screen oldScreenID;
 			ushort xpos;
 
@@ -2824,14 +2824,14 @@ namespace SharpDune
 
 			if (!CSharpDune.g_viewport_forceRedraw && g_viewportPosition != g_minimapPosition)
 			{
-				ushort viewportX = CTile.Tile_GetPackedX(g_viewportPosition);
-				ushort viewportY = CTile.Tile_GetPackedY(g_viewportPosition);
-				short xOffset = (short)(CTile.Tile_GetPackedX(g_minimapPosition) - viewportX); /* Horizontal offset between viewport and minimap. */
-				short yOffset = (short)(CTile.Tile_GetPackedY(g_minimapPosition) - viewportY); /* Vertical offset between viewport and minmap. */
+				var viewportX = CTile.Tile_GetPackedX(g_viewportPosition);
+				var viewportY = CTile.Tile_GetPackedY(g_viewportPosition);
+				var xOffset = (short)(CTile.Tile_GetPackedX(g_minimapPosition) - viewportX); /* Horizontal offset between viewport and minimap. */
+				var yOffset = (short)(CTile.Tile_GetPackedY(g_minimapPosition) - viewportY); /* Vertical offset between viewport and minmap. */
 
 				/* Overlap remaining in tiles. */
-				short xOverlap = (short)(15 - Abs(xOffset));
-				short yOverlap = (short)(10 - Abs(yOffset));
+				var xOverlap = (short)(15 - Abs(xOffset));
+				var yOverlap = (short)(10 - Abs(yOffset));
 
 				short x, y;
 
@@ -2858,7 +2858,7 @@ namespace SharpDune
 
 				for (y = 0; y < 10; y++)
 				{
-					ushort mapYBase = (ushort)((y + viewportY) << 6);
+					var mapYBase = (ushort)((y + viewportY) << 6);
 
 					for (x = 0; x < 15; x++)
 					{
@@ -2875,7 +2875,7 @@ namespace SharpDune
 
 				for (xpos = 0; xpos < 14; xpos++)
 				{
-					ushort v = (ushort)(g_minimapPosition + xpos + 6 * 64);
+					var v = (ushort)(g_minimapPosition + xpos + 6 * 64);
 
 					Tools.BitArray_Set(Map.g_dirtyViewport, v);
 					Tools.BitArray_Set(Map.g_dirtyMinimap, v);
@@ -2924,7 +2924,7 @@ namespace SharpDune
 			short highestDiff;
 			short ticks;
 			ushort tickCurrent;
-			byte[] data = new byte[256 * 3];
+			var data = new byte[256 * 3];
 			int i;
 
 			if (palette == null) return;
@@ -2934,7 +2934,7 @@ namespace SharpDune
 			highestDiff = 0;
 			for (i = 0; i < 256 * 3; i++)
 			{
-				short diff = (short)(palette[i] - data[i]);
+				var diff = (short)(palette[i] - data[i]);
 				highestDiff = Max(highestDiff, Abs(diff));
 			}
 
@@ -3019,8 +3019,8 @@ namespace SharpDune
 		 */
 		internal static void GUI_Screen_FadeIn(ushort xSrc, ushort ySrc, ushort xDst, ushort yDst, ushort width, ushort height, Screen screenSrc, Screen screenDst)
 		{
-			ushort[] offsetsY = new ushort[100];
-			ushort[] offsetsX = new ushort[40];
+			var offsetsY = new ushort[100];
+			var offsetsX = new ushort[40];
 			int x, y;
 
 			if (screenDst == Screen.SCREEN_0)
@@ -3059,7 +3059,7 @@ namespace SharpDune
 
 			for (y = 0; y < height; y++)
 			{
-				ushort y2 = (ushort)y;
+				var y2 = (ushort)y;
 				for (x = 0; x < width; x++)
 				{
 					ushort offsetX, offsetY;
@@ -3131,10 +3131,10 @@ namespace SharpDune
 			for (index = 1; index < 256; index++)
 			{
 				ushort i;
-				byte red = (byte)(palette[3 * index + 0] - (((palette[3 * index + 0] - palette[3 * reference + 0]) * (intensity / 2)) >> 7));
-				byte blue = (byte)(palette[3 * index + 1] - (((palette[3 * index + 1] - palette[3 * reference + 1]) * (intensity / 2)) >> 7));
-				byte green = (byte)(palette[3 * index + 2] - (((palette[3 * index + 2] - palette[3 * reference + 2]) * (intensity / 2)) >> 7));
-				byte colour = reference;
+				var red = (byte)(palette[3 * index + 0] - (((palette[3 * index + 0] - palette[3 * reference + 0]) * (intensity / 2)) >> 7));
+				var blue = (byte)(palette[3 * index + 1] - (((palette[3 * index + 1] - palette[3 * reference + 1]) * (intensity / 2)) >> 7));
+				var green = (byte)(palette[3 * index + 2] - (((palette[3 * index + 2] - palette[3 * reference + 2]) * (intensity / 2)) >> 7));
+				var colour = reference;
 				ushort sumMin = 0xFFFF;
 
 				for (i = 1; i < 256; i++)
@@ -3163,8 +3163,8 @@ namespace SharpDune
 			ushort x;
 			ushort y;
 			Screen oldScreenID;
-			byte[] palette = new byte[3 * 256];
-			byte[] loc316 = new byte[12];
+			var palette = new byte[3 * 256];
+			var loc316 = new byte[12];
 
 			if (campaignID == 0) return 1;
 
@@ -3337,7 +3337,7 @@ namespace SharpDune
 		{
 			Screen oldScreenID;
 			Widget w = null;
-			byte[] palette = new byte[3 * 256];
+			var palette = new byte[3 * 256];
 			ushort i;
 			HouseType houseID;
 
@@ -3378,7 +3378,7 @@ namespace SharpDune
 
 				for (houseID = HouseType.HOUSE_INVALID; houseID == HouseType.HOUSE_INVALID; Sleep.sleepIdle())
 				{
-					ushort key = CWidget.GUI_Widget_HandleEvents(w);
+					var key = CWidget.GUI_Widget_HandleEvents(w);
 
 					GUI_PaletteAnimate();
 
@@ -3404,7 +3404,7 @@ namespace SharpDune
 
 				while (w != null)
 				{
-					Widget next = w.next;
+					var next = w.next;
 
 					w = null; //free(w);
 
@@ -3429,7 +3429,7 @@ namespace SharpDune
 				GUI_Mouse_Show_Safe();
 
 				//strncpy(g_readBuffer, String_Get_ByIndex(STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40), g_readBufferSize);
-				string text = CString.String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)houseID * 40));
+				var text = CString.String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)houseID * 40));
 				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(text);
 				Mentat.GUI_Mentat_Show(text, CHouse.House_GetWSAHouseFilename((byte)houseID), null);
 
@@ -3463,7 +3463,7 @@ namespace SharpDune
 
 				while (w != null)
 				{
-					Widget next = w.next;
+					var next = w.next;
 
 					w = null; //free(w);
 
@@ -3667,7 +3667,7 @@ namespace SharpDune
 			ushort editLine;
 			Widget w;
 			byte fileID;
-			HallOfFameStruct[] data = new HallOfFameStruct[8];
+			var data = new HallOfFameStruct[8];
 			byte[] encodedBytes;
 
 			GUI_Mouse_Hide_Safe();
@@ -3914,7 +3914,7 @@ namespace SharpDune
 			string key; //char[4];
 			string buffer; //char[100]
 			string groupText; //char[16];
-			int bufferPointer = 0;
+			var bufferPointer = 0;
 
 			key = CHouse.g_table_houseInfo[houseID].name; //strncpy(key, g_table_houseInfo[houseID].name, 3);
 														  //key[3] = '\0';
@@ -3925,7 +3925,7 @@ namespace SharpDune
 
 			while (buffer[bufferPointer] != Environment.NewLine[0])
 			{ //*s != '\0'
-				ushort region = ushort.Parse(buffer[bufferPointer].ToString());
+				var region = ushort.Parse(buffer[bufferPointer].ToString());
 
 				if (region != 0) Sprites.g_regions[region] = houseID;
 
@@ -3973,8 +3973,8 @@ namespace SharpDune
 			ushort i;
 			ushort j;
 
-			ushort[] columns = new ushort[Gfx.SCREEN_WIDTH];
-			ushort[] rows = new ushort[Gfx.SCREEN_HEIGHT];
+			var columns = new ushort[Gfx.SCREEN_WIDTH];
+			var rows = new ushort[Gfx.SCREEN_HEIGHT];
 
 			Debug.Assert(width <= Gfx.SCREEN_WIDTH);
 			Debug.Assert(height <= Gfx.SCREEN_HEIGHT);
@@ -4013,13 +4013,13 @@ namespace SharpDune
 
 			for (j = 0; j < height; j++)
 			{
-				ushort j2 = j;
+				var j2 = j;
 
 				for (i = 0; i < width; i++)
 				{
 					byte colour;
-					ushort curX = (ushort)(x + columns[i]);
-					ushort curY = (ushort)(y + rows[j2]);
+					var curX = (ushort)(x + columns[i]);
+					var curY = (ushort)(y + rows[j2]);
 
 					if (++j2 >= height) j2 = 0;
 
@@ -4266,9 +4266,9 @@ namespace SharpDune
 			ushort count;
 			string key; //char[6];
 			bool loop;
-			bool hasRegions = false;
+			var hasRegions = false;
 			string category; //char[16];
-			StrategicMapData[] data = new StrategicMapData[20];
+			var data = new StrategicMapData[20];
 			ushort scenarioID = 0;
 			ushort region = 0;
 			ushort i;
@@ -4428,7 +4428,7 @@ namespace SharpDune
 
 			for (i = 0; i < 6; i++)
 			{
-				byte houseID = (byte)(((byte)CHouse.g_playerHouseID + i) % 6);
+				var houseID = (byte)(((byte)CHouse.g_playerHouseID + i) % 6);
 
 				key = CHouse.g_table_houseInfo[houseID].name[0..3]; //strncpy(key, g_table_houseInfo[houseID].name, 3);
 																	//key[3] = '\0';
@@ -4439,7 +4439,7 @@ namespace SharpDune
 
 				for (var j = 0; j < parts.Length; j++)
 				{
-					ushort region = ushort.Parse(parts[j]);
+					var region = ushort.Parse(parts[j]);
 
 					if (region != 0)
 					{
@@ -4469,7 +4469,7 @@ namespace SharpDune
 		 */
 		static ushort Update_Score(short score, ushort harvestedAllied, ushort harvestedEnemy, byte houseID)
 		{
-			PoolFindStruct find = new PoolFindStruct();
+			var find = new PoolFindStruct();
 			ushort targetTime;
 			ushort sumHarvestedAllied = 0;
 			ushort sumHarvestedEnnemy = 0;
@@ -4588,7 +4588,7 @@ namespace SharpDune
 		{
 			while (w != null)
 			{
-				Widget next = w.next;
+				var next = w.next;
 				w = null; //free(w);
 				w = next;
 			}
@@ -4600,7 +4600,7 @@ namespace SharpDune
 		{
 			byte i;
 			byte[] d;
-			int dPointer = 0;
+			var dPointer = 0;
 
 			d = HallOfFameStruct.AllToBytes(data);
 
@@ -4612,7 +4612,7 @@ namespace SharpDune
 		static HallOfFameStruct[] GUI_HallOfFame_Decode(byte[] d)
 		{
 			byte i;
-			int dPointer = 0;
+			var dPointer = 0;
 
 			for (/*d = (uint8*)data,*/ i = 0; i < 128; i++, dPointer++) d[dPointer] = (byte)((d[dPointer] ^ 0xA7) - i);
 
@@ -4659,7 +4659,7 @@ namespace SharpDune
 				case -2:
 				case -1:
 					{
-						string s = WidgetClick.g_savegameDesc[Abs(stringID + 1)];
+						var s = WidgetClick.g_savegameDesc[Abs(stringID + 1)];
 						if (string.IsNullOrEmpty(s)) return null;
 						return s;
 					}
@@ -4700,7 +4700,7 @@ namespace SharpDune
 		internal static FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, ushort upgradeCost)
 		{
 			Screen oldScreenID;
-			byte[] backup = new byte[3];
+			var backup = new byte[3];
 
 			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
 
@@ -4852,7 +4852,7 @@ namespace SharpDune
 
 			for (i = 0; i < 4; i++)
 			{
-				FactoryWindowItem item = GUI_FactoryWindow_GetItem(i);
+				var item = GUI_FactoryWindow_GetItem(i);
 
 				if (item == null) continue;
 
@@ -4917,8 +4917,8 @@ namespace SharpDune
 		{
 			ushort i;
 			ushort count = 0;
-			WidgetInfo[] wi = CWidgetInfo.g_table_factoryWidgetInfo;
-			Widget[] w = s_factoryWindowWidgets;
+			var wi = CWidgetInfo.g_table_factoryWidgetInfo;
+			var w = s_factoryWindowWidgets;
 
 			for (i = 0; i < 13; i++/*, wi++*/)
 			{
@@ -4976,8 +4976,8 @@ namespace SharpDune
 		internal static void GUI_FactoryWindow_DrawDetails()
 		{
 			Screen oldScreenID;
-			FactoryWindowItem item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
-			ObjectInfo oi = item.objectInfo;
+			var item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
+			var oi = item.objectInfo;
 			/* void* *//*WSAObject*/
 			(WSAHeader header, CArray<byte> buffer) wsa;
 
@@ -5071,7 +5071,7 @@ namespace SharpDune
 
 			if (item != null)
 			{
-				ObjectInfo oi = item.objectInfo;
+				var oi = item.objectInfo;
 
 				if (oi.available == -1)
 				{
@@ -5091,7 +5091,7 @@ namespace SharpDune
 
 			if (item != null)
 			{
-				ObjectInfo oi = item.objectInfo;
+				var oi = item.objectInfo;
 
 				if (oi.available == -1)
 				{
@@ -5122,8 +5122,8 @@ namespace SharpDune
 			}
 			else
 			{
-				FactoryWindowItem item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
-				ObjectInfo oi = item.objectInfo;
+				var item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
+				var oi = item.objectInfo;
 				ushort width;
 
 				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(oi.stringID_full), 128, 23, 12, 0, 0x12);
@@ -5148,8 +5148,8 @@ namespace SharpDune
 		internal static void GUI_FactoryWindow_UpdateDetails(FactoryWindowItem item)
 		{
 			short y;
-			ObjectInfo oi = item.objectInfo;
-			ushort type = item.objectType;
+			var oi = item.objectInfo;
+			var type = item.objectType;
 
 			/* check the available units and unit count limit */
 			if (oi.available == -1) return;
@@ -5158,7 +5158,7 @@ namespace SharpDune
 			if (oi.available <= item.amount) y = 169;
 			else if (CSharpDune.g_starPortEnforceUnitLimit && CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 			{
-				House h = CHouse.g_playerHouse;
+				var h = CHouse.g_playerHouse;
 				if (h.unitCount >= h.unitCountMax) y = 178;
 			}
 			GUI_Mouse_Hide_Safe();
@@ -5265,8 +5265,8 @@ namespace SharpDune
 
 			if (g_factoryWindowStarport)
 			{
-				ushort seconds = (ushort)((Timer.g_timerGame - CSharpDune.g_tickScenarioStart) / 60);
-				ushort seed = (ushort)((seconds / 60) + CSharpDune.g_scenarioID + CHouse.g_playerHouseID);
+				var seconds = (ushort)((Timer.g_timerGame - CSharpDune.g_tickScenarioStart) / 60);
+				var seed = (ushort)((seconds / 60) + CSharpDune.g_scenarioID + CHouse.g_playerHouseID);
 				seed *= seed;
 
 				Tools.Tools_RandomLCG_Seed(seed);
@@ -5278,7 +5278,7 @@ namespace SharpDune
 
 				for (i = 0; i < (ushort)UnitType.UNIT_MAX; i++)
 				{
-					ObjectInfo oi = CUnit.g_table_unitInfo[i].o;
+					var oi = CUnit.g_table_unitInfo[i].o;
 
 					if (oi.available == 0) continue;
 
@@ -5305,7 +5305,7 @@ namespace SharpDune
 
 				for (i = 0; i < (ushort)StructureType.STRUCTURE_MAX; i++)
 				{
-					ObjectInfo oi = CStructure.g_table_structureInfo[i].o;
+					var oi = CStructure.g_table_structureInfo[i].o;
 
 					if (oi.available == 0) continue;
 

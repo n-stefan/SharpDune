@@ -84,7 +84,7 @@ namespace SharpDune
 
 		static void Scenario_Load_House(byte houseID)
 		{
-			string houseName = CHouse.g_table_houseInfo[houseID].name;
+			var houseName = CHouse.g_table_houseInfo[houseID].name;
 			string houseType; //char*
 			string buf; //char[128]
 						//char[] b; //char*
@@ -138,7 +138,7 @@ namespace SharpDune
 			 *  it based on values used for the AI controlled houses. */
 			if (h.unitCountMax == 0)
 			{
-				PoolFindStruct find = new PoolFindStruct();
+				var find = new PoolFindStruct();
 				byte max;
 				House h2;
 
@@ -280,7 +280,7 @@ namespace SharpDune
 			if (buf == string.Empty) return;
 
 			s = buf.Split(","); //strtok(buf, ",\r\n");
-			for (int i = 0; i < s.Length; i++) //while (s != NULL) {
+			for (var i = 0; i < s.Length; i++) //while (s != NULL) {
 			{
 				ushort packed;
 				Tile t;

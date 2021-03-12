@@ -200,9 +200,9 @@ namespace SharpDune
 
 		static void GUI_Security_NormaliseText(ref string str)
 		{
-			char[] s = str.ToCharArray();
+			var s = str.ToCharArray();
 
-			for (int i = 0; i < s.Length; i++)
+			for (var i = 0; i < s.Length; i++)
 				if (char.IsLetterOrDigit(s[i]) && char.IsLower(s[i]))
 					s[i] = char.ToUpper(s[i]);
 

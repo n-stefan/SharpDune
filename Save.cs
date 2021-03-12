@@ -29,13 +29,13 @@ namespace SharpDune
 			 *  structures. */
 			if (CSharpDune.g_debugScenario)
 			{
-				PoolFindStruct find = new PoolFindStruct();
+				var find = new PoolFindStruct();
 				ushort i;
 
 				/* Add fog of war for all tiles on the map */
 				for (i = 0; i < 0x1000; i++)
 				{
-					Tile tile = Map.g_map[i];
+					var tile = Map.g_map[i];
 					tile.isUnveiled = false;
 					tile.overlayTileID = Sprites.g_veiledTileID;
 				}
