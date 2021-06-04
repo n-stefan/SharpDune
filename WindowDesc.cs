@@ -166,7 +166,7 @@ namespace SharpDune
             }
         }
 
-        internal static WindowDesc g_optionsWindowDesc = new WindowDesc
+        internal static WindowDesc g_optionsWindowDesc = new()
         {
             index = 16,
             stringID = (short)Text.STR_DUNE_II_THE_BATTLE_FOR_ARRAKIS,
@@ -239,7 +239,7 @@ namespace SharpDune
             }
         };
 
-        internal static WindowDesc g_savegameNameWindowDesc = new WindowDesc
+        internal static WindowDesc g_savegameNameWindowDesc = new()
         {
             index = 14,
             stringID = (short)Text.STR_ENTER_A_DESCRIPTION_OF_YOUR_SAVED_GAME,
@@ -312,7 +312,7 @@ namespace SharpDune
             }
         };
 
-        internal static WindowDesc g_yesNoWindowDesc = new WindowDesc
+        internal static WindowDesc g_yesNoWindowDesc = new()
         {
             index = 18,
             stringID = (short)Text.STR_ARE_YOU_SURE_YOU_WANT_TO_QUIT_PLAYING,

@@ -69,9 +69,9 @@ namespace SharpDune
 
     class Script
     {
-        static ScriptInfo s_scriptStructure = new ScriptInfo();
-        static ScriptInfo s_scriptTeam = new ScriptInfo();
-        static ScriptInfo s_scriptUnit = new ScriptInfo();
+        static ScriptInfo s_scriptStructure = new();
+        static ScriptInfo s_scriptTeam = new();
+        static ScriptInfo s_scriptUnit = new();
         internal static ScriptInfo g_scriptStructure = s_scriptStructure;
         internal static ScriptInfo g_scriptTeam = s_scriptTeam;
         internal static ScriptInfo g_scriptUnit = s_scriptUnit;

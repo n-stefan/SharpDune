@@ -46,7 +46,7 @@ namespace SharpDune
 
 	class CScenario
 	{
-		internal static Scenario g_scenario = new Scenario();
+		internal static Scenario g_scenario = new();
 
 		static /* void* */string s_scenarioBuffer = string.Empty;
 

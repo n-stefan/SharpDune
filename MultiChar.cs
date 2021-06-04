@@ -29,8 +29,8 @@ namespace SharpDune
 
 	class MultiChar
 	{
-		private static readonly Dictionary<FourCC, int> _dict = new Dictionary<FourCC, int>
-		{
+		private static readonly Dictionary<FourCC, int> _dict = new()
+        {
 			{ FourCC.BLDG, Calc('B', 'L', 'D', 'G') },
 			{ FourCC.CAT,  Calc('C', 'A', 'T', ' ') },
 			{ FourCC.DATA, Calc('D', 'A', 'T', 'A') },

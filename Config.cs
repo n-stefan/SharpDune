@@ -48,8 +48,8 @@ namespace SharpDune
 
 	class Config
 	{
-		internal static GameCfg g_gameConfig = new GameCfg { music = 1, sounds = 1, gameSpeed = 2, hints = 1, autoScroll = 0 };
-		internal static DuneCfg g_config = new DuneCfg();
+		internal static GameCfg g_gameConfig = new() { music = 1, sounds = 1, gameSpeed = 2, hints = 1, autoScroll = 0 };
+		internal static DuneCfg g_config = new();
 		internal static bool g_enableSoundMusic = true;
 		internal static bool g_enableVoices = true;
 

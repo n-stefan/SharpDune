@@ -258,7 +258,7 @@ namespace SharpDune
          * @param t The type on disk.
          */
 		internal static SaveLoadDesc SLD_EMPTY(SaveLoadType t) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_NULL, count = 1, sld = null, /*size = 0,*/ callback = null };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_NULL, count = 1, sld = null, /*size = 0,*/ callback = null };
 
 		/*
          * An empty array. Just to pad bytes on disk.
@@ -266,7 +266,7 @@ namespace SharpDune
          * @param n The number of elements.
          */
 		internal static SaveLoadDesc SLD_EMPTY2(SaveLoadType t, ushort n) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_NULL, count = n, sld = null, /*size = 0,*/ callback = null };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_NULL, count = n, sld = null, /*size = 0,*/ callback = null };
 
 		/*
          * A normal entry.
@@ -275,10 +275,10 @@ namespace SharpDune
          * @param m The member of the class.
          */
 		internal static SaveLoadDesc SLD_ENTRY(/*Type c,*/ SaveLoadType t, string m) =>
-			new SaveLoadDesc { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = item_size(c, m),*/ callback = null };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = item_size(c, m),*/ callback = null };
 
 		internal static SaveLoadDesc SLD_GENTRY(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescSetter s) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, getter = g, setter = s };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, getter = g, setter = s };
 
 		//internal static SaveLoadDesc SLD_GENTRY<M>(SaveLoadType t, M m, SaveLoadDescSetter s) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, address = m, setter = s };
@@ -291,10 +291,10 @@ namespace SharpDune
          * @param t2 The type in memory.
          */
 		internal static SaveLoadDesc SLD_ENTRY2(/*Type c,*/ SaveLoadType t, string m, SaveLoadType t2) =>
-			new SaveLoadDesc { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = item_size(c, m),*/ callback = null };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = item_size(c, m),*/ callback = null };
 
 		internal static SaveLoadDesc SLD_GENTRY2(SaveLoadType t, SaveLoadType t2, SaveLoadDescGetter g, SaveLoadDescSetter s) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, getter = g, setter = s };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, getter = g, setter = s };
 
 		//internal static SaveLoadDesc SLD_GENTRY2<M>(SaveLoadType t, M m, SaveLoadType t2, SaveLoadDescSetter s) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, address = m, setter = s };
@@ -307,10 +307,10 @@ namespace SharpDune
          * @param n The number of elements.
          */
 		internal static SaveLoadDesc SLD_ARRAY(/*Type c,*/ SaveLoadType t, string m, ushort n) =>
-			new SaveLoadDesc { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = item_size(c, m) / n,*/ callback = null };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = item_size(c, m) / n,*/ callback = null };
 
 		internal static SaveLoadDesc SLD_GARRAY(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescSetter s, ushort n) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, getter = g, setter = s };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, getter = g, setter = s };
 
 		//internal static SaveLoadDesc SLD_GARRAY<M>(SaveLoadType t, M m, ushort n) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, address = m };
@@ -323,17 +323,17 @@ namespace SharpDune
          * @param p The callback.
          */
 		internal static SaveLoadDesc SLD_CALLB(/*Type c,*/ SaveLoadType t, string m, SaveLoadDescCallback p) =>
-			new SaveLoadDesc { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = item_size(c, m),*/ callback = p };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = item_size(c, m),*/ callback = p };
 
 		internal static SaveLoadDesc SLD_GCALLB(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescCallback p) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, getter = g };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, getter = g };
 
 		//internal static SaveLoadDesc SLD_GCALLB<M>(SaveLoadType t, M m, SaveLoadDescCallback p) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, address = m };
 
 		/* Indicates end of array. */
 		internal static SaveLoadDesc SLD_END() =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_NULL, type_memory = SaveLoadType.SLDT_NULL, count = 0, sld = null, /*size = 0,*/ callback = null };
+			new() { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_NULL, type_memory = SaveLoadType.SLDT_NULL, count = 0, sld = null, /*size = 0,*/ callback = null };
 
 		/*
 		 * A struct entry.
@@ -342,10 +342,10 @@ namespace SharpDune
 		 * @param s The SaveLoadDesc.
 		 */
 		static SaveLoadDesc SLD_SLD(/*Type c,*/ string m, SaveLoadDesc[] s) =>
-			new SaveLoadDesc { member = m, /*offset = offset(c, m),*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = item_size(c, m),*/ callback = null };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = item_size(c, m),*/ callback = null };
 
 		internal static SaveLoadDesc SLD_GSLD(SaveLoadDescGetter g, SaveLoadDesc[] s) =>
-			new SaveLoadDesc { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, getter = g };
+			new() { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, getter = g };
 
 		//internal static SaveLoadDesc SLD_GSLD<M>(M m, SaveLoadDesc[] s) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, address = m };
@@ -358,7 +358,7 @@ namespace SharpDune
 		 * @param n The number of elements.
 		 */
 		static SaveLoadDesc SLD_SLD2(/*Type c,*/ string m, SaveLoadDesc[] s, ushort n) =>
-			new SaveLoadDesc { member = m, /*offset = offset(c, m),*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = n, sld = s, /*size = item_size(c, m) / n,*/ callback = null };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = n, sld = s, /*size = item_size(c, m) / n,*/ callback = null };
 
 		/*
 		 * Get the length of the struct how it would be on disk.

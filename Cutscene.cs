@@ -1045,7 +1045,7 @@ namespace SharpDune
 				/* draw all strings on back buffer and scroll them 1 pixel up */
 				for (i = 0; i < stringCount; i++)
 				{
-					if ((short)strings[i].y < CWidget.g_curWidgetHeight)
+					if (strings[i].y < CWidget.g_curWidgetHeight)
 					{
 						Gfx.GFX_Screen_SetActive(backScreenID);
 
@@ -1064,7 +1064,7 @@ namespace SharpDune
 				/* display what we just draw on back buffer */
 				GameCredits_SwapScreen(CWidget.g_curWidgetYBase, CWidget.g_curWidgetHeight, backScreenID, Screen.SCREEN_3);
 
-				if ((short)strings[0].y < -10)
+				if (strings[0].y < -10)
 				{
 					/* remove 1st string and shift the other */
 					//strings[0].text += strings[0].text.Length;

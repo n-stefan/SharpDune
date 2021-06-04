@@ -228,7 +228,7 @@ namespace SharpDune
 		internal static byte[] g_remap = new byte[256];
 
 		static byte[] g_colours = new byte[16];                 /*!< Colors used for drawing chars */
-		static ClippingArea g_clipping = new ClippingArea { left = 0, top = 0, right = Gfx.SCREEN_WIDTH - 1, bottom = Gfx.SCREEN_HEIGHT - 1 };
+		static ClippingArea g_clipping = new() { left = 0, top = 0, right = Gfx.SCREEN_WIDTH - 1, bottom = Gfx.SCREEN_HEIGHT - 1 };
 
 		static /*byte[]*/CArray<byte> s_palette1_houseColour;
 

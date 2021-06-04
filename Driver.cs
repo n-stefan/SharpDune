@@ -29,15 +29,15 @@ namespace SharpDune
         static bool[] s_driverInstalled = new bool[16];
         static bool[] s_driverLoaded = new bool[16];
 
-        static Driver s_driverMusic = new Driver();
-        static Driver s_driverSound = new Driver();
-        static Driver s_driverVoice = new Driver();
+        static Driver s_driverMusic = new();
+        static Driver s_driverSound = new();
+        static Driver s_driverVoice = new();
 
         internal static Driver g_driverMusic = s_driverMusic;
         internal static Driver g_driverSound = s_driverSound;
         static Driver g_driverVoice = s_driverVoice;
 
-        static MSBuffer s_bufferMusic = new MSBuffer();
+        static MSBuffer s_bufferMusic = new();
         internal static MSBuffer g_bufferMusic = s_bufferMusic;
 
         static MSBuffer[] s_bufferSound = { new MSBuffer(), new MSBuffer(), new MSBuffer(), new MSBuffer() }; //new MSBuffer[4];

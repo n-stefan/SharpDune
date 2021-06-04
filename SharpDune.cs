@@ -70,7 +70,7 @@ namespace SharpDune
 
 		internal static Encoding Encoding = Encoding.UTF7; //Encoding.ASCII
 
-		internal static MultiChar MultiChar = new MultiChar();
+		internal static MultiChar MultiChar = new();
 
 		/*
         * Check if a level is finished, based on the values in WinFlags.

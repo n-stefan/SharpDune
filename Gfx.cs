@@ -25,7 +25,7 @@ namespace SharpDune
 	class Gfx
 	{
 		static bool s_screen0_is_dirty = false;
-		static dirty_area s_screen0_dirty_area = new dirty_area { left = 0, top = 0, right = 0, bottom = 0 };
+		static dirty_area s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
 		static uint[] g_dirty_blocks = new uint[200];
 
 		static Screen s_screenActiveID = Screen.SCREEN_0;
