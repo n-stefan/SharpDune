@@ -175,49 +175,49 @@ namespace SharpDune
 	class Gui
 	{
 		static SelectionTypeStruct[] g_table_selectionType = { //[8] [(int)SelectionType.SELECTIONTYPE_MAX]
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 				variable_04 = true,
 				variable_06 = false,
 				defaultWidget = 0
 			},
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 				variable_04 = false,
 				variable_06 = true,
 				defaultWidget = 0
 			},
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 				variable_04 = false,
 				variable_06 = true,
 				defaultWidget = 0
 			},
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 				variable_04 = false,
 				variable_06 = true,
 				defaultWidget = 0
 			},
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 				variable_04 = false,
 				variable_06 = true,
 				defaultWidget = 0
 			},
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 1, 2, 12, 13, 14, 15, 16, 17, 26, 27, 28, 29, -1 },
 				variable_04 = true,
 				variable_06 = true,
 				defaultWidget = 2
 			},
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 1, 2, 18, 20, 19, 21, 22, 23, 24, 25, 26, 27, 28, -1 },
 				variable_04 = true,
 				variable_06 = true,
 				defaultWidget = 2
 			},
-			new SelectionTypeStruct {
+			new() {
 				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 				variable_04 = true,
 				variable_06 = false,
@@ -321,18 +321,18 @@ namespace SharpDune
 
 		/* Mapping of scores to rank names. */
 		static RankScore[] _rankScores = {
-			new RankScore { rankString = 271, score = 25 }, /* "Sand Flea" */
-			new RankScore { rankString = 272, score = 50 }, /* "Sand Snake" */
-			new RankScore { rankString = 273, score = 100 }, /* "Desert Mongoose" */
-			new RankScore { rankString = 274, score = 150 }, /* "Sand Warrior" */
-			new RankScore { rankString = 275, score = 200 }, /* "Dune Trooper" */
-			new RankScore { rankString = 276, score = 300 }, /* "Squad Leader" */
-			new RankScore { rankString = 277, score = 400 }, /* "Outpost Commander" */
-			new RankScore { rankString = 278, score = 500 }, /* "Base Commander" */
-			new RankScore { rankString = 279, score = 700 }, /* "Warlord" */
-			new RankScore { rankString = 280, score = 1000 }, /* "Chief Warlord" */
-			new RankScore { rankString = 281, score = 1400 }, /* "Ruler of Arrakis" */
-			new RankScore { rankString = 282, score = 1800 }  /* "Emperor" */
+			new() { rankString = 271, score = 25 }, /* "Sand Flea" */
+			new() { rankString = 272, score = 50 }, /* "Sand Snake" */
+			new() { rankString = 273, score = 100 }, /* "Desert Mongoose" */
+			new() { rankString = 274, score = 150 }, /* "Sand Warrior" */
+			new() { rankString = 275, score = 200 }, /* "Dune Trooper" */
+			new() { rankString = 276, score = 300 }, /* "Squad Leader" */
+			new() { rankString = 277, score = 400 }, /* "Outpost Commander" */
+			new() { rankString = 278, score = 500 }, /* "Base Commander" */
+			new() { rankString = 279, score = 700 }, /* "Warlord" */
+			new() { rankString = 280, score = 1000 }, /* "Chief Warlord" */
+			new() { rankString = 281, score = 1400 }, /* "Ruler of Arrakis" */
+			new() { rankString = 282, score = 1800 }  /* "Emperor" */
 		};
 
 		internal static bool g_factoryWindowConstructionYard = false;

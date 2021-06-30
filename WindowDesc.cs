@@ -18,7 +18,7 @@ namespace SharpDune
                     addArrows = true,
                     widgetCount = 6,
                     widgets = new WindowDescWidget[] {
-                        new WindowDescWidget {
+                        new() {
                             stringID = (ushort)-1, /* First savegame name. */
 					        offsetX = 16,
                             offsetY = 39,
@@ -27,7 +27,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_NULL,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget {
+                        new() {
                             stringID = (ushort)-2, /* Second savegame name. */
 					        offsetX = 16,
                             offsetY = 56,
@@ -36,7 +36,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_NULL,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget {
+                        new() {
                             stringID = (ushort)-3, /* Third savegame name. */
 					        offsetX = 16,
                             offsetY = 73,
@@ -45,7 +45,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_NULL,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget {
+                        new() {
                             stringID = (ushort)-4, /* Fourth savegame name. */
 					        offsetX = 16,
                             offsetY = 90,
@@ -54,7 +54,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_NULL,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget {
+                        new() {
                             stringID = (ushort)-5, /* Fifth savegame name. */
 					        offsetX = 16,
                             offsetY = 107,
@@ -63,7 +63,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_NULL,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget {
+                        new() {
                             stringID = (ushort)Text.STR_CANCEL,
                             offsetX = 176,
                             offsetY = 126,
@@ -72,7 +72,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_NULL,
                             shortcut2 = 110
                         },
-                        new WindowDescWidget {
+                        new() {
                             stringID = (ushort)Text.STR_NULL,
                             offsetX = 0,
                             offsetY = 0,
@@ -91,7 +91,7 @@ namespace SharpDune
                     addArrows = false,
                     widgetCount = 6,
                     widgets = new WindowDescWidget[] {
-                        new WindowDescWidget
+                        new()
                         {
                             stringID = (ushort)-10, /* Music state. */
 					        offsetX = 152,
@@ -101,7 +101,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_MUSIC_IS,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget
+                        new()
                         {
                             stringID = (ushort)-11, /* Sound state. */
 					        offsetX = 152,
@@ -111,7 +111,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_SOUNDS_ARE,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget
+                        new()
                         {
                             stringID = (ushort)-12, /* Game speed. */
 					        offsetX = 152,
@@ -121,7 +121,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_GAME_SPEED,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget
+                        new()
                         {
                             stringID = (ushort)-13, /* Hints state */
 					        offsetX = 152,
@@ -131,7 +131,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_HINTS_ARE,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget
+                        new()
                         {
                             stringID = (ushort)-14, /* Autoscroll state */
 					        offsetX = 152,
@@ -141,7 +141,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_AUTO_SCROLL_IS,
                             shortcut2 = 0
                         },
-                        new WindowDescWidget
+                        new()
                         {
                             stringID = (ushort)Text.STR_PREVIOUS,
                             offsetX = 96,
@@ -151,7 +151,7 @@ namespace SharpDune
                             labelStringId = (ushort)Text.STR_NULL,
                             shortcut2 = 110
                         },
-                        new WindowDescWidget
+                        new()
                         {
                             stringID = (ushort)Text.STR_NULL,
                             offsetX = 0,
@@ -173,7 +173,7 @@ namespace SharpDune
             addArrows = false,
             widgetCount = 7,
             widgets = new WindowDescWidget[] {
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_LOAD_A_GAME,
                     offsetX = 16,
                     offsetY = 23,
@@ -182,7 +182,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_SAVE_THIS_GAME,
                     offsetX = 16,
                     offsetY = 40,
@@ -191,7 +191,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_GAME_CONTROLS,
                     offsetX = 16,
                     offsetY = 57,
@@ -200,7 +200,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_RESTART_SCENARIO,
                     offsetX = 16,
                     offsetY = 74,
@@ -209,7 +209,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_PICK_ANOTHER_HOUSE,
                     offsetX = 16,
                     offsetY = 91,
@@ -218,7 +218,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_CONTINUE_GAME,
                     offsetX = 120,
                     offsetY = 110,
@@ -227,7 +227,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 110
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_QUIT_PLAYING,
                     offsetX = 16,
                     offsetY = 110,
@@ -246,7 +246,7 @@ namespace SharpDune
             addArrows = false,
             widgetCount = 2,
             widgets = new WindowDescWidget[] {
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_SAVE,
                     offsetX = 8,
                     offsetY = 38,
@@ -255,7 +255,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 43
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_CANCEL,
                     offsetX = 208,
                     offsetY = 38,
@@ -264,7 +264,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 110
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
                     offsetY = 0,
@@ -273,7 +273,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
                     offsetY = 0,
@@ -282,7 +282,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
                     offsetY = 0,
@@ -291,7 +291,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
                     offsetY = 0,
@@ -300,7 +300,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget {
+                new() {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
                     offsetY = 0,
@@ -319,7 +319,7 @@ namespace SharpDune
             addArrows = false,
             widgetCount = 2,
             widgets = new WindowDescWidget[] {
-                new WindowDescWidget
+                new()
                 {
                     stringID = (ushort)Text.STR_YES,
                     offsetX = 8,
@@ -329,7 +329,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget
+                new()
                 {
                     stringID = (ushort)Text.STR_NO,
                     offsetX = 224,
@@ -339,7 +339,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget
+                new()
                 {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
@@ -349,7 +349,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget
+                new()
                 {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
@@ -359,7 +359,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget
+                new()
                 {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
@@ -369,7 +369,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget
+                new()
                 {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
@@ -379,7 +379,7 @@ namespace SharpDune
                     labelStringId = (ushort)Text.STR_NULL,
                     shortcut2 = 0
                 },
-                new WindowDescWidget
+                new()
                 {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,

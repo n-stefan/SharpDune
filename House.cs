@@ -212,7 +212,7 @@ namespace SharpDune
         internal const ushort HOUSEANIM_FLAGS_FADEIN = 0x400;	    /*  */
 
         internal static HouseInfo[] g_table_houseInfo = { //[HOUSE_MAX]
-            new HouseInfo {
+            new() {
 		        name = "Harkonnen",
 		        toughness = 200,
 		        degradingChance = 85,
@@ -228,7 +228,7 @@ namespace SharpDune
 		        voiceFilename = "nhark.voc"
             },
 
-            new HouseInfo {
+            new() {
 		        name = "Atreides",
 		        toughness = 77,
 		        degradingChance = 0,
@@ -244,7 +244,7 @@ namespace SharpDune
 		        voiceFilename = "nattr.voc"
             },
 
-            new HouseInfo {
+            new() {
 		        name = "Ordos",
 		        toughness = 128,
 		        degradingChance = 10,
@@ -260,7 +260,7 @@ namespace SharpDune
 		        voiceFilename = "nordo.voc"
             },
 
-            new HouseInfo {
+            new() {
 		        name = "Fremen",
 		        toughness = 10,
 		        degradingChance = 0,
@@ -276,7 +276,7 @@ namespace SharpDune
 		        voiceFilename = "afremen.voc"
             },
 
-            new HouseInfo {
+            new() {
 		        name = "Sardaukar",
 		        toughness = 10,
 		        degradingChance = 0,
@@ -292,7 +292,7 @@ namespace SharpDune
 		        voiceFilename = "asard.voc"
             },
 
-            new HouseInfo {
+            new() {
 		        name = "Mercenary",
 		        toughness = 0,
 		        degradingChance = 0,

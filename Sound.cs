@@ -45,44 +45,44 @@ namespace SharpDune
 		 * @note The code compares pointers rather than the text itself, thus strings must be unique.
 		 */
 		static MusicData[] g_table_musics = {
-			new MusicData { name = null, index = 0 }, /*  0 */
-			new MusicData { name = "dune1", index = 2 }, /*  1 */
-			new MusicData { name = "dune1", index = 3 }, /*  2 */
-			new MusicData { name = "dune1", index = 4 }, /*  3 */
-			new MusicData { name = "dune1", index = 5 }, /*  4 */
-			new MusicData { name = "dune17", index = 4 }, /*  5 */
-			new MusicData { name = "dune8", index = 3 }, /*  6 */
-			new MusicData { name = "dune8", index = 2 }, /*  7 */
-			new MusicData { name = "dune1", index = 6 }, /*  8 */
-			new MusicData { name = "dune2", index = 6 }, /*  9 */
-			new MusicData { name = "dune3", index = 6 }, /* 10 */
-			new MusicData { name = "dune4", index = 6 }, /* 11 */
-			new MusicData { name = "dune5", index = 6 }, /* 12 */
-			new MusicData { name = "dune6", index = 6 }, /* 13 */
-			new MusicData { name = "dune9", index = 4 }, /* 14 */
-			new MusicData { name = "dune9", index = 5 }, /* 15 */
-			new MusicData { name = "dune18", index = 6 }, /* 16 */
-			new MusicData { name = "dune10", index = 7 }, /* 17 */
-			new MusicData { name = "dune11", index = 7 }, /* 18 */
-			new MusicData { name = "dune12", index = 7 }, /* 19 */
-			new MusicData { name = "dune13", index = 7 }, /* 20 */
-			new MusicData { name = "dune14", index = 7 }, /* 21 */
-			new MusicData { name = "dune15", index = 7 }, /* 22 */
-			new MusicData { name = "dune1", index = 8 }, /* 23 */
-			new MusicData { name = "dune7", index = 2 }, /* 24 */
-			new MusicData { name = "dune7", index = 3 }, /* 25 */
-			new MusicData { name = "dune7", index = 4 }, /* 26 */
-			new MusicData { name = "dune0", index = 2 }, /* 27 */
-			new MusicData { name = "dune7", index = 6 }, /* 28 */
-			new MusicData { name = "dune16", index = 7 }, /* 29 */
-			new MusicData { name = "dune19", index = 4 }, /* 30 */
-			new MusicData { name = "dune19", index = 2 }, /* 31 */
-			new MusicData { name = "dune19", index = 3 }, /* 32 */
-			new MusicData { name = "dune20", index = 2 }, /* 33 */
-			new MusicData { name = "dune16", index = 8 }, /* 34 */
-			new MusicData { name = "dune0", index = 3 }, /* 35 */
-			new MusicData { name = "dune0", index = 4 }, /* 36 */
-			new MusicData { name = "dune0", index = 5 }, /* 37 */
+			new() { name = null, index = 0 }, /*  0 */
+			new() { name = "dune1", index = 2 }, /*  1 */
+			new() { name = "dune1", index = 3 }, /*  2 */
+			new() { name = "dune1", index = 4 }, /*  3 */
+			new() { name = "dune1", index = 5 }, /*  4 */
+			new() { name = "dune17", index = 4 }, /*  5 */
+			new() { name = "dune8", index = 3 }, /*  6 */
+			new() { name = "dune8", index = 2 }, /*  7 */
+			new() { name = "dune1", index = 6 }, /*  8 */
+			new() { name = "dune2", index = 6 }, /*  9 */
+			new() { name = "dune3", index = 6 }, /* 10 */
+			new() { name = "dune4", index = 6 }, /* 11 */
+			new() { name = "dune5", index = 6 }, /* 12 */
+			new() { name = "dune6", index = 6 }, /* 13 */
+			new() { name = "dune9", index = 4 }, /* 14 */
+			new() { name = "dune9", index = 5 }, /* 15 */
+			new() { name = "dune18", index = 6 }, /* 16 */
+			new() { name = "dune10", index = 7 }, /* 17 */
+			new() { name = "dune11", index = 7 }, /* 18 */
+			new() { name = "dune12", index = 7 }, /* 19 */
+			new() { name = "dune13", index = 7 }, /* 20 */
+			new() { name = "dune14", index = 7 }, /* 21 */
+			new() { name = "dune15", index = 7 }, /* 22 */
+			new() { name = "dune1", index = 8 }, /* 23 */
+			new() { name = "dune7", index = 2 }, /* 24 */
+			new() { name = "dune7", index = 3 }, /* 25 */
+			new() { name = "dune7", index = 4 }, /* 26 */
+			new() { name = "dune0", index = 2 }, /* 27 */
+			new() { name = "dune7", index = 6 }, /* 28 */
+			new() { name = "dune16", index = 7 }, /* 29 */
+			new() { name = "dune19", index = 4 }, /* 30 */
+			new() { name = "dune19", index = 2 }, /* 31 */
+			new() { name = "dune19", index = 3 }, /* 32 */
+			new() { name = "dune20", index = 2 }, /* 33 */
+			new() { name = "dune16", index = 8 }, /* 34 */
+			new() { name = "dune0", index = 3 }, /* 35 */
+			new() { name = "dune0", index = 4 }, /* 36 */
+			new() { name = "dune0", index = 5 }, /* 37 */
 		};
 
 		/* Available voices.
@@ -97,137 +97,137 @@ namespace SharpDune
 		 *           'H'arkonnen or Sardokar, 'M'ercenary)
 		 */
 		static VoiceData[] g_table_voices = { //[NUM_VOICES]
-			new VoiceData { str = "+VSCREAM1.VOC",  priority = 11}, /*   0 */
-			new VoiceData { str = "+EXSAND.VOC",    priority = 10}, /*   1 */
-			new VoiceData { str = "+ROCKET.VOC",    priority = 11}, /*   2 */
-			new VoiceData { str = "+BUTTON.VOC",    priority = 10}, /*   3 */
-			new VoiceData { str = "+VSCREAM5.VOC",  priority = 11}, /*   4 */
-			new VoiceData { str = "+CRUMBLE.VOC",   priority = 15}, /*   5 */
-			new VoiceData { str = "+EXSMALL.VOC",   priority = 9}, /*   6 */
-			new VoiceData { str = "+EXMED.VOC",     priority = 10}, /*   7 */
-			new VoiceData { str = "+EXLARGE.VOC",   priority = 14}, /*   8 */
-			new VoiceData { str = "+EXCANNON.VOC",  priority = 11}, /*   9 */
-			new VoiceData { str = "+GUNMULTI.VOC",  priority = 9}, /*  10 */
-			new VoiceData { str = "+GUN.VOC",       priority = 10}, /*  11 */
-			new VoiceData { str = "+EXGAS.VOC",     priority = 10}, /*  12 */
-			new VoiceData { str = "+EXDUD.VOC",     priority = 10}, /*  13 */
-			new VoiceData { str = "+VSCREAM2.VOC",  priority = 11}, /*  14 */
-			new VoiceData { str = "+VSCREAM3.VOC",  priority = 11}, /*  15 */
-			new VoiceData { str = "+VSCREAM4.VOC",  priority = 11}, /*  16 */
-			new VoiceData { str = "+%cAFFIRM.VOC",  priority = 15}, /*  17 */
-			new VoiceData { str = "+%cREPORT1.VOC", priority = 15}, /*  18 */
-			new VoiceData { str = "+%cREPORT2.VOC", priority = 15}, /*  19 */
-			new VoiceData { str = "+%cREPORT3.VOC", priority = 15}, /*  20 */
-			new VoiceData { str = "+%cOVEROUT.VOC", priority = 15}, /*  21 */
-			new VoiceData { str = "+%cMOVEOUT.VOC", priority = 15}, /*  22 */
-			new VoiceData { str = "?POPPA.VOC",     priority = 15}, /*  23 */
-			new VoiceData { str = "?SANDBUG.VOC",   priority = 15}, /*  24 */
-			new VoiceData { str = "+STATICP.VOC",   priority = 10}, /*  25 */
-			new VoiceData { str = "+WORMET3P.VOC",  priority = 16}, /*  26 */
-			new VoiceData { str = "+MISLTINP.VOC",  priority = 10}, /*  27 */
-			new VoiceData { str = "+SQUISH2.VOC",   priority = 12}, /*  28 */
-			new VoiceData { str = "%cENEMY.VOC",    priority = 20}, /*  29 */
-			new VoiceData { str = "%cHARK.VOC",     priority = 20}, /*  30 */
-			new VoiceData { str = "%cATRE.VOC",     priority = 20}, /*  31 */
-			new VoiceData { str = "%cORDOS.VOC",    priority = 20}, /*  32 */
-			new VoiceData { str = "%cFREMEN.VOC",   priority = 20}, /*  33 */
-			new VoiceData { str = "%cSARD.VOC",     priority = 20}, /*  34 */
-			new VoiceData { str = "FILLER.VOC",     priority = 20}, /*  35 */
-			new VoiceData { str = "%cUNIT.VOC",     priority = 20}, /*  36 */
-			new VoiceData { str = "%cSTRUCT.VOC",   priority = 20}, /*  37 */
-			new VoiceData { str = "%cONE.VOC",      priority = 19}, /*  38 */
-			new VoiceData { str = "%cTWO.VOC",      priority = 19}, /*  39 */
-			new VoiceData { str = "%cTHREE.VOC",    priority = 19}, /*  40 */
-			new VoiceData { str = "%cFOUR.VOC",     priority = 19}, /*  41 */
-			new VoiceData { str = "%cFIVE.VOC",     priority = 19}, /*  42 */
-			new VoiceData { str = "%cCONST.VOC",    priority = 20}, /*  43 */
-			new VoiceData { str = "%cRADAR.VOC",    priority = 20}, /*  44 */
-			new VoiceData { str = "%cOFF.VOC",      priority = 20}, /*  45 */
-			new VoiceData { str = "%cON.VOC",       priority = 20}, /*  46 */
-			new VoiceData { str = "%cFRIGATE.VOC",  priority = 20}, /*  47 */
-			new VoiceData { str = "?%cARRIVE.VOC",  priority = 20}, /*  48 */
-			new VoiceData { str = "%cWARNING.VOC",  priority = 20}, /*  49 */
-			new VoiceData { str = "%cSABOT.VOC",    priority = 20}, /*  50 */
-			new VoiceData { str = "%cMISSILE.VOC",  priority = 20}, /*  51 */
-			new VoiceData { str = "%cBLOOM.VOC",    priority = 20}, /*  52 */
-			new VoiceData { str = "%cDESTROY.VOC",  priority = 20}, /*  53 */
-			new VoiceData { str = "%cDEPLOY.VOC",   priority = 20}, /*  54 */
-			new VoiceData { str = "%cAPPRCH.VOC",   priority = 20}, /*  55 */
-			new VoiceData { str = "%cLOCATED.VOC",  priority = 20}, /*  56 */
-			new VoiceData { str = "%cNORTH.VOC",    priority = 20}, /*  57 */
-			new VoiceData { str = "%cEAST.VOC",     priority = 20}, /*  58 */
-			new VoiceData { str = "%cSOUTH.VOC",    priority = 20}, /*  59 */
-			new VoiceData { str = "%cWEST.VOC",     priority = 20}, /*  60 */
-			new VoiceData { str = "?%cWIN.VOC",     priority = 20}, /*  61 */
-			new VoiceData { str = "?%cLOSE.VOC",    priority = 20}, /*  62 */
-			new VoiceData { str = "%cLAUNCH.VOC",   priority = 20}, /*  63 */
-			new VoiceData { str = "%cATTACK.VOC",   priority = 20}, /*  64 */
-			new VoiceData { str = "%cVEHICLE.VOC",  priority = 20}, /*  65 */
-			new VoiceData { str = "%cREPAIR.VOC",   priority = 20}, /*  66 */
-			new VoiceData { str = "%cHARVEST.VOC",  priority = 20}, /*  67 */
-			new VoiceData { str = "%cWORMY.VOC",    priority = 20}, /*  68 */
-			new VoiceData { str = "%cCAPTURE.VOC",  priority = 20}, /*  69 */
-			new VoiceData { str = "%cNEXT.VOC",     priority = 20}, /*  70 */
-			new VoiceData { str = "%cNEXT2.VOC",    priority = 20}, /*  71 */
-			new VoiceData { str = "/BLASTER.VOC",   priority = 10}, /*  72 */
-			new VoiceData { str = "/GLASS6.VOC",    priority = 10}, /*  73 */
-			new VoiceData { str = "/LIZARD1.VOC",   priority = 10}, /*  74 */
-			new VoiceData { str = "/FLESH.VOC",     priority = 10}, /*  75 */
-			new VoiceData { str = "/CLICK.VOC",     priority = 10}, /*  76 */
-			new VoiceData { str = "-3HOUSES.VOC",   priority = 12}, /*  77 */
-			new VoiceData { str = "-ANDNOW.VOC",    priority = 12}, /*  78 */
-			new VoiceData { str = "-ARRIVED.VOC",   priority = 12}, /*  79 */
-			new VoiceData { str = "-BATTLE.VOC",    priority = 12}, /*  80 */
-			new VoiceData { str = "-BEGINS.VOC",    priority = 12}, /*  81 */
-			new VoiceData { str = "-BLDING.VOC",    priority = 12}, /*  82 */
-			new VoiceData { str = "-CONTROL2.VOC",  priority = 12}, /*  83 */
-			new VoiceData { str = "-CONTROL3.VOC",  priority = 12}, /*  84 */
-			new VoiceData { str = "-CONTROL4.VOC",  priority = 12}, /*  85 */
-			new VoiceData { str = "-CONTROLS.VOC",  priority = 12}, /*  86 */
-			new VoiceData { str = "-DUNE.VOC",      priority = 12}, /*  87 */
-			new VoiceData { str = "-DYNASTY.VOC",   priority = 12}, /*  88 */
-			new VoiceData { str = "-EACHHOME.VOC",  priority = 12}, /*  89 */
-			new VoiceData { str = "-EANDNO.VOC",    priority = 12}, /*  90 */
-			new VoiceData { str = "-ECONTROL.VOC",  priority = 12}, /*  91 */
-			new VoiceData { str = "-EHOUSE.VOC",    priority = 12}, /*  92 */
-			new VoiceData { str = "-EMPIRE.VOC",    priority = 12}, /*  93 */
-			new VoiceData { str = "-EPRODUCE.VOC",  priority = 12}, /*  94 */
-			new VoiceData { str = "-ERULES.VOC",    priority = 12}, /*  95 */
-			new VoiceData { str = "-ETERRIT.VOC",   priority = 12}, /*  96 */
-			new VoiceData { str = "-EMOST.VOC",     priority = 12}, /*  97 */
-			new VoiceData { str = "-ENOSET.VOC",    priority = 12}, /*  98 */
-			new VoiceData { str = "-EVIL.VOC",      priority = 12}, /*  99 */
-			new VoiceData { str = "-HARK.VOC",      priority = 12}, /* 100 */
-			new VoiceData { str = "-HOME.VOC",      priority = 12}, /* 101 */
-			new VoiceData { str = "-HOUSE2.VOC",    priority = 12}, /* 102 */
-			new VoiceData { str = "-INSID.VOC",     priority = 12}, /* 103 */
-			new VoiceData { str = "-KING.VOC",      priority = 12}, /* 104 */
-			new VoiceData { str = "-KNOWN.VOC",     priority = 12}, /* 105 */
-			new VoiceData { str = "-MELANGE.VOC",   priority = 12}, /* 106 */
-			new VoiceData { str = "-NOBLE.VOC",     priority = 12}, /* 107 */
-			new VoiceData { str = "?NOW.VOC",       priority = 12}, /* 108 */
-			new VoiceData { str = "-OFDUNE.VOC",    priority = 12}, /* 109 */
-			new VoiceData { str = "-ORD.VOC",       priority = 12}, /* 110 */
-			new VoiceData { str = "-PLANET.VOC",    priority = 12}, /* 111 */
-			new VoiceData { str = "-PREVAIL.VOC",   priority = 12}, /* 112 */
-			new VoiceData { str = "-PROPOSED.VOC",  priority = 12}, /* 113 */
-			new VoiceData { str = "-SANDLAND.VOC",  priority = 12}, /* 114 */
-			new VoiceData { str = "-SPICE.VOC",     priority = 12}, /* 115 */
-			new VoiceData { str = "-SPICE2.VOC",    priority = 12}, /* 116 */
-			new VoiceData { str = "-VAST.VOC",      priority = 12}, /* 117 */
-			new VoiceData { str = "-WHOEVER.VOC",   priority = 12}, /* 118 */
-			new VoiceData { str = "?YOUR.VOC",      priority = 12}, /* 119 */
-			new VoiceData { str = "?FILLER.VOC",    priority = 12}, /* 120 */
-			new VoiceData { str = "-DROPEQ2P.VOC",  priority = 10}, /* 121 */
-			new VoiceData { str = "/EXTINY.VOC",    priority = 10}, /* 122 */
-			new VoiceData { str = "-WIND2BP.VOC",   priority = 10}, /* 123 */
-			new VoiceData { str = "-BRAKES2P.VOC",  priority = 11}, /* 124 */
-			new VoiceData { str = "-GUNSHOT.VOC",   priority = 10}, /* 125 */
-			new VoiceData { str = "-GLASS.VOC",     priority = 11}, /* 126 */
-			new VoiceData { str = "-MISSLE8.VOC",   priority = 10}, /* 127 */
-			new VoiceData { str = "-CLANK.VOC",     priority = 10}, /* 128 */
-			new VoiceData { str = "-BLOWUP1.VOC",   priority = 10}, /* 129 */
-			new VoiceData { str = "-BLOWUP2.VOC",   priority = 11}  /* 130 */
+			new() { str = "+VSCREAM1.VOC",  priority = 11}, /*   0 */
+			new() { str = "+EXSAND.VOC",    priority = 10}, /*   1 */
+			new() { str = "+ROCKET.VOC",    priority = 11}, /*   2 */
+			new() { str = "+BUTTON.VOC",    priority = 10}, /*   3 */
+			new() { str = "+VSCREAM5.VOC",  priority = 11}, /*   4 */
+			new() { str = "+CRUMBLE.VOC",   priority = 15}, /*   5 */
+			new() { str = "+EXSMALL.VOC",   priority = 9}, /*   6 */
+			new() { str = "+EXMED.VOC",     priority = 10}, /*   7 */
+			new() { str = "+EXLARGE.VOC",   priority = 14}, /*   8 */
+			new() { str = "+EXCANNON.VOC",  priority = 11}, /*   9 */
+			new() { str = "+GUNMULTI.VOC",  priority = 9}, /*  10 */
+			new() { str = "+GUN.VOC",       priority = 10}, /*  11 */
+			new() { str = "+EXGAS.VOC",     priority = 10}, /*  12 */
+			new() { str = "+EXDUD.VOC",     priority = 10}, /*  13 */
+			new() { str = "+VSCREAM2.VOC",  priority = 11}, /*  14 */
+			new() { str = "+VSCREAM3.VOC",  priority = 11}, /*  15 */
+			new() { str = "+VSCREAM4.VOC",  priority = 11}, /*  16 */
+			new() { str = "+%cAFFIRM.VOC",  priority = 15}, /*  17 */
+			new() { str = "+%cREPORT1.VOC", priority = 15}, /*  18 */
+			new() { str = "+%cREPORT2.VOC", priority = 15}, /*  19 */
+			new() { str = "+%cREPORT3.VOC", priority = 15}, /*  20 */
+			new() { str = "+%cOVEROUT.VOC", priority = 15}, /*  21 */
+			new() { str = "+%cMOVEOUT.VOC", priority = 15}, /*  22 */
+			new() { str = "?POPPA.VOC",     priority = 15}, /*  23 */
+			new() { str = "?SANDBUG.VOC",   priority = 15}, /*  24 */
+			new() { str = "+STATICP.VOC",   priority = 10}, /*  25 */
+			new() { str = "+WORMET3P.VOC",  priority = 16}, /*  26 */
+			new() { str = "+MISLTINP.VOC",  priority = 10}, /*  27 */
+			new() { str = "+SQUISH2.VOC",   priority = 12}, /*  28 */
+			new() { str = "%cENEMY.VOC",    priority = 20}, /*  29 */
+			new() { str = "%cHARK.VOC",     priority = 20}, /*  30 */
+			new() { str = "%cATRE.VOC",     priority = 20}, /*  31 */
+			new() { str = "%cORDOS.VOC",    priority = 20}, /*  32 */
+			new() { str = "%cFREMEN.VOC",   priority = 20}, /*  33 */
+			new() { str = "%cSARD.VOC",     priority = 20}, /*  34 */
+			new() { str = "FILLER.VOC",     priority = 20}, /*  35 */
+			new() { str = "%cUNIT.VOC",     priority = 20}, /*  36 */
+			new() { str = "%cSTRUCT.VOC",   priority = 20}, /*  37 */
+			new() { str = "%cONE.VOC",      priority = 19}, /*  38 */
+			new() { str = "%cTWO.VOC",      priority = 19}, /*  39 */
+			new() { str = "%cTHREE.VOC",    priority = 19}, /*  40 */
+			new() { str = "%cFOUR.VOC",     priority = 19}, /*  41 */
+			new() { str = "%cFIVE.VOC",     priority = 19}, /*  42 */
+			new() { str = "%cCONST.VOC",    priority = 20}, /*  43 */
+			new() { str = "%cRADAR.VOC",    priority = 20}, /*  44 */
+			new() { str = "%cOFF.VOC",      priority = 20}, /*  45 */
+			new() { str = "%cON.VOC",       priority = 20}, /*  46 */
+			new() { str = "%cFRIGATE.VOC",  priority = 20}, /*  47 */
+			new() { str = "?%cARRIVE.VOC",  priority = 20}, /*  48 */
+			new() { str = "%cWARNING.VOC",  priority = 20}, /*  49 */
+			new() { str = "%cSABOT.VOC",    priority = 20}, /*  50 */
+			new() { str = "%cMISSILE.VOC",  priority = 20}, /*  51 */
+			new() { str = "%cBLOOM.VOC",    priority = 20}, /*  52 */
+			new() { str = "%cDESTROY.VOC",  priority = 20}, /*  53 */
+			new() { str = "%cDEPLOY.VOC",   priority = 20}, /*  54 */
+			new() { str = "%cAPPRCH.VOC",   priority = 20}, /*  55 */
+			new() { str = "%cLOCATED.VOC",  priority = 20}, /*  56 */
+			new() { str = "%cNORTH.VOC",    priority = 20}, /*  57 */
+			new() { str = "%cEAST.VOC",     priority = 20}, /*  58 */
+			new() { str = "%cSOUTH.VOC",    priority = 20}, /*  59 */
+			new() { str = "%cWEST.VOC",     priority = 20}, /*  60 */
+			new() { str = "?%cWIN.VOC",     priority = 20}, /*  61 */
+			new() { str = "?%cLOSE.VOC",    priority = 20}, /*  62 */
+			new() { str = "%cLAUNCH.VOC",   priority = 20}, /*  63 */
+			new() { str = "%cATTACK.VOC",   priority = 20}, /*  64 */
+			new() { str = "%cVEHICLE.VOC",  priority = 20}, /*  65 */
+			new() { str = "%cREPAIR.VOC",   priority = 20}, /*  66 */
+			new() { str = "%cHARVEST.VOC",  priority = 20}, /*  67 */
+			new() { str = "%cWORMY.VOC",    priority = 20}, /*  68 */
+			new() { str = "%cCAPTURE.VOC",  priority = 20}, /*  69 */
+			new() { str = "%cNEXT.VOC",     priority = 20}, /*  70 */
+			new() { str = "%cNEXT2.VOC",    priority = 20}, /*  71 */
+			new() { str = "/BLASTER.VOC",   priority = 10}, /*  72 */
+			new() { str = "/GLASS6.VOC",    priority = 10}, /*  73 */
+			new() { str = "/LIZARD1.VOC",   priority = 10}, /*  74 */
+			new() { str = "/FLESH.VOC",     priority = 10}, /*  75 */
+			new() { str = "/CLICK.VOC",     priority = 10}, /*  76 */
+			new() { str = "-3HOUSES.VOC",   priority = 12}, /*  77 */
+			new() { str = "-ANDNOW.VOC",    priority = 12}, /*  78 */
+			new() { str = "-ARRIVED.VOC",   priority = 12}, /*  79 */
+			new() { str = "-BATTLE.VOC",    priority = 12}, /*  80 */
+			new() { str = "-BEGINS.VOC",    priority = 12}, /*  81 */
+			new() { str = "-BLDING.VOC",    priority = 12}, /*  82 */
+			new() { str = "-CONTROL2.VOC",  priority = 12}, /*  83 */
+			new() { str = "-CONTROL3.VOC",  priority = 12}, /*  84 */
+			new() { str = "-CONTROL4.VOC",  priority = 12}, /*  85 */
+			new() { str = "-CONTROLS.VOC",  priority = 12}, /*  86 */
+			new() { str = "-DUNE.VOC",      priority = 12}, /*  87 */
+			new() { str = "-DYNASTY.VOC",   priority = 12}, /*  88 */
+			new() { str = "-EACHHOME.VOC",  priority = 12}, /*  89 */
+			new() { str = "-EANDNO.VOC",    priority = 12}, /*  90 */
+			new() { str = "-ECONTROL.VOC",  priority = 12}, /*  91 */
+			new() { str = "-EHOUSE.VOC",    priority = 12}, /*  92 */
+			new() { str = "-EMPIRE.VOC",    priority = 12}, /*  93 */
+			new() { str = "-EPRODUCE.VOC",  priority = 12}, /*  94 */
+			new() { str = "-ERULES.VOC",    priority = 12}, /*  95 */
+			new() { str = "-ETERRIT.VOC",   priority = 12}, /*  96 */
+			new() { str = "-EMOST.VOC",     priority = 12}, /*  97 */
+			new() { str = "-ENOSET.VOC",    priority = 12}, /*  98 */
+			new() { str = "-EVIL.VOC",      priority = 12}, /*  99 */
+			new() { str = "-HARK.VOC",      priority = 12}, /* 100 */
+			new() { str = "-HOME.VOC",      priority = 12}, /* 101 */
+			new() { str = "-HOUSE2.VOC",    priority = 12}, /* 102 */
+			new() { str = "-INSID.VOC",     priority = 12}, /* 103 */
+			new() { str = "-KING.VOC",      priority = 12}, /* 104 */
+			new() { str = "-KNOWN.VOC",     priority = 12}, /* 105 */
+			new() { str = "-MELANGE.VOC",   priority = 12}, /* 106 */
+			new() { str = "-NOBLE.VOC",     priority = 12}, /* 107 */
+			new() { str = "?NOW.VOC",       priority = 12}, /* 108 */
+			new() { str = "-OFDUNE.VOC",    priority = 12}, /* 109 */
+			new() { str = "-ORD.VOC",       priority = 12}, /* 110 */
+			new() { str = "-PLANET.VOC",    priority = 12}, /* 111 */
+			new() { str = "-PREVAIL.VOC",   priority = 12}, /* 112 */
+			new() { str = "-PROPOSED.VOC",  priority = 12}, /* 113 */
+			new() { str = "-SANDLAND.VOC",  priority = 12}, /* 114 */
+			new() { str = "-SPICE.VOC",     priority = 12}, /* 115 */
+			new() { str = "-SPICE2.VOC",    priority = 12}, /* 116 */
+			new() { str = "-VAST.VOC",      priority = 12}, /* 117 */
+			new() { str = "-WHOEVER.VOC",   priority = 12}, /* 118 */
+			new() { str = "?YOUR.VOC",      priority = 12}, /* 119 */
+			new() { str = "?FILLER.VOC",    priority = 12}, /* 120 */
+			new() { str = "-DROPEQ2P.VOC",  priority = 10}, /* 121 */
+			new() { str = "/EXTINY.VOC",    priority = 10}, /* 122 */
+			new() { str = "-WIND2BP.VOC",   priority = 10}, /* 123 */
+			new() { str = "-BRAKES2P.VOC",  priority = 11}, /* 124 */
+			new() { str = "-GUNSHOT.VOC",   priority = 10}, /* 125 */
+			new() { str = "-GLASS.VOC",     priority = 11}, /* 126 */
+			new() { str = "-MISSLE8.VOC",   priority = 10}, /* 127 */
+			new() { str = "-CLANK.VOC",     priority = 10}, /* 128 */
+			new() { str = "-BLOWUP1.VOC",   priority = 10}, /* 129 */
+			new() { str = "-BLOWUP2.VOC",   priority = 11}  /* 130 */
 		};
 
 		/*
@@ -361,100 +361,100 @@ namespace SharpDune
 		 * @see g_translatedVoice
 		 */
 		internal static Feedback[] g_feedback = {
-			new Feedback { voiceId = new ushort[] { 0x002B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x33, soundId = 0x003C }, /*  0 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0xFFFF }, messageId = 0x34, soundId = 0xFFFF }, /*  1 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x0039 }, messageId = 0x34, soundId = 0xFFFF }, /*  2 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x003A }, messageId = 0x34, soundId = 0xFFFF }, /*  3 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x003B }, messageId = 0x34, soundId = 0xFFFF }, /*  4 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x003C }, messageId = 0x34, soundId = 0xFFFF }, /*  5 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x001E, 0x0024, 0x0037, 0xFFFF }, messageId = 0x35, soundId = 0xFFFF }, /*  6 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x001F, 0x0024, 0x0037, 0xFFFF }, messageId = 0x36, soundId = 0xFFFF }, /*  7 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x0020, 0x0024, 0x0037, 0xFFFF }, messageId = 0x37, soundId = 0xFFFF }, /*  8 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x0021, 0x0024, 0x0037, 0xFFFF }, messageId = 0x38, soundId = 0xFFFF }, /*  9 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x0022, 0x0037, 0xFFFF, 0xFFFF }, messageId = 0x39, soundId = 0xFFFF }, /* 10 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x0023, 0x0024, 0x0037, 0xFFFF }, messageId = 0x3A, soundId = 0xFFFF }, /* 11 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x0032, 0x0037, 0xFFFF, 0xFFFF }, messageId = 0x3B, soundId = 0xFFFF }, /* 12 */
-			new Feedback { voiceId = new ushort[] { 0x001D, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 13 */
-			new Feedback { voiceId = new ushort[] { 0x001E, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3C, soundId = 0xFFFF }, /* 14 */
-			new Feedback { voiceId = new ushort[] { 0x001F, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3D, soundId = 0xFFFF }, /* 15 */
-			new Feedback { voiceId = new ushort[] { 0x0020, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3E, soundId = 0xFFFF }, /* 16 */
-			new Feedback { voiceId = new ushort[] { 0x0021, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3F, soundId = 0xFFFF }, /* 17 */
-			new Feedback { voiceId = new ushort[] { 0x0022, 0x0035, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x40, soundId = 0xFFFF }, /* 18 */
-			new Feedback { voiceId = new ushort[] { 0x0023, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x41, soundId = 0xFFFF }, /* 19 */
-			new Feedback { voiceId = new ushort[] { 0x0032, 0x0035, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 20 */
-			new Feedback { voiceId = new ushort[] { 0x001D, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 21 */
-			new Feedback { voiceId = new ushort[] { 0x001E, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x42, soundId = 0xFFFF }, /* 22 */
-			new Feedback { voiceId = new ushort[] { 0x001F, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x43, soundId = 0xFFFF }, /* 23 */
-			new Feedback { voiceId = new ushort[] { 0x0020, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x44, soundId = 0xFFFF }, /* 24 */
-			new Feedback { voiceId = new ushort[] { 0x0021, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x45, soundId = 0xFFFF }, /* 25 */
-			new Feedback { voiceId = new ushort[] { 0x0022, 0x0035, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x46, soundId = 0xFFFF }, /* 26 */
-			new Feedback { voiceId = new ushort[] { 0x0023, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x47, soundId = 0xFFFF }, /* 27 */
-			new Feedback { voiceId = new ushort[] { 0x002C, 0x002E, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 28 */
-			new Feedback { voiceId = new ushort[] { 0x002C, 0x002D, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 29 */
-			new Feedback { voiceId = new ushort[] { 0x001E, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x48, soundId = 0xFFFF }, /* 30 */
-			new Feedback { voiceId = new ushort[] { 0x001F, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x49, soundId = 0xFFFF }, /* 31 */
-			new Feedback { voiceId = new ushort[] { 0x0020, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x4A, soundId = 0xFFFF }, /* 32 */
-			new Feedback { voiceId = new ushort[] { 0x0021, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x4B, soundId = 0xFFFF }, /* 33 */
-			new Feedback { voiceId = new ushort[] { 0x0022, 0x0036, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x4C, soundId = 0xFFFF }, /* 34 */
-			new Feedback { voiceId = new ushort[] { 0x0023, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x4D, soundId = 0xFFFF }, /* 35 */
-			new Feedback { voiceId = new ushort[] { 0x0034, 0x0038, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 36 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x0044, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x4E, soundId = 0x0017 }, /* 37 */
-			new Feedback { voiceId = new ushort[] { 0x002F, 0x0030, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x50, soundId = 0xFFFF }, /* 38 */
-			new Feedback { voiceId = new ushort[] { 0x0031, 0x0033, 0x0037, 0xFFFF, 0xFFFF }, messageId = 0x51, soundId = 0xFFFF }, /* 39 */
-			new Feedback { voiceId = new ushort[] { 0x003D, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 40 */
-			new Feedback { voiceId = new ushort[] { 0x003E, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 41 */
-			new Feedback { voiceId = new ushort[] { 0x0033, 0x003F, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 42 */
-			new Feedback { voiceId = new ushort[] { 0x0026, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 43 */
-			new Feedback { voiceId = new ushort[] { 0x0027, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 44 */
-			new Feedback { voiceId = new ushort[] { 0x0028, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 45 */
-			new Feedback { voiceId = new ushort[] { 0x0029, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 46 */
-			new Feedback { voiceId = new ushort[] { 0x002A, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 47 */
-			new Feedback { voiceId = new ushort[] { 0x0040, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x5A, soundId = 0x0017 }, /* 48 */
-			new Feedback { voiceId = new ushort[] { 0x001E, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9A, soundId = 0xFFFF }, /* 49 */
-			new Feedback { voiceId = new ushort[] { 0x001F, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9B, soundId = 0xFFFF }, /* 50 */
-			new Feedback { voiceId = new ushort[] { 0x0020, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9C, soundId = 0xFFFF }, /* 51 */
-			new Feedback { voiceId = new ushort[] { 0x0021, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9D, soundId = 0xFFFF }, /* 52 */
-			new Feedback { voiceId = new ushort[] { 0x0022, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9E, soundId = 0xFFFF }, /* 53 */
-			new Feedback { voiceId = new ushort[] { 0x0023, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9F, soundId = 0xFFFF }, /* 54 */
-			new Feedback { voiceId = new ushort[] { 0x001E, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA2, soundId = 0xFFFF }, /* 55 */
-			new Feedback { voiceId = new ushort[] { 0x001F, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA3, soundId = 0xFFFF }, /* 56 */
-			new Feedback { voiceId = new ushort[] { 0x0020, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA4, soundId = 0xFFFF }, /* 57 */
-			new Feedback { voiceId = new ushort[] { 0x0021, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA5, soundId = 0xFFFF }, /* 58 */
-			new Feedback { voiceId = new ushort[] { 0x0022, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA6, soundId = 0xFFFF }, /* 59 */
-			new Feedback { voiceId = new ushort[] { 0x0023, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA7, soundId = 0xFFFF }, /* 60 */
-			new Feedback { voiceId = new ushort[] { 0x0046, 0x0047, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 61 */
-			new Feedback { voiceId = new ushort[] { 0x001E, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 62 */
-			new Feedback { voiceId = new ushort[] { 0x001F, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 63 */
-			new Feedback { voiceId = new ushort[] { 0x0020, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 64 */
-			new Feedback { voiceId = new ushort[] { 0x0021, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 65 */
-			new Feedback { voiceId = new ushort[] { 0x0022, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 66 */
-			new Feedback { voiceId = new ushort[] { 0x0023, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 67 */
-			new Feedback { voiceId = new ushort[] { 0x001E, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x93, soundId = 0xFFFF }, /* 68 */
-			new Feedback { voiceId = new ushort[] { 0x001F, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x94, soundId = 0xFFFF }, /* 69 */
-			new Feedback { voiceId = new ushort[] { 0x0020, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x95, soundId = 0xFFFF }, /* 70 */
-			new Feedback { voiceId = new ushort[] { 0x0021, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x96, soundId = 0xFFFF }, /* 71 */
-			new Feedback { voiceId = new ushort[] { 0x0022, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x97, soundId = 0xFFFF }, /* 72 */
-			new Feedback { voiceId = new ushort[] { 0x0023, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x98, soundId = 0xFFFF }, /* 73 */
-			new Feedback { voiceId = new ushort[] { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 74 */
-			new Feedback { voiceId = new ushort[] { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 75 */
-			new Feedback { voiceId = new ushort[] { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 76 */
-			new Feedback { voiceId = new ushort[] { 0x006F, 0x0069, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 77 */
-			new Feedback { voiceId = new ushort[] { 0x0072, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 78 */
-			new Feedback { voiceId = new ushort[] { 0x0065, 0x0073, 0x006A, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 79 */
-			new Feedback { voiceId = new ushort[] { 0x0074, 0x0056, 0x005D, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 80 */
-			new Feedback { voiceId = new ushort[] { 0x0076, 0x0053, 0x0054, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 81 */
-			new Feedback { voiceId = new ushort[] { 0x0068, 0x0071, 0x0059, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 82 */
-			new Feedback { voiceId = new ushort[] { 0x005C, 0x005E, 0x0061, 0x005B, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 83 */
-			new Feedback { voiceId = new ushort[] { 0x0062, 0x0060, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 84 */
-			new Feedback { voiceId = new ushort[] { 0x005A, 0x005F, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 85 */
-			new Feedback { voiceId = new ushort[] { 0x0075, 0x004F, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 86 */
-			new Feedback { voiceId = new ushort[] { 0x004E, 0x004D, 0x0055, 0x006D, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 87 */
-			new Feedback { voiceId = new ushort[] { 0x006B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 88 */
-			new Feedback { voiceId = new ushort[] { 0x0067, 0x006E, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 89 */
-			new Feedback { voiceId = new ushort[] { 0x0063, 0x0064, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 90 */
-			new Feedback { voiceId = new ushort[] { 0x0066, 0x0070, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 91 */
-			new Feedback { voiceId = new ushort[] { 0x0077, 0x0050, 0x0051, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 92 */
-			new Feedback { voiceId = new ushort[] { 0x006C, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }  /* 93 */
+			new() { voiceId = new ushort[] { 0x002B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x33, soundId = 0x003C }, /*  0 */
+			new() { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0xFFFF }, messageId = 0x34, soundId = 0xFFFF }, /*  1 */
+			new() { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x0039 }, messageId = 0x34, soundId = 0xFFFF }, /*  2 */
+			new() { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x003A }, messageId = 0x34, soundId = 0xFFFF }, /*  3 */
+			new() { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x003B }, messageId = 0x34, soundId = 0xFFFF }, /*  4 */
+			new() { voiceId = new ushort[] { 0x0031, 0x001D, 0x0024, 0x0037, 0x003C }, messageId = 0x34, soundId = 0xFFFF }, /*  5 */
+			new() { voiceId = new ushort[] { 0x0031, 0x001E, 0x0024, 0x0037, 0xFFFF }, messageId = 0x35, soundId = 0xFFFF }, /*  6 */
+			new() { voiceId = new ushort[] { 0x0031, 0x001F, 0x0024, 0x0037, 0xFFFF }, messageId = 0x36, soundId = 0xFFFF }, /*  7 */
+			new() { voiceId = new ushort[] { 0x0031, 0x0020, 0x0024, 0x0037, 0xFFFF }, messageId = 0x37, soundId = 0xFFFF }, /*  8 */
+			new() { voiceId = new ushort[] { 0x0031, 0x0021, 0x0024, 0x0037, 0xFFFF }, messageId = 0x38, soundId = 0xFFFF }, /*  9 */
+			new() { voiceId = new ushort[] { 0x0031, 0x0022, 0x0037, 0xFFFF, 0xFFFF }, messageId = 0x39, soundId = 0xFFFF }, /* 10 */
+			new() { voiceId = new ushort[] { 0x0031, 0x0023, 0x0024, 0x0037, 0xFFFF }, messageId = 0x3A, soundId = 0xFFFF }, /* 11 */
+			new() { voiceId = new ushort[] { 0x0031, 0x0032, 0x0037, 0xFFFF, 0xFFFF }, messageId = 0x3B, soundId = 0xFFFF }, /* 12 */
+			new() { voiceId = new ushort[] { 0x001D, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 13 */
+			new() { voiceId = new ushort[] { 0x001E, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3C, soundId = 0xFFFF }, /* 14 */
+			new() { voiceId = new ushort[] { 0x001F, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3D, soundId = 0xFFFF }, /* 15 */
+			new() { voiceId = new ushort[] { 0x0020, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3E, soundId = 0xFFFF }, /* 16 */
+			new() { voiceId = new ushort[] { 0x0021, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x3F, soundId = 0xFFFF }, /* 17 */
+			new() { voiceId = new ushort[] { 0x0022, 0x0035, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x40, soundId = 0xFFFF }, /* 18 */
+			new() { voiceId = new ushort[] { 0x0023, 0x0024, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x41, soundId = 0xFFFF }, /* 19 */
+			new() { voiceId = new ushort[] { 0x0032, 0x0035, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 20 */
+			new() { voiceId = new ushort[] { 0x001D, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 21 */
+			new() { voiceId = new ushort[] { 0x001E, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x42, soundId = 0xFFFF }, /* 22 */
+			new() { voiceId = new ushort[] { 0x001F, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x43, soundId = 0xFFFF }, /* 23 */
+			new() { voiceId = new ushort[] { 0x0020, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x44, soundId = 0xFFFF }, /* 24 */
+			new() { voiceId = new ushort[] { 0x0021, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x45, soundId = 0xFFFF }, /* 25 */
+			new() { voiceId = new ushort[] { 0x0022, 0x0035, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x46, soundId = 0xFFFF }, /* 26 */
+			new() { voiceId = new ushort[] { 0x0023, 0x0025, 0x0035, 0xFFFF, 0xFFFF }, messageId = 0x47, soundId = 0xFFFF }, /* 27 */
+			new() { voiceId = new ushort[] { 0x002C, 0x002E, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 28 */
+			new() { voiceId = new ushort[] { 0x002C, 0x002D, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 29 */
+			new() { voiceId = new ushort[] { 0x001E, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x48, soundId = 0xFFFF }, /* 30 */
+			new() { voiceId = new ushort[] { 0x001F, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x49, soundId = 0xFFFF }, /* 31 */
+			new() { voiceId = new ushort[] { 0x0020, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x4A, soundId = 0xFFFF }, /* 32 */
+			new() { voiceId = new ushort[] { 0x0021, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x4B, soundId = 0xFFFF }, /* 33 */
+			new() { voiceId = new ushort[] { 0x0022, 0x0036, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x4C, soundId = 0xFFFF }, /* 34 */
+			new() { voiceId = new ushort[] { 0x0023, 0x0024, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x4D, soundId = 0xFFFF }, /* 35 */
+			new() { voiceId = new ushort[] { 0x0034, 0x0038, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 36 */
+			new() { voiceId = new ushort[] { 0x0031, 0x0044, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x4E, soundId = 0x0017 }, /* 37 */
+			new() { voiceId = new ushort[] { 0x002F, 0x0030, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x50, soundId = 0xFFFF }, /* 38 */
+			new() { voiceId = new ushort[] { 0x0031, 0x0033, 0x0037, 0xFFFF, 0xFFFF }, messageId = 0x51, soundId = 0xFFFF }, /* 39 */
+			new() { voiceId = new ushort[] { 0x003D, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 40 */
+			new() { voiceId = new ushort[] { 0x003E, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 41 */
+			new() { voiceId = new ushort[] { 0x0033, 0x003F, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 42 */
+			new() { voiceId = new ushort[] { 0x0026, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 43 */
+			new() { voiceId = new ushort[] { 0x0027, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 44 */
+			new() { voiceId = new ushort[] { 0x0028, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 45 */
+			new() { voiceId = new ushort[] { 0x0029, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 46 */
+			new() { voiceId = new ushort[] { 0x002A, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0x002E }, /* 47 */
+			new() { voiceId = new ushort[] { 0x0040, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x5A, soundId = 0x0017 }, /* 48 */
+			new() { voiceId = new ushort[] { 0x001E, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9A, soundId = 0xFFFF }, /* 49 */
+			new() { voiceId = new ushort[] { 0x001F, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9B, soundId = 0xFFFF }, /* 50 */
+			new() { voiceId = new ushort[] { 0x0020, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9C, soundId = 0xFFFF }, /* 51 */
+			new() { voiceId = new ushort[] { 0x0021, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9D, soundId = 0xFFFF }, /* 52 */
+			new() { voiceId = new ushort[] { 0x0022, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9E, soundId = 0xFFFF }, /* 53 */
+			new() { voiceId = new ushort[] { 0x0023, 0x0024, 0x003F, 0xFFFF, 0xFFFF }, messageId = 0x9F, soundId = 0xFFFF }, /* 54 */
+			new() { voiceId = new ushort[] { 0x001E, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA2, soundId = 0xFFFF }, /* 55 */
+			new() { voiceId = new ushort[] { 0x001F, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA3, soundId = 0xFFFF }, /* 56 */
+			new() { voiceId = new ushort[] { 0x0020, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA4, soundId = 0xFFFF }, /* 57 */
+			new() { voiceId = new ushort[] { 0x0021, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA5, soundId = 0xFFFF }, /* 58 */
+			new() { voiceId = new ushort[] { 0x0022, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA6, soundId = 0xFFFF }, /* 59 */
+			new() { voiceId = new ushort[] { 0x0023, 0x0041, 0x0042, 0xFFFF, 0xFFFF }, messageId = 0xA7, soundId = 0xFFFF }, /* 60 */
+			new() { voiceId = new ushort[] { 0x0046, 0x0047, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 61 */
+			new() { voiceId = new ushort[] { 0x001E, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 62 */
+			new() { voiceId = new ushort[] { 0x001F, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 63 */
+			new() { voiceId = new ushort[] { 0x0020, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 64 */
+			new() { voiceId = new ushort[] { 0x0021, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 65 */
+			new() { voiceId = new ushort[] { 0x0022, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 66 */
+			new() { voiceId = new ushort[] { 0x0023, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 67 */
+			new() { voiceId = new ushort[] { 0x001E, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x93, soundId = 0xFFFF }, /* 68 */
+			new() { voiceId = new ushort[] { 0x001F, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x94, soundId = 0xFFFF }, /* 69 */
+			new() { voiceId = new ushort[] { 0x0020, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x95, soundId = 0xFFFF }, /* 70 */
+			new() { voiceId = new ushort[] { 0x0021, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x96, soundId = 0xFFFF }, /* 71 */
+			new() { voiceId = new ushort[] { 0x0022, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x97, soundId = 0xFFFF }, /* 72 */
+			new() { voiceId = new ushort[] { 0x0023, 0x0043, 0x0036, 0xFFFF, 0xFFFF }, messageId = 0x98, soundId = 0xFFFF }, /* 73 */
+			new() { voiceId = new ushort[] { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 74 */
+			new() { voiceId = new ushort[] { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 75 */
+			new() { voiceId = new ushort[] { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 76 */
+			new() { voiceId = new ushort[] { 0x006F, 0x0069, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 77 */
+			new() { voiceId = new ushort[] { 0x0072, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 78 */
+			new() { voiceId = new ushort[] { 0x0065, 0x0073, 0x006A, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 79 */
+			new() { voiceId = new ushort[] { 0x0074, 0x0056, 0x005D, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 80 */
+			new() { voiceId = new ushort[] { 0x0076, 0x0053, 0x0054, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 81 */
+			new() { voiceId = new ushort[] { 0x0068, 0x0071, 0x0059, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 82 */
+			new() { voiceId = new ushort[] { 0x005C, 0x005E, 0x0061, 0x005B, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 83 */
+			new() { voiceId = new ushort[] { 0x0062, 0x0060, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 84 */
+			new() { voiceId = new ushort[] { 0x005A, 0x005F, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 85 */
+			new() { voiceId = new ushort[] { 0x0075, 0x004F, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 86 */
+			new() { voiceId = new ushort[] { 0x004E, 0x004D, 0x0055, 0x006D, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 87 */
+			new() { voiceId = new ushort[] { 0x006B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 88 */
+			new() { voiceId = new ushort[] { 0x0067, 0x006E, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 89 */
+			new() { voiceId = new ushort[] { 0x0063, 0x0064, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 90 */
+			new() { voiceId = new ushort[] { 0x0066, 0x0070, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x00, soundId = 0xFFFF }, /* 91 */
+			new() { voiceId = new ushort[] { 0x0077, 0x0050, 0x0051, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }, /* 92 */
+			new() { voiceId = new ushort[] { 0x006C, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF }, messageId = 0x01, soundId = 0xFFFF }  /* 93 */
 		};
 
 		/* Translated audio feedback of events and user commands. */

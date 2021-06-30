@@ -40,7 +40,7 @@ namespace SharpDune
         static MSBuffer s_bufferMusic = new();
         internal static MSBuffer g_bufferMusic = s_bufferMusic;
 
-        static MSBuffer[] s_bufferSound = { new MSBuffer(), new MSBuffer(), new MSBuffer(), new MSBuffer() }; //new MSBuffer[4];
+        static MSBuffer[] s_bufferSound = { new(), new(), new(), new() }; //new MSBuffer[4];
         static MSBuffer[] g_bufferSound = { s_bufferSound[0], s_bufferSound[1], s_bufferSound[2], s_bufferSound[3] };
 
         static byte s_bufferSoundIndex;
@@ -339,7 +339,7 @@ namespace SharpDune
             }
             s_bufferSoundIndex = 0;
 
-            g_bufferMusic.buffer = new MSData[] { new MSData() }; //new MSData[size]; //calloc(1, size);
+            g_bufferMusic.buffer = new MSData[] { new() }; //new MSData[size]; //calloc(1, size);
             g_bufferMusic.index = 0xFFFF;
 
             return true;

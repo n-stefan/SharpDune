@@ -6,7 +6,7 @@ namespace SharpDune
     {
 		/* TODO : const */
 		internal static WidgetInfo[] g_table_gameWidgetInfo = {
-			new WidgetInfo {
+			new() {
 				index = 1,
 				clickProc = Mentat.GUI_Widget_Mentat_Click,
 				shortcut = 112,
@@ -18,7 +18,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 2,
 				clickProc = WidgetClick.GUI_Widget_Options_Click,
 				shortcut = 113,
@@ -30,7 +30,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 3,
 				clickProc = WidgetClick.GUI_Widget_Name_Click,
 				shortcut = 0,
@@ -42,7 +42,7 @@ namespace SharpDune
 				height = 6,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 6,
 				clickProc = WidgetClick.GUI_Widget_Picture_Click,
 				shortcut = 114,
@@ -54,7 +54,7 @@ namespace SharpDune
 				height = 24,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 4,
 				clickProc = WidgetClick.GUI_Widget_RepairUpgrade_Click,
 				shortcut = 0,
@@ -66,7 +66,7 @@ namespace SharpDune
 				height = 10,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 5,
 				clickProc = WidgetClick.GUI_Widget_SpriteTextButton_Click,
 				shortcut = 0,
@@ -78,7 +78,7 @@ namespace SharpDune
 				height = 35,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 7,
 				clickProc = WidgetClick.GUI_Widget_Cancel_Click,
 				shortcut = 110,
@@ -90,7 +90,7 @@ namespace SharpDune
 				height = 11,
 				stringID = (ushort)Text.STR_CANCEL
 			},
-			new WidgetInfo {
+			new() {
 				index = 8,
 				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
 				shortcut = 0,
@@ -102,7 +102,7 @@ namespace SharpDune
 				height = 10,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 9,
 				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
 				shortcut = 0,
@@ -114,7 +114,7 @@ namespace SharpDune
 				height = 10,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 10,
 				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
 				shortcut = 0,
@@ -126,7 +126,7 @@ namespace SharpDune
 				height = 10,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 11,
 				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
 				shortcut = 0,
@@ -138,7 +138,7 @@ namespace SharpDune
 				height = 10,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 39,
 				clickProc = Viewport.GUI_Widget_Viewport_Click,
 				shortcut = 0,
@@ -150,7 +150,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 40,
 				clickProc = Viewport.GUI_Widget_Viewport_Click,
 				shortcut = 0,
@@ -162,7 +162,7 @@ namespace SharpDune
 				height = 160,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 41,
 				clickProc = Viewport.GUI_Widget_Viewport_Click,
 				shortcut = 0,
@@ -174,7 +174,7 @@ namespace SharpDune
 				height = 160,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 42,
 				clickProc = Viewport.GUI_Widget_Viewport_Click,
 				shortcut = 0,
@@ -186,7 +186,7 @@ namespace SharpDune
 				height = 2,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 43,
 				clickProc = Viewport.GUI_Widget_Viewport_Click,
 				shortcut = 0,
@@ -198,7 +198,7 @@ namespace SharpDune
 				height = 160,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 44,
 				clickProc = Viewport.GUI_Widget_Viewport_Click,
 				shortcut = 0,
@@ -210,7 +210,7 @@ namespace SharpDune
 				height = 64,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = 45,
 				clickProc = Viewport.GUI_Widget_Viewport_Click,
 				shortcut = 0,
@@ -222,7 +222,7 @@ namespace SharpDune
 				height = 200,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = null,
 				shortcut = 0,
@@ -237,7 +237,7 @@ namespace SharpDune
 		};
 
 		internal static WidgetInfo[] g_table_factoryWidgetInfo = {
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_List_Click,
 				shortcut = -2,
@@ -249,7 +249,7 @@ namespace SharpDune
 				height = 24,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_List_Click,
 				shortcut = -3,
@@ -261,7 +261,7 @@ namespace SharpDune
 				height = 24,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_List_Click,
 				shortcut = -4,
@@ -273,7 +273,7 @@ namespace SharpDune
 				height = 24,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_List_Click,
 				shortcut = -5,
@@ -285,7 +285,7 @@ namespace SharpDune
 				height = 24,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_Up_Click,
 				shortcut = -1120,
@@ -297,7 +297,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_Down_Click,
 				shortcut = -1122,
@@ -309,7 +309,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_ResumeGame_Click,
 				shortcut = 188,
@@ -321,7 +321,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_Upgrade_Click,
 				shortcut = 189,
@@ -333,7 +333,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Purchase_Plus_Click,
 				shortcut = -13,
@@ -345,7 +345,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Purchase_Minus_Click,
 				shortcut = -12,
@@ -357,7 +357,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Purchase_Invoice_Click,
 				shortcut = 192,
@@ -369,7 +369,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_BuildThis_Click,
 				shortcut = 191,
@@ -381,7 +381,7 @@ namespace SharpDune
 				height = 16,
 				stringID = (ushort)Text.STR_NULL,
 			},
-			new WidgetInfo {
+			new() {
 				index = -1,
 				clickProc = WidgetClick.GUI_Production_BuildThis_Click,
 				shortcut = 190,

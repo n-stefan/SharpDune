@@ -197,28 +197,28 @@ namespace SharpDune
 		/* Layout and other properties of the widgets. */
 		internal static WidgetProperties[] g_widgetProperties = { //[22]
 			/* x   y   w    h   p4  norm sel */
-			new WidgetProperties { xBase =  0, yBase =   0, width = 40, height = 200, fgColourBlink =  15, fgColourNormal =  12, fgColourSelected = 0 }, /*  0 */
-			new WidgetProperties { xBase =  1, yBase =  75, width = 29, height =  70, fgColourBlink =  15, fgColourNormal =  15, fgColourSelected = 0 }, /*  1 */
-			new WidgetProperties { xBase =  0, yBase =  40, width = 30, height = 160, fgColourBlink =  15, fgColourNormal =  20, fgColourSelected = 0 }, /*  2 */
-			new WidgetProperties { xBase = 32, yBase = 136, width =  8, height =  64, fgColourBlink =  15, fgColourNormal =  12, fgColourSelected = 0 }, /*  3 */
-			new WidgetProperties { xBase = 32, yBase =  44, width =  8, height =   9, fgColourBlink =  29, fgColourNormal = 116, fgColourSelected = 0 }, /*  4 */
-			new WidgetProperties { xBase = 32, yBase =   4, width =  8, height =   9, fgColourBlink =  29, fgColourNormal = 116, fgColourSelected = 0 }, /*  5 */
-			new WidgetProperties { xBase = 32, yBase =  42, width =  8, height =  82, fgColourBlink =  15, fgColourNormal =  20, fgColourSelected = 0 }, /*  6 */
-			new WidgetProperties { xBase =  1, yBase =  21, width = 38, height =  14, fgColourBlink =  12, fgColourNormal = 116, fgColourSelected = 0 }, /*  7 */
-			new WidgetProperties { xBase = 16, yBase =  48, width = 23, height = 112, fgColourBlink =  15, fgColourNormal = 233, fgColourSelected = 0 }, /*  8 */
-			new WidgetProperties { xBase =  2, yBase = 176, width = 36, height =  11, fgColourBlink =  15, fgColourNormal =  20, fgColourSelected = 0 }, /*  9 */
-			new WidgetProperties { xBase =  0, yBase =  40, width = 40, height = 160, fgColourBlink =  29, fgColourNormal =  20, fgColourSelected = 0 }, /* 10 */
-			new WidgetProperties { xBase = 16, yBase =  48, width = 23, height = 112, fgColourBlink =  29, fgColourNormal =  20, fgColourSelected = 0 }, /* 11 */
-			new WidgetProperties { xBase =  9, yBase =  80, width = 22, height = 112, fgColourBlink =  29, fgColourNormal = 116, fgColourSelected = 0 }, /* 12 */
-			new WidgetProperties { xBase = 12, yBase = 140, width = 16, height =  42, fgColourBlink = 236, fgColourNormal = 233, fgColourSelected = 0 }, /* 13 */
-			new WidgetProperties { xBase =  2, yBase =  89, width = 36, height =  60, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 14 */
-			new WidgetProperties { xBase =  4, yBase = 110, width = 32, height =  12, fgColourBlink = 232, fgColourNormal = 235, fgColourSelected = 0 }, /* 15 */
-			new WidgetProperties { xBase =  5, yBase =  48, width = 30, height = 134, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 16 */
-			new WidgetProperties { xBase =  3, yBase =  36, width = 36, height = 148, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 17 */
-			new WidgetProperties { xBase =  1, yBase =  72, width = 38, height =  52, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 18 */
-			new WidgetProperties { xBase =  0, yBase =   0, width =  0, height =   0, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 19 */
-			new WidgetProperties { xBase =  2, yBase =  24, width = 36, height = 152, fgColourBlink =  12, fgColourNormal =  12, fgColourSelected = 0 }, /* 20 */
-			new WidgetProperties { xBase =  1, yBase =   6, width = 12, height =   3, fgColourBlink =   0, fgColourNormal =  15, fgColourSelected = 6 }  /* 21 */
+			new() { xBase =  0, yBase =   0, width = 40, height = 200, fgColourBlink =  15, fgColourNormal =  12, fgColourSelected = 0 }, /*  0 */
+			new() { xBase =  1, yBase =  75, width = 29, height =  70, fgColourBlink =  15, fgColourNormal =  15, fgColourSelected = 0 }, /*  1 */
+			new() { xBase =  0, yBase =  40, width = 30, height = 160, fgColourBlink =  15, fgColourNormal =  20, fgColourSelected = 0 }, /*  2 */
+			new() { xBase = 32, yBase = 136, width =  8, height =  64, fgColourBlink =  15, fgColourNormal =  12, fgColourSelected = 0 }, /*  3 */
+			new() { xBase = 32, yBase =  44, width =  8, height =   9, fgColourBlink =  29, fgColourNormal = 116, fgColourSelected = 0 }, /*  4 */
+			new() { xBase = 32, yBase =   4, width =  8, height =   9, fgColourBlink =  29, fgColourNormal = 116, fgColourSelected = 0 }, /*  5 */
+			new() { xBase = 32, yBase =  42, width =  8, height =  82, fgColourBlink =  15, fgColourNormal =  20, fgColourSelected = 0 }, /*  6 */
+			new() { xBase =  1, yBase =  21, width = 38, height =  14, fgColourBlink =  12, fgColourNormal = 116, fgColourSelected = 0 }, /*  7 */
+			new() { xBase = 16, yBase =  48, width = 23, height = 112, fgColourBlink =  15, fgColourNormal = 233, fgColourSelected = 0 }, /*  8 */
+			new() { xBase =  2, yBase = 176, width = 36, height =  11, fgColourBlink =  15, fgColourNormal =  20, fgColourSelected = 0 }, /*  9 */
+			new() { xBase =  0, yBase =  40, width = 40, height = 160, fgColourBlink =  29, fgColourNormal =  20, fgColourSelected = 0 }, /* 10 */
+			new() { xBase = 16, yBase =  48, width = 23, height = 112, fgColourBlink =  29, fgColourNormal =  20, fgColourSelected = 0 }, /* 11 */
+			new() { xBase =  9, yBase =  80, width = 22, height = 112, fgColourBlink =  29, fgColourNormal = 116, fgColourSelected = 0 }, /* 12 */
+			new() { xBase = 12, yBase = 140, width = 16, height =  42, fgColourBlink = 236, fgColourNormal = 233, fgColourSelected = 0 }, /* 13 */
+			new() { xBase =  2, yBase =  89, width = 36, height =  60, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 14 */
+			new() { xBase =  4, yBase = 110, width = 32, height =  12, fgColourBlink = 232, fgColourNormal = 235, fgColourSelected = 0 }, /* 15 */
+			new() { xBase =  5, yBase =  48, width = 30, height = 134, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 16 */
+			new() { xBase =  3, yBase =  36, width = 36, height = 148, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 17 */
+			new() { xBase =  1, yBase =  72, width = 38, height =  52, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 18 */
+			new() { xBase =  0, yBase =   0, width =  0, height =   0, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 19 */
+			new() { xBase =  2, yBase =  24, width = 36, height = 152, fgColourBlink =  12, fgColourNormal =  12, fgColourSelected = 0 }, /* 20 */
+			new() { xBase =  1, yBase =   6, width = 12, height =   3, fgColourBlink =   0, fgColourNormal =  15, fgColourSelected = 6 }  /* 21 */
 		};
 
 		internal static ushort g_curWidgetIndex;          /*!< Index of the currently selected widget in #g_widgetProperties. */
@@ -242,7 +242,7 @@ namespace SharpDune
 		internal static Widget g_widgetMentatScrollbar;
 
 		internal static Widget[] g_table_windowWidgets = {
-			new Widget {
+			new() {
 				next = null,
 				index = 30,
 				shortcut = 0,
@@ -291,7 +291,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 31,
 				shortcut = 0,
@@ -340,7 +340,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 32,
 				shortcut = 0,
@@ -389,7 +389,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 33,
 				shortcut = 0,
@@ -438,7 +438,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 34,
 				shortcut = 0,
@@ -487,7 +487,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 35,
 				shortcut = 0,
@@ -536,7 +536,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 36,
 				shortcut = 0,
@@ -585,7 +585,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 37,
 				shortcut = 96,
@@ -634,7 +634,7 @@ namespace SharpDune
 				data = null,
 				stringID = (ushort)Text.STR_NULL
 			},
-			new Widget {
+			new() {
 				next = null,
 				index = 38,
 				shortcut = 98,

@@ -188,7 +188,7 @@ namespace SharpDune
 		{
 			o = new Object();
 			currentDestination = new tile32();
-			orientation = new dir24[] { new dir24(), new dir24() };
+			orientation = new dir24[] { new(), new() };
 		}
 	}
 
@@ -265,7 +265,7 @@ namespace SharpDune
 			unchecked
 			{
 				g_table_unitInfo = new UnitInfo[] { //[UNIT_MAX]
-					new UnitInfo { /* 0 */
+					new() { /* 0 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_CARRYALL,
 						name = "Carryall",
@@ -338,7 +338,7 @@ namespace SharpDune
 						bulletSound = 42
 					},
 
-					new UnitInfo { /* 1 */
+					new() { /* 1 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_THOPTER,
 						name = "'Thopter",
@@ -411,7 +411,7 @@ namespace SharpDune
 						bulletSound = 42
 					},
 
-					new UnitInfo { /* 2 */
+					new() { /* 2 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_INFANTRY,
 						name = "Infantry",
@@ -484,7 +484,7 @@ namespace SharpDune
 						bulletSound = 58
 					},
 
-					new UnitInfo { /* 3 */
+					new() { /* 3 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_TROOPERS,
 						name = "Troopers",
@@ -557,7 +557,7 @@ namespace SharpDune
 						bulletSound = 59
 					},
 
-					new UnitInfo { /* 4 */
+					new() { /* 4 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_SOLDIER,
 						name = "Soldier",
@@ -630,7 +630,7 @@ namespace SharpDune
 						bulletSound = 58
 					},
 
-					new UnitInfo { /* 5 */
+					new() { /* 5 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_TROOPER,
 						name = "Trooper",
@@ -703,7 +703,7 @@ namespace SharpDune
 						bulletSound = 59
 					},
 
-					new UnitInfo { /* 6 */
+					new() { /* 6 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_SABOTEUR,
 						name = "Saboteur",
@@ -776,7 +776,7 @@ namespace SharpDune
 						bulletSound = 58
 					},
 
-					new UnitInfo { /* 7 */
+					new() { /* 7 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_LAUNCHER,
 						name = "Launcher",
@@ -849,7 +849,7 @@ namespace SharpDune
 						bulletSound = (ushort)-1
 					},
 
-					new UnitInfo { /* 8 */
+					new() { /* 8 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_DEVIATOR,
 						name = "Deviator",
@@ -922,7 +922,7 @@ namespace SharpDune
 						bulletSound = (ushort)-1
 					},
 
-					new UnitInfo { /* 9 */
+					new() { /* 9 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_TANK,
 						name = "Tank",
@@ -995,7 +995,7 @@ namespace SharpDune
 						bulletSound = 57
 					},
 
-					new UnitInfo { /* 10 */
+					new() { /* 10 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_SIEGE_TANK,
 						name = "Siege Tank",
@@ -1068,7 +1068,7 @@ namespace SharpDune
 						bulletSound = 57
 					},
 
-					new UnitInfo { /* 11 */
+					new() { /* 11 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_DEVASTATOR,
 						name = "Devastator",
@@ -1141,7 +1141,7 @@ namespace SharpDune
 						bulletSound = 57
 					},
 
-					new UnitInfo { /* 12 */
+					new() { /* 12 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_SONIC_TANK,
 						name = "Sonic Tank",
@@ -1214,7 +1214,7 @@ namespace SharpDune
 						bulletSound = 43
 					},
 
-					new UnitInfo { /* 13 */
+					new() { /* 13 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_TRIKE,
 						name = "Trike",
@@ -1287,7 +1287,7 @@ namespace SharpDune
 						bulletSound = 59
 					},
 
-					new UnitInfo { /* 14 */
+					new() { /* 14 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_RAIDER_TRIKE,
 						name = "Raider Trike",
@@ -1360,7 +1360,7 @@ namespace SharpDune
 						bulletSound = 59
 					},
 
-					new UnitInfo { /* 15 */
+					new() { /* 15 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_QUAD,
 						name = "Quad",
@@ -1433,7 +1433,7 @@ namespace SharpDune
 						bulletSound = 59
 					},
 
-					new UnitInfo { /* 16 */
+					new() { /* 16 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_HARVESTER,
 						name = "Harvester",
@@ -1506,7 +1506,7 @@ namespace SharpDune
 						bulletSound = 0
 					},
 
-					new UnitInfo { /* 17 */
+					new() { /* 17 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_MCV,
 						name = "MCV",
@@ -1579,7 +1579,7 @@ namespace SharpDune
 						bulletSound = 0
 					},
 
-					new UnitInfo { /* 18 */
+					new() { /* 18 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "Death Hand",
@@ -1652,7 +1652,7 @@ namespace SharpDune
 						bulletSound = 42
 					},
 
-					new UnitInfo { /* 19 */
+					new() { /* 19 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "Rocket",
@@ -1725,7 +1725,7 @@ namespace SharpDune
 						bulletSound = 42
 					},
 
-					new UnitInfo { /* 20 */
+					new() { /* 20 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "ARocket",
@@ -1798,7 +1798,7 @@ namespace SharpDune
 						bulletSound = 42
 					},
 
-					new UnitInfo { /* 21 */
+					new() { /* 21 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "GRocket",
@@ -1871,7 +1871,7 @@ namespace SharpDune
 						bulletSound = 42
 					},
 
-					new UnitInfo { /* 22 */
+					new() { /* 22 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "MiniRocket",
@@ -1944,7 +1944,7 @@ namespace SharpDune
 						bulletSound = 64
 					},
 
-					new UnitInfo { /* 23 */
+					new() { /* 23 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "Bullet",
@@ -2017,7 +2017,7 @@ namespace SharpDune
 						bulletSound = (ushort)-1
 					},
 
-					new UnitInfo { /* 24 */
+					new() { /* 24 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "Sonic Blast",
@@ -2090,7 +2090,7 @@ namespace SharpDune
 						bulletSound = (ushort)-1
 					},
 
-					new UnitInfo { /* 25 */
+					new() { /* 25 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_SANDWORM,
 						name = "Sandworm",
@@ -2163,7 +2163,7 @@ namespace SharpDune
 						bulletSound = 63
 					},
 
-					new UnitInfo { /* 26 */
+					new() { /* 26 */
 						o = new ObjectInfo {
 						stringID_abbrev = (ushort)Text.STR_NULL,
 						name = "Frigate",
@@ -2257,7 +2257,7 @@ namespace SharpDune
 		internal static ushort[] g_table_actionsAI = { (ushort)ActionType.ACTION_HUNT, (ushort)ActionType.ACTION_AREA_GUARD, (ushort)ActionType.ACTION_AMBUSH, (ushort)ActionType.ACTION_GUARD };
 
 		internal static ActionInfo[] g_table_actionInfo = { //[ACTION_MAX]
-			new ActionInfo { /* 0 */
+			new() { /* 0 */
 				stringID = (ushort)Text.STR_ATTACK,
 				name = "Attack",
 				switchType = 0,
@@ -2265,7 +2265,7 @@ namespace SharpDune
 				soundID = 21
 			},
 
-			new ActionInfo { /* 1 */
+			new() { /* 1 */
 				stringID = (ushort)Text.STR_MOVE,
 				name = "Move",
 				switchType = 0,
@@ -2273,7 +2273,7 @@ namespace SharpDune
 				soundID = 22
 			},
 
-			new ActionInfo { /* 2 */
+			new() { /* 2 */
 				stringID = (ushort)Text.STR_RETREAT,
 				name = "Retreat",
 				switchType = 0,
@@ -2281,7 +2281,7 @@ namespace SharpDune
 				soundID = 21
 			},
 
-			new ActionInfo { /* 3 */
+			new() { /* 3 */
 				stringID = (ushort)Text.STR_GUARD,
 				name = "Guard",
 				switchType = 0,
@@ -2289,7 +2289,7 @@ namespace SharpDune
 				soundID = 21
 			},
 
-			new ActionInfo { /* 4 */
+			new() { /* 4 */
 				stringID = (ushort)Text.STR_AREA_GUARD,
 				name = "Area Guard",
 				switchType = 0,
@@ -2297,7 +2297,7 @@ namespace SharpDune
 				soundID = 20
 			},
 
-			new ActionInfo { /* 5 */
+			new() { /* 5 */
 				stringID = (ushort)Text.STR_HARVEST,
 				name = "Harvest",
 				switchType = 0,
@@ -2305,7 +2305,7 @@ namespace SharpDune
 				soundID = 20
 			},
 
-			new ActionInfo { /* 6 */
+			new() { /* 6 */
 				stringID = (ushort)Text.STR_RETURN,
 				name = "Return",
 				switchType = 0,
@@ -2313,7 +2313,7 @@ namespace SharpDune
 				soundID = 21
 			},
 
-			new ActionInfo { /* 7 */
+			new() { /* 7 */
 				stringID = (ushort)Text.STR_STOP2,
 				name = "Stop",
 				switchType = 0,
@@ -2321,7 +2321,7 @@ namespace SharpDune
 				soundID = 21
 			},
 
-			new ActionInfo { /* 8 */
+			new() { /* 8 */
 				stringID = (ushort)Text.STR_AMBUSH,
 				name = "Ambush",
 				switchType = 0,
@@ -2329,7 +2329,7 @@ namespace SharpDune
 				soundID = 20
 			},
 
-			new ActionInfo { /* 9 */
+			new() { /* 9 */
 				stringID = (ushort)Text.STR_SABOTAGE,
 				name = "Sabotage",
 				switchType = 0,
@@ -2337,7 +2337,7 @@ namespace SharpDune
 				soundID = 20
 			},
 
-			new ActionInfo { /* 10 */
+			new() { /* 10 */
 				stringID = (ushort)Text.STR_DIE,
 				name = "Die",
 				switchType = 1,
@@ -2345,7 +2345,7 @@ namespace SharpDune
 				soundID = 0xFFFF
 			},
 
-			new ActionInfo { /* 11 */
+			new() { /* 11 */
 				stringID = (ushort)Text.STR_HUNT,
 				name = "Hunt",
 				switchType = 0,
@@ -2353,7 +2353,7 @@ namespace SharpDune
 				soundID = 20
 			},
 
-			new ActionInfo { /* 12 */
+			new() { /* 12 */
 				stringID = (ushort)Text.STR_DEPLOY,
 				name = "Deploy",
 				switchType = 0,
@@ -2361,7 +2361,7 @@ namespace SharpDune
 				soundID = 20
 			},
 
-			new ActionInfo { /* 13 */
+			new() { /* 13 */
 				stringID = (ushort)Text.STR_DESTRUCT,
 				name = "Destruct",
 				switchType = 1,
@@ -6807,7 +6807,7 @@ namespace SharpDune
 					var foundCounterclockwise = false;
 					var foundClockwise = false;
 					short routeSize;
-					Pathfinder_Data[] routes = { new Pathfinder_Data(), new Pathfinder_Data() }; //new Pathfinder_Data[2];
+					Pathfinder_Data[] routes = { new(), new() }; //new Pathfinder_Data[2];
 					byte[][] routesBuffer = { new byte[102], new byte[102] }; //new byte[2][]; //[2][102]
 					Pathfinder_Data bestRoute;
 

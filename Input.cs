@@ -399,9 +399,9 @@ namespace SharpDune
 		static ushort[] data_0AB6 = { 8, 2, 8, 6, 4, 3, 8, 5, 8, 8, 8, 8, 0, 1, 8, 7 };
 		/* Copied from 29E8:000A - 29E8:002E */
 		static XYPosition[] mousePos = {
-			new XYPosition { x = 0x0a0, y = 0x000}, new XYPosition { x = 0x13f, y = 0x000}, new XYPosition { x = 0x13f, y = 0x045},
-			new XYPosition { x = 0x13f, y = 0x089}, new XYPosition { x = 0x0a0, y = 0x089}, new XYPosition { x = 0x000, y = 0x089},
-			new XYPosition { x = 0x000, y = 0x045}, new XYPosition { x = 0x000, y = 0x000}, new XYPosition { x = 0x0a0, y = 0x045}
+			new() { x = 0x0a0, y = 0x000}, new() { x = 0x13f, y = 0x000}, new() { x = 0x13f, y = 0x045},
+			new() { x = 0x13f, y = 0x089}, new() { x = 0x0a0, y = 0x089}, new() { x = 0x000, y = 0x089},
+			new() { x = 0x000, y = 0x045}, new() { x = 0x000, y = 0x000}, new() { x = 0x0a0, y = 0x045}
 		};
 		static sbyte[] offsetSmall = { -1, 0, 1 };
 		static sbyte[] offsetBig = { -16, 0, 16 };

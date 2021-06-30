@@ -807,8 +807,8 @@ namespace SharpDune
 
 		/* HotSpots for different cursor types. */
 		static XYPosition[] cursorHotSpots = {
-			new XYPosition { x = 0, y = 0 }, new XYPosition { x = 5, y = 0 }, new XYPosition { x = 8, y = 5 },
-			new XYPosition { x = 5, y = 8 }, new XYPosition { x = 0, y = 5 }, new XYPosition { x = 8, y = 8 }
+			new() { x = 0, y = 0 }, new() { x = 5, y = 0 }, new() { x = 8, y = 5 },
+			new() { x = 5, y = 8 }, new() { x = 0, y = 5 }, new() { x = 8, y = 8 }
 		};
 		/*
 		 * Handles the Click events for the Viewport widget.

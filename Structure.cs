@@ -159,7 +159,7 @@ namespace SharpDune
             unchecked
             {
                 g_table_structureInfo = new StructureInfo[] { //[STRUCTURE_MAX]
-                    new StructureInfo { /* 0 */
+                    new() { /* 0 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_CONCRETE,
                             name = "Concrete",
@@ -224,7 +224,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 1 */
+                    new() { /* 1 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_CONCRETE_4,
                             name = "Concrete4",
@@ -289,7 +289,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 2 */
+                    new() { /* 2 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_PALACE,
                             name = "Palace",
@@ -354,7 +354,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 3 */
+                    new() { /* 3 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_LIGHT_FCTRY,
                             name = "Light Fctry",
@@ -419,7 +419,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 4 */
+                    new() { /* 4 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_HEAVY_FCTRY,
                             name = "Heavy Fctry",
@@ -484,7 +484,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 5 */
+                    new() { /* 5 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_HITECH,
                             name = "Hi-Tech",
@@ -549,7 +549,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 6 */
+                    new() { /* 6 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_IX,
                             name = "IX",
@@ -614,7 +614,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 7 */
+                    new() { /* 7 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_WOR,
                             name = "WOR",
@@ -679,7 +679,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 8 */
+                    new() { /* 8 */
 		                o = new ObjectInfo{
                             stringID_abbrev = (ushort)Text.STR_CONST_YARD,
                             name = "Const Yard",
@@ -744,7 +744,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 9 */
+                    new() { /* 9 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_WINDTRAP,
                             name = "Windtrap",
@@ -809,7 +809,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 10 */
+                    new() { /* 10 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_BARRACKS,
                             name = "Barracks",
@@ -874,7 +874,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 11 */
+                    new() { /* 11 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_STARPORT,
                             name = "Starport",
@@ -939,7 +939,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 12 */
+                    new() { /* 12 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_REFINERY,
                             name = "Refinery",
@@ -1004,7 +1004,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 13 */
+                    new() { /* 13 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_REPAIR2,
                             name = "Repair",
@@ -1069,7 +1069,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 14 */
+                    new() { /* 14 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_WALL,
                             name = "Wall",
@@ -1134,7 +1134,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 15 */
+                    new() { /* 15 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_TURRET,
                             name = "Turret",
@@ -1199,7 +1199,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 16 */
+                    new() { /* 16 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_RTURRET,
                             name = "R-Turret",
@@ -1264,7 +1264,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 17 */
+                    new() { /* 17 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_SPICE_SILO,
                             name = "Spice Silo",
@@ -1329,7 +1329,7 @@ namespace SharpDune
                         },
                     },
 
-                    new StructureInfo { /* 18 */
+                    new() { /* 18 */
 		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_OUTPOST,
                             name = "Outpost",
@@ -1410,24 +1410,24 @@ namespace SharpDune
 
         /* Array with TileDiff of a layout. */
         internal static tile32[] g_table_structure_layoutTileDiff = { //[STRUCTURE_LAYOUT_MAX]
-            new tile32 { x = 0x0080, y = 0x0080 }, /* STRUCTURE_LAYOUT_1x1 */
-	        new tile32 { x = 0x0100, y = 0x0080 }, /* STRUCTURE_LAYOUT_2x1 */
-	        new tile32 { x = 0x0080, y = 0x0100 }, /* STRUCTURE_LAYOUT_1x2 */
-	        new tile32 { x = 0x0100, y = 0x0100 }, /* STRUCTURE_LAYOUT_2x2 */
-	        new tile32 { x = 0x0100, y = 0x0180 }, /* STRUCTURE_LAYOUT_2x3 */
-	        new tile32 { x = 0x0280, y = 0x0100 }, /* STRUCTURE_LAYOUT_3x2 */
-	        new tile32 { x = 0x0180, y = 0x0180 }, /* STRUCTURE_LAYOUT_3x3 */
+            new() { x = 0x0080, y = 0x0080 }, /* STRUCTURE_LAYOUT_1x1 */
+	        new() { x = 0x0100, y = 0x0080 }, /* STRUCTURE_LAYOUT_2x1 */
+	        new() { x = 0x0080, y = 0x0100 }, /* STRUCTURE_LAYOUT_1x2 */
+	        new() { x = 0x0100, y = 0x0100 }, /* STRUCTURE_LAYOUT_2x2 */
+	        new() { x = 0x0100, y = 0x0180 }, /* STRUCTURE_LAYOUT_2x3 */
+	        new() { x = 0x0280, y = 0x0100 }, /* STRUCTURE_LAYOUT_3x2 */
+	        new() { x = 0x0180, y = 0x0180 }, /* STRUCTURE_LAYOUT_3x3 */
         };
 
         /* Array with size of a layout. */
         internal static XYSize[] g_table_structure_layoutSize = { //[STRUCTURE_LAYOUT_MAX]
-            new XYSize { width = 1, height = 1 }, /* STRUCTURE_LAYOUT_1x1 */
-	        new XYSize { width = 2, height = 1 }, /* STRUCTURE_LAYOUT_2x1 */
-	        new XYSize { width = 1, height = 2 }, /* STRUCTURE_LAYOUT_1x2 */
-	        new XYSize { width = 2, height = 2 }, /* STRUCTURE_LAYOUT_2x2 */
-	        new XYSize { width = 2, height = 3 }, /* STRUCTURE_LAYOUT_2x3 */
-	        new XYSize { width = 3, height = 2 }, /* STRUCTURE_LAYOUT_3x2 */
-	        new XYSize { width = 3, height = 3 }, /* STRUCTURE_LAYOUT_3x3 */
+            new() { width = 1, height = 1 }, /* STRUCTURE_LAYOUT_1x1 */
+	        new() { width = 2, height = 1 }, /* STRUCTURE_LAYOUT_2x1 */
+	        new() { width = 1, height = 2 }, /* STRUCTURE_LAYOUT_1x2 */
+	        new() { width = 2, height = 2 }, /* STRUCTURE_LAYOUT_2x2 */
+	        new() { width = 2, height = 3 }, /* STRUCTURE_LAYOUT_2x3 */
+	        new() { width = 3, height = 2 }, /* STRUCTURE_LAYOUT_3x2 */
+	        new() { width = 3, height = 3 }, /* STRUCTURE_LAYOUT_3x3 */
         };
 
         /* Array with position offset per tile in a structure layout. */
