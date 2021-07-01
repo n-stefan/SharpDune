@@ -190,7 +190,7 @@ namespace SharpDune
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NONE,
                             sortPriority = 2,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_CONCRETE_USE_CONCRETE_TO_MAKE_A_STURDY_FOUNDATION_FOR_YOUR_STRUCTURES,
                             priorityBuild = 0,
@@ -207,7 +207,7 @@ namespace SharpDune
                             2,
                             2
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -255,7 +255,7 @@ namespace SharpDune
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NONE,
                             sortPriority = 4,
                             upgradeLevelRequired = 1,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_CONCRETE_USE_CONCRETE_TO_MAKE_A_STURDY_FOUNDATION_FOR_YOUR_STRUCTURES,
                             priorityBuild = 0,
@@ -272,7 +272,7 @@ namespace SharpDune
                             2,
                             2
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -320,7 +320,7 @@ namespace SharpDune
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_STARPORT,
                             sortPriority = 5,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_PALACE_THIS_IS_YOUR_PALACE,
                             priorityBuild = 0,
@@ -337,7 +337,7 @@ namespace SharpDune
                             4,
                             4
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -385,7 +385,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 14,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_LIGHT_FACTORY_THE_LIGHT_FACTORY_PRODUCES_LIGHT_ATTACK_VEHICLES,
                             priorityBuild = 0,
@@ -402,7 +402,7 @@ namespace SharpDune
                             15,
                             16
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_TRIKE,
                             (byte)UnitType.UNIT_QUAD,
                             (byte)UnitType.UNIT_INVALID,
@@ -450,7 +450,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP | StructureFlag.FLAG_STRUCTURE_LIGHT_VEHICLE),
                             sortPriority = 28,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_HEAVY_FACTORY_THE_HEAVY_FACTORY_PRODUCES_TRACKED_VEHICLES,
                             priorityBuild = 0,
@@ -467,7 +467,7 @@ namespace SharpDune
                             12,
                             13
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_SIEGE_TANK,
                             (byte)UnitType.UNIT_LAUNCHER,
                             (byte)UnitType.UNIT_HARVESTER,
@@ -515,7 +515,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP | StructureFlag.FLAG_STRUCTURE_LIGHT_VEHICLE),
                             sortPriority = 30,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_HITECH_FACTORY_THE_HITECH_FACTORY_PRODUCES_FLYING_VEHICLES,
                             priorityBuild = 0,
@@ -532,7 +532,7 @@ namespace SharpDune
                             9,
                             10
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_CARRYALL,
                             (byte)UnitType.UNIT_ORNITHOPTER,
                             (byte)UnitType.UNIT_INVALID,
@@ -580,7 +580,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_STARPORT | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 34,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_HOUSE_IX_THE_IX_RESEARCH_FACILITY_ADVANCES_YOUR_HOUSES_TECHNOLOGY,
                             priorityBuild = 0,
@@ -597,7 +597,7 @@ namespace SharpDune
                             20,
                             20
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -645,7 +645,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_BARRACKS | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 20,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_WOR_WOR_IS_USED_TO_TRAIN_YOUR_HEAVY_INFANTRY,
                             priorityBuild = 0,
@@ -662,7 +662,7 @@ namespace SharpDune
                             21,
                             21
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_TROOPER,
                             (byte)UnitType.UNIT_TROOPERS,
                             (byte)UnitType.UNIT_INVALID,
@@ -680,7 +680,7 @@ namespace SharpDune
                     },
 
                     new() { /* 8 */
-		                o = new ObjectInfo{
+		                o = new ObjectInfo {
                             stringID_abbrev = (ushort)Text.STR_CONST_YARD,
                             name = "Const Yard",
                             stringID_full = (ushort)Text.STR_CONSTRUCTION_YARD,
@@ -710,7 +710,7 @@ namespace SharpDune
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NEVER,
                             sortPriority = 0,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_CONSTRUCTION_FACILITY_ALL_STRUCTURES_ARE_BUILT_BY_THE_CONSTRUCTION_FACILITY,
                             priorityBuild = 0,
@@ -727,7 +727,7 @@ namespace SharpDune
                             22,
                             22
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -775,7 +775,7 @@ namespace SharpDune
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NONE,
                             sortPriority = 6,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_WINDTRAP_THE_WINDTRAP_SUPPLIES_POWER_TO_YOUR_BASE_WITHOUT_POWER_YOUR_STRUCTURES_WILL_DECAY,
                             priorityBuild = 0,
@@ -792,7 +792,7 @@ namespace SharpDune
                             26,
                             26
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -840,7 +840,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 18,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_BARRACKS_THE_BARRACKS_IS_USED_TO_TRAIN_YOUR_LIGHT_INFANTRY,
                             priorityBuild = 0,
@@ -857,7 +857,7 @@ namespace SharpDune
                             28,
                             28
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_SOLDIER,
                             (byte)UnitType.UNIT_INFANTRY,
                             (byte)UnitType.UNIT_INVALID,
@@ -905,7 +905,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 32,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_STARTPORT_THE_STARPORT_IS_USED_TO_ORDER_AND_RECEIVE_SHIPMENTS_FROM_CHOAM,
                             priorityBuild = 0,
@@ -922,7 +922,7 @@ namespace SharpDune
                             6,
                             7
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -970,7 +970,7 @@ namespace SharpDune
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_WINDTRAP,
                             sortPriority = 8,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_SPICE_REFINERY_THE_REFINERY_CONVERTS_SPICE_INTO_CREDITS,
                             priorityBuild = 0,
@@ -987,7 +987,7 @@ namespace SharpDune
                             18,
                             19
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -1035,7 +1035,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP | StructureFlag.FLAG_STRUCTURE_LIGHT_VEHICLE),
                             sortPriority = 24,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_REPAIR_FACILITY_THE_REPAIR_FACILITY_IS_USED_TO_REPAIR_YOUR_VEHICLES,
                             priorityBuild = 0,
@@ -1052,7 +1052,7 @@ namespace SharpDune
                             24,
                             25
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -1100,7 +1100,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 16,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_WALL_THE_WALL_IS_USED_FOR_PASSIVE_DEFENSE,
                             priorityBuild = 0,
@@ -1117,7 +1117,7 @@ namespace SharpDune
                             0xFF,
                             0xFF
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -1165,7 +1165,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 22,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_GUN_TURRET_THE_CANNON_TURRET_IS_USED_FOR_SHORT_RANGE_ACTIVE_DEFENSE,
                             priorityBuild = 75,
@@ -1182,7 +1182,7 @@ namespace SharpDune
                             0xFF,
                             0xFF
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -1230,7 +1230,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 26,
                             upgradeLevelRequired = 2,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_ROCKET_TURRET_THE_ROCKETCANNON_TURRET_IS_USED_FOR_BOTH_SHORT_AND_MEDIUM_RANGE_ACTIVE_DEFENSE,
                             priorityBuild = 100,
@@ -1247,7 +1247,7 @@ namespace SharpDune
                             0xFF,
                             0xFF
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -1295,7 +1295,7 @@ namespace SharpDune
                             structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                             sortPriority = 12,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_SPICE_SILO_THE_SPICE_SILO_IS_USED_TO_STORE_REFINED_SPICE,
                             priorityBuild = 0,
@@ -1312,7 +1312,7 @@ namespace SharpDune
                             27,
                             27
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
@@ -1360,7 +1360,7 @@ namespace SharpDune
                             structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_WINDTRAP,
                             sortPriority = 10,
                             upgradeLevelRequired = 0,
-                            actionsPlayer = new ushort[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                            actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
                             available = 0,
                             hintStringID = (ushort)Text.STR_OUTPOST_THE_OUTPOST_PROVIDES_RADAR_AND_AIDS_CONTROL_OF_DISTANT_VEHICLES,
                             priorityBuild = 0,
@@ -1377,7 +1377,7 @@ namespace SharpDune
                             3,
                             3
                         },
-                        buildableUnits = new byte[] {
+                        buildableUnits = new[] {
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,
                             (byte)UnitType.UNIT_INVALID,

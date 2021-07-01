@@ -15,7 +15,7 @@ namespace SharpDune
 
         static WidgetClick()
         {
-			g_savegameDesc = new string[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
+			g_savegameDesc = new[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
 		}
 
 		/*

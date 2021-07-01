@@ -226,7 +226,7 @@ namespace SharpDune
 
             //if (loading)
             //{
-            //    script.script.Arr = new ushort[] { (ushort)value, (ushort)(value >> 16) };
+            //    script.script.Arr = new[] { (ushort)value, (ushort)(value >> 16) };
             //    return 0;
             //}
 
