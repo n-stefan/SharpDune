@@ -2705,8 +2705,6 @@ namespace SharpDune
             Structure s;
             Unit u;
 
-            //VARIABLE_NOT_USED(script);
-
             s = Script.g_scriptCurrentStructure;
 
             structureIndex = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
@@ -2848,8 +2846,6 @@ namespace SharpDune
             Structure s;
             Unit u;
             ushort position;
-
-            //VARIABLE_NOT_USED(script);
 
             s = Script.g_scriptCurrentStructure;
 
@@ -3143,8 +3139,6 @@ namespace SharpDune
         {
             Structure s;
 
-            //VARIABLE_NOT_USED(script);
-
             s = Script.g_scriptCurrentStructure;
             return (ushort)s.state;
         }
@@ -3181,8 +3175,6 @@ namespace SharpDune
          */
         internal static ushort Script_Structure_RemoveFogAroundTile(ScriptEngine script)
         {
-            //VARIABLE_NOT_USED(script);
-
             Structure_RemoveFog(Script.g_scriptCurrentStructure);
 
             return 0;
@@ -3203,8 +3195,6 @@ namespace SharpDune
             Unit u;
             House h;
             ushort harvesterStep, creditsStep;
-
-            //VARIABLE_NOT_USED(script);
 
             s = Script.g_scriptCurrentStructure;
 
@@ -3266,8 +3256,6 @@ namespace SharpDune
             ushort layout;
             ushort i;
 
-            //VARIABLE_NOT_USED(script);
-
             s = Script.g_scriptCurrentStructure;
             layout = g_table_structureInfo[s.o.type].layout;
             position = CTile.Tile_PackTile(s.o.position);
@@ -3298,8 +3286,6 @@ namespace SharpDune
             ushort position;
             ushort layout;
             ushort i;
-
-            //VARIABLE_NOT_USED(script);
 
             s = Script.g_scriptCurrentStructure;
             layout = g_table_structureInfo[s.o.type].layout;

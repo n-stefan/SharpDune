@@ -473,8 +473,6 @@ namespace SharpDune
         //static uint/*ThreadStatus WINAPI*/ MPU_ThreadProc(IntPtr data)
         static void MPU_ThreadProc()
         {
-            //VARIABLE_NOT_USED(data);
-
             s_mpu_sem.Wait(Timeout.Infinite);
             //Thread.Semaphore_Lock(s_mpu_sem);
             while (!s_mpu_sem.Wait(0))

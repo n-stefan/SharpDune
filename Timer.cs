@@ -164,9 +164,6 @@ namespace SharpDune
 
 		//static void Timer_InterruptWindows(IntPtr arg, bool TimerOrWaitFired)
 		//{
-		//	//VARIABLE_NOT_USED(arg);
-		//	//VARIABLE_NOT_USED(TimerOrWaitFired);
-
 		//	//Kernel32.SuspendThread(s_timerMainThread);
 
 		//	s_timer_count++;

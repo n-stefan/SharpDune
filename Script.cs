@@ -239,7 +239,6 @@ namespace SharpDune
          */
         static ushort Script_General_NoOperation(ScriptEngine script)
         {
-            //VARIABLE_NOT_USED(script);
             return 0;
         }
 
@@ -487,8 +486,6 @@ namespace SharpDune
         static ushort Script_General_GetLinkedUnitType(ScriptEngine script)
         {
             ushort linkedID;
-
-            //VARIABLE_NOT_USED(script);
 
             linkedID = g_scriptCurrentObject.linkedID;
 

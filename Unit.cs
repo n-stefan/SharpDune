@@ -5691,8 +5691,6 @@ namespace SharpDune
 			ushort animationUnitID;
 			ushort position;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			position = CTile.Tile_PackTile(CTile.Tile_Center(u.o.position));
@@ -5819,8 +5817,6 @@ namespace SharpDune
 			Structure s;
 			ushort i;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			Unit_UpdateMap(0, u);
@@ -5858,8 +5854,6 @@ namespace SharpDune
 		{
 			Unit u;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			Unit_SetAction(u, (ActionType)g_table_unitInfo[u.o.type].o.actionsPlayer[3]);
@@ -5878,8 +5872,6 @@ namespace SharpDune
 		internal static ushort Script_Unit_Blink(ScriptEngine script)
 		{
 			Unit u;
-
-			//VARIABLE_NOT_USED(script);
 
 			u = Script.g_scriptCurrentUnit;
 			u.blinkCounter = 32;
@@ -5917,8 +5909,6 @@ namespace SharpDune
 		{
 			UnitInfo ui;
 			Unit u;
-
-			//VARIABLE_NOT_USED(script);
 
 			u = Script.g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
@@ -6041,8 +6031,6 @@ namespace SharpDune
 		{
 			Unit u;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			Unit_SetSpeed(u, 0);
@@ -6131,8 +6119,6 @@ namespace SharpDune
 		{
 			Unit u;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			return (ushort)(u.o.flags.inTransport ? 1 : 0);
@@ -6149,8 +6135,6 @@ namespace SharpDune
 		internal static ushort Script_Unit_GetAmount(ScriptEngine script)
 		{
 			Unit u;
-
-			//VARIABLE_NOT_USED(script);
 
 			u = Script.g_scriptCurrentUnit;
 
@@ -6237,8 +6221,6 @@ namespace SharpDune
 			Unit u;
 			Unit u2;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 			if (u.o.script.variables[4] == 0) return 0;
 
@@ -6299,8 +6281,6 @@ namespace SharpDune
 			UnitInfo ui;
 			Unit u;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
 
@@ -6328,8 +6308,6 @@ namespace SharpDune
 		{
 			Unit u;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 			Unit_RemoveFog(u);
 			return 0;
@@ -6348,8 +6326,6 @@ namespace SharpDune
 			Unit u;
 			ushort packed;
 			ushort type;
-
-			//VARIABLE_NOT_USED(script);
 
 			u = Script.g_scriptCurrentUnit;
 
@@ -6460,8 +6436,6 @@ namespace SharpDune
 			ushort movementType;
 			ushort i;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			random = Tools.Tools_RandomLCG_Range(0, 10);
@@ -6546,8 +6520,6 @@ namespace SharpDune
 			Unit u;
 			Unit u2;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			u2 = Unit_Sandworm_FindBestTarget(u);
@@ -6567,8 +6539,6 @@ namespace SharpDune
 		internal static ushort Script_Unit_Unknown2BD5(ScriptEngine script)
 		{
 			Unit u;
-
-			//VARIABLE_NOT_USED(script);
 
 			u = Script.g_scriptCurrentUnit;
 
@@ -6658,8 +6628,6 @@ namespace SharpDune
 			sbyte current;
 			tile32 tile;
 			sbyte orientation;
-
-			//VARIABLE_NOT_USED(script);
 
 			u = Script.g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
@@ -7254,8 +7222,6 @@ namespace SharpDune
 		{
 			Unit u;
 
-			//VARIABLE_NOT_USED(script);
-
 			u = Script.g_scriptCurrentUnit;
 
 			if (u.o.linkedID != 0xFF) return 0;
@@ -7397,8 +7363,6 @@ namespace SharpDune
 		{
 			Unit u;
 			Unit u2;
-
-			//VARIABLE_NOT_USED(script);
 
 			u = Script.g_scriptCurrentUnit;
 

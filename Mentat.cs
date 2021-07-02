@@ -892,8 +892,6 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Widget_Mentat_Click(Widget w)
 		{
-			//VARIABLE_NOT_USED(w);
-
 			Gui.g_cursorSpriteID = 0;
 
 			Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[0]);

@@ -533,12 +533,6 @@ namespace SharpDune
 
         static void DSP_Callback(IntPtr handle, WaveOutMessage uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2)
         {
-            //VARIABLE_NOT_USED(handle);
-            //VARIABLE_NOT_USED(uMsg);
-            //VARIABLE_NOT_USED(dwInstance);
-            //VARIABLE_NOT_USED(dwParam1);
-            //VARIABLE_NOT_USED(dwParam2);
-
             s_playing = false;
         }
     }

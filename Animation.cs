@@ -502,7 +502,6 @@ namespace SharpDune
 			var packed = CTile.Tile_PackTile(animation.tile);
 			int i;
 			var layoutPointer = 0;
-			//VARIABLE_NOT_USED(parameter);
 
 			Map.g_map[packed].hasAnimation = false;
 			animation.commands = null;
@@ -534,7 +533,6 @@ namespace SharpDune
 		static void Animation_Func_Abort(Animation animation, short parameter)
 		{
 			var packed = CTile.Tile_PackTile(animation.tile);
-			//VARIABLE_NOT_USED(parameter);
 
 			Map.g_map[packed].hasAnimation = false;
 			animation.commands = null;
@@ -581,8 +579,6 @@ namespace SharpDune
 		 */
 		static void Animation_Func_Rewind(Animation animation, short parameter)
 		{
-			//VARIABLE_NOT_USED(parameter);
-
 			animation.current = 0;
 		}
 

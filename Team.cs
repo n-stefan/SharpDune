@@ -149,7 +149,6 @@ namespace SharpDune
 		 */
 		internal static ushort Script_Team_GetMembers(ScriptEngine script)
 		{
-			//VARIABLE_NOT_USED(script);
 			return Script.g_scriptCurrentTeam.members;
 		}
 
@@ -169,8 +168,6 @@ namespace SharpDune
 			ushort minDistance = 0;
 			ushort minDistance2 = 0;
 			var find = new PoolFindStruct();
-
-			//VARIABLE_NOT_USED(script);
 
 			t = Script.g_scriptCurrentTeam;
 
@@ -233,8 +230,6 @@ namespace SharpDune
 			ushort distance = 0;
 			Team t;
 			var find = new PoolFindStruct();
-
-			//VARIABLE_NOT_USED(script);
 
 			t = Script.g_scriptCurrentTeam;
 
@@ -361,8 +356,6 @@ namespace SharpDune
 			Team t;
 			var find = new PoolFindStruct();
 
-			//VARIABLE_NOT_USED(script);
-
 			t = Script.g_scriptCurrentTeam;
 
 			find.houseID = t.houseID;
@@ -428,8 +421,6 @@ namespace SharpDune
 			Team t;
 			ushort type;
 
-			//VARIABLE_NOT_USED(script);
-
 			t = Script.g_scriptCurrentTeam;
 			type = t.actionStart;
 
@@ -453,7 +444,6 @@ namespace SharpDune
 		 */
 		internal static ushort Script_Team_GetVariable6(ScriptEngine script)
 		{
-			//VARIABLE_NOT_USED(script);
 			return Script.g_scriptCurrentTeam.minMembers;
 		}
 
@@ -467,7 +457,6 @@ namespace SharpDune
 		 */
 		internal static ushort Script_Team_GetTarget(ScriptEngine script)
 		{
-			//VARIABLE_NOT_USED(script);
 			return Script.g_scriptCurrentTeam.target;
 		}
 
@@ -484,8 +473,6 @@ namespace SharpDune
 			Team t;
 			tile32 tile;
 			var find = new PoolFindStruct();
-
-			//VARIABLE_NOT_USED(script);
 
 			t = Script.g_scriptCurrentTeam;
 			if (t.target == 0) return 0;

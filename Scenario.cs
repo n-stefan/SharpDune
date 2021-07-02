@@ -372,8 +372,6 @@ namespace SharpDune
 			ushort minMembers, maxMembers;
 			string[] split;
 
-			//VARIABLE_NOT_USED(key);
-
 			/* The value should have 5 values separated by a ',' */
 			split = settings.Split(',');
 
@@ -406,8 +404,6 @@ namespace SharpDune
 			tile32 position;
 			Unit u;
 			string[] split;
-
-			//VARIABLE_NOT_USED(key);
 
 			/* The value should have 6 values separated by a ',' */
 			split = settings.Split(','); //strchr(settings, ',');

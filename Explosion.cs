@@ -562,8 +562,6 @@ namespace SharpDune
 		 */
 		static void Explosion_Func_Stop(Explosion e, ushort parameter)
 		{
-			//VARIABLE_NOT_USED(parameter);
-
 			Map.g_map[CTile.Tile_PackTile(e.position)].hasExplosion = false;
 
 			Explosion_Update(0, e);
@@ -621,8 +619,6 @@ namespace SharpDune
 			short iconMapIndex;
 			ushort overlayTileID;
 			ushort[] iconMap;
-
-			//VARIABLE_NOT_USED(parameter);
 
 			packed = CTile.Tile_PackTile(e.position);
 
@@ -695,9 +691,6 @@ namespace SharpDune
 
 			Debug.WriteLine($"DEBUG: Explosion_Func_ScreenShake({e}, {parameter})");
 
-			//VARIABLE_NOT_USED(e);
-			//VARIABLE_NOT_USED(parameter);
-
 			for (i = 0; i < 2; i++)
 			{
 				Sleep.msleep(30);
@@ -735,8 +728,6 @@ namespace SharpDune
 		static void Explosion_Func_BloomExplosion(Explosion e, ushort parameter)
 		{
 			ushort packed;
-
-			//VARIABLE_NOT_USED(parameter);
 
 			packed = CTile.Tile_PackTile(e.position);
 

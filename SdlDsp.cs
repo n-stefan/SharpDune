@@ -140,8 +140,6 @@ namespace SharpDune
 
 		static void DSP_Callback(IntPtr userdata, IntPtr stream, int len)
 		{
-			//VARIABLE_NOT_USED(userdata);
-
 			if (s_status == 0 || s_bufferLen == 0 || s_buffer == null)
 			{
 				/* no more sample to play : */

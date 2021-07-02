@@ -47,8 +47,6 @@ namespace SharpDune
          */
         internal static bool Info_LoadOld(BinaryReader fp, uint length)
         {
-            //VARIABLE_NOT_USED(length);
-
             if (!SaveLoad.SaveLoad_Load(s_saveInfoOld, fp, null)) return false;
 
             return true;
@@ -77,8 +75,6 @@ namespace SharpDune
 
         static uint SaveLoad_SelectionType(object obj, uint value, bool loading)
         {
-            //VARIABLE_NOT_USED(obj);
-
             if (loading)
             {
                 CSharpDune.g_selectionTypeNew = (ushort)value;
@@ -90,8 +86,6 @@ namespace SharpDune
 
         static uint SaveLoad_StructureActive(object obj, uint value, bool loading)
         {
-            //VARIABLE_NOT_USED(obj);
-
             if (loading)
             {
                 if ((ushort)value != 0xFFFF)
@@ -117,8 +111,6 @@ namespace SharpDune
 
         static uint SaveLoad_UnitSelected(object obj, uint value, bool loading)
         {
-            //VARIABLE_NOT_USED(obj);
-
             if (loading)
             {
                 if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
@@ -144,8 +136,6 @@ namespace SharpDune
 
         static uint SaveLoad_UnitActive(object obj, uint value, bool loading)
         {
-            //VARIABLE_NOT_USED(obj);
-
             if (loading)
             {
                 if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
@@ -171,8 +161,6 @@ namespace SharpDune
 
         static uint SaveLoad_TickScenarioStart(object obj, uint value, bool loading)
         {
-            //VARIABLE_NOT_USED(obj);
-
             if (loading)
             {
                 CSharpDune.g_tickScenarioStart = Timer.g_timerGame - value;
@@ -184,8 +172,6 @@ namespace SharpDune
 
         static uint SaveLoad_UnitHouseMissile(object obj, uint value, bool loading)
         {
-            //VARIABLE_NOT_USED(obj);
-
             if (loading)
             {
                 if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)

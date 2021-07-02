@@ -351,8 +351,6 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Widget_HOF_Resume_Click(Widget w)
 		{
-			//VARIABLE_NOT_USED(w);
-
 			Gui.g_doQuitHOF = true;
 
 			return true;
@@ -365,8 +363,6 @@ namespace SharpDune
 		 */
 		internal static bool GUI_Widget_Cancel_Click(Widget w)
 		{
-			//VARIABLE_NOT_USED(w);
-
 			if (CStructure.g_structureActiveType != 0xFFFF)
 			{
 				var s = CStructure.Structure_Get_ByPackedTile(CStructure.g_structureActivePosition);
@@ -413,8 +409,6 @@ namespace SharpDune
 		internal static bool GUI_Widget_SpriteTextButton_Click(Widget w)
 		{
 			Structure s;
-
-			//VARIABLE_NOT_USED(w);
 
 			s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
@@ -471,8 +465,6 @@ namespace SharpDune
 			Object o;
 			ushort packed;
 
-			//VARIABLE_NOT_USED(w);
-
 			o = CObject.Object_GetByPackedTile(Gui.g_selectionPosition);
 
 			if (o == null) return false;
@@ -493,8 +485,6 @@ namespace SharpDune
 		internal static bool GUI_Widget_Picture_Click(Widget w)
 		{
 			Structure s;
-
-			//VARIABLE_NOT_USED(w);
 
 			if (CUnit.g_unitSelected != null)
 			{
