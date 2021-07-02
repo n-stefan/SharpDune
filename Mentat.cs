@@ -1026,12 +1026,13 @@ namespace SharpDune
 
 			for (i = 0; i < 13; i++)
 			{
-				w[i] = new Widget(); //memset(w, 0, 13 * sizeof(Widget));
+                w[i] = new Widget
+                {
+                    index = (ushort)(i + 2)
+                }; //memset(w, 0, 13 * sizeof(Widget));
 
-				w[i].index = (ushort)(i + 2);
-
-				//memset(&w->flags, 0, sizeof(w->flags));
-				w[i].flags.buttonFilterLeft = 9;
+                //memset(&w->flags, 0, sizeof(w->flags));
+                w[i].flags.buttonFilterLeft = 9;
 				w[i].flags.buttonFilterRight = 1;
 
 				w[i].clickProc = GUI_Mentat_List_Click;

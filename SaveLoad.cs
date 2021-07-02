@@ -1081,13 +1081,14 @@ namespace SharpDune
 		 */
 		internal static bool House_Save(BinaryWriter fp)
 		{
-			var find = new PoolFindStruct();
+            var find = new PoolFindStruct
+            {
+                houseID = (byte)HouseType.HOUSE_INVALID,
+                type = 0xFFFF,
+                index = 0xFFFF
+            };
 
-			find.houseID = (byte)HouseType.HOUSE_INVALID;
-			find.type = 0xFFFF;
-			find.index = 0xFFFF;
-
-			while (true)
+            while (true)
 			{
 				House h;
 
@@ -1107,13 +1108,14 @@ namespace SharpDune
 		 */
 		internal static bool Unit_Save(BinaryWriter fp)
 		{
-			var find = new PoolFindStruct();
+            var find = new PoolFindStruct
+            {
+                houseID = (byte)HouseType.HOUSE_INVALID,
+                type = 0xFFFF,
+                index = 0xFFFF
+            };
 
-			find.houseID = (byte)HouseType.HOUSE_INVALID;
-			find.type = 0xFFFF;
-			find.index = 0xFFFF;
-
-			while (true)
+            while (true)
 			{
 				Unit u;
 
@@ -1134,13 +1136,14 @@ namespace SharpDune
 		 */
 		internal static bool UnitNew_Save(BinaryWriter fp)
 		{
-			var find = new PoolFindStruct();
+            var find = new PoolFindStruct
+            {
+                houseID = (byte)HouseType.HOUSE_INVALID,
+                type = 0xFFFF,
+                index = 0xFFFF
+            };
 
-			find.houseID = (byte)HouseType.HOUSE_INVALID;
-			find.type = 0xFFFF;
-			find.index = 0xFFFF;
-
-			while (true)
+            while (true)
 			{
 				Unit u;
 
@@ -1161,13 +1164,14 @@ namespace SharpDune
 		 */
 		internal static bool Structure_Save(BinaryWriter fp)
 		{
-			var find = new PoolFindStruct();
+            var find = new PoolFindStruct
+            {
+                houseID = (byte)HouseType.HOUSE_INVALID,
+                type = 0xFFFF,
+                index = 0xFFFF
+            };
 
-			find.houseID = (byte)HouseType.HOUSE_INVALID;
-			find.type = 0xFFFF;
-			find.index = 0xFFFF;
-
-			while (true)
+            while (true)
 			{
 				Structure s;
 
@@ -1187,13 +1191,14 @@ namespace SharpDune
 		 */
 		internal static bool Team_Save(BinaryWriter fp)
 		{
-			var find = new PoolFindStruct();
+            var find = new PoolFindStruct
+            {
+                houseID = (byte)HouseType.HOUSE_INVALID,
+                type = 0xFFFF,
+                index = 0xFFFF
+            };
 
-			find.houseID = (byte)HouseType.HOUSE_INVALID;
-			find.type = 0xFFFF;
-			find.index = 0xFFFF;
-
-			while (true)
+            while (true)
 			{
 				Team t;
 

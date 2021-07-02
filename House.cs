@@ -708,9 +708,11 @@ namespace SharpDune
 
                     if (deployed && CScenario.g_scenario.reinforcement[i].repeat != 0)
                     {
-                        var tile = new tile32();
-                        tile.x = 0xFFFF;
-                        tile.y = 0xFFFF;
+                        var tile = new tile32
+                        {
+                            x = 0xFFFF,
+                            y = 0xFFFF
+                        };
 
                         CSharpDune.g_validateStrictIfZero++;
                         u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, u.o.type, u.o.houseID, tile, 0);
@@ -798,11 +800,12 @@ namespace SharpDune
                         }
                         else
                         {
-                            var find2 = new PoolFindStruct();
-
-                            find2.houseID = h.index;
-                            find2.index = 0xFFFF;
-                            find2.type = (ushort)StructureType.STRUCTURE_STARPORT;
+                            var find2 = new PoolFindStruct
+                            {
+                                houseID = h.index,
+                                index = 0xFFFF,
+                                type = (ushort)StructureType.STRUCTURE_STARPORT
+                            };
 
                             while (true)
                             {

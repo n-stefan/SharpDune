@@ -126,10 +126,11 @@ namespace SharpDune
          */
         internal static tile32 Tile_AddTileDiff(tile32 from, tile32 diff)
         {
-            var result = new tile32();
-
-            result.x = (ushort)(from.x + diff.x);
-            result.y = (ushort)(from.y + diff.y);
+            var result = new tile32
+            {
+                x = (ushort)(from.x + diff.x),
+                y = (ushort)(from.y + diff.y)
+            };
 
             return result;
         }
@@ -310,10 +311,11 @@ namespace SharpDune
          */
         internal static tile32 Tile_UnpackTile(ushort packed)
         {
-            var tile = new tile32();
-
-            tile.x = (ushort)((((packed >> 0) & 0x3F) << 8) | 0x80);
-            tile.y = (ushort)((((packed >> 6) & 0x3F) << 8) | 0x80);
+            var tile = new tile32
+            {
+                x = (ushort)((((packed >> 0) & 0x3F) << 8) | 0x80),
+                y = (ushort)((((packed >> 6) & 0x3F) << 8) | 0x80)
+            };
 
             return tile;
         }

@@ -1399,10 +1399,12 @@ namespace SharpDune
 
             if (!s_debugNoExplosionDamage && hitpoints != 0)
             {
-                var find = new PoolFindStruct();
-                find.houseID = (byte)HouseType.HOUSE_INVALID;
-                find.index = 0xFFFF;
-                find.type = 0xFFFF;
+                var find = new PoolFindStruct
+                {
+                    houseID = (byte)HouseType.HOUSE_INVALID,
+                    index = 0xFFFF,
+                    type = 0xFFFF
+                };
 
                 while (true)
                 {
@@ -1768,11 +1770,12 @@ namespace SharpDune
 
             if (locationID == 6)
             { /* Enemy Base */
-                var find = new PoolFindStruct();
-
-                find.houseID = (byte)HouseType.HOUSE_INVALID;
-                find.index = 0xFFFF;
-                find.type = 0xFFFF;
+                var find = new PoolFindStruct
+                {
+                    houseID = (byte)HouseType.HOUSE_INVALID,
+                    index = 0xFFFF,
+                    type = 0xFFFF
+                };
 
                 /* Find the house of an enemy */
                 while (true)

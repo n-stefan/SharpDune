@@ -1001,20 +1001,22 @@ namespace SharpDune
 			var drawParam1 = new WidgetDrawParameter();
 			var drawParam2 = new WidgetDrawParameter();
 
-			w = new Widget(); //(Widget *)calloc(1, sizeof(Widget));
-			w.index = index;
-			w.shortcut = shortcut;
-			w.shortcut2 = shortcut;
-			w.parentID = 0;
-			w.fgColourSelected = 0xB;
-			w.bgColourSelected = 0xC;
-			w.fgColourNormal = 0xF;
-			w.bgColourNormal = 0xC;
-			w.stringID = stringID;
-			w.offsetX = (short)offsetX;
-			w.offsetY = (short)offsetY;
+            w = new Widget
+            {
+                index = index,
+                shortcut = shortcut,
+                shortcut2 = shortcut,
+                parentID = 0,
+                fgColourSelected = 0xB,
+                bgColourSelected = 0xC,
+                fgColourNormal = 0xF,
+                bgColourNormal = 0xC,
+                stringID = stringID,
+                offsetX = (short)offsetX,
+                offsetY = (short)offsetY
+            }; //(Widget *)calloc(1, sizeof(Widget));
 
-			w.flags.requiresClick = true;
+            w.flags.requiresClick = true;
 			w.flags.clickAsHover = true;
 			w.flags.loseSelect = true;
 			w.flags.buttonFilterLeft = 4;
@@ -1482,21 +1484,22 @@ namespace SharpDune
 		{
 			Widget w;
 
-			w = new Widget(); //(Widget*)calloc(1, sizeof(Widget));
+            w = new Widget
+            {
+                index = index,
+                parentID = parentID,
+                offsetX = (short)offsetX,
+                offsetY = (short)offsetY,
 
-			w.index = index;
-			w.parentID = parentID;
-			w.offsetX = (short)offsetX;
-			w.offsetY = (short)offsetY;
+                drawModeNormal = (byte)DrawMode.DRAW_MODE_SPRITE,
+                drawModeDown = (byte)DrawMode.DRAW_MODE_SPRITE,
+                drawModeSelected = (byte)DrawMode.DRAW_MODE_SPRITE,
 
-			w.drawModeNormal = (byte)DrawMode.DRAW_MODE_SPRITE;
-			w.drawModeDown = (byte)DrawMode.DRAW_MODE_SPRITE;
-			w.drawModeSelected = (byte)DrawMode.DRAW_MODE_SPRITE;
+                width = (ushort)(Sprites.Sprite_GetWidth(sprite1) * 8),
+                height = Sprites.Sprite_GetHeight(sprite1)
+            }; //(Widget*)calloc(1, sizeof(Widget));
 
-			w.width = (ushort)(Sprites.Sprite_GetWidth(sprite1) * 8);
-			w.height = Sprites.Sprite_GetHeight(sprite1);
-
-			w.flags.requiresClick = true;
+            w.flags.requiresClick = true;
 			w.flags.clickAsHover = true;
 			w.flags.loseSelect = true;
 			w.flags.buttonFilterLeft = 1;
@@ -1535,22 +1538,23 @@ namespace SharpDune
 			Widget w;
 			WidgetScrollbar ws;
 
-			w = new Widget(); //(Widget*)calloc(1, sizeof(Widget));
+            w = new Widget
+            {
+                index = index,
+                parentID = parentID,
+                offsetX = (short)offsetX,
+                offsetY = (short)offsetY,
+                width = (ushort)width,
+                height = (ushort)height,
 
-			w.index = index;
-			w.parentID = parentID;
-			w.offsetX = (short)offsetX;
-			w.offsetY = (short)offsetY;
-			w.width = (ushort)width;
-			w.height = (ushort)height;
+                fgColourSelected = 10,
+                bgColourSelected = 12,
 
-			w.fgColourSelected = 10;
-			w.bgColourSelected = 12;
+                fgColourNormal = 15,
+                bgColourNormal = 12
+            }; //(Widget*)calloc(1, sizeof(Widget));
 
-			w.fgColourNormal = 15;
-			w.bgColourNormal = 12;
-
-			w.flags.buttonFilterLeft = 7;
+            w.flags.buttonFilterLeft = 7;
 			w.flags.loseSelect = true;
 
 			w.state.hover2Last = true;

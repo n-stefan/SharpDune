@@ -1212,21 +1212,25 @@ namespace SharpDune
 		static FileInfo _File_Init_AddFileInRootDir(string filename, uint filesize)
 		{
 			FileInfoLinkedElem elem;
-			//size_t size;
+            //size_t size;
 
-			//size = sizeof(FileInfoLinkedElem) + strlen(filename);
-			elem = new FileInfoLinkedElem(); //new = malloc(size);
-			//if (new == NULL) {
-			//	Error("cannot allocate %u bytes of memory\n", size);
-			//	return NULL;
-			//}
-			elem.next = s_files_in_root;
-			elem.filenamebuffer = filename; //memcpy(new->filenamebuffer, filename, strlen(filename) + 1);
-			elem.info = new FileInfo(); //memset(&new->info, 0, sizeof(FileInfo));
-			elem.info.filename = elem.filenamebuffer;
-			elem.info.fileSize = filesize;
-			elem.info.filePosition = 0;
-			s_files_in_root = elem;
+            //size = sizeof(FileInfoLinkedElem) + strlen(filename);
+            elem = new FileInfoLinkedElem
+            {
+                //if (new == NULL) {
+                //	Error("cannot allocate %u bytes of memory\n", size);
+                //	return NULL;
+                //}
+                next = s_files_in_root,
+                filenamebuffer = filename //memcpy(new->filenamebuffer, filename, strlen(filename) + 1);
+            }; //new = malloc(size);
+            elem.info = new FileInfo
+            {
+                filename = elem.filenamebuffer,
+                fileSize = filesize,
+                filePosition = 0
+            }; //memset(&new->info, 0, sizeof(FileInfo));
+            s_files_in_root = elem;
 			return elem.info;
 		}
 
@@ -1303,24 +1307,30 @@ namespace SharpDune
 		static FileInfo _File_Init_AddFileInPak(string filename, uint filesize, uint position, FileInfo pakInfo)
 		{
 			PakFileInfoLinkedElem elem;
-			//size_t size;
+            //size_t size;
 
-			//size = sizeof(PakFileInfoLinkedElem) + strlen(filename);
-			elem = new PakFileInfoLinkedElem(); //new = malloc(size);
-			//if (new == NULL) {
-			//	Error("cannot allocate %u bytes of memory\n", size);
-			//	return NULL;
-			//}
-			elem.next = s_files_in_pak;
-			elem.pak = pakInfo;
-			elem.filenamebuffer = filename; //memcpy(new->filenamebuffer, filename, strlen(filename) + 1);
-			elem.info = new FileInfo(); //memset(&new->info, 0, sizeof(FileInfo));
-			elem.info.filename = elem.filenamebuffer;
-			elem.info.fileSize = filesize;
-			elem.info.filePosition = position;
-			elem.info.flags = new FileInfoFlags();
-			elem.info.flags.inPAKFile = true;
-			s_files_in_pak = elem;
+            //size = sizeof(PakFileInfoLinkedElem) + strlen(filename);
+            elem = new PakFileInfoLinkedElem
+            {
+                //if (new == NULL) {
+                //	Error("cannot allocate %u bytes of memory\n", size);
+                //	return NULL;
+                //}
+                next = s_files_in_pak,
+                pak = pakInfo,
+                filenamebuffer = filename //memcpy(new->filenamebuffer, filename, strlen(filename) + 1);
+            }; //new = malloc(size);
+            elem.info = new FileInfo
+            {
+                filename = elem.filenamebuffer,
+                fileSize = filesize,
+                filePosition = position,
+                flags = new FileInfoFlags
+                {
+                    inPAKFile = true
+                }
+            }; //memset(&new->info, 0, sizeof(FileInfo));
+            s_files_in_pak = elem;
 			return elem.info;
 		}
 	}

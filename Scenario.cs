@@ -214,10 +214,12 @@ namespace SharpDune
 			/* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
 			if (!CSharpDune.g_dune2_enhanced) repeat = false;
 
-			position = new tile32();
-			position.x = 0xFFFF;
-			position.y = 0xFFFF;
-			u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
+            position = new tile32
+            {
+                x = 0xFFFF,
+                y = 0xFFFF
+            };
+            u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
 			if (u == null) return;
 
 			g_scenario.reinforcement[index].unitID = u.o.index;

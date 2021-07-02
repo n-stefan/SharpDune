@@ -4347,10 +4347,12 @@ namespace SharpDune
 			h = CHouse.House_Get_ByIndex(houseID);
 
 			{
-				var t = new tile32();
-				t.x = 0x2000;
-				t.y = 0x2000;
-				orientation = CTile.Tile_GetDirection(tile, t);
+                var t = new tile32
+                {
+                    x = 0x2000,
+                    y = 0x2000
+                };
+                orientation = CTile.Tile_GetDirection(tile, t);
 			}
 
 			if (g_table_unitInfo[(int)typeID].movementType == (ushort)MovementType.MOVEMENT_WINGER)
@@ -6770,14 +6772,15 @@ namespace SharpDune
 		static Pathfinder_Data Script_Unit_Pathfinder(ushort packedSrc, ushort packedDst, /*object*/byte[] buffer, short bufferSize)
 		{
 			ushort packedCur;
-			var res = new Pathfinder_Data();
+            var res = new Pathfinder_Data
+            {
+                packed = packedSrc,
+                score = 0,
+                routeSize = 0,
+                buffer = buffer
+            };
 
-			res.packed = packedSrc;
-			res.score = 0;
-			res.routeSize = 0;
-			res.buffer = buffer;
-
-			res.buffer[0] = 0xFF;
+            res.buffer[0] = 0xFF;
 
 			bufferSize--;
 

@@ -3597,10 +3597,11 @@ namespace SharpDune
                 case HouseWeapon.HOUSE_WEAPON_MISSILE:
                     {
                         Unit u;
-                        var position = new tile32();
-
-                        position.x = 0xFFFF;
-                        position.y = 0xFFFF;
+                        var position = new tile32
+                        {
+                            x = 0xFFFF,
+                            y = 0xFFFF
+                        };
 
                         CSharpDune.g_validateStrictIfZero++;
                         u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_MISSILE_HOUSE, s.o.houseID, position, (sbyte)Tools.Tools_Random_256());
@@ -3613,11 +3614,12 @@ namespace SharpDune
 
                         if (!h.flags.human)
                         {
-                            var find = new PoolFindStruct();
-
-                            find.houseID = (byte)HouseType.HOUSE_INVALID;
-                            find.type = 0xFFFF;
-                            find.index = 0xFFFF;
+                            var find = new PoolFindStruct
+                            {
+                                houseID = (byte)HouseType.HOUSE_INVALID,
+                                type = 0xFFFF,
+                                index = 0xFFFF
+                            };
 
                             /* For the AI, try to find the first structure which is not ours, and launch missile to there */
                             while (true)

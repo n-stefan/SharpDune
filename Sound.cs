@@ -801,11 +801,12 @@ namespace SharpDune
 		 */
 		internal static void Voice_Play(short voiceID)
 		{
-			var tile = new tile32();
-
-			tile.x = 0;
-			tile.y = 0;
-			Voice_PlayAtTile(voiceID, tile);
+            var tile = new tile32
+            {
+                x = 0,
+                y = 0
+            };
+            Voice_PlayAtTile(voiceID, tile);
 		}
 
 		/*

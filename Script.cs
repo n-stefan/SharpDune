@@ -546,11 +546,12 @@ namespace SharpDune
         static ushort Script_General_UnitCount(ScriptEngine script)
         {
             ushort count = 0;
-            var find = new PoolFindStruct();
-
-            find.houseID = g_scriptCurrentObject.houseID;
-            find.type = STACK_PEEK(script, 1);
-            find.index = 0xFFFF;
+            var find = new PoolFindStruct
+            {
+                houseID = g_scriptCurrentObject.houseID,
+                type = STACK_PEEK(script, 1),
+                index = 0xFFFF
+            };
 
             while (true)
             {
