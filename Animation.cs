@@ -572,22 +572,20 @@ namespace SharpDune
 			animation.tickNext = (uint)(Timer.g_timerGUI + parameter + (Tools.Tools_Random_256() % 4));
 		}
 
-		/*
+        /*
 		 * Rewind the animation.
 		 * @param animation The Animation to rewind.
 		 * @param parameter Not used.
 		 */
-		static void Animation_Func_Rewind(Animation animation, short parameter)
-		{
+        static void Animation_Func_Rewind(Animation animation, short parameter) =>
 			animation.current = 0;
-		}
 
-		/*
+        /*
 		 * Play a Voice on the tile of animation.
 		 * @param animation The Animation which gives the position the voice plays at.
 		 * @param parameter The VoiceID to play.
 		 */
-		static void Animation_Func_PlayVoice(Animation animation, short parameter) =>
+        static void Animation_Func_PlayVoice(Animation animation, short parameter) =>
 			Sound.Voice_PlayAtTile(parameter, animation.tile);
 
 		/*

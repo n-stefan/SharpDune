@@ -200,10 +200,10 @@ namespace SharpDune
 			return s_framebuffer;
 		}
 
-		/*
+        /*
 		 * Uninitialize the video driver.
 		 */
-		internal static void Video_Uninit()
+        internal static void Video_Uninit()
 		{
 			s_video_initialized = false;
 

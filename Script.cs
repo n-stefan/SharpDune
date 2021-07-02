@@ -237,10 +237,8 @@ namespace SharpDune
          * @param script The script engine to operate on
          * @return The value 0. Always.
          */
-        static ushort Script_General_NoOperation(ScriptEngine script)
-        {
-            return 0;
-        }
+        static ushort Script_General_NoOperation(ScriptEngine script) =>
+            0;
 
         /*
          * Suspend the script execution for a randomized amount of ticks, with an

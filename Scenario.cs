@@ -349,7 +349,7 @@ namespace SharpDune
 			//Map.g_mapTileID[packed] |= 0x8000;
 		}
 
-		static void Scenario_Load_Map_Field(ushort packed, Tile t)
+        static void Scenario_Load_Map_Field(ushort packed, Tile t)
 		{
 			Map.Map_Bloom_ExplodeSpice(packed, (byte)HouseType.HOUSE_INVALID);
 
@@ -366,7 +366,7 @@ namespace SharpDune
 			//Map.g_mapTileID[packed] |= 0x8000;
 		}
 
-		static void Scenario_Load_Team(string key, string settings)
+        static void Scenario_Load_Team(string key, string settings)
 		{
 			byte houseType, teamActionType, movementType;
 			ushort minMembers, maxMembers;

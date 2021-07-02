@@ -531,9 +531,7 @@ namespace SharpDune
             s_playing = true;
         }
 
-        static void DSP_Callback(IntPtr handle, WaveOutMessage uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2)
-        {
+        static void DSP_Callback(IntPtr handle, WaveOutMessage uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2) =>
             s_playing = false;
-        }
     }
 }

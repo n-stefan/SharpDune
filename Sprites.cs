@@ -196,7 +196,7 @@ namespace SharpDune
 			return (ushort)(Sprites_LoadCPSFile(filename, screenID, palette) / 8000);
 		}
 
-		/*
+        /*
 		 * Loads a CPS file.
 		 *
 		 * @param filename The name of the file to load.
@@ -204,7 +204,7 @@ namespace SharpDune
 		 * @param palette Where to store the palette, if any.
 		 * @return The size of the loaded image.
 		 */
-		static uint Sprites_LoadCPSFile(string filename, Screen screenID, byte[] palette)
+        static uint Sprites_LoadCPSFile(string filename, Screen screenID, byte[] palette)
 		{
 			byte index;
 			ushort size;

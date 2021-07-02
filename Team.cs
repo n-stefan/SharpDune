@@ -139,7 +139,7 @@ namespace SharpDune
 			return 0;
 		}
 
-		/*
+        /*
 		 * Gets the amount of members in the current team.
 		 *
 		 * Stack: *none*.
@@ -147,12 +147,10 @@ namespace SharpDune
 		 * @param script The script engine to operate on.
 		 * @return Amount of members in current team.
 		 */
-		internal static ushort Script_Team_GetMembers(ScriptEngine script)
-		{
-			return Script.g_scriptCurrentTeam.members;
-		}
+        internal static ushort Script_Team_GetMembers(ScriptEngine script) =>
+			Script.g_scriptCurrentTeam.members;
 
-		/*
+        /*
 		 * Tries to add the closest unit to the current team.
 		 *
 		 * Stack: *none*.
@@ -160,7 +158,7 @@ namespace SharpDune
 		 * @param script The script engine to operate on.
 		 * @return The amount of space left in current team.
 		 */
-		internal static ushort Script_Team_AddClosestUnit(ScriptEngine script)
+        internal static ushort Script_Team_AddClosestUnit(ScriptEngine script)
 		{
 			Team t;
 			Unit closest = null;
@@ -434,7 +432,7 @@ namespace SharpDune
 			return 0;
 		}
 
-		/*
+        /*
 		 * Gets the variable_06 of the current team.
 		 *
 		 * Stack: *none*.
@@ -442,12 +440,10 @@ namespace SharpDune
 		 * @param script The script engine to operate on.
 		 * @return The variable_06 of the current team.
 		 */
-		internal static ushort Script_Team_GetVariable6(ScriptEngine script)
-		{
-			return Script.g_scriptCurrentTeam.minMembers;
-		}
+        internal static ushort Script_Team_GetVariable6(ScriptEngine script) =>
+			Script.g_scriptCurrentTeam.minMembers;
 
-		/*
+        /*
 		 * Gets the target for the current team.
 		 *
 		 * Stack: *none*.
@@ -455,12 +451,10 @@ namespace SharpDune
 		 * @param script The script engine to operate on.
 		 * @return The encoded target.
 		 */
-		internal static ushort Script_Team_GetTarget(ScriptEngine script)
-		{
-			return Script.g_scriptCurrentTeam.target;
-		}
+        internal static ushort Script_Team_GetTarget(ScriptEngine script) =>
+			Script.g_scriptCurrentTeam.target;
 
-		/*
+        /*
 		 * Unknown function 0788.
 		 *
 		 * Stack: *none*.
@@ -468,7 +462,7 @@ namespace SharpDune
 		 * @param script The script engine to operate on.
 		 * @return The value 0. Always.
 		 */
-		internal static ushort Script_Team_Unknown0788(ScriptEngine script)
+        internal static ushort Script_Team_Unknown0788(ScriptEngine script)
 		{
 			Team t;
 			tile32 tile;
