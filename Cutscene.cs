@@ -32,18 +32,18 @@ namespace SharpDune
 
 	class Cutscene
 	{
-		internal static bool g_canSkipIntro = false; /*!< When true, you can skip the intro by pressing a key or clicking. */
+		internal static bool g_canSkipIntro; /*!< When true, you can skip the intro by pressing a key or clicking. */
 
-		static HouseAnimation_Subtitle[] s_houseAnimation_subtitle;       /*!< Subtitle part of animation data. */
+        static HouseAnimation_Subtitle[] s_houseAnimation_subtitle;       /*!< Subtitle part of animation data. */
 		static HouseAnimation_SoundEffect[] s_houseAnimation_soundEffect; /*!< Soundeffect part of animation data. */
 		static ushort s_feedback_base_index = 0xFFFF;                     /*!< base index in g_feedback - used in Intro animation.*/
 		static ushort s_subtitleIndex = 0xFFFF;                           /*!< Unknown animation data. */
 		static ushort s_subtitleWait = 0xFFFF;                            /*!< Unknown animation data. */
-		static ushort s_houseAnimation_currentSubtitle = 0;               /*!< Current subtitle (index) part of animation. */
-		static ushort s_houseAnimation_currentSoundEffect = 0;            /* Current voice (index) part of animation. */
-		static bool s_subtitleActive = false;                             /* Unknown animation data. */
+		static ushort s_houseAnimation_currentSubtitle;               /*!< Current subtitle (index) part of animation. */
+        static ushort s_houseAnimation_currentSoundEffect;            /* Current voice (index) part of animation. */
+        static bool s_subtitleActive;                             /* Unknown animation data. */
 
-		static PalettePartDirection s_palettePartDirection; /*!< Direction of change. @see PalettePartDirection */
+        static PalettePartDirection s_palettePartDirection; /*!< Direction of change. @see PalettePartDirection */
 		static uint s_paletteAnimationTimeout;              /*!< Timeout value for the next palette change. */
 		static ushort s_palettePartCount;                   /*!< Number of steps left before the target palette is reached. */
 		static byte[] s_palettePartTarget = new byte[18];   /*!< Target palette part (6 colours). */

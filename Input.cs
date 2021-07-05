@@ -41,9 +41,9 @@ namespace SharpDune
 	class Input
 	{
 		static ushort[] s_history = new ushort[128];                /*!< History of input commands. */
-		static ushort s_historyHead = 0;                            /*!< The current head inside the #s_history array. */
-		static ushort s_historyTail = 0;                            /*!< The current tail inside the #s_history array. */
-		static bool s_input_extendedKey;                            /*!< If we are currently actively reading an extended key. */
+		static ushort s_historyHead;                            /*!< The current head inside the #s_history array. */
+        static ushort s_historyTail;                            /*!< The current tail inside the #s_history array. */
+        static bool s_input_extendedKey;                            /*!< If we are currently actively reading an extended key. */
 		static byte[] s_activeInputMap = new byte[16];              /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
 
 		/* Dune II key codes :

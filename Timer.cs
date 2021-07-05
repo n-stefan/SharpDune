@@ -23,21 +23,21 @@ namespace SharpDune
 
 	class Timer
 	{
-		volatile internal static uint g_timerGUI = 0;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
-		volatile internal static uint g_timerGame = 0;                                     /*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, ..). */
-		volatile internal static uint g_timerInput = 0;                                    /*!< Tick counter. Increases with 1 every tick. Used for input timing. */
-		volatile internal static uint g_timerSleep = 0;                                    /*!< Tick counter. Increases with 1 every tick. Used for sleeping. */
-		volatile internal static uint g_timerTimeout = 0;                                  /*!< Tick counter. Decreases with 1 every tick when non-zero. Used to timeout. */
+		volatile internal static uint g_timerGUI;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
+        volatile internal static uint g_timerGame;                                     /*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, ..). */
+        volatile internal static uint g_timerInput;                                    /*!< Tick counter. Increases with 1 every tick. Used for input timing. */
+        volatile internal static uint g_timerSleep;                                    /*!< Tick counter. Increases with 1 every tick. Used for sleeping. */
+        volatile internal static uint g_timerTimeout;                                  /*!< Tick counter. Decreases with 1 every tick when non-zero. Used to timeout. */
 
-		volatile static int s_timer_count = 0;
+        volatile static int s_timer_count;
 
-		static ushort s_timersActive = 0;
+        static ushort s_timersActive;
 
-		static TimerNode[] s_timerNodes = null;
-		static int s_timerNodeCount = 0;
-		static int s_timerNodeSize = 0;
+        static TimerNode[] s_timerNodes;
+        static int s_timerNodeCount;
+        static int s_timerNodeSize;
 
-		static int s_timerTime;
+        static int s_timerTime;
 		static uint s_timerLastTime;
 
 		const uint s_timerSpeed = 1000000 / 120; /* Our timer runs at 120Hz */
@@ -193,11 +193,11 @@ namespace SharpDune
 			}
 		}
 
-		static bool timerLock = false;
-		/*
+		static bool timerLock;
+        /*
 		 * Run the timer interrupt handler.
 		 */
-		static void Timer_InterruptRun(int arg)
+        static void Timer_InterruptRun(int arg)
 		{
 			TimerNode node;
 			uint new_time, usec_delta, delta;

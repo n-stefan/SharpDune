@@ -563,11 +563,11 @@ namespace SharpDune
 
 	class CString
 	{
-		static string[] s_strings = null;
+		static string[] s_strings;
 
-		static ushort s_stringsCount = 0;
+        static ushort s_stringsCount;
 
-		internal static string[] g_languageSuffixes = new string[(int)Language.LANGUAGE_MAX] { "ENG", "FRE", "GER", "ITA", "SPA" };
+        internal static string[] g_languageSuffixes = new string[(int)Language.LANGUAGE_MAX] { "ENG", "FRE", "GER", "ITA", "SPA" };
 
 		/*
          * Returns a pointer to the string at given index in current string file.

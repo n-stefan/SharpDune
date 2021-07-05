@@ -8,10 +8,10 @@ namespace SharpDune
 {
 	class WidgetClick
 	{
-		static ushort s_savegameIndexBase = 0;
-		static ushort s_savegameCountOnDisk = 0;                    /*!< Amount of savegames on disk. */
+		static ushort s_savegameIndexBase;
+        static ushort s_savegameCountOnDisk;                    /*!< Amount of savegames on disk. */
 
-		internal static string[] g_savegameDesc; //[5][51]			/*!< Array of savegame descriptions for the SaveLoad window. */
+        internal static string[] g_savegameDesc; //[5][51]			/*!< Array of savegame descriptions for the SaveLoad window. */
 
         static WidgetClick()
         {
@@ -200,8 +200,8 @@ namespace SharpDune
 			return true;
 		}
 
-		static ushort previousIndex = 0;
-		static void UpdateArrows(bool save, bool force)
+		static ushort previousIndex;
+        static void UpdateArrows(bool save, bool force)
 		{
 			Widget w;
 

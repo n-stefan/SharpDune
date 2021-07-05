@@ -311,16 +311,16 @@ namespace SharpDune
 
         internal static House g_playerHouse;
         internal static HouseType g_playerHouseID = HouseType.HOUSE_INVALID;
-        internal static ushort g_houseMissileCountdown = 0;
-        internal static ushort g_playerCreditsNoSilo = 0;
-        internal static ushort g_playerCredits = 0; /*!< Credits shown to player as 'current'. */
-        internal static uint g_tickHousePowerMaintenance = 0;
+        internal static ushort g_houseMissileCountdown;
+        internal static ushort g_playerCreditsNoSilo;
+        internal static ushort g_playerCredits; /*!< Credits shown to player as 'current'. */
+        internal static uint g_tickHousePowerMaintenance;
 
-        static uint s_tickHouseHouse = 0;
-        static uint s_tickHouseStarport = 0;
-        static uint s_tickHouseReinforcement = 0;
-        static uint s_tickHouseMissileCountdown = 0;
-        static uint s_tickHouseStarportAvailability = 0;
+        static uint s_tickHouseHouse;
+        static uint s_tickHouseStarport;
+        static uint s_tickHouseReinforcement;
+        static uint s_tickHouseMissileCountdown;
+        static uint s_tickHouseStarportAvailability;
 
         static House[] g_houseArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];
         static House[] g_houseFindArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];

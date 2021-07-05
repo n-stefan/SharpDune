@@ -4,7 +4,6 @@
 // - reduce casts
 // - speed up array operations: Array.Copy => Buffer.BlockCopy(faster?), ...
 // - clean up
-// - remove default value initializations
 // - use CArray where appropriate
 // - prefix all top level class names with "C"?
 
@@ -35,37 +34,37 @@ class CSharpDune
 {
     internal const string window_caption = "SharpDUNE - v0.1";
     internal static bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
-    internal static bool g_starPortEnforceUnitLimit = false; /*!< If true, one cannot circumvent unit cap using starport */
+    internal static bool g_starPortEnforceUnitLimit; /*!< If true, one cannot circumvent unit cap using starport */
     internal static bool g_unpackSHPonLoad = true; /*!< If true, Format80 encoded sprites from SHP files will be decoded on load. set to false to save memory */
 
-    internal static uint g_hintsShown1 = 0; /*!< A bit-array to indicate which hints has been show already (0-31). */
-    internal static uint g_hintsShown2 = 0; /*!< A bit-array to indicate which hints has been show already (32-63). */
+    internal static uint g_hintsShown1; /*!< A bit-array to indicate which hints has been show already (0-31). */
+    internal static uint g_hintsShown2; /*!< A bit-array to indicate which hints has been show already (32-63). */
     internal static GameMode g_gameMode = GameMode.GM_MENU;
-    internal static ushort g_campaignID = 0;
+    internal static ushort g_campaignID;
     internal static ushort g_scenarioID = 1;
     internal static ushort g_activeAction = 0xFFFF; /*!< Action the controlled unit will do. */
-    internal static uint g_tickScenarioStart = 0; /*!< The tick the scenario started in. */
-    static uint s_tickGameTimeout = 0; /*!< The tick the game will timeout. */
+    internal static uint g_tickScenarioStart; /*!< The tick the scenario started in. */
+    static uint s_tickGameTimeout; /*!< The tick the game will timeout. */
 
-    internal static bool g_debugGame = false; /*!< When true, you can control the AI. */
-    internal static bool g_debugScenario = false; /*!< When true, you can review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
-    internal static bool g_debugSkipDialogs = false; /*!< When non-zero, you immediately go to house selection, and skip all intros. */
+    internal static bool g_debugGame; /*!< When true, you can control the AI. */
+    internal static bool g_debugScenario; /*!< When true, you can review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
+    internal static bool g_debugSkipDialogs; /*!< When non-zero, you immediately go to house selection, and skip all intros. */
 
-    internal static byte[] g_readBuffer = null;
-    internal static uint g_readBufferSize = 0;
+    internal static byte[] g_readBuffer;
+    internal static uint g_readBufferSize;
 
-    static bool s_debugForceWin = false; /*!< When true, you immediately win the level. */
+    static bool s_debugForceWin; /*!< When true, you immediately win the level. */
 
-    static byte s_enableLog = 0; /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
+    static byte s_enableLog; /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
 
-    internal static ushort g_validateStrictIfZero = 0; /*!< 0 = strict validation, basically: no-cheat-mode. */
+    internal static ushort g_validateStrictIfZero; /*!< 0 = strict validation, basically: no-cheat-mode. */
     internal static bool g_running = true; /*!< true if game needs to keep running; false to stop the game. */
-    internal static ushort g_selectionType = 0;
-    internal static ushort g_selectionTypeNew = 0;
-    internal static bool g_viewport_forceRedraw = false; /*!< Force a full redraw of the screen. */
-    internal static bool g_viewport_fadein = false; /*!< Fade in the screen. */
+    internal static ushort g_selectionType;
+    internal static ushort g_selectionTypeNew;
+    internal static bool g_viewport_forceRedraw; /*!< Force a full redraw of the screen. */
+    internal static bool g_viewport_fadein; /*!< Fade in the screen. */
 
-    internal static short g_musicInBattle = 0; /*!< 0 = no battle, 1 = fight is going on, -1 = music of fight is going on is active. */
+    internal static short g_musicInBattle; /*!< 0 = no battle, 1 = fight is going on, -1 = music of fight is going on is active. */
 
     internal static Encoding Encoding = Encoding.UTF7; //Encoding.ASCII
 
@@ -243,7 +242,7 @@ class CSharpDune
         Gfx.g_paletteMapping2 = null;
     }
 
-    static uint levelEndTimer = 0;
+    static uint levelEndTimer;
     /*
     * Checks if the level comes to an end. If so, it shows all end-level stuff,
     * and prepares for the next level.
@@ -701,8 +700,8 @@ class CSharpDune
 
     static bool drawMenu = true;
     static ushort stringID = (ushort)Text.STR_REPLAY_INTRODUCTION;
-    static bool hasSave = false;
-    static bool hasFame = false;
+    static bool hasSave;
+    static bool hasFame;
     static string[] strings = new string[6];
     static ushort index = 0xFFFF;
     static ushort[][] mainMenuStrings = { //[][6]
@@ -945,8 +944,8 @@ class CSharpDune
         }
     }
 
-    static uint l_timerNext = 0;
-    static uint l_timerUnitStatus = 0;
+    static uint l_timerNext;
+    static uint l_timerUnitStatus;
     static short l_selectionState = -2;
     /*
      * Main game loop.

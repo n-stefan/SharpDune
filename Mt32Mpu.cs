@@ -88,7 +88,7 @@ namespace SharpDune
         static byte[] s_mpu_noteOnCount = new byte[NUM_CHANS];      /* active_notes */
         static byte[] s_mpu_lockStatus = new byte[NUM_CHANS];	    /* bit 7: locked, bit 6: lock-protected */
 
-        static bool s_mpuIgnore = false;
+        static bool s_mpuIgnore;
         static bool s_mpu_initialized;
 
         static SemaphoreSlim s_mpu_sem;
@@ -96,7 +96,7 @@ namespace SharpDune
         static Thread s_mpu_thread;
         //static Kernel32.SafeHTHREAD/*Thread*/ s_mpu_thread;
 
-        static uint s_mpu_usec = 0;
+        static uint s_mpu_usec;
 
         static void MPU_Send(byte status, byte data1, byte data2)
         {
@@ -608,7 +608,7 @@ namespace SharpDune
             //Thread.Thread_Wait(s_mpu_thread, out uint _);
         }
 
-        static bool locked = false;
+        static bool locked;
         static byte[] buffer = new byte[320];
         static void MPU_Interrupt()
         {

@@ -69,15 +69,15 @@ namespace SharpDune
 		static Team[] g_teamFindArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
 		static ushort g_teamFindCount;
 
-		static uint s_tickTeamGameLoop = 0; /*!< Indicates next time the GameLoop function is executed. */
+		static uint s_tickTeamGameLoop; /*!< Indicates next time the GameLoop function is executed. */
 
-		/*
+        /*
 		 * Get a Team from the pool with the indicated index.
 		 *
 		 * @param index The index of the Team to get.
 		 * @return The Team.
 		 */
-		internal static Team Team_Get_ByIndex(ushort index)
+        internal static Team Team_Get_ByIndex(ushort index)
 		{
 			Debug.Assert(index < (ushort)TeamIndex.TEAM_INDEX_MAX);
 			return g_teamArray[index];

@@ -54,16 +54,16 @@ namespace SharpDune
 
 	class Sprites
 	{
-		internal static /* uint8** */byte[][] g_sprites = null;
-		static ushort s_spritesCount = 0;
+		internal static /* uint8** */byte[][] g_sprites;
+        static ushort s_spritesCount;
 
-		internal static /* void * */byte[] g_mouseSprite;
+        internal static /* void * */byte[] g_mouseSprite;
 		internal static /* void * */byte[] g_mouseSpriteBuffer;
 
-		static ushort s_mouseSpriteSize = 0;
-		static ushort s_mouseSpriteBufferSize = 0;
+		static ushort s_mouseSpriteSize;
+        static ushort s_mouseSpriteBufferSize;
 
-		internal static ushort g_veiledTileID;     /*!< TileID of the veiled tile, at the end of the partily veiled tiles. */
+        internal static ushort g_veiledTileID;     /*!< TileID of the veiled tile, at the end of the partily veiled tiles. */
 		internal static ushort g_bloomTileID;      /*!< First bloom field ID. */
 		internal static ushort g_landscapeTileID;  /*!< First landscape ID. */
 		internal static ushort g_builtSlabTileID;  /*!< built concrete slab. */
@@ -76,9 +76,9 @@ namespace SharpDune
 
 		internal static ushort[] g_iconMap;
 
-		static bool s_iconLoaded = false;
+		static bool s_iconLoaded;
 
-		internal static byte[] g_fileRgnclkCPS;
+        internal static byte[] g_fileRgnclkCPS;
 		internal static /*byte[]*/string g_fileRegionINI;
 		internal static ushort[] g_regions;
 

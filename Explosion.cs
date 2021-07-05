@@ -489,12 +489,12 @@ namespace SharpDune
 			s_explosion19
 		};
 
-		static uint s_explosionTimer = 0;                               /*!< Timeout value for next explosion activity. */
+		static uint s_explosionTimer;                               /*!< Timeout value for next explosion activity. */
 
-		/*
+        /*
 		 * Timer tick for explosions.
 		 */
-		internal static void Explosion_Tick()
+        internal static void Explosion_Tick()
 		{
 			byte i;
 

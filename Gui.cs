@@ -232,15 +232,15 @@ namespace SharpDune
 
 		static /*byte[]*/CArray<byte> s_palette1_houseColour;
 
-		static uint s_tickCreditsAnimation = 0;                 /*!< Next tick when credits animation needs an update. */
-		static uint s_arrowAnimationTimeout = 0;                /*!< Timeout value for the next palette change in the animation of the arrows. */
-		static ushort s_arrowAnimationState = 0;                /*!< State of the arrow animation. @see _arrowAnimationTimeout */
+		static uint s_tickCreditsAnimation;                 /*!< Next tick when credits animation needs an update. */
+        static uint s_arrowAnimationTimeout;                /*!< Timeout value for the next palette change in the animation of the arrows. */
+        static ushort s_arrowAnimationState;                /*!< State of the arrow animation. @see _arrowAnimationTimeout */
 
-		/*
+        /*
 		 * flags used for GUI_DrawSprite()
 		 */
-		/* reverse X axis (void) (RTL = Right To Left) */
-		const ushort DRAWSPRITE_FLAG_RTL = 0x0001;
+        /* reverse X axis (void) (RTL = Right To Left) */
+        const ushort DRAWSPRITE_FLAG_RTL = 0x0001;
 		/* reverse Y axis (void) */
 		const ushort DRAWSPRITE_FLAG_BOTTOMUP = 0x0002;
 		/* Zoom (int zoom_factor_x, int zoomRatioY) UNUSED ? */
@@ -335,8 +335,8 @@ namespace SharpDune
 			new() { rankString = 282, score = 1800 }  /* "Emperor" */
 		};
 
-		internal static bool g_factoryWindowConstructionYard = false;
-		internal static FactoryWindowItem[] g_factoryWindowItems = new FactoryWindowItem[25];
+		internal static bool g_factoryWindowConstructionYard;
+        internal static FactoryWindowItem[] g_factoryWindowItems = new FactoryWindowItem[25];
 
 		static Widget[] s_factoryWindowWidgets = new Widget[13];
 		static byte[] s_factoryWindowGraymapTbl = new byte[256];
@@ -350,8 +350,8 @@ namespace SharpDune
 		internal static FactoryResult g_factoryWindowResult = FactoryResult.FACTORY_RESUME;
 
 		static byte[] blurOffsets = { 1, 3, 2, 5, 4, 3, 2, 1 };
-		static ushort s_blurIndex = 0; /* index into previous table */
-		/*
+		static ushort s_blurIndex; /* index into previous table */
+        /*
 		 * Draws a sprite.
 		 * @param screenID On which screen to draw the sprite.
 		 * @param sprite The sprite to draw.
@@ -383,7 +383,7 @@ namespace SharpDune
 		 * 0A: [16 bytes] = house colors (if flags & 0x01)
 		 * [1]A: xx bytes = data (depending on flags & 0x02 : 1 = raw, 0 = Format80 encoded)
 		 */
-		internal static void GUI_DrawSprite(Screen screenID, /* uint8 * */byte[] sprite, short posX, short posY, ushort windowID, int flags, params object[] ap)
+        internal static void GUI_DrawSprite(Screen screenID, /* uint8 * */byte[] sprite, short posX, short posY, ushort windowID, int flags, params object[] ap)
 		{
 			/* variables for blur/sandworm effect */
 			ushort blurOffset = 1;
@@ -1292,8 +1292,8 @@ namespace SharpDune
 			return ret;
 		}
 
-		static uint displayTimer = 0;          /* Timeout value for next update of the display. */
-		static ushort textOffset;              /* Vertical position of text being scrolled. */
+		static uint displayTimer;          /* Timeout value for next update of the display. */
+        static ushort textOffset;              /* Vertical position of text being scrolled. */
 		static bool scrollInProgress;          /* Text is being scrolled (and partly visible to the user). */
 		static string displayLine1; //char[80] /* Current line being displayed. */
 		static string displayLine2; //char[80] /* Next line (if scrollInProgress, it is scrolled up). */
@@ -2462,11 +2462,11 @@ namespace SharpDune
 			return lines;
 		}
 
-		static uint timerAnimation = 0;
-		static uint timerSelection = 0;
-		static uint timerToggle = 0;
-		static bool animationToggle = false;
-		static ushort selectionStateColour = 15;
+		static uint timerAnimation;
+        static uint timerSelection;
+        static uint timerToggle;
+        static bool animationToggle;
+        static ushort selectionStateColour = 15;
 		static ushort toggleColour = 12;
 		/*
 		 * Animate the palette. Only works for some colours or something
@@ -2676,14 +2676,14 @@ namespace SharpDune
 			}
 		}
 
-		static ushort creditsAnimation = 0;          /* How many credits are shown in current animation of credits. */
-		static short creditsAnimationOffset = 0;     /* Offset of the credits for the animation of credits. */
-		/*
+		static ushort creditsAnimation;          /* How many credits are shown in current animation of credits. */
+        static short creditsAnimationOffset;     /* Offset of the credits for the animation of credits. */
+        /*
 		 * Draw the credits on the screen, and animate it when the value is changing.
 		 * @param houseID The house to display the credits from.
 		 * @param mode The mode of displaying. 0 = animate, 1 = force draw, 2 = reset.
 		 */
-		internal static void GUI_DrawCredits(byte houseID, ushort mode)
+        internal static void GUI_DrawCredits(byte houseID, ushort mode)
 		{
 			Screen oldScreenID;
 			ushort oldWidgetId;
@@ -2797,13 +2797,13 @@ namespace SharpDune
 			CWidget.Widget_SetCurrentWidget(oldWidgetId);
 		}
 
-		static uint s_timerViewportMessage = 0;
-		/*
+		static uint s_timerViewportMessage;
+        /*
 		 * Draw the screen.
 		 * This also handles animation tick and other viewport related activity.
 		 * @param screenID The screen to draw on.
 		 */
-		internal static void GUI_DrawScreen(Screen screenID)
+        internal static void GUI_DrawScreen(Screen screenID)
 		{
 			var hasScrolled = false;
 			Screen oldScreenID;
@@ -3785,8 +3785,8 @@ namespace SharpDune
 			Array.Fill<byte>(Gfx.g_palette1, 0, 255 * 3, 3); //memset(g_palette1 + 255 * 3, 0, 3);
 		}
 
-		static uint l_timerNext2 = 0;
-		static short colouringDirection = 1;
+		static uint l_timerNext2;
+        static short colouringDirection = 1;
 		static ushort GUI_HallOfFame_Tick()
 		{
 			if (l_timerNext2 >= Timer.g_timerGUI) return 0;
@@ -3831,8 +3831,8 @@ namespace SharpDune
 			return s_strategicMapFastForward;
 		}
 
-		static uint l_timerNext = 0;
-		static void GUI_StrategicMap_DrawText(string str)
+		static uint l_timerNext;
+        static void GUI_StrategicMap_DrawText(string str)
 		{
 			Screen oldScreenID;
 			ushort y;

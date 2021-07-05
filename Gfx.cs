@@ -24,8 +24,8 @@ namespace SharpDune
 
 	class Gfx
 	{
-		static bool s_screen0_is_dirty = false;
-		static dirty_area s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
+		static bool s_screen0_is_dirty;
+        static dirty_area s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
 		static uint[] g_dirty_blocks = new uint[200];
 
 		static Screen s_screenActiveID = Screen.SCREEN_0;
@@ -46,13 +46,13 @@ namespace SharpDune
 		internal static byte[] g_paletteMapping1;
 		internal static byte[] g_paletteMapping2;
 
-		static ushort s_tileSpacing = 0;    /* bytes to skip between each line. == SCREEN_WIDTH - 2*s_tileWidth */
-		static ushort s_tileHeight = 0;     /* "icon" sprites height (lines) */
-		static ushort s_tileWidth = 0;      /* "icon" sprites width in bytes. each bytes contains 2 pixels. 4 MSB = left, 4 LSB = right */
-		static byte s_tileMode = 0;
-		static byte s_tileByteSize = 0;     /* size in byte of one sprite pixel data = s_tileHeight * s_tileWidth / 2 */
+		static ushort s_tileSpacing;    /* bytes to skip between each line. == SCREEN_WIDTH - 2*s_tileWidth */
+        static ushort s_tileHeight;     /* "icon" sprites height (lines) */
+        static ushort s_tileWidth;      /* "icon" sprites width in bytes. each bytes contains 2 pixels. 4 MSB = left, 4 LSB = right */
+        static byte s_tileMode;
+        static byte s_tileByteSize;     /* size in byte of one sprite pixel data = s_tileHeight * s_tileWidth / 2 */
 
-		internal static ushort GFX_GetSize(short width, short height)
+        internal static ushort GFX_GetSize(short width, short height)
 		{
 			if (width < 1) width = 1;
 			if (width > SCREEN_WIDTH) width = (short)SCREEN_WIDTH;

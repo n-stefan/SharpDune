@@ -26,36 +26,36 @@ namespace SharpDune
 		/* The the magnification of the screen. 2 means 640x400, 3 means 960x600, etc. */
 		static int s_screen_magnification;
 
-		static bool s_video_initialized = false;
-		static bool s_video_lock = false;
+		static bool s_video_initialized;
+        static bool s_video_lock;
 
-		static uint[] s_palette = new uint[256];
-		static bool s_screen_needrepaint = false;
+        static uint[] s_palette = new uint[256];
+		static bool s_screen_needrepaint;
 
-		static ushort s_screenOffset = 0;   /* VGA Start Address Register */
+        static ushort s_screenOffset;   /* VGA Start Address Register */
 
-		static bool s_full_screen = false;
+        static bool s_full_screen;
 
-		static IntPtr s_window;
+        static IntPtr s_window;
 		static IntPtr s_renderer;
 		static IntPtr s_texture;
 
 		static byte[] s_framebuffer;
 
-		static byte s_keyBufferLatest = 0;
+		static byte s_keyBufferLatest;
 
-		static ushort s_mousePosX = 0;
-		static ushort s_mousePosY = 0;
-		static bool s_mouseButtonLeft = false;
-		static bool s_mouseButtonRight = false;
+        static ushort s_mousePosX;
+        static ushort s_mousePosY;
+        static bool s_mouseButtonLeft;
+        static bool s_mouseButtonRight;
 
-		static ushort s_mouseMinX = 0;
-		static ushort s_mouseMaxX = 0;
-		static ushort s_mouseMinY = 0;
-		static ushort s_mouseMaxY = 0;
+        static ushort s_mouseMinX;
+        static ushort s_mouseMaxX;
+        static ushort s_mouseMinY;
+        static ushort s_mouseMaxY;
 
-		/* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
-		static byte[] s_SDL_keymap = {
+        /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
+        static byte[] s_SDL_keymap = {
 				   0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
 				   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x01,    0,    0,    0,    0, /*  0x10 -  0x1F */
 				0x39,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x33, 0x0C, 0x34, 0x35, /*  0x20 -  0x2F */
@@ -235,11 +235,11 @@ namespace SharpDune
 			SDL.SDL_Quit();
 		}
 
-		static bool s_showFPS = false;
-		/*
+		static bool s_showFPS;
+        /*
 		 * Runs every tick to handle video driver updates.
 		 */
-		internal static void Video_Tick()
+        internal static void Video_Tick()
 		{
 			SDL.SDL_Event evt;
 			var draw = true;

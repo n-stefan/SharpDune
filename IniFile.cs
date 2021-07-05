@@ -8,9 +8,9 @@ namespace SharpDune
 {
     class IniFile
 	{
-		static string g_openduneini = null;
+		static string g_openduneini;
 
-		internal static int IniFile_GetInteger(string key, int defaultValue)
+        internal static int IniFile_GetInteger(string key, int defaultValue)
 		{
 			if (g_openduneini == null) return defaultValue;
 			return Ini.Ini_GetInteger("opendune", key, defaultValue, g_openduneini);

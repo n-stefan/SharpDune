@@ -479,12 +479,12 @@ namespace SharpDune
 		static ushort displayedIndex = 0xFFFF;
 		static ushort displayedCountdown = 0xFFFF;
 		static ushort displayedObjectType = 0xFFFF;
-		static ushort displayedStructureFlags = 0;
-		static ushort displayedLinkedID = 0xFFFF;
+		static ushort displayedStructureFlags;
+        static ushort displayedLinkedID = 0xFFFF;
 		static ushort displayedHouseID = 0xFFFF;
 		static ushort displayedActiveAction = 0xFFFF;
-		static ushort displayedMissileCountdown = 0;
-		static ushort displayedUpgradeTime = 0xFFFF;
+		static ushort displayedMissileCountdown;
+        static ushort displayedUpgradeTime = 0xFFFF;
 		static ushort displayedStarportTime = 0xFFFF;
 		/*
 		 * Gets the action type used to determine how to draw the panel on the right side of the screen.

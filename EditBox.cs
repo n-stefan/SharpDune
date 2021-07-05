@@ -7,15 +7,15 @@ namespace SharpDune
 {
 	class EditBox
 	{
-		static uint tickEditBox = 0;           /* Ticker for cursor blinking. */
-		static bool editBoxShowCursor = false; /* Cursor is active. */
-		/*
+		static uint tickEditBox;           /* Ticker for cursor blinking. */
+        static bool editBoxShowCursor; /* Cursor is active. */
+        /*
 		 * Draw a blinking cursor, used inside the EditBox.
 		 *
 		 * @param positionX Where to draw the cursor on the X position.
 		 * @param resetBlink If true, the blinking is reset and restarted.
 		 */
-		static void GUI_EditBox_BlinkCursor(ushort positionX, bool resetBlink)
+        static void GUI_EditBox_BlinkCursor(ushort positionX, bool resetBlink)
 		{
 			if (resetBlink)
 			{

@@ -1119,10 +1119,10 @@ namespace SharpDune
 			return first;
 		}
 
-		static Widget l_widget_selected = null;
-		static Widget l_widget_last = null;
-		static ushort l_widget_button_state = 0x0;
-		/*
+		static Widget l_widget_selected;
+        static Widget l_widget_last;
+        static ushort l_widget_button_state;
+        /*
 		 * Check a widget for events like 'hover' or 'click'. Also check the keyboard
 		 *  buffer if there was any key which should active us.
 		 *
@@ -1131,7 +1131,7 @@ namespace SharpDune
 		  * @return The last key pressed, or 0 if the key pressed was handled (or if
 		 *   there was no key press).
 		 */
-		internal static ushort GUI_Widget_HandleEvents(Widget w)
+        internal static ushort GUI_Widget_HandleEvents(Widget w)
 		{
 			ushort mouseX, mouseY;
 			ushort buttonState;

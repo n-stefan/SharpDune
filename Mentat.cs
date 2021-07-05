@@ -49,8 +49,8 @@ namespace SharpDune
 
 		static byte[][][] s_mentatSprites = new byte[3][/*5*/][];
 
-		static bool s_selectMentatHelp = false; /*!< Selecting from the list of in-game help subjects. */
-		static byte[] s_helpSubjects;
+		static bool s_selectMentatHelp; /*!< Selecting from the list of in-game help subjects. */
+        static byte[] s_helpSubjects;
 		static int s_helpSubjectsPointer;
 
 		static string s_mentatFilename; //char[13]
@@ -268,20 +268,20 @@ namespace SharpDune
 			return 0;
 		}
 
-		static uint movingEyesTimer = 0;      /* Timer when to change the eyes sprite. */
-		static ushort movingEyesSprite = 0;     /* Index in _mentatSprites of the displayed moving eyes. */
-		static ushort movingEyesNextSprite = 0; /* If not 0, it decides the movingEyesNextSprite */
+		static uint movingEyesTimer;      /* Timer when to change the eyes sprite. */
+        static ushort movingEyesSprite;     /* Index in _mentatSprites of the displayed moving eyes. */
+        static ushort movingEyesNextSprite; /* If not 0, it decides the movingEyesNextSprite */
 
-		static uint movingMouthTimer = 0;
-		static ushort movingMouthSprite = 0;
+        static uint movingMouthTimer;
+        static ushort movingMouthSprite;
 
-		static uint movingOtherTimer = 0;
-		static short otherSprite = 0;
-		/*
+        static uint movingOtherTimer;
+        static short otherSprite;
+        /*
 		 * Draw sprites and handle mouse in a mentat screen.
 		 * @param speakingMode If \c 1, the mentat is speaking.
 		 */
-		internal static void GUI_Mentat_Animation(ushort speakingMode)
+        internal static void GUI_Mentat_Animation(ushort speakingMode)
 		{
 			bool partNeedsRedraw;
 			ushort i;
@@ -1140,8 +1140,8 @@ namespace SharpDune
 			return false;
 		}
 
-		static ushort displayedHelpSubject = 0;
-		static void GUI_Mentat_Draw(bool force)
+		static ushort displayedHelpSubject;
+        static void GUI_Mentat_Draw(bool force)
 		{
 			Screen oldScreenID;
 			Widget line;
@@ -1294,8 +1294,8 @@ namespace SharpDune
 			}
 		}
 
-		static byte[] helpDataList = null;
-		static void GUI_Mentat_LoadHelpSubjects(bool init)
+		static byte[] helpDataList;
+        static void GUI_Mentat_LoadHelpSubjects(bool init)
 		{
 			byte fileID;
 			uint length;

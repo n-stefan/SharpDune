@@ -99,13 +99,13 @@ namespace SharpDune
 		 * in a row, we cache the last opened PAK file.
 		 * DUNE II code is very conservative about file access, and only open
 		 * one file at once. */
-		static /*FILE?*/FileStream s_currentPakFp = null;
-		static FileInfo s_currentPakInfo = null;
+		static /*FILE?*/FileStream s_currentPakFp;
+        static FileInfo s_currentPakInfo;
 
-		static FileInfoLinkedElem s_files_in_root = null;
-		static PakFileInfoLinkedElem s_files_in_pak = null;
+        static FileInfoLinkedElem s_files_in_root;
+        static PakFileInfoLinkedElem s_files_in_pak;
 
-		static File[] s_file;
+        static File[] s_file;
 
 		static CFile()
 		{

@@ -2239,15 +2239,15 @@ namespace SharpDune
 			}
 		}
 
-		static uint s_tickUnitMovement = 0; /*!< Indicates next time the Movement function is executed. */
-		static uint s_tickUnitRotation = 0; /*!< Indicates next time the Rotation function is executed. */
-		static uint s_tickUnitBlinking = 0; /*!< Indicates next time the Blinking function is executed. */
-		static uint s_tickUnitUnknown4 = 0; /*!< Indicates next time the Unknown4 function is executed. */
-		static uint s_tickUnitScript = 0; /*!< Indicates next time the Script function is executed. */
-		static uint s_tickUnitUnknown5 = 0; /*!< Indicates next time the Unknown5 function is executed. */
-		static uint s_tickUnitDeviation = 0; /*!< Indicates next time the Deviation function is executed. */
+		static uint s_tickUnitMovement; /*!< Indicates next time the Movement function is executed. */
+        static uint s_tickUnitRotation; /*!< Indicates next time the Rotation function is executed. */
+        static uint s_tickUnitBlinking; /*!< Indicates next time the Blinking function is executed. */
+        static uint s_tickUnitUnknown4; /*!< Indicates next time the Unknown4 function is executed. */
+        static uint s_tickUnitScript; /*!< Indicates next time the Script function is executed. */
+        static uint s_tickUnitUnknown5; /*!< Indicates next time the Unknown5 function is executed. */
+        static uint s_tickUnitDeviation; /*!< Indicates next time the Deviation function is executed. */
 
-		internal static Unit g_unitHouseMissile;
+        internal static Unit g_unitHouseMissile;
 		internal static Unit g_unitSelected;
 
 		static Unit[] g_unitArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
@@ -2370,9 +2370,9 @@ namespace SharpDune
 			}
 		};
 
-		internal static Unit g_unitActive = null;
+		internal static Unit g_unitActive;
 
-		internal static ushort g_dirtyUnitCount;
+        internal static ushort g_dirtyUnitCount;
 		internal static ushort g_dirtyAirUnitCount;
 
 		/*

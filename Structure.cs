@@ -1466,13 +1466,13 @@ namespace SharpDune
         internal static ushort g_structureActivePosition;
         internal static ushort g_structureActiveType;
 
-        internal static Structure g_structureActive = null;
+        internal static Structure g_structureActive;
 
-        static bool s_debugInstantBuild = false; /*!< When non-zero, constructions are almost instant. */
-        static uint s_tickStructureDegrade = 0; /*!< Indicates next time Degrade function is executed. */
-        static uint s_tickStructureStructure = 0; /*!< Indicates next time Structures function is executed. */
-        static uint s_tickStructureScript = 0; /*!< Indicates next time Script function is executed. */
-        static uint s_tickStructurePalace = 0; /*!< Indicates next time Palace function is executed. */
+        static bool s_debugInstantBuild; /*!< When non-zero, constructions are almost instant. */
+        static uint s_tickStructureDegrade; /*!< Indicates next time Degrade function is executed. */
+        static uint s_tickStructureStructure; /*!< Indicates next time Structures function is executed. */
+        static uint s_tickStructureScript; /*!< Indicates next time Script function is executed. */
+        static uint s_tickStructurePalace; /*!< Indicates next time Palace function is executed. */
 
         internal static ushort g_structureIndex;
 

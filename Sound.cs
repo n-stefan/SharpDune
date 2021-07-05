@@ -555,9 +555,9 @@ namespace SharpDune
 			new ushort[] {0x006C, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF}  /* 93 */
 		};
 
-		static string s_currentMusic = null;        /*!< Currently loaded music file. */
+		static string s_currentMusic;        /*!< Currently loaded music file. */
 
-		static void Driver_Music_Play(short index, ushort volume)
+        static void Driver_Music_Play(short index, ushort volume)
 		{
 			var music = CDriver.g_driverMusic;
 			var musicBuffer = CDriver.g_bufferMusic;
@@ -611,12 +611,12 @@ namespace SharpDune
 			CDriver.Driver_LoadFile(musicName, music);
 		}
 
-		static ushort currentMusicID = 0;
-		/*
+		static ushort currentMusicID;
+        /*
         * Plays a music.
         * @param index The index of the music to play.
         */
-		internal static void Music_Play(ushort musicID)
+        internal static void Music_Play(ushort musicID)
 		{
 			if (musicID == 0xFFFF || musicID >= 38 || musicID == currentMusicID) return;
 

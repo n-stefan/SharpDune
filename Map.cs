@@ -627,7 +627,7 @@ namespace SharpDune
         internal static ushort[] g_changedTiles = new ushort[200];
         internal static byte[] g_changedTilesMap = new byte[512];
 
-        static bool s_debugNoExplosionDamage = false;               /*!< When non-zero, explosions do no damage to their surrounding. */
+        static bool s_debugNoExplosionDamage;               /*!< When non-zero, explosions do no damage to their surrounding. */
 
         internal static byte[] g_dirtyMinimap = new byte[512];
         internal static byte[] g_displayedMinimap = new byte[512];
@@ -809,7 +809,7 @@ namespace SharpDune
             return (mapInfo.minX <= x && x < (mapInfo.minX + mapInfo.sizeX) && mapInfo.minY <= y && y < (mapInfo.minY + mapInfo.sizeY));
         }
 
-        static ushort selectionLayout = 0;
+        static ushort selectionLayout;
         /*
          * Sets the selection size for the given layout.
          *
@@ -1196,7 +1196,7 @@ namespace SharpDune
             0x0240, 0x0241, 0x0242, 0x0243, 0x0244, 0x0245, 0x0246, 0x0247, 0x0248, 0x0249, 0x024A, 0x024B, 0x024C, 0x024D, 0x024E,
             0xFFFF
         };
-        static ushort minimapPreviousPosition = 0;
+        static ushort minimapPreviousPosition;
         /*
          * Update the minimap position.
          *

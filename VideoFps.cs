@@ -10,8 +10,8 @@ namespace SharpDune
             Video_ShowFPS_2(screen, 320, null);
 
 		static uint[] s_previousTimeStamps = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		static byte s_previousTimeStampsIndex = 0;
-		static void Video_ShowFPS_2(byte[] screen, int bytes_per_row, Video_ShowFPS_Proc drawchar)
+		static byte s_previousTimeStampsIndex;
+        static void Video_ShowFPS_2(byte[] screen, int bytes_per_row, Video_ShowFPS_Proc drawchar)
 		{
 			uint timeStamp;
 
