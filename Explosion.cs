@@ -73,11 +73,9 @@ namespace SharpDune
 		internal ExplosionCommandStruct[] commands;           /*!< Commands being executed. */
 		internal tile32 position;                             /*!< Position where this explosion acts. */
 
-        internal Explosion()
-        {
+        internal Explosion() =>
 			position = new tile32();
-		}
-	}
+    }
 
 	class CExplosion
 	{

@@ -117,10 +117,8 @@ namespace SharpDune
         internal short state;                                   /*!< The state of the structure. @see StructureState. */
         internal ushort hitpointsMax;                           /*!< Max amount of hitpoints. */
 
-        internal Structure()
-        {
+        internal Structure() =>
             o = new Object();
-        }
     }
 
     /*

@@ -13,18 +13,16 @@ namespace SharpDune
 
         internal static string[] g_savegameDesc; //[5][51]			/*!< Array of savegame descriptions for the SaveLoad window. */
 
-        static WidgetClick()
-        {
+        static WidgetClick() =>
 			g_savegameDesc = new[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
-		}
 
-		/*
+        /*
 		 * Handles Click event for "Save Game" or "Load Game" button.
 		 *
 		 * @param save Wether to save or load.
 		 * @return True if a game has been saved or loaded, False otherwise.
 		 */
-		internal static bool GUI_Widget_SaveLoad_Click(bool save)
+        internal static bool GUI_Widget_SaveLoad_Click(bool save)
 		{
 			var desc = CWindowDesc.g_saveLoadWindowDesc;
 			bool loop;
