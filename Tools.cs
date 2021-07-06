@@ -24,24 +24,36 @@ namespace SharpDune
          * @param index Index in the array.
          * @return value of the bit.
          */
-        internal static bool BitArray_Test(byte[] array, ushort index) =>
-            (array[index >> 3] & (1 << (index & 7))) != 0;
+        internal static bool BitArray_Test(byte[] array, ushort index)
+        {
+            var normalizedIndex = index >> 3;
+            if (normalizedIndex >= array.Length) return false;
+            return (array[normalizedIndex] & (1 << (index & 7))) != 0;
+        }
 
         /*
          * Set a bit in a bit array.
          * @param array Bit array.
          * @param index Index in the array.
          */
-        internal static void BitArray_Set(byte[] array, ushort index) =>
-            array[index >> 3] |= (byte)(1 << (index & 7));
+        internal static void BitArray_Set(byte[] array, ushort index)
+        {
+            var normalizedIndex = index >> 3;
+            if (normalizedIndex >= array.Length) return;
+            array[normalizedIndex] |= (byte)(1 << (index & 7));
+        }
 
         /*
          * Clear a bit in a bit array.
          * @param array Bit array.
          * @param index Index in the array.
          */
-        internal static void BitArray_Clear(byte[] array, ushort index) =>
-            array[index >> 3] &= (byte)~(1 << (index & 7));
+        internal static void BitArray_Clear(byte[] array, ushort index)
+        {
+            var normalizedIndex = index >> 3;
+            if (normalizedIndex >= array.Length) return;
+            array[normalizedIndex] &= (byte)~(1 << (index & 7));
+        }
 
         /*
          * Get the type of the given encoded index.
