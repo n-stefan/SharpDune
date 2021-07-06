@@ -174,7 +174,7 @@ namespace SharpDune
 
 	class Gui
 	{
-		static SelectionTypeStruct[] g_table_selectionType = { //[8] [(int)SelectionType.SELECTIONTYPE_MAX]
+		static readonly SelectionTypeStruct[] g_table_selectionType = { //[8] [(int)SelectionType.SELECTIONTYPE_MAX]
 			new() {
 				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
 				variable_04 = true,
@@ -227,8 +227,8 @@ namespace SharpDune
 
 		internal static byte[] g_remap = new byte[256];
 
-		static byte[] g_colours = new byte[16];                 /*!< Colors used for drawing chars */
-		static ClippingArea g_clipping = new() { left = 0, top = 0, right = Gfx.SCREEN_WIDTH - 1, bottom = Gfx.SCREEN_HEIGHT - 1 };
+		static readonly byte[] g_colours = new byte[16];                 /*!< Colors used for drawing chars */
+		static readonly ClippingArea g_clipping = new() { left = 0, top = 0, right = Gfx.SCREEN_WIDTH - 1, bottom = Gfx.SCREEN_HEIGHT - 1 };
 
 		static /*byte[]*/CArray<byte> s_palette1_houseColour;
 
@@ -288,7 +288,7 @@ namespace SharpDune
 		static uint s_ticksPlayed;
 		internal static bool g_doQuitHOF;
 
-		static byte[] s_strategicMapArrowColors = new byte[24];
+		static readonly byte[] s_strategicMapArrowColors = new byte[24];
 		static bool s_strategicMapFastForward;
 
 		internal static ushort g_viewportMessageCounter;
@@ -311,7 +311,7 @@ namespace SharpDune
 		};
 
 		/* Colours used for the border of widgets in the hall of fame. */
-		static ushort[][] s_HOF_ColourBorderSchema = { //[5][4]
+		static readonly ushort[][] s_HOF_ColourBorderSchema = { //[5][4]
 			new ushort[] { 226, 228, 228, 228 },
 			new ushort[] { 116, 226, 105, 116 },
 			new ushort[] { 116, 105, 226, 116 },
@@ -320,7 +320,7 @@ namespace SharpDune
 		};
 
 		/* Mapping of scores to rank names. */
-		static RankScore[] _rankScores = {
+		static readonly RankScore[] _rankScores = {
 			new() { rankString = 271, score = 25 }, /* "Sand Flea" */
 			new() { rankString = 272, score = 50 }, /* "Sand Snake" */
 			new() { rankString = 273, score = 100 }, /* "Desert Mongoose" */
@@ -338,9 +338,9 @@ namespace SharpDune
 		internal static bool g_factoryWindowConstructionYard;
         internal static FactoryWindowItem[] g_factoryWindowItems = new FactoryWindowItem[25];
 
-		static Widget[] s_factoryWindowWidgets = new Widget[13];
+		static readonly Widget[] s_factoryWindowWidgets = new Widget[13];
 		static byte[] s_factoryWindowGraymapTbl = new byte[256];
-		static byte[] s_factoryWindowWsaBuffer = new byte[64000];
+		static readonly byte[] s_factoryWindowWsaBuffer = new byte[64000];
 		internal static bool g_factoryWindowStarport;
 		internal static ushort g_factoryWindowBase;
 		static ushort g_factoryWindowUpgradeCost;
@@ -349,7 +349,7 @@ namespace SharpDune
 		internal static ushort g_factoryWindowTotal;
 		internal static FactoryResult g_factoryWindowResult = FactoryResult.FACTORY_RESUME;
 
-		static byte[] blurOffsets = { 1, 3, 2, 5, 4, 3, 2, 1 };
+		static readonly byte[] blurOffsets = { 1, 3, 2, 5, 4, 3, 2, 1 };
 		static ushort s_blurIndex; /* index into previous table */
         /*
 		 * Draws a sprite.
@@ -2183,7 +2183,7 @@ namespace SharpDune
 			}
 		}
 
-		static ushort[] l_info = { 293, 52, 24, 7, 1, 0, 0, 0, 4, 5, 8 };
+		static readonly ushort[] l_info = { 293, 52, 24, 7, 1, 0, 0, 0, 4, 5, 8 };
 		internal static void GUI_DrawProgressbar(ushort current, ushort max)
 		{
 			ushort width;
@@ -3324,7 +3324,7 @@ namespace SharpDune
 			return scenarioID;
 		}
 
-		static byte[][] l_houses = { //[3][3]
+		static readonly byte[][] l_houses = { //[3][3]
 			/* x, y, shortcut */
 			new byte[] { 16, 56, 31 }, /* A */
 			new byte[] { 112, 56, 25 }, /* O */
@@ -4642,7 +4642,7 @@ namespace SharpDune
 			return 0;
 		}
 
-		static ushort[] gameSpeedStrings = {
+		static readonly ushort[] gameSpeedStrings = {
 			(ushort)Text.STR_SLOWEST,
 			(ushort)Text.STR_SLOW,
 			(ushort)Text.STR_NORMAL,
@@ -4824,8 +4824,8 @@ namespace SharpDune
 			GUI_Mouse_Show_Safe();
 		}
 
-		static byte[] xSrc = { 0, 0, 16, 0, 0, 0 }; //HOUSE_MAX
-		static byte[] ySrc = { 8, 152, 48, 0, 0, 0 }; //HOUSE_MAX
+		static readonly byte[] xSrc = { 0, 0, 16, 0, 0, 0 }; //HOUSE_MAX
+		static readonly byte[] ySrc = { 8, 152, 48, 0, 0, 0 }; //HOUSE_MAX
 		static void GUI_FactoryWindow_Init()
 		{
 			Screen oldScreenID;

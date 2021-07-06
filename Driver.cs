@@ -26,22 +26,22 @@ namespace SharpDune
 
     class CDriver
     {
-        static bool[] s_driverInstalled = new bool[16];
-        static bool[] s_driverLoaded = new bool[16];
+        static readonly bool[] s_driverInstalled = new bool[16];
+        static readonly bool[] s_driverLoaded = new bool[16];
 
-        static Driver s_driverMusic = new();
-        static Driver s_driverSound = new();
-        static Driver s_driverVoice = new();
+        static readonly Driver s_driverMusic = new();
+        static readonly Driver s_driverSound = new();
+        static readonly Driver s_driverVoice = new();
 
         internal static Driver g_driverMusic = s_driverMusic;
         internal static Driver g_driverSound = s_driverSound;
-        static Driver g_driverVoice = s_driverVoice;
+        static readonly Driver g_driverVoice = s_driverVoice;
 
-        static MSBuffer s_bufferMusic = new();
+        static readonly MSBuffer s_bufferMusic = new();
         internal static MSBuffer g_bufferMusic = s_bufferMusic;
 
-        static MSBuffer[] s_bufferSound = { new(), new(), new(), new() }; //new MSBuffer[4];
-        static MSBuffer[] g_bufferSound = { s_bufferSound[0], s_bufferSound[1], s_bufferSound[2], s_bufferSound[3] };
+        static readonly MSBuffer[] s_bufferSound = { new(), new(), new(), new() }; //new MSBuffer[4];
+        static readonly MSBuffer[] g_bufferSound = { s_bufferSound[0], s_bufferSound[1], s_bufferSound[2], s_bufferSound[3] };
 
         static byte s_bufferSoundIndex;
 

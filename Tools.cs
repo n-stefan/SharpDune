@@ -15,7 +15,7 @@ namespace SharpDune
 
     class Tools
     {
-        static byte[] s_randomSeed = new byte[4];
+        static readonly byte[] s_randomSeed = new byte[4];
         static uint s_randomLCG;
 
         /*

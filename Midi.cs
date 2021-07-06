@@ -73,7 +73,7 @@ namespace SharpDune
 			public IntPtr Reserved;
 			public int Offset;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-			private int[] reservedArray;
+			private readonly int[] reservedArray;
 		}
 
 		delegate void MidiOutProc(IntPtr midiOut, uint msg, IntPtr instance, IntPtr param1, IntPtr param2);

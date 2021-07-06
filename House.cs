@@ -322,8 +322,8 @@ namespace SharpDune
         static uint s_tickHouseMissileCountdown;
         static uint s_tickHouseStarportAvailability;
 
-        static House[] g_houseArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];
-        static House[] g_houseFindArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];
+        static readonly House[] g_houseArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];
+        static readonly House[] g_houseFindArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];
         static ushort g_houseFindCount;
 
         /*
@@ -850,7 +850,7 @@ namespace SharpDune
             }
         }
 
-        static string[] houseWSAFileNames = { "FHARK.WSA", "FARTR.WSA", "FORDOS.WSA" };
+        static readonly string[] houseWSAFileNames = { "FHARK.WSA", "FARTR.WSA", "FORDOS.WSA" };
         internal static string House_GetWSAHouseFilename(byte houseID)
         {
             if (houseID >= 3) return null;

@@ -65,8 +65,8 @@ namespace SharpDune
 
 	class CTeam
 	{
-		static Team[] g_teamArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
-		static Team[] g_teamFindArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
+		static readonly Team[] g_teamArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
+		static readonly Team[] g_teamFindArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
 		static ushort g_teamFindCount;
 
 		static uint s_tickTeamGameLoop; /*!< Indicates next time the GameLoop function is executed. */

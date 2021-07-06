@@ -6,14 +6,14 @@ namespace SharpDune
 {
     class Info
     {
-        static SaveLoadDesc[] s_saveInfoOld = {
+        static readonly SaveLoadDesc[] s_saveInfoOld = {
             SaveLoad.SLD_EMPTY2(SaveLoadType.SLDT_UINT8, 250),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, (v, _) => CSharpDune.g_scenarioID = (ushort)v),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, (v, _) => CSharpDune.g_campaignID = (ushort)v),
             SaveLoad.SLD_END()
         };
 
-        static SaveLoadDesc[] s_saveInfo = {
+        static readonly SaveLoadDesc[] s_saveInfo = {
             SaveLoad.SLD_GSLD(() => CScenario.g_scenario, SaveLoad.g_saveScenario),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, (v, _) => CHouse.g_playerCreditsNoSilo = (ushort)v),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.g_minimapPosition, (v, _) => Gui.g_minimapPosition = (ushort)v),

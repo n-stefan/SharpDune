@@ -25,13 +25,13 @@ namespace SharpDune
 	class Gfx
 	{
 		static bool s_screen0_is_dirty;
-        static dirty_area s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
-		static uint[] g_dirty_blocks = new uint[200];
+        static readonly dirty_area s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
+		static readonly uint[] g_dirty_blocks = new uint[200];
 
 		static Screen s_screenActiveID = Screen.SCREEN_0;
 
 		const byte GFX_SCREEN_BUFFER_COUNT = 4;
-		static ushort[] s_screenBufferSize = { /*0xFA00*/0xFF00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
+		static readonly ushort[] s_screenBufferSize = { /*0xFA00*/0xFF00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
 		//TODO: Use one CArray<byte>
 		static byte[] s_screen1;
 		static byte[] s_screen2;

@@ -710,7 +710,7 @@ namespace SharpDune
 			s_strings = null; //free(s_strings);
 		}
 
-		static char[] couples =
+		static readonly char[] couples =
 			(" etainosrlhcdupm" +       /* 1st char */
 			"tasio wb" +                /* <SPACE>? */
 			" rnsdalm" +                /* e? */

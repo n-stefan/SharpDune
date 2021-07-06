@@ -627,7 +627,7 @@ namespace SharpDune
         internal static ushort[] g_changedTiles = new ushort[200];
         internal static byte[] g_changedTilesMap = new byte[512];
 
-        static bool s_debugNoExplosionDamage;               /*!< When non-zero, explosions do no damage to their surrounding. */
+        static readonly bool s_debugNoExplosionDamage;               /*!< When non-zero, explosions do no damage to their surrounding. */
 
         internal static byte[] g_dirtyMinimap = new byte[512];
         internal static byte[] g_displayedMinimap = new byte[512];
@@ -659,7 +659,7 @@ namespace SharpDune
 		 * 6=entirely mountain, 8=spice, 9=thick spice
 		 * @see Map_GetLandscapeType
 		 */
-        static ushort[] _landscapeSpriteMap = {
+        static readonly ushort[] _landscapeSpriteMap = {
             0, 1, 1, 1, 5, 1, 5, 5, 5, 5, /* Sprites 127-136 */
 			5, 5, 5, 5, 5, 5, 4, 3, 3, 3, /* Sprites 137-146 */
 			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, /* Sprites 147-156 */
@@ -671,7 +671,7 @@ namespace SharpDune
 			9,                            /* Sprite  207 (bloom sprites 208 and 209 are already caught). */
 		};
 
-        static ushort[][][] _offsetTable = { //[2][21][4]
+        static readonly ushort[][][] _offsetTable = { //[2][21][4]
 	        new ushort[][] {
                 new ushort[] {0, 0, 4, 0}, new ushort[] {4, 0, 4, 4}, new ushort[] {0, 0, 0, 4}, new ushort[] {0, 4, 4, 4}, new ushort[] {0, 0, 0, 2},
 		        new ushort[] {0, 2, 0, 4}, new ushort[] {0, 0, 2, 0}, new ushort[] {2, 0, 4, 0}, new ushort[] {4, 0, 4, 2}, new ushort[] {4, 2, 4, 4},
@@ -888,7 +888,7 @@ namespace SharpDune
             }
         }
 
-        static short[] offsets = {
+        static readonly short[] offsets = {
             -64, /* up */
             -63, /* up right */
             1,   /* right */
@@ -980,7 +980,7 @@ namespace SharpDune
             return x >= x2 && x < x2 + 15 && y >= y2 && y < y2 + 10;
         }
 
-        static ushort[] tileOffsets = {
+        static readonly ushort[] tileOffsets = {
             0x0080, 0x0088, 0x0090, 0x0098,
             0x00A0, 0x00A8, 0x00B0, 0x00B8,
             0x00C0, 0x00C8, 0x00D0, 0x00D8,
@@ -1183,7 +1183,7 @@ namespace SharpDune
         }
 
         /* Border tiles of the viewport relative to the top-left. */
-        static ushort[] viewportBorder = {
+        static readonly ushort[] viewportBorder = {
             0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E,
             0x0040, 0x004E,
             0x0080, 0x008E,
@@ -1753,7 +1753,7 @@ namespace SharpDune
             Map_SetSelection(CTile.Tile_PackTile(selected.position));
         }
 
-        static short[] mapBase = { 1, -2, -2 };
+        static readonly short[] mapBase = { 1, -2, -2 };
         /*
          * Find a tile close the a LocationID described position (North, Enemy Base, ..).
          *
@@ -2062,7 +2062,7 @@ namespace SharpDune
             Gui.g_viewportPosition = CTile.Tile_PackXY((ushort)x, (ushort)y);
         }
 
-        static sbyte[] around = { 0, -1, 1, -16, 16, -17, 17, -15, 15, -2, 2, -32, 32, -4, 4, -64, 64, -30, 30, -34, 34 };
+        static readonly sbyte[] around = { 0, -1, 1, -16, 16, -17, 17, -15, 15, -2, 2, -32, 32, -4, 4, -64, 64, -30, 30, -34, 34 };
         /*
          * Creates the landscape using the given seed.
          * @param seed The seed.

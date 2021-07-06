@@ -44,7 +44,7 @@ class CSharpDune
     internal static ushort g_scenarioID = 1;
     internal static ushort g_activeAction = 0xFFFF; /*!< Action the controlled unit will do. */
     internal static uint g_tickScenarioStart; /*!< The tick the scenario started in. */
-    static uint s_tickGameTimeout; /*!< The tick the game will timeout. */
+    static readonly uint s_tickGameTimeout; /*!< The tick the game will timeout. */
 
     internal static bool g_debugGame; /*!< When true, you can control the AI. */
     internal static bool g_debugScenario; /*!< When true, you can review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
@@ -702,9 +702,9 @@ class CSharpDune
     static ushort stringID = (ushort)Text.STR_REPLAY_INTRODUCTION;
     static bool hasSave;
     static bool hasFame;
-    static string[] strings = new string[6];
+    static readonly string[] strings = new string[6];
     static ushort index = 0xFFFF;
-    static ushort[][] mainMenuStrings = { //[][6]
+    static readonly ushort[][] mainMenuStrings = { //[][6]
 			new[] { (ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_EXIT_GAME, (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL }, /* Neither HOF nor save. */
 			new[] { (ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_LOAD_GAME, (ushort)Text.STR_EXIT_GAME,    (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL }, /* Has a save game. */
 			new[] { (ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_EXIT_GAME, (ushort)Text.STR_HALL_OF_FAME, (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL }, /* Has a HOF. */

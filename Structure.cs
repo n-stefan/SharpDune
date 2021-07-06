@@ -147,8 +147,8 @@ namespace SharpDune
     class CStructure
     {
         static ushort g_structureFindCount;
-        static Structure[] g_structureArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_HARD];
-        static Structure[] g_structureFindArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_SOFT];
+        static readonly Structure[] g_structureArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_HARD];
+        static readonly Structure[] g_structureFindArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_SOFT];
 
         internal static StructureInfo[] g_table_structureInfo;
 
@@ -1440,7 +1440,7 @@ namespace SharpDune
         };
 
         /* Array with position offset per tile around a structure layout. */
-        static short[][] g_table_structure_layoutTilesAround = { //[STRUCTURE_LAYOUT_MAX][16]
+        static readonly short[][] g_table_structure_layoutTilesAround = { //[STRUCTURE_LAYOUT_MAX][16]
 	        new short[] {-64, -64+1,     1,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_1x1 */
 	        new short[] {-64, -64+1, -64+2,     2,  64+2,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_2x1 */
 	        new short[] {-64, -64+1,     1,  64+1, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_1x2 */
@@ -1466,7 +1466,7 @@ namespace SharpDune
 
         internal static Structure g_structureActive;
 
-        static bool s_debugInstantBuild; /*!< When non-zero, constructions are almost instant. */
+        static readonly bool s_debugInstantBuild; /*!< When non-zero, constructions are almost instant. */
         static uint s_tickStructureDegrade; /*!< Indicates next time Degrade function is executed. */
         static uint s_tickStructureStructure; /*!< Indicates next time Structures function is executed. */
         static uint s_tickStructureScript; /*!< Indicates next time Script function is executed. */
@@ -2162,7 +2162,7 @@ namespace SharpDune
             return result;
         }
 
-        static byte[] wall = {
+        static readonly byte[] wall = {
              0,  3,  1,  2,  3,  3,  4,  5,  1,  6,  1,  7,  8,  9, 10, 11,
              1, 12,  1, 19,  1, 16,  1, 31,  1, 28,  1, 52,  1, 45,  1, 59,
              3,  3, 13, 20,  3,  3, 22, 32,  3,  3, 13, 53,  3,  3, 38, 60,

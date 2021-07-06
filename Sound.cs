@@ -35,16 +35,16 @@ namespace SharpDune
 		/* Maximal number of spoken audio fragments in one message. */
 		internal const byte NUM_SPEECH_PARTS = 5;
 
-		static byte[][] g_voiceData = new byte[NUM_VOICES][];         /*!< Preloaded Voices sound data */
-		static uint[] g_voiceDataSize = new uint[NUM_VOICES];         /*!< Preloaded Voices sound data size in byte */
-		static ushort[] s_spokenWords = new ushort[NUM_SPEECH_PARTS]; /*!< Buffer with speech to play. */
+		static readonly byte[][] g_voiceData = new byte[NUM_VOICES][];         /*!< Preloaded Voices sound data */
+		static readonly uint[] g_voiceDataSize = new uint[NUM_VOICES];         /*!< Preloaded Voices sound data size in byte */
+		static readonly ushort[] s_spokenWords = new ushort[NUM_SPEECH_PARTS]; /*!< Buffer with speech to play. */
 		static short s_currentVoicePriority;                          /*!< Priority of the currently playing Speech */
 
 		/*
 		 * Available music.
 		 * @note The code compares pointers rather than the text itself, thus strings must be unique.
 		 */
-		static MusicData[] g_table_musics = {
+		static readonly MusicData[] g_table_musics = {
 			new() { name = null, index = 0 }, /*  0 */
 			new() { name = "dune1", index = 2 }, /*  1 */
 			new() { name = "dune1", index = 3 }, /*  2 */
@@ -96,7 +96,7 @@ namespace SharpDune
 		 *       or house prefix char ('A'treides, 'O'rdos or Fremen,
 		 *           'H'arkonnen or Sardokar, 'M'ercenary)
 		 */
-		static VoiceData[] g_table_voices = { //[NUM_VOICES]
+		static readonly VoiceData[] g_table_voices = { //[NUM_VOICES]
 			new() { str = "+VSCREAM1.VOC",  priority = 11}, /*   0 */
 			new() { str = "+EXSAND.VOC",    priority = 10}, /*   1 */
 			new() { str = "+ROCKET.VOC",    priority = 11}, /*   2 */
@@ -233,7 +233,7 @@ namespace SharpDune
 		/*
 		 * Mapping soundID -> voice.
 		 */
-		static ushort[] g_table_voiceMapping = {
+		static readonly ushort[] g_table_voiceMapping = {
 			0xFFFF, /*   0 */
 			0xFFFF, /*   1 */
 			0xFFFF, /*   2 */
@@ -458,7 +458,7 @@ namespace SharpDune
 		};
 
 		/* Translated audio feedback of events and user commands. */
-		static ushort[][] g_translatedVoice = { //[][NUM_SPEECH_PARTS]
+		static readonly ushort[][] g_translatedVoice = { //[][NUM_SPEECH_PARTS]
 			new ushort[] {0x002B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF}, /*  0 */
 			new ushort[] {0x0031, 0x001D, 0xFFFF, 0xFFFF, 0xFFFF}, /*  1 */
 			new ushort[] {0x0031, 0x001D, 0xFFFF, 0xFFFF, 0xFFFF}, /*  2 */

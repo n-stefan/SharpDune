@@ -68,7 +68,7 @@ namespace SharpDune
 		//static readonly Type scriptEngine = typeof(ScriptEngine);
 		//static readonly Type dir24 = typeof(dir24);
 
-		static SaveLoadDesc[] g_saveScriptEngine = {
+		static readonly SaveLoadDesc[] g_saveScriptEngine = {
 			SLD_ENTRY(/*scriptEngine,*/ SaveLoadType.SLDT_UINT16, nameof(ScriptEngine.delay)),
 			SLD_CALLB(/*scriptEngine,*/ SaveLoadType.SLDT_UINT32, nameof(ScriptEngine.script), Info.SaveLoad_Script_Script),
 			SLD_EMPTY(SaveLoadType.SLDT_UINT32),
@@ -81,7 +81,7 @@ namespace SharpDune
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] g_saveObject = {
+		static readonly SaveLoadDesc[] g_saveObject = {
 			SLD_ENTRY(/*obj,*/ SaveLoadType.SLDT_UINT16, nameof(Object.index)),
 			SLD_ENTRY(/*obj,*/ SaveLoadType.SLDT_UINT8, nameof(Object.type)),
 			SLD_ENTRY(/*obj,*/ SaveLoadType.SLDT_UINT8, nameof(Object.linkedID)),
@@ -95,7 +95,7 @@ namespace SharpDune
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] s_saveHouse = {
+		static readonly SaveLoadDesc[] s_saveHouse = {
 			SLD_ENTRY2(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.index), SaveLoadType.SLDT_UINT8),
 			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.harvestersIncoming)),
 			SLD_ENTRY2(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.flags), SaveLoadType.SLDT_HOUSEFLAGS),
@@ -122,7 +122,7 @@ namespace SharpDune
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] s_saveStructure = {
+		static readonly SaveLoadDesc[] s_saveStructure = {
 			SLD_SLD(/*structure,*/ nameof(Structure.o), g_saveObject),
 			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.creatorHouseID)),
 			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.rotationSpriteDiff)),
@@ -137,14 +137,14 @@ namespace SharpDune
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] s_saveUnitOrientation = {
+		static readonly SaveLoadDesc[] s_saveUnitOrientation = {
 			SLD_ENTRY(/*dir24,*/ SaveLoadType.SLDT_INT8, nameof(dir24.speed)),
 			SLD_ENTRY(/*dir24,*/ SaveLoadType.SLDT_INT8, nameof(dir24.target)),
 			SLD_ENTRY(/*dir24,*/ SaveLoadType.SLDT_INT8, nameof(dir24.current)),
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] s_saveUnit = {
+		static readonly SaveLoadDesc[] s_saveUnit = {
 			SLD_SLD(/*unit,*/ nameof(Unit.o), g_saveObject),
 			SLD_EMPTY(SaveLoadType.SLDT_UINT16),
 			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Unit.currentDestination)}.{nameof(tile32.x)}"),
@@ -176,12 +176,12 @@ namespace SharpDune
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] s_saveUnitNewIndex = {
+		static readonly SaveLoadDesc[] s_saveUnitNewIndex = {
 			SLD_ENTRY(/*obj,*/ SaveLoadType.SLDT_UINT16, nameof(Object.index)),
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] s_saveUnitNew = {
+		static readonly SaveLoadDesc[] s_saveUnitNew = {
 			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, nameof(Unit.fireDelay)),
 			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.deviatedHouse)),
 			SLD_EMPTY(SaveLoadType.SLDT_UINT8),
@@ -189,7 +189,7 @@ namespace SharpDune
 			SLD_END()
 		};
 
-        static SaveLoadDesc[] s_saveTeam = {
+        static readonly SaveLoadDesc[] s_saveTeam = {
 			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.index)),
 			SLD_ENTRY2(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.flags), SaveLoadType.SLDT_TEAMFLAGS),
 			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.members)),
@@ -208,7 +208,7 @@ namespace SharpDune
 			SLD_END()
 		};
 
-		static SaveLoadDesc[] s_saveReinforcement = {
+		static readonly SaveLoadDesc[] s_saveReinforcement = {
 			SLD_ENTRY(/*reinforcement,*/ SaveLoadType.SLDT_UINT16, nameof(Reinforcement.unitID)),
 			SLD_ENTRY(/*reinforcement,*/ SaveLoadType.SLDT_UINT16, nameof(Reinforcement.locationID)),
 			SLD_ENTRY(/*reinforcement,*/ SaveLoadType.SLDT_UINT16, nameof(Reinforcement.timeLeft)),

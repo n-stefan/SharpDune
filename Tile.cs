@@ -6,7 +6,7 @@ namespace SharpDune
 {
     class CTile
     {
-        static sbyte[] _stepX = {
+        static readonly sbyte[] _stepX = {
                0,    3,    6,    9,   12,   15,   18,   21,   24,   27,   30,   33,   36,   39,   42,   45,
               48,   51,   54,   57,   59,   62,   65,   67,   70,   73,   75,   78,   80,   82,   85,   87,
               89,   91,   94,   96,   98,  100,  101,  103,  105,  107,  108,  110,  111,  113,  114,  116,
@@ -25,7 +25,7 @@ namespace SharpDune
              -48,  -45,  -42,  -39,  -36,  -33,  -30,  -27,  -24,  -21,  -18,  -15,  -12,   -9,   -6,   -3
         };
 
-        static sbyte[] _stepY = {
+        static readonly sbyte[] _stepY = {
              127,  126,  126,  126,  126,  126,  125,  125,  124,  123,  123,  122,  121,  120,  119,  118,
              117,  116,  114,  113,  112,  110,  108,  107,  105,  103,  102,  100,   98,   96,   94,   91,
               89,   87,   85,   82,   80,   78,   75,   73,   70,   67,   65,   62,   59,   57,   54,   51,
@@ -220,8 +220,8 @@ namespace SharpDune
             return (ushort)(distance_y + (distance_x / 2));
         }
 
-        static ushort[] orientationOffsets = { 0x40, 0x80, 0x0, 0xC0 };
-        static int[] directions = {
+        static readonly ushort[] orientationOffsets = { 0x40, 0x80, 0x0, 0xC0 };
+        static readonly int[] directions = {
             0x3FFF, 0x28BC, 0x145A, 0xD8E,  0xA27, 0x81B, 0x6BD, 0x5C3,  0x506, 0x474, 0x3FE, 0x39D,  0x34B, 0x306, 0x2CB, 0x297,
             0x26A,  0x241,  0x21D,  0x1FC,  0x1DE, 0x1C3, 0x1AB, 0x194,  0x17F, 0x16B, 0x159, 0x148,  0x137, 0x128, 0x11A, 0x10C
         };
@@ -475,7 +475,7 @@ namespace SharpDune
             //return 0;
         }
 
-        static byte[] returnValues = { 0x20, 0x40, 0x20, 0x00, 0xE0, 0xC0, 0xE0, 0x00, 0x60, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xA0, 0x80 };
+        static readonly byte[] returnValues = { 0x20, 0x40, 0x20, 0x00, 0xE0, 0xC0, 0xE0, 0x00, 0x60, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xA0, 0x80 };
         /*
          * Get to direction to follow to go from packed_from to packed_to.
          *

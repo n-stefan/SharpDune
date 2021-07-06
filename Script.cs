@@ -69,9 +69,9 @@ namespace SharpDune
 
     class Script
     {
-        static ScriptInfo s_scriptStructure = new();
-        static ScriptInfo s_scriptTeam = new();
-        static ScriptInfo s_scriptUnit = new();
+        static readonly ScriptInfo s_scriptStructure = new();
+        static readonly ScriptInfo s_scriptTeam = new();
+        static readonly ScriptInfo s_scriptUnit = new();
         internal static ScriptInfo g_scriptStructure = s_scriptStructure;
         internal static ScriptInfo g_scriptTeam = s_scriptTeam;
         internal static ScriptInfo g_scriptUnit = s_scriptUnit;
@@ -816,7 +816,7 @@ namespace SharpDune
             return script.stack[script.stackPointer + position - 1];
         }
 
-        static string[] l_types = { "Unit", "Structure", "Team", "Unknown" };
+        static readonly string[] l_types = { "Unit", "Structure", "Team", "Unknown" };
         /*
          * Show a script error with additional information (Type, Index, ..).
          * @param error The error to show.

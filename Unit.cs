@@ -2250,8 +2250,8 @@ namespace SharpDune
         internal static Unit g_unitHouseMissile;
 		internal static Unit g_unitSelected;
 
-		static Unit[] g_unitArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
-		static Unit[] g_unitFindArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
+		static readonly Unit[] g_unitArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
+		static readonly Unit[] g_unitFindArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
 		static ushort g_unitFindCount;
 
 		internal static ushort[] g_table_actionsAI = { (ushort)ActionType.ACTION_HUNT, (ushort)ActionType.ACTION_AREA_GUARD, (ushort)ActionType.ACTION_AMBUSH, (ushort)ActionType.ACTION_GUARD };
@@ -2381,7 +2381,7 @@ namespace SharpDune
 		 */
 		internal static short[] g_starportAvailable = new short[(int)UnitType.UNIT_MAX];
 
-		static short[] s_mapDirection = { -64, -63, 1, 65, 64, 63, -1, -65 }; /*!< Tile index change when moving in a direction. */
+		static readonly short[] s_mapDirection = { -64, -63, 1, 65, 64, 63, -1, -65 }; /*!< Tile index change when moving in a direction. */
 
 		/*
 		 * Get a Unit from the pool with the indicated index.
@@ -5032,8 +5032,8 @@ namespace SharpDune
 			return Min(priority, (ushort)32000);
 		}
 
-		static short[] offsetX = { 0, 0, 200, 256, 200, 0, -200, -256, -200, 0, 400, 512, 400, 0, -400, -512, -400 };
-		static short[] offsetY = { 0, -256, -200, 0, 200, 256, 200, 0, -200, -512, -400, 0, 400, 512, 400, 0, -400 };
+		static readonly short[] offsetX = { 0, 0, 200, 256, 200, 0, -200, -256, -200, 0, 400, 512, 400, 0, -400, -512, -400 };
+		static readonly short[] offsetY = { 0, -256, -200, 0, 200, 256, 200, 0, -200, -512, -400, 0, 400, 512, 400, 0, -400 };
 		/*
 		 * Moves the given unit.
 		 *
@@ -5543,7 +5543,7 @@ namespace SharpDune
 			Unit_HouseUnitCount_Remove(unit);
 		}
 
-		static short[] around = { 0, -1, 1, -64, 64, -65, -63, 65, 63 };
+		static readonly short[] around = { 0, -1, 1, -64, 64, -65, -63, 65, 63 };
 		/*
 		 * Find a target around the given packed tile.
 		 *
@@ -5802,7 +5802,7 @@ namespace SharpDune
 			return (ushort)u.orientation[0].current;
 		}
 
-		static sbyte[] offsets = { 0, -1, -64, -65 };
+		static readonly sbyte[] offsets = { 0, -1, -64, -65 };
 		/*
 		 * Transform an MCV into Construction Yard.
 		 *
@@ -6857,7 +6857,7 @@ namespace SharpDune
 			return res;
 		}
 
-		static sbyte[] directionOffset = { 0, 0, 1, 2, 3, -2, -1, 0 };
+		static readonly sbyte[] directionOffset = { 0, 0, 1, 2, 3, -2, -1, 0 };
 		/*
 		 * Smoothen the route found by the pathfinder.
 		 * @param data The found route to smoothen.

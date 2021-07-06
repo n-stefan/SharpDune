@@ -44,7 +44,7 @@ namespace SharpDune
 	{
 		const byte ANIMATION_MAX = 112;
 
-		static Animation[] g_animations = new Animation[ANIMATION_MAX];
+		static readonly Animation[] g_animations = new Animation[ANIMATION_MAX];
 		static uint s_animationTimer; /*!< Timer for animations. */
 
 		internal static AnimationCommandStruct[][] g_table_animation_structure;

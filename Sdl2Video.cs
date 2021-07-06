@@ -29,7 +29,7 @@ namespace SharpDune
 		static bool s_video_initialized;
         static bool s_video_lock;
 
-        static uint[] s_palette = new uint[256];
+        static readonly uint[] s_palette = new uint[256];
 		static bool s_screen_needrepaint;
 
         static ushort s_screenOffset;   /* VGA Start Address Register */
@@ -55,7 +55,7 @@ namespace SharpDune
         static ushort s_mouseMaxY;
 
         /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
-        static byte[] s_SDL_keymap = {
+        static readonly byte[] s_SDL_keymap = {
 				   0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
 				   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x01,    0,    0,    0,    0, /*  0x10 -  0x1F */
 				0x39,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x33, 0x0C, 0x34, 0x35, /*  0x20 -  0x2F */
@@ -67,7 +67,7 @@ namespace SharpDune
 		};
 
 		/* see https://wiki.libsdl.org/SDLKeycodeLookup */
-		static byte[] s_SDL_hikeymap = {
+		static readonly byte[] s_SDL_hikeymap = {
 			0x3A,	/* 1073741881 0x40000039 SDLK_CAPSLOCK */
 			0x3B,	/* 1073741882 0x4000003A SDLK_F1 */
 			0x3C,	/* 1073741883 0x4000003B SDLK_F2 */

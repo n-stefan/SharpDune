@@ -434,7 +434,7 @@ namespace SharpDune
 			}
 		}
 
-		static byte[][] borderIndexSize = { //[][2]
+		static readonly byte[][] borderIndexSize = { //[][2]
 			new byte[] {0, 0}, new byte[] {2, 4}, new byte[] {1, 1}, new byte[] {2, 1}
 		};
 		/*

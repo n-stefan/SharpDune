@@ -46,9 +46,9 @@ namespace SharpDune
         static PalettePartDirection s_palettePartDirection; /*!< Direction of change. @see PalettePartDirection */
 		static uint s_paletteAnimationTimeout;              /*!< Timeout value for the next palette change. */
 		static ushort s_palettePartCount;                   /*!< Number of steps left before the target palette is reached. */
-		static byte[] s_palettePartTarget = new byte[18];   /*!< Target palette part (6 colours). */
-		static byte[] s_palettePartCurrent = new byte[18];  /*!< Current value of the palette part (6 colours, updated each call to #GameLoop_PalettePart_Update). */
-		static byte[] s_palettePartChange = new byte[18];   /*!< Amount of change of each RGB colour of the palette part with each step. */
+		static readonly byte[] s_palettePartTarget = new byte[18];   /*!< Target palette part (6 colours). */
+		static readonly byte[] s_palettePartCurrent = new byte[18];  /*!< Current value of the palette part (6 colours, updated each call to #GameLoop_PalettePart_Update). */
+		static readonly byte[] s_palettePartChange = new byte[18];   /*!< Amount of change of each RGB colour of the palette part with each step. */
 
 		/*
 		 * The Intro.
@@ -753,7 +753,7 @@ namespace SharpDune
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 		}
 
-		static byte[] colours = { 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		static readonly byte[] colours = { 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		/*
 		 * Shows the game credits.
 		 */

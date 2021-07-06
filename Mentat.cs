@@ -18,7 +18,7 @@ namespace SharpDune
 		 *
 		 * eyeX, eyeY, mouthX, mouthY, otherX, otherY, shoulderX, shoulderY
 		 */
-		static byte[][] s_mentatSpritePositions = { //[6][8]
+		static readonly byte[][] s_mentatSpritePositions = { //[6][8]
 			new byte[] {0x20,0x58,0x20,0x68,0x00,0x00,0x80,0x68}, /* Harkonnen mentat. */
 			new byte[] {0x28,0x50,0x28,0x60,0x48,0x98,0x80,0x80}, /* Atreides mentat. */
 			new byte[] {0x10,0x50,0x10,0x60,0x58,0x90,0x80,0x80}, /* Ordos mentat. */
@@ -47,7 +47,7 @@ namespace SharpDune
 		internal static bool g_interrogation;      /*!< Asking a security question (changes mentat eye movement). */
 		internal static uint g_interrogationTimer; /*!< Speaking time-out for security question. */
 
-		static byte[][][] s_mentatSprites = new byte[3][/*5*/][];
+		static readonly byte[][][] s_mentatSprites = new byte[3][/*5*/][];
 
 		static bool s_selectMentatHelp; /*!< Selecting from the list of in-game help subjects. */
         static byte[] s_helpSubjects;
@@ -998,7 +998,7 @@ namespace SharpDune
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 		}
 
-		static string empty = string.Empty; //char[2]
+		static readonly string empty = string.Empty; //char[2]
 		/* Create the widgets of the mentat help screen. */
 		static void GUI_Mentat_Create_HelpScreen_Widgets()
 		{

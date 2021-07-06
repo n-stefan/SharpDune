@@ -78,15 +78,15 @@ namespace SharpDune
         internal const int NUM_CHANS = 16;
         internal const int MAX_NOTES = 32;
 
-        static MSData[] s_mpu_msdata = new MSData[8];
+        static readonly MSData[] s_mpu_msdata = new MSData[8];
         static ushort s_mpu_msdataSize;
         static ushort s_mpu_msdataCurrent;
 
-        static Controls[] s_mpu_controls = new Controls[NUM_CHANS];	/* global_controls */
-        static byte[] s_mpu_programs = new byte[NUM_CHANS];		    /* global_program */
-        static ushort[] s_mpu_pitchWheel = new ushort[NUM_CHANS];   /* global_pitch */
-        static byte[] s_mpu_noteOnCount = new byte[NUM_CHANS];      /* active_notes */
-        static byte[] s_mpu_lockStatus = new byte[NUM_CHANS];	    /* bit 7: locked, bit 6: lock-protected */
+        static readonly Controls[] s_mpu_controls = new Controls[NUM_CHANS];	/* global_controls */
+        static readonly byte[] s_mpu_programs = new byte[NUM_CHANS];		    /* global_program */
+        static readonly ushort[] s_mpu_pitchWheel = new ushort[NUM_CHANS];   /* global_pitch */
+        static readonly byte[] s_mpu_noteOnCount = new byte[NUM_CHANS];      /* active_notes */
+        static readonly byte[] s_mpu_lockStatus = new byte[NUM_CHANS];	    /* bit 7: locked, bit 6: lock-protected */
 
         static bool s_mpuIgnore;
         static bool s_mpu_initialized;
@@ -487,7 +487,7 @@ namespace SharpDune
             //return 0;
         }
 
-        static byte[] defaultPrograms = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
+        static readonly byte[] defaultPrograms = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
         internal static bool MPU_Init()
         {
             byte i;
@@ -609,7 +609,7 @@ namespace SharpDune
         }
 
         static bool locked;
-        static byte[] buffer = new byte[320];
+        static readonly byte[] buffer = new byte[320];
         static void MPU_Interrupt()
         {
             ushort count;
@@ -1065,7 +1065,7 @@ namespace SharpDune
             return chan;
         }
 
-        static byte[] rates = { 24, 25, 30, 30 };
+        static readonly byte[] rates = { 24, 25, 30, 30 };
         /*
          * XMIDI.ASM - XMIDI_meta
          */
