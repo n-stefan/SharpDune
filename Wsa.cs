@@ -399,7 +399,7 @@ namespace SharpDune
 				Array.Fill<byte>(wsa, 0, wsaPointer, (int)displaySize); //memset(buffer, 0, displaySize);
 			}
 
-			wsaPointer += reserveDisplayFrame ? (ushort)displaySize : 1100; //TODO: Revisit
+			wsaPointer += reserveDisplayFrame ? (ushort)displaySize : 5000;
 
 			if ((fileheader.frames & 0x8000) != 0)
 			{
