@@ -560,7 +560,7 @@ class CSharpDune
         if (filename == null) return;
         if (!CFile.File_Exists(filename)) return;
 
-        source = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
+        source = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
 
         Array.Fill<byte>(source, 0, 0, 32000); //memset(source, 0, 32000);
 

@@ -67,7 +67,7 @@ namespace SharpDune
 		 * @param screenID The screenbuffer to get.
 		 * @return A pointer to the screenbuffer.
 		 */
-		internal static /*byte[]*/object GFX_Screen_Get_ByIndex(Screen screenID)
+		internal static byte[] GFX_Screen_Get_ByIndex(Screen screenID)
 		{
 			if (screenID == Screen.SCREEN_ACTIVE)
 				screenID = s_screenActiveID;
@@ -125,7 +125,7 @@ namespace SharpDune
 			if (width > SCREEN_WIDTH - left) width = (ushort)(SCREEN_WIDTH - left);
 			if (height > SCREEN_HEIGHT - top) height = (ushort)(SCREEN_HEIGHT - top);
 
-			screen = (byte[])GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+			screen = GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
 			screenPointer += (ushort)(top * SCREEN_WIDTH + left);
 
 			GFX_Screen_SetDirty(Screen.SCREEN_0, (ushort)left, (ushort)top, (ushort)(left + width), (ushort)(top + height));
@@ -165,7 +165,7 @@ namespace SharpDune
 			if (width > SCREEN_WIDTH - left) width = (ushort)(SCREEN_WIDTH - left);
 			if (height > SCREEN_HEIGHT - top) height = (ushort)(SCREEN_HEIGHT - top);
 
-			screen = (byte[])GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+			screen = GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
 			screenPointer += (ushort)(top * SCREEN_WIDTH + left);
 
 			while (height-- != 0)
@@ -372,8 +372,8 @@ namespace SharpDune
 
 			if (width <= 0 || width > SCREEN_WIDTH) return;
 
-			src = (byte[])GFX_Screen_Get_ByIndex(screenSrc);
-			dst = (byte[])GFX_Screen_Get_ByIndex(screenDst);
+			src = GFX_Screen_Get_ByIndex(screenSrc);
+			dst = GFX_Screen_Get_ByIndex(screenDst);
 
 			srcPointer += (ushort)(xSrc + ySrc * SCREEN_WIDTH);
 			dstPointer += (ushort)(xDst + yDst * SCREEN_WIDTH);
@@ -413,7 +413,7 @@ namespace SharpDune
 		 */
 		internal static void GFX_ClearScreen(Screen screenID)
 		{
-			Array.Fill<byte>((byte[])GFX_Screen_Get_ByIndex(screenID), 0, 0, SCREEN_WIDTH * SCREEN_HEIGHT); //memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+			Array.Fill<byte>(GFX_Screen_Get_ByIndex(screenID), 0, 0, SCREEN_WIDTH * SCREEN_HEIGHT); //memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 			GFX_Screen_SetDirty(screenID, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		}
 
@@ -423,7 +423,7 @@ namespace SharpDune
 		 */
 		internal static void GFX_ClearBlock(Screen index)
 		{
-			Array.Fill<byte>((byte[])GFX_Screen_Get_ByIndex(index), 0, 0, GFX_Screen_GetSize_ByIndex(index)); //memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
+			Array.Fill<byte>(GFX_Screen_Get_ByIndex(index), 0, 0, GFX_Screen_GetSize_ByIndex(index)); //memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
 			GFX_Screen_SetDirty(index, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		}
 
@@ -531,8 +531,8 @@ namespace SharpDune
 
 			GFX_Screen_SetDirty(screenDst, (ushort)xDst, (ushort)yDst, (ushort)(xDst + width), (ushort)(yDst + height));
 
-			src = (byte[])GFX_Screen_Get_ByIndex(screenSrc);
-			dst = (byte[])GFX_Screen_Get_ByIndex(screenDst);
+			src = GFX_Screen_Get_ByIndex(screenSrc);
+			dst = GFX_Screen_Get_ByIndex(screenDst);
 
 			srcPointer += xSrc + ySrc * SCREEN_WIDTH;
 			dstPointer += xDst + yDst * SCREEN_WIDTH;

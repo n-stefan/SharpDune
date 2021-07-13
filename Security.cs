@@ -62,7 +62,7 @@ namespace SharpDune
 
 				CWidget.Widget_SetCurrentWidget(8);
 
-				wsa = Wsa.WSA_LoadFile(CString.String_Get_ByIndex((ushort)(questionIndex + 1)), (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), false);
+				wsa = Wsa.WSA_LoadFile(CString.String_Get_ByIndex((ushort)(questionIndex + 1)), Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), false);
 				Wsa.WSA_DisplayFrame(wsa, 0, (ushort)(CWidget.g_curWidgetXBase << 3), CWidget.g_curWidgetYBase, Screen.SCREEN_2);
 				Wsa.WSA_Unload(wsa);
 

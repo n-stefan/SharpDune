@@ -144,7 +144,7 @@ namespace SharpDune
 				/*WSAObject*/
 				(WSAHeader header, CArray<byte> buffer) wsa;
 
-				wsa = Wsa.WSA_LoadFile(wsaFilename, (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2), false);
+				wsa = Wsa.WSA_LoadFile(wsaFilename, Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2), false);
 				Wsa.WSA_DisplayFrame(wsa, 0, (ushort)(CWidget.g_curWidgetXBase * 8), CWidget.g_curWidgetYBase, Screen.SCREEN_1);
 				Wsa.WSA_Unload(wsa);
 			}
@@ -252,7 +252,7 @@ namespace SharpDune
 				/*WSAObject*/
 				(WSAHeader header, CArray<byte> buffer) wsa;
 
-				wsa = Wsa.WSA_LoadFile(wsaFilename, (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2), false);
+				wsa = Wsa.WSA_LoadFile(wsaFilename, Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2), false);
 				Wsa.WSA_DisplayFrame(wsa, 0, (ushort)(CWidget.g_curWidgetXBase * 8), CWidget.g_curWidgetYBase, Screen.SCREEN_1);
 				Wsa.WSA_Unload(wsa);
 			}
@@ -613,7 +613,7 @@ namespace SharpDune
 
 			if (wsaFilename != null)
 			{
-				wsa = Wsa.WSA_LoadFile(wsaFilename, (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), false);
+				wsa = Wsa.WSA_LoadFile(wsaFilename, Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), false);
 			}
 
 			step = 0;
@@ -1306,7 +1306,7 @@ namespace SharpDune
 
 			if (init)
 			{
-				helpDataList = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
+				helpDataList = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
 
 				s_topHelpList = 0;
 				s_selectedHelpSubject = 0;
@@ -1433,7 +1433,7 @@ namespace SharpDune
 			info.length = Endian.HTOBE32(info.length);
 
 			text = null; //CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer);
-			compressedText = new byte[info.length]; //(byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
+			compressedText = new byte[info.length]; //Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
 
 			fileID = CFile.File_Open(s_mentatFilename, FileMode.FILE_MODE_READ);
 			CFile.File_Seek(fileID, (int)offset, 0);

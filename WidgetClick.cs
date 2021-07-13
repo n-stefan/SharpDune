@@ -302,7 +302,7 @@ namespace SharpDune
 			CWidget.Widget_SetCurrentWidget(desc.index);
 
 			Gui.GUI_Mouse_Hide_Safe();
-			Gfx.GFX_CopyToBuffer((short)(CWidget.g_curWidgetXBase * 8), (short)CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth * 8), CWidget.g_curWidgetHeight, (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2));
+			Gfx.GFX_CopyToBuffer((short)(CWidget.g_curWidgetXBase * 8), (short)CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth * 8), CWidget.g_curWidgetHeight, Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2));
 			Gui.GUI_Mouse_Show_Safe();
 		}
 
@@ -311,7 +311,7 @@ namespace SharpDune
 			CWidget.Widget_SetCurrentWidget(desc.index);
 
 			Gui.GUI_Mouse_Hide_Safe();
-			Gfx.GFX_CopyFromBuffer((short)(CWidget.g_curWidgetXBase * 8), (short)CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth * 8), CWidget.g_curWidgetHeight, (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2));
+			Gfx.GFX_CopyFromBuffer((short)(CWidget.g_curWidgetXBase * 8), (short)CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth * 8), CWidget.g_curWidgetHeight, Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2));
 			Gui.GUI_Mouse_Show_Safe();
 		}
 

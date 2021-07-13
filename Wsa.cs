@@ -121,7 +121,7 @@ namespace SharpDune
 			}
 			else
 			{
-				dst = new CArray<byte> { Arr = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID) };
+				dst = new CArray<byte> { Arr = Gfx.GFX_Screen_Get_ByIndex(screenID) };
 				dst += (ushort)(posX + posY * Gfx.SCREEN_WIDTH); //dst.Ptr += (ushort)(posX + posY * Gfx.SCREEN_WIDTH);
 			}
 
@@ -469,7 +469,7 @@ namespace SharpDune
 			//int srcPointer = 0;
 			var dstPointer = 0;
 
-			dst = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
+			dst = Gfx.GFX_Screen_Get_ByIndex(screenID);
 
 			left = (short)(CWidget.g_widgetProperties[windowID].xBase << 3);
 			right = (short)(left + (CWidget.g_widgetProperties[windowID].width << 3));

@@ -213,7 +213,7 @@ namespace SharpDune
 			var buffer2Pointer = 0;
 			ushort paletteSize;
 
-			buffer = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
+			buffer = Gfx.GFX_Screen_Get_ByIndex(screenID);
 
 			index = CFile.File_Open(filename, FileMode.FILE_MODE_READ);
 
@@ -238,7 +238,7 @@ namespace SharpDune
 			buffer[7] = 0;
 			size -= paletteSize;
 
-			buffer2 = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
+			buffer2 = Gfx.GFX_Screen_Get_ByIndex(screenID);
 			buffer2Pointer += (ushort)(Gfx.GFX_Screen_GetSize_ByIndex(screenID) - size - 8);
 
 			Array.Copy(buffer, 0, buffer2, buffer2Pointer, 8); //memmove(buffer2, buffer, 8);
@@ -305,7 +305,7 @@ namespace SharpDune
 			g_landscapeTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]];
 			g_wallTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_WALLS]];
 
-			Script.Script_LoadFromFile("UNIT.EMC", Script.g_scriptUnit, Script.g_scriptFunctionsUnit, (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2));
+			Script.Script_LoadFromFile("UNIT.EMC", Script.g_scriptUnit, Script.g_scriptFunctionsUnit, Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2));
 		}
 
 		/*
@@ -492,7 +492,7 @@ namespace SharpDune
 			string filename; //char[16];
 			var bufPointer = 0;
 
-			buf = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2);
+			buf = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2);
 
 			g_fileRgnclkCPS = buf;
 			Sprites_LoadCPSFile("RGNCLK.CPS", Screen.SCREEN_2, null);

@@ -326,7 +326,7 @@ namespace SharpDune
 						Gui.GUI_ClearScreen(Screen.SCREEN_1);
 
 						//wsa = new WSAObject();
-						wsaData = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2);
+						wsaData = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2);
 
 						wsaSize = (uint)(Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_3));
 						wsaReservedDisplayFrame = false;
@@ -334,7 +334,7 @@ namespace SharpDune
 					else
 					{
 						//wsa = new WSAObject();
-						wsaData = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
+						wsaData = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
 
 						wsaSize = (uint)(Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_3));
 					}
@@ -688,7 +688,7 @@ namespace SharpDune
 			CFile.File_ReadBlockFile("WESTWOOD.PAL", Gui.g_palette_998A, 256 * 3);
 
 			frame = 0;
-			wsa = Wsa.WSA_LoadFile("WESTWOOD.WSA", (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), (uint)(Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_3)), true);
+			wsa = Wsa.WSA_LoadFile("WESTWOOD.WSA", Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), (uint)(Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_2) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_3)), true);
 			Wsa.WSA_DisplayFrame(wsa, frame++, 0, 0, Screen.SCREEN_0);
 
 			Gui.GUI_SetPaletteAnimated(Gui.g_palette_998A, 60);
@@ -809,7 +809,7 @@ namespace SharpDune
 
 			GameCredits_LoadPalette();
 
-			credits_buffer = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_3);
+			credits_buffer = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_3);
 			credits_bufferPointer = Gfx.SCREEN_WIDTH * CWidget.g_curWidgetHeight;
 			Debug.WriteLine($"DEBUG: GameLoop_GameCredits() credit buffer is {CWidget.g_curWidgetHeight} lines in SCREEN_3 buffer");
 
@@ -1106,9 +1106,9 @@ namespace SharpDune
 			var screen1Pointer = 0;
 			var screen2Pointer = 0;
 
-			var b = (byte[])Gfx.GFX_Screen_Get_ByIndex(dstScreenID);   /* destination */
-			var screen1 = ((byte[])Gfx.GFX_Screen_Get_ByIndex(srcScreenID)).AsSpan(top * Gfx.SCREEN_WIDTH / 2);  /* source */
-			var screen2 = ((byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0)).AsSpan(top * Gfx.SCREEN_WIDTH / 2);   /* secondary destination : Video RAM*/
+			var b = Gfx.GFX_Screen_Get_ByIndex(dstScreenID);   /* destination */
+			var screen1 = Gfx.GFX_Screen_Get_ByIndex(srcScreenID).AsSpan(top * Gfx.SCREEN_WIDTH / 2);  /* source */
+			var screen2 = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0).AsSpan(top * Gfx.SCREEN_WIDTH / 2);   /* secondary destination : Video RAM*/
 
 			for (var count = height * Gfx.SCREEN_WIDTH / 2; count > 0; count--)
 			{

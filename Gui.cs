@@ -454,7 +454,7 @@ namespace SharpDune
 				zoomRatioY = (ushort)ap[apPointer++]; //va_arg(ap, int);
 			}
 
-			buf = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
+			buf = Gfx.GFX_Screen_Get_ByIndex(screenID);
 			bufPointer += (CWidget.g_widgetProperties[windowID].xBase << 3);
 
 			width = (ushort)(CWidget.g_widgetProperties[windowID].width << 3);
@@ -2660,7 +2660,7 @@ namespace SharpDune
 		 */
 		internal static void GUI_Palette_RemapScreen(ushort left, ushort top, ushort width, ushort height, Screen screenID, byte[] remap)
 		{
-			var screen = (byte[])Gfx.GFX_Screen_Get_ByIndex(screenID);
+			var screen = Gfx.GFX_Screen_Get_ByIndex(screenID);
 			var screenPointer = 0;
 
 			screenPointer += top * Gfx.SCREEN_WIDTH + left;

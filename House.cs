@@ -525,7 +525,7 @@ namespace SharpDune
 
             if (h.flags.radarActivated == activate) return false;
 
-            wsa = Wsa.WSA_LoadFile("STATIC.WSA", (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), true);
+            wsa = Wsa.WSA_LoadFile("STATIC.WSA", Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), true);
             frameCount = Wsa.WSA_GetFrameCount(wsa);
 
             Gui.g_textDisplayNeedsUpdate = true;

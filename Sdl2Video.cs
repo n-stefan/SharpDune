@@ -251,7 +251,7 @@ namespace SharpDune
 
 			if (s_showFPS)
 			{
-				VideoFps.Video_ShowFPS((byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0));
+				VideoFps.Video_ShowFPS(Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0));
 			}
 
 			while (SDL.SDL_PollEvent(out evt) == 1)
@@ -619,7 +619,7 @@ namespace SharpDune
 		 */
 		static void Video_DrawScreen_Nearest_Neighbor()
 		{
-			var gfx_screen8 = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+			var gfx_screen8 = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
 			var area = Gfx.GFX_Screen_GetDirtyArea(Screen.SCREEN_0);
 			IntPtr pixels;
 			int pitch;
@@ -689,7 +689,7 @@ namespace SharpDune
 		//static uint[] truecolorbuffer = new uint[Gfx.SCREEN_WIDTH * Gfx.SCREEN_HEIGHT];
 		//static void Video_DrawScreen_Scale2x()
 		//{
-		//	byte[] data = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+		//	byte[] data = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
 		//	dirty_area area = Gfx.GFX_Screen_GetDirtyArea(Screen.SCREEN_0);
 		//	ushort top, bottom;
 		//	/*byte[]*/IntPtr pixels;
@@ -771,7 +771,7 @@ namespace SharpDune
 		//	/*uint[]*/IntPtr pixels;
 		//	int pitch;
 
-		//	src = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+		//	src = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
 		//	src = src[(s_screenOffset << 2)..];
 
 		//	if (SDL.SDL_LockTexture(s_texture, IntPtr.Zero, out pixels, out pitch) != 0)
