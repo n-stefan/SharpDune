@@ -414,8 +414,8 @@ namespace SharpDune
 		internal static byte File_Open(string filename, FileMode mode) =>
 			File_Open_Ex(SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, filename, (byte)mode);
 
-		internal static uint File_ReadBlockFile<T>(string filename, /*byte[]*/T buffer, uint length) =>
-			File_ReadBlockFile_Ex(SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, filename, buffer, length);
+		internal static uint File_ReadBlockFile<T>(string filename, /*byte[]*/T buffer, uint length, int offset = 0) =>
+			File_ReadBlockFile_Ex(SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, filename, buffer, length, offset);
 
 		internal static byte File_Open_Personal(string filename, FileMode mode) =>
 			File_Open_Ex(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, (byte)mode);
@@ -552,13 +552,13 @@ namespace SharpDune
 		 * @param length The amount of bytes to read.
 		 * @return The amount of bytes truly read, or 0 if there was a failure.
 		 */
-		static uint File_ReadBlockFile_Ex<T>(SearchDirectory dir, string filename, /*byte[]*/T buffer, uint length)
+		static uint File_ReadBlockFile_Ex<T>(SearchDirectory dir, string filename, /*byte[]*/T buffer, uint length, int offset = 0)
 		{
 			byte index;
 
 			index = File_Open_Ex(dir, filename, (byte)FileMode.FILE_MODE_READ);
 			if (index == (byte)FileMode.FILE_INVALID) return 0;
-			length = File_Read(index, ref buffer, length);
+			length = File_Read(index, ref buffer, length, offset);
 			File_Close(index);
 			return length;
 		}

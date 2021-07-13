@@ -14,7 +14,7 @@ namespace SharpDune
 		PPD_TO_BLACK        /*!< Modifying towards all black. */
 	}
 
-	class CreditString
+	struct CreditString
 	{
 		internal ushort x;
 		internal short y;
@@ -761,7 +761,8 @@ namespace SharpDune
 		{
 			ushort i;
 			var remap = new byte[256];
-			char[] credits_buffer;
+			byte[] credits_buffer;
+			int credits_bufferPointer;
 
 			Gui.GUI_Mouse_Hide_Safe();
 
@@ -808,7 +809,8 @@ namespace SharpDune
 
 			GameCredits_LoadPalette();
 
-			credits_buffer = ((char[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_3))[(Gfx.SCREEN_WIDTH * CWidget.g_curWidgetHeight)..];
+			credits_buffer = (byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_3);
+			credits_bufferPointer = Gfx.SCREEN_WIDTH * CWidget.g_curWidgetHeight;
 			Debug.WriteLine($"DEBUG: GameLoop_GameCredits() credit buffer is {CWidget.g_curWidgetHeight} lines in SCREEN_3 buffer");
 
 			Gui.GUI_Mouse_Hide_Safe();
@@ -821,9 +823,9 @@ namespace SharpDune
 
 			for (; ; Sleep.sleepIdle())
 			{
-				CFile.File_ReadBlockFile(CString.String_GenerateFilename("CREDITS"), credits_buffer, Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_3));
+				CFile.File_ReadBlockFile(CString.String_GenerateFilename("CREDITS"), credits_buffer, Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_3), credits_bufferPointer);
 
-				GameCredits_Play(credits_buffer, 20, Screen.SCREEN_1, Screen.SCREEN_2, 6);
+				GameCredits_Play(credits_buffer, credits_bufferPointer, 20, Screen.SCREEN_1, Screen.SCREEN_2, 6);
 
 				if (Input.Input_Keyboard_NextKey() != 0) break;
 
@@ -840,7 +842,7 @@ namespace SharpDune
 		static void GameCredits_LoadPalette()
 		{
 			ushort i;
-			byte[] p;
+			int p;
 
 			if (Gfx.g_palette1 != null) Trace.WriteLine($"WARNING: g_palette1 already allocated");
 			else Gfx.g_palette1 = new byte[256 * 3 * 10]; //malloc(256 * 3 * 10);
@@ -850,21 +852,20 @@ namespace SharpDune
 			CFile.File_ReadBlockFile("IBM.PAL", Gfx.g_palette1, 256 * 3);
 
 			/* Create 10 fadein/fadeout palettes */
-			p = Gfx.g_palette1;
+			p = 0;
 			for (i = 0; i < 10; i++)
 			{
 				ushort j;
-				var pr = Gfx.g_palette1;
 
-				for (j = 0; j < 255 * 3; j++) p[j] = (byte)(pr[j] * (9 - i) / 9); //*p++ = *pr++ * (9 - i) / 9;
+				for (j = 0; j < 255 * 3; j++) Gfx.g_palette1[p++] = (byte)(Gfx.g_palette1[j] * (9 - i) / 9); //*p++ = *pr++ * (9 - i) / 9;
 
-				p[j++] = 0x3F;
-				p[j++] = 0x3F;
-				p[j++] = 0x3F;
+				Gfx.g_palette1[p++] = 0x3F;
+				Gfx.g_palette1[p++] = 0x3F;
+				Gfx.g_palette1[p++] = 0x3F;
 			}
 		}
 
-		static void GameCredits_Play(char[] data, ushort windowID, Screen spriteScreenID, Screen backScreenID, ushort delay)
+		static void GameCredits_Play(byte[] data, int dataPointer, ushort windowID, Screen spriteScreenID, Screen backScreenID, ushort delay)
 		{
 			ushort i;
 			ushort stringCount = 0;
@@ -878,6 +879,9 @@ namespace SharpDune
 			var positions = new CreditPosition[6];
 			ushort stage = 4;
 			ushort counter = 60;
+
+			for (i = 0; i < strings.Length; i++) strings[i] = new CreditString();
+			for (i = 0; i < positions.Length; i++) positions[i] = new CreditPosition();
 
 			CWidget.Widget_SetCurrentWidget(windowID);
 
@@ -901,7 +905,7 @@ namespace SharpDune
 			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.SCREEN_0, spriteScreenID);
 			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, spriteScreenID, backScreenID);
 
-			GameCredits_SwapScreen(CWidget.g_curWidgetYBase, CWidget.g_curWidgetHeight, spriteScreenID, Screen.SCREEN_3);
+			GameCredits_SwapScreen((ushort)(CWidget.g_curWidgetYBase + 24), CWidget.g_curWidgetHeight, spriteScreenID, Screen.SCREEN_3);
 
 			Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
 			timetoWait = Timer.g_timerSleep;
@@ -910,12 +914,11 @@ namespace SharpDune
 
 			while ((!textEnd || stage != 0) && (Input.Input_Keyboard_NextKey() == 0))
 			{
-
 				while (timetoWait > Timer.g_timerSleep) Sleep.sleepIdle();
 
 				timetoWait = Timer.g_timerSleep + delay;
 
-				while ((CWidget.g_curWidgetHeight / 6) + 2 > stringCount && data[0] != 0)
+				while ((CWidget.g_curWidgetHeight / 6) + 2 > stringCount && data[dataPointer] != 0)
 				{
 					string text; //char *
 					ushort y;
@@ -934,33 +937,43 @@ namespace SharpDune
 						y = CWidget.g_curWidgetHeight;
 					}
 
-					text = data.ToString();
+					text = CSharpDune.Encoding.GetString(data[dataPointer..(dataPointer + 50)]);
 
 					var index = text.IndexOfAny(new[] { '\x05', '\r' });
-					data = (index != -1) ? new[] { text[index] } : null; //strpbrk(data, "\x05\r");
-					if (data == null) data = Environment.NewLine.ToCharArray(); //strchr(text, '\0');
+					if (index != -1)
+                    {
+						dataPointer += index; //strpbrk(data, "\x05\r");
+						text = text[..index];
+                    }
+					else
+                    {
+						data = new[] { (byte)0 }; //strchr(text, '\0');
+					}
 
-					strings[stringCount].separator = (byte)data[0];
-					//*data = '\0';
-					if (strings[stringCount].separator != 0) data = data[1..];
+					strings[stringCount].separator = data[dataPointer];
+					data[dataPointer] = 0; //*data = '\0';
+					if (strings[stringCount].separator != 0) dataPointer++;
 					strings[stringCount].type = 0;
 
-					switch ((byte)text[0])
-					{
-						case 1:
-							text = text[1..];
-							CFont.Font_Select(CFont.g_fontNew6p);
-							break;
-						case 2:
-							text = text[1..];
-							CFont.Font_Select(CFont.g_fontNew8p);
-							break;
-						case 3:
-						case 4:
-							strings[stringCount].type = (byte)text[0];
-							text = text[1..];
-							break;
-					}
+					if (text.Length > 0)
+                    {
+						switch ((byte)text[0])
+						{
+							case 1:
+								text = text[1..];
+								CFont.Font_Select(CFont.g_fontNew6p);
+								break;
+							case 2:
+								text = text[1..];
+								CFont.Font_Select(CFont.g_fontNew8p);
+								break;
+							case 3:
+							case 4:
+								strings[stringCount].type = (byte)text[0];
+								text = text[1..];
+								break;
+						}
+                    }
 
 					strings[stringCount].charHeight = CFont.g_fontCurrent.height;
 
@@ -1062,15 +1075,15 @@ namespace SharpDune
 				}
 
 				/* display what we just draw on back buffer */
-				GameCredits_SwapScreen(CWidget.g_curWidgetYBase, CWidget.g_curWidgetHeight, backScreenID, Screen.SCREEN_3);
+				GameCredits_SwapScreen((ushort)(CWidget.g_curWidgetYBase + 24), CWidget.g_curWidgetHeight, backScreenID, Screen.SCREEN_3);
 
 				if (strings[0].y < -10)
 				{
 					/* remove 1st string and shift the other */
-					//strings[0].text += strings[0].text.Length;
-					strings[0].text += ((char)strings[0].separator).ToString();
+					//strings[0].text += strlen(strings[0].text);
+					strings[0].text = ((char)strings[0].separator).ToString();
 					stringCount--;
-					strings[0] = strings[1]; //memmove(&strings[0], &strings[1], stringCount * sizeof(*strings));
+					Array.Copy(strings, 1, strings, 0, stringCount); //memmove(&strings[0], &strings[1], stringCount * sizeof(*strings));
 				}
 
 				if ((CWidget.g_curWidgetHeight / 6 + 2) > stringCount)
@@ -1093,21 +1106,22 @@ namespace SharpDune
 			var screen1Pointer = 0;
 			var screen2Pointer = 0;
 
-			var b = (ushort[])Gfx.GFX_Screen_Get_ByIndex(dstScreenID);   /* destination */
-			var screen1 = ((ushort[])Gfx.GFX_Screen_Get_ByIndex(srcScreenID))[(top * Gfx.SCREEN_WIDTH / 2)..];  /* source */
-			var screen2 = ((ushort[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0))[(top * Gfx.SCREEN_WIDTH / 2)..];   /* secondary destination : Video RAM*/
-			ushort count;
+			var b = (byte[])Gfx.GFX_Screen_Get_ByIndex(dstScreenID);   /* destination */
+			var screen1 = ((byte[])Gfx.GFX_Screen_Get_ByIndex(srcScreenID)).AsSpan(top * Gfx.SCREEN_WIDTH / 2);  /* source */
+			var screen2 = ((byte[])Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_0)).AsSpan(top * Gfx.SCREEN_WIDTH / 2);   /* secondary destination : Video RAM*/
 
-			for (count = (ushort)(height * Gfx.SCREEN_WIDTH / 2); count > 0; count--)
+			for (var count = height * Gfx.SCREEN_WIDTH / 2; count > 0; count--)
 			{
-				if (b[bPointer] != screen1[screen1Pointer])
+				if (b[bPointer] != screen1[screen1Pointer] || b[bPointer + 1] != screen1[screen1Pointer + 1])
 				{
 					b[bPointer] = screen1[screen1Pointer];
+					b[bPointer + 1] = screen1[screen1Pointer + 1];
 					screen2[screen2Pointer] = screen1[screen1Pointer];
+					screen2[screen2Pointer + 1] = screen1[screen1Pointer + 1];
 				}
-				bPointer++;
-				screen1Pointer++;
-				screen2Pointer++;
+				bPointer += 2;
+				screen1Pointer += 2;
+				screen2Pointer += 2;
 			}
 		}
 	}
