@@ -5202,7 +5202,7 @@ namespace SharpDune
 					}
 				}
 
-				ret = (unit.distanceToDestination < distance || distance < 16) ? true : false;
+				ret = (unit.distanceToDestination < distance || distance < 16);
 
 				if (ret)
 				{

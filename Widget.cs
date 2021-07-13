@@ -40,14 +40,14 @@ namespace SharpDune
 
 		internal void Set(ushort flags)
 		{
-			requiresClick = (flags & 0x0001) == 0x0001; // ? true : false;
-			notused1 = (flags & 0x0002) == 0x0002; // ? true : false;
-			clickAsHover = (flags & 0x0004) == 0x0004; // ? true : false;
-			invisible = (flags & 0x0008) == 0x0008; // ? true : false;
-			greyWhenInvisible = (flags & 0x0010) == 0x0010; // ? true : false;
-			noClickCascade = (flags & 0x0020) == 0x0020; // ? true : false;
-			loseSelect = (flags & 0x0040) == 0x0040; // ? true : false;
-			notused2 = (flags & 0x0080) == 0x0080; // ? true : false;
+			requiresClick = (flags & 0x0001) == 0x0001;
+			notused1 = (flags & 0x0002) == 0x0002;
+			clickAsHover = (flags & 0x0004) == 0x0004;
+			invisible = (flags & 0x0008) == 0x0008;
+			greyWhenInvisible = (flags & 0x0010) == 0x0010;
+			noClickCascade = (flags & 0x0020) == 0x0020;
+			loseSelect = (flags & 0x0040) == 0x0040;
+			notused2 = (flags & 0x0080) == 0x0080;
 			buttonFilterLeft = (byte)((flags >> 8) & 0x0f);
 			buttonFilterRight = (byte)((flags >> 12) & 0x0f);
 		}
@@ -1295,7 +1295,7 @@ namespace SharpDune
 				triggerWidgetHover = widgetHover;
 				if (l_widget_selected != null && l_widget_selected.flags.loseSelect)
 				{
-					triggerWidgetHover = (l_widget_selected == w) ? true : false;
+					triggerWidgetHover = (l_widget_selected == w);
 				}
 
 				widgetClick = false;

@@ -1283,12 +1283,12 @@ class CSharpDune
         IniFile.Load_IniFile();
 
         /* set globals according to opendune.ini */
-        g_dune2_enhanced = (IniFile.IniFile_GetInteger("dune2_enhanced", 1) != 0) ? true : false;
-        g_debugGame = (IniFile.IniFile_GetInteger("debug_game", 0) != 0) ? true : false;
-        g_debugScenario = (IniFile.IniFile_GetInteger("debug_scenario", 0) != 0) ? true : false;
-        g_debugSkipDialogs = (IniFile.IniFile_GetInteger("debug_skip_dialogs", 0) != 0) ? true : false;
+        g_dune2_enhanced = (IniFile.IniFile_GetInteger("dune2_enhanced", 1) != 0);
+        g_debugGame = (IniFile.IniFile_GetInteger("debug_game", 0) != 0);
+        g_debugScenario = (IniFile.IniFile_GetInteger("debug_scenario", 0) != 0);
+        g_debugSkipDialogs = (IniFile.IniFile_GetInteger("debug_skip_dialogs", 0) != 0);
         s_enableLog = (byte)IniFile.IniFile_GetInteger("debug_log_game", 0);
-        g_starPortEnforceUnitLimit = (IniFile.IniFile_GetInteger("startport_unit_cap", 0) != 0) ? true : false;
+        g_starPortEnforceUnitLimit = (IniFile.IniFile_GetInteger("startport_unit_cap", 0) != 0);
 
         Debug.WriteLine("DEBUG: Globals :");
         Debug.WriteLine($"DEBUG:  g_dune2_enhanced = {g_dune2_enhanced}");

@@ -48,7 +48,7 @@ namespace SharpDune
 						o = u.o;
 						oi = ui.o;
 
-						isNotPlayerOwned = ((byte)CHouse.g_playerHouseID == CUnit.Unit_GetHouseID(u)) ? false : true;
+						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != CUnit.Unit_GetHouseID(u);
 
 						h = CHouse.House_Get_ByIndex(u.o.houseID);
 					}
@@ -62,7 +62,7 @@ namespace SharpDune
 						o = s.o;
 						oi = si.o;
 
-						isNotPlayerOwned = ((byte)CHouse.g_playerHouseID == s.o.houseID) ? false : true;
+						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != s.o.houseID;
 
 						h = CHouse.House_Get_ByIndex(s.o.houseID);
 
@@ -92,7 +92,7 @@ namespace SharpDune
 						o = u.o;
 						oi = ui.o;
 
-						isNotPlayerOwned = ((byte)CHouse.g_playerHouseID == CUnit.Unit_GetHouseID(u)) ? false : true;
+						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != CUnit.Unit_GetHouseID(u);
 
 						h = CHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
 					}

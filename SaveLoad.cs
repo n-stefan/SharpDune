@@ -551,11 +551,11 @@ namespace SharpDune
 								var v = Convert.ToUInt32(value);
                                 var f = new HouseFlags
                                 {
-                                    used = (v & 0x01) == 0x01, //? true : false;
-                                    human = (v & 0x02) == 0x02, //? true : false;
-                                    doneFullScaleAttack = (v & 0x04) == 0x04, //? true : false;
-                                    isAIActive = (v & 0x08) == 0x08, //? true : false;
-                                    radarActivated = (v & 0x10) == 0x10, //? true : false;
+                                    used = (v & 0x01) == 0x01,
+                                    human = (v & 0x02) == 0x02,
+                                    doneFullScaleAttack = (v & 0x04) == 0x04,
+                                    isAIActive = (v & 0x08) == 0x08,
+                                    radarActivated = (v & 0x10) == 0x10,
                                     unused_0020 = false
                                 };
                                 field.SetValue(ptr, f);
@@ -567,24 +567,24 @@ namespace SharpDune
 								var v = Convert.ToUInt32(value);
                                 var f = new ObjectFlags
                                 {
-                                    used = (v & 0x01) == 0x01, //? true : false;
-                                    allocated = (v & 0x02) == 0x02, //? true : false;
-                                    isNotOnMap = (v & 0x04) == 0x04, //? true : false;
-                                    isSmoking = (v & 0x08) == 0x08, //? true : false;
-                                    fireTwiceFlip = (v & 0x10) == 0x10, //? true : false;
-                                    animationFlip = (v & 0x20) == 0x20, //? true : false;
-                                    bulletIsBig = (v & 0x40) == 0x40, //? true : false;
-                                    isWobbling = (v & 0x80) == 0x80, //? true : false;
-                                    inTransport = (v & 0x0100) == 0x0100, //? true : false;
-                                    byScenario = (v & 0x0200) == 0x0200, //? true : false;
-                                    degrades = (v & 0x0400) == 0x0400, //? true : false;
-                                    isHighlighted = (v & 0x0800) == 0x0800, //? true : false;
-                                    isDirty = (v & 0x1000) == 0x1000, //? true : false;
-                                    repairing = (v & 0x2000) == 0x2000, //? true : false;
-                                    onHold = (v & 0x4000) == 0x4000, //? true : false;
+                                    used = (v & 0x01) == 0x01,
+                                    allocated = (v & 0x02) == 0x02,
+                                    isNotOnMap = (v & 0x04) == 0x04,
+                                    isSmoking = (v & 0x08) == 0x08,
+                                    fireTwiceFlip = (v & 0x10) == 0x10,
+                                    animationFlip = (v & 0x20) == 0x20,
+                                    bulletIsBig = (v & 0x40) == 0x40,
+                                    isWobbling = (v & 0x80) == 0x80,
+                                    inTransport = (v & 0x0100) == 0x0100,
+                                    byScenario = (v & 0x0200) == 0x0200,
+                                    degrades = (v & 0x0400) == 0x0400,
+                                    isHighlighted = (v & 0x0800) == 0x0800,
+                                    isDirty = (v & 0x1000) == 0x1000,
+                                    repairing = (v & 0x2000) == 0x2000,
+                                    onHold = (v & 0x4000) == 0x4000,
                                     notused_4_8000 = false,
-                                    isUnit = (v & 0x010000) == 0x010000, //? true : false;
-                                    upgrading = (v & 0x020000) == 0x020000, //? true : false;
+                                    isUnit = (v & 0x010000) == 0x010000,
+                                    upgrading = (v & 0x020000) == 0x020000,
                                     notused_6_0004 = false,
                                     notused_6_0100 = false
                                 };
@@ -596,7 +596,7 @@ namespace SharpDune
 							{
 								var f = new TeamFlags
 								{
-									used = (Convert.ToUInt32(value) & 0x01) == 0x01, //? true : false;
+									used = (Convert.ToUInt32(value) & 0x01) == 0x01,
 									notused_0002 = false
 								};
 								field.SetValue(ptr, f);
@@ -1065,11 +1065,11 @@ namespace SharpDune
 			t.groundTileID = (ushort)(buffer[0] | ((buffer[1] & 1) << 8));
 			t.overlayTileID = (ushort)(buffer[1] >> 1);
 			t.houseID = (byte)(buffer[2] & 0x07);
-			t.isUnveiled = (buffer[2] & 0x08) == 0x08; //? true : false;
-			t.hasUnit = (buffer[2] & 0x10) == 0x10; //? true : false;
-			t.hasStructure = (buffer[2] & 0x20) == 0x20; //? true : false;
-			t.hasAnimation = (buffer[2] & 0x40) == 0x40; //? true : false;
-			t.hasExplosion = (buffer[2] & 0x80) == 0x80; //? true : false;
+			t.isUnveiled = (buffer[2] & 0x08) == 0x08;
+			t.hasUnit = (buffer[2] & 0x10) == 0x10;
+			t.hasStructure = (buffer[2] & 0x20) == 0x20;
+			t.hasAnimation = (buffer[2] & 0x40) == 0x40;
+			t.hasExplosion = (buffer[2] & 0x80) == 0x80;
 			t.index = buffer[3];
 			return true;
 		}
