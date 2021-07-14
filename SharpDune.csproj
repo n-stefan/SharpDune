@@ -37,11 +37,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
+	  <Folder Include="Images\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Images\opendune_32x32.png">
+    <None Update="Images\sharpdune_32x32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
