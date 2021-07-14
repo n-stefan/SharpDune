@@ -1,4 +1,4 @@
-﻿/* opendune.ini file handling */
+﻿/* sharpdune.ini file handling */
 
 using System;
 using System.Diagnostics;
@@ -8,16 +8,16 @@ namespace SharpDune
 {
     class IniFile
 	{
-		static string g_openduneini;
+		static string g_sharpduneini;
 
         internal static int IniFile_GetInteger(string key, int defaultValue)
 		{
-			if (g_openduneini == null) return defaultValue;
-			return Ini.Ini_GetInteger("opendune", key, defaultValue, g_openduneini);
+			if (g_sharpduneini == null) return defaultValue;
+			return Ini.Ini_GetInteger("sharpdune", key, defaultValue, g_sharpduneini);
 		}
 
 		/*
-		 * Set language depending on value in opendune.ini
+		 * Set language depending on value in sharpdune.ini
 		 *
 		 * @param config dune config to modify
 		 * @return False in case of error
@@ -26,7 +26,7 @@ namespace SharpDune
 		{
 			string language = null; //char[16];
 
-			if (config == null || g_openduneini == null) return false;
+			if (config == null || g_sharpduneini == null) return false;
 			if (IniFile_GetString("language", null, language, (ushort)language.Length) == null)
 			{
 				return false;
@@ -45,15 +45,15 @@ namespace SharpDune
 		}
 
 		/*
-		 * Release opendune.ini malloc'd buffer
+		 * Release sharpdune.ini malloc'd buffer
 		 */
 		internal static void Free_IniFile() =>
-			g_openduneini = null; //free(g_openduneini);
+			g_sharpduneini = null; //free(g_sharpduneini);
 
 		/*
-		 * Find and read the opendune.ini file
+		 * Find and read the sharpdune.ini file
 		 *
-		 * @return True if and only if opendune.ini file was found and read.
+		 * @return True if and only if sharpdune.ini file was found and read.
 		 */
 		internal static bool Load_IniFile()
 		{
@@ -62,60 +62,67 @@ namespace SharpDune
 			long fileSize;
 			string path;
 
-			/* look for opendune.ini in the following locations:
+			/* look for sharpdune.ini in the following locations:
 			   1) %APPDATA%/SharpDUNE
 			   2) current directory
 			   3) data/ dir
 			*/
-			path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"SharpDUNE\opendune.ini"); //SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, path ) != S_OK)
-
+			path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SharpDUNE", "sharpdune.ini"); //SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, path ) != S_OK)
 			if (System.IO.File.Exists(path))
 			{
 				f = new FileStream(path, System.IO.FileMode.Open); //fopen(path, "rb");
 			}
-			else if (System.IO.File.Exists(@".\opendune.ini"))
-			{
-				f = new FileStream(@".\opendune.ini", System.IO.FileMode.Open); //fopen("opendune.ini", "rb");
-			}
-			else if (System.IO.File.Exists(@".\data\opendune.ini"))
-			{
-				f = new FileStream(@".\data\opendune.ini", System.IO.FileMode.Open); //fopen("data/opendune.ini", "rb");
-			}
 			else
 			{
-				Trace.WriteLine("WARNING: opendune.ini file not found.");
-				return false;
+				path = Path.Combine(".", "sharpdune.ini");
+				if (System.IO.File.Exists(path))
+                {
+					f = new FileStream(path, System.IO.FileMode.Open); //fopen("sharpdune.ini", "rb");
+				}
+				else
+                {
+					path = Path.Combine(".", "data", "sharpdune.ini");
+					if (System.IO.File.Exists(path))
+                    {
+						f = new FileStream(path, System.IO.FileMode.Open); //fopen("data/sharpdune.ini", "rb");
+					}
+					else
+                    {
+						Trace.WriteLine("WARNING: sharpdune.ini file not found.");
+						return false;
+                    }
+				}
 			}
 			if (f.Seek(0, SeekOrigin.End) < 0)
 			{
-				Trace.WriteLine("ERROR: Cannot get opendune.ini file size.");
+				Trace.WriteLine("ERROR: Cannot get sharpdune.ini file size.");
 				f.Close();
 				return false;
 			}
 			fileSize = f.Position;
 			if (fileSize < 0)
 			{
-				Trace.WriteLine("ERROR: Cannot get opendune.ini file size.");
+				Trace.WriteLine("ERROR: Cannot get sharpdune.ini file size.");
 				f.Close();
 				return false;
 			}
 			f.Seek(0, SeekOrigin.Begin);
-			//g_openduneini = malloc(fileSize + 1);
-			//if (g_openduneini == NULL) {
+			//g_sharpduneini = malloc(fileSize + 1);
+			//if (g_sharpduneini == NULL) {
 			//	Error("Cannot allocate %ld bytes\n", fileSize + 1);
 			//	fclose(f);
 			//	return false;
 			//}
 			s = new StreamReader(f);
-			g_openduneini = s.ReadToEnd();
-			if (g_openduneini.Length != fileSize)
+			g_sharpduneini = s.ReadToEnd();
+			if (g_sharpduneini.Length != fileSize)
 			{
-				Trace.WriteLine("ERROR: Failed to read opendune.ini");
+				Trace.WriteLine("ERROR: Failed to read sharpdune.ini");
 				f.Close();
-				g_openduneini = null;
+				g_sharpduneini = null;
 				return false;
 			}
-			//g_openduneini[fileSize] = '\0';
+			//g_sharpduneini[fileSize] = '\0';
 			f.Close();
 			return true;
 		}
@@ -124,8 +131,8 @@ namespace SharpDune
 		{
 			string p;
 			//ushort i;
-			/* if g_openduneini is NULL, Ini_GetString() still does what we expect */
-			p = Ini.Ini_GetString("opendune", key, defaultValue, /*ref dest?.ToArray(),*/ length, g_openduneini);
+			/* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
+			p = Ini.Ini_GetString("sharpdune", key, defaultValue, /*ref dest?.ToArray(),*/ length, g_sharpduneini);
 			//TODO: Check
 			if (!string.IsNullOrEmpty(p))
 			{

@@ -92,7 +92,7 @@ namespace SharpDune
 		//readonly string SEARCHDIR_GLOBAL_DATA_DIR = Path.Combine(Environment.CurrentDirectory, "data");
 		//readonly string SEARCHDIR_PERSONAL_DATA_DIR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
-		static string g_dune_data_dir = @".\data";
+		static string g_dune_data_dir = Path.Combine(".", "data");
 		static string g_personal_data_dir = ".";
 
 		/* In order to avoid to open/close the same .PAK file multiple time
@@ -162,11 +162,11 @@ namespace SharpDune
 			if (dir == SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR || dir == SearchDirectory.SEARCHDIR_CAMPAIGN_DIR)
 			{
 				/* Note: campaign specific data directory not implemented. */
-				buf = $@"{g_dune_data_dir}\{filename}".ToCharArray();
+				buf = Path.Combine(g_dune_data_dir, filename).ToCharArray();
 			}
 			else if (dir == SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
 			{
-				buf = $@"{g_personal_data_dir}\{filename}".ToCharArray();
+				buf = Path.Combine(g_personal_data_dir, filename).ToCharArray();
 			}
 			i = buf.Length;
 
@@ -866,7 +866,7 @@ namespace SharpDune
 
 			if (IniFile.IniFile_GetString("savedir", null, buf, (ushort)(buf == null ? 0 : buf.Length)) != null)
 			{
-				/* savedir is defined in opendune.ini */
+				/* savedir is defined in sharpdune.ini */
 				g_personal_data_dir = buf; //strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
 			}
 			else
@@ -892,7 +892,7 @@ namespace SharpDune
 
 			if (IniFile.IniFile_GetString("datadir", null, buf, (ushort)buf.Length) != null)
 			{
-				/* datadir is defined in opendune.ini */
+				/* datadir is defined in sharpdune.ini */
 				g_dune_data_dir += buf; //strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
 			}
 

@@ -19,7 +19,7 @@ namespace SharpDune
 	{
 		/* Set DUNE_ICON_DIR at compile time.  e.g. */
 		/* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */
-		const string DUNE_ICON_DIR = @".\Images";
+		static readonly string DUNE_ICON_DIR = Path.Combine(".", "Images");
 
 		static VideoScaleFilter s_scale_filter;
 
@@ -415,8 +415,8 @@ namespace SharpDune
 			SDL.SDL_SetWindowTitle(s_window, CSharpDune.window_caption);
 
 #if !WITHOUT_SDLIMAGE
-			icon = SDL_image.IMG_Load(Path.Combine(DUNE_ICON_DIR, "opendune_32x32.png")); //"opendune.png"
-			//if (icon == IntPtr.Zero) icon = SDL_image.IMG_Load(Path.Combine(DUNE_ICON_DIR, "opendune.ico")); //opendune_32x32.png
+			icon = SDL_image.IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune_32x32.png")); //"sharpdune.png"
+			//if (icon == IntPtr.Zero) icon = SDL_image.IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune.ico")); //sharpdune_32x32.png
 			if (icon != IntPtr.Zero)
 			{
 				SDL.SDL_SetWindowIcon(s_window, icon);

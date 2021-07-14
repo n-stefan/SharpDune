@@ -64,11 +64,11 @@ namespace SharpDune
 			try
 			{
 				using var br = new BinaryReader(fp);
-				/* All OpenDUNE / Dune2 savegames should start with 'FORM' */
+				/* All SharpDUNE / Dune2 savegames should start with 'FORM' */
 				header = br.ReadUInt32(); //if (fread(&header, sizeof(uint32), 1, fp) != 1) return false;
 				if (Endian.BETOH32(header) != (uint)CSharpDune.MultiChar[FourCC.FORM])
 				{
-					Trace.WriteLine("ERROR: Invalid magic header in savegame. Not an OpenDUNE / Dune2 savegame.");
+					Trace.WriteLine("ERROR: Invalid magic header in savegame. Not a SharpDUNE / Dune2 savegame.");
 					return false;
 				}
 

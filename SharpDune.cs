@@ -1207,7 +1207,7 @@ class CSharpDune
      * Initialize Timer, Video, Mouse, GFX, Fonts, Random number generator
      * and current Widget
      */
-    static bool OpenDune_Init(int screen_magnification, VideoScaleFilter filter, int frame_rate)
+    static bool SharpDune_Init(int screen_magnification, VideoScaleFilter filter, int frame_rate)
     {
         if (!CFont.Font_Init())
         {
@@ -1279,10 +1279,10 @@ class CSharpDune
 
         CrashLog.CrashLog_Init();
 
-        /* Load opendune.ini file */
+        /* Load sharpdune.ini file */
         IniFile.Load_IniFile();
 
-        /* set globals according to opendune.ini */
+        /* set globals according to sharpdune.ini */
         g_dune2_enhanced = (IniFile.IniFile_GetInteger("dune2_enhanced", 1) != 0);
         g_debugGame = (IniFile.IniFile_GetInteger("debug_game", 0) != 0);
         g_debugScenario = (IniFile.IniFile_GetInteger("debug_scenario", 0) != 0);
@@ -1309,7 +1309,7 @@ class CSharpDune
             Config.Config_Default(Config.g_config);
             commit_dune_cfg = true;
         }
-        /* reading config from opendune.ini which prevail over dune.cfg */
+        /* reading config from sharpdune.ini which prevail over dune.cfg */
         IniFile.SetLanguage_From_IniFile(Config.g_config);
 
         /* Writing config to dune.cfg */
@@ -1346,7 +1346,7 @@ class CSharpDune
 
         frame_rate = IniFile.IniFile_GetInteger("framerate", 60);
 
-        if (!OpenDune_Init(scaling_factor, scale_filter, frame_rate)) Environment.Exit(1);
+        if (!SharpDune_Init(scaling_factor, scale_filter, frame_rate)) Environment.Exit(1);
 
         Mouse.g_mouseDisabled = 0;
 

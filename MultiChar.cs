@@ -51,8 +51,8 @@ namespace SharpDune
 			{ FourCC.UNIT, Calc('U', 'N', 'I', 'T') },
 			{ FourCC.XMID, Calc('X', 'M', 'I', 'D') },
 
-			/* OpenDUNE extensions. */
-			{ FourCC.ODUN, Calc('O', 'D', 'U', 'N') }  /* OpenDUNE Unit New. */
+			/* SharpDUNE extensions. */
+			{ FourCC.ODUN, Calc('O', 'D', 'U', 'N') }  /* SharpDUNE Unit New. */
 		};
 
 		private static int Calc(char a, char b, char c, char d) =>
