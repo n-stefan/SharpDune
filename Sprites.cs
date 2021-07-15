@@ -478,7 +478,7 @@ namespace SharpDune
 			ushort i;
 			string textBuffer; //char[81]
 
-			textBuffer = Ini.Ini_GetString("INFO", "TOTAL REGIONS", null, /*ref textBuffer, textBuffer.Length*/80, g_fileRegionINI);
+			textBuffer = Ini.Ini_GetString("INFO", "TOTAL REGIONS", null, g_fileRegionINI);
 
 			g_regions[0] = ushort.Parse(textBuffer); //sscanf(textBuffer, "%hu", &regions[0]);
 

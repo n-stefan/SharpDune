@@ -54,12 +54,12 @@ namespace SharpDune
 		{
 			string value;
 
-			var keys = Ini.Ini_GetString(category, null, null, null, s_scenarioBuffer);
+			var keys = Ini.Ini_GetString(category, null, null, s_scenarioBuffer);
 			if (keys == null) return;
 
 			foreach (var key in keys.Split('|'))
 			{
-				value = Ini.Ini_GetString(category, key, null, null, s_scenarioBuffer);
+				value = Ini.Ini_GetString(category, key, null, s_scenarioBuffer);
 				ptr?.Invoke(key, value);
 			}
 		}
@@ -74,9 +74,9 @@ namespace SharpDune
 			Gui.g_selectionRectanglePosition = (ushort)Ini.Ini_GetInteger("BASIC", "CursorPos", Gui.g_selectionRectanglePosition, s_scenarioBuffer);
 			g_scenario.mapScale = (ushort)Ini.Ini_GetInteger("BASIC", "MapScale", 0, s_scenarioBuffer);
 
-			g_scenario.pictureBriefing = Ini.Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA", /*ref g_scenario.pictureBriefing,*/ 14, s_scenarioBuffer);
-			g_scenario.pictureWin = Ini.Ini_GetString("BASIC", "WinPicture", "WIN1.WSA", /*ref g_scenario.pictureWin,*/ 14, s_scenarioBuffer);
-			g_scenario.pictureLose = Ini.Ini_GetString("BASIC", "LosePicture", "LOSTBILD.WSA", /*ref g_scenario.pictureLose,*/ 14, s_scenarioBuffer);
+			g_scenario.pictureBriefing = Ini.Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA", s_scenarioBuffer);
+			g_scenario.pictureWin = Ini.Ini_GetString("BASIC", "WinPicture", "WIN1.WSA", s_scenarioBuffer);
+			g_scenario.pictureLose = Ini.Ini_GetString("BASIC", "LosePicture", "LOSTBILD.WSA", s_scenarioBuffer);
 
 			Gui.g_viewportPosition = Gui.g_minimapPosition;
 			Gui.g_selectionPosition = Gui.g_selectionRectanglePosition;
@@ -91,7 +91,7 @@ namespace SharpDune
 			House h;
 
 			/* Get the type of the House (CPU / Human) */
-			buf = Ini.Ini_GetString(houseName, "Brain", "NONE", /*ref buf,*/ 127, s_scenarioBuffer);
+			buf = Ini.Ini_GetString(houseName, "Brain", "NONE", s_scenarioBuffer);
 			//b = buf.ToArray();
 			//for (var i = 0; i < b.Length; i++) if (b[i] >= 'a' && b[i] <= 'z') unchecked { b[i] += (char)('A' - 'a'); }
 			//for (b = buf; *b != '\0'; b++) if (*b >= 'a' && *b <= 'z') *b += 'A' - 'a';
@@ -278,7 +278,7 @@ namespace SharpDune
 			string[] s; //char*
 			string buf; //char[128]
 
-			buf = Ini.Ini_GetString("MAP", key, string.Empty, /*ref buf,*/ 127, s_scenarioBuffer);
+			buf = Ini.Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer);
 			if (buf == string.Empty) return;
 
 			s = buf.Split(","); //strtok(buf, ",\r\n");

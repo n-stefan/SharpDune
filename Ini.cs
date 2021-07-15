@@ -8,7 +8,7 @@ namespace SharpDune
 {
     class Ini
 	{
-		internal static string Ini_GetString(string category, string key, string defaultValue, /*ref char[] dest,*/ ushort? length, string source)
+		internal static string Ini_GetString(string category, string key, string defaultValue, string source)
 		{
 			var result = defaultValue;
 
@@ -45,7 +45,7 @@ namespace SharpDune
 
 			value = defaultValue.ToString(); //sprintf(value, "%d", defaultValue);
 
-			buffer = Ini_GetString(category, key, value, /*ref buffer,*/ 15, source);
+			buffer = Ini_GetString(category, key, value, source);
 			return int.Parse(buffer); //atoi(buffer);
 		}
 
@@ -56,14 +56,14 @@ namespace SharpDune
 
 			if (source == null || category == null) return;
 
-			s = Ini_GetString(category, null, null, /*ref null,*/ 0, source);
+			s = Ini_GetString(category, null, null, source);
 			if (s == null && key != null)
 			{
 				buffer = $"{Environment.NewLine}[{category}]{Environment.NewLine}"; //sprintf(buffer, "\r\n[%s]\r\n", category);
 				source += buffer; //strcat(source, buffer);
 			}
 
-			s = Ini_GetString(category, key, null, /*ref null,*/ 0, source);
+			s = Ini_GetString(category, key, null, source);
 			if (s != null)
 			{
 				//TODO: Check and try to simplify
@@ -87,7 +87,7 @@ namespace SharpDune
 			}
 			else
 			{
-				s = Ini_GetString(category, null, null, /*ref null,*/ 0, source);
+				s = Ini_GetString(category, null, null, source);
 			}
 
 			if (value != null)

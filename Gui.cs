@@ -3921,7 +3921,7 @@ namespace SharpDune
 
 			groupText = $"GROUP{campaignID}"; //snprintf(groupText, sizeof(groupText), "GROUP%d", campaignID);
 
-			if ((buffer = Ini.Ini_GetString(groupText, key, null, /*ref buffer, buffer.Length*/ 99, Sprites.g_fileRegionINI)) == null) return;
+			if ((buffer = Ini.Ini_GetString(groupText, key, null, Sprites.g_fileRegionINI)) == null) return;
 
 			while (buffer[bufferPointer] != Environment.NewLine[0])
 			{ //*s != '\0'
@@ -4244,7 +4244,7 @@ namespace SharpDune
 
 			key = region.ToString(); //sprintf(key, "%hu", region);
 
-			buffer = Ini.Ini_GetString("PIECES", key, null, /*ref buffer, (ushort)(buffer.Length - 1)*/ null, Sprites.g_fileRegionINI);
+			buffer = Ini.Ini_GetString("PIECES", key, null, Sprites.g_fileRegionINI);
 
 			var temp = buffer.Split(",");
 			x = short.Parse(temp[0]);
@@ -4285,7 +4285,7 @@ namespace SharpDune
 
 				key = $"REG{(ushort)(i + 1):X}"; //sprintf(key, "REG%hu", (ushort)(i + 1));
 
-				if ((buffer = Ini.Ini_GetString(category, key, null, /*ref buffer, (ushort)(buffer.Length - 1)*/ 80, Sprites.g_fileRegionINI)) == null) break;
+				if ((buffer = Ini.Ini_GetString(category, key, null, Sprites.g_fileRegionINI)) == null) break;
 
 				var temp = buffer.Split(",");
 				data[i].index = short.Parse(temp[0]);
@@ -4433,7 +4433,7 @@ namespace SharpDune
 				key = CHouse.g_table_houseInfo[houseID].name[0..3]; //strncpy(key, g_table_houseInfo[houseID].name, 3);
 																	//key[3] = '\0';
 
-				if ((buf = Ini.Ini_GetString(category, key, null, /*ref buf,*/ 99, Sprites.g_fileRegionINI)) == null) continue;
+				if ((buf = Ini.Ini_GetString(category, key, null, Sprites.g_fileRegionINI)) == null) continue;
 
 				parts = buf.Split(",");
 
@@ -4447,7 +4447,7 @@ namespace SharpDune
 
 						key = $"{CString.g_languageSuffixes[Config.g_config.language]}TXT{region}"; //sprintf(key, "%sTXT%d", g_languageSuffixes[g_config.language], region);
 
-						if ((buffer = Ini.Ini_GetString(category, key, null, /*ref buffer, (ushort)buffer.Length*/ 81, Sprites.g_fileRegionINI)) != null)
+						if ((buffer = Ini.Ini_GetString(category, key, null, Sprites.g_fileRegionINI)) != null)
 						{
 							GUI_StrategicMap_DrawText(buffer);
 						}
@@ -5211,7 +5211,7 @@ namespace SharpDune
 
 			key = selected.ToString("D"); //sprintf(key, "%d", selected);
 
-			buffer = Ini.Ini_GetString("PIECES", key, null, /*ref buffer, (ushort)(buffer.Length - 1)*/ 80, Sprites.g_fileRegionINI);
+			buffer = Ini.Ini_GetString("PIECES", key, null, Sprites.g_fileRegionINI);
 
 			var temp = buffer.Split(",");
 			x = short.Parse(temp[0]);

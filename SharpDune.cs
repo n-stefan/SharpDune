@@ -570,7 +570,7 @@ class CSharpDune
         //*keys = '\0';
 
         sourceString = Encoding.GetString(source);
-        keys = Ini.Ini_GetString("construct", null, keys, /*ref keys,*/ 2000, sourceString);
+        keys = Ini.Ini_GetString("construct", null, keys, sourceString);
 
         var keyPointer = 0;
         for (key = keys; key[keyPointer] != '\r'; keyPointer++)
@@ -600,7 +600,7 @@ class CSharpDune
 
             if (oi == null) continue;
 
-            buffer = Ini.Ini_GetString("construct", key, buffer, /*ref buffer,*/ 120, sourceString);
+            buffer = Ini.Ini_GetString("construct", key, buffer, sourceString);
             bufferStrings = buffer.Split(",");
             buildCredits = ushort.Parse(bufferStrings[0]);
             buildTime = ushort.Parse(bufferStrings[1]);
@@ -652,7 +652,7 @@ class CSharpDune
 
         //*keys = '\0';
 
-        keys = Ini.Ini_GetString("combat", null, keys, /*ref keys,*/ 2000, sourceString);
+        keys = Ini.Ini_GetString("combat", null, keys, sourceString);
 
         for (key = keys; key[keyPointer] != '\r'; keyPointer++)
         { //key += strlen(key) + 1) {
@@ -661,7 +661,7 @@ class CSharpDune
             ushort fireDelay;
             ushort fireDistance;
 
-            buffer = Ini.Ini_GetString("combat", key, buffer, /*ref buffer,*/ 120, sourceString);
+            buffer = Ini.Ini_GetString("combat", key, buffer, sourceString);
 
             bufferStrings = buffer.Trim().Split(","); //String_Trim(buffer);
             if (bufferStrings.Length < 4) continue;
@@ -1324,7 +1324,7 @@ class CSharpDune
         CDriver.Drivers_All_Init();
 
         scaling_factor = IniFile.IniFile_GetInteger("scalefactor", 2);
-        if (IniFile.IniFile_GetString("scalefilter", null, filter_text, (ushort)(filter_text == null ? 0 : filter_text.Length)) != null)
+        if ((filter_text = IniFile.IniFile_GetString("scalefilter", null)) != null)
         {
             if (string.Equals(filter_text, "nearest", StringComparison.OrdinalIgnoreCase))
             { //if (strcasecmp(filter_text, "nearest") == 0) {

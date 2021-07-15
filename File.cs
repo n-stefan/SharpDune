@@ -864,7 +864,7 @@ namespace SharpDune
 		{
 			var buf = string.Empty; //char[1024]
 
-			if (IniFile.IniFile_GetString("savedir", null, buf, (ushort)(buf == null ? 0 : buf.Length)) != null)
+			if ((buf = IniFile.IniFile_GetString("savedir", null)) != null)
 			{
 				/* savedir is defined in sharpdune.ini */
 				g_personal_data_dir = buf; //strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
@@ -890,17 +890,17 @@ namespace SharpDune
 				return false;
 			}
 
-			if (IniFile.IniFile_GetString("datadir", null, buf, (ushort)buf.Length) != null)
+			if ((buf = IniFile.IniFile_GetString("datadir", null)) != null)
 			{
 				/* datadir is defined in sharpdune.ini */
-				g_dune_data_dir += buf; //strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
+				g_dune_data_dir = buf; //strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
 			}
 
-			buf = File_MakeCompleteFilename(buf.Length, SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, string.Empty, ConvertCase.NO_CONVERT);
+			g_dune_data_dir = File_MakeCompleteFilename(g_dune_data_dir.Length, SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, string.Empty, ConvertCase.NO_CONVERT);
 
-			if (!ReadDir_ProcessAllFiles(buf, _File_Init_Callback))
+			if (!ReadDir_ProcessAllFiles(g_dune_data_dir, _File_Init_Callback))
 			{
-				Trace.WriteLine($"ERROR: Cannot initialize files. Does the directory {buf} exist?");
+				Trace.WriteLine($"ERROR: Cannot initialize files. Does the directory {g_dune_data_dir} exist?");
 				return false;
 			}
 

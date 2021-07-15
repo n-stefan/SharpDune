@@ -24,10 +24,10 @@ namespace SharpDune
 		 */
 		internal static bool SetLanguage_From_IniFile(DuneCfg config)
 		{
-			string language = null; //char[16];
+			string language; //char[16];
 
 			if (config == null || g_sharpduneini == null) return false;
-			if (IniFile_GetString("language", null, language, (ushort)language.Length) == null)
+			if ((language = IniFile_GetString("language", null)) == null)
 			{
 				return false;
 			}
@@ -127,17 +127,17 @@ namespace SharpDune
 			return true;
 		}
 
-		internal static string IniFile_GetString(string key, string defaultValue, string dest, ushort length)
+		internal static string IniFile_GetString(string key, string defaultValue)
 		{
 			string p;
 			//ushort i;
 			/* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
-			p = Ini.Ini_GetString("sharpdune", key, defaultValue, /*ref dest?.ToArray(),*/ length, g_sharpduneini);
+			p = Ini.Ini_GetString("sharpdune", key, defaultValue, g_sharpduneini);
 			//TODO: Check
 			if (!string.IsNullOrEmpty(p))
 			{
-				/* Trim space from the beginning of the dest */
-				dest.TrimStart();
+                /* Trim space from the beginning of the dest */
+                p = p.TrimStart();
 				//for (i = 0; i < length && (dest[i] == ' ' || dest[i] == '\t') && (dest[i] != '\0'); i++);
 				//if (i > 0 && i < length) memmove(dest, dest+i, length - i);
 			}
