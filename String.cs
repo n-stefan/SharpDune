@@ -662,25 +662,28 @@ namespace SharpDune
 
 		static void String_Sanitize()
 		{
-			s_strings[Array.FindIndex(s_strings, s => s == "Insufficient memory by %ld bytes.")] = "Insufficient memory by {0} bytes.";
-			s_strings[Array.FindIndex(s_strings, s => s == "%s %s destroyed.")] = "{0} {1} destroyed.";
-			s_strings[Array.FindIndex(s_strings, s => s == "Score: %d")] = "Score: {0}";
-			s_strings[Array.FindIndex(s_strings, s => s == "Time: %dh %dm")] = "Time: {0}h {1}m";
-			s_strings[Array.FindIndex(s_strings, s => s == "%d%% done")] = "{0}% done";
-			s_strings[Array.FindIndex(s_strings, s => s == "Pick Target\rT-Minus: %d")] = "Pick Target\rT-Minus: {0}";
-			s_strings[Array.FindIndex(s_strings, s => s == "   Spice\rholds: %4d\rmax: %4d")] = "   Spice\rholds: {0, 4}\rmax: {1, 4}";
-			s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full")] = " is {0} percent full";
-			s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and harvesting")] = " is {0} percent full and harvesting";
-			s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and heading back")] = " is {0} percent full and heading back";
-			s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and awaiting pickup")] = " is {0} percent full and awaiting pickup";
-			s_strings[Array.FindIndex(s_strings, s => s == "Can not place %s here.")] = "Can not place {0} here.";
-			s_strings[Array.FindIndex(s_strings, s => s == "Production of %s has started.")] = "Production of {0} has started.";
-			s_strings[Array.FindIndex(s_strings, s => s == "Upgrading\r%d%% done")] = "Upgrading\r{0}% done";
-			s_strings[Array.FindIndex(s_strings, s => s == "Radar Scan\rFriend: %2d\rEnemy: %2d")] = "Radar Scan\rFriend: {0, 2}\rEnemy: {1, 2}";
-			s_strings[Array.FindIndex(s_strings, s => s == "Frigate\rArrival in\rT-minus %d")] = "Frigate\rArrival in\rT-minus {0}";
-			s_strings[Array.FindIndex(s_strings, s => s == "Cost: %3d")] = "Cost: {0, 3}";
-			s_strings[Array.FindIndex(s_strings, s => s == "Qty: %2d")] = "Qty: {0, 2}";
-			s_strings[Array.FindIndex(s_strings, s => s == "Upgrade Cost : %d")] = "Upgrade Cost : {0}";
+			if (Config.g_config.language == (byte)Language.LANGUAGE_ENGLISH)
+            {
+				s_strings[Array.FindIndex(s_strings, s => s == "Insufficient memory by %ld bytes.")] = "Insufficient memory by {0} bytes.";
+				s_strings[Array.FindIndex(s_strings, s => s == "%s %s destroyed.")] = "{0} {1} destroyed.";
+				s_strings[Array.FindIndex(s_strings, s => s == "Score: %d")] = "Score: {0}";
+				s_strings[Array.FindIndex(s_strings, s => s == "Time: %dh %dm")] = "Time: {0}h {1}m";
+				s_strings[Array.FindIndex(s_strings, s => s == "%d%% done")] = "{0}% done";
+				s_strings[Array.FindIndex(s_strings, s => s == "Pick Target\rT-Minus: %d")] = "Pick Target\rT-Minus: {0}";
+				s_strings[Array.FindIndex(s_strings, s => s == "   Spice\rholds: %4d\rmax: %4d")] = "   Spice\rholds: {0, 4}\rmax: {1, 4}";
+				s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full")] = " is {0} percent full";
+				s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and harvesting")] = " is {0} percent full and harvesting";
+				s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and heading back")] = " is {0} percent full and heading back";
+				s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and awaiting pickup")] = " is {0} percent full and awaiting pickup";
+				s_strings[Array.FindIndex(s_strings, s => s == "Can not place %s here.")] = "Can not place {0} here.";
+				s_strings[Array.FindIndex(s_strings, s => s == "Production of %s has started.")] = "Production of {0} has started.";
+				s_strings[Array.FindIndex(s_strings, s => s == "Upgrading\r%d%% done")] = "Upgrading\r{0}% done";
+				s_strings[Array.FindIndex(s_strings, s => s == "Radar Scan\rFriend: %2d\rEnemy: %2d")] = "Radar Scan\rFriend: {0, 2}\rEnemy: {1, 2}";
+				s_strings[Array.FindIndex(s_strings, s => s == "Frigate\rArrival in\rT-minus %d")] = "Frigate\rArrival in\rT-minus {0}";
+				s_strings[Array.FindIndex(s_strings, s => s == "Cost: %3d")] = "Cost: {0, 3}";
+				s_strings[Array.FindIndex(s_strings, s => s == "Qty: %2d")] = "Qty: {0, 2}";
+				s_strings[Array.FindIndex(s_strings, s => s == "Upgrade Cost : %d")] = "Upgrade Cost : {0}";
+            }
 		}
 
 		/*
