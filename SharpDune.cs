@@ -12,6 +12,7 @@
 using SharpDune;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using static System.Math;
 
@@ -67,6 +68,8 @@ class CSharpDune
     internal static short g_musicInBattle; /*!< 0 = no battle, 1 = fight is going on, -1 = music of fight is going on is active. */
 
     internal static Encoding Encoding = Encoding.UTF7; //Encoding.ASCII
+
+    internal static CultureInfo Culture = CultureInfo.InvariantCulture;
 
     internal static MultiChar MultiChar = new();
 
@@ -483,10 +486,10 @@ class CSharpDune
                         char c1;
                         var c2 = (char)27;
 
-                        c1 = char.ToUpper(strings[0][i]); //TODO: Or strings[i][0]?
+                        c1 = char.ToUpper(strings[0][i], Culture); //TODO: Or strings[i][0]?
                         var chr = (char)Input.Input_Keyboard_HandleKeys((ushort)(key & 0xFF));
                         if (char.IsLetterOrDigit(chr))
-                            c2 = char.ToUpper(chr);
+                            c2 = char.ToUpper(chr, Culture);
 
                         if (c1 == c2)
                         {
@@ -602,15 +605,15 @@ class CSharpDune
 
             buffer = Ini.Ini_GetString("construct", key, buffer, sourceString);
             bufferStrings = buffer.Split(",");
-            buildCredits = ushort.Parse(bufferStrings[0]);
-            buildTime = ushort.Parse(bufferStrings[1]);
-            hitpoints = ushort.Parse(bufferStrings[2]);
-            fogUncoverRadius = ushort.Parse(bufferStrings[3]);
-            availableCampaign = ushort.Parse(bufferStrings[4]);
-            priorityBuild = ushort.Parse(bufferStrings[5]);
-            priorityTarget = ushort.Parse(bufferStrings[6]);
+            buildCredits = ushort.Parse(bufferStrings[0], Culture);
+            buildTime = ushort.Parse(bufferStrings[1], Culture);
+            hitpoints = ushort.Parse(bufferStrings[2], Culture);
+            fogUncoverRadius = ushort.Parse(bufferStrings[3], Culture);
+            availableCampaign = ushort.Parse(bufferStrings[4], Culture);
+            priorityBuild = ushort.Parse(bufferStrings[5], Culture);
+            priorityTarget = ushort.Parse(bufferStrings[6], Culture);
             if (bufferStrings.Length > 7)
-                sortPriority = ushort.Parse(bufferStrings[7]);
+                sortPriority = ushort.Parse(bufferStrings[7], Culture);
             //count = sscanf(buffer, "%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu", &buildCredits, &buildTime, &hitpoints, &fogUncoverRadius, &availableCampaign, &priorityBuild, &priorityTarget, &sortPriority);
             oi.buildCredits = buildCredits;
             oi.buildTime = buildTime;
@@ -665,10 +668,10 @@ class CSharpDune
 
             bufferStrings = buffer.Trim().Split(","); //String_Trim(buffer);
             if (bufferStrings.Length < 4) continue;
-            fireDistance = ushort.Parse(bufferStrings[0]);
-            damage = ushort.Parse(bufferStrings[1]);
-            fireDelay = ushort.Parse(bufferStrings[2]);
-            movingSpeedFactor = ushort.Parse(bufferStrings[3]);
+            fireDistance = ushort.Parse(bufferStrings[0], Culture);
+            damage = ushort.Parse(bufferStrings[1], Culture);
+            fireDelay = ushort.Parse(bufferStrings[2], Culture);
+            movingSpeedFactor = ushort.Parse(bufferStrings[3], Culture);
             //if (sscanf(buffer, "%hu,%hu,%hu,%hu", &fireDistance, &damage, &fireDelay, &movingSpeedFactor) < 4) continue;
 
             for (locsi = 0; locsi < (ushort)UnitType.UNIT_MAX; locsi++)

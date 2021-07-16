@@ -44,7 +44,7 @@ namespace SharpDune
 			CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(question);
 			Mentat.GUI_Mentat_Loop(wsaHouseFilename, null, question/*CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer)*/, true, null);
 
-			questionsCount = ushort.Parse(CString.String_Get_ByIndex(Text.STR_SECURITY_COUNT));
+			questionsCount = ushort.Parse(CString.String_Get_ByIndex(Text.STR_SECURITY_COUNT), CSharpDune.Culture);
 
 			oldCurrentWidget = CWidget.Widget_SetCurrentWidget(8);
 
@@ -204,7 +204,7 @@ namespace SharpDune
 
 			for (var i = 0; i < s.Length; i++)
 				if (char.IsLetterOrDigit(s[i]) && char.IsLower(s[i]))
-					s[i] = char.ToUpper(s[i]);
+					s[i] = char.ToUpper(s[i], CSharpDune.Culture);
 
 			str = new string(s);
 		}

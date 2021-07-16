@@ -480,7 +480,7 @@ namespace SharpDune
 
 			textBuffer = Ini.Ini_GetString("INFO", "TOTAL REGIONS", null, g_fileRegionINI);
 
-			g_regions[0] = ushort.Parse(textBuffer); //sscanf(textBuffer, "%hu", &regions[0]);
+			g_regions[0] = ushort.Parse(textBuffer, CSharpDune.Culture); //sscanf(textBuffer, "%hu", &regions[0]);
 
 			for (i = 0; i < g_regions[0]; i++) g_regions[i + 1] = 0xFFFF;
 		}

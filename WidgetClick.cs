@@ -1279,7 +1279,7 @@ namespace SharpDune
 					amount = (ushort)(Gui.g_factoryWindowItems[i].amount * Gui.g_factoryWindowItems[i].credits);
 					total += amount;
 
-					textBuffer = string.Format("{0:D2} {1, 5}", Gui.g_factoryWindowItems[i].amount, amount); //snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
+					textBuffer = string.Format(CSharpDune.Culture, "{0:D2} {1, 5}", Gui.g_factoryWindowItems[i].amount, amount); //snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
 
 					oi = Gui.g_factoryWindowItems[i].objectInfo;
 					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(oi.stringID_full), 128, (short)y, 8, 0, 0x11);
@@ -1297,7 +1297,7 @@ namespace SharpDune
 			Gui.GUI_DrawLine(129, 148, 310, 148, 12);
 			Gui.GUI_DrawLine(129, 150, 310, 150, 12);
 
-			textBuffer = total.ToString("D"); //snprintf(textBuffer, sizeof(textBuffer), "%d", total);
+			textBuffer = total.ToString("D", CSharpDune.Culture); //snprintf(textBuffer, sizeof(textBuffer), "%d", total);
 
 			x = (ushort)(311 - (short)textBuffer.Length * 6);
 

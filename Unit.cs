@@ -2635,7 +2635,7 @@ namespace SharpDune
 					//size_t len = strlen(buffer);
 					//char* s = buffer + len;
 
-					buffer = $"{buffer}{string.Format(CString.String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
+					buffer = $"{buffer}{string.Format(CSharpDune.Culture, CString.String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
 				}
 			}
 

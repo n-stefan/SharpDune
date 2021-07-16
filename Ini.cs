@@ -43,10 +43,10 @@ namespace SharpDune
 			string value; //char[16];
 			string buffer; //char[16]
 
-			value = defaultValue.ToString(); //sprintf(value, "%d", defaultValue);
+			value = defaultValue.ToString(CSharpDune.Culture); //sprintf(value, "%d", defaultValue);
 
 			buffer = Ini_GetString(category, key, value, source);
-			return int.Parse(buffer); //atoi(buffer);
+			return int.Parse(buffer, CSharpDune.Culture); //atoi(buffer);
 		}
 
 		internal static void Ini_SetString(string category, string key, string value, string source)

@@ -1199,7 +1199,7 @@ namespace SharpDune
 			Screen oldScreenID;
 			byte[] screenBackup;
 
-			textBuffer = new StringBuilder().AppendFormat(str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), str, ap);
+			textBuffer = new StringBuilder().AppendFormat(CSharpDune.Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), str, ap);
 
 			GUI_Mouse_Hide_Safe();
 
@@ -1319,7 +1319,7 @@ namespace SharpDune
 
 			if (str != null)
 			{
-				buffer = new StringBuilder().AppendFormat(str, ap).ToString(); //vsnprintf(buffer, sizeof(buffer), str, ap);
+				buffer = new StringBuilder().AppendFormat(CSharpDune.Culture, str, ap).ToString(); //vsnprintf(buffer, sizeof(buffer), str, ap);
 			}
 
 			if (importance == -1) /* Remove all displayed lines. */
@@ -1549,7 +1549,7 @@ namespace SharpDune
 
 			if (str == null) return;
 
-			textBuffer = new StringBuilder().AppendFormat(str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), string, ap);
+			textBuffer = new StringBuilder().AppendFormat(CSharpDune.Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), string, ap);
 
 			switch (flags & 0x0F00)
 			{
@@ -2760,8 +2760,8 @@ namespace SharpDune
 
 			CHouse.g_playerCredits = (ushort)creditsOld;
 
-			charCreditsOld = string.Format("{0, 6}", creditsOld); //snprintf(charCreditsOld, sizeof(charCreditsOld), "%6d", creditsOld);
-			charCreditsNew = string.Format("{0, 6}", creditsNew); //snprintf(charCreditsNew, sizeof(charCreditsNew), "%6d", creditsNew);
+			charCreditsOld = string.Format(CSharpDune.Culture, "{0, 6}", creditsOld); //snprintf(charCreditsOld, sizeof(charCreditsOld), "%6d", creditsOld);
+			charCreditsNew = string.Format(CSharpDune.Culture, "{0, 6}", creditsNew); //snprintf(charCreditsNew, sizeof(charCreditsNew), "%6d", creditsNew);
 
 			for (i = 0; i < 6; i++)
 			{
@@ -3925,7 +3925,7 @@ namespace SharpDune
 
 			while (buffer[bufferPointer] != Environment.NewLine[0])
 			{ //*s != '\0'
-				var region = ushort.Parse(buffer[bufferPointer].ToString());
+				var region = ushort.Parse(buffer[bufferPointer].ToString(), CSharpDune.Culture);
 
 				if (region != 0) Sprites.g_regions[region] = houseID;
 
@@ -4090,7 +4090,7 @@ namespace SharpDune
 				string buffer; //char[64];
 
 				//snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
-				buffer = string.Format(CString.String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
+				buffer = string.Format(CSharpDune.Culture, CString.String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
 
 				if (s_ticksPlayed < 60)
 				{
@@ -4242,13 +4242,13 @@ namespace SharpDune
 
 			GUI_Palette_CreateRemap(houseId);
 
-			key = region.ToString(); //sprintf(key, "%hu", region);
+			key = region.ToString(CSharpDune.Culture); //sprintf(key, "%hu", region);
 
 			buffer = Ini.Ini_GetString("PIECES", key, null, Sprites.g_fileRegionINI);
 
 			var temp = buffer.Split(",");
-			x = short.Parse(temp[0]);
-			y = short.Parse(temp[1]);
+			x = short.Parse(temp[0], CSharpDune.Culture);
+			y = short.Parse(temp[1], CSharpDune.Culture);
 			//sscanf(buffer, "%hd,%hd", &x, &y);
 
 			sprite = Sprites.g_sprites[477 + region];
@@ -4288,10 +4288,10 @@ namespace SharpDune
 				if ((buffer = Ini.Ini_GetString(category, key, null, Sprites.g_fileRegionINI)) == null) break;
 
 				var temp = buffer.Split(",");
-				data[i].index = short.Parse(temp[0]);
-				data[i].arrow = short.Parse(temp[1]);
-				data[i].offsetX = short.Parse(temp[2]);
-				data[i].offsetY = short.Parse(temp[3]);
+				data[i].index = short.Parse(temp[0], CSharpDune.Culture);
+				data[i].arrow = short.Parse(temp[1], CSharpDune.Culture);
+				data[i].offsetX = short.Parse(temp[2], CSharpDune.Culture);
+				data[i].offsetY = short.Parse(temp[3], CSharpDune.Culture);
 				//sscanf(buffer, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
 				if (!GUI_StrategicMap_IsRegionDone((ushort)data[i].index)) hasRegions = true;
@@ -4439,7 +4439,7 @@ namespace SharpDune
 
 				for (var j = 0; j < parts.Length; j++)
 				{
-					var region = ushort.Parse(parts[j]);
+					var region = ushort.Parse(parts[j], CSharpDune.Culture);
 
 					if (region != 0)
 					{
@@ -5209,13 +5209,13 @@ namespace SharpDune
 				GUI_Mouse_Show_Safe();
 			}
 
-			key = selected.ToString("D"); //sprintf(key, "%d", selected);
+			key = selected.ToString("D", CSharpDune.Culture); //sprintf(key, "%d", selected);
 
 			buffer = Ini.Ini_GetString("PIECES", key, null, Sprites.g_fileRegionINI);
 
 			var temp = buffer.Split(",");
-			x = short.Parse(temp[0]);
-			y = short.Parse(temp[1]);
+			x = short.Parse(temp[0], CSharpDune.Culture);
+			y = short.Parse(temp[1], CSharpDune.Culture);
 			//sscanf(buffer, "%hd,%hd", &x, &y);
 
 			sprite = Sprites.g_sprites[477 + selected];

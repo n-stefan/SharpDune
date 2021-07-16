@@ -744,7 +744,7 @@ namespace SharpDune
 				if (filename[0] == '?')
 				{
 					//snprintf(filenameBuffer, sizeof(filenameBuffer), filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
-					filenameBuffer = filename[1..].Replace("%c", CHouse.g_playerHouseID < HouseType.HOUSE_MAX ? Convert.ToString((char)CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].prefixChar) : " ");
+					filenameBuffer = filename[1..].Replace("%c", CHouse.g_playerHouseID < HouseType.HOUSE_MAX ? Convert.ToString((char)CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].prefixChar, CSharpDune.Culture) : " ");
 
 					if (CSharpDune.g_readBuffer.Length < CSharpDune.g_readBufferSize)
 						Array.Resize(ref CSharpDune.g_readBuffer, (int)CSharpDune.g_readBufferSize);
