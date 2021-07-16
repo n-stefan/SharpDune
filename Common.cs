@@ -8,13 +8,6 @@ namespace SharpDune
 {
     class Common
     {
-        /*
-         * Compute length of an array.
-         * @param address of the array.
-         * @return Number of elements of the array.
-         */
-        internal int lengthof<T>(T[][] array) => array.Length / array[0].Length;
-
         internal static bool AreArraysEqual(byte[] array1, int index1, byte[] array2, int index2, int count)
         {
             var i = 0;
