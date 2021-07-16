@@ -293,7 +293,7 @@ namespace SharpDune
 							{
 								/* ALT-ENTER was pressed */
 								if (keyup != 0) continue;   /* ignore key-up */
-								if (SDL.SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN) < 0)
+								if (SDL.SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/) < 0)
 								{
 									Trace.WriteLine($"WARNING: Failed to toggle full screen : {SDL.SDL_GetError()}");
 								}
@@ -395,7 +395,7 @@ namespace SharpDune
 
 			if (IniFile.IniFile_GetInteger("fullscreen", 0) != 0)
 			{
-				window_flags |= (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;
+				window_flags |= (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/;
 				s_full_screen = true;
 			}
 
