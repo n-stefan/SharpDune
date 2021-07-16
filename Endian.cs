@@ -4,12 +4,7 @@ namespace SharpDune
 {
 	class Endian
 	{
-		//#define __BYTE_ORDER __LITTLE_ENDIAN
-		//#define __LITTLE_ENDIAN 1234
-
-		const int __BYTE_ORDER = 1234;
-
-		static ushort endian_bswap16(ushort x) =>
+        static ushort endian_bswap16(ushort x) =>
 			(ushort)((x & 0xFF00) >> 8 | (x & 0x00FF) << 8);
 
 		static uint endian_bswap32(uint x) =>
@@ -21,23 +16,8 @@ namespace SharpDune
 		internal static uint BETOH32(uint x) =>
 			endian_bswap32(x);
 		
-		ushort HTOBE16(ushort x) =>
-			endian_bswap16(x);
-		
 		internal static ushort BETOH16(ushort x) =>
 			endian_bswap16(x);
-		
-		uint HTOLE32(uint x) =>
-			x;
-		
-		uint LETOH32(uint x) =>
-			x;
-		
-		ushort HTOLE16(ushort x) =>
-			x;
-		
-		ushort LETOH16(ushort x) =>
-			x;
 
 		internal static ushort READ_LE_UINT16(byte[] p) =>
 			(ushort)(p[0] | (p[1] << 8));

@@ -52,7 +52,6 @@ namespace SharpDune
 
 	class FileInfoFlags
 	{
-        readonly bool inMemory;                                  /*!< File is loaded in alloc'd memory. */
 		internal bool inPAKFile;                        /*!< File can be in other PAK file. */
 	}
 
