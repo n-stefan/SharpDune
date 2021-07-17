@@ -381,14 +381,14 @@ namespace SharpDune
 
 						switch ((DisplayMode)ui.displayMode)
 						{
-							case DisplayMode.DISPLAYMODE_UNIT:
-							case DisplayMode.DISPLAYMODE_ROCKET:
+							case DisplayMode.UNIT:
+							case DisplayMode.ROCKET:
 								if (ui.movementType == (ushort)MovementType.MOVEMENT_SLITHER) break;
 								index += values_32A4[orientation][0];
 								spriteFlags = values_32A4[orientation][1];
 								break;
 
-							case DisplayMode.DISPLAYMODE_INFANTRY_3_FRAMES:
+							case DisplayMode.INFANTRY_3_FRAMES:
 								{
 									index += (ushort)(values_32C4[orientation][0] * 3); //[orientation][0]
 									index += values_334A[u.spriteOffset & 3];
@@ -396,7 +396,7 @@ namespace SharpDune
 								}
 								break;
 
-							case DisplayMode.DISPLAYMODE_INFANTRY_4_FRAMES:
+							case DisplayMode.INFANTRY_4_FRAMES:
 								index += (ushort)(values_32C4[orientation][0] * 4); //[orientation][0]
 								index += (ushort)(u.spriteOffset & 3);
 								spriteFlags = values_32C4[orientation][1]; //[orientation][1]
@@ -570,18 +570,18 @@ namespace SharpDune
 
 					switch ((DisplayMode)ui.displayMode)
 					{
-						case DisplayMode.DISPLAYMODE_SINGLE_FRAME:
+						case DisplayMode.SINGLE_FRAME:
 							if (u.o.flags.bulletIsBig) index++;
 							break;
 
-						case DisplayMode.DISPLAYMODE_UNIT:
+						case DisplayMode.UNIT:
 							orientation = CTile.Orientation_Orientation256ToOrientation8(orientation);
 
 							index += values_32E4[orientation][0];
 							spriteFlags |= values_32E4[orientation][1];
 							break;
 
-						case DisplayMode.DISPLAYMODE_ROCKET:
+						case DisplayMode.ROCKET:
 							{
 								orientation = CTile.Orientation_Orientation256ToOrientation16(orientation);
 
@@ -590,7 +590,7 @@ namespace SharpDune
 							}
 							break;
 
-						case DisplayMode.DISPLAYMODE_ORNITHOPTER:
+						case DisplayMode.ORNITHOPTER:
 							{
 								orientation = CTile.Orientation_Orientation256ToOrientation8(orientation);
 
