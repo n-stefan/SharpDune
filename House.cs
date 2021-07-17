@@ -525,7 +525,7 @@ namespace SharpDune
 
             if (h.flags.radarActivated == activate) return false;
 
-            wsa = Wsa.WSA_LoadFile("STATIC.WSA", Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), true);
+            wsa = Wsa.WSA_LoadFile("STATIC.WSA", Gfx.GFX_Screen_Get_ByIndex(Screen.NO1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO1), true);
             frameCount = Wsa.WSA_GetFrameCount(wsa);
 
             Gui.g_textDisplayNeedsUpdate = true;
@@ -542,7 +542,7 @@ namespace SharpDune
 
             for (frame = 0; frame < frameCount; frame++)
             {
-                Wsa.WSA_DisplayFrame(wsa, (ushort)(activate ? frameCount - frame : frame), 256, 136, Screen.SCREEN_0);
+                Wsa.WSA_DisplayFrame(wsa, (ushort)(activate ? frameCount - frame : frame), 256, 136, Screen.NO0);
                 Gui.GUI_PaletteAnimate();
 
                 Timer.Timer_Sleep(3);
@@ -556,7 +556,7 @@ namespace SharpDune
 
             Gui.GUI_Mouse_Show_Safe();
 
-            Viewport.GUI_Widget_Viewport_RedrawMap(Screen.SCREEN_0);
+            Viewport.GUI_Widget_Viewport_RedrawMap(Screen.NO0);
 
             return activate;
         }

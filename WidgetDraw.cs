@@ -106,7 +106,7 @@ namespace SharpDune
 
 			}
 
-			oldScreenID = Screen.SCREEN_ACTIVE;
+			oldScreenID = Screen.ACTIVE;
 			oldWidgetID = CWidget.g_curWidgetIndex;
 
 			if (actionType != 0)
@@ -114,7 +114,7 @@ namespace SharpDune
 				var w = CWidget.g_widgetLinkedListHead;
 				int i;
 
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 				oldWidgetID = CWidget.Widget_SetCurrentWidget(6);
 
 				widget30 = CWidget.GUI_Widget_Get_ByIndex(w, 7);
@@ -201,14 +201,14 @@ namespace SharpDune
 
 				if (spriteID != 0xFFFF)
 				{
-					Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID], 258, 51, 0, 0);
+					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], 258, 51, 0, 0);
 				}
 
 				/* Unit / Structure */
 				if (actionType == 2 || actionType == 3)
 				{
 					Gui.GUI_DrawProgressbar(o.hitpoints, oi.hitpoints);
-					Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[27], 292, 60, 0, 0);
+					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[27], 292, 60, 0, 0);
 					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_DMG), 296, 65, 29, 0, 0x11);
 				}
 
@@ -328,7 +328,7 @@ namespace SharpDune
 											u2 = CStructure.Structure_GetLinkedUnit(s);
 											if (u2 == null) break;
 
-											Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[CUnit.g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
+											Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[CUnit.g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
 
 											steps = (ushort)(CUnit.g_table_unitInfo[u2.o.type].o.buildTime / 4);
 											percent = (ushort)((steps - (s.countDown >> 8)) * 100 / steps);
@@ -423,7 +423,7 @@ namespace SharpDune
 			if (actionType != 0)
 			{
 				Gui.GUI_Mouse_Hide_InWidget(6);
-				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.SCREEN_ACTIVE, Screen.SCREEN_0);
+				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.ACTIVE, Screen.NO0);
 				Gui.GUI_Mouse_Show_InWidget();
 			}
 
@@ -453,7 +453,7 @@ namespace SharpDune
 			var colourSchemaIndex = (ushort)(pressed ? 2 : 0);
 			ushort size;
 
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Hide_InRegion(left, top, (ushort)(left + width), (ushort)(top + height));
 			}
@@ -468,7 +468,7 @@ namespace SharpDune
 				Gui.GUI_DrawBorder((ushort)(left + size), (ushort)(top + size), (ushort)(width - (size * 2)), (ushort)(height - (size * 2)), colourSchemaIndex, false);
 			}
 
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Show_InRegion();
 			}
@@ -665,10 +665,10 @@ namespace SharpDune
 				spriteID = si.o.spriteID;
 			}
 
-			oldScreenID = Screen.SCREEN_ACTIVE;
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			oldScreenID = Screen.ACTIVE;
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 			}
 
 			buttonDown = w.state.hover2;
@@ -680,17 +680,17 @@ namespace SharpDune
 
 			Gui.GUI_DrawWiredRectangle((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width), (ushort)(positionY + height), 12);
 
-			Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID], (short)positionX, (short)positionY, 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 1 : 0));
+			Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)positionX, (short)positionY, 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 1 : 0));
 
 			Gui.GUI_DrawBorder(positionX, positionY, width, height, (ushort)(buttonDown ? 0 : 1), false);
 
-			if (oldScreenID != Screen.SCREEN_0) return;
+			if (oldScreenID != Screen.NO0) return;
 
 			Gui.GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
-			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.SCREEN_1, Screen.SCREEN_0, false);
+			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
 			Gui.GUI_Mouse_Show_InRegion();
 
-			Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+			Gfx.GFX_Screen_SetActive(Screen.NO0);
 		}
 
 		/*
@@ -710,10 +710,10 @@ namespace SharpDune
 
 			if (w == null) return;
 
-			oldScreenID = Screen.SCREEN_ACTIVE;
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			oldScreenID = Screen.ACTIVE;
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 			}
 
 			stringID = w.stringID;
@@ -748,13 +748,13 @@ namespace SharpDune
 
 			w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(stringID)[0]);
 
-			if (oldScreenID != Screen.SCREEN_0) return;
+			if (oldScreenID != Screen.NO0) return;
 
 			Gui.GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
-			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.SCREEN_1, Screen.SCREEN_0, false);
+			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
 			Gui.GUI_Mouse_Show_InRegion();
 
-			Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+			Gfx.GFX_Screen_SetActive(Screen.NO0);
 		}
 
 		/*
@@ -782,10 +782,10 @@ namespace SharpDune
 
 			Gui.GUI_UpdateProductionStringID();
 
-			oldScreenID = Screen.SCREEN_ACTIVE;
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			oldScreenID = Screen.ACTIVE;
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 			}
 
 			buttonDown = w.state.hover2;
@@ -829,7 +829,7 @@ namespace SharpDune
 						ushort x, y;
 						byte[] sprite;
 
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[63], (short)(positionX + 37), (short)(positionY + 5), 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 2 : 0));
+						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[63], (short)(positionX + 37), (short)(positionY + 5), 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 2 : 0));
 
 						sprite = Sprites.g_sprites[24];
 						spriteWidth = (ushort)(Sprites.Sprite_GetWidth(sprite) + 1);
@@ -840,7 +840,7 @@ namespace SharpDune
 						{
 							for (x = 0; x < CStructure.g_table_structure_layoutSize[si.layout].width; x++)
 							{
-								Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, sprite, (short)(positionX + x * spriteWidth + 38), (short)(positionY + y * spriteWidth + 6), 0, 0);
+								Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(positionX + x * spriteWidth + 38), (short)(positionY + y * spriteWidth + 6), 0, 0);
 							}
 						}
 
@@ -856,7 +856,7 @@ namespace SharpDune
 					break;
 			}
 
-			if (spriteID != 0) Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID], (short)(positionX + 2), (short)(positionY + 2), 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 1 : 0));
+			if (spriteID != 0) Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)(positionX + 2), (short)(positionY + 2), 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 1 : 0));
 
 			if (Gui.g_productionStringID == (ushort)Text.STR_D_DONE)
 			{
@@ -927,13 +927,13 @@ namespace SharpDune
 				w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Gui.g_productionStringID)[0]);
 			}
 
-			if (oldScreenID != Screen.SCREEN_0) return;
+			if (oldScreenID != Screen.NO0) return;
 
 			Gui.GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
-			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.SCREEN_1, Screen.SCREEN_0, false);
+			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
 			Gui.GUI_Mouse_Show_InRegion();
 
-			Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+			Gfx.GFX_Screen_SetActive(Screen.NO0);
 		}
 
 		/*
@@ -951,7 +951,7 @@ namespace SharpDune
 
 			if (w == null) return;
 
-			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
 			positionX = (ushort)(w.offsetX + (CWidget.g_widgetProperties[w.parentID].xBase << 3));
 			positionY = (ushort)(w.offsetY + CWidget.g_widgetProperties[w.parentID].yBase);
@@ -977,10 +977,10 @@ namespace SharpDune
 				Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex((short)w.stringID), (short)(positionX + 3), (short)(positionY + 2), colour, 0, 0x22);
 			}
 
-			if (oldScreenID == Screen.SCREEN_0)
+			if (oldScreenID == Screen.NO0)
 			{
 				Gui.GUI_Mouse_Hide_InRegion(positionX, positionY, (ushort)(positionX + width), (ushort)(positionY + height));
-				Gui.GUI_Screen_Copy((short)(positionX >> 3), (short)positionY, (short)(positionX >> 3), (short)positionY, (short)(width >> 3), (short)height, Screen.SCREEN_1, Screen.SCREEN_0);
+				Gui.GUI_Screen_Copy((short)(positionX >> 3), (short)positionY, (short)(positionX >> 3), (short)positionY, (short)(width >> 3), (short)height, Screen.NO1, Screen.NO0);
 				Gui.GUI_Mouse_Show_InRegion();
 			}
 
@@ -1031,7 +1031,7 @@ namespace SharpDune
 				scrollBottom = (ushort)(scrollTop + scrollbar.size - 1);
 			}
 
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Hide_InRegion(positionX, positionY, (ushort)(positionX + width - 1), (ushort)(positionY + height - 1));
 			}
@@ -1042,7 +1042,7 @@ namespace SharpDune
 			/* Draw where we currently are */
 			Gui.GUI_DrawFilledRectangle((short)(positionX + scrollLeft), (short)(positionY + scrollTop), (short)(positionX + scrollRight), (short)(positionY + scrollBottom), (scrollbar.pressed == 0) ? w.fgColourNormal : w.fgColourSelected);
 
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Show_InRegion();
 			}

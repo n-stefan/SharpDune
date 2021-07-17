@@ -286,7 +286,7 @@ class CSharpDune
                     Gui.GUI_Mouse_Hide_Safe();
 
                     Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 15);
-                    Gui.GUI_ClearScreen(Screen.SCREEN_0);
+                    Gui.GUI_ClearScreen(Screen.NO0);
                     Cutscene.GameLoop_GameEndAnimation();
                     PrepareEnd();
                     Environment.Exit(0);
@@ -563,11 +563,11 @@ class CSharpDune
         if (filename == null) return;
         if (!CFile.File_Exists(filename)) return;
 
-        source = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1);
+        source = Gfx.GFX_Screen_Get_ByIndex(Screen.NO1);
 
         Array.Fill<byte>(source, 0, 0, 32000); //memset(source, 0, 32000);
 
-        CFile.File_ReadBlockFile(filename, source, Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1));
+        CFile.File_ReadBlockFile(filename, source, Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO1));
 
         keys = Encoding.GetString(source[(source.Length + 5000)..]);
         //*keys = '\0';
@@ -787,7 +787,7 @@ class CSharpDune
             case Text.STR_LOAD_GAME:
                 Gui.GUI_Mouse_Hide_Safe();
                 Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 30);
-                Gui.GUI_ClearScreen(Screen.SCREEN_0);
+                Gui.GUI_ClearScreen(Screen.NO0);
                 Gui.GUI_Mouse_Show_Safe();
 
                 Gfx.GFX_SetPalette(Gfx.g_palette1);
@@ -846,13 +846,13 @@ class CSharpDune
             CWidget.g_widgetProperties[13].yBase = (ushort)(160 - ((CWidget.g_widgetProperties[21].height * CFont.g_fontCurrent.height) >> 1));
             CWidget.g_widgetProperties[13].height = (ushort)((CWidget.g_widgetProperties[21].height * CFont.g_fontCurrent.height) + 11);
 
-            Sprites.Sprites_LoadImage(CString.String_GenerateFilename("TITLE"), Screen.SCREEN_1, null);
+            Sprites.Sprites_LoadImage(CString.String_GenerateFilename("TITLE"), Screen.NO1, null);
 
             Gui.GUI_Mouse_Hide_Safe();
 
-            Gui.GUI_ClearScreen(Screen.SCREEN_0);
+            Gui.GUI_ClearScreen(Screen.NO0);
 
-            Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.SCREEN_1, Screen.SCREEN_0);
+            Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
 
             Gui.GUI_SetPaletteAnimated(Gfx.g_palette1, 30);
 
@@ -991,7 +991,7 @@ class CSharpDune
 
         CFile.File_ReadBlockFile("IBM.PAL", Gfx.g_palette1, 256 * 3);
 
-        Gui.GUI_ClearScreen(Screen.SCREEN_0);
+        Gui.GUI_ClearScreen(Screen.NO0);
 
         Sdl2Video.Video_SetPalette(Gfx.g_palette1, 0, 256);
 
@@ -1067,7 +1067,7 @@ class CSharpDune
 
                 Gui.GUI_Mouse_Hide_Safe();
 
-                Gfx.GFX_ClearBlock(Screen.SCREEN_0);
+                Gfx.GFX_ClearBlock(Screen.NO0);
 
                 Sprites.Sprites_LoadTiles();
 
@@ -1147,7 +1147,7 @@ class CSharpDune
                 }
             }
 
-            Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+            Gfx.GFX_Screen_SetActive(Screen.NO0);
 
             key = CWidget.GUI_Widget_HandleEvents(CWidget.g_widgetLinkedListHead);
 
@@ -1178,7 +1178,7 @@ class CSharpDune
                 CStructure.GameLoop_Structure();
                 CHouse.GameLoop_House();
 
-                Gui.GUI_DrawScreen(Screen.SCREEN_0);
+                Gui.GUI_DrawScreen(Screen.NO0);
             }
 
             Gui.GUI_DisplayText(null, 0);
@@ -1199,11 +1199,11 @@ class CSharpDune
 
         CWidget.Widget_SetCurrentWidget(0);
 
-        Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+        Gfx.GFX_Screen_SetActive(Screen.NO1);
 
-        Gfx.GFX_ClearScreen(Screen.SCREEN_1);
+        Gfx.GFX_ClearScreen(Screen.NO1);
 
-        Gui.GUI_Screen_FadeIn(CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetWidth, CWidget.g_curWidgetHeight, Screen.SCREEN_1, Screen.SCREEN_0);
+        Gui.GUI_Screen_FadeIn(CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetWidth, CWidget.g_curWidgetHeight, Screen.NO1, Screen.NO0);
     }
 
     /*
@@ -1234,7 +1234,7 @@ class CSharpDune
         unchecked { Mouse.g_mouseDisabled = (byte)-1; }
 
         Gfx.GFX_Init();
-        Gfx.GFX_ClearScreen(Screen.SCREEN_ACTIVE);
+        Gfx.GFX_ClearScreen(Screen.ACTIVE);
 
         CFont.Font_Select(CFont.g_fontNew8p);
 

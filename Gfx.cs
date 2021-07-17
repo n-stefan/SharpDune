@@ -7,11 +7,11 @@ namespace SharpDune
 {
 	enum Screen
 	{
-		SCREEN_0 = 0,
-		SCREEN_1 = 1,
-		SCREEN_2 = 2,
-		SCREEN_3 = 3,
-		SCREEN_ACTIVE = -1
+		NO0 = 0,
+		NO1 = 1,
+		NO2 = 2,
+		NO3 = 3,
+		ACTIVE = -1
 	}
 
 	class dirty_area
@@ -28,7 +28,7 @@ namespace SharpDune
         static readonly dirty_area s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
 		static readonly uint[] g_dirty_blocks = new uint[200];
 
-		static Screen s_screenActiveID = Screen.SCREEN_0;
+		static Screen s_screenActiveID = Screen.NO0;
 
 		const byte GFX_SCREEN_BUFFER_COUNT = 4;
 		static readonly ushort[] s_screenBufferSize = { /*0xFA00*/0xFF00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
@@ -69,18 +69,18 @@ namespace SharpDune
 		 */
 		internal static byte[] GFX_Screen_Get_ByIndex(Screen screenID)
 		{
-			if (screenID == Screen.SCREEN_ACTIVE)
+			if (screenID == Screen.ACTIVE)
 				screenID = s_screenActiveID;
 			Debug.Assert(screenID >= 0 && (byte)screenID < GFX_SCREEN_BUFFER_COUNT);
 			switch (screenID)
             {
-				case Screen.SCREEN_0:
+				case Screen.NO0:
 					return Sdl2Video.Video_GetFrameBuffer();
-				case Screen.SCREEN_1:
+				case Screen.NO1:
 					return s_screen1;
-				case Screen.SCREEN_2:
+				case Screen.NO2:
 					return s_screen2;
-				case Screen.SCREEN_3:
+				case Screen.NO3:
 					return s_screen3;
 				default:
 					throw new Exception($"ERROR: GFX_Screen_Get_ByIndex() parameter value '{screenID}' is invalid.");
@@ -89,8 +89,8 @@ namespace SharpDune
 
 		internal static void GFX_Screen_SetDirty(Screen screenID, ushort left, ushort top, ushort right, ushort bottom)
 		{
-			if (screenID == Screen.SCREEN_ACTIVE) screenID = s_screenActiveID;
-			if (screenID != Screen.SCREEN_0) return;
+			if (screenID == Screen.ACTIVE) screenID = s_screenActiveID;
+			if (screenID != Screen.NO0) return;
 			s_screen0_is_dirty = true;
 			if (left < s_screen0_dirty_area.left) s_screen0_dirty_area.left = left;
 			if (top < s_screen0_dirty_area.top) s_screen0_dirty_area.top = top;
@@ -125,10 +125,10 @@ namespace SharpDune
 			if (width > SCREEN_WIDTH - left) width = (ushort)(SCREEN_WIDTH - left);
 			if (height > SCREEN_HEIGHT - top) height = (ushort)(SCREEN_HEIGHT - top);
 
-			screen = GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+			screen = GFX_Screen_Get_ByIndex(Screen.NO0);
 			screenPointer += (ushort)(top * SCREEN_WIDTH + left);
 
-			GFX_Screen_SetDirty(Screen.SCREEN_0, (ushort)left, (ushort)top, (ushort)(left + width), (ushort)(top + height));
+			GFX_Screen_SetDirty(Screen.NO0, (ushort)left, (ushort)top, (ushort)(left + width), (ushort)(top + height));
 
 			while (height-- != 0)
 			{
@@ -165,7 +165,7 @@ namespace SharpDune
 			if (width > SCREEN_WIDTH - left) width = (ushort)(SCREEN_WIDTH - left);
 			if (height > SCREEN_HEIGHT - top) height = (ushort)(SCREEN_HEIGHT - top);
 
-			screen = GFX_Screen_Get_ByIndex(Screen.SCREEN_0);
+			screen = GFX_Screen_Get_ByIndex(Screen.NO0);
 			screenPointer += (ushort)(top * SCREEN_WIDTH + left);
 
 			while (height-- != 0)
@@ -184,7 +184,7 @@ namespace SharpDune
 		internal static Screen GFX_Screen_SetActive(Screen screenID)
 		{
 			var oldScreen = s_screenActiveID;
-			if (screenID != Screen.SCREEN_ACTIVE)
+			if (screenID != Screen.ACTIVE)
 			{
 				s_screenActiveID = screenID;
 			}
@@ -198,7 +198,7 @@ namespace SharpDune
 		*/
 		internal static bool GFX_Screen_IsActive(Screen screenID)
 		{
-			if (screenID == Screen.SCREEN_ACTIVE) return true;
+			if (screenID == Screen.ACTIVE) return true;
 			return (screenID == s_screenActiveID);
 		}
 
@@ -402,7 +402,7 @@ namespace SharpDune
 		 */
 		internal static ushort GFX_Screen_GetSize_ByIndex(Screen screenID)
 		{
-			if (screenID == Screen.SCREEN_ACTIVE)
+			if (screenID == Screen.ACTIVE)
 				screenID = s_screenActiveID;
 			Debug.Assert(screenID >= 0 && (byte)screenID < GFX_SCREEN_BUFFER_COUNT);
 			return s_screenBufferSize[(int)screenID];
@@ -435,11 +435,11 @@ namespace SharpDune
 			/* init g_paletteActive with invalid values so first GFX_SetPalette() will be ok */
 			Array.Fill<byte>(g_paletteActive, 0xff, 0, 3 * 256); //memset(g_paletteActive, 0xff, 3*256);
 
-			s_screen1 = new byte[s_screenBufferSize[(int)Screen.SCREEN_1] + s_screenBufferSize[(int)Screen.SCREEN_2] + s_screenBufferSize[(int)Screen.SCREEN_3]];
-			s_screen2 = new byte[s_screenBufferSize[(int)Screen.SCREEN_2] + s_screenBufferSize[(int)Screen.SCREEN_3]];
-			s_screen3 = new byte[s_screenBufferSize[(int)Screen.SCREEN_3]];
+			s_screen1 = new byte[s_screenBufferSize[(int)Screen.NO1] + s_screenBufferSize[(int)Screen.NO2] + s_screenBufferSize[(int)Screen.NO3]];
+			s_screen2 = new byte[s_screenBufferSize[(int)Screen.NO2] + s_screenBufferSize[(int)Screen.NO3]];
+			s_screen3 = new byte[s_screenBufferSize[(int)Screen.NO3]];
 
-			s_screenActiveID = Screen.SCREEN_0;
+			s_screenActiveID = Screen.NO0;
 		}
 
 		/*
@@ -589,22 +589,22 @@ namespace SharpDune
 
 		internal static bool GFX_Screen_IsDirty(Screen screenID)
 		{
-			if (screenID == Screen.SCREEN_ACTIVE) screenID = s_screenActiveID;
-			if (screenID != Screen.SCREEN_0) return true;
+			if (screenID == Screen.ACTIVE) screenID = s_screenActiveID;
+			if (screenID != Screen.NO0) return true;
 			return s_screen0_is_dirty;
 		}
 
 		internal static dirty_area GFX_Screen_GetDirtyArea(Screen screenID)
 		{
-			if (screenID == Screen.SCREEN_ACTIVE) screenID = s_screenActiveID;
-			if (screenID != Screen.SCREEN_0) return null;
+			if (screenID == Screen.ACTIVE) screenID = s_screenActiveID;
+			if (screenID != Screen.NO0) return null;
 			return s_screen0_dirty_area;
 		}
 
 		internal static void GFX_Screen_SetClean(Screen screenID)
 		{
-			if (screenID == Screen.SCREEN_ACTIVE) screenID = s_screenActiveID;
-			if (screenID != Screen.SCREEN_0) return;
+			if (screenID == Screen.ACTIVE) screenID = s_screenActiveID;
+			if (screenID != Screen.NO0) return;
 			s_screen0_is_dirty = false;
 			s_screen0_dirty_area.left = 0xffff;
 			s_screen0_dirty_area.top = 0xffff;

@@ -1211,7 +1211,7 @@ namespace SharpDune
             if (packed != 0xFFFF && packed == minimapPreviousPosition && !forceUpdate) return;
             if (CSharpDune.g_selectionType == (ushort)SelectionType.MENTAT) return;
 
-            oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+            oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
             cleared = false;
 
@@ -1260,10 +1260,10 @@ namespace SharpDune
                 }
             }
 
-            if (cleared && oldScreenID == Screen.SCREEN_0)
+            if (cleared && oldScreenID == Screen.NO0)
             {
                 Gui.GUI_Mouse_Hide_Safe();
-                Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.SCREEN_1, Screen.SCREEN_0);
+                Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
                 Gui.GUI_Mouse_Show_Safe();
             }
 

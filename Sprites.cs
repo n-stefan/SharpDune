@@ -305,7 +305,7 @@ namespace SharpDune
 			g_landscapeTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]];
 			g_wallTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_WALLS]];
 
-			Script.Script_LoadFromFile("UNIT.EMC", Script.g_scriptUnit, Script.g_scriptFunctionsUnit, Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2));
+			Script.Script_LoadFromFile("UNIT.EMC", Script.g_scriptUnit, Script.g_scriptFunctionsUnit, Gfx.GFX_Screen_Get_ByIndex(Screen.NO2));
 		}
 
 		/*
@@ -492,10 +492,10 @@ namespace SharpDune
 			string filename; //char[16];
 			var bufPointer = 0;
 
-			buf = Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_2);
+			buf = Gfx.GFX_Screen_Get_ByIndex(Screen.NO2);
 
 			g_fileRgnclkCPS = buf;
-			Sprites_LoadCPSFile("RGNCLK.CPS", Screen.SCREEN_2, null);
+			Sprites_LoadCPSFile("RGNCLK.CPS", Screen.NO2, null);
 			for (i = 0; i < 120; i++) Array.Copy(buf, 7688 + (i * 320), buf, i * 304, 304); //memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
 			bufPointer += 120 * 304;
 

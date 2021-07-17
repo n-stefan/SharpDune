@@ -14,25 +14,25 @@ namespace SharpDune
 		/*
 		 * Redraw the whole map.
 		 *
-		 * @param screenID To which screen we should draw the map. Can only be SCREEN_0 or SCREEN_1. Any non-zero is forced to SCREEN_1.
+		 * @param screenID To which screen we should draw the map. Can only be NO0 or NO1. Any non-zero is forced to NO1.
 		 */
 		internal static void GUI_Widget_Viewport_RedrawMap(Screen screenID)
 		{
-			var oldScreenID = Screen.SCREEN_1;
+			var oldScreenID = Screen.NO1;
 			ushort i;
 
-			if (screenID == Screen.SCREEN_0) oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+			if (screenID == Screen.NO0) oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
 			for (i = 0; i < 4096; i++) GUI_Widget_Viewport_DrawTile(i);
 
 			Map.Map_UpdateMinimapPosition(Gui.g_minimapPosition, true);
 
-			if (screenID != Screen.SCREEN_0) return;
+			if (screenID != Screen.NO0) return;
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 
 			Gui.GUI_Mouse_Hide_InWidget(3);
-			Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.SCREEN_1, Screen.SCREEN_0);
+			Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
 			Gui.GUI_Mouse_Show_InWidget();
 		}
 
@@ -152,7 +152,7 @@ namespace SharpDune
 			{
 				x *= (ushort)(CScenario.g_scenario.mapScale + 1);
 				y *= (ushort)(CScenario.g_scenario.mapScale + 1);
-				Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID], (short)x, (short)y, 3, Gui.DRAWSPRITE_FLAG_WIDGETPOS);
+				Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)x, (short)y, 3, Gui.DRAWSPRITE_FLAG_WIDGETPOS);
 			}
 			else
 			{
@@ -221,7 +221,7 @@ namespace SharpDune
 			Array.Fill<short>(minX, 0xF, 0, minX.Length); //memset(minX, 0xF, sizeof(minX));
 			//Array.Fill<short>(maxX, 0,   0, minX.Length); //memset(maxX, 0,   sizeof(minX));
 
-			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
 			oldWidgetID = CWidget.Widget_SetCurrentWidget(2);
 
@@ -300,19 +300,19 @@ namespace SharpDune
 
 				if (Map.Map_IsPositionInViewport(u.o.position, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+					Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
 				}
 				if (Map.Map_IsPositionInViewport(u.targetLast, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+					Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
 				}
 				if (Map.Map_IsPositionInViewport(u.targetPreLast, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+					Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
 				}
 				if (u == CUnit.g_unitSelected && Map.Map_IsPositionInViewport(u.o.position, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[6], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[6], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
 				}
 			}
 
@@ -421,11 +421,11 @@ namespace SharpDune
 					if (GUI_Widget_Viewport_GetSprite_HousePalette(Sprites.g_sprites[index], (u.deviated != 0) ? u.deviatedHouse : CUnit.Unit_GetHouseID(u), paletteHouse))
 					{
 						spriteFlags |= Gui.DRAWSPRITE_FLAG_PAL;
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[index], (short)x, (short)y, 2, spriteFlags, paletteHouse, Gfx.g_paletteMapping2, (short)1);
+						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[index], (short)x, (short)y, 2, spriteFlags, paletteHouse, Gfx.g_paletteMapping2, (short)1);
 					}
 					else
 					{
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[index], (short)x, (short)y, 2, spriteFlags, Gfx.g_paletteMapping2, 1);
+						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[index], (short)x, (short)y, 2, spriteFlags, Gfx.g_paletteMapping2, 1);
 					}
 
 					if (u.o.type == (byte)UnitType.UNIT_HARVESTER && u.actionID == (byte)ActionType.ACTION_HARVEST && u.spriteOffset >= 0 && (u.actionID == (byte)ActionType.ACTION_HARVEST || u.actionID == (byte)ActionType.ACTION_MOVE))
@@ -434,7 +434,7 @@ namespace SharpDune
 						if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE)
 						{
 							/*GUI_Widget_Viewport_GetSprite_HousePalette(..., Unit_GetHouseID(u), paletteHouse),*/
-							Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE,
+							Gui.GUI_DrawSprite(Screen.ACTIVE,
 										   Sprites.g_sprites[(u.spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3)],
 										   (short)(x + values_334E[orientation][0]), (short)(y + values_334E[orientation][1]),
 										   2, values_32A4[orientation][1] | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
@@ -481,13 +481,13 @@ namespace SharpDune
 
 						if (GUI_Widget_Viewport_GetSprite_HousePalette(Sprites.g_sprites[spriteID], CUnit.Unit_GetHouseID(u), paletteHouse))
 						{
-							Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID],
+							Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID],
 										   (short)(x + offsetX), (short)(y + offsetY),
 										   2, values_32A4[orientation][1] | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER | Gui.DRAWSPRITE_FLAG_PAL, paletteHouse);
 						}
 						else
 						{
-							Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID],
+							Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID],
 										   (short)(x + offsetX), (short)(y + offsetY),
 										   2, values_32A4[orientation][1] | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
 						}
@@ -498,12 +498,12 @@ namespace SharpDune
 						var spriteID = (ushort)(180 + (u.spriteOffset & 3));
 						if (spriteID == 183) spriteID = 181;
 
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[spriteID], (short)x, (short)(y - 14), 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)x, (short)(y - 14), 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
 					}
 
 					if (u != CUnit.g_unitSelected) continue;
 
-					Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[6], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[6], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
 				}
 
 				CUnit.g_dirtyUnitCount = 0;
@@ -528,7 +528,7 @@ namespace SharpDune
 				if (!Map.Map_IsPositionInViewport(e.position, out x, out y)) continue;
 
 				/*GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[e->spriteID], e->houseID, paletteHouse);*/
-				Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, Sprites.g_sprites[e.spriteID], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER/*, paletteHouse*/);
+				Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[e.spriteID], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER/*, paletteHouse*/);
 			}
 
 			/* draw air units */
@@ -611,17 +611,17 @@ namespace SharpDune
 
 					if (ui.o.flags.hasShadow)
 					{
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, sprite, (short)(x + 1), (short)(y + 3), 2, (spriteFlags & ~Gui.DRAWSPRITE_FLAG_PAL) | Gui.DRAWSPRITE_FLAG_REMAP | Gui.DRAWSPRITE_FLAG_BLUR, Gfx.g_paletteMapping1, (short)1);
+						Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(x + 1), (short)(y + 3), 2, (spriteFlags & ~Gui.DRAWSPRITE_FLAG_PAL) | Gui.DRAWSPRITE_FLAG_REMAP | Gui.DRAWSPRITE_FLAG_BLUR, Gfx.g_paletteMapping1, (short)1);
 					}
 					if (ui.o.flags.blurTile) spriteFlags |= Gui.DRAWSPRITE_FLAG_BLUR;
 
 					if (GUI_Widget_Viewport_GetSprite_HousePalette(sprite, CUnit.Unit_GetHouseID(u), paletteHouse))
 					{
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags | Gui.DRAWSPRITE_FLAG_PAL, paletteHouse);
+						Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags | Gui.DRAWSPRITE_FLAG_PAL, paletteHouse);
 					}
 					else
 					{
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags);
+						Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags);
 					}
 				}
 
@@ -640,7 +640,7 @@ namespace SharpDune
 				var update = false;
 				ushort minY = 0xffff;
 				ushort maxY = 0;
-				var oldScreenID2 = Screen.SCREEN_1;
+				var oldScreenID2 = Screen.NO1;
 
 				for (i = 0; i < Map.g_changedTilesCount; i++)
 				{
@@ -651,7 +651,7 @@ namespace SharpDune
 					{
 						init = true;
 
-						oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
+						oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
 						Gui.GUI_Mouse_Hide_InWidget(3);
 					}
@@ -677,7 +677,7 @@ namespace SharpDune
 						maxY = (ushort)(63 - CScenario.g_scenario.mapScale);
 					}
 					/* MiniMap : redraw only line that changed */
-					if (minY < maxY) Gui.GUI_Screen_Copy(32, (short)(136 + minY), 32, (short)(136 + minY), 8, (short)(maxY + 1 + CScenario.g_scenario.mapScale - minY), Screen.SCREEN_ACTIVE, Screen.SCREEN_0);
+					if (minY < maxY) Gui.GUI_Screen_Copy(32, (short)(136 + minY), 32, (short)(136 + minY), 8, (short)(maxY + 1 + CScenario.g_scenario.mapScale - minY), Screen.ACTIVE, Screen.NO0);
 
 					Gfx.GFX_Screen_SetActive(oldScreenID2);
 
@@ -717,12 +717,12 @@ namespace SharpDune
 					/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 					if (CSharpDune.g_dune2_enhanced)
 					{
-						var oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+						var oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.NO0);
 						Gui.GUI_DrawFilledRectangle((short)(CWidget.g_curWidgetXBase << 3), (short)CWidget.g_curWidgetYBase, (short)((CWidget.g_curWidgetXBase + CWidget.g_curWidgetWidth) << 3), (short)(CWidget.g_curWidgetYBase + CWidget.g_curWidgetHeight), 0);
 						Gfx.GFX_Screen_SetActive(oldScreenID2);
 					}
 
-					Gui.GUI_Screen_FadeIn(CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetWidth, CWidget.g_curWidgetHeight, Screen.SCREEN_ACTIVE, Screen.SCREEN_0);
+					Gui.GUI_Screen_FadeIn(CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetWidth, CWidget.g_curWidgetHeight, Screen.ACTIVE, Screen.NO0);
 					Gui.GUI_Mouse_Show_InWidget();
 
 					CSharpDune.g_viewport_fadein = false;
@@ -756,7 +756,7 @@ namespace SharpDune
 							init = true;
 						}
 
-						Gui.GUI_Screen_Copy((short)x, (short)y, (short)x, (short)y, (short)width, (short)height, Screen.SCREEN_ACTIVE, Screen.SCREEN_0);
+						Gui.GUI_Screen_Copy((short)x, (short)y, (short)x, (short)y, (short)width, (short)height, Screen.ACTIVE, Screen.NO0);
 					}
 
 					if (init) Gui.GUI_Mouse_Show_InWidget();

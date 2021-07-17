@@ -845,7 +845,7 @@ namespace SharpDune
 			positionBottom = (ushort)(positionTop + w.height - 1);
 
 			Debug.Assert(drawMode < (ushort)DrawMode.DRAW_MODE_MAX);
-			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Hide_InRegion(positionLeft, positionTop, positionRight, positionBottom);
 			}
@@ -856,7 +856,7 @@ namespace SharpDune
 
 				case (ushort)DrawMode.DRAW_MODE_SPRITE:
 					{
-						Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, drawParam.sprite, (short)offsetX, (short)offsetY, w.parentID, Gui.DRAWSPRITE_FLAG_REMAP | Gui.DRAWSPRITE_FLAG_WIDGETPOS, Gui.g_remap, (short)1);
+						Gui.GUI_DrawSprite(Screen.ACTIVE, drawParam.sprite, (short)offsetX, (short)offsetY, w.parentID, Gui.DRAWSPRITE_FLAG_REMAP | Gui.DRAWSPRITE_FLAG_WIDGETPOS, Gui.g_remap, (short)1);
 					}
 					break;
 
@@ -892,7 +892,7 @@ namespace SharpDune
 					break;
 			}
 
-			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Show_InRegion();
 			}
@@ -906,16 +906,16 @@ namespace SharpDune
 		 */
 		static void GUI_Widget_DrawBlocked(Widget w, byte colour)
 		{
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Hide_InRegion((ushort)w.offsetX, (ushort)w.offsetY, (ushort)(w.offsetX + w.width), (ushort)(w.offsetY + w.height));
 			}
 
-			Gui.GUI_DrawSprite(Screen.SCREEN_ACTIVE, w.drawParameterNormal.sprite, w.offsetX, w.offsetY, w.parentID, 0);
+			Gui.GUI_DrawSprite(Screen.ACTIVE, w.drawParameterNormal.sprite, w.offsetX, w.offsetY, w.parentID, 0);
 
 			Gui.GUI_DrawBlockedRectangle(w.offsetX, w.offsetY, (short)w.width, (short)w.height, colour);
 
-			if (Gfx.GFX_Screen_IsActive(Screen.SCREEN_0))
+			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
 			{
 				Gui.GUI_Mouse_Show_InRegion();
 			}

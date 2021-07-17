@@ -34,7 +34,7 @@ namespace SharpDune
 			Mentat.GUI_Mentat_Display(wsaHouseFilename, (byte)CHouse.g_playerHouseID);
 
 			Gui.GUI_Mouse_Hide_Safe();
-			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.SCREEN_1, Screen.SCREEN_0);
+			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
 			Gui.GUI_Mouse_Show_Safe();
 
 			Gui.GUI_SetPaletteAnimated(Gfx.g_palette1, 15);
@@ -48,7 +48,7 @@ namespace SharpDune
 
 			oldCurrentWidget = CWidget.Widget_SetCurrentWidget(8);
 
-			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_2);
+			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO2);
 
 			for (i = 0, valid = false; i < 3 && !valid; i++)
 			{
@@ -62,14 +62,14 @@ namespace SharpDune
 
 				CWidget.Widget_SetCurrentWidget(8);
 
-				wsa = Wsa.WSA_LoadFile(CString.String_Get_ByIndex((ushort)(questionIndex + 1)), Gfx.GFX_Screen_Get_ByIndex(Screen.SCREEN_1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.SCREEN_1), false);
-				Wsa.WSA_DisplayFrame(wsa, 0, (ushort)(CWidget.g_curWidgetXBase << 3), CWidget.g_curWidgetYBase, Screen.SCREEN_2);
+				wsa = Wsa.WSA_LoadFile(CString.String_Get_ByIndex((ushort)(questionIndex + 1)), Gfx.GFX_Screen_Get_ByIndex(Screen.NO1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO1), false);
+				Wsa.WSA_DisplayFrame(wsa, 0, (ushort)(CWidget.g_curWidgetXBase << 3), CWidget.g_curWidgetYBase, Screen.NO2);
 				Wsa.WSA_Unload(wsa);
 
-				Gui.GUI_DrawSprite(Screen.SCREEN_2, Sprites.g_sprites[397 + (byte)CHouse.g_playerHouseID * 15], Mentat.g_shoulderLeft, Mentat.g_shoulderTop, 0, 0);
+				Gui.GUI_DrawSprite(Screen.NO2, Sprites.g_sprites[397 + (byte)CHouse.g_playerHouseID * 15], Mentat.g_shoulderLeft, Mentat.g_shoulderTop, 0, 0);
 
 				Gui.GUI_Mouse_Hide_InWidget(CWidget.g_curWidgetIndex);
-				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.SCREEN_2, Screen.SCREEN_0);
+				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO2, Screen.NO0);
 				Gui.GUI_Mouse_Show_InWidget();
 
 				question = CString.String_Get_ByIndex(questionIndex);
@@ -81,10 +81,10 @@ namespace SharpDune
 				CWidget.Widget_SetCurrentWidget(9);
 
 				Gui.GUI_Mouse_Hide_Safe();
-				Gui.GUI_Screen_Copy((short)(CWidget.g_curWidgetXBase - 1), (short)(CWidget.g_curWidgetYBase - 8), 0, 0, (short)(CWidget.g_curWidgetWidth + 2), (short)(CWidget.g_curWidgetHeight + 16), Screen.SCREEN_0, Screen.SCREEN_2);
+				Gui.GUI_Screen_Copy((short)(CWidget.g_curWidgetXBase - 1), (short)(CWidget.g_curWidgetYBase - 8), 0, 0, (short)(CWidget.g_curWidgetWidth + 2), (short)(CWidget.g_curWidgetHeight + 16), Screen.NO0, Screen.NO2);
 				Gui.GUI_Mouse_Show_Safe();
 
-				Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+				Gfx.GFX_Screen_SetActive(Screen.NO0);
 
 				Gui.GUI_Mouse_Hide_Safe();
 				Gui.GUI_DrawBorder((ushort)((CWidget.g_curWidgetXBase << 3) - 6), (ushort)(CWidget.g_curWidgetYBase - 6), (ushort)((CWidget.g_curWidgetWidth << 3) + 12), (ushort)(CWidget.g_curWidgetHeight + 12), 1, true);
@@ -107,7 +107,7 @@ namespace SharpDune
 				GUI_Security_UndrawText();
 
 				Gui.GUI_Mouse_Hide_Safe();
-				Gui.GUI_Screen_Copy(0, 0, (short)(CWidget.g_curWidgetXBase - 1), (short)(CWidget.g_curWidgetYBase - 8), (short)(CWidget.g_curWidgetWidth + 2), (short)(CWidget.g_curWidgetHeight + 16), Screen.SCREEN_2, Screen.SCREEN_0);
+				Gui.GUI_Screen_Copy(0, 0, (short)(CWidget.g_curWidgetXBase - 1), (short)(CWidget.g_curWidgetYBase - 8), (short)(CWidget.g_curWidgetWidth + 2), (short)(CWidget.g_curWidgetHeight + 16), Screen.NO2, Screen.NO0);
 				Gui.GUI_Mouse_Show_Safe();
 
 				GUI_Security_NormaliseText(ref buffer);
@@ -172,20 +172,20 @@ namespace SharpDune
 		{
 			Screen oldScreenID;
 
-			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_2);
+			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO2);
 
 			Gui.GUI_Mouse_Hide_InRegion(0, 0, Gfx.SCREEN_WIDTH, 40);
-			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, 40, Screen.SCREEN_0, Screen.SCREEN_2);
+			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, 40, Screen.NO0, Screen.NO2);
 			Gui.GUI_Mouse_Show_InRegion();
 
-			Gui.GUI_Screen_Copy(0, 0, 0, 160, Gfx.SCREEN_WIDTH / 8, 40, Screen.SCREEN_2, Screen.SCREEN_2);
+			Gui.GUI_Screen_Copy(0, 0, 0, 160, Gfx.SCREEN_WIDTH / 8, 40, Screen.NO2, Screen.NO2);
 
 			var parts/*(parts, _)*/ = Mentat.GUI_Mentat_SplitText(text, 304);
 
 			Gui.GUI_DrawText_Wrapper(parts[0], 4, 1, CWidget.g_curWidgetFGColourBlink, 0, 0x32);
 
 			Gui.GUI_Mouse_Hide_InRegion(0, 0, Gfx.SCREEN_WIDTH, 40);
-			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, 40, Screen.SCREEN_2, Screen.SCREEN_0);
+			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, 40, Screen.NO2, Screen.NO0);
 			Gui.GUI_Mouse_Show_InRegion();
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
@@ -194,7 +194,7 @@ namespace SharpDune
 		static void GUI_Security_UndrawText()
 		{
 			Gui.GUI_Mouse_Hide_Safe();
-			Gui.GUI_Screen_Copy(0, 160, 0, 0, Gfx.SCREEN_WIDTH / 8, 40, Screen.SCREEN_2, Screen.SCREEN_0);
+			Gui.GUI_Screen_Copy(0, 160, 0, 0, Gfx.SCREEN_WIDTH / 8, 40, Screen.NO2, Screen.NO0);
 			Gui.GUI_Mouse_Show_Safe();
 		}
 

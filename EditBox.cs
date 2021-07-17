@@ -63,7 +63,7 @@ namespace SharpDune
 				Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
 				Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
 
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_0);
+				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO0);
 
 				oldWidgetID = CWidget.Widget_SetCurrentWidget(widgetID);
 

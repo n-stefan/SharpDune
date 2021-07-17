@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU</Platforms>
     <LangVersion>preview</LangVersion>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
