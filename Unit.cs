@@ -2261,7 +2261,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_ATTACK,
 				name = "Attack",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_TARGET,
+				selectionType = (ushort)SelectionType.TARGET,
 				soundID = 21
 			},
 
@@ -2269,7 +2269,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_MOVE,
 				name = "Move",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_TARGET,
+				selectionType = (ushort)SelectionType.TARGET,
 				soundID = 22
 			},
 
@@ -2277,7 +2277,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_RETREAT,
 				name = "Retreat",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 21
 			},
 
@@ -2285,7 +2285,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_GUARD,
 				name = "Guard",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 21
 			},
 
@@ -2293,7 +2293,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_AREA_GUARD,
 				name = "Area Guard",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 20
 			},
 
@@ -2301,7 +2301,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_HARVEST,
 				name = "Harvest",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_TARGET,
+				selectionType = (ushort)SelectionType.TARGET,
 				soundID = 20
 			},
 
@@ -2309,7 +2309,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_RETURN,
 				name = "Return",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 21
 			},
 
@@ -2317,7 +2317,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_STOP2,
 				name = "Stop",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 21
 			},
 
@@ -2325,7 +2325,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_AMBUSH,
 				name = "Ambush",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 20
 			},
 
@@ -2333,7 +2333,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_SABOTAGE,
 				name = "Sabotage",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 20
 			},
 
@@ -2341,7 +2341,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_DIE,
 				name = "Die",
 				switchType = 1,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 0xFFFF
 			},
 
@@ -2349,7 +2349,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_HUNT,
 				name = "Hunt",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 20
 			},
 
@@ -2357,7 +2357,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_DEPLOY,
 				name = "Deploy",
 				switchType = 0,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 20
 			},
 
@@ -2365,7 +2365,7 @@ namespace SharpDune
 				stringID = (ushort)Text.STR_DESTRUCT,
 				name = "Destruct",
 				switchType = 1,
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_UNIT,
+				selectionType = (ushort)SelectionType.UNIT,
 				soundID = 20
 			}
 		};
@@ -2443,7 +2443,7 @@ namespace SharpDune
 			{
 				g_unitSelected = null;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_STRUCTURE);
+				Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 				return;
 			}
 
@@ -2472,7 +2472,7 @@ namespace SharpDune
 				Unit_DisplayStatusText(unit);
 				g_unitSelected = unit;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_UNIT);
+				Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
 			}
 
 			Unit_UpdateMap(2, g_unitSelected);
@@ -2734,7 +2734,7 @@ namespace SharpDune
 				}
 			}
 
-			if (houseID == (byte)CHouse.g_playerHouseID && CSharpDune.g_selectionType != (ushort)SelectionType.SELECTIONTYPE_MENTAT)
+			if (houseID == (byte)CHouse.g_playerHouseID && CSharpDune.g_selectionType != (ushort)SelectionType.MENTAT)
 			{
 				if (unit.o.type == (byte)UnitType.UNIT_SANDWORM)
 				{
@@ -3472,12 +3472,12 @@ namespace SharpDune
 
 			if (unit != g_unitSelected) return;
 
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_TARGET)
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.TARGET)
 			{
 				g_unitActive = null;
 				CSharpDune.g_activeAction = 0xFFFF;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_STRUCTURE);
+				Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 			}
 
 			Unit_Select(null);
@@ -4771,7 +4771,7 @@ namespace SharpDune
 				return;
 			}
 
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_STRUCTURE);
+			Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 		}
 
 		/*
@@ -5554,7 +5554,7 @@ namespace SharpDune
 		{
 			byte i;
 
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE) return packed;
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE) return packed;
 
 			if (CStructure.Structure_Get_ByPackedTile(packed) != null) return packed;
 

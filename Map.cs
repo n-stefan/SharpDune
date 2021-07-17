@@ -724,9 +724,9 @@ namespace SharpDune
          */
         internal static void Map_SetSelection(ushort packed)
         {
-            if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_TARGET) return;
+            if (CSharpDune.g_selectionType == (ushort)SelectionType.TARGET) return;
 
-            if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
+            if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
             {
                 Gui.g_selectionState = CStructure.Structure_IsValidBuildLocation(packed, (StructureType)CStructure.g_structureActiveType);
                 Gui.g_selectionPosition = packed;
@@ -743,7 +743,7 @@ namespace SharpDune
                     StructureInfo si;
 
                     si = CStructure.g_table_structureInfo[s.o.type];
-                    if (s.o.houseID == (byte)CHouse.g_playerHouseID && CSharpDune.g_selectionType != (ushort)SelectionType.SELECTIONTYPE_MENTAT)
+                    if (s.o.houseID == (byte)CHouse.g_playerHouseID && CSharpDune.g_selectionType != (ushort)SelectionType.MENTAT)
                     {
                         Gui.GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
                     }
@@ -759,7 +759,7 @@ namespace SharpDune
                     Map_SetSelectionSize((ushort)StructureLayout.STRUCTURE_LAYOUT_1x1);
                 }
 
-                if (CSharpDune.g_selectionType != (ushort)SelectionType.SELECTIONTYPE_TARGET)
+                if (CSharpDune.g_selectionType != (ushort)SelectionType.TARGET)
                 {
                     Unit u;
 
@@ -1209,7 +1209,7 @@ namespace SharpDune
             Screen oldScreenID;
 
             if (packed != 0xFFFF && packed == minimapPreviousPosition && !forceUpdate) return;
-            if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_MENTAT) return;
+            if (CSharpDune.g_selectionType == (ushort)SelectionType.MENTAT) return;
 
             oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
 

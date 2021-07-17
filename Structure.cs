@@ -3631,7 +3631,7 @@ namespace SharpDune
                         /* Give the user 7 seconds to select their target */
                         CHouse.g_houseMissileCountdown = 7;
 
-                        Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_TARGET);
+                        Gui.GUI_ChangeSelectionType((ushort)SelectionType.TARGET);
                     }
                     break;
 
@@ -3959,7 +3959,7 @@ namespace SharpDune
 
                     Buffer.BlockCopy(Gfx.g_paletteActive, 0, Gfx.g_palette1, 0, 256 * 3); //memmove(g_palette1, g_paletteActive, 256 * 3);
 
-                    Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_MENTAT);
+                    Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
                     Timer.Timer_SetTimer(TimerType.TIMER_GAME, false);
 
@@ -3971,7 +3971,7 @@ namespace SharpDune
 
                     Gfx.GFX_SetPalette(Gfx.g_palette1);
 
-                    Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_STRUCTURE);
+                    Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 
                     if (res == FactoryResult.FACTORY_RESUME) return false;
 

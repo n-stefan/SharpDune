@@ -380,7 +380,7 @@ namespace SharpDune
 				CStructure.g_structureActive = null;
 				CStructure.g_structureActiveType = 0xFFFF;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_STRUCTURE);
+				Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 
 				Gui.g_selectionState = 0; /* Invalid. */
 			}
@@ -393,7 +393,7 @@ namespace SharpDune
 
 			Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[0]);
 
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_UNIT);
+			Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
 
 			return true;
 		}
@@ -426,7 +426,7 @@ namespace SharpDune
 						CStructure.g_structureActivePosition = Gui.g_selectionPosition;
 						s.o.linkedID = (byte)StructureType.STRUCTURE_INVALID;
 
-						Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_PLACE);
+						Gui.GUI_ChangeSelectionType((ushort)SelectionType.PLACE);
 					}
 					break;
 

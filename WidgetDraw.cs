@@ -497,7 +497,7 @@ namespace SharpDune
 			Structure s = null;
 			Unit u = null;
 
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
 			{
 				if (displayedActionType != 7 || forceDraw) actionType = 7; /* Placement */
 			}
@@ -507,7 +507,7 @@ namespace SharpDune
 			}
 			else if (CUnit.g_unitSelected != null)
 			{
-				if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_TARGET)
+				if (CSharpDune.g_selectionType == (ushort)SelectionType.TARGET)
 				{
 					var activeAction = CSharpDune.g_activeAction;
 

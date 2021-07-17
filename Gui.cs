@@ -17,16 +17,16 @@ namespace SharpDune
 	 */
     enum SelectionType
 	{
-		SELECTIONTYPE_MENTAT = 0,                               /*!< Used in most mentat screens. */
-		SELECTIONTYPE_TARGET = 1,                               /*!< Used when attacking or moving a unit, the target screen. */
-		SELECTIONTYPE_PLACE = 2,                                /*!< Used when placing a structure. */
-		SELECTIONTYPE_UNIT = 3,                                 /*!< Used when selecting a Unit. */
-		SELECTIONTYPE_STRUCTURE = 4,                            /*!< Used when selecting a Structure or nothing. */
-		SELECTIONTYPE_DEBUG = 5,                                /*!< Used when debugging scenario. */
-		SELECTIONTYPE_UNKNOWN6 = 6,                             /*!< ?? */
-		SELECTIONTYPE_INTRO = 7,                                /*!< Used in intro of the game. */
+		MENTAT = 0,                               /*!< Used in most mentat screens. */
+		TARGET = 1,                               /*!< Used when attacking or moving a unit, the target screen. */
+		PLACE = 2,                                /*!< Used when placing a structure. */
+		UNIT = 3,                                 /*!< Used when selecting a Unit. */
+		STRUCTURE = 4,                            /*!< Used when selecting a Structure or nothing. */
+		DEBUG = 5,                                /*!< Used when debugging scenario. */
+		UNKNOWN6 = 6,                             /*!< ?? */
+		INTRO = 7,                                /*!< Used in intro of the game. */
 
-		SELECTIONTYPE_MAX = 8
+		MAX = 8
 	}
 
 	/*
@@ -954,12 +954,12 @@ namespace SharpDune
 		{
 			Screen oldScreenID;
 
-			if (selectionType == (ushort)SelectionType.SELECTIONTYPE_UNIT && CUnit.g_unitSelected == null)
+			if (selectionType == (ushort)SelectionType.UNIT && CUnit.g_unitSelected == null)
 			{
-				selectionType = (ushort)SelectionType.SELECTIONTYPE_STRUCTURE;
+				selectionType = (ushort)SelectionType.STRUCTURE;
 			}
 
-			if (selectionType == (ushort)SelectionType.SELECTIONTYPE_STRUCTURE && CUnit.g_unitSelected != null)
+			if (selectionType == (ushort)SelectionType.STRUCTURE && CUnit.g_unitSelected != null)
 			{
 				CUnit.g_unitSelected = null;
 			}
@@ -978,18 +978,18 @@ namespace SharpDune
 
 				switch (oldSelectionType)
 				{
-					case (ushort)SelectionType.SELECTIONTYPE_PLACE:
-					case (ushort)SelectionType.SELECTIONTYPE_TARGET:
-					case (ushort)SelectionType.SELECTIONTYPE_STRUCTURE:
-						if (oldSelectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
+					case (ushort)SelectionType.PLACE:
+					case (ushort)SelectionType.TARGET:
+					case (ushort)SelectionType.STRUCTURE:
+						if (oldSelectionType == (ushort)SelectionType.PLACE)
 							Map.Map_SetSelection(CStructure.g_structureActivePosition);
 
 						g_cursorDefaultSpriteID = 0;
 						GUI_DisplayText(null, -1);
 						break;
 
-					case (ushort)SelectionType.SELECTIONTYPE_UNIT:
-						if (CUnit.g_unitSelected != null && selectionType != (ushort)SelectionType.SELECTIONTYPE_TARGET && selectionType != (ushort)SelectionType.SELECTIONTYPE_UNIT)
+					case (ushort)SelectionType.UNIT:
+						if (CUnit.g_unitSelected != null && selectionType != (ushort)SelectionType.TARGET && selectionType != (ushort)SelectionType.UNIT)
 						{
 							CUnit.Unit_UpdateMap(2, CUnit.g_unitSelected);
 							CUnit.g_unitSelected = null;
@@ -1015,7 +1015,7 @@ namespace SharpDune
 					WidgetDraw.GUI_Widget_DrawBorder(CWidget.g_curWidgetIndex, 0, false);
 				}
 
-				if (selectionType != (ushort)SelectionType.SELECTIONTYPE_MENTAT)
+				if (selectionType != (ushort)SelectionType.MENTAT)
 				{
 					var w = CWidget.g_widgetLinkedListHead;
 
@@ -1046,8 +1046,8 @@ namespace SharpDune
 
 				switch (CSharpDune.g_selectionType)
 				{
-					case (ushort)SelectionType.SELECTIONTYPE_MENTAT:
-						if (oldSelectionType != (ushort)SelectionType.SELECTIONTYPE_INTRO)
+					case (ushort)SelectionType.MENTAT:
+						if (oldSelectionType != (ushort)SelectionType.INTRO)
 						{
 							g_cursorSpriteID = 0;
 
@@ -1057,7 +1057,7 @@ namespace SharpDune
 						CWidget.Widget_SetCurrentWidget(g_table_selectionType[selectionType].defaultWidget);
 						break;
 
-					case (ushort)SelectionType.SELECTIONTYPE_TARGET:
+					case (ushort)SelectionType.TARGET:
 						CStructure.g_structureActivePosition = g_selectionPosition;
 						WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
 
@@ -1066,7 +1066,7 @@ namespace SharpDune
 						Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
 						break;
 
-					case (ushort)SelectionType.SELECTIONTYPE_PLACE:
+					case (ushort)SelectionType.PLACE:
 						CUnit.Unit_Select(null);
 						WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
 
@@ -1075,13 +1075,13 @@ namespace SharpDune
 						Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
 						break;
 
-					case (ushort)SelectionType.SELECTIONTYPE_UNIT:
+					case (ushort)SelectionType.UNIT:
 						WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
 
 						Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
 						break;
 
-					case (ushort)SelectionType.SELECTIONTYPE_STRUCTURE:
+					case (ushort)SelectionType.STRUCTURE:
 						WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
 
 						Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
@@ -1159,7 +1159,7 @@ namespace SharpDune
 			uint mask;
 			ushort hint;
 
-			if (CSharpDune.g_debugGame || stringID == (ushort)Text.STR_NULL || Config.g_gameConfig.hints == 0 || CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_MENTAT) return 0;
+			if (CSharpDune.g_debugGame || stringID == (ushort)Text.STR_NULL || Config.g_gameConfig.hints == 0 || CSharpDune.g_selectionType == (ushort)SelectionType.MENTAT) return 0;
 
 			hint = (ushort)(stringID - Text.STR_YOU_MUST_BUILD_A_WINDTRAP_TO_PROVIDE_POWER_TO_YOUR_BASE_WITHOUT_POWER_YOUR_STRUCTURES_WILL_DECAY);
 
@@ -2491,7 +2491,7 @@ namespace SharpDune
 				timerAnimation = Timer.g_timerGUI + 60;
 			}
 
-			if (timerSelection < Timer.g_timerGUI && CSharpDune.g_selectionType != (ushort)SelectionType.SELECTIONTYPE_MENTAT)
+			if (timerSelection < Timer.g_timerGUI && CSharpDune.g_selectionType != (ushort)SelectionType.MENTAT)
 			{
 				/* selection color */
 				GUI_Palette_ShiftColour(Gfx.g_palette1, 255, selectionStateColour);
@@ -2504,7 +2504,7 @@ namespace SharpDune
 					{
 						selectionStateColour = 15;
 
-						if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
+						if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
 						{
 							if (g_selectionState != 0)
 							{
@@ -2809,10 +2809,10 @@ namespace SharpDune
 			Screen oldScreenID;
 			ushort xpos;
 
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_MENTAT) return;
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_DEBUG) return;
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_UNKNOWN6) return;
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_INTRO) return;
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.MENTAT) return;
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.DEBUG) return;
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.UNKNOWN6) return;
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.INTRO) return;
 
 			oldScreenID = Gfx.GFX_Screen_SetActive(screenID);
 
@@ -3216,11 +3216,11 @@ namespace SharpDune
 
 			switch ((Language)Config.g_config.language)
 			{
-				case Language.LANGUAGE_GERMAN:
+				case Language.GERMAN:
 					GUI_Screen_Copy(1, 120, 1, 0, 38, 24, Screen.SCREEN_2, Screen.SCREEN_2);
 					break;
 
-				case Language.LANGUAGE_FRENCH:
+				case Language.FRENCH:
 					GUI_Screen_Copy(1, 96, 1, 0, 38, 24, Screen.SCREEN_2, Screen.SCREEN_2);
 					break;
 
@@ -3535,7 +3535,7 @@ namespace SharpDune
 
 			GUI_Mouse_Hide_Safe();
 
-			GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_MENTAT);
+			GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
 			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.SCREEN_1);
 
@@ -4172,7 +4172,7 @@ namespace SharpDune
 
 				if (data[i].score == 0) break;
 
-				if (Config.g_config.language == (byte)Language.LANGUAGE_FRENCH)
+				if (Config.g_config.language == (byte)Language.FRENCH)
 				{
 					p1 = CString.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 					p2 = CHouse.g_table_houseInfo[data[i].houseID].name;

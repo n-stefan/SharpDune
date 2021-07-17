@@ -316,7 +316,7 @@ namespace SharpDune
 				}
 			}
 
-			if (CUnit.g_unitSelected == null && (Map.g_selectionRectangleNeedRepaint || hasScrolled) && (CStructure.Structure_Get_ByPackedTile(Gui.g_selectionRectanglePosition) != null || CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE || CSharpDune.g_debugScenario))
+			if (CUnit.g_unitSelected == null && (Map.g_selectionRectangleNeedRepaint || hasScrolled) && (CStructure.Structure_Get_ByPackedTile(Gui.g_selectionRectanglePosition) != null || CSharpDune.g_selectionType == (ushort)SelectionType.PLACE || CSharpDune.g_debugScenario))
 			{
 				var x1 = (ushort)((CTile.Tile_GetPackedX(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedX(Gui.g_minimapPosition)) << 4);
 				var y1 = (ushort)(((CTile.Tile_GetPackedY(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedY(Gui.g_minimapPosition)) << 4) + 0x28);
@@ -326,7 +326,7 @@ namespace SharpDune
 				Gui.GUI_SetClippingArea(0, 40, 239, Gfx.SCREEN_HEIGHT - 1);
 				Gui.GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
-				if (Gui.g_selectionState == 0 && CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
+				if (Gui.g_selectionState == 0 && CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
 				{
 					Gui.GUI_DrawLine((short)x1, (short)y1, (short)x2, (short)y2, 0xFF);
 					Gui.GUI_DrawLine((short)x2, (short)y1, (short)x1, (short)y2, 0xFF);
@@ -885,7 +885,7 @@ namespace SharpDune
 					/* Wait for either one of the timers */
 					if (s_tickMapScroll + 10 >= Timer.g_timerGame || s_tickCursor + 20 >= Timer.g_timerGame) return true;
 					/* Don't scroll if we have a structure/unit selected and don't want to autoscroll */
-					if (Config.g_gameConfig.autoScroll == 0 && (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_STRUCTURE || CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_UNIT)) return true;
+					if (Config.g_gameConfig.autoScroll == 0 && (CSharpDune.g_selectionType == (ushort)SelectionType.STRUCTURE || CSharpDune.g_selectionType == (ushort)SelectionType.UNIT)) return true;
 				}
 
 				s_tickMapScroll = Timer.g_timerGame;
@@ -924,7 +924,7 @@ namespace SharpDune
 
 			packed = CTile.Tile_PackXY(x, y);
 
-			if (click && CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_TARGET)
+			if (click && CSharpDune.g_selectionType == (ushort)SelectionType.TARGET)
 			{
 				Unit u;
 				ActionType action;
@@ -991,11 +991,11 @@ namespace SharpDune
 				CUnit.g_unitActive = null;
 				CSharpDune.g_activeAction = 0xFFFF;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_UNIT);
+				Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
 				return true;
 			}
 
-			if (click && CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
+			if (click && CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
 			{
 				StructureInfo si;
 				Structure s;
@@ -1029,7 +1029,7 @@ namespace SharpDune
 						}
 					}
 
-					Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_STRUCTURE);
+					Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 
 					s = CStructure.Structure_Get_ByPackedTile(CStructure.g_structureActivePosition);
 					if (s != null)
@@ -1102,11 +1102,11 @@ namespace SharpDune
 				return true;
 			}
 
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_TARGET)
+			if (CSharpDune.g_selectionType == (ushort)SelectionType.TARGET)
 			{
 				Map.Map_SetSelection(CUnit.Unit_FindTargetAround(packed));
 			}
-			else if (CSharpDune.g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE)
+			else if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
 			{
 				Map.Map_SetSelection(packed);
 			}

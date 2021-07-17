@@ -55,7 +55,7 @@ namespace SharpDune
 		 */
 		internal static void GameLoop_GameIntroAnimation()
 		{
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_INTRO);
+			Gui.GUI_ChangeSelectionType((ushort)SelectionType.INTRO);
 
 			GameLoop_Logos();
 
@@ -77,7 +77,7 @@ namespace SharpDune
 				GameLoop_FinishAnimation();
 			}
 
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_MENTAT);
+			Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 		}
 
 		/*

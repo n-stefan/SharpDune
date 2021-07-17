@@ -264,7 +264,7 @@ class CSharpDune
 
             Sound.Sound_Output_Feedback(0xFFFE);
 
-            Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_MENTAT);
+            Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
             if (GameLoop_IsLevelWon())
             {
@@ -974,8 +974,8 @@ class CSharpDune
         g_campaignID = 0;
         g_scenarioID = 1;
         CHouse.g_playerHouseID = HouseType.HOUSE_INVALID;
-        g_selectionType = (ushort)SelectionType.SELECTIONTYPE_MENTAT;
-        g_selectionTypeNew = (ushort)SelectionType.SELECTIONTYPE_MENTAT;
+        g_selectionType = (ushort)SelectionType.MENTAT;
+        g_selectionTypeNew = (ushort)SelectionType.MENTAT;
 
         if (Gfx.g_palette1 != null) Trace.WriteLine("WARNING: g_palette1");
         else Gfx.g_palette1 = new byte[256 * 3]; //calloc(1, 256 * 3);
@@ -1092,7 +1092,7 @@ class CSharpDune
 
             if (g_gameMode == GameMode.GM_RESTART)
             {
-                Gui.GUI_ChangeSelectionType((ushort)SelectionType.SELECTIONTYPE_MENTAT);
+                Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
                 Game_LoadScenario((byte)CHouse.g_playerHouseID, g_scenarioID);
                 if (!g_debugScenario && !g_debugSkipDialogs)
@@ -1106,7 +1106,7 @@ class CSharpDune
 
                 g_gameMode = GameMode.GM_NORMAL;
 
-                Gui.GUI_ChangeSelectionType((ushort)(g_debugScenario ? SelectionType.SELECTIONTYPE_DEBUG : SelectionType.SELECTIONTYPE_STRUCTURE));
+                Gui.GUI_ChangeSelectionType((ushort)(g_debugScenario ? SelectionType.DEBUG : SelectionType.STRUCTURE));
 
                 Sound.Music_Play((ushort)(Tools.Tools_RandomLCG_Range(0, 8) + 8));
                 l_timerNext = Timer.g_timerGUI + 300;
@@ -1151,7 +1151,7 @@ class CSharpDune
 
             key = CWidget.GUI_Widget_HandleEvents(CWidget.g_widgetLinkedListHead);
 
-            if (g_selectionType == (ushort)SelectionType.SELECTIONTYPE_TARGET || g_selectionType == (ushort)SelectionType.SELECTIONTYPE_PLACE || g_selectionType == (ushort)SelectionType.SELECTIONTYPE_UNIT || g_selectionType == (ushort)SelectionType.SELECTIONTYPE_STRUCTURE)
+            if (g_selectionType == (ushort)SelectionType.TARGET || g_selectionType == (ushort)SelectionType.PLACE || g_selectionType == (ushort)SelectionType.UNIT || g_selectionType == (ushort)SelectionType.STRUCTURE)
             {
                 if (CUnit.g_unitSelected != null)
                 {
@@ -1161,7 +1161,7 @@ class CSharpDune
                         l_timerUnitStatus = Timer.g_timerGame + 300;
                     }
 
-                    if (g_selectionType != (ushort)SelectionType.SELECTIONTYPE_TARGET)
+                    if (g_selectionType != (ushort)SelectionType.TARGET)
                     {
                         Gui.g_selectionPosition = CTile.Tile_PackTile(CTile.Tile_Center(CUnit.g_unitSelected.o.position));
                     }
@@ -1378,7 +1378,7 @@ class CSharpDune
         g_validateStrictIfZero++;
 
         oldSelectionType = g_selectionType;
-        g_selectionType = (ushort)SelectionType.SELECTIONTYPE_MENTAT;
+        g_selectionType = (ushort)SelectionType.MENTAT;
 
         CStructure.Structure_Recount();
         CUnit.Unit_Recount();
