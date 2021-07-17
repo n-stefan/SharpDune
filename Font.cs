@@ -63,7 +63,7 @@ namespace SharpDune
 		internal static bool Font_Init()
 		{
 			g_fontIntro = Font_LoadFile("INTRO.FNT");
-			if ((Config.g_config.language == (byte)Language.LANGUAGE_GERMAN) && CFile.File_Exists("new6pg.fnt"))
+			if ((Config.g_config.language == (byte)Language.GERMAN) && CFile.File_Exists("new6pg.fnt"))
 			{
 				g_fontNew6p = Font_LoadFile("new6pg.fnt");
 			}

@@ -234,12 +234,12 @@ namespace SharpDune
 									buttons[i].stringID = CUnit.g_table_actionInfo[actions[i]].stringID;
 									buttons[i].shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(buttons[i].stringID)[0]);
 
-									if (Config.g_config.language == (byte)Language.LANGUAGE_FRENCH)
+									if (Config.g_config.language == (byte)Language.FRENCH)
 									{
 										if (buttons[i].stringID == (ushort)Text.STR_MOVE) buttons[i].shortcut2 = 0x27;  /* L key */
 										else if (buttons[i].stringID == (ushort)Text.STR_RETURN) buttons[i].shortcut2 = 0x13;   /* E key */
 									}
-									else if (Config.g_config.language == (byte)Language.LANGUAGE_GERMAN)
+									else if (Config.g_config.language == (byte)Language.GERMAN)
 									{
 										if (buttons[i].stringID == (ushort)Text.STR_GUARD) buttons[i].shortcut2 = 0x17; /* U key */
 									}

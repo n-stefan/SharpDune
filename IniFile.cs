@@ -32,15 +32,15 @@ namespace SharpDune
 				return false;
 			}
 			if (string.Equals(language, "ENGLISH", StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(language, "ENGLISH") == 0)
-				config.language = (byte)Language.LANGUAGE_ENGLISH;
+				config.language = (byte)Language.ENGLISH;
 			else if (string.Equals(language, "FRENCH", StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(language, "FRENCH") == 0)
-				config.language = (byte)Language.LANGUAGE_FRENCH;
+				config.language = (byte)Language.FRENCH;
 			else if (string.Equals(language, "GERMAN", StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(language, "GERMAN") == 0)
-				config.language = (byte)Language.LANGUAGE_GERMAN;
+				config.language = (byte)Language.GERMAN;
 			else if (string.Equals(language, "ITALIAN", StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(language, "ITALIAN") == 0)
-				config.language = (byte)Language.LANGUAGE_ITALIAN;
+				config.language = (byte)Language.ITALIAN;
 			else if (string.Equals(language, "SPANISH", StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(language, "SPANISH") == 0)
-				config.language = (byte)Language.LANGUAGE_SPANISH;
+				config.language = (byte)Language.SPANISH;
 			return true;
 		}
 

@@ -2594,7 +2594,7 @@ namespace SharpDune
 			else
 			{
 				var houseName = CHouse.g_table_houseInfo[Unit_GetHouseID(unit)].name;
-				if (Config.g_config.language == (byte)Language.LANGUAGE_FRENCH)
+				if (Config.g_config.language == (byte)Language.FRENCH)
 				{
 					buffer = $"{CString.String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 				}
@@ -2744,7 +2744,7 @@ namespace SharpDune
 
 						Sound.Sound_Output_Feedback(37);
 
-						if (Config.g_config.language == (byte)Language.LANGUAGE_ENGLISH)
+						if (Config.g_config.language == (byte)Language.ENGLISH)
 						{
 							Gui.GUI_DisplayHint((ushort)Text.STR_WARNING_SANDWORMS_SHAIHULUD_ROAM_DUNE_DEVOURING_ANYTHING_ON_THE_SAND, 105);
 						}
@@ -6284,7 +6284,7 @@ namespace SharpDune
 			u = Script.g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
 
-			if (Config.g_config.language == (byte)Language.LANGUAGE_FRENCH)
+			if (Config.g_config.language == (byte)Language.FRENCH)
 			{
 				Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CString.String_Get_ByIndex(ui.o.stringID_abbrev), CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name);
 			}

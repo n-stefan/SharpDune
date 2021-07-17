@@ -592,7 +592,7 @@ namespace SharpDune
 
 			Gui.GUI_DrawFilledRectangle(0, (short)(subtitle.top == 85 ? 0 : subtitle.top), Gfx.SCREEN_WIDTH - 1, Gfx.SCREEN_HEIGHT - 1, 0);
 
-			if (Config.g_enableVoices && s_feedback_base_index != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && Config.g_config.language == (byte)Language.LANGUAGE_ENGLISH)
+			if (Config.g_enableVoices && s_feedback_base_index != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && Config.g_config.language == (byte)Language.ENGLISH)
 			{
 				/* specific code for Intro
 				 * @see GameLoop_GameIntroAnimation() */

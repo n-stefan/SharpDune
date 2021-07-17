@@ -551,14 +551,14 @@ namespace SharpDune
 	 */
 	enum Language
 	{
-		LANGUAGE_ENGLISH = 0,
-		LANGUAGE_FRENCH = 1,
-		LANGUAGE_GERMAN = 2,
-		LANGUAGE_ITALIAN = 3,
-		LANGUAGE_SPANISH = 4,
+		ENGLISH = 0,
+		FRENCH = 1,
+		GERMAN = 2,
+		ITALIAN = 3,
+		SPANISH = 4,
 
-		LANGUAGE_MAX = 5,
-		LANGUAGE_INVALID = 0xFF
+		MAX = 5,
+		INVALID = 0xFF
 	}
 
 	class CString
@@ -567,7 +567,7 @@ namespace SharpDune
 
         static ushort s_stringsCount;
 
-        internal static string[] g_languageSuffixes = new string[(int)Language.LANGUAGE_MAX] { "ENG", "FRE", "GER", "ITA", "SPA" };
+        internal static string[] g_languageSuffixes = new string[(int)Language.MAX] { "ENG", "FRE", "GER", "ITA", "SPA" };
 
 		/*
          * Returns a pointer to the string at given index in current string file.
@@ -662,7 +662,7 @@ namespace SharpDune
 
 		static void String_Sanitize()
 		{
-			if (Config.g_config.language == (byte)Language.LANGUAGE_ENGLISH)
+			if (Config.g_config.language == (byte)Language.ENGLISH)
             {
 				s_strings[Array.FindIndex(s_strings, s => s == "Insufficient memory by %ld bytes.")] = "Insufficient memory by {0} bytes.";
 				s_strings[Array.FindIndex(s_strings, s => s == "%s %s destroyed.")] = "{0} {1} destroyed.";

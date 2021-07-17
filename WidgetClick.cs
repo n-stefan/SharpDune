@@ -709,7 +709,7 @@ namespace SharpDune
 
 				if (desc.widgets[i].labelStringId == (ushort)Text.STR_NULL) continue;
 
-				if (Config.g_config.language == (byte)Language.LANGUAGE_FRENCH)
+				if (Config.g_config.language == (byte)Language.FRENCH)
 				{
 					Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId), (short)((CWidget.g_widgetProperties[w.parentID].xBase << 3) + 40), (short)(w.offsetY + CWidget.g_widgetProperties[w.parentID].yBase + 3), 232, 0, 0x22);
 				}

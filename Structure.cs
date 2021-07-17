@@ -3321,7 +3321,7 @@ namespace SharpDune
             if (CSharpDune.g_debugScenario) return 0;
             if (s.o.houseID != (byte)CHouse.g_playerHouseID) return 0;
 
-            if (Config.g_config.language == (byte)Language.LANGUAGE_FRENCH)
+            if (Config.g_config.language == (byte)Language.FRENCH)
             {
                 Gui.GUI_DisplayText("{0} {1} {2}", 0, CString.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CHouse.g_table_houseInfo[s.o.houseID].name, CString.String_Get_ByIndex(Text.STR_IS_DESTROYED));
             }

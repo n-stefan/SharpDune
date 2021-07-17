@@ -67,7 +67,7 @@ namespace SharpDune
 			config.voiceDrv = 1;
 			config.useMouse = true; //1;
 			config.useXMS = true; //1;
-			config.language = (byte)Language.LANGUAGE_ENGLISH;
+			config.language = (byte)Language.ENGLISH;
 			return true;
 		}
 

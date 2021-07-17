@@ -692,7 +692,7 @@ namespace SharpDune
 
 				for (i = 0; i < /*Common.lengthof<ushort>(s_spokenWords)*/s_spokenWords.Length; i++)
 				{
-					s_spokenWords[i] = (Config.g_config.language == (byte)Language.LANGUAGE_ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[i][index]; //[index][i];
+					s_spokenWords[i] = (Config.g_config.language == (byte)Language.ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[i][index]; //[index][i];
 				}
 			}
 
@@ -851,7 +851,7 @@ namespace SharpDune
 				switch (g_table_voices[voice].str[0])
 				{
 					case '%':
-						if (Config.g_config.language != (byte)Language.LANGUAGE_ENGLISH || currentVoiceSet == voiceSet)
+						if (Config.g_config.language != (byte)Language.ENGLISH || currentVoiceSet == voiceSet)
 						{
 							if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 						}
@@ -903,8 +903,8 @@ namespace SharpDune
 
 						switch ((Language)Config.g_config.language)
 						{
-							case Language.LANGUAGE_FRENCH: prefixChar = 'F'; break;
-							case Language.LANGUAGE_GERMAN: prefixChar = 'G'; break;
+							case Language.FRENCH: prefixChar = 'F'; break;
+							case Language.GERMAN: prefixChar = 'G'; break;
 							default: prefixChar = CHouse.g_table_houseInfo[voiceSet].prefixChar; break;
 						}
 						filename = str.Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str, prefixChar);
@@ -917,8 +917,8 @@ namespace SharpDune
 
 						switch ((Language)Config.g_config.language)
 						{
-							case Language.LANGUAGE_FRENCH: prefixChar = 'F'; break;
-							case Language.LANGUAGE_GERMAN: prefixChar = 'G'; break;
+							case Language.FRENCH: prefixChar = 'F'; break;
+							case Language.GERMAN: prefixChar = 'G'; break;
 							default: prefixChar = 'Z'; break;
 						}
 						filename = str[1..].Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
