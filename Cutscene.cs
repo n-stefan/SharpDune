@@ -61,7 +61,7 @@ namespace SharpDune
 
 			GameLoop_Logos();
 
-			if (Input.Input_Keyboard_NextKey() == 0 || !g_canSkipIntro)
+			if (Input.Input.Input_Keyboard_NextKey() == 0 || !g_canSkipIntro)
 			{
 				var animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
 				var subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
@@ -138,7 +138,7 @@ namespace SharpDune
 			HouseAnimation_Subtitle[] subtitle;
 			HouseAnimation_SoundEffect[] soundEffect;
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			switch (CSharpDune.g_campaignID)
 			{
@@ -215,7 +215,7 @@ namespace SharpDune
 
 			Gui.Gui.GUI_ClearScreen(Screen.NO0);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			Gfx.GFX_ClearBlock(Screen.NO3);
 		}
@@ -436,7 +436,7 @@ namespace SharpDune
 						frame--;
 					}
 
-					if (Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro)
+					if (Input.Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro)
 					{
 						Wsa.WSA_Unload(wsa);
 						return;
@@ -703,13 +703,13 @@ namespace SharpDune
 
 			Wsa.WSA_Unload(wsa);
 
-			if (Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+			if (Input.Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 
 			Sound.Voice_LoadVoices(0xFFFF);
 
 			for (; Timer.g_timerTimeout != 0; Sleep.sleepIdle())
 			{
-				if (Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+				if (Input.Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
 
 			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
@@ -728,7 +728,7 @@ namespace SharpDune
 
 			for (Timer.g_timerTimeout = 60; Timer.g_timerTimeout != 0; Sleep.sleepIdle())
 			{
-				if (Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+				if (Input.Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
 
 			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 30);
@@ -743,7 +743,7 @@ namespace SharpDune
 
 			for (Timer.g_timerTimeout = 180; Timer.g_timerTimeout != 0; Sleep.sleepIdle())
 			{
-				if (Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+				if (Input.Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
 
 		//TODO: Use a local function instead?
@@ -829,7 +829,7 @@ namespace SharpDune
 
 				GameCredits_Play(credits_buffer, credits_bufferPointer, 20, Screen.NO1, Screen.NO2, 6);
 
-				if (Input.Input_Keyboard_NextKey() != 0) break;
+				if (Input.Input.Input_Keyboard_NextKey() != 0) break;
 
 				Sound.Music_Play(33);
 			}
@@ -912,9 +912,9 @@ namespace SharpDune
 			Gfx.GFX_Screen_SetActive(Screen.NO0);
 			timetoWait = Timer.g_timerSleep;
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
-			while ((!textEnd || stage != 0) && (Input.Input_Keyboard_NextKey() == 0))
+			while ((!textEnd || stage != 0) && (Input.Input.Input_Keyboard_NextKey() == 0))
 			{
 				while (timetoWait > Timer.g_timerSleep) Sleep.sleepIdle();
 

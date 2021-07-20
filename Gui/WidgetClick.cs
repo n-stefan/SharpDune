@@ -1,6 +1,7 @@
 ﻿/* Widget clicking handling */
 
 using SharpDune.Audio;
+using SharpDune.Input;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -141,7 +142,7 @@ namespace SharpDune.Gui
 			action = (ActionType)actions[w.index - 8];
 			if (CSharpDune.g_dune2_enhanced)
 			{
-				if (Input.Input_Test(0x2c) != 0 || Input.Input_Test(0x39) != 0)
+				if (Input.Input.Input_Test(0x2c) != 0 || Input.Input.Input_Test(0x39) != 0)
 				{   /* LSHIFT or RSHIFT is pressed */
 					if (action == ActionType.ACTION_GUARD) action = ActionType.ACTION_AREA_GUARD;   /* AREA GUARD instead of GUARD */
 					else if (action == ActionType.ACTION_ATTACK) action = ActionType.ACTION_AMBUSH; /* AMBUSH instead of ATTACK */
@@ -1314,7 +1315,7 @@ namespace SharpDune.Gui
 
 			Gui.GUI_FactoryWindow_DrawCaption(CString.String_Get_ByIndex(Text.STR_INVOICE_OF_UNITS_ON_ORDER));
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			for (; CWidget.GUI_Widget_HandleEvents(w) == 0; Sleep.sleepIdle())
 			{
@@ -1331,8 +1332,8 @@ namespace SharpDune.Gui
 
 			if (w != null && Mouse.Mouse_InsideRegion(w.offsetX, w.offsetY, (short)(w.offsetX + w.width), (short)(w.offsetY + w.height)) != 0)
 			{
-				while (Input.Input_Test(0x41) != 0 || Input.Input_Test(0x42) != 0) Sleep.sleepIdle();
-				Input.Input_History_Clear();
+				while (Input.Input.Input_Test(0x41) != 0 || Input.Input.Input_Test(0x42) != 0) Sleep.sleepIdle();
+				Input.Input.Input_History_Clear();
 			}
 
 			if (Gui.g_factoryWindowResult == FactoryResult.FACTORY_CONTINUE) Gui.GUI_FactoryWindow_DrawDetails();

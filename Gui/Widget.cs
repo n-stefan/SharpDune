@@ -1,5 +1,6 @@
 ﻿/* Widget */
 
+using SharpDune.Input;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -1141,9 +1142,9 @@ namespace SharpDune.Gui
 
 			/* Get the key from the buffer, if there was any key pressed */
 			key = 0;
-			if (Input.Input_IsInputAvailable() != 0)
+			if (Input.Input.Input_IsInputAvailable() != 0)
 			{
-				key = Input.Input_Wait();
+				key = Input.Input.Input_Wait();
 			}
 
 			if (w == null) return (ushort)(key & 0x7FFF);
@@ -1157,10 +1158,10 @@ namespace SharpDune.Gui
 				s_widgetReset = false;
 
 				/* Check for left click */
-				if (Input.Input_Test(0x41) != 0) l_widget_button_state |= 0x0200;
+				if (Input.Input.Input_Test(0x41) != 0) l_widget_button_state |= 0x0200;
 
 				/* Check for right click */
-				if (Input.Input_Test(0x42) != 0) l_widget_button_state |= 0x2000;
+				if (Input.Input.Input_Test(0x42) != 0) l_widget_button_state |= 0x2000;
 
 				/* Draw all the widgets */
 				for (; w != null; w = GUI_Widget_GetNext(w))

@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Input
 {
     class Mouse
     {

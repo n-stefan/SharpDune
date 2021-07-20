@@ -13,6 +13,7 @@ using SharpDune;
 using SharpDune.Audio;
 using SharpDune.CrashLog;
 using SharpDune.Gui;
+using SharpDune.Input;
 using System;
 using System.Diagnostics;
 using System.Globalization;

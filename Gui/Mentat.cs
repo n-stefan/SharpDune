@@ -1,6 +1,7 @@
 ﻿/* Mentat gui */
 
 using SharpDune.Audio;
+using SharpDune.Input;
 using System.Diagnostics;
 using static System.Math;
 
@@ -175,7 +176,7 @@ namespace SharpDune.Gui
 				} while ((ret & 0x8000) == 0);
 			}
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			if (w != null)
 			{
@@ -367,7 +368,7 @@ namespace SharpDune.Gui
 			{
 				partNeedsRedraw = false;
 
-				if (Input.Input_Test(0x41) == 0 && Input.Input_Test(0x42) == 0)
+				if (Input.Input.Input_Test(0x41) == 0 && Input.Input.Input_Test(0x42) == 0)
 				{
 					if (movingMouthSprite != 0)
 					{
@@ -409,7 +410,7 @@ namespace SharpDune.Gui
 
 			partNeedsRedraw = false;
 
-			if (Input.Input_Test(0x41) != 0 || Input.Input_Test(0x42) != 0)
+			if (Input.Input.Input_Test(0x41) != 0 || Input.Input.Input_Test(0x42) != 0)
 			{
 				if (Mouse.Mouse_InsideRegion(s_eyesLeft, s_eyesTop, s_eyesRight, s_eyesBottom) != 0)
 				{
@@ -639,7 +640,7 @@ namespace SharpDune.Gui
 			Timer.g_timerTimeout = 0;
 			descTick = Timer.g_timerGUI + 30;
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			textDone = false;
 			result = 0;
@@ -832,7 +833,7 @@ namespace SharpDune.Gui
 			CWidget.Widget_SetCurrentWidget(oldWidgetID);
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			return result;
 		}
@@ -961,8 +962,8 @@ namespace SharpDune.Gui
 			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
 			/* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
-			if (!CSharpDune.g_dune2_enhanced) Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
-			Input.Input_History_Clear();
+			if (!CSharpDune.g_dune2_enhanced) Input.Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
+			Input.Input.Input_History_Clear();
 
 			GUI_Mentat_Display(null, (byte)CHouse.g_playerHouseID);
 
@@ -994,7 +995,7 @@ namespace SharpDune.Gui
 			CWidget.g_widgetMentatScrollDown = null; //free(g_widgetMentatScrollDown);
 
 			/* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
-			if (!CSharpDune.g_dune2_enhanced) Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
+			if (!CSharpDune.g_dune2_enhanced) Input.Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 		}
@@ -1136,8 +1137,8 @@ namespace SharpDune.Gui
 
 			GUI_Mentat_Draw(true);
 
-			Input.Input_HandleInput(0x841);
-			Input.Input_HandleInput(0x842);
+			Input.Input.Input_HandleInput(0x841);
+			Input.Input.Input_HandleInput(0x842);
 			return false;
 		}
 

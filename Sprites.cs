@@ -4,6 +4,7 @@
 //#define Sprites_1
 
 using SharpDune.Codec;
+using SharpDune.Input;
 using System;
 using System.Diagnostics;
 

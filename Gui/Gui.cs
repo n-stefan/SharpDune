@@ -5,6 +5,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Codec;
+using SharpDune.Input;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -1248,17 +1249,17 @@ namespace SharpDune.Gui
 				GUI_PaletteAnimate();
 			}
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			do
 			{
 				GUI_PaletteAnimate();
 
-				ret = Input.Input_WaitForValidInput();
+				ret = Input.Input.Input_WaitForValidInput();
 				Sleep.sleepIdle();
 			} while (ret == 0 || (ret & 0x800) != 0);
 
-			Input.Input_HandleInput(0x841);
+			Input.Input.Input_HandleInput(0x841);
 
 			GUI_Mouse_Hide_Safe();
 
@@ -2424,7 +2425,7 @@ namespace SharpDune.Gui
 
 			GUI_DrawCredits((byte)CHouse.g_playerHouseID, 2);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 		}
 
 		/*
@@ -3246,7 +3247,7 @@ namespace SharpDune.Gui
 
 				GUI_Screen_FadeIn2(8, 24, 304, 120, Screen.NO1, Screen.NO0, 0, false);
 
-				Input.Input_History_Clear();
+				Input.Input.Input_History_Clear();
 
 				Sprites.Sprites_CPS_LoadRegionClick();
 
@@ -3311,7 +3312,7 @@ namespace SharpDune.Gui
 
 			Mouse.Mouse_SetRegion(0, 0, Gfx.SCREEN_WIDTH - 1, Gfx.SCREEN_HEIGHT - 1);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			Array.Copy(loc316, 0, Gfx.g_palette1, 251 * 3, 12); //memcpy(Gfx.g_palette1 + 251 * 3, loc316, 12);
 
@@ -3486,7 +3487,7 @@ namespace SharpDune.Gui
 
 			GUI_Palette_CreateRemap((byte)houseID);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			GUI_Mouse_Show_Safe();
 
@@ -3560,7 +3561,7 @@ namespace SharpDune.Gui
 
 			GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			scores[0][0].value = harvestedAllied;
 			scores[0][1].value = harvestedEnemy;
@@ -3644,15 +3645,15 @@ namespace SharpDune.Gui
 
 			GUI_Mouse_Show_Safe();
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			for (; ; Sleep.sleepIdle())
 			{
 				GUI_HallOfFame_Tick();
-				if (Input.Input_Keyboard_NextKey() != 0) break;
+				if (Input.Input.Input_Keyboard_NextKey() != 0) break;
 			}
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			GUI_HallOfFame_Show((ushort)score);
 
@@ -3769,7 +3770,7 @@ namespace SharpDune.Gui
 
 			w = GUI_HallOfFame_CreateButtons(data);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			Gfx.GFX_Screen_SetActive(Screen.NO0);
 
@@ -3780,7 +3781,7 @@ namespace SharpDune.Gui
 
 			GUI_HallOfFame_DeleteButtons(w);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			if (score == 0xFFFF) return;
 
@@ -3822,13 +3823,13 @@ namespace SharpDune.Gui
 
 		static bool GUI_StrategicMap_FastForwardToggleWithESC()
 		{
-			if (Input.Input_Keyboard_NextKey() == 0) return s_strategicMapFastForward;
+			if (Input.Input.Input_Keyboard_NextKey() == 0) return s_strategicMapFastForward;
 
-			if (Input.Input_WaitForValidInput() != 0x1B) return s_strategicMapFastForward;
+			if (Input.Input.Input_WaitForValidInput() != 0x1B) return s_strategicMapFastForward;
 
 			s_strategicMapFastForward = !s_strategicMapFastForward;
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			return s_strategicMapFastForward;
 		}
@@ -4332,7 +4333,7 @@ namespace SharpDune.Gui
 			}
 
 			GUI_Mouse_Show_Safe();
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			for (loop = true; loop; Sleep.sleepIdle())
 			{
@@ -4398,9 +4399,9 @@ namespace SharpDune.Gui
 
 			GUI_StrategicMap_AnimateArrows();
 
-			if (Input.Input_Keyboard_NextKey() == 0) return 0;
+			if (Input.Input.Input_Keyboard_NextKey() == 0) return 0;
 
-			key = Input.Input_WaitForValidInput();
+			key = Input.Input.Input_WaitForValidInput();
 			if (key != 0xC6 && key != 0xC7) return 0;
 
 			return Sprites.g_fileRgnclkCPS[(Mouse.g_mouseClickY - 24) * 304 + Mouse.g_mouseClickX - 8];

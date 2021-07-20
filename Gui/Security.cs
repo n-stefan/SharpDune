@@ -91,7 +91,7 @@ namespace SharpDune.Gui
 				Gui.GUI_DrawBorder((ushort)((CWidget.g_curWidgetXBase << 3) - 2), (ushort)(CWidget.g_curWidgetYBase - 2), (ushort)((CWidget.g_curWidgetWidth << 3) + 4), (ushort)(CWidget.g_curWidgetHeight + 4), 2, false);
 				Gui.GUI_Mouse_Show_Safe();
 
-				Input.Input_History_Clear();
+				Input.Input.Input_History_Clear();
 
 				buffer = string.Empty;
 
@@ -133,12 +133,12 @@ namespace SharpDune.Gui
 
 				tickWaitTill = Timer.g_timerGUI + (uint)CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer).Length * 4; //(uint32)strlen(g_readBuffer) * 4;
 
-				Input.Input_History_Clear();
+				Input.Input.Input_History_Clear();
 
 				/* ENHANCEMENT -- In Dune2, the + 120 is on the other side, causing the 'You are wrong! / Well done.' screen to appear very short (close to invisible, so to say) */
 				while (Timer.g_timerGUI + (CSharpDune.g_dune2_enhanced ? 0 : 120) < tickWaitTill + (CSharpDune.g_dune2_enhanced ? 120 : 0))
 				{
-					if (Input.Input_Keyboard_NextKey() != 0) break;
+					if (Input.Input.Input_Keyboard_NextKey() != 0) break;
 
 					if (Timer.g_timerGUI < tickWaitTill)
 					{
@@ -158,7 +158,7 @@ namespace SharpDune.Gui
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 
-			Input.Input_History_Clear();
+			Input.Input.Input_History_Clear();
 
 			Load.Load_Palette_Mercenaries();
 

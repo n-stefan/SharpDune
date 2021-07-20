@@ -1,6 +1,7 @@
 ﻿/* SDL 2 video driver */
 
 using SDL2;
+using SharpDune.Input;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -580,7 +581,7 @@ namespace SharpDune
 		static void Video_Key_Callback(byte key)
 		{
 			s_keyBufferLatest = key;
-			Input.Input_EventHandler(key);
+			Input.Input.Input_EventHandler(key);
 		}
 
 		static void Video_DrawScreen()

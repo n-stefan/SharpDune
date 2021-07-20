@@ -3,7 +3,7 @@
 using System;
 using System.Diagnostics;
 
-namespace SharpDune
+namespace SharpDune.Input
 {
 	/*
 	 * There are three different mouse modes.

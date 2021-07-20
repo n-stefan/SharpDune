@@ -1,5 +1,6 @@
 ﻿/* Editbox */
 
+using SharpDune.Input;
 using System;
 using System.Text;
 
@@ -60,8 +61,8 @@ namespace SharpDune.Gui
 
 			/* Initialize */
 			{
-				Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
-				Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
+				Input.Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
+				Input.Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
 
 				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO0);
 
@@ -147,7 +148,7 @@ namespace SharpDune.Gui
 					continue;
 				}
 
-				key = (ushort)(Input.Input_Keyboard_HandleKeys(key) & 0xFF);
+				key = (ushort)(Input.Input.Input_Keyboard_HandleKeys(key) & 0xFF);
 
 				/* Names can't start with a space, and should be alpha-numeric */
 				if ((key == 0x20 && textLength == 0) || key < 0x20 || key > 0x7E) continue;
@@ -178,8 +179,8 @@ namespace SharpDune.Gui
 
 			/* Deinitialize */
 			{
-				Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
-				Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
+				Input.Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
+				Input.Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
 
 				CWidget.Widget_SetCurrentWidget(oldWidgetID);
 
