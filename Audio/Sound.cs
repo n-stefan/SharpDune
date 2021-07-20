@@ -2,7 +2,7 @@
 
 using System;
 
-namespace SharpDune
+namespace SharpDune.Audio
 {
 	/* Information about sound files. */
 	class VoiceData

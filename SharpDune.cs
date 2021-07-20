@@ -10,6 +10,7 @@
 //INT - BOOL: zero is false and all other values are true
 
 using SharpDune;
+using SharpDune.Audio;
 using System;
 using System.Diagnostics;
 using System.Globalization;

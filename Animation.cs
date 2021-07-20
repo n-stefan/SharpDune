@@ -1,5 +1,6 @@
 ﻿/* Animation */
 
+using SharpDune.Audio;
 using System.Diagnostics;
 
 namespace SharpDune

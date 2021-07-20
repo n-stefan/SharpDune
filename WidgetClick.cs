@@ -1,12 +1,13 @@
 ﻿/* Widget clicking handling */
 
+using SharpDune.Audio;
 using System;
 using System.Diagnostics;
 using static System.Math;
 
 namespace SharpDune
 {
-	class WidgetClick
+    class WidgetClick
 	{
 		static ushort s_savegameIndexBase;
         static ushort s_savegameCountOnDisk;                    /*!< Amount of savegames on disk. */

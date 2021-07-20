@@ -1,5 +1,6 @@
 ﻿/* Structure handling */
 
+using SharpDune.Audio;
 using System;
 using System.Diagnostics;
 using static System.Math;

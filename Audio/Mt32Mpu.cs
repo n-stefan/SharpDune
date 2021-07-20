@@ -6,7 +6,7 @@ using System.Threading;
 //using Vanara.PInvoke;
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Audio
 {
     class Controls
     {

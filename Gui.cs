@@ -3,6 +3,7 @@
 //#define Gui_0
 #define Gui_1
 
+using SharpDune.Audio;
 using System;
 using System.Diagnostics;
 using System.Linq;

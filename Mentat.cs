@@ -1,5 +1,6 @@
 ﻿/* Mentat gui */
 
+using SharpDune.Audio;
 using System.Diagnostics;
 using static System.Math;
 

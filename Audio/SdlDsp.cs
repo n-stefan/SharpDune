@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Vanara.Extensions;
 
-namespace SharpDune
+namespace SharpDune.Audio
 {
 	class SdlDsp
 	{

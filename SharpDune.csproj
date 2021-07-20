@@ -19,16 +19,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Audio\SdlDsp.cs" />
     <Compile Remove="Scale2x.cs" />
     <Compile Remove="ScaleBit.cs" />
-    <Compile Remove="SdlDsp.cs" />
     <Compile Remove="Thread.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Audio\SdlDsp.cs" />
     <None Include="Scale2x.cs" />
     <None Include="ScaleBit.cs" />
-    <None Include="SdlDsp.cs" />
     <None Include="Thread.cs" />
   </ItemGroup>
 

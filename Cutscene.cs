@@ -1,13 +1,14 @@
 ﻿/* Introduction movie and cutscenes */
 
+using SharpDune.Audio;
 using System;
 using System.Diagnostics;
 using static System.Math;
 
 namespace SharpDune
 {
-	/* Direction of change in the #GameLoop_PalettePart_Update function. */
-	enum PalettePartDirection
+    /* Direction of change in the #GameLoop_PalettePart_Update function. */
+    enum PalettePartDirection
 	{
 		PPD_STOPPED,        /*!< Not changing. */
 		PPD_TO_NEW_PALETTE, /*!< Modifying towards #s_palettePartTarget */
