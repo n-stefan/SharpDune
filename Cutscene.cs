@@ -1,6 +1,7 @@
 ﻿/* Introduction movie and cutscenes */
 
 using SharpDune.Audio;
+using SharpDune.Gui;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -56,7 +57,7 @@ namespace SharpDune
 		 */
 		internal static void GameLoop_GameIntroAnimation()
 		{
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.INTRO);
+			Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.INTRO);
 
 			GameLoop_Logos();
 
@@ -78,7 +79,7 @@ namespace SharpDune
 				GameLoop_FinishAnimation();
 			}
 
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
+			Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 		}
 
 		/*
@@ -207,12 +208,12 @@ namespace SharpDune
 
 		static void GameLoop_FinishAnimation()
 		{
-			Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x1);
-			Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x2);
+			Gui.Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x1);
+			Gui.Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x2);
 
-			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
+			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
 
-			Gui.GUI_ClearScreen(Screen.NO0);
+			Gui.Gui.GUI_ClearScreen(Screen.NO0);
 
 			Input.Input_History_Clear();
 
@@ -245,7 +246,7 @@ namespace SharpDune
 
 			CFile.File_ReadBlockFile("INTRO.PAL", Gfx.g_palette1, 256 * 3);
 
-			Buffer.BlockCopy(Gfx.g_palette1, 0, Gui.g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
+			Buffer.BlockCopy(Gfx.g_palette1, 0, Gui.Gui.g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
 
 			CFont.Font_Select(CFont.g_fontIntro);
 
@@ -262,7 +263,7 @@ namespace SharpDune
 			colors[0] = 0;
 			for (i = 0; i < 6; i++) colors[i + 1] = (byte)(215 + i);
 
-			Gui.GUI_InitColors(colors, 0, 15);
+			Gui.Gui.GUI_InitColors(colors, 0, 15);
 		}
 
 		static void GameLoop_PlayAnimation(HouseAnimation_Animation[] animation)
@@ -324,7 +325,7 @@ namespace SharpDune
 
 					if ((animation[pointer].flags & (CHouse.HOUSEANIM_FLAGS_FADEIN2 | CHouse.HOUSEANIM_FLAGS_FADEIN)) != 0)
 					{
-						Gui.GUI_ClearScreen(Screen.NO1);
+						Gui.Gui.GUI_ClearScreen(Screen.NO1);
 
 						//wsa = new WSAObject();
 						wsaData = Gfx.GFX_Screen_Get_ByIndex(Screen.NO2);
@@ -364,7 +365,7 @@ namespace SharpDune
 
 					Buffer.BlockCopy(s_palettePartCurrent, 0, Gfx.g_palette1, 215 * 3, 18); //memcpy(&g_palette1[215 * 3], s_palettePartCurrent, 18);
 
-					Gui.GUI_SetPaletteAnimated(Gfx.g_palette1, 45);
+					Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette1, 45);
 
 					addFrameCount++;
 				}
@@ -376,11 +377,11 @@ namespace SharpDune
 
 					if ((animation[pointer].flags & (CHouse.HOUSEANIM_FLAGS_FADEIN2 | CHouse.HOUSEANIM_FLAGS_FADEIN)) == CHouse.HOUSEANIM_FLAGS_FADEIN2)
 					{
-						Gui.GUI_Screen_FadeIn2(8, 24, 304, 120, Screen.NO1, Screen.NO0, 1, false);
+						Gui.Gui.GUI_Screen_FadeIn2(8, 24, 304, 120, Screen.NO1, Screen.NO0, 1, false);
 					}
 					else if ((animation[pointer].flags & (CHouse.HOUSEANIM_FLAGS_FADEIN2 | CHouse.HOUSEANIM_FLAGS_FADEIN)) == CHouse.HOUSEANIM_FLAGS_FADEIN)
 					{
-						Gui.GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, Screen.NO1, Screen.NO0);
+						Gui.Gui.GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, Screen.NO1, Screen.NO0);
 					}
 				}
 
@@ -461,22 +462,22 @@ namespace SharpDune
 
 				if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_FADETOWHITE) != 0)
 				{
-					Array.Fill<byte>(Gui.g_palette_998A, 63, 3 * 1, 255 * 3); //memset(&g_palette_998A[3 * 1], 63, 255 * 3);
+					Array.Fill<byte>(Gui.Gui.g_palette_998A, 63, 3 * 1, 255 * 3); //memset(&g_palette_998A[3 * 1], 63, 255 * 3);
 
-					Buffer.BlockCopy(s_palettePartCurrent, 0, Gui.g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
+					Buffer.BlockCopy(s_palettePartCurrent, 0, Gui.Gui.g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
-					Gui.GUI_SetPaletteAnimated(Gui.g_palette_998A, 15);
+					Gui.Gui.GUI_SetPaletteAnimated(Gui.Gui.g_palette_998A, 15);
 
-					Buffer.BlockCopy(Gfx.g_palette1, 0, Gui.g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
+					Buffer.BlockCopy(Gfx.g_palette1, 0, Gui.Gui.g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
 				}
 
 				if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_FADEOUTTEXT) != 0)
 				{
 					GameLoop_PalettePart_Update(true);
 
-					Buffer.BlockCopy(s_palettePartCurrent, 0, Gui.g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
+					Buffer.BlockCopy(s_palettePartCurrent, 0, Gui.Gui.g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
-					Gui.GUI_SetPaletteAnimated(Gui.g_palette_998A, 45);
+					Gui.Gui.GUI_SetPaletteAnimated(Gui.Gui.g_palette_998A, 45);
 				}
 
 				Wsa.WSA_Unload(wsa);
@@ -536,9 +537,9 @@ namespace SharpDune
 
 			if (finishNow) return (ushort)s_palettePartDirection;
 
-			Buffer.BlockCopy(s_palettePartCurrent, 0, Gui.g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
+			Buffer.BlockCopy(s_palettePartCurrent, 0, Gui.Gui.g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
-			Gfx.GFX_SetPalette(Gui.g_palette_998A);
+			Gfx.GFX_SetPalette(Gui.Gui.g_palette_998A);
 
 			return (ushort)s_palettePartDirection;
 		}
@@ -591,7 +592,7 @@ namespace SharpDune
 
 			s_subtitleActive = true;
 
-			Gui.GUI_DrawFilledRectangle(0, (short)(subtitle.top == 85 ? 0 : subtitle.top), Gfx.SCREEN_WIDTH - 1, Gfx.SCREEN_HEIGHT - 1, 0);
+			Gui.Gui.GUI_DrawFilledRectangle(0, (short)(subtitle.top == 85 ? 0 : subtitle.top), Gfx.SCREEN_WIDTH - 1, Gfx.SCREEN_HEIGHT - 1, 0);
 
 			if (Config.g_enableVoices && s_feedback_base_index != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && Config.g_config.language == (byte)Language.ENGLISH)
 			{
@@ -635,16 +636,16 @@ namespace SharpDune
 
 			if (CHouse.g_playerHouseID != HouseType.HOUSE_INVALID || s_houseAnimation_currentSubtitle != 2) return;
 
-			Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x21);
+			Gui.Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x21);
 
-			Gui.GUI_DrawText_Wrapper("Copyright (c) 1992 Westwood Studios, Inc.", 160, 189, 215, 0, 0x112);
+			Gui.Gui.GUI_DrawText_Wrapper("Copyright (c) 1992 Westwood Studios, Inc.", 160, 189, 215, 0, 0x112);
 
 			CFont.g_fontCharOffset = 0;
 
 			colors[0] = 0;
 			for (i = 0; i < 6; i++) colors[i + 1] = (byte)(215 + i);
 
-			Gui.GUI_InitColors(colors, 0, 15);
+			Gui.Gui.GUI_InitColors(colors, 0, 15);
 
 			CFont.Font_Select(CFont.g_fontIntro);
 		}
@@ -653,11 +654,11 @@ namespace SharpDune
 		{
 			var lines = str.Split('\r');
 
-			Gui.GUI_DrawText_Wrapper(lines[0], 160, (short)top, 215, 0, 0x100);
+			Gui.Gui.GUI_DrawText_Wrapper(lines[0], 160, (short)top, 215, 0, 0x100);
 
 			if (lines.Length == 1) return;
 
-			Gui.GUI_DrawText_Wrapper(lines[1], 160, (short)(top + 18), 215, 0, 0x100);
+			Gui.Gui.GUI_DrawText_Wrapper(lines[1], 160, (short)(top + 18), 215, 0, 0x100);
 		}
 
 		static void GameLoop_PlaySoundEffect(byte animation)
@@ -686,13 +687,13 @@ namespace SharpDune
 			Gfx.GFX_SetPalette(Gfx.g_palette2);
 			Gfx.GFX_ClearScreen(Screen.NO0);
 
-			CFile.File_ReadBlockFile("WESTWOOD.PAL", Gui.g_palette_998A, 256 * 3);
+			CFile.File_ReadBlockFile("WESTWOOD.PAL", Gui.Gui.g_palette_998A, 256 * 3);
 
 			frame = 0;
 			wsa = Wsa.WSA_LoadFile("WESTWOOD.WSA", Gfx.GFX_Screen_Get_ByIndex(Screen.NO1), (uint)(Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO1) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO2) + Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO3)), true);
 			Wsa.WSA_DisplayFrame(wsa, frame++, 0, 0, Screen.NO0);
 
-			Gui.GUI_SetPaletteAnimated(Gui.g_palette_998A, 60);
+			Gui.Gui.GUI_SetPaletteAnimated(Gui.Gui.g_palette_998A, 60);
 
 			Sound.Music_Play(0x24);
 
@@ -711,34 +712,34 @@ namespace SharpDune
 				if (Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
 
-			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
+			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
 
 			while (CDriver.Driver_Music_IsPlaying()) Sleep.sleepIdle();
 
-			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
+			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
 
 			Gfx.GFX_ClearScreen(Screen.ACTIVE);
 
-			Sprites.Sprites_LoadImage(CString.String_GenerateFilename("AND"), Screen.NO1, Gui.g_palette_998A);
+			Sprites.Sprites_LoadImage(CString.String_GenerateFilename("AND"), Screen.NO1, Gui.Gui.g_palette_998A);
 
-			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
+			Gui.Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
 
-			Gui.GUI_SetPaletteAnimated(Gui.g_palette_998A, 30);
+			Gui.Gui.GUI_SetPaletteAnimated(Gui.Gui.g_palette_998A, 30);
 
 			for (Timer.g_timerTimeout = 60; Timer.g_timerTimeout != 0; Sleep.sleepIdle())
 			{
 				if (Input.Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
 
-			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 30);
+			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 30);
 
-			Gui.GUI_ClearScreen(Screen.NO0);
+			Gui.Gui.GUI_ClearScreen(Screen.NO0);
 
-			Sprites.Sprites_LoadImage("VIRGIN.CPS", Screen.NO1, Gui.g_palette_998A);
+			Sprites.Sprites_LoadImage("VIRGIN.CPS", Screen.NO1, Gui.Gui.g_palette_998A);
 
-			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
+			Gui.Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
 
-			Gui.GUI_SetPaletteAnimated(Gui.g_palette_998A, 30);
+			Gui.Gui.GUI_SetPaletteAnimated(Gui.Gui.g_palette_998A, 30);
 
 			for (Timer.g_timerTimeout = 180; Timer.g_timerTimeout != 0; Sleep.sleepIdle())
 			{
@@ -747,9 +748,9 @@ namespace SharpDune
 
 		//TODO: Use a local function instead?
 		logos_exit:
-			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 30);
+			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 30);
 
-			Gui.GUI_ClearScreen(Screen.NO0);
+			Gui.Gui.GUI_ClearScreen(Screen.NO0);
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 		}
@@ -765,17 +766,17 @@ namespace SharpDune
 			byte[] credits_buffer;
 			int credits_bufferPointer;
 
-			Gui.GUI_Mouse_Hide_Safe();
+			Gui.Gui.GUI_Mouse_Hide_Safe();
 
 			CWidget.Widget_SetCurrentWidget(20);
 
-			Sprites.Sprites_LoadImage("BIGPLAN.CPS", Screen.NO1, Gui.g_palette_998A);
+			Sprites.Sprites_LoadImage("BIGPLAN.CPS", Screen.NO1, Gui.Gui.g_palette_998A);
 
-			Gui.GUI_ClearScreen(Screen.NO0);
+			Gui.Gui.GUI_ClearScreen(Screen.NO0);
 
-			Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO1, Screen.NO0);
+			Gui.Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO1, Screen.NO0);
 
-			Gui.GUI_SetPaletteAnimated(Gui.g_palette_998A, 60);
+			Gui.Gui.GUI_SetPaletteAnimated(Gui.Gui.g_palette_998A, 60);
 
 			Sound.Music_Play(0);
 
@@ -802,11 +803,11 @@ namespace SharpDune
 				}
 			}
 
-			Sprites.Sprites_LoadImage("MAPPLAN.CPS", Screen.NO1, Gui.g_palette_998A);
+			Sprites.Sprites_LoadImage("MAPPLAN.CPS", Screen.NO1, Gui.Gui.g_palette_998A);
 
-			Gui.GUI_Palette_RemapScreen((ushort)(CWidget.g_curWidgetXBase << 3), CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth << 3), CWidget.g_curWidgetHeight, Screen.NO1, remap);
+			Gui.Gui.GUI_Palette_RemapScreen((ushort)(CWidget.g_curWidgetXBase << 3), CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth << 3), CWidget.g_curWidgetHeight, Screen.NO1, remap);
 
-			Gui.GUI_Screen_FadeIn2((short)(CWidget.g_curWidgetXBase << 3), (short)CWidget.g_curWidgetYBase, (short)(CWidget.g_curWidgetWidth << 3), (short)CWidget.g_curWidgetHeight, Screen.NO1, Screen.NO0, 1, false);
+			Gui.Gui.GUI_Screen_FadeIn2((short)(CWidget.g_curWidgetXBase << 3), (short)CWidget.g_curWidgetYBase, (short)(CWidget.g_curWidgetWidth << 3), (short)CWidget.g_curWidgetHeight, Screen.NO1, Screen.NO0, 1, false);
 
 			GameCredits_LoadPalette();
 
@@ -814,9 +815,9 @@ namespace SharpDune
 			credits_bufferPointer = Gfx.SCREEN_WIDTH * CWidget.g_curWidgetHeight;
 			Debug.WriteLine($"DEBUG: GameLoop_GameCredits() credit buffer is {CWidget.g_curWidgetHeight} lines in NO3 buffer");
 
-			Gui.GUI_Mouse_Hide_Safe();
+			Gui.Gui.GUI_Mouse_Hide_Safe();
 
-			Gui.GUI_InitColors(colours, 0, (byte)(colours.Length - 1));
+			Gui.Gui.GUI_InitColors(colours, 0, (byte)(colours.Length - 1));
 
 			CFont.g_fontCharOffset = -1;
 
@@ -833,7 +834,7 @@ namespace SharpDune
 				Sound.Music_Play(33);
 			}
 
-			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
+			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 60);
 
 			CDriver.Driver_Music_FadeOut();
 
@@ -903,8 +904,8 @@ namespace SharpDune
 			positions[5].y = spriteY;
 
 			/* initialize */
-			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO0, spriteScreenID);
-			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, spriteScreenID, backScreenID);
+			Gui.Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO0, spriteScreenID);
+			Gui.Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, spriteScreenID, backScreenID);
 
 			GameCredits_SwapScreen((ushort)(CWidget.g_curWidgetYBase + 24), CWidget.g_curWidgetHeight, spriteScreenID, Screen.NO3);
 
@@ -1002,9 +1003,9 @@ namespace SharpDune
 				switch (stage)
 				{
 					case 0: /* 0 : clear */
-						Gui.GUI_ClearScreen(spriteScreenID);
+						Gui.Gui.GUI_ClearScreen(spriteScreenID);
 
-						if (spriteID == 514) Gui.GUI_ClearScreen(backScreenID);
+						if (spriteID == 514) Gui.Gui.GUI_ClearScreen(backScreenID);
 
 						stage++;
 						counter = 2;
@@ -1026,7 +1027,7 @@ namespace SharpDune
 					case 2: /* 2 : display new picture */
 						if (spriteID == 525) spriteID = 514;
 
-						Gui.GUI_DrawSprite(spriteScreenID, Sprites.g_sprites[spriteID], (short)positions[spritePos].x, (short)positions[spritePos].y, windowID, Gui.DRAWSPRITE_FLAG_WIDGETPOS);
+						Gui.Gui.GUI_DrawSprite(spriteScreenID, Sprites.g_sprites[spriteID], (short)positions[spritePos].x, (short)positions[spritePos].y, windowID, Gui.Gui.DRAWSPRITE_FLAG_WIDGETPOS);
 
 						counter = 8;
 						stage++;
@@ -1054,7 +1055,7 @@ namespace SharpDune
 				}
 
 				/* copy sprite (image) to back buffer */
-				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, spriteScreenID, backScreenID);
+				Gui.Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, spriteScreenID, backScreenID);
 
 				/* draw all strings on back buffer and scroll them 1 pixel up */
 				for (i = 0; i < stringCount; i++)
@@ -1067,7 +1068,7 @@ namespace SharpDune
 
 						if (strings[i].charHeight != CFont.g_fontCurrent.height) CFont.Font_Select(CFont.g_fontNew6p);
 
-						Gui.GUI_DrawText(strings[i].text, (short)strings[i].x, (short)(strings[i].y + CWidget.g_curWidgetYBase), 255, 0);
+						Gui.Gui.GUI_DrawText(strings[i].text, (short)strings[i].x, (short)(strings[i].y + CWidget.g_curWidgetYBase), 255, 0);
 
 						Gfx.GFX_Screen_SetActive(Screen.NO0);
 					}
@@ -1094,11 +1095,11 @@ namespace SharpDune
 			}
 
 			/* fade to black */
-			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 120);
+			Gui.Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 120);
 
-			Gui.GUI_ClearScreen(Screen.NO0);
-			Gui.GUI_ClearScreen(spriteScreenID);
-			Gui.GUI_ClearScreen(backScreenID);
+			Gui.Gui.GUI_ClearScreen(Screen.NO0);
+			Gui.Gui.GUI_ClearScreen(spriteScreenID);
+			Gui.Gui.GUI_ClearScreen(backScreenID);
 		}
 
 		static void GameCredits_SwapScreen(ushort top, ushort height, Screen srcScreenID, Screen dstScreenID)

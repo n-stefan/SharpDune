@@ -1,6 +1,7 @@
 ﻿/* WSA */
 
 using SharpDune.Codec;
+using SharpDune.Gui;
 using System;
 using static System.Math;
 

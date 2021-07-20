@@ -3,7 +3,7 @@
 using System;
 using System.Diagnostics;
 
-namespace SharpDune
+namespace SharpDune.Gui
 {
 	class Security
 	{

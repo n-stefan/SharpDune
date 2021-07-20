@@ -2,7 +2,7 @@
 
 using System.Linq;
 
-namespace SharpDune
+namespace SharpDune.Gui
 {
     class FontChar
 	{

@@ -278,7 +278,7 @@ namespace SharpDune
             offset = Endian.BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
             text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
-            return Gui.GUI_DisplayModalMessage(text, 0xFFFF);
+            return Gui.Gui.GUI_DisplayModalMessage(text, 0xFFFF);
         }
 
         /*
@@ -298,7 +298,7 @@ namespace SharpDune
             offset = Endian.BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
             text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
-            Gui.GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
+            Gui.Gui.GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
 
             return 0;
         }

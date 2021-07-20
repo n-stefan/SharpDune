@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Gui
 {
     delegate bool ClickProc(Widget widget);
 	delegate void ScrollbarDrawProc(Widget widget);

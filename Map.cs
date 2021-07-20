@@ -1,6 +1,7 @@
 ﻿/* Map */
 
 using SharpDune.Audio;
+using SharpDune.Gui;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -729,8 +730,8 @@ namespace SharpDune
 
             if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
             {
-                Gui.g_selectionState = CStructure.Structure_IsValidBuildLocation(packed, (StructureType)CStructure.g_structureActiveType);
-                Gui.g_selectionPosition = packed;
+                Gui.Gui.g_selectionState = CStructure.Structure_IsValidBuildLocation(packed, (StructureType)CStructure.g_structureActiveType);
+                Gui.Gui.g_selectionPosition = packed;
                 return;
             }
 
@@ -746,7 +747,7 @@ namespace SharpDune
                     si = CStructure.g_table_structureInfo[s.o.type];
                     if (s.o.houseID == (byte)CHouse.g_playerHouseID && CSharpDune.g_selectionType != (ushort)SelectionType.MENTAT)
                     {
-                        Gui.GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
+                        Gui.Gui.GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
                     }
 
                     packed = CTile.Tile_PackTile(s.o.position);
@@ -780,12 +781,12 @@ namespace SharpDune
                         }
                     }
                 }
-                Gui.g_selectionPosition = packed;
+                Gui.Gui.g_selectionPosition = packed;
                 return;
             }
 
             Map_SetSelectionSize((ushort)StructureLayout.STRUCTURE_LAYOUT_1x1);
-            Gui.g_selectionPosition = packed;
+            Gui.Gui.g_selectionPosition = packed;
             return;
         }
 
@@ -829,8 +830,8 @@ namespace SharpDune
             oldPosition = Map_SetSelectionObjectPosition(0xFFFF);
 
             selectionLayout = layout;
-            Gui.g_selectionWidth = CStructure.g_table_structure_layoutSize[layout].width;
-            Gui.g_selectionHeight = CStructure.g_table_structure_layoutSize[layout].height;
+            Gui.Gui.g_selectionWidth = CStructure.g_table_structure_layoutSize[layout].width;
+            Gui.Gui.g_selectionHeight = CStructure.g_table_structure_layoutSize[layout].height;
 
             Map_SetSelectionObjectPosition(oldPosition);
 
@@ -867,9 +868,9 @@ namespace SharpDune
 
             if (packed == 0xFFFF) return;
 
-            for (y = 0; y < Gui.g_selectionHeight; y++)
+            for (y = 0; y < Gui.Gui.g_selectionHeight; y++)
             {
-                for (x = 0; x < Gui.g_selectionWidth; x++)
+                for (x = 0; x < Gui.Gui.g_selectionWidth; x++)
                 {
                     ushort curPacked;
 
@@ -975,8 +976,8 @@ namespace SharpDune
 
             x = (byte)CTile.Tile_GetPackedX(packed);
             y = (byte)CTile.Tile_GetPackedY(packed);
-            x2 = (byte)CTile.Tile_GetPackedX(Gui.g_minimapPosition);
-            y2 = (byte)CTile.Tile_GetPackedY(Gui.g_minimapPosition);
+            x2 = (byte)CTile.Tile_GetPackedX(Gui.Gui.g_minimapPosition);
+            y2 = (byte)CTile.Tile_GetPackedY(Gui.Gui.g_minimapPosition);
 
             return x >= x2 && x < x2 + 15 && y >= y2 && y < y2 + 10;
         }
@@ -1250,7 +1251,7 @@ namespace SharpDune
                 top = (ushort)((CTile.Tile_GetPackedY(packed) - mapInfo.minY) * (mapScale + 1) + 136);
                 bottom = (ushort)(top + mapScale * 10 + 9);
 
-                Gui.GUI_DrawWiredRectangle(left, top, right, bottom, 15);
+                Gui.Gui.GUI_DrawWiredRectangle(left, top, right, bottom, 15);
 
                 for (mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
                 {
@@ -1263,9 +1264,9 @@ namespace SharpDune
 
             if (cleared && oldScreenID == Screen.NO0)
             {
-                Gui.GUI_Mouse_Hide_Safe();
-                Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
-                Gui.GUI_Mouse_Show_Safe();
+                Gui.Gui.GUI_Mouse_Hide_Safe();
+                Gui.Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
+                Gui.Gui.GUI_Mouse_Show_Safe();
             }
 
             Gfx.GFX_Screen_SetActive(oldScreenID);
@@ -1594,8 +1595,8 @@ namespace SharpDune
         {
             short x, y;
 
-            x = (short)((position.x >> 4) - (CTile.Tile_GetPackedX(Gui.g_viewportPosition) << 4));
-            y = (short)((position.y >> 4) - (CTile.Tile_GetPackedY(Gui.g_viewportPosition) << 4));
+            x = (short)((position.x >> 4) - (CTile.Tile_GetPackedX(Gui.Gui.g_viewportPosition) << 4));
+            y = (short)((position.y >> 4) - (CTile.Tile_GetPackedY(Gui.Gui.g_viewportPosition) << 4));
 
             /*if (retX != null)*/ retX = (ushort)x;
             /*if (retY != null)*/ retY = (ushort)y;
@@ -1623,8 +1624,8 @@ namespace SharpDune
             ushort x, y;
             MapInfo mapInfo;
 
-            x = (ushort)(CTile.Tile_GetPackedX(Gui.g_minimapPosition) + mapScrollOffset[direction].x);
-            y = (ushort)(CTile.Tile_GetPackedY(Gui.g_minimapPosition) + mapScrollOffset[direction].y);
+            x = (ushort)(CTile.Tile_GetPackedX(Gui.Gui.g_minimapPosition) + mapScrollOffset[direction].x);
+            y = (ushort)(CTile.Tile_GetPackedY(Gui.Gui.g_minimapPosition) + mapScrollOffset[direction].y);
 
             mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
 
@@ -1634,8 +1635,8 @@ namespace SharpDune
             x = (ushort)Min(x, mapInfo.minX + mapInfo.sizeX - 15);
             y = (ushort)Min(y, mapInfo.minY + mapInfo.sizeY - 10);
 
-            Gui.g_viewportPosition = CTile.Tile_PackXY(x, y);
-            return Gui.g_viewportPosition;
+            Gui.Gui.g_viewportPosition = CTile.Tile_PackXY(x, y);
+            return Gui.Gui.g_viewportPosition;
         }
 
         internal static void Map_SelectNext(bool getNext)
@@ -1657,7 +1658,7 @@ namespace SharpDune
             {
                 Structure s;
 
-                s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+                s = CStructure.Structure_Get_ByPackedTile(Gui.Gui.g_selectionPosition);
 
                 if (s != null && Map_IsTileVisible(CTile.Tile_PackTile(s.o.position))) selected = s.o;
             }
@@ -1820,7 +1821,7 @@ namespace SharpDune
                         break;
 
                     case 5: /* Visible */
-                        ret = CTile.Tile_PackXY((ushort)(CTile.Tile_GetPackedX(Gui.g_minimapPosition) + Tools.Tools_RandomLCG_Range(0, 14)), (ushort)(CTile.Tile_GetPackedY(Gui.g_minimapPosition) + Tools.Tools_RandomLCG_Range(0, 9)));
+                        ret = CTile.Tile_PackXY((ushort)(CTile.Tile_GetPackedX(Gui.Gui.g_minimapPosition) + Tools.Tools_RandomLCG_Range(0, 14)), (ushort)(CTile.Tile_GetPackedY(Gui.Gui.g_minimapPosition) + Tools.Tools_RandomLCG_Range(0, 9)));
                         if (houseID == (byte)CHouse.g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
                         break;
 
@@ -2060,7 +2061,7 @@ namespace SharpDune
             x = (short)Max(mapInfo.minX, Min(mapInfo.minX + mapInfo.sizeX - 15, x));
             y = (short)Max(mapInfo.minY, Min(mapInfo.minY + mapInfo.sizeY - 10, y));
 
-            Gui.g_viewportPosition = CTile.Tile_PackXY((ushort)x, (ushort)y);
+            Gui.Gui.g_viewportPosition = CTile.Tile_PackXY((ushort)x, (ushort)y);
         }
 
         static readonly sbyte[] around = { 0, -1, 1, -16, 16, -17, 17, -15, 15, -2, 2, -32, 32, -4, 4, -64, 64, -30, 30, -34, 34 };

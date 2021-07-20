@@ -1,6 +1,7 @@
 ﻿/* Structure handling */
 
 using SharpDune.Audio;
+using SharpDune.Gui;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -2543,7 +2544,7 @@ namespace SharpDune
                                             if (s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) stringID = (ushort)Text.STR_IS_COMPLETE;
                                             if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) stringID = (ushort)Text.STR_IS_COMPLETED_AND_READY_TO_PLACE;
 
-                                            Gui.GUI_DisplayText("{0} {1}", 0, CString.String_Get_ByIndex(oi.stringID_full), CString.String_Get_ByIndex(stringID));
+                                            Gui.Gui.GUI_DisplayText("{0} {1}", 0, CString.String_Get_ByIndex(oi.stringID_full), CString.String_Get_ByIndex(stringID));
 
                                             Sound.Sound_Output_Feedback(0);
                                         }
@@ -2590,7 +2591,7 @@ namespace SharpDune
                                 if (s.o.houseID == (byte)CHouse.g_playerHouseID)
                                 {
                                     s.o.flags.onHold = true;
-                                    Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_INSUFFICIENT_FUNDS_CONSTRUCTION_IS_HALTED), 0);
+                                    Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_INSUFFICIENT_FUNDS_CONSTRUCTION_IS_HALTED), 0);
                                 }
                             }
                         }
@@ -2882,7 +2883,7 @@ namespace SharpDune
 
             if (u.o.houseID == (byte)CHouse.g_playerHouseID && u.o.type == (byte)UnitType.UNIT_HARVESTER)
             {
-                Gui.GUI_DisplayHint((ushort)Text.STR_SEARCH_FOR_SPICE_FIELDS_TO_HARVEST, 0x6A);
+                Gui.Gui.GUI_DisplayHint((ushort)Text.STR_SEARCH_FOR_SPICE_FIELDS_TO_HARVEST, 0x6A);
             }
 
             if (s.o.linkedID == 0xFF) Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_IDLE);
@@ -3324,11 +3325,11 @@ namespace SharpDune
 
             if (Config.g_config.language == (byte)Language.FRENCH)
             {
-                Gui.GUI_DisplayText("{0} {1} {2}", 0, CString.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CHouse.g_table_houseInfo[s.o.houseID].name, CString.String_Get_ByIndex(Text.STR_IS_DESTROYED));
+                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, CString.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CHouse.g_table_houseInfo[s.o.houseID].name, CString.String_Get_ByIndex(Text.STR_IS_DESTROYED));
             }
             else
             {
-                Gui.GUI_DisplayText("{0} {1} {2}", 0, CHouse.g_table_houseInfo[s.o.houseID].name, CString.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CString.String_Get_ByIndex(Text.STR_IS_DESTROYED));
+                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, CHouse.g_table_houseInfo[s.o.houseID].name, CString.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CString.String_Get_ByIndex(Text.STR_IS_DESTROYED));
             }
 
             return 0;
@@ -3461,7 +3462,7 @@ namespace SharpDune
             {
                 if (s.o.houseID == (byte)CHouse.g_playerHouseID)
                 {
-                    Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_REPAIRING_STOPS), 2);
+                    Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_REPAIRING_STOPS), 2);
                 }
 
                 s.o.flags.repairing = false;
@@ -3476,7 +3477,7 @@ namespace SharpDune
 
             if (s.o.houseID == (byte)CHouse.g_playerHouseID)
             {
-                Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_REPAIRING_STARTS), 2);
+                Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_REPAIRING_STARTS), 2);
             }
 
             s.o.flags.onHold = true;
@@ -3632,7 +3633,7 @@ namespace SharpDune
                         /* Give the user 7 seconds to select their target */
                         CHouse.g_houseMissileCountdown = 7;
 
-                        Gui.GUI_ChangeSelectionType((ushort)SelectionType.TARGET);
+                        Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.TARGET);
                     }
                     break;
 
@@ -3869,7 +3870,7 @@ namespace SharpDune
                 {
                     byte i;
 
-                    Gui.g_factoryWindowConstructionYard = true;
+                    Gui.Gui.g_factoryWindowConstructionYard = true;
 
                     for (i = 0; i < (byte)StructureType.STRUCTURE_MAX; i++)
                     {
@@ -3882,7 +3883,7 @@ namespace SharpDune
                 }
                 else
                 {
-                    Gui.g_factoryWindowConstructionYard = false;
+                    Gui.Gui.g_factoryWindowConstructionYard = false;
 
                     if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT)
                     {
@@ -3960,11 +3961,11 @@ namespace SharpDune
 
                     Buffer.BlockCopy(Gfx.g_paletteActive, 0, Gfx.g_palette1, 0, 256 * 3); //memmove(g_palette1, g_paletteActive, 256 * 3);
 
-                    Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
+                    Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
                     Timer.Timer_SetTimer(TimerType.TIMER_GAME, false);
 
-                    res = Gui.GUI_DisplayFactoryWindow(Gui.g_factoryWindowConstructionYard, s.o.type == (byte)StructureType.STRUCTURE_STARPORT, upgradeCost);
+                    res = Gui.Gui.GUI_DisplayFactoryWindow(Gui.Gui.g_factoryWindowConstructionYard, s.o.type == (byte)StructureType.STRUCTURE_STARPORT, upgradeCost);
 
                     Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
 
@@ -3972,7 +3973,7 @@ namespace SharpDune
 
                     Gfx.GFX_SetPalette(Gfx.g_palette1);
 
-                    Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+                    Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 
                     if (res == FactoryResult.FACTORY_RESUME) return false;
 
@@ -3993,8 +3994,8 @@ namespace SharpDune
                         {
                             Unit u;
 
-                            if (Gui.g_factoryWindowItems[i].amount == 0) continue;
-                            objectType = Gui.g_factoryWindowItems[i].objectType;
+                            if (Gui.Gui.g_factoryWindowItems[i].amount == 0) continue;
+                            objectType = Gui.Gui.g_factoryWindowItems[i].objectType;
 
                             if (s.o.type != (byte)StructureType.STRUCTURE_STARPORT)
                             {
@@ -4002,11 +4003,11 @@ namespace SharpDune
 
                                 s.objectType = objectType;
 
-                                if (!Gui.g_factoryWindowConstructionYard) continue;
+                                if (!Gui.Gui.g_factoryWindowConstructionYard) continue;
 
                                 if (Structure_CheckAvailableConcrete(objectType, s.o.houseID)) continue;
 
-                                if (Gui.GUI_DisplayHint((ushort)Text.STR_THERE_ISNT_ENOUGH_OPEN_CONCRETE_TO_PLACE_THIS_STRUCTURE_YOU_MAY_PROCEED_BUT_WITHOUT_ENOUGH_CONCRETE_THE_BUILDING_WILL_NEED_REPAIRS, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
+                                if (Gui.Gui.GUI_DisplayHint((ushort)Text.STR_THERE_ISNT_ENOUGH_OPEN_CONCRETE_TO_PLACE_THIS_STRUCTURE_YOU_MAY_PROCEED_BUT_WITHOUT_ENOUGH_CONCRETE_THE_BUILDING_WILL_NEED_REPAIRS, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
 
                                 s.objectType = objectType;
 
@@ -4024,7 +4025,7 @@ namespace SharpDune
                             {
                                 h.credits += CUnit.g_table_unitInfo[(int)UnitType.UNIT_CARRYALL].o.buildCredits;
                                 if (s.o.houseID != (byte)CHouse.g_playerHouseID) continue;
-                                Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
+                                Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
                                 continue;
                             }
 
@@ -4038,8 +4039,8 @@ namespace SharpDune
                             CUnit.g_starportAvailable[objectType]--;
                             if (CUnit.g_starportAvailable[objectType] <= 0) CUnit.g_starportAvailable[objectType] = -1;
 
-                            Gui.g_factoryWindowItems[i].amount--;
-                            if (Gui.g_factoryWindowItems[i].amount != 0) i--;
+                            Gui.Gui.g_factoryWindowItems[i].amount--;
+                            if (Gui.Gui.g_factoryWindowItems[i].amount != 0) i--;
                         }
                     }
                 }
@@ -4082,14 +4083,14 @@ namespace SharpDune
 
                 if (s.o.houseID != (byte)CHouse.g_playerHouseID) return true;
 
-                Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_PRODUCTION_OF_S_HAS_STARTED), 2, str);
+                Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_PRODUCTION_OF_S_HAS_STARTED), 2, str);
 
                 return true;
             }
 
             if (s.o.houseID != (byte)CHouse.g_playerHouseID) return false;
 
-            Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
+            Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
 
             return false;
         }
@@ -4114,7 +4115,7 @@ namespace SharpDune
             {
                 if (s.o.houseID == (byte)CHouse.g_playerHouseID)
                 {
-                    Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UPGRADING_STOPS), 2);
+                    Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UPGRADING_STOPS), 2);
                 }
 
                 s.o.flags.upgrading = false;
@@ -4129,7 +4130,7 @@ namespace SharpDune
 
             if (s.o.houseID == (byte)CHouse.g_playerHouseID)
             {
-                Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UPGRADING_STARTS), 2);
+                Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UPGRADING_STARTS), 2);
             }
 
             s.o.flags.onHold = true;

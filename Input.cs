@@ -498,8 +498,8 @@ namespace SharpDune
 					if (Mouse.g_mouseLock == 0)
 					{
 						/* Move mouse pointer */
-						Gui.GUI_Mouse_Hide();
-						Gui.GUI_Mouse_Show();
+						Gui.Gui.GUI_Mouse_Hide();
+						Gui.Gui.GUI_Mouse_Show();
 					}
 					input = 0x2D;
 				}

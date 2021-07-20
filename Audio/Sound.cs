@@ -658,11 +658,11 @@ namespace SharpDune.Audio
 
 				CDriver.Driver_Voice_Stop();
 
-				Gui.g_viewportMessageText = null;
-				if ((Gui.g_viewportMessageCounter & 1) != 0)
+				Gui.Gui.g_viewportMessageText = null;
+				if ((Gui.Gui.g_viewportMessageCounter & 1) != 0)
 				{
 					CSharpDune.g_viewport_forceRedraw = true;
-					Gui.g_viewportMessageCounter = 0;
+					Gui.Gui.g_viewportMessageCounter = 0;
 				}
 				s_currentVoicePriority = 0;
 
@@ -673,14 +673,14 @@ namespace SharpDune.Audio
 			{
 				CDriver.Driver_Sound_Play((short)g_feedback[index].soundId, 0xFF);
 
-				Gui.g_viewportMessageText = CString.String_Get_ByIndex(g_feedback[index].messageId);
+				Gui.Gui.g_viewportMessageText = CString.String_Get_ByIndex(g_feedback[index].messageId);
 
-				if ((Gui.g_viewportMessageCounter & 1) != 0)
+				if ((Gui.Gui.g_viewportMessageCounter & 1) != 0)
 				{
 					CSharpDune.g_viewport_forceRedraw = true;
 				}
 
-				Gui.g_viewportMessageCounter = 4;
+				Gui.Gui.g_viewportMessageCounter = 4;
 
 				return;
 			}
@@ -772,7 +772,7 @@ namespace SharpDune.Audio
 			volume = 255;
 			if (position.x != 0 || position.y != 0)
 			{
-				volume = CTile.Tile_GetDistancePacked(Gui.g_minimapPosition, CTile.Tile_PackTile(position));
+				volume = CTile.Tile_GetDistancePacked(Gui.Gui.g_minimapPosition, CTile.Tile_PackTile(position));
 				if (volume > 64) volume = 64;
 
 				volume = (ushort)(255 - (volume * 255 / 80));
@@ -821,14 +821,14 @@ namespace SharpDune.Audio
 
 			Driver_Music_Play(0, 0xFF);
 
-			Gui.GUI_DrawText(CString.String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
+			Gui.Gui.GUI_DrawText(CString.String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
 
 			while (CDriver.Driver_Music_IsPlaying())
 			{
 				Timer.Timer_Sleep(60);
 
 				left += 6;
-				Gui.GUI_DrawText(".", (short)left, 10, 15, 12);
+				Gui.Gui.GUI_DrawText(".", (short)left, 10, 15, 12);
 			}
 		}
 

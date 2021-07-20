@@ -2,6 +2,7 @@
 
 //TODO: Add using statements
 
+using SharpDune.Gui;
 using System;
 using System.Diagnostics;
 using System.IO;

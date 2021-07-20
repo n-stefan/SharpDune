@@ -1,6 +1,6 @@
 ﻿/* Widget drawing */
 
-namespace SharpDune
+namespace SharpDune.Gui
 {
 	class WidgetDraw
 	{

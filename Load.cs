@@ -107,7 +107,7 @@ namespace SharpDune
 					/* Find the human player */
 					if (!SaveLoad.House_LoadOld(br, length)) return false;
 
-					Gui.GUI_DisplayModalMessage(CString.String_Get_ByIndex(Text.STR_WARNING_ORIGINAL_SAVED_GAMES_ARE_INCOMPATABLE_WITH_THE_NEW_VERSION_THE_BATTLE_WILL_BE_RESTARTED), 0xFFFF);
+					Gui.Gui.GUI_DisplayModalMessage(CString.String_Get_ByIndex(Text.STR_WARNING_ORIGINAL_SAVED_GAMES_ARE_INCOMPATABLE_WITH_THE_NEW_VERSION_THE_BATTLE_WILL_BE_RESTARTED), 0xFFFF);
 
 					return true;
 				}

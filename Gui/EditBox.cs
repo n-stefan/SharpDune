@@ -3,7 +3,7 @@
 using System;
 using System.Text;
 
-namespace SharpDune
+namespace SharpDune.Gui
 {
 	class EditBox
 	{

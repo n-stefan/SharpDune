@@ -70,16 +70,16 @@ namespace SharpDune
 			g_scenario.loseFlags = (ushort)Ini.Ini_GetInteger("BASIC", "LoseFlags", 0, s_scenarioBuffer);
 			g_scenario.mapSeed = (uint)Ini.Ini_GetInteger("MAP", "Seed", 0, s_scenarioBuffer);
 			g_scenario.timeOut = (ushort)Ini.Ini_GetInteger("BASIC", "TimeOut", 0, s_scenarioBuffer);
-			Gui.g_minimapPosition = (ushort)Ini.Ini_GetInteger("BASIC", "TacticalPos", Gui.g_minimapPosition, s_scenarioBuffer);
-			Gui.g_selectionRectanglePosition = (ushort)Ini.Ini_GetInteger("BASIC", "CursorPos", Gui.g_selectionRectanglePosition, s_scenarioBuffer);
+			Gui.Gui.g_minimapPosition = (ushort)Ini.Ini_GetInteger("BASIC", "TacticalPos", Gui.Gui.g_minimapPosition, s_scenarioBuffer);
+			Gui.Gui.g_selectionRectanglePosition = (ushort)Ini.Ini_GetInteger("BASIC", "CursorPos", Gui.Gui.g_selectionRectanglePosition, s_scenarioBuffer);
 			g_scenario.mapScale = (ushort)Ini.Ini_GetInteger("BASIC", "MapScale", 0, s_scenarioBuffer);
 
 			g_scenario.pictureBriefing = Ini.Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA", s_scenarioBuffer);
 			g_scenario.pictureWin = Ini.Ini_GetString("BASIC", "WinPicture", "WIN1.WSA", s_scenarioBuffer);
 			g_scenario.pictureLose = Ini.Ini_GetString("BASIC", "LosePicture", "LOSTBILD.WSA", s_scenarioBuffer);
 
-			Gui.g_viewportPosition = Gui.g_minimapPosition;
-			Gui.g_selectionPosition = Gui.g_selectionRectanglePosition;
+			Gui.Gui.g_viewportPosition = Gui.Gui.g_minimapPosition;
+			Gui.Gui.g_selectionPosition = Gui.Gui.g_selectionRectanglePosition;
 		}
 
 		static void Scenario_Load_House(byte houseID)

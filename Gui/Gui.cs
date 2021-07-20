@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Gui
 {
     /*
 	 * The possible selection types.

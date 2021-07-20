@@ -134,7 +134,7 @@ namespace SharpDune
 			offset = Endian.BETOH16(script.scriptInfo.text[Script.STACK_PEEK(script, 1)]);
 			text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
-			Gui.GUI_DisplayText(text, 0, Script.STACK_PEEK(script, 2), Script.STACK_PEEK(script, 3), Script.STACK_PEEK(script, 4));
+			Gui.Gui.GUI_DisplayText(text, 0, Script.STACK_PEEK(script, 2), Script.STACK_PEEK(script, 3), Script.STACK_PEEK(script, 4));
 
 			return 0;
 		}

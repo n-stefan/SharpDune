@@ -125,11 +125,11 @@ namespace SharpDune
 
                 if ((g_regionFlags & 0xC000) != 0xC000)
                 {
-                    Gui.GUI_Mouse_Hide();
+                    Gui.Gui.GUI_Mouse_Hide();
 
                     if ((g_regionFlags & 0x8000) == 0)
                     {
-                        Gui.GUI_Mouse_Show();
+                        Gui.Gui.GUI_Mouse_Show();
                         g_mousePrevX = mouseX;
                         g_mousePrevY = mouseY;
                         g_mouseLock = 0;
@@ -144,7 +144,7 @@ namespace SharpDune
                 }
                 else
                 {
-                    Gui.GUI_Mouse_Show();
+                    Gui.Gui.GUI_Mouse_Show();
                 }
             }
 
@@ -251,8 +251,8 @@ namespace SharpDune
                             g_mouseY = g_mouseRecordedY;
                             g_prevButtonState = 0;
 
-                            Gui.GUI_Mouse_Hide_Safe();
-                            Gui.GUI_Mouse_Show_Safe();
+                            Gui.Gui.GUI_Mouse_Hide_Safe();
+                            Gui.Gui.GUI_Mouse_Show_Safe();
 
                             g_mouseNoRecordedValue = false;
                             break;

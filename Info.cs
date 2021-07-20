@@ -16,8 +16,8 @@ namespace SharpDune
         static readonly SaveLoadDesc[] s_saveInfo = {
             SaveLoad.SLD_GSLD(() => CScenario.g_scenario, SaveLoad.g_saveScenario),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, (v, _) => CHouse.g_playerCreditsNoSilo = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.g_minimapPosition, (v, _) => Gui.g_minimapPosition = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.g_selectionRectanglePosition, (v, _) => Gui.g_selectionRectanglePosition = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.Gui.g_minimapPosition, (v, _) => Gui.Gui.g_minimapPosition = (ushort)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.Gui.g_selectionRectanglePosition, (v, _) => Gui.Gui.g_selectionRectanglePosition = (ushort)v),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_INT8, () => CSharpDune.g_selectionType, SaveLoad_SelectionType),
             SaveLoad.SLD_GENTRY2(SaveLoadType.SLDT_INT8, SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActiveType, (v, _) => CStructure.g_structureActiveType = (ushort)(sbyte)v),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActivePosition, (v, _) => CStructure.g_structureActivePosition = (ushort)v),
@@ -25,7 +25,7 @@ namespace SharpDune
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitSelected, SaveLoad_UnitSelected),
             SaveLoad.SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitActive, SaveLoad_UnitActive),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_activeAction, (v, _) => CSharpDune.g_activeAction = (ushort)v),
-            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => Gui.g_strategicRegionBits, (v, _) => Gui.g_strategicRegionBits = (uint)v),
+            SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => Gui.Gui.g_strategicRegionBits, (v, _) => Gui.Gui.g_strategicRegionBits = (uint)v),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, (v, _) => CSharpDune.g_scenarioID = (ushort)v),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, (v, _) => CSharpDune.g_campaignID = (ushort)v),
             SaveLoad.SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_hintsShown1, (v, _) => CSharpDune.g_hintsShown1 = (uint)v),
@@ -63,8 +63,8 @@ namespace SharpDune
             if (SaveLoad.SaveLoad_GetLength(s_saveInfo) != length) return false;
             if (!SaveLoad.SaveLoad_Load(s_saveInfo, fp, null)) return false;
 
-            Gui.g_viewportPosition = Gui.g_minimapPosition;
-            Gui.g_selectionPosition = Gui.g_selectionRectanglePosition;
+            Gui.Gui.g_viewportPosition = Gui.Gui.g_minimapPosition;
+            Gui.Gui.g_selectionPosition = Gui.Gui.g_selectionRectanglePosition;
 
             Sprites.Sprites_LoadTiles();
 

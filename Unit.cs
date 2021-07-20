@@ -1,6 +1,7 @@
 ﻿/* Unit */
 
 using SharpDune.Audio;
+using SharpDune.Gui;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -2444,7 +2445,7 @@ namespace SharpDune
 			{
 				g_unitSelected = null;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+				Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 				return;
 			}
 
@@ -2457,7 +2458,7 @@ namespace SharpDune
 				/* Plays the 'reporting' sound file. */
 				Sound.Sound_StartSound((ushort)(ui.movementType == (ushort)MovementType.MOVEMENT_FOOT ? 18 : 19));
 
-				Gui.GUI_DisplayHint(ui.o.hintStringID, ui.o.spriteID);
+				Gui.Gui.GUI_DisplayHint(ui.o.hintStringID, ui.o.spriteID);
 			}
 
 			if (g_unitSelected != null)
@@ -2473,7 +2474,7 @@ namespace SharpDune
 				Unit_DisplayStatusText(unit);
 				g_unitSelected = unit;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
+				Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
 			}
 
 			Unit_UpdateMap(2, g_unitSelected);
@@ -2646,7 +2647,7 @@ namespace SharpDune
 			buffer = $"{buffer}.";
 			//buffer[len + 1] = '\0';
 			//}
-			Gui.GUI_DisplayText(buffer, 2);
+			Gui.Gui.GUI_DisplayText(buffer, 2);
 		}
 
 		/*
@@ -2747,7 +2748,7 @@ namespace SharpDune
 
 						if (Config.g_config.language == (byte)Language.ENGLISH)
 						{
-							Gui.GUI_DisplayHint((ushort)Text.STR_WARNING_SANDWORMS_SHAIHULUD_ROAM_DUNE_DEVOURING_ANYTHING_ON_THE_SAND, 105);
+							Gui.Gui.GUI_DisplayHint((ushort)Text.STR_WARNING_SANDWORMS_SHAIHULUD_ROAM_DUNE_DEVOURING_ANYTHING_ON_THE_SAND, 105);
 						}
 
 						hp.timerSandwormAttack = 8;
@@ -3478,7 +3479,7 @@ namespace SharpDune
 				g_unitActive = null;
 				CSharpDune.g_activeAction = 0xFFFF;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+				Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 			}
 
 			Unit_Select(null);
@@ -4772,7 +4773,7 @@ namespace SharpDune
 				return;
 			}
 
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+			Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 		}
 
 		/*
@@ -5835,7 +5836,7 @@ namespace SharpDune
 
 			if (Unit_GetHouseID(u) == (byte)CHouse.g_playerHouseID)
 			{
-				Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
+				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
 			}
 
 			Unit_UpdateMap(1, u);
@@ -6287,11 +6288,11 @@ namespace SharpDune
 
 			if (Config.g_config.language == (byte)Language.FRENCH)
 			{
-				Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CString.String_Get_ByIndex(ui.o.stringID_abbrev), CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name);
+				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CString.String_Get_ByIndex(ui.o.stringID_abbrev), CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name);
 			}
 			else
 			{
-				Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name, CString.String_Get_ByIndex(ui.o.stringID_abbrev));
+				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name, CString.String_Get_ByIndex(ui.o.stringID_abbrev));
 			}
 
 			return 0;

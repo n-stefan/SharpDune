@@ -94,7 +94,7 @@ namespace SharpDune
 
 			Mouse.g_mouseLock++;
 
-			Gui.GUI_Mouse_Hide();
+			Gui.Gui.GUI_Mouse_Hide();
 
 			size = Gfx.GFX_GetSize((short)(Endian.READ_LE_UINT16(sprite[3..]) + 16), sprite[5]);
 
@@ -148,14 +148,14 @@ namespace SharpDune
 				Format80.Format80_Decode(dst, sprite, size, dstPointer, spritePointer);
 			}
 
-			Gui.g_mouseSpriteHotspotX = hotSpotX;
-			Gui.g_mouseSpriteHotspotY = hotSpotY;
+			Gui.Gui.g_mouseSpriteHotspotX = hotSpotX;
+			Gui.Gui.g_mouseSpriteHotspotY = hotSpotY;
 
 			sprite = g_mouseSprite;
-			Gui.g_mouseHeight = sprite[5];
-			Gui.g_mouseWidth = (ushort)((Endian.READ_LE_UINT16(sprite[3..]) >> 3) + 2);
+			Gui.Gui.g_mouseHeight = sprite[5];
+			Gui.Gui.g_mouseWidth = (ushort)((Endian.READ_LE_UINT16(sprite[3..]) >> 3) + 2);
 
-			Gui.GUI_Mouse_Show();
+			Gui.Gui.GUI_Mouse_Show();
 
 			Mouse.g_mouseLock--;
 		}

@@ -1,5 +1,7 @@
 ﻿/* WindowDesc file table */
 
+using SharpDune.Gui;
+
 namespace SharpDune
 {
     class CWindowDesc

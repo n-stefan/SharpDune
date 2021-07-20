@@ -4,7 +4,7 @@ using SharpDune.Audio;
 using System;
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Gui
 {
 	class Viewport
 	{

@@ -1,5 +1,7 @@
 ﻿/* WidgetInfo file table */
 
+using SharpDune.Gui;
+
 namespace SharpDune
 {
     class CWidgetInfo
