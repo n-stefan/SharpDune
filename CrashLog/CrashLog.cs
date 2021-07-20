@@ -1,6 +1,6 @@
 ﻿/* Windows implementation of the crashlog */
 
-namespace SharpDune
+namespace SharpDune.CrashLog
 {
     class CrashLog
     {
