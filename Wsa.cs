@@ -1,5 +1,6 @@
 ﻿/* WSA */
 
+using SharpDune.Codec;
 using System;
 using static System.Math;
 

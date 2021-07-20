@@ -3,6 +3,7 @@
 //#define Sprites_0
 //#define Sprites_1
 
+using SharpDune.Codec;
 using System;
 using System.Diagnostics;
 

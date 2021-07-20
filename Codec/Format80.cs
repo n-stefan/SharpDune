@@ -2,7 +2,7 @@
 
 using System;
 
-namespace SharpDune
+namespace SharpDune.Codec
 {
 	class Format80
 	{

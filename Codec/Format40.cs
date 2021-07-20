@@ -1,6 +1,6 @@
 ﻿/* Decoder for 'format40' files */
 
-namespace SharpDune
+namespace SharpDune.Codec
 {
 	class Format40
 	{
