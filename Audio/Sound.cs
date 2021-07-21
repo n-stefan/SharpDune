@@ -1,5 +1,6 @@
 ﻿/* Sound */
 
+using SharpDune.Os;
 using System;
 
 namespace SharpDune.Audio
@@ -673,7 +674,7 @@ namespace SharpDune.Audio
 			{
 				CDriver.Driver_Sound_Play((short)g_feedback[index].soundId, 0xFF);
 
-				Gui.Gui.g_viewportMessageText = CString.String_Get_ByIndex(g_feedback[index].messageId);
+				Gui.Gui.g_viewportMessageText = CStrings.String_Get_ByIndex(g_feedback[index].messageId);
 
 				if ((Gui.Gui.g_viewportMessageCounter & 1) != 0)
 				{
@@ -821,7 +822,7 @@ namespace SharpDune.Audio
 
 			Driver_Music_Play(0, 0xFF);
 
-			Gui.Gui.GUI_DrawText(CString.String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
+			Gui.Gui.GUI_DrawText(CStrings.String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
 
 			while (CDriver.Driver_Music_IsPlaying())
 			{

@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace SharpDune
+namespace SharpDune.Os
 {
     class Common
     {

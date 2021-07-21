@@ -1,6 +1,7 @@
 ﻿/* Editbox */
 
 using SharpDune.Input;
+using SharpDune.Os;
 using System;
 using System.Text;
 

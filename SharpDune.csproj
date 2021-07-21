@@ -20,16 +20,16 @@
 
   <ItemGroup>
     <Compile Remove="Audio\SdlDsp.cs" />
+    <Compile Remove="Os\Thread.cs" />
     <Compile Remove="Scale2x.cs" />
     <Compile Remove="ScaleBit.cs" />
-    <Compile Remove="Thread.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Audio\SdlDsp.cs" />
+    <None Include="Os\Thread.cs" />
     <None Include="Scale2x.cs" />
     <None Include="ScaleBit.cs" />
-    <None Include="Thread.cs" />
   </ItemGroup>
 
   <ItemGroup>

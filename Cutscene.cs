@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Gui;
+using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -605,14 +606,14 @@ namespace SharpDune
 				if (Sound.g_feedback[feedback_index].messageId != 0)
 				{
 					/* force drawing of subtitle */
-					GameLoop_DrawText(CString.String_Get_ByIndex(subtitle.stringID), subtitle.top);
+					GameLoop_DrawText(CStrings.String_Get_ByIndex(subtitle.stringID), subtitle.top);
 				}
 			}
 			else
 			{
 				if (subtitle.stringID != (ushort)Text.STR_NULL)
 				{
-					GameLoop_DrawText(CString.String_Get_ByIndex(subtitle.stringID), subtitle.top);
+					GameLoop_DrawText(CStrings.String_Get_ByIndex(subtitle.stringID), subtitle.top);
 				}
 			}
 
@@ -720,7 +721,7 @@ namespace SharpDune
 
 			Gfx.GFX_ClearScreen(Screen.ACTIVE);
 
-			Sprites.Sprites_LoadImage(CString.String_GenerateFilename("AND"), Screen.NO1, Gui.Gui.g_palette_998A);
+			Sprites.Sprites_LoadImage(CStrings.String_GenerateFilename("AND"), Screen.NO1, Gui.Gui.g_palette_998A);
 
 			Gui.Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
 
@@ -825,7 +826,7 @@ namespace SharpDune
 
 			for (; ; Sleep.sleepIdle())
 			{
-				CFile.File_ReadBlockFile(CString.String_GenerateFilename("CREDITS"), credits_buffer, Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO3), credits_bufferPointer);
+				CFile.File_ReadBlockFile(CStrings.String_GenerateFilename("CREDITS"), credits_buffer, Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO3), credits_bufferPointer);
 
 				GameCredits_Play(credits_buffer, credits_bufferPointer, 20, Screen.NO1, Screen.NO2, 6);
 

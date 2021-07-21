@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Input;
+using SharpDune.Os;
 using System.Diagnostics;
 using static System.Math;
 
@@ -95,8 +96,8 @@ namespace SharpDune.Gui
 				return;
 			}
 
-			w1 = CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_PROCEED)[0]), 168, 168, 379, 0);
-			w2 = CWidget.GUI_Widget_Allocate(2, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_REPEAT)[0]), 240, 168, 381, 0);
+			w1 = CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(Text.STR_PROCEED)[0]), 168, 168, 379, 0);
+			w2 = CWidget.GUI_Widget_Allocate(2, CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(Text.STR_REPEAT)[0]), 240, 168, 381, 0);
 
 			w1 = CWidget.GUI_Widget_Link(w1, w2);
 
@@ -111,7 +112,7 @@ namespace SharpDune.Gui
 			string text;
 			do
 			{
-				text = CString.String_Get_ByIndex(stringID);
+				text = CStrings.String_Get_ByIndex(stringID);
 				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(text); //strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
 				Sleep.sleepIdle();
 			} while (GUI_Mentat_Show(text, wsaFilename, w1) == 0x8002);
@@ -967,7 +968,7 @@ namespace SharpDune.Gui
 
 			GUI_Mentat_Display(null, (byte)CHouse.g_playerHouseID);
 
-			CWidget.g_widgetMentatFirst = CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_EXIT)[0]), 200, 168, (ushort)(proceed ? 379 : 377), 5);
+			CWidget.g_widgetMentatFirst = CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(Text.STR_EXIT)[0]), 200, 168, (ushort)(proceed ? 379 : 377), 5);
 			CWidget.g_widgetMentatFirst.shortcut2 = 'n';
 
 			GUI_Mentat_Create_HelpScreen_Widgets();
@@ -1163,7 +1164,7 @@ namespace SharpDune.Gui
 
 			Gui.GUI_DrawSprite(Screen.NO1, Sprites.g_sprites[397 + (byte)CHouse.g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 
-			Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECT_SUBJECT), (short)((CWidget.g_curWidgetXBase << 3) + 16), (short)(CWidget.g_curWidgetYBase + 2), 12, 0, 0x12);
+			Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_SELECT_SUBJECT), (short)((CWidget.g_curWidgetXBase << 3) + 16), (short)(CWidget.g_curWidgetYBase + 2), 12, 0, 0x12);
 			Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x11);
 
 			line = CWidget.GUI_Widget_Get_ByIndex(w, 3);
@@ -1197,7 +1198,7 @@ namespace SharpDune.Gui
 				CWidget.GUI_Widget_Draw(line);
 
 				line = CWidget.GUI_Widget_GetNext(line);
-				helpSubjectsPointer = CString.String_NextString(helpSubjects, helpSubjectsPointer);
+				helpSubjectsPointer = CStrings.String_NextString(helpSubjects, helpSubjectsPointer);
 			}
 
 			CWidget.GUI_Widget_Scrollbar_Init(CWidget.GUI_Widget_Get_ByIndex(w, 15), (short)s_numberHelpSubjects, 11, (short)s_topHelpList);
@@ -1316,7 +1317,7 @@ namespace SharpDune.Gui
 				//sprintf(s_mentatFilename, "MENTAT%c", g_table_houseInfo[g_playerHouseID].name[0]);
 				s_mentatFilename = $"MENTAT{CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].name[0]}";
 				//strncpy(s_mentatFilename, String_GenerateFilename(s_mentatFilename), sizeof(s_mentatFilename));
-				s_mentatFilename = CString.String_GenerateFilename(s_mentatFilename);
+				s_mentatFilename = CStrings.String_GenerateFilename(s_mentatFilename);
 			}
 
 			fileID = CFile.ChunkFile_Open(s_mentatFilename);
@@ -1351,7 +1352,7 @@ namespace SharpDune.Gui
 
 			while (helpSubjects[helpSubjectsPointer] == '\0') helpSubjectsPointer++;
 
-			for (i = 0; i < s_topHelpList; i++) helpSubjectsPointer = CString.String_NextString(helpSubjects, helpSubjectsPointer);
+			for (i = 0; i < s_topHelpList; i++) helpSubjectsPointer = CStrings.String_NextString(helpSubjects, helpSubjectsPointer);
 
 			s_helpSubjects = helpSubjects;
 			s_helpSubjectsPointer = helpSubjectsPointer;
@@ -1379,7 +1380,7 @@ namespace SharpDune.Gui
 
 				while (difference-- != 0)
 				{
-					s_helpSubjectsPointer = CString.String_NextString(s_helpSubjects, s_helpSubjectsPointer);
+					s_helpSubjectsPointer = CStrings.String_NextString(s_helpSubjects, s_helpSubjectsPointer);
 				}
 				return;
 			}
@@ -1397,7 +1398,7 @@ namespace SharpDune.Gui
 
 				while (difference-- != 0)
 				{
-					s_helpSubjectsPointer = CString.String_PrevString(s_helpSubjects, s_helpSubjectsPointer);
+					s_helpSubjectsPointer = CStrings.String_PrevString(s_helpSubjects, s_helpSubjectsPointer);
 				}
 				return;
 			}
@@ -1423,7 +1424,7 @@ namespace SharpDune.Gui
 			subject = s_helpSubjects;
 			subjectPointer = s_helpSubjectsPointer;
 
-			for (i = 0; i < s_selectedHelpSubject; i++) subjectPointer = CString.String_NextString(subject, subjectPointer);
+			for (i = 0; i < s_selectedHelpSubject; i++) subjectPointer = CStrings.String_NextString(subject, subjectPointer);
 
 			noDesc = (subject[subjectPointer + 5] == '0');  /* or no WSA file ? */
 			offset = Endian.HTOBE32(Endian.READ_LE_UINT32(subject[(subjectPointer + 1)..]));
@@ -1440,8 +1441,8 @@ namespace SharpDune.Gui
 			fileID = CFile.File_Open(s_mentatFilename, FileMode.FILE_MODE_READ);
 			CFile.File_Seek(fileID, (int)offset, 0);
 			CFile.File_Read(fileID, ref compressedText, info.length);
-			CString.String_Decompress(CSharpDune.Encoding.GetString(compressedText), ref text, (ushort)CSharpDune.g_readBufferSize);
-			text = CString.String_TranslateSpecial(text);
+			CStrings.String_Decompress(CSharpDune.Encoding.GetString(compressedText), ref text, (ushort)CSharpDune.g_readBufferSize);
+			text = CStrings.String_TranslateSpecial(text);
 			CFile.File_Close(fileID);
 
 			//TODO: Remove textPointer
@@ -1459,7 +1460,7 @@ namespace SharpDune.Gui
 
 				textPointer = 0;
 				var index = (ushort)(text[textPointer] - 44 + CSharpDune.g_campaignID * 4 + 405 + (byte)CHouse.g_playerHouseID * 40);
-				text = $"{CString.String_Get_ByIndex(index)}\0"; //strncpy(g_readBuffer, String_Get_ByIndex(index), g_readBufferSize);
+				text = $"{CStrings.String_Get_ByIndex(index)}\0"; //strncpy(g_readBuffer, String_Get_ByIndex(index), g_readBufferSize);
 			}
 			else
 			{

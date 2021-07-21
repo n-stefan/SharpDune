@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Gui;
+using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -2591,18 +2592,18 @@ namespace SharpDune
 
 			if (unit.o.type == (byte)UnitType.UNIT_SANDWORM)
 			{
-				buffer = CString.String_Get_ByIndex(ui.o.stringID_abbrev); //snprintf(buffer, sizeof(buffer), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
+				buffer = CStrings.String_Get_ByIndex(ui.o.stringID_abbrev); //snprintf(buffer, sizeof(buffer), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 			}
 			else
 			{
 				var houseName = CHouse.g_table_houseInfo[Unit_GetHouseID(unit)].name;
 				if (Config.g_config.language == (byte)Language.FRENCH)
 				{
-					buffer = $"{CString.String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
+					buffer = $"{CStrings.String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 				}
 				else
 				{
-					buffer = $"{houseName} {CString.String_Get_ByIndex(ui.o.stringID_abbrev)}"; //snprintf(buffer, sizeof(buffer), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
+					buffer = $"{houseName} {CStrings.String_Get_ByIndex(ui.o.stringID_abbrev)}"; //snprintf(buffer, sizeof(buffer), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
 				}
 			}
 
@@ -2637,7 +2638,7 @@ namespace SharpDune
 					//size_t len = strlen(buffer);
 					//char* s = buffer + len;
 
-					buffer = $"{buffer}{string.Format(CSharpDune.Culture, CString.String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
+					buffer = $"{buffer}{string.Format(CSharpDune.Culture, CStrings.String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
 				}
 			}
 
@@ -5836,7 +5837,7 @@ namespace SharpDune
 
 			if (Unit_GetHouseID(u) == (byte)CHouse.g_playerHouseID)
 			{
-				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
+				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
 			}
 
 			Unit_UpdateMap(1, u);
@@ -6288,11 +6289,11 @@ namespace SharpDune
 
 			if (Config.g_config.language == (byte)Language.FRENCH)
 			{
-				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CString.String_Get_ByIndex(ui.o.stringID_abbrev), CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name);
+				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev), CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name);
 			}
 			else
 			{
-				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name, CString.String_Get_ByIndex(ui.o.stringID_abbrev));
+				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev));
 			}
 
 			return 0;

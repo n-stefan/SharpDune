@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Os
 {
 	enum Text
 	{
@@ -561,7 +561,7 @@ namespace SharpDune
 		INVALID = 0xFF
 	}
 
-	class CString
+	class CStrings
 	{
 		static string[] s_strings;
 

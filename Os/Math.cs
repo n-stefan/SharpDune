@@ -2,7 +2,7 @@
 
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Os
 {
     class CMath
     {

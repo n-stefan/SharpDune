@@ -1,6 +1,6 @@
 ﻿/* OS-independent inclusion of the delay routine */
 
-namespace SharpDune
+namespace SharpDune.Os
 {
     class Sleep
     {

@@ -14,6 +14,7 @@ using SharpDune.Audio;
 using SharpDune.CrashLog;
 using SharpDune.Gui;
 using SharpDune.Input;
+using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -274,7 +275,7 @@ class CSharpDune
             {
                 Sound.Sound_Output_Feedback(40);
 
-                Gui.GUI_DisplayModalMessage(CString.String_Get_ByIndex(Text.STR_YOU_HAVE_SUCCESSFULLY_COMPLETED_YOUR_MISSION), 0xFFFF);
+                Gui.GUI_DisplayModalMessage(CStrings.String_Get_ByIndex(Text.STR_YOU_HAVE_SUCCESSFULLY_COMPLETED_YOUR_MISSION), 0xFFFF);
 
                 Mentat.GUI_Mentat_ShowWin();
 
@@ -319,7 +320,7 @@ class CSharpDune
             {
                 Sound.Sound_Output_Feedback(41);
 
-                Gui.GUI_DisplayModalMessage(CString.String_Get_ByIndex(Text.STR_YOU_HAVE_FAILED_YOUR_MISSION), 0xFFFF);
+                Gui.GUI_DisplayModalMessage(CStrings.String_Get_ByIndex(Text.STR_YOU_HAVE_FAILED_YOUR_MISSION), 0xFFFF);
 
                 Mentat.GUI_Mentat_ShowLose();
 
@@ -829,7 +830,7 @@ class CSharpDune
                     continue;
                 }
 
-                strings[i] = CString.String_Get_ByIndex(mainMenuStrings[index][i]);
+                strings[i] = CStrings.String_Get_ByIndex(mainMenuStrings[index][i]);
             }
 
             Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
@@ -850,7 +851,7 @@ class CSharpDune
             CWidget.g_widgetProperties[13].yBase = (ushort)(160 - ((CWidget.g_widgetProperties[21].height * CFont.g_fontCurrent.height) >> 1));
             CWidget.g_widgetProperties[13].height = (ushort)((CWidget.g_widgetProperties[21].height * CFont.g_fontCurrent.height) + 11);
 
-            Sprites.Sprites_LoadImage(CString.String_GenerateFilename("TITLE"), Screen.NO1, null);
+            Sprites.Sprites_LoadImage(CStrings.String_GenerateFilename("TITLE"), Screen.NO1, null);
 
             Gui.GUI_Mouse_Hide_Safe();
 
@@ -961,7 +962,7 @@ class CSharpDune
     {
         ushort key;
 
-        CString.String_Init();
+        CStrings.String_Init();
         Sprites.Sprites_Init();
 
         if (IniFile.IniFile_GetInteger("mt32midi", 0) != 0) Sound.Music_InitMT32();
@@ -1359,7 +1360,7 @@ class CSharpDune
 
         GameLoop_Main();
 
-        Trace.WriteLine(CString.String_Get_ByIndex(Text.STR_THANK_YOU_FOR_PLAYING_DUNE_II));
+        Trace.WriteLine(CStrings.String_Get_ByIndex(Text.STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
         PrepareEnd();
         IniFile.Free_IniFile();
@@ -1587,7 +1588,7 @@ class CSharpDune
 
         GameLoop_Uninit();
 
-        CString.String_Uninit();
+        CStrings.String_Uninit();
         Sprites.Sprites_Uninit();
         CFont.Font_Uninit();
         Sound.Voice_UnloadVoices();

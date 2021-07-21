@@ -6,6 +6,7 @@
 using SharpDune.Audio;
 using SharpDune.Codec;
 using SharpDune.Input;
+using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -1184,7 +1185,7 @@ namespace SharpDune.Gui
 			//if ((hintsShown & mask) != 0) return 0;
 			//hintsShown |= mask;
 
-			return GUI_DisplayModalMessage(CString.String_Get_ByIndex(stringID), spriteID);
+			return GUI_DisplayModalMessage(CStrings.String_Get_ByIndex(stringID), spriteID);
 		}
 
 		static string textBuffer; //char[768]
@@ -3243,7 +3244,7 @@ namespace SharpDune.Gui
 			{
 				Sprites.Sprites_LoadImage("PLANET.CPS", Screen.NO1, g_palette_998A);
 
-				GUI_StrategicMap_DrawText(CString.String_Get_ByIndex(Text.STR_THREE_HOUSES_HAVE_COME_TO_DUNE));
+				GUI_StrategicMap_DrawText(CStrings.String_Get_ByIndex(Text.STR_THREE_HOUSES_HAVE_COME_TO_DUNE));
 
 				GUI_Screen_FadeIn2(8, 24, 304, 120, Screen.NO1, Screen.NO0, 0, false);
 
@@ -3258,7 +3259,7 @@ namespace SharpDune.Gui
 
 				Sprites.Sprites_LoadImage("DUNEMAP.CPS", Screen.NO1, g_palette_998A);
 
-				GUI_StrategicMap_DrawText(CString.String_Get_ByIndex(Text.STR_TO_TAKE_CONTROL_OF_THE_LAND));
+				GUI_StrategicMap_DrawText(CStrings.String_Get_ByIndex(Text.STR_TO_TAKE_CONTROL_OF_THE_LAND));
 
 				GUI_Screen_FadeIn2(8, 24, 304, 120, Screen.NO1, Screen.NO0, (ushort)(GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1), false);
 
@@ -3267,7 +3268,7 @@ namespace SharpDune.Gui
 					if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 				}
 
-				GUI_StrategicMap_DrawText(CString.String_Get_ByIndex(Text.STR_THAT_HAS_BECOME_DIVIDED));
+				GUI_StrategicMap_DrawText(CStrings.String_Get_ByIndex(Text.STR_THAT_HAS_BECOME_DIVIDED));
 			}
 			else
 			{
@@ -3297,7 +3298,7 @@ namespace SharpDune.Gui
 
 			if (Sprites.g_regions[0] >= campaignID)
 			{
-				GUI_StrategicMap_DrawText(CString.String_Get_ByIndex(Text.STR_SELECT_YOUR_NEXT_REGION));
+				GUI_StrategicMap_DrawText(CStrings.String_Get_ByIndex(Text.STR_SELECT_YOUR_NEXT_REGION));
 
 				scenarioID = GUI_StrategicMap_ScenarioSelection(campaignID);
 			}
@@ -3372,7 +3373,7 @@ namespace SharpDune.Gui
 					w = CWidget.GUI_Widget_Link(w, w2);
 				}
 
-				Sprites.Sprites_LoadImage(CString.String_GenerateFilename("HERALD"), Screen.NO1, null);
+				Sprites.Sprites_LoadImage(CStrings.String_GenerateFilename("HERALD"), Screen.NO1, null);
 
 				GUI_Mouse_Hide_Safe();
 				GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
@@ -3422,8 +3423,8 @@ namespace SharpDune.Gui
 					break;
 				}
 
-				w = CWidget.GUI_Widget_Link(w, CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_YES)[0]), 168, 168, 373, 0));
-				w = CWidget.GUI_Widget_Link(w, CWidget.GUI_Widget_Allocate(2, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_NO)[0]), 240, 168, 375, 0));
+				w = CWidget.GUI_Widget_Link(w, CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(Text.STR_YES)[0]), 168, 168, 373, 0));
+				w = CWidget.GUI_Widget_Link(w, CWidget.GUI_Widget_Allocate(2, CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(Text.STR_NO)[0]), 240, 168, 375, 0));
 
 				CHouse.g_playerHouseID = HouseType.HOUSE_MERCENARY;
 
@@ -3432,11 +3433,11 @@ namespace SharpDune.Gui
 				GUI_Mouse_Show_Safe();
 
 				//strncpy(g_readBuffer, String_Get_ByIndex(STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40), g_readBufferSize);
-				var text = CString.String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)houseID * 40));
+				var text = CStrings.String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)houseID * 40));
 				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(text);
 				Mentat.GUI_Mentat_Show(text, CHouse.House_GetWSAHouseFilename((byte)houseID), null);
 
-				Sprites.Sprites_LoadImage(CString.String_GenerateFilename("MISC"), Screen.NO1, Gfx.g_palette1);
+				Sprites.Sprites_LoadImage(CStrings.String_GenerateFilename("MISC"), Screen.NO1, Gfx.g_palette1);
 
 				GUI_Mouse_Hide_Safe();
 
@@ -3544,17 +3545,17 @@ namespace SharpDune.Gui
 
 			GUI_HallOfFame_DrawBackground((ushort)score, false);
 
-			GUI_DrawTextOnFilledRectangle(CString.String_Get_ByIndex(Text.STR_SPICE_HARVESTED_BY), 83);
-			GUI_DrawTextOnFilledRectangle(CString.String_Get_ByIndex(Text.STR_UNITS_DESTROYED_BY), 119);
-			if (CSharpDune.g_scenarioID != 1) GUI_DrawTextOnFilledRectangle(CString.String_Get_ByIndex(Text.STR_BUILDINGS_DESTROYED_BY), 155);
+			GUI_DrawTextOnFilledRectangle(CStrings.String_Get_ByIndex(Text.STR_SPICE_HARVESTED_BY), 83);
+			GUI_DrawTextOnFilledRectangle(CStrings.String_Get_ByIndex(Text.STR_UNITS_DESTROYED_BY), 119);
+			if (CSharpDune.g_scenarioID != 1) GUI_DrawTextOnFilledRectangle(CStrings.String_Get_ByIndex(Text.STR_BUILDINGS_DESTROYED_BY), 155);
 
-			textLeft = (ushort)(19 + Max(CFont.Font_GetStringWidth(CString.String_Get_ByIndex(Text.STR_YOU)), CFont.Font_GetStringWidth(CString.String_Get_ByIndex(Text.STR_ENEMY))));
+			textLeft = (ushort)(19 + Max(CFont.Font_GetStringWidth(CStrings.String_Get_ByIndex(Text.STR_YOU)), CFont.Font_GetStringWidth(CStrings.String_Get_ByIndex(Text.STR_ENEMY))));
 			statsBarWidth = (ushort)(261 - textLeft);
 
 			for (i = 0; i < statsBoxCount; i++)
 			{
-				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_YOU), (short)(textLeft - 4), (short)(92 + (i * 36)), 0xF, 0, 0x221);
-				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_ENEMY), (short)(textLeft - 4), (short)(101 + (i * 36)), 0xF, 0, 0x221);
+				GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_YOU), (short)(textLeft - 4), (short)(92 + (i * 36)), 0xF, 0, 0x221);
+				GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_ENEMY), (short)(textLeft - 4), (short)(101 + (i * 36)), 0xF, 0, 0x221);
 			}
 
 			Sound.Music_Play((ushort)(17 + Tools.Tools_RandomLCG_Range(0, 5)));
@@ -4093,7 +4094,7 @@ namespace SharpDune.Gui
 				string buffer; //char[64];
 
 				//snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
-				buffer = string.Format(CSharpDune.Culture, CString.String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
+				buffer = string.Format(CSharpDune.Culture, CStrings.String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
 
 				if (s_ticksPlayed < 60)
 				{
@@ -4103,15 +4104,15 @@ namespace SharpDune.Gui
 				}
 
 				/* "Score: %d" */
-				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SCORE_D), 72, 15, 15, 0, 0x22, score);
+				GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_SCORE_D), 72, 15, 15, 0, 0x22, score);
 				GUI_DrawText_Wrapper(buffer, 248, 15, 15, 0, 0x222);
 				/* "You have attained the rank of" */
-				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_YOU_HAVE_ATTAINED_THE_RANK_OF), Gfx.SCREEN_WIDTH / 2, 38, 15, 0, 0x122);
+				GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_YOU_HAVE_ATTAINED_THE_RANK_OF), Gfx.SCREEN_WIDTH / 2, 38, 15, 0, 0x122);
 			}
 			else
 			{
 				/* "Hall of Fame" */
-				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_HALL_OF_FAME2), Gfx.SCREEN_WIDTH / 2, 15, 15, 0, 0x122);
+				GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_HALL_OF_FAME2), Gfx.SCREEN_WIDTH / 2, 15, 15, 0, 0x122);
 			}
 
 			switch (CHouse.g_playerHouseID)
@@ -4156,14 +4157,14 @@ namespace SharpDune.Gui
 			GUI_DrawFilledRectangle(8, 80, 311, 178, 116);
 			GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
 
-			battleString = CString.String_Get_ByIndex(Text.STR_BATTLE);
-			scoreString = CString.String_Get_ByIndex(Text.STR_SCORE);
+			battleString = CStrings.String_Get_ByIndex(Text.STR_BATTLE);
+			scoreString = CStrings.String_Get_ByIndex(Text.STR_SCORE);
 
 			scoreX = (ushort)(320 - CFont.Font_GetStringWidth(scoreString) / 2 - 12);
 			battleX = (ushort)(scoreX - CFont.Font_GetStringWidth(scoreString) / 2 - 8 - CFont.Font_GetStringWidth(battleString) / 2);
 			offsetY = 80;
 
-			GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_NAME_AND_RANK), 32, (short)offsetY, 8, 0, 0x22);
+			GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_NAME_AND_RANK), 32, (short)offsetY, 8, 0, 0x22);
 			GUI_DrawText_Wrapper(battleString, (short)battleX, (short)offsetY, 8, 0, 0x122);
 			GUI_DrawText_Wrapper(scoreString, (short)scoreX, (short)offsetY, 8, 0, 0x122);
 
@@ -4177,13 +4178,13 @@ namespace SharpDune.Gui
 
 				if (Config.g_config.language == (byte)Language.FRENCH)
 				{
-					p1 = CString.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
+					p1 = CStrings.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 					p2 = CHouse.g_table_houseInfo[data[i].houseID].name;
 				}
 				else
 				{
 					p1 = CHouse.g_table_houseInfo[data[i].houseID].name;
-					p2 = CString.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
+					p2 = CStrings.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 				}
 				name = new string(data[i].name).Replace("\0", string.Empty);
 				buffer = $"{name}, {p1} {p2}"; //snprintf(buffer, sizeof(buffer), "%s, %s %s", data[i].name, p1, p2);
@@ -4228,7 +4229,7 @@ namespace SharpDune.Gui
 
 		static void GUI_HallOfFame_DrawRank(ushort score, bool fadeIn)
 		{
-			GUI_DrawText_Wrapper(CString.String_Get_ByIndex(_rankScores[GUI_HallOfFame_GetRank(score)].rankString), Gfx.SCREEN_WIDTH / 2, 49, 6, 0, 0x122);
+			GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(_rankScores[GUI_HallOfFame_GetRank(score)].rankString), Gfx.SCREEN_WIDTH / 2, 49, 6, 0, 0x122);
 
 			if (!fadeIn) return;
 
@@ -4448,7 +4449,7 @@ namespace SharpDune.Gui
 					{
 						string buffer; //char[81]
 
-						key = $"{CString.g_languageSuffixes[Config.g_config.language]}TXT{region}"; //sprintf(key, "%sTXT%d", g_languageSuffixes[g_config.language], region);
+						key = $"{CStrings.g_languageSuffixes[Config.g_config.language]}TXT{region}"; //sprintf(key, "%sTXT%d", g_languageSuffixes[g_config.language], region);
 
 						if ((buffer = Ini.Ini_GetString(category, key, null, Sprites.g_fileRegionINI)) != null)
 						{
@@ -4551,8 +4552,8 @@ namespace SharpDune.Gui
 			s_temporaryColourBorderSchema = s_colourBorderSchema; //memcpy(s_temporaryColourBorderSchema, s_colourBorderSchema, sizeof(s_colourBorderSchema));
 			s_colourBorderSchema = s_HOF_ColourBorderSchema; //memcpy(s_colourBorderSchema, s_HOF_ColourBorderSchema, sizeof(s_colourBorderSchema));
 
-			resumeString = CString.String_Get_ByIndex(Text.STR_RESUME_GAME2);
-			clearString = CString.String_Get_ByIndex(Text.STR_CLEAR_LIST);
+			resumeString = CStrings.String_Get_ByIndex(Text.STR_RESUME_GAME2);
+			clearString = CStrings.String_Get_ByIndex(Text.STR_CLEAR_LIST);
 
 			width = (ushort)(Max(CFont.Font_GetStringWidth(resumeString), CFont.Font_GetStringWidth(clearString)) + 6);
 
@@ -4690,7 +4691,7 @@ namespace SharpDune.Gui
 				default: break;
 			}
 
-			return CString.String_Get_ByIndex((ushort)stringID);
+			return CStrings.String_Get_ByIndex((ushort)stringID);
 		}
 
 		/*
@@ -4938,7 +4939,7 @@ namespace SharpDune.Gui
 				w[i].offsetX = (short)wi[i].offsetX;
 				w[i].offsetY = (short)wi[i].offsetY;
 				w[i].flags.Set(wi[i].flags);
-				w[i].shortcut = (ushort)((wi[i].shortcut < 0) ? Abs(wi[i].shortcut) : CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex((ushort)wi[i].shortcut)[0]));
+				w[i].shortcut = (ushort)((wi[i].shortcut < 0) ? Abs(wi[i].shortcut) : CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex((ushort)wi[i].shortcut)[0]));
 				w[i].clickProc = wi[i].clickProc;
 				w[i].width = wi[i].width;
 				w[i].height = wi[i].height;
@@ -5023,19 +5024,19 @@ namespace SharpDune.Gui
 
 				if (g_factoryWindowStarport)
 				{
-					GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_OUT_OF_STOCK), 220, 99, 6, 0, 0x132);
+					GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_OUT_OF_STOCK), 220, 99, 6, 0, 0x132);
 				}
 				else
 				{
-					GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_NEED_STRUCTURE_UPGRADE), 220, 94, 6, 0, 0x132);
+					GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_NEED_STRUCTURE_UPGRADE), 220, 94, 6, 0, 0x132);
 
 					if (g_factoryWindowUpgradeCost != 0)
 					{
-						GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_UPGRADE_COST_D), 220, 104, 6, 0, 0x132, g_factoryWindowUpgradeCost);
+						GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_UPGRADE_COST_D), 220, 104, 6, 0, 0x132, g_factoryWindowUpgradeCost);
 					}
 					else
 					{
-						GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_REPAIR_STRUCTURE_FIRST), 220, 104, 6, 0, 0x132);
+						GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_REPAIR_STRUCTURE_FIRST), 220, 104, 6, 0, 0x132);
 					}
 				}
 			}
@@ -5045,9 +5046,9 @@ namespace SharpDune.Gui
 				{
 					GUI_Screen_Copy(16, 99, 16, 160, 23, 9, Screen.NO1, Screen.NO1);
 					GUI_Screen_Copy(16, 99, 16, 169, 23, 9, Screen.NO1, Screen.NO1);
-					GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_OUT_OF_STOCK), 220, 169, 6, 0, 0x132);
+					GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_OUT_OF_STOCK), 220, 169, 6, 0, 0x132);
 					GUI_Screen_Copy(16, 99, 16, 178, 23, 9, Screen.NO1, Screen.NO1);
-					GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 220, 178, 6, 0, 0x132);
+					GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 220, 178, 6, 0, 0x132);
 
 					GUI_FactoryWindow_UpdateDetails(item);
 				}
@@ -5129,15 +5130,15 @@ namespace SharpDune.Gui
 				var oi = item.objectInfo;
 				ushort width;
 
-				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(oi.stringID_full), 128, 23, 12, 0, 0x12);
+				GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(oi.stringID_full), 128, 23, 12, 0, 0x12);
 
-				width = CFont.Font_GetStringWidth(CString.String_Get_ByIndex(Text.STR_COST_999));
-				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_COST_3D), (short)(310 - width), 23, 12, 0, 0x12, item.credits);
+				width = CFont.Font_GetStringWidth(CStrings.String_Get_ByIndex(Text.STR_COST_999));
+				GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_COST_3D), (short)(310 - width), 23, 12, 0, 0x12, item.credits);
 
 				if (g_factoryWindowStarport)
 				{
-					width += (ushort)(CFont.Font_GetStringWidth(CString.String_Get_ByIndex(Text.STR_QTY_99)) + 2);
-					GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_QTY_2D), (short)(310 - width), 23, 12, 0, 0x12, item.amount);
+					width += (ushort)(CFont.Font_GetStringWidth(CStrings.String_Get_ByIndex(Text.STR_QTY_99)) + 2);
+					GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_QTY_2D), (short)(310 - width), 23, 12, 0, 0x12, item.amount);
 				}
 			}
 

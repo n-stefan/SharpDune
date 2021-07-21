@@ -1,5 +1,7 @@
 ﻿/* House animation tables */
 
+using SharpDune.Os;
+
 namespace SharpDune
 {
 	class HouseAnimation

@@ -3,7 +3,7 @@
 using System;
 using Vanara.PInvoke;
 
-namespace SharpDune
+namespace SharpDune.Os
 {
     class Thread
     {

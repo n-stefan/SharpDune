@@ -24,6 +24,7 @@
  * SOFTWARE.
  */
 
+using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;

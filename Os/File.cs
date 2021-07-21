@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using static System.Math;
 
-namespace SharpDune
+namespace SharpDune.Os
 {
     delegate bool ProcessFileCallback(string name, string path, uint size);
 

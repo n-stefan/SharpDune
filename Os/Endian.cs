@@ -1,6 +1,6 @@
 ﻿/* Os-independent endian detection */
 
-namespace SharpDune
+namespace SharpDune.Os
 {
 	class Endian
 	{

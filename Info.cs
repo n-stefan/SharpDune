@@ -1,5 +1,6 @@
 ﻿/* Load/save routines for Info */
 
+using SharpDune.Os;
 using System.IO;
 
 namespace SharpDune

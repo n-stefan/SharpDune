@@ -1,5 +1,6 @@
 ﻿/* Scenario handling */
 
+using SharpDune.Os;
 using System;
 
 namespace SharpDune
