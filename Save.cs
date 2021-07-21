@@ -1,6 +1,7 @@
 ﻿/* Save */
 
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -50,7 +51,7 @@ namespace SharpDune
 				{
 					Unit u;
 
-					u = CUnit.Unit_Find(find);
+					u = PoolUnit.Unit_Find(find);
 					if (u == null) break;
 
 					CUnit.Unit_RemoveFog(u);
@@ -65,7 +66,7 @@ namespace SharpDune
 				{
 					Structure s;
 
-					s = CStructure.Structure_Find(find);
+					s = PoolStructure.Structure_Find(find);
 					if (s == null) break;
 					if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 

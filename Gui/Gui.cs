@@ -7,6 +7,7 @@ using SharpDune.Audio;
 using SharpDune.Codec;
 using SharpDune.Input;
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -2388,7 +2389,7 @@ namespace SharpDune.Gui
 			{
 				Structure s;
 
-				s = CStructure.Structure_Find(find);
+				s = PoolStructure.Structure_Find(find);
 				if (s == null) break;
 				if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -2403,7 +2404,7 @@ namespace SharpDune.Gui
 			{
 				Unit u;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
 				CUnit.Unit_UpdateMap(1, u);
@@ -2703,7 +2704,7 @@ namespace SharpDune.Gui
 			if (s_tickCreditsAnimation > Timer.g_timerGUI && mode == 0) return;
 			s_tickCreditsAnimation = Timer.g_timerGUI + 1;
 
-			h = CHouse.House_Get_ByIndex(houseID);
+			h = PoolHouse.House_Get_ByIndex(houseID);
 
 			if (mode == 2)
 			{
@@ -4489,7 +4490,7 @@ namespace SharpDune.Gui
 			{
 				Structure s;
 
-				s = CStructure.Structure_Find(find);
+				s = PoolStructure.Structure_Find(find);
 				if (s == null) break;
 				if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -4506,7 +4507,7 @@ namespace SharpDune.Gui
 			{
 				Unit u;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
 				if (CHouse.House_AreAllied(CUnit.Unit_GetHouseID(u), (byte)CHouse.g_playerHouseID))
@@ -4527,7 +4528,7 @@ namespace SharpDune.Gui
 			tmp = (uint)(harvestedAllied + sumHarvestedAllied);
 			harvestedAllied = (ushort)((tmp > 65000) ? 65000 : (tmp & 0xFFFF));
 
-			score += (short)(CHouse.House_Get_ByIndex(houseID).credits / 100);
+			score += (short)(PoolHouse.House_Get_ByIndex(houseID).credits / 100);
 
 			if (score < 0) score = 0;
 

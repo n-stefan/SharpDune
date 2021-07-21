@@ -1,6 +1,7 @@
 ﻿/* Widget drawing */
 
 using SharpDune.Os;
+using SharpDune.Pool;
 
 namespace SharpDune.Gui
 {
@@ -52,7 +53,7 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != CUnit.Unit_GetHouseID(u);
 
-						h = CHouse.House_Get_ByIndex(u.o.houseID);
+						h = PoolHouse.House_Get_ByIndex(u.o.houseID);
 					}
 					break;
 
@@ -66,7 +67,7 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != s.o.houseID;
 
-						h = CHouse.House_Get_ByIndex(s.o.houseID);
+						h = PoolHouse.House_Get_ByIndex(s.o.houseID);
 
 						if (s.upgradeTimeLeft == 0 && CStructure.Structure_IsUpgradable(s)) s.upgradeTimeLeft = 100;
 						Gui.GUI_UpdateProductionStringID();
@@ -82,7 +83,7 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = false;
 
-						h = CHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
+						h = PoolHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
 					}
 					break;
 
@@ -96,7 +97,7 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != CUnit.Unit_GetHouseID(u);
 
-						h = CHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
+						h = PoolHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
 					}
 					break;
 
@@ -553,7 +554,7 @@ namespace SharpDune.Gui
 						|| s.o.linkedID != displayedLinkedID
 						|| s.objectType != displayedObjectType
 						|| s.o.houseID != displayedHouseID
-						|| CHouse.House_Get_ByIndex(s.o.houseID).starportTimeLeft != displayedStarportTime
+						|| PoolHouse.House_Get_ByIndex(s.o.houseID).starportTimeLeft != displayedStarportTime
 						|| s.o.flags.all != displayedStructureFlags)
 					{
 						Gui.g_structureHighHealth = (s.o.hitpoints > (CStructure.g_table_structureInfo[s.o.type].o.hitpoints / 2));
@@ -605,7 +606,7 @@ namespace SharpDune.Gui
 					displayedStructureFlags = (ushort)s.o.flags.all;
 					displayedHouseID = s.o.houseID;
 					displayedMissileCountdown = 0xFFFF;
-					displayedStarportTime = CHouse.House_Get_ByIndex(s.o.houseID).starportTimeLeft;
+					displayedStarportTime = PoolHouse.House_Get_ByIndex(s.o.houseID).starportTimeLeft;
 					break;
 
 				case 0:
@@ -878,7 +879,7 @@ namespace SharpDune.Gui
 
 					if (s.o.linkedID == 0xFF) return;
 
-					ui = CUnit.g_table_unitInfo[CUnit.Unit_Get_ByIndex(s.o.linkedID).o.type];
+					ui = CUnit.g_table_unitInfo[PoolUnit.Unit_Get_ByIndex(s.o.linkedID).o.type];
 					buildTime = ui.o.buildTime;
 				}
 				else

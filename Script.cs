@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -428,7 +429,7 @@ namespace SharpDune
 
             while (true)
             {
-                s = CStructure.Structure_Find(find);
+                s = PoolStructure.Structure_Find(find);
                 if (s == null) return 0;
                 if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
                 return Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
@@ -491,7 +492,7 @@ namespace SharpDune
 
             if (linkedID == 0xFF) return 0xFFFF;
 
-            return CUnit.Unit_Get_ByIndex(linkedID).o.type;
+            return PoolUnit.Unit_Get_ByIndex(linkedID).o.type;
         }
 
         /*
@@ -552,7 +553,7 @@ namespace SharpDune
 
             while (true)
             {
-                var u = CUnit.Unit_Find(find);
+                var u = PoolUnit.Unit_Find(find);
                 if (u == null) break;
                 count++;
             }

@@ -15,6 +15,7 @@ using SharpDune.CrashLog;
 using SharpDune.Gui;
 using SharpDune.Input;
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -108,7 +109,7 @@ class CSharpDune
             {
                 Structure s;
 
-                s = CStructure.Structure_Find(find);
+                s = PoolStructure.Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
@@ -186,7 +187,7 @@ class CSharpDune
             {
                 Structure s;
 
-                s = CStructure.Structure_Find(find);
+                s = PoolStructure.Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
@@ -1032,10 +1033,10 @@ class CSharpDune
 
         Window_WidgetClick_Create();
         Config.GameOptions_Load();
-        CUnit.Unit_Init();
-        CTeam.Team_Init();
-        CHouse.House_Init();
-        CStructure.Structure_Init();
+        PoolUnit.Unit_Init();
+        PoolTeam.Team_Init();
+        PoolHouse.House_Init();
+        PoolStructure.Structure_Init();
 
         Gui.GUI_Mouse_Show_Safe();
 
@@ -1385,9 +1386,9 @@ class CSharpDune
         oldSelectionType = g_selectionType;
         g_selectionType = (ushort)SelectionType.MENTAT;
 
-        CStructure.Structure_Recount();
-        CUnit.Unit_Recount();
-        CTeam.Team_Recount();
+        PoolStructure.Structure_Recount();
+        PoolUnit.Unit_Recount();
+        PoolTeam.Team_Recount();
 
         t = Map.g_map; //[0];
         for (i = 0; i < 64 * 64; i++, tPointer++)
@@ -1411,7 +1412,7 @@ class CSharpDune
         {
             Unit u;
 
-            u = CUnit.Unit_Find(find);
+            u = PoolUnit.Unit_Find(find);
             if (u == null) break;
 
             if (u.o.flags.isNotOnMap) continue;
@@ -1428,7 +1429,7 @@ class CSharpDune
         {
             Structure s;
 
-            s = CStructure.Structure_Find(find);
+            s = PoolStructure.Structure_Find(find);
             if (s == null) break;
             if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -1438,7 +1439,7 @@ class CSharpDune
 
             if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT && s.o.linkedID != 0xFF)
             {
-                var u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
+                var u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 
                 if (!u.o.flags.used || !u.o.flags.isNotOnMap)
                 {
@@ -1455,11 +1456,11 @@ class CSharpDune
 
             if (s.o.type == (byte)StructureType.STRUCTURE_PALACE)
             {
-                CHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
+                PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
             }
 
-            if ((CHouse.House_Get_ByIndex(s.o.houseID).palacePosition.x != 0) || (CHouse.House_Get_ByIndex(s.o.houseID).palacePosition.y != 0)) continue;
-            CHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
+            if ((PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition.x != 0) || (PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition.y != 0)) continue;
+            PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
         }
 
         find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1470,7 +1471,7 @@ class CSharpDune
         {
             House h;
 
-            h = CHouse.House_Find(find);
+            h = PoolHouse.House_Find(find);
             if (h == null) break;
 
             h.structuresBuilt = CStructure.Structure_GetStructuresBuilt(h);
@@ -1509,10 +1510,10 @@ class CSharpDune
      */
     internal static void Game_Init()
     {
-        CUnit.Unit_Init();
-        CStructure.Structure_Init();
-        CTeam.Team_Init();
-        CHouse.House_Init();
+        PoolUnit.Unit_Init();
+        PoolStructure.Structure_Init();
+        PoolTeam.Team_Init();
+        PoolHouse.House_Init();
 
         CAnimation.Animation_Init();
         CExplosion.Explosion_Init();

@@ -1,23 +1,16 @@
 ﻿/* Team */
 
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
-using System.Diagnostics;
 using System.Linq;
 
 namespace SharpDune
 {
-	enum TeamIndex
-	{
-		TEAM_INDEX_MAX = 16,                                 /*!< The highest possible index for any Team.  */
-
-		TEAM_INDEX_INVALID = 0xFFFF
-	}
-
-	/*
+    /*
 	 * Types of TeamActions available in the game.
 	 */
-	enum TeamActionType
+    enum TeamActionType
 	{
 		TEAM_ACTION_NORMAL = 0,
 		TEAM_ACTION_STAGING = 1,
@@ -66,53 +59,7 @@ namespace SharpDune
 
 	class CTeam
 	{
-		static readonly Team[] g_teamArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
-		static readonly Team[] g_teamFindArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
-		static ushort g_teamFindCount;
-
 		static uint s_tickTeamGameLoop; /*!< Indicates next time the GameLoop function is executed. */
-
-        /*
-		 * Get a Team from the pool with the indicated index.
-		 *
-		 * @param index The index of the Team to get.
-		 * @return The Team.
-		 */
-        internal static Team Team_Get_ByIndex(ushort index)
-		{
-			Debug.Assert(index < (ushort)TeamIndex.TEAM_INDEX_MAX);
-			return g_teamArray[index];
-		}
-
-		//internal static void Team_Set_ByIndex(Team t)
-		//{
-		//	Debug.Assert(t.index < (ushort)TeamIndex.TEAM_INDEX_MAX);
-		//	g_teamArray[t.index] = t;
-		//}
-
-		/*
-		 * Find the first matching Team based on the PoolFindStruct filter data.
-		 *
-		 * @param find A pointer to a PoolFindStruct which contains filter data and
-		 *   last known tried index. Calling this functions multiple times with the
-		 *   same 'find' parameter walks over all possible values matching the filter.
-		 * @return The Team, or NULL if nothing matches (anymore).
-		 */
-		internal static Team Team_Find(PoolFindStruct find)
-		{
-			if (find.index >= g_teamFindCount && find.index != 0xFFFF) return null;
-			find.index++; /* First, we always go to the next index */
-
-			for (; find.index < g_teamFindCount; find.index++)
-			{
-				var t = g_teamFindArray[find.index];
-				if (t == null) continue;
-
-				if (find.houseID == (byte)HouseType.HOUSE_INVALID || find.houseID == t.houseID) return t;
-			}
-
-			return null;
-		}
 
 		/*
 		 * Draws a string.
@@ -182,7 +129,7 @@ namespace SharpDune
 				Team t2;
 				ushort distance;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 				if (!u.o.flags.byScenario) continue;
 				if (u.o.type == (byte)UnitType.UNIT_SABOTEUR) continue;
@@ -196,7 +143,7 @@ namespace SharpDune
 					continue;
 				}
 
-				t2 = Team_Get_ByIndex((ushort)(u.team - 1));
+				t2 = PoolTeam.Team_Get_ByIndex((ushort)(u.team - 1));
 				if (t2.members > t2.minMembers) continue;
 
 				distance = CTile.Tile_GetDistance(t.position, u.o.position);
@@ -240,7 +187,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 				if (t.index != u.team - 1) continue;
 				count++;
@@ -262,7 +209,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 				if (t.index != u.team - 1) continue;
 				distance += CTile.Tile_GetDistanceRoundedUp(u.o.position, t.position);
@@ -307,7 +254,7 @@ namespace SharpDune
 				ushort distanceUnitTeam;
 				ushort distanceTeamDest;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 				if (t.index != u.team - 1) continue;
 
@@ -366,7 +313,7 @@ namespace SharpDune
 				Unit u;
 				ushort target;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 				if (u.team - 1 != t.index) continue;
 				target = CUnit.Unit_FindBestTargetEncoded(u, (ushort)(t.action == (ushort)TeamActionType.TEAM_ACTION_KAMIKAZE ? 4 : 0));
@@ -485,7 +432,7 @@ namespace SharpDune
 				ushort packed;
 				short orientation;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 				if (u.team - 1 != t.index) continue;
 				if (t.target == 0)
@@ -524,34 +471,6 @@ namespace SharpDune
 		}
 
 		/*
-		 * Initialize the Team array.
-		 *
-		 * @param address If non-zero, the new location of the Team array.
-		 */
-		internal static void Team_Init()
-		{
-			for (var i = 0; i < g_teamArray.Length; i++) g_teamArray[i] = new Team(); //memset(g_teamArray, 0, sizeof(g_teamArray));
-			Array.Fill(g_teamFindArray, null, 0, g_teamFindArray.Length); //memset(g_teamFindArray, 0, sizeof(g_teamFindArray));
-			g_teamFindCount = 0;
-		}
-
-		/*
-		 * Recount all Teams, ignoring the cache array.
-		 */
-		internal static void Team_Recount()
-		{
-			ushort index;
-
-			g_teamFindCount = 0;
-
-			for (index = 0; index < (ushort)TeamIndex.TEAM_INDEX_MAX; index++)
-			{
-				var t = Team_Get_ByIndex(index);
-				if (t.flags.used) g_teamFindArray[g_teamFindCount++] = t;
-			}
-		}
-
-		/*
 		 * Loop over all teams, performing various of tasks.
 		 */
 		internal static void GameLoop_Team()
@@ -574,10 +493,10 @@ namespace SharpDune
 				Team t;
 				House h;
 
-				t = Team_Find(find);
+				t = PoolTeam.Team_Find(find);
 				if (t == null) break;
 
-				h = CHouse.House_Get_ByIndex(t.houseID);
+				h = PoolHouse.House_Get_ByIndex(t.houseID);
 
 				Script.g_scriptCurrentTeam = t;
 
@@ -619,43 +538,6 @@ namespace SharpDune
 		}
 
 		/*
-		 * Allocate a Team.
-		 *
-		 * @param index The index to use, or TEAM_INDEX_INVALID to find an unused index.
-		 * @return The Team allocated, or NULL on failure.
-		 */
-		static Team Team_Allocate(ushort index)
-		{
-			Team t = null;
-
-			if (index == (ushort)TeamIndex.TEAM_INDEX_INVALID)
-			{
-				/* Find the first unused index */
-				for (index = 0; index < (ushort)TeamIndex.TEAM_INDEX_MAX; index++)
-				{
-					t = Team_Get_ByIndex(index);
-					if (!t.flags.used) break;
-				}
-				if (index == (ushort)TeamIndex.TEAM_INDEX_MAX) return null;
-			}
-			else
-			{
-				t = Team_Get_ByIndex(index);
-				if (t.flags.used) return null;
-			}
-			Debug.Assert(t != null);
-
-			/* Initialize the Team */
-			//memset(t, 0, sizeof(Team));
-			t.index = index;
-			t.flags.used = true;
-
-			g_teamFindArray[g_teamFindCount++] = t;
-
-			return t;
-		}
-
-		/*
 		 * Create a new Team.
 		 *
 		 * @param houseID The House of the new Team.
@@ -669,7 +551,7 @@ namespace SharpDune
 		{
 			Team t;
 
-			t = Team_Allocate(0xFFFF);
+			t = PoolTeam.Team_Allocate(0xFFFF);
 
 			if (t == null) return null;
 			t.flags.used = true;

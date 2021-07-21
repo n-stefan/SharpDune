@@ -3,6 +3,7 @@
 using SharpDune.Audio;
 using SharpDune.Input;
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -377,7 +378,7 @@ namespace SharpDune.Gui
 				}
 				else
 				{
-					CStructure.Structure_Free(s2);
+					PoolStructure.Structure_Free(s2);
 				}
 
 				CStructure.g_structureActive = null;
@@ -422,7 +423,7 @@ namespace SharpDune.Gui
 					{
 						Structure ns;
 
-						ns = CStructure.Structure_Get_ByIndex(s.o.linkedID);
+						ns = PoolStructure.Structure_Get_ByIndex(s.o.linkedID);
 						CStructure.g_structureActive = ns;
 						CStructure.g_structureActiveType = s.objectType;
 						Gui.g_selectionState = CStructure.Structure_IsValidBuildLocation(Gui.g_selectionRectanglePosition, (StructureType)CStructure.g_structureActiveType);
@@ -1455,8 +1456,8 @@ namespace SharpDune.Gui
 
 			Config.GameOptions_Save();
 
-			CStructure.Structure_Recount();
-			CUnit.Unit_Recount();
+			PoolStructure.Structure_Recount();
+			PoolUnit.Unit_Recount();
 
 			Gui.g_cursorSpriteID = cursor;
 

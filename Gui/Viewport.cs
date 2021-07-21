@@ -3,6 +3,7 @@
 using SharpDune.Audio;
 using SharpDune.Input;
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using static System.Math;
 
@@ -289,7 +290,7 @@ namespace SharpDune.Gui
 				Unit u;
 				byte[] sprite;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 
 				if (u == null) break;
 
@@ -356,7 +357,7 @@ namespace SharpDune.Gui
 					ushort index;
 					ushort spriteFlags = 0;
 
-					u = CUnit.Unit_Find(find);
+					u = PoolUnit.Unit_Find(find);
 
 					if (u == null) break;
 
@@ -550,7 +551,7 @@ namespace SharpDune.Gui
 					ushort index;
 					ushort spriteFlags;
 
-					u = CUnit.Unit_Find(find);
+					u = PoolUnit.Unit_Find(find);
 
 					if (u == null) break;
 
@@ -1012,7 +1013,7 @@ namespace SharpDune.Gui
 				{
 					Sound.Voice_Play(20);
 
-					if (s.o.type == (byte)StructureType.STRUCTURE_PALACE) CHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
+					if (s.o.type == (byte)StructureType.STRUCTURE_PALACE) PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
 
 					if (CStructure.g_structureActiveType == (ushort)StructureType.STRUCTURE_REFINERY && CSharpDune.g_validateStrictIfZero == 0)
 					{

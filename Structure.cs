@@ -3,6 +3,7 @@
 using SharpDune.Audio;
 using SharpDune.Gui;
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -36,18 +37,6 @@ namespace SharpDune
 
         STRUCTURE_MAX = 19,
         STRUCTURE_INVALID = 0xFF
-    }
-
-    enum StructureIndex
-    {
-        STRUCTURE_INDEX_MAX_SOFT = 79,                          /*!< The highest possible index for normal Structure. */
-        STRUCTURE_INDEX_MAX_HARD = 82,                          /*!< The highest possible index for any Structure. */
-
-        STRUCTURE_INDEX_WALL = 79,                              /*!< All walls are are put under index 79. */
-        STRUCTURE_INDEX_SLAB_2x2 = 80,                          /*!< All 2x2 slabs are put under index 80. */
-        STRUCTURE_INDEX_SLAB_1x1 = 81,                          /*!< All 1x1 slabs are put under index 81. */
-
-        STRUCTURE_INDEX_INVALID = 0xFFFF
     }
 
     /* Available structure layouts. */
@@ -149,10 +138,6 @@ namespace SharpDune
 
     class CStructure
     {
-        static ushort g_structureFindCount;
-        static readonly Structure[] g_structureArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_HARD];
-        static readonly Structure[] g_structureFindArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_SOFT];
-
         internal static StructureInfo[] g_table_structureInfo;
 
         static CStructure()
@@ -1478,79 +1463,6 @@ namespace SharpDune
         internal static ushort g_structureIndex;
 
         /*
-        * Get a Structure from the pool with the indicated index.
-        * @param index The index of the Structure to get.
-        * @return The Structure.
-        */
-        internal static Structure Structure_Get_ByIndex(ushort index)
-        {
-            Debug.Assert(index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD);
-            return g_structureArray[index];
-        }
-
-        //internal static void Structure_Set_ByIndex(Structure s)
-        //{
-        //    Debug.Assert(s.o.index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD);
-        //    g_structureArray[s.o.index] = s;
-        //}
-
-        /*
-        * Find the first matching Structure based on the PoolFindStruct filter data.
-        *
-        * @param find A pointer to a PoolFindStruct which contains filter data and
-        *   last known tried index. Calling this functions multiple times with the
-        *   same 'find' parameter walks over all possible values matching the filter.
-        * @return The Structure, or NULL if nothing matches (anymore).
-        */
-        internal static Structure Structure_Find(PoolFindStruct find)
-        {
-            if (find.index >= g_structureFindCount + 3 && find.index != 0xFFFF) return null;
-            find.index++; /* First, we always go to the next index */
-
-            Debug.Assert(g_structureFindCount <= (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT);
-            for (; find.index < g_structureFindCount + 3; find.index++)
-            {
-                Structure s = null;
-
-                if (find.index < g_structureFindCount)
-                {
-                    s = g_structureFindArray[find.index];
-                }
-                else
-                {
-                    /* There are 3 special structures that are never in the Find array */
-                    Debug.Assert(find.index - g_structureFindCount < 3);
-                    switch (find.index - g_structureFindCount)
-                    {
-                        case 0:
-                            s = Structure_Get_ByIndex((ushort)StructureIndex.STRUCTURE_INDEX_WALL);
-                            if (s.o.index != (ushort)StructureIndex.STRUCTURE_INDEX_WALL) continue;
-                            break;
-
-                        case 1:
-                            s = Structure_Get_ByIndex((ushort)StructureIndex.STRUCTURE_INDEX_SLAB_2x2);
-                            if (s.o.index != (ushort)StructureIndex.STRUCTURE_INDEX_SLAB_2x2) continue;
-                            break;
-
-                        case 2:
-                            s = Structure_Get_ByIndex((ushort)StructureIndex.STRUCTURE_INDEX_SLAB_1x1);
-                            if (s.o.index != (ushort)StructureIndex.STRUCTURE_INDEX_SLAB_1x1) continue;
-                            break;
-                    }
-                }
-                if (s == null) continue;
-
-                if (s.o.flags.isNotOnMap && CSharpDune.g_validateStrictIfZero == 0) continue;
-                if (find.houseID != (byte)HouseType.HOUSE_INVALID && find.houseID != s.o.houseID) continue;
-                if (find.type != (ushort)StructureIndex.STRUCTURE_INDEX_INVALID && find.type != s.o.type) continue;
-
-                return s;
-            }
-
-            return null;
-        }
-
-        /*
          * Checks if the given position is a valid location for the given structure type.
          *
          * @param position The (packed) tile to check.
@@ -1669,7 +1581,7 @@ namespace SharpDune
 
             tile = Map.g_map[packed];
             if (!tile.hasStructure) return null;
-            return Structure_Get_ByIndex((ushort)(tile.index - 1));
+            return PoolStructure.Structure_Get_ByIndex((ushort)(tile.index - 1));
         }
 
         /*
@@ -1762,7 +1674,7 @@ namespace SharpDune
                 if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) return true;
                 if (s.upgradeLevel != 1) return true;
 
-                h = CHouse.House_Get_ByIndex(s.o.houseID);
+                h = PoolHouse.House_Get_ByIndex(s.o.houseID);
                 if ((h.structuresBuilt & g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) return true;
 
                 return false;
@@ -1780,7 +1692,7 @@ namespace SharpDune
         internal static Unit Structure_GetLinkedUnit(Structure s)
         {
             if (s.o.linkedID == 0xFF) return null;
-            return CUnit.Unit_Get_ByIndex(s.o.linkedID);
+            return PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
         }
 
         /*
@@ -1806,7 +1718,7 @@ namespace SharpDune
             var find = new PoolFindStruct();
             House h;
 
-            h = CHouse.House_Get_ByIndex(houseID);
+            h = PoolHouse.House_Get_ByIndex(houseID);
 
             if (houseID != (byte)CHouse.g_playerHouseID && h.flags.doneFullScaleAttack) return;
             h.flags.doneFullScaleAttack = true;
@@ -1833,7 +1745,7 @@ namespace SharpDune
                 UnitInfo ui;
                 Unit u;
 
-                u = CUnit.Unit_Find(find);
+                u = PoolUnit.Unit_Find(find);
                 if (u == null) break;
 
                 ui = CUnit.g_table_unitInfo[u.o.type];
@@ -1941,7 +1853,7 @@ namespace SharpDune
             {
                 Unit u;
 
-                u = CUnit.Unit_Find(find);
+                u = PoolUnit.Unit_Find(find);
                 if (u == null) break;
 
                 if (u.targetMove == encoded) u.targetMove = 0;
@@ -1957,7 +1869,7 @@ namespace SharpDune
             {
                 Team t;
 
-                t = CTeam.Team_Find(find);
+                t = PoolTeam.Team_Find(find);
                 if (t == null) break;
 
                 if (t.target == encoded) t.target = 0;
@@ -1999,14 +1911,14 @@ namespace SharpDune
             {
                 if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
                 {
-                    Structure_Destroy(Structure_Get_ByIndex(linkedID));
+                    Structure_Destroy(PoolStructure.Structure_Get_ByIndex(linkedID));
                     s.o.linkedID = 0xFF;
                 }
                 else
                 {
                     while (linkedID != 0xFF)
                     {
-                        var u = CUnit.Unit_Get_ByIndex(linkedID);
+                        var u = PoolUnit.Unit_Get_ByIndex(linkedID);
 
                         linkedID = u.o.linkedID;
 
@@ -2015,7 +1927,7 @@ namespace SharpDune
                 }
             }
 
-            h = CHouse.House_Get_ByIndex(s.o.houseID);
+            h = PoolHouse.House_Get_ByIndex(s.o.houseID);
             si = g_table_structureInfo[s.o.type];
 
             h.credits -= (ushort)((h.creditsStorage == 0) ? h.credits : Min(h.credits, (h.credits * 256 / h.creditsStorage) * si.creditsStorage / 256));
@@ -2065,7 +1977,7 @@ namespace SharpDune
                 CAnimation.Animation_Start(CAnimation.g_table_animation_structure[0], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
             }
 
-            h = CHouse.House_Get_ByIndex(s.o.houseID);
+            h = PoolHouse.House_Get_ByIndex(s.o.houseID);
 
             for (i = 0; i < 5; i++)
             {
@@ -2075,7 +1987,7 @@ namespace SharpDune
                 break;
             }
 
-            Structure_Free(s);
+            PoolStructure.Structure_Free(s);
             Structure_UntargetMe(s);
 
             h.structuresBuilt = Structure_GetStructuresBuilt(h);
@@ -2096,36 +2008,6 @@ namespace SharpDune
 
                 default: break;
             }
-        }
-
-        /*
-         * Free a Structure.
-         *
-         * @param address The address of the Structure to free.
-         */
-        internal static void Structure_Free(Structure s)
-        {
-            int i;
-
-            s.o.flags = new ObjectFlags(); //memset(&s->o.flags, 0, sizeof(s->o.flags));
-
-            Script.Script_Reset(s.o.script, Script.g_scriptStructure);
-
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) return;
-
-            /* Walk the array to find the Structure we are removing */
-            Debug.Assert(g_structureFindCount <= (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT);
-            for (i = 0; i < g_structureFindCount; i++)
-            {
-                if (g_structureFindArray[i] == s) break;
-            }
-            Debug.Assert(i < g_structureFindCount); /* We should always find an entry */
-
-            g_structureFindCount--;
-
-            /* If needed, close the gap */
-            if (i == g_structureFindCount) return;
-            Array.Copy(g_structureFindArray, i + 1, g_structureFindArray, i, g_structureFindCount - i); //memmove(&g_structureFindArray[i], &g_structureFindArray[i + 1], (g_structureFindCount - i) * sizeof(g_structureFindArray[0]));
         }
 
         /*
@@ -2153,7 +2035,7 @@ namespace SharpDune
             {
                 Structure s;
 
-                s = Structure_Find(find);
+                s = PoolStructure.Structure_Find(find);
                 if (s == null) break;
                 if (s.o.flags.isNotOnMap) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
@@ -2256,18 +2138,6 @@ namespace SharpDune
         }
 
         /*
-         * Initialize the Structure array.
-         *
-         * @param address If non-zero, the new location of the Structure array.
-         */
-        internal static void Structure_Init()
-        {
-            for (var i = 0; i < g_structureArray.Length; i++) g_structureArray[i] = new Structure(); //memset(g_structureArray, 0, sizeof(g_structureArray));
-            Array.Fill(g_structureFindArray, null, 0, g_structureFindArray.Length); //memset(g_structureFindArray, 0, sizeof(g_structureFindArray));
-            g_structureFindCount = 0;
-        }
-
-        /*
          * Remove the fog around a structure.
          *
          * @param s The Structure.
@@ -2291,32 +2161,6 @@ namespace SharpDune
             }
 
             CTile.Tile_RemoveFogInRadius(position, si.o.fogUncoverRadius);
-        }
-
-        /*
-         * Recount all Structures, ignoring the cache array. Also set the structureCount
-         *  of all houses to zero.
-         */
-        internal static void Structure_Recount()
-        {
-            ushort index;
-            var find = new PoolFindStruct();
-            unchecked { find.houseID = (byte)-1; find.type = (ushort)-1; find.index = (ushort)-1; }
-            var h = CHouse.House_Find(find);
-
-            while (h != null)
-            {
-                h.unitCount = 0;
-                h = CHouse.House_Find(find);
-            }
-
-            g_structureFindCount = 0;
-
-            for (index = 0; index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT; index++)
-            {
-                var s = Structure_Get_ByIndex(index);
-                if (s.o.flags.used) g_structureFindArray[g_structureFindCount++] = s;
-            }
         }
 
         /*
@@ -2367,12 +2211,12 @@ namespace SharpDune
                 Structure s;
                 House h;
 
-                s = Structure_Find(find);
+                s = PoolStructure.Structure_Find(find);
                 if (s == null) break;
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
                 si = g_table_structureInfo[s.o.type];
-                h = CHouse.House_Get_ByIndex(s.o.houseID);
+                h = PoolHouse.House_Get_ByIndex(s.o.houseID);
                 hi = CHouse.g_table_houseInfo[h.index];
 
                 Script.g_scriptCurrentObject = s.o;
@@ -2488,7 +2332,7 @@ namespace SharpDune
                             }
                             else if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
                             {
-                                oi = CUnit.g_table_unitInfo[CUnit.Unit_Get_ByIndex(s.o.linkedID).o.type].o;
+                                oi = CUnit.g_table_unitInfo[PoolUnit.Unit_Get_ByIndex(s.o.linkedID).o.type].o;
                             }
                             else
                             {
@@ -2556,7 +2400,7 @@ namespace SharpDune
                                         Structure ns;
                                         byte i;
 
-                                        ns = Structure_Get_ByIndex(s.o.linkedID);
+                                        ns = PoolStructure.Structure_Get_ByIndex(s.o.linkedID);
                                         s.o.linkedID = 0xFF;
 
                                         /* The AI places structures which are operational immediately */
@@ -2581,7 +2425,7 @@ namespace SharpDune
 
                                             h.credits += nsi.o.buildCredits;
 
-                                            Structure_Free(ns);
+                                            PoolStructure.Structure_Free(ns);
                                         }
                                     }
                                 }
@@ -2605,7 +2449,7 @@ namespace SharpDune
                                 ushort repairSpeed;
                                 ushort repairCost;
 
-                                ui = CUnit.g_table_unitInfo[CUnit.Unit_Get_ByIndex(s.o.linkedID).o.type];
+                                ui = CUnit.g_table_unitInfo[PoolUnit.Unit_Get_ByIndex(s.o.linkedID).o.type];
 
                                 repairSpeed = 256;
                                 if (s.o.hitpoints < si.o.hitpoints)
@@ -2749,7 +2593,7 @@ namespace SharpDune
 
             position = Structure_FindFreePosition(s, false);
 
-            u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
+            u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 
             if ((byte)CHouse.g_playerHouseID == s.o.houseID && u.o.type == (byte)UnitType.UNIT_HARVESTER && (u.targetLast.x == 0 && u.targetLast.y == 0) && position != 0)
             {
@@ -2852,7 +2696,7 @@ namespace SharpDune
 
             if (s.o.linkedID == 0xFF) return 0;
 
-            u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
+            u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 
             if (CUnit.g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER && CUnit.Unit_SetPosition(u, s.o.position))
             {
@@ -2940,7 +2784,7 @@ namespace SharpDune
                 ushort distance;
                 Unit uf;
 
-                uf = CUnit.Unit_Find(find);
+                uf = PoolUnit.Unit_Find(find);
                 if (uf == null) break;
 
                 if (CHouse.House_AreAllied(s.o.houseID, CUnit.Unit_GetHouseID(uf))) continue;
@@ -3205,7 +3049,7 @@ namespace SharpDune
                 return 0;
             }
 
-            u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
+            u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
             si = g_table_structureInfo[s.o.type];
 
             harvesterStep = (ushort)((s.o.hitpoints * 256 / si.o.hitpoints) * 3 / 256);
@@ -3233,7 +3077,7 @@ namespace SharpDune
                 if (CScenario.g_scenario.harvestedEnemy > 65000) CScenario.g_scenario.harvestedEnemy = 65000;
             }
 
-            h = CHouse.House_Get_ByIndex(s.o.houseID);
+            h = PoolHouse.House_Get_ByIndex(s.o.houseID);
             h.credits += creditsStep;
             u.amount -= (byte)harvesterStep;
 
@@ -3303,7 +3147,7 @@ namespace SharpDune
 
                 if (g_table_structureInfo[s.o.type].o.spawnChance < Tools.Tools_Random_256()) continue;
 
-                u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, s.o.houseID, tile, (sbyte)Tools.Tools_Random_256());
+                u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, s.o.houseID, tile, (sbyte)Tools.Tools_Random_256());
                 if (u == null) continue;
 
                 u.o.hitpoints = (ushort)(CUnit.g_table_unitInfo[(int)UnitType.UNIT_SOLDIER].o.hitpoints * (Tools.Tools_Random_256() & 3) / 256);
@@ -3368,7 +3212,7 @@ namespace SharpDune
                 StructureInfo si;
                 Structure s;
 
-                s = Structure_Find(find);
+                s = PoolStructure.Structure_Find(find);
                 if (s == null) return;
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -3505,7 +3349,7 @@ namespace SharpDune
 
             if (s == null) return 0xFFFF;
 
-            h = CHouse.House_Get_ByIndex(s.o.houseID);
+            h = PoolHouse.House_Get_ByIndex(s.o.houseID);
             buildable = (int)Structure_GetBuildable(s);
 
             if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
@@ -3533,7 +3377,7 @@ namespace SharpDune
                 {
                     Unit u;
 
-                    u = CUnit.Unit_Find(find);
+                    u = PoolUnit.Unit_Find(find);
                     if (u == null) break;
 
                     buildable &= (int)~UnitFlag.FLAG_UNIT_CARRYALL;
@@ -3576,7 +3420,7 @@ namespace SharpDune
             if (s == null) return;
             if (s.o.type != (byte)StructureType.STRUCTURE_PALACE) return;
 
-            h = CHouse.House_Get_ByIndex(s.o.houseID);
+            h = PoolHouse.House_Get_ByIndex(s.o.houseID);
             if (!h.flags.used) return;
 
             switch ((HouseWeapon)CHouse.g_table_houseInfo[s.o.houseID].specialWeapon)
@@ -3591,7 +3435,7 @@ namespace SharpDune
                         };
 
                         CSharpDune.g_validateStrictIfZero++;
-                        u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_MISSILE_HOUSE, s.o.houseID, position, (sbyte)Tools.Tools_Random_256());
+                        u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_MISSILE_HOUSE, s.o.houseID, position, (sbyte)Tools.Tools_Random_256());
                         CSharpDune.g_validateStrictIfZero--;
 
                         CUnit.g_unitHouseMissile = u;
@@ -3613,7 +3457,7 @@ namespace SharpDune
                             {
                                 Structure sf;
 
-                                sf = Structure_Find(find);
+                                sf = PoolStructure.Structure_Find(find);
                                 if (sf == null) break;
                                 if (sf.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || sf.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || sf.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -3625,7 +3469,7 @@ namespace SharpDune
                             }
 
                             /* We failed to find a target, so remove the missile */
-                            CUnit.Unit_Free(u);
+                            PoolUnit.Unit_Free(u);
                             CUnit.g_unitHouseMissile = null;
 
                             return;
@@ -3662,7 +3506,7 @@ namespace SharpDune
                             unitType = (ushort)((orientation == 1) ? UnitType.UNIT_TROOPER : UnitType.UNIT_TROOPERS);
 
                             CSharpDune.g_validateStrictIfZero++;
-                            u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)unitType, (byte)HouseType.HOUSE_FREMEN, position, (sbyte)orientation);
+                            u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)unitType, (byte)HouseType.HOUSE_FREMEN, position, (sbyte)orientation);
                             CSharpDune.g_validateStrictIfZero--;
 
                             if (u == null) continue;
@@ -3690,7 +3534,7 @@ namespace SharpDune
                         }
 
                         CSharpDune.g_validateStrictIfZero++;
-                        u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SABOTEUR, s.o.houseID, CTile.Tile_UnpackTile(position), (sbyte)Tools.Tools_Random_256());
+                        u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SABOTEUR, s.o.houseID, CTile.Tile_UnpackTile(position), (sbyte)Tools.Tools_Random_256());
                         CSharpDune.g_validateStrictIfZero--;
 
                         if (u == null) return;
@@ -3721,7 +3565,7 @@ namespace SharpDune
 
             si = g_table_structureInfo[s.o.type];
 
-            structuresBuilt = CHouse.House_Get_ByIndex(s.o.houseID).structuresBuilt;
+            structuresBuilt = PoolHouse.House_Get_ByIndex(s.o.houseID).structuresBuilt;
 
             switch ((StructureType)s.o.type)
             {
@@ -3916,7 +3760,7 @@ namespace SharpDune
                                 else if (unitsAtStarport > availableUnits[i])
                                 {
                                     CSharpDune.g_validateStrictIfZero++;
-                                    u = CUnit.Unit_Allocate((ushort)UnitIndex.UNIT_INDEX_INVALID, i, s.o.houseID);
+                                    u = PoolUnit.Unit_Allocate((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, i, s.o.houseID);
                                     CSharpDune.g_validateStrictIfZero--;
 
                                     if (u != null)
@@ -3934,9 +3778,9 @@ namespace SharpDune
 
                         while (linkedID != 0xFF)
                         {
-                            u = CUnit.Unit_Get_ByIndex(linkedID);
+                            u = PoolUnit.Unit_Get_ByIndex(linkedID);
                             linkedID = u.o.linkedID;
-                            CUnit.Unit_Free(u);
+                            PoolUnit.Unit_Free(u);
                         }
                     }
                     else
@@ -3989,7 +3833,7 @@ namespace SharpDune
                         House h;
                         byte i;
 
-                        h = CHouse.House_Get_ByIndex(s.o.houseID);
+                        h = PoolHouse.House_Get_ByIndex(s.o.houseID);
 
                         for (i = 0; i < 25; i++)
                         {
@@ -4018,7 +3862,7 @@ namespace SharpDune
                             CSharpDune.g_validateStrictIfZero++;
                             {
                                 var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
-                                u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
+                                u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
                             }
                             CSharpDune.g_validateStrictIfZero--;
 
@@ -4062,13 +3906,13 @@ namespace SharpDune
                 var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
 
                 oi = CUnit.g_table_unitInfo[objectType].o;
-                o = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
+                o = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
                 str = CStrings.String_Get_ByIndex(CUnit.g_table_unitInfo[objectType].o.stringID_full);
             }
             else
             {
                 oi = g_table_structureInfo[objectType].o;
-                o = Structure_Create((ushort)StructureIndex.STRUCTURE_INDEX_INVALID, (byte)objectType, s.o.houseID, 0xFFFF).o;
+                o = Structure_Create((ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_INVALID, (byte)objectType, s.o.houseID, 0xFFFF).o;
                 str = CStrings.String_Get_ByIndex(g_table_structureInfo[objectType].o.stringID_full);
             }
 
@@ -4156,18 +4000,18 @@ namespace SharpDune
 
             if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
             {
-                var s2 = Structure_Get_ByIndex(s.o.linkedID);
+                var s2 = PoolStructure.Structure_Get_ByIndex(s.o.linkedID);
                 oi = g_table_structureInfo[s2.o.type].o;
-                Structure_Free(s2);
+                PoolStructure.Structure_Free(s2);
             }
             else
             {
-                var u = CUnit.Unit_Get_ByIndex(s.o.linkedID);
+                var u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
                 oi = CUnit.g_table_unitInfo[u.o.type].o;
-                CUnit.Unit_Free(u);
+                PoolUnit.Unit_Free(u);
             }
 
-            CHouse.House_Get_ByIndex(s.o.houseID).credits += (ushort)(((oi.buildTime - (s.countDown >> 8)) * 256 / oi.buildTime) * oi.buildCredits / 256);
+            PoolHouse.House_Get_ByIndex(s.o.houseID).credits += (ushort)(((oi.buildTime - (s.countDown >> 8)) * 256 / oi.buildTime) * oi.buildCredits / 256);
 
             s.o.flags.onHold = false;
             s.countDown = 0;
@@ -4253,7 +4097,7 @@ namespace SharpDune
                         if (Map.Map_IsPositionUnveiled(position)) t.overlayTileID = 0;
 
                         Structure_ConnectWall(position, true);
-                        Structure_Free(s);
+                        PoolStructure.Structure_Free(s);
 
                     }
                     return true;
@@ -4315,7 +4159,7 @@ namespace SharpDune
 
                         if (result == 0) return false;
 
-                        Structure_Free(s);
+                        PoolStructure.Structure_Free(s);
                     }
                     return true;
             }
@@ -4393,7 +4237,7 @@ namespace SharpDune
             {
                 House h;
 
-                h = CHouse.House_Get_ByIndex(s.o.houseID);
+                h = PoolHouse.House_Get_ByIndex(s.o.houseID);
                 h.windtrapCount += 1;
             }
 
@@ -4401,7 +4245,7 @@ namespace SharpDune
             {
                 House h;
 
-                h = CHouse.House_Get_ByIndex(s.o.houseID);
+                h = PoolHouse.House_Get_ByIndex(s.o.houseID);
                 CHouse.House_CalculatePowerAndCredit(h);
             }
 
@@ -4409,7 +4253,7 @@ namespace SharpDune
 
             {
                 House h;
-                h = CHouse.House_Get_ByIndex(s.o.houseID);
+                h = PoolHouse.House_Get_ByIndex(s.o.houseID);
                 h.structuresBuilt = Structure_GetStructuresBuilt(h);
             }
 
@@ -4434,7 +4278,7 @@ namespace SharpDune
             if (typeID >= (byte)StructureType.STRUCTURE_MAX) return null;
 
             si = g_table_structureInfo[typeID];
-            s = Structure_Allocate(index, typeID);
+            s = PoolStructure.Structure_Allocate(index, typeID);
             if (s == null) return null;
 
             s.o.houseID = houseID;
@@ -4487,71 +4331,9 @@ namespace SharpDune
 
             if (position != 0xFFFF && !Structure_Place(s, position))
             {
-                Structure_Free(s);
+                PoolStructure.Structure_Free(s);
                 return null;
             }
-
-            return s;
-        }
-
-        /*
-         * Allocate a Structure.
-         *
-         * @param index The index to use, or STRUCTURE_INDEX_INVALID to find an unused index.
-         * @param typeID The type of the new Structure.
-         * @return The Structure allocated, or NULL on failure.
-         */
-        static Structure Structure_Allocate(ushort index, byte type)
-        {
-            Structure s = null;
-
-            switch ((StructureType)type)
-            {
-                case StructureType.STRUCTURE_SLAB_1x1:
-                    index = (ushort)StructureIndex.STRUCTURE_INDEX_SLAB_1x1;
-                    s = Structure_Get_ByIndex(index);
-                    break;
-
-                case StructureType.STRUCTURE_SLAB_2x2:
-                    index = (ushort)StructureIndex.STRUCTURE_INDEX_SLAB_2x2;
-                    s = Structure_Get_ByIndex(index);
-                    break;
-
-                case StructureType.STRUCTURE_WALL:
-                    index = (ushort)StructureIndex.STRUCTURE_INDEX_WALL;
-                    s = Structure_Get_ByIndex(index);
-                    break;
-
-                default:
-                    if (index == (ushort)StructureIndex.STRUCTURE_INDEX_INVALID)
-                    {
-                        /* Find the first unused index */
-                        for (index = 0; index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT; index++)
-                        {
-                            s = Structure_Get_ByIndex(index);
-                            if (!s.o.flags.used) break;
-                        }
-                        if (index == (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT) return null;
-                    }
-                    else
-                    {
-                        s = Structure_Get_ByIndex(index);
-                        if (s.o.flags.used) return null;
-                    }
-
-                    g_structureFindArray[g_structureFindCount++] = s;
-                    break;
-            }
-            Debug.Assert(s != null);
-
-            /* Initialize the Structure */
-            //memset(s, 0, sizeof(Structure));
-            s.o.index = index;
-            s.o.type = type;
-            s.o.linkedID = 0xFF;
-            s.o.flags.used = true;
-            s.o.flags.allocated = true;
-            s.o.script.delay = 0;
 
             return s;
         }

@@ -1,6 +1,7 @@
 ﻿/* Scenario handling */
 
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 
 namespace SharpDune
@@ -108,7 +109,7 @@ namespace SharpDune
 				return;
 
 			/* Create the house */
-			h = CHouse.House_Allocate(houseID);
+			h = PoolHouse.House_Allocate(houseID);
 
 			h.credits = (ushort)Ini.Ini_GetInteger(houseName, "Credits", 0, s_scenarioBuffer);
 			h.creditsQuota = (ushort)Ini.Ini_GetInteger(houseName, "Quota", 0, s_scenarioBuffer);
@@ -148,7 +149,7 @@ namespace SharpDune
 				find.type = 0xFFFF;
 
 				max = 80;
-				while ((h2 = CHouse.House_Find(find)) != null)
+				while ((h2 = PoolHouse.House_Find(find)) != null)
 				{
 					/* Skip the human controlled house */
 					if (h2.flags.human) continue;
@@ -220,7 +221,7 @@ namespace SharpDune
                 x = 0xFFFF,
                 y = 0xFFFF
             };
-            u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
+            u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
 			if (u == null) return;
 
 			g_scenario.reinforcement[index].unitID = u.o.index;
@@ -252,7 +253,7 @@ namespace SharpDune
 
 			for (i = 0; i < 16; i++)
 			{
-				g_scenario.reinforcement[i].unitID = (ushort)UnitIndex.UNIT_INDEX_INVALID;
+				g_scenario.reinforcement[i].unitID = (ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID;
 			}
 
 			Scenario_Load_Houses();
@@ -457,7 +458,7 @@ namespace SharpDune
 			actionType = CUnit.Unit_ActionStringToType(split[5]);
 			if (actionType == (byte)ActionType.ACTION_INVALID) return;
 
-			u = CUnit.Unit_Allocate((ushort)UnitIndex.UNIT_INDEX_INVALID, unitType, houseType);
+			u = PoolUnit.Unit_Allocate((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, unitType, houseType);
 			if (u == null) return;
 			u.o.flags.byScenario = true;
 
@@ -470,7 +471,7 @@ namespace SharpDune
 			/* In case the above function failed and we are passed campaign 2, don't add the unit */
 			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(u.o.position)) && CSharpDune.g_campaignID > 2)
 			{
-				CUnit.Unit_Free(u);
+				PoolUnit.Unit_Free(u);
 				return;
 			}
 
@@ -513,7 +514,7 @@ namespace SharpDune
 				structureType = CStructure.Structure_StringToType(split[1]);
 				if (structureType == (byte)StructureType.STRUCTURE_INVALID) return;
 
-				CStructure.Structure_Create((ushort)StructureIndex.STRUCTURE_INDEX_INVALID, structureType, houseType, position);
+				CStructure.Structure_Create((ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_INVALID, structureType, houseType, position);
 				return;
 			}
 

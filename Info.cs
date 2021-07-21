@@ -1,6 +1,7 @@
 ﻿/* Load/save routines for Info */
 
 using SharpDune.Os;
+using SharpDune.Pool;
 using System.IO;
 
 namespace SharpDune
@@ -91,7 +92,7 @@ namespace SharpDune
             {
                 if ((ushort)value != 0xFFFF)
                 {
-                    CStructure.g_structureActive = CStructure.Structure_Get_ByIndex((ushort)value);
+                    CStructure.g_structureActive = PoolStructure.Structure_Get_ByIndex((ushort)value);
                 }
                 else
                 {
@@ -114,9 +115,9 @@ namespace SharpDune
         {
             if (loading)
             {
-                if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
+                if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
                 {
-                    CUnit.g_unitSelected = CUnit.Unit_Get_ByIndex((ushort)value);
+                    CUnit.g_unitSelected = PoolUnit.Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
@@ -139,9 +140,9 @@ namespace SharpDune
         {
             if (loading)
             {
-                if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
+                if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
                 {
-                    CUnit.g_unitActive = CUnit.Unit_Get_ByIndex((ushort)value);
+                    CUnit.g_unitActive = PoolUnit.Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
@@ -175,9 +176,9 @@ namespace SharpDune
         {
             if (loading)
             {
-                if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
+                if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
                 {
-                    CUnit.g_unitHouseMissile = CUnit.Unit_Get_ByIndex((ushort)value);
+                    CUnit.g_unitHouseMissile = PoolUnit.Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 ﻿/* Generic pool */
 
-namespace SharpDune
+namespace SharpDune.Pool
 {
     /*
     * To find a pool item of a given type/house, this class is used. The result

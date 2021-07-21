@@ -1,5 +1,7 @@
 ﻿/* Various routines */
 
+using SharpDune.Pool;
+
 namespace SharpDune
 {
     /*
@@ -97,7 +99,7 @@ namespace SharpDune
             if (Tools_Index_GetType(encoded) != IndexType.IT_STRUCTURE) return null;
 
             index = Tools_Index_Decode(encoded);
-            return (index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? CStructure.Structure_Get_ByIndex(index) : null;
+            return (index < (ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? PoolStructure.Structure_Get_ByIndex(index) : null;
         }
 
         /*
@@ -172,11 +174,11 @@ namespace SharpDune
             {
                 case IndexType.IT_UNIT:
                     index = Tools_Index_Decode(encoded);
-                    return (index < (ushort)UnitIndex.UNIT_INDEX_MAX) ? CUnit.Unit_Get_ByIndex(index).o : null;
+                    return (index < (ushort)PoolUnit.UnitIndex.UNIT_INDEX_MAX) ? PoolUnit.Unit_Get_ByIndex(index).o : null;
 
                 case IndexType.IT_STRUCTURE:
                     index = Tools_Index_Decode(encoded);
-                    return (index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? CStructure.Structure_Get_ByIndex(index).o : null;
+                    return (index < (ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? PoolStructure.Structure_Get_ByIndex(index).o : null;
 
                 default: return null;
             }
@@ -203,7 +205,7 @@ namespace SharpDune
                     }
                 case IndexType.IT_UNIT:
                     {
-                        if (index >= (ushort)UnitIndex.UNIT_INDEX_MAX || !CUnit.Unit_Get_ByIndex(index).o.flags.allocated) return 0;
+                        if (index >= (ushort)PoolUnit.UnitIndex.UNIT_INDEX_MAX || !PoolUnit.Unit_Get_ByIndex(index).o.flags.allocated) return 0;
                         return (ushort)(index | 0x4000);
                     }
                 case IndexType.IT_STRUCTURE: return (ushort)(index | 0x8000);
@@ -224,7 +226,7 @@ namespace SharpDune
             if (Tools_Index_GetType(encoded) != IndexType.IT_UNIT) return null;
 
             index = Tools_Index_Decode(encoded);
-            return (index < (ushort)UnitIndex.UNIT_INDEX_MAX) ? CUnit.Unit_Get_ByIndex(index) : null;
+            return (index < (ushort)PoolUnit.UnitIndex.UNIT_INDEX_MAX) ? PoolUnit.Unit_Get_ByIndex(index) : null;
         }
 
         /*
@@ -242,8 +244,8 @@ namespace SharpDune
             switch (Tools_Index_GetType(encoded))
             {
                 case IndexType.IT_TILE: return index;
-                case IndexType.IT_UNIT: return (ushort)((index < (ushort)UnitIndex.UNIT_INDEX_MAX) ? CTile.Tile_PackTile(CUnit.Unit_Get_ByIndex(index).o.position) : 0);
-                case IndexType.IT_STRUCTURE: return (ushort)((index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? CTile.Tile_PackTile(CStructure.Structure_Get_ByIndex(index).o.position) : 0);
+                case IndexType.IT_UNIT: return (ushort)((index < (ushort)PoolUnit.UnitIndex.UNIT_INDEX_MAX) ? CTile.Tile_PackTile(PoolUnit.Unit_Get_ByIndex(index).o.position) : 0);
+                case IndexType.IT_STRUCTURE: return (ushort)((index < (ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? CTile.Tile_PackTile(PoolStructure.Structure_Get_ByIndex(index).o.position) : 0);
                 default: return 0;
             }
         }
@@ -265,12 +267,12 @@ namespace SharpDune
             switch (Tools_Index_GetType(encoded))
             {
                 case IndexType.IT_UNIT:
-                    if (index >= (ushort)UnitIndex.UNIT_INDEX_MAX) return false;
-                    return CUnit.Unit_Get_ByIndex(index).o.flags.used && CUnit.Unit_Get_ByIndex(index).o.flags.allocated;
+                    if (index >= (ushort)PoolUnit.UnitIndex.UNIT_INDEX_MAX) return false;
+                    return PoolUnit.Unit_Get_ByIndex(index).o.flags.used && PoolUnit.Unit_Get_ByIndex(index).o.flags.allocated;
 
                 case IndexType.IT_STRUCTURE:
-                    if (index >= (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) return false;
-                    return CStructure.Structure_Get_ByIndex(index).o.flags.used;
+                    if (index >= (ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_MAX_HARD) return false;
+                    return PoolStructure.Structure_Get_ByIndex(index).o.flags.used;
 
                 case IndexType.IT_TILE: return true;
 
@@ -338,15 +340,15 @@ namespace SharpDune
             switch (Tools_Index_GetType(encoded))
             {
                 case IndexType.IT_TILE: return CTile.Tile_UnpackTile(index);
-                case IndexType.IT_UNIT: return (index < (ushort)UnitIndex.UNIT_INDEX_MAX) ? CUnit.Unit_Get_ByIndex(index).o.position : tile;
+                case IndexType.IT_UNIT: return (index < (ushort)PoolUnit.UnitIndex.UNIT_INDEX_MAX) ? PoolUnit.Unit_Get_ByIndex(index).o.position : tile;
                 case IndexType.IT_STRUCTURE:
                     {
                         StructureInfo si;
                         Structure s;
 
-                        if (index >= (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) return tile;
+                        if (index >= (ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_MAX_HARD) return tile;
 
-                        s = CStructure.Structure_Get_ByIndex(index);
+                        s = PoolStructure.Structure_Get_ByIndex(index);
                         si = CStructure.g_table_structureInfo[s.o.type];
 
                         return CTile.Tile_AddTileDiff(s.o.position, CStructure.g_table_structure_layoutTileDiff[si.layout]);

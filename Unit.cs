@@ -3,6 +3,7 @@
 using SharpDune.Audio;
 using SharpDune.Gui;
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -44,13 +45,6 @@ namespace SharpDune
 
 		UNIT_MAX = 27,
 		UNIT_INVALID = 0xFF
-	}
-
-	enum UnitIndex
-	{
-		UNIT_INDEX_MAX = 102,                                    /*!< The highest possible index for any Unit. */
-
-		UNIT_INDEX_INVALID = 0xFFFF
 	}
 
 	/*
@@ -2253,10 +2247,6 @@ namespace SharpDune
         internal static Unit g_unitHouseMissile;
 		internal static Unit g_unitSelected;
 
-		static readonly Unit[] g_unitArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
-		static readonly Unit[] g_unitFindArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
-		static ushort g_unitFindCount;
-
 		internal static ushort[] g_table_actionsAI = { (ushort)ActionType.ACTION_HUNT, (ushort)ActionType.ACTION_AREA_GUARD, (ushort)ActionType.ACTION_AMBUSH, (ushort)ActionType.ACTION_GUARD };
 
 		internal static ActionInfo[] g_table_actionInfo = { //[ACTION_MAX]
@@ -2387,24 +2377,6 @@ namespace SharpDune
 		static readonly short[] s_mapDirection = { -64, -63, 1, 65, 64, 63, -1, -65 }; /*!< Tile index change when moving in a direction. */
 
 		/*
-		 * Get a Unit from the pool with the indicated index.
-		 *
-		 * @param index The index of the Unit to get.
-		 * @return The Unit.
-		 */
-		internal static Unit Unit_Get_ByIndex(ushort index)
-		{
-			Debug.Assert(index < (ushort)UnitIndex.UNIT_INDEX_MAX);
-			return g_unitArray[index];
-		}
-
-		//internal static void Unit_Set_ByIndex(Unit u)
-		//{
-		//	Debug.Assert(u.o.index < (ushort)UnitIndex.UNIT_INDEX_MAX);
-		//	g_unitArray[u.o.index] = u;
-		//}
-
-		/*
 		 * Get the unit on the given packed tile.
 		 *
 		 * @param packed The packed tile to get the unit from.
@@ -2418,7 +2390,7 @@ namespace SharpDune
 
 			tile = Map.g_map[packed];
 			if (!tile.hasUnit) return null;
-			return Unit_Get_ByIndex((ushort)(tile.index - 1));
+			return PoolUnit.Unit_Get_ByIndex((ushort)(tile.index - 1));
 		}
 
 		/*
@@ -2694,9 +2666,9 @@ namespace SharpDune
 
 			if (unit == null) return;
 
-			hp = CHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
+			hp = PoolHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
 			ui = g_table_unitInfo[unit.o.type];
-			h = CHouse.House_Get_ByIndex(houseID);
+			h = PoolHouse.House_Get_ByIndex(houseID);
 			houseIDBit = (ushort)(1 << houseID);
 
 			if (houseID == (byte)HouseType.HOUSE_ATREIDES && unit.o.type != (byte)UnitType.UNIT_SANDWORM)
@@ -2732,7 +2704,7 @@ namespace SharpDune
 				if (!CHouse.House_AreAllied(houseID, Unit_GetHouseID(unit)))
 				{
 					h.flags.isAIActive = true;
-					var t = CHouse.House_Get_ByIndex(Unit_GetHouseID(unit));
+					var t = PoolHouse.House_Get_ByIndex(Unit_GetHouseID(unit));
 					t.flags.isAIActive = true;
 				}
 			}
@@ -2779,7 +2751,7 @@ namespace SharpDune
 								find.index = 0xFFFF;
 								find.type = (ushort)StructureType.STRUCTURE_CONSTRUCTION_YARD;
 
-								s = CStructure.Structure_Find(find);
+								s = PoolStructure.Structure_Find(find);
 								if (s != null)
 								{
 									feedbackID = (ushort)(((CTile.Orientation_Orientation256ToOrientation8((byte)CTile.Tile_GetDirection(s.o.position, unit.o.position)) + 1) & 7) / 2 + 2);
@@ -2800,7 +2772,7 @@ namespace SharpDune
 						hp.timerUnitAttack = 8;
 					}
 
-					t = CTeam.Team_Get_ByIndex(unit.team);
+					t = PoolTeam.Team_Get_ByIndex(unit.team);
 					if (t != null) t.script.variables[4] = 1;
 				}
 			}
@@ -2838,7 +2810,7 @@ namespace SharpDune
 			{
 				House h;
 
-				h = CHouse.House_Find(find);
+				h = PoolHouse.House_Find(find);
 				if (h == null) break;
 
 				if ((unit.o.seenByHouses & (1 << h.index)) == 0) continue;
@@ -2906,34 +2878,6 @@ namespace SharpDune
 		}
 
 		/*
-		 * Find the first matching Unit based on the PoolFindStruct filter data.
-		 *
-		 * @param find A pointer to a PoolFindStruct which contains filter data and
-		 * last known tried index. Calling this functions multiple times with the
-		 * same 'find' parameter walks over all possible values matching the filter.
-		 * @return The Unit, or NULL if nothing matches (anymore).
-		 */
-		internal static Unit Unit_Find(PoolFindStruct find)
-		{
-			if (find.index >= g_unitFindCount && find.index != 0xFFFF) return null;
-			find.index++; /* First, we always go to the next index */
-
-			for (; find.index < g_unitFindCount; find.index++)
-			{
-				var u = g_unitFindArray[find.index];
-				if (u == null) continue;
-
-				if (u.o.flags.isNotOnMap && CSharpDune.g_validateStrictIfZero == 0) continue;
-				if (find.houseID != (byte)HouseType.HOUSE_INVALID && find.houseID != Unit_GetHouseID(u)) continue;
-				if (find.type != (ushort)UnitIndex.UNIT_INDEX_INVALID && find.type != u.o.type) continue;
-
-				return u;
-			}
-
-			return null;
-		}
-
-		/*
 		 * Find the best target, based on the score. Only considers units on sand.
 		 *
 		 * @param unit The unit to search a target for.
@@ -2956,7 +2900,7 @@ namespace SharpDune
 				Unit u;
 				ushort priority;
 
-				u = Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 
 				if (u == null) break;
 
@@ -3170,15 +3114,15 @@ namespace SharpDune
 			h.unitCountEnemy = 0;
 			h.unitCountAllied = 0;
 
-			for (i = 0; i < g_unitFindCount - 1; i++)
+			for (i = 0; i < PoolUnit.g_unitFindCount - 1; i++)
 			{
 				Unit u1;
 				Unit u2;
 				ushort y1;
 				ushort y2;
 
-				u1 = g_unitFindArray[i];
-				u2 = g_unitFindArray[i + 1];
+				u1 = PoolUnit.g_unitFindArray[i];
+				u2 = PoolUnit.g_unitFindArray[i + 1];
 				y1 = CTile.Tile_GetY(u1.o.position);
 				y2 = CTile.Tile_GetY(u2.o.position);
 				if (g_table_unitInfo[u1.o.type].movementType == (ushort)MovementType.MOVEMENT_FOOT) y1 -= 0x100;
@@ -3186,16 +3130,16 @@ namespace SharpDune
 
 				if ((short)y1 > (short)y2)
 				{
-					g_unitFindArray[i] = u2;
-					g_unitFindArray[i + 1] = u1;
+					PoolUnit.g_unitFindArray[i] = u2;
+					PoolUnit.g_unitFindArray[i + 1] = u1;
 				}
 			}
 
-			for (i = 0; i < g_unitFindCount; i++)
+			for (i = 0; i < PoolUnit.g_unitFindCount; i++)
 			{
 				Unit u;
 
-				u = g_unitFindArray[i];
+				u = PoolUnit.g_unitFindArray[i];
 				if ((u.o.seenByHouses & (1 << (byte)CHouse.g_playerHouseID)) != 0 && !u.o.flags.isNotOnMap)
 				{
 					if (CHouse.House_AreAllied(u.o.houseID, (byte)CHouse.g_playerHouseID))
@@ -3232,7 +3176,7 @@ namespace SharpDune
 
 			Script.Script_Reset(u.o.script, Script.g_scriptUnit);
 
-			Unit_Free(u);
+			PoolUnit.Unit_Free(u);
 		}
 
 		/*
@@ -3245,7 +3189,7 @@ namespace SharpDune
 		{
 			if (u == null) return null;
 			if (u.team == 0) return null;
-			return CTeam.Team_Get_ByIndex((ushort)(u.team - 1));
+			return PoolTeam.Team_Get_ByIndex((ushort)(u.team - 1));
 		}
 
 		/*
@@ -3268,7 +3212,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
 				if (u.targetMove == encoded) u.targetMove = 0;
@@ -3284,7 +3228,7 @@ namespace SharpDune
 			{
 				Structure s;
 
-				s = CStructure.Structure_Find(find);
+				s = PoolStructure.Structure_Find(find);
 				if (s == null) break;
 
 				if (s.o.type != (byte)StructureType.STRUCTURE_TURRET && s.o.type != (byte)StructureType.STRUCTURE_ROCKET_TURRET) continue;
@@ -3301,44 +3245,11 @@ namespace SharpDune
 			{
 				Team t;
 
-				t = CTeam.Team_Find(find);
+				t = PoolTeam.Team_Find(find);
 				if (t == null) break;
 
 				if (t.target == encoded) t.target = 0;
 			}
-		}
-
-		/*
-		 * Free a Unit.
-		 *
-		 * @param address The address of the Unit to free.
-		 */
-		internal static void Unit_Free(Unit u)
-		{
-			int i;
-
-			u.o.flags = new ObjectFlags(); //memset(&u->o.flags, 0, sizeof(u->o.flags));
-
-			Script.Script_Reset(u.o.script, Script.g_scriptUnit);
-
-			/* Walk the array to find the Unit we are removing */
-			for (i = 0; i < g_unitFindCount; i++)
-			{
-				if (g_unitFindArray[i] == u) break;
-			}
-			Debug.Assert(i < g_unitFindCount); /* We should always find an entry */
-
-			g_unitFindCount--;
-
-			{
-				var h = CHouse.House_Get_ByIndex(u.o.houseID);
-				h.unitCount--;
-			}
-
-			/* If needed, close the gap */
-			if (i == g_unitFindCount) return;
-
-			Array.Copy(g_unitFindArray, i + 1, g_unitFindArray, i, g_unitFindCount - i); //memmove(&g_unitFindArray[i], &g_unitFindArray[i + 1], (g_unitFindCount - i) * sizeof(g_unitFindArray[0]));
 		}
 
 		/*
@@ -3354,7 +3265,7 @@ namespace SharpDune
 			if (u == null) return 0;
 			if (u.team == 0) return 0;
 
-			t = CTeam.Team_Get_ByIndex((ushort)(u.team - 1));
+			t = PoolTeam.Team_Get_ByIndex((ushort)(u.team - 1));
 
 			t.members--;
 			u.team = 0;
@@ -3604,16 +3515,6 @@ namespace SharpDune
 		}
 
 		/*
-		 * Initialize the Unit array.
-		 */
-		internal static void Unit_Init()
-		{
-			for (var i = 0; i < g_unitArray.Length; i++) g_unitArray[i] = new Unit(); //memset(g_unitArray, 0, sizeof(g_unitArray));
-			Array.Fill(g_unitFindArray, null, 0, g_unitFindArray.Length); //memset(g_unitFindArray, 0, sizeof(g_unitFindArray));
-			g_unitFindCount = 0;
-		}
-
-		/*
 		 * Remove fog arount the given unit.
 		 *
 		 * @param unit The Unit to remove fog around.
@@ -3632,37 +3533,6 @@ namespace SharpDune
 			if (fogUncoverRadius == 0) return;
 
 			CTile.Tile_RemoveFogInRadius(unit.o.position, fogUncoverRadius);
-		}
-
-		/*
-		 * Recount all Units, ignoring the cache array. Also set the unitCount
-		 *  of all houses to zero.
-		 */
-		internal static void Unit_Recount()
-		{
-			ushort index;
-			var find = new PoolFindStruct();
-			unchecked { find.houseID = (byte)-1; find.type = (ushort)-1; find.index = (ushort)-1; }
-			var h = CHouse.House_Find(find);
-
-			while (h != null)
-			{
-				h.unitCount = 0;
-				h = CHouse.House_Find(find);
-			}
-
-			g_unitFindCount = 0;
-
-			for (index = 0; index < (ushort)UnitIndex.UNIT_INDEX_MAX; index++)
-			{
-				var u = Unit_Get_ByIndex(index);
-				if (!u.o.flags.used) continue;
-
-				h = CHouse.House_Get_ByIndex(u.o.houseID);
-				h.unitCount++;
-
-				g_unitFindArray[g_unitFindCount++] = u;
-			}
 		}
 
 		/*
@@ -3732,7 +3602,7 @@ namespace SharpDune
 				UnitInfo ui;
 				Unit u;
 
-				u = Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
 				ui = g_table_unitInfo[u.o.type];
@@ -4016,7 +3886,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 				if (u.o.linkedID != 0xFF) continue;
 				if (u.targetMove != 0) continue;
@@ -4030,7 +3900,7 @@ namespace SharpDune
 				CSharpDune.g_validateStrictIfZero++;
 				position.x = 0;
 				position.y = 0;
-				unit = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, 96);
+				unit = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, 96);
 				CSharpDune.g_validateStrictIfZero--;
 
 				if (unit != null) unit.o.flags.byScenario = true;
@@ -4065,7 +3935,7 @@ namespace SharpDune
 			if (typeID >= (byte)UnitType.UNIT_MAX) return null;
 
 			ui = g_table_unitInfo[typeID];
-			u = Unit_Allocate(index, typeID, houseID);
+			u = PoolUnit.Unit_Allocate(index, typeID, houseID);
 			if (u == null) return null;
 
 			u.o.houseID = houseID;
@@ -4122,7 +3992,7 @@ namespace SharpDune
 			{
 				if ((position.x != 0xFFFF || position.y != 0xFFFF) && Unit_IsTileOccupied(u))
 				{
-					Unit_Free(u);
+					PoolUnit.Unit_Free(u);
 					return null;
 				}
 			}
@@ -4169,7 +4039,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				s2 = CStructure.Structure_Find(find);
+				s2 = PoolStructure.Structure_Find(find);
 				if (s2 == null) break;
 				if (s2.state != (short)StructureState.STRUCTURE_STATE_BUSY) continue;
 				d = CTile.Tile_GetDistance(unit.o.position, s2.o.position);
@@ -4186,7 +4056,7 @@ namespace SharpDune
 
 				while (true)
 				{
-					s2 = CStructure.Structure_Find(find);
+					s2 = PoolStructure.Structure_Find(find);
 					if (s2 == null) break;
 					d = CTile.Tile_GetDistance(unit.o.position, s2.o.position);
 					if (mind != 0 && d >= mind) continue;
@@ -4347,7 +4217,7 @@ namespace SharpDune
 
 			tile = CTile.Tile_UnpackTile(Map.Map_FindLocationTile((ushort)(Tools.Tools_Random_256() & 3), houseID));
 
-			h = CHouse.House_Get_ByIndex(houseID);
+			h = PoolHouse.House_Get_ByIndex(houseID);
 
 			{
                 var t = new tile32
@@ -4361,7 +4231,7 @@ namespace SharpDune
 			if (g_table_unitInfo[(int)typeID].movementType == (ushort)MovementType.MOVEMENT_WINGER)
 			{
 				CSharpDune.g_validateStrictIfZero++;
-				unit = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, orientation);
+				unit = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, orientation);
 				CSharpDune.g_validateStrictIfZero--;
 
 				if (unit == null) return null;
@@ -4377,7 +4247,7 @@ namespace SharpDune
 			}
 
 			CSharpDune.g_validateStrictIfZero++;
-			carryall = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_CARRYALL, houseID, tile, orientation);
+			carryall = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_CARRYALL, houseID, tile, orientation);
 			CSharpDune.g_validateStrictIfZero--;
 
 			if (carryall == null)
@@ -4395,7 +4265,7 @@ namespace SharpDune
 			tile.y = 0xFFFF;
 
 			CSharpDune.g_validateStrictIfZero++;
-			unit = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, 0);
+			unit = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, 0);
 			CSharpDune.g_validateStrictIfZero--;
 
 			if (unit == null)
@@ -4474,11 +4344,11 @@ namespace SharpDune
 		{
 			ushort i;
 
-			for (i = 0; i < g_unitFindCount; i++)
+			for (i = 0; i < PoolUnit.g_unitFindCount; i++)
 			{
 				Unit u;
 
-				u = g_unitFindArray[i];
+				u = PoolUnit.g_unitFindArray[i];
 				if (houseID != (byte)HouseType.HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
 				if (typeID != (byte)UnitType.UNIT_INVALID && u.o.type != typeID) continue;
 				if (CSharpDune.g_validateStrictIfZero == 0 && u.o.flags.isNotOnMap) continue;
@@ -4486,69 +4356,6 @@ namespace SharpDune
 				return true;
 			}
 			return false;
-		}
-
-		/*
-		 * Allocate a Unit.
-		 *
-		 * @param index The index to use, or UNIT_INDEX_INVALID to find an unused index.
-		 * @param typeID The type of the new Unit.
-		 * @param houseID The House of the new Unit.
-		 * @return The Unit allocated, or NULL on failure.
-		 */
-		internal static Unit Unit_Allocate(ushort index, byte type, byte houseID)
-		{
-			House h;
-			Unit u = null;
-
-			if (type == 0xFF || houseID == 0xFF) return null;
-
-			h = CHouse.House_Get_ByIndex(houseID);
-			if (h.unitCount >= h.unitCountMax)
-			{
-				if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
-				{
-					if (CSharpDune.g_validateStrictIfZero == 0) return null;
-				}
-			}
-
-			if (index == 0 || index == (ushort)UnitIndex.UNIT_INDEX_INVALID)
-			{
-				var indexStart = g_table_unitInfo[type].indexStart;
-				var indexEnd = g_table_unitInfo[type].indexEnd;
-
-				for (index = indexStart; index <= indexEnd; index++)
-				{
-					u = Unit_Get_ByIndex(index);
-					if (!u.o.flags.used) break;
-				}
-				if (index > indexEnd) return null;
-			}
-			else
-			{
-				u = Unit_Get_ByIndex(index);
-				if (u.o.flags.used) return null;
-			}
-			Debug.Assert(u != null);
-
-			h.unitCount++;
-
-			/* Initialize the Unit */
-			//memset(u, 0, sizeof(Unit));
-			u.o.index = index;
-			u.o.type = type;
-			u.o.houseID = houseID;
-			u.o.linkedID = 0xFF;
-			u.o.flags.used = true;
-			u.o.flags.allocated = true;
-			u.o.flags.isUnit = true;
-			u.o.script.delay = 0;
-			u.route[0] = 0xFF;
-			if (type == (byte)UnitType.UNIT_SANDWORM) u.amount = 3;
-
-			g_unitFindArray[g_unitFindCount++] = u;
-
-			return u;
 		}
 
 		/*
@@ -4661,7 +4468,7 @@ namespace SharpDune
 
 						orientation = CTile.Tile_GetDirection(position, tile);
 
-						bullet = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, orientation);
+						bullet = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, orientation);
 						if (bullet == null) return null;
 
 						Sound.Voice_PlayAtTile((short)ui.bulletSound, position);
@@ -4701,7 +4508,7 @@ namespace SharpDune
 
 						t = CTile.Tile_MoveByDirection(CTile.Tile_MoveByDirection(position, 0, 32), orientation, 128);
 
-						bullet = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, t, orientation);
+						bullet = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, t, orientation);
 						if (bullet == null) return null;
 
 						if (type == UnitType.UNIT_SONIC_BLAST)
@@ -4750,7 +4557,7 @@ namespace SharpDune
 
 			if (g_unitHouseMissile == null) return;
 
-			h = CHouse.House_Get_ByIndex(g_unitHouseMissile.o.houseID);
+			h = PoolHouse.House_Get_ByIndex(g_unitHouseMissile.o.houseID);
 
 			tile = CTile.Tile_UnpackTile(packed);
 			tile = CTile.Tile_MoveByRandom(tile, 160, false);
@@ -4759,7 +4566,7 @@ namespace SharpDune
 
 			isAI = g_unitHouseMissile.o.houseID != (byte)CHouse.g_playerHouseID;
 
-			Unit_Free(g_unitHouseMissile);
+			PoolUnit.Unit_Free(g_unitHouseMissile);
 
 			Sound.Sound_Output_Feedback(0xFFFE);
 
@@ -4864,7 +4671,7 @@ namespace SharpDune
 				Unit target;
 				ushort priority;
 
-				target = Unit_Find(find);
+				target = PoolUnit.Unit_Find(find);
 
 				if (target == null) break;
 
@@ -4924,7 +4731,7 @@ namespace SharpDune
 				var curPosition = new tile32();
 				ushort priority;
 
-				s = CStructure.Structure_Find(find);
+				s = PoolStructure.Structure_Find(find);
 				if (s == null) break;
 				if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -5354,7 +5161,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 
 				if (u == null) break;
 				if (CTile.Tile_GetDistance(position, u.o.position) / 16 >= radius) continue;
@@ -5490,23 +5297,23 @@ namespace SharpDune
 			{
 				House h;
 
-				h = CHouse.House_Get_ByIndex(s.o.houseID);
+				h = PoolHouse.House_Get_ByIndex(s.o.houseID);
 				s.o.houseID = Unit_GetHouseID(unit);
 				h.structuresBuilt = CStructure.Structure_GetStructuresBuilt(h);
 
 				/* ENHANCEMENT -- recalculate the power and credits for the house losing the structure. */
 				if (CSharpDune.g_dune2_enhanced) CHouse.House_CalculatePowerAndCredit(h);
 
-				h = CHouse.House_Get_ByIndex(s.o.houseID);
+				h = PoolHouse.House_Get_ByIndex(s.o.houseID);
 				h.structuresBuilt = CStructure.Structure_GetStructuresBuilt(h);
 
 				if (s.o.linkedID != 0xFF)
 				{
-					var u = Unit_Get_ByIndex(s.o.linkedID);
+					var u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 					if (u != null) u.o.houseID = Unit_GetHouseID(unit);
 				}
 
-				CHouse.House_CalculatePowerAndCredit(CHouse.House_Get_ByIndex(s.o.houseID));
+				CHouse.House_CalculatePowerAndCredit(PoolHouse.House_Get_ByIndex(s.o.houseID));
 				CStructure.Structure_UpdateMap(s);
 
 				/* ENHANCEMENT -- When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
@@ -5826,7 +5633,7 @@ namespace SharpDune
 
 			for (i = 0; i < 4; i++)
 			{
-				s = CStructure.Structure_Create((ushort)StructureIndex.STRUCTURE_INDEX_INVALID, (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), (ushort)(CTile.Tile_PackTile(u.o.position) + offsets[i]));
+				s = CStructure.Structure_Create((ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_INVALID, (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), (ushort)(CTile.Tile_PackTile(u.o.position) + offsets[i]));
 
 				if (s != null)
 				{
@@ -6143,7 +5950,7 @@ namespace SharpDune
 
 			if (u.o.linkedID == 0xFF) return u.amount;
 
-			return Unit_Get_ByIndex(u.o.linkedID).amount;
+			return PoolUnit.Unit_Get_ByIndex(u.o.linkedID).amount;
 		}
 
 		/*
@@ -6166,7 +5973,7 @@ namespace SharpDune
 
 			position = CTile.Tile_MoveByRandom(u.o.position, 20, true);
 
-			nu = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, u.o.houseID, position, (sbyte)Tools.Tools_Random_256());
+			nu = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, u.o.houseID, position, (sbyte)Tools.Tools_Random_256());
 
 			if (nu == null) return 0;
 
@@ -6259,7 +6066,7 @@ namespace SharpDune
 			{
 				Structure s;
 
-				s = CStructure.Structure_Find(find);
+				s = PoolStructure.Structure_Find(find);
 				if (s == null) break;
 				if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
 				if (s.o.linkedID != 0xFF) continue;
@@ -6380,7 +6187,7 @@ namespace SharpDune
 				case IndexType.IT_TILE:
 					if (!Map.Map_IsValidPosition(index)) return 1;
 					if (u.o.linkedID == 0xFF) return 1;
-					u2 = Unit_Get_ByIndex(u.o.linkedID);
+					u2 = PoolUnit.Unit_Get_ByIndex(u.o.linkedID);
 					u2.o.position = Tools.Tools_Index_GetTile(encoded);
 					if (!Unit_IsTileOccupied(u2)) return 0;
 					u2.o.position.x = 0xFFFF;
@@ -6391,10 +6198,10 @@ namespace SharpDune
 					{
 						Structure s;
 
-						s = CStructure.Structure_Get_ByIndex(index);
+						s = PoolStructure.Structure_Get_ByIndex(index);
 						if (s.o.houseID == Unit_GetHouseID(u)) return 0;
 						if (u.o.linkedID == 0xFF) return 1;
-						u2 = Unit_Get_ByIndex(u.o.linkedID);
+						u2 = PoolUnit.Unit_Get_ByIndex(u.o.linkedID);
 						return (ushort)(Unit_IsValidMovementIntoStructure(u2, s) != 0 ? 1 : 0);
 					}
 
@@ -6487,7 +6294,7 @@ namespace SharpDune
 				Structure s2;
 				ushort distance;
 
-				s2 = CStructure.Structure_Find(find);
+				s2 = PoolStructure.Structure_Find(find);
 
 				if (s2 == null) break;
 				if (s2.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
@@ -7102,7 +6909,7 @@ namespace SharpDune
 			{
 				Structure s;
 
-				s = Tools.Tools_Index_GetStructure(Unit_Get_ByIndex(u.o.linkedID).originEncoded);
+				s = Tools.Tools_Index_GetStructure(PoolUnit.Unit_Get_ByIndex(u.o.linkedID).originEncoded);
 
 				if (s != null && s.state == (short)StructureState.STRUCTURE_STATE_IDLE && s.o.script.variables[4] == 0)
 				{
@@ -7127,7 +6934,7 @@ namespace SharpDune
 				Structure s;
 				ushort encoded;
 
-				s = CStructure.Structure_Find(find);
+				s = PoolStructure.Structure_Find(find);
 				if (s == null) break;
 
 				if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
@@ -7251,7 +7058,7 @@ namespace SharpDune
 						CObject.Object_Script_Variable4_Clear(u.o);
 						u.targetMove = 0;
 
-						u2 = Unit_Get_ByIndex(s.o.linkedID);
+						u2 = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 
 						/* Pickup the unit */
 						u.o.linkedID = (byte)(u2.o.index & 0xFF);
@@ -7296,7 +7103,7 @@ namespace SharpDune
 							Structure s2;
 							short distance;
 
-							s2 = CStructure.Structure_Find(find);
+							s2 = PoolStructure.Structure_Find(find);
 							if (s2 == null) break;
 
 							distance = (short)CTile.Tile_GetDistanceRoundedUp(s2.o.position, u.o.position);
@@ -7410,7 +7217,7 @@ namespace SharpDune
 				{
 					Sound.Voice_PlayAtTile(24, u.o.position);
 
-					Unit_EnterStructure(Unit_Get_ByIndex(u.o.linkedID), s);
+					Unit_EnterStructure(PoolUnit.Unit_Get_ByIndex(u.o.linkedID), s);
 
 					CObject.Object_Script_Variable4_Clear(u.o);
 					u.targetMove = 0;
@@ -7432,7 +7239,7 @@ namespace SharpDune
 
 			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(CTile.Tile_Center(u.o.position)))) return 0;
 
-			u2 = Unit_Get_ByIndex(u.o.linkedID);
+			u2 = PoolUnit.Unit_Get_ByIndex(u.o.linkedID);
 
 			if (!Unit_SetPosition(u2, CTile.Tile_Center(u.o.position))) return 0;
 

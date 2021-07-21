@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Gui;
+using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -1417,7 +1418,7 @@ namespace SharpDune
                     Unit us;
                     Unit attack;
 
-                    u = CUnit.Unit_Find(find);
+                    u = PoolUnit.Unit_Find(find);
                     if (u == null) break;
 
                     ui = CUnit.g_table_unitInfo[u.o.type];
@@ -1671,7 +1672,7 @@ namespace SharpDune
             {
                 Unit u;
 
-                u = CUnit.Unit_Find(find);
+                u = PoolUnit.Unit_Find(find);
                 if (u == null) break;
 
                 if (!CUnit.g_table_unitInfo[u.o.type].o.flags.tabSelectable) continue;
@@ -1711,7 +1712,7 @@ namespace SharpDune
             {
                 Structure s;
 
-                s = CStructure.Structure_Find(find);
+                s = PoolStructure.Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
@@ -1784,7 +1785,7 @@ namespace SharpDune
                 {
                     Structure s;
 
-                    s = CStructure.Structure_Find(find);
+                    s = PoolStructure.Structure_Find(find);
                     if (s == null) break;
                     if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -1835,7 +1836,7 @@ namespace SharpDune
                             find.index = 0xFFFF;
                             find.type = 0xFFFF;
 
-                            s = CStructure.Structure_Find(find);
+                            s = PoolStructure.Structure_Find(find);
 
                             if (s != null)
                             {
@@ -1849,7 +1850,7 @@ namespace SharpDune
                                 find.index = 0xFFFF;
                                 find.type = 0xFFFF;
 
-                                u = CUnit.Unit_Find(find);
+                                u = PoolUnit.Unit_Find(find);
 
                                 if (u != null)
                                 {
@@ -1966,7 +1967,7 @@ namespace SharpDune
             var find = new PoolFindStruct();
             byte enemyHouseID;
 
-            h = CHouse.House_Get_ByIndex(houseID);
+            h = PoolHouse.House_Get_ByIndex(houseID);
 
             g_map[packed].groundTileID = Sprites.g_landscapeTileID;
             g_mapTileID[packed] = (ushort)(0x8000 | Sprites.g_landscapeTileID);
@@ -1984,7 +1985,7 @@ namespace SharpDune
             {
                 Unit u;
 
-                u = CUnit.Unit_Find(find);
+                u = PoolUnit.Unit_Find(find);
                 if (u == null) break;
 
                 if (u.o.houseID == houseID) continue;
@@ -2006,7 +2007,7 @@ namespace SharpDune
                         position = CTile.Tile_MoveByRandom(position, 16, true);
 
                         /* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-                        CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, houseID, position, (sbyte)Tools.Tools_Random_256());
+                        CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, houseID, position, (sbyte)Tools.Tools_Random_256());
                         break;
                     }
 
@@ -2018,7 +2019,7 @@ namespace SharpDune
                         position = CTile.Tile_MoveByRandom(position, 16, true);
 
                         /* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-                        u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, enemyHouseID, position, (sbyte)Tools.Tools_Random_256());
+                        u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, enemyHouseID, position, (sbyte)Tools.Tools_Random_256());
 
                         if (u != null) CUnit.Unit_SetAction(u, ActionType.ACTION_HUNT);
                         break;
@@ -2032,7 +2033,7 @@ namespace SharpDune
                         position = CTile.Tile_MoveByRandom(position, 16, true);
 
                         /* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-                        u = CUnit.Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_INFANTRY, enemyHouseID, position, (sbyte)Tools.Tools_Random_256());
+                        u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_INFANTRY, enemyHouseID, position, (sbyte)Tools.Tools_Random_256());
 
                         if (u != null) CUnit.Unit_SetAction(u, ActionType.ACTION_HUNT);
                         break;

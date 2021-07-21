@@ -1,6 +1,7 @@
 ﻿/* Save Load */
 
 using SharpDune.Os;
+using SharpDune.Pool;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -808,7 +809,7 @@ namespace SharpDune
 				var index = fp.ReadUInt16();
 
 				/* Get the Structure from the pool */
-				sl = CStructure.Structure_Get_ByIndex(index);
+				sl = PoolStructure.Structure_Get_ByIndex(index);
 				if (sl == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -823,7 +824,7 @@ namespace SharpDune
 			}
 			if (length != 0) return false;
 
-			CStructure.Structure_Recount();
+			PoolStructure.Structure_Recount();
 
 			return true;
 		}
@@ -844,7 +845,7 @@ namespace SharpDune
 				var index = fp.ReadUInt16();
 
 				/* Get the Unit from the pool */
-				ul = CUnit.Unit_Get_ByIndex(index);
+				ul = PoolUnit.Unit_Get_ByIndex(index);
 				if (ul == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -869,7 +870,7 @@ namespace SharpDune
 			}
 			if (length != 0) return false;
 
-			CUnit.Unit_Recount();
+			PoolUnit.Unit_Recount();
 
 			return true;
 		}
@@ -893,7 +894,7 @@ namespace SharpDune
 				length -= SaveLoad_GetLength(s_saveUnitNewIndex);
 
 				/* Get the Unit from the pool */
-				u = CUnit.Unit_Get_ByIndex(o.index);
+				u = PoolUnit.Unit_Get_ByIndex(o.index);
 				if (u == null) return false;
 
 				/* Read the "new" information for this unit */
@@ -922,7 +923,7 @@ namespace SharpDune
 				var index = fp.ReadUInt16();
 
 				/* Create the House in the pool */
-				hl = CHouse.House_Allocate((byte)index);
+				hl = PoolHouse.House_Allocate((byte)index);
 				if (hl == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -991,7 +992,7 @@ namespace SharpDune
 				var index = fp.ReadUInt16();
 
 				/* Get the Team from the pool */
-				tl = CTeam.Team_Get_ByIndex(index);
+				tl = PoolTeam.Team_Get_ByIndex(index);
 				if (tl == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -1005,7 +1006,7 @@ namespace SharpDune
 			}
 			if (length != 0) return false;
 
-			CTeam.Team_Recount();
+			PoolTeam.Team_Recount();
 
 			return true;
 		}
@@ -1093,7 +1094,7 @@ namespace SharpDune
 			{
 				House h;
 
-				h = CHouse.House_Find(find);
+				h = PoolHouse.House_Find(find);
 				if (h == null) break;
 
 				if (!SaveLoad_Save(s_saveHouse, fp, h)) return false;
@@ -1120,7 +1121,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
 				if (!SaveLoad_Save(s_saveUnit, fp, u)) return false;
@@ -1148,7 +1149,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = CUnit.Unit_Find(find);
+				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
 				if (!SaveLoad_Save(s_saveUnitNewIndex, fp, u.o)) return false;
@@ -1176,7 +1177,7 @@ namespace SharpDune
 			{
 				Structure s;
 
-				s = CStructure.Structure_Find(find);
+				s = PoolStructure.Structure_Find(find);
 				if (s == null) break;
 
 				if (!SaveLoad_Save(s_saveStructure, fp, s)) return false;
@@ -1203,7 +1204,7 @@ namespace SharpDune
 			{
 				Team t;
 
-				t = CTeam.Team_Find(find);
+				t = PoolTeam.Team_Find(find);
 				if (t == null) break;
 
 				if (!SaveLoad_Save(s_saveTeam, fp, t)) return false;

@@ -1,5 +1,7 @@
 ﻿/* Object */
 
+using SharpDune.Pool;
+
 namespace SharpDune
 {
     /*
@@ -164,7 +166,7 @@ namespace SharpDune
             si = CStructure.g_table_structureInfo[o.type];
             if (!si.o.flags.busyStateIsIncoming) return;
 
-            s = CStructure.Structure_Get_ByIndex(o.index); //TODO: Check
+            s = PoolStructure.Structure_Get_ByIndex(o.index); //TODO: Check
             if (CStructure.Structure_GetLinkedUnit(s) != null) return;
 
             CStructure.Structure_SetState(s, (short)((encoded == 0) ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_BUSY));
@@ -215,8 +217,8 @@ namespace SharpDune
             if (CTile.Tile_IsOutOfMap(packed)) return null;
 
             t = Map.g_map[packed];
-            if (t.hasUnit) return CUnit.Unit_Get_ByIndex((ushort)(t.index - 1)).o;
-            if (t.hasStructure) return CStructure.Structure_Get_ByIndex((ushort)(t.index - 1)).o;
+            if (t.hasUnit) return PoolUnit.Unit_Get_ByIndex((ushort)(t.index - 1)).o;
+            if (t.hasStructure) return PoolStructure.Structure_Get_ByIndex((ushort)(t.index - 1)).o;
             return null;
         }
 
