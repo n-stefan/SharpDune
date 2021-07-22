@@ -176,7 +176,7 @@ namespace SharpDune
 		{
 			while (s_timer_count == 0)
 			{
-				System.Threading.Thread.Sleep(2); /* TODO : use a semaphore */
+				Thread.Sleep(2); /* TODO : use a semaphore */
 			}
 			/* timer signal SIGALRM has been triggered */
 			if (s_timer_count > 1)

@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Os;
+using SharpDune.SaveLoad;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -96,7 +97,7 @@ namespace SharpDune
 				if (version != 0x0290)
 				{
 					/* Get the scenarioID / campaignID */
-					if (!Info.Info_LoadOld(br, length)) return false;
+					if (!SaveLoadInfo.Info_LoadOld(br, length)) return false;
 
 					CSharpDune.g_gameMode = GameMode.GM_RESTART;
 
@@ -106,7 +107,7 @@ namespace SharpDune
 					if (length == 0) return false;
 
 					/* Find the human player */
-					if (!SaveLoad.House_LoadOld(br, length)) return false;
+					if (!SaveLoadHouse.House_LoadOld(br, length)) return false;
 
 					Gui.Gui.GUI_DisplayModalMessage(CStrings.String_Get_ByIndex(Text.STR_WARNING_ORIGINAL_SAVED_GAMES_ARE_INCOMPATABLE_WITH_THE_NEW_VERSION_THE_BATTLE_WILL_BE_RESTARTED), 0xFFFF);
 
@@ -114,7 +115,7 @@ namespace SharpDune
 				}
 
 				/* Load the 'INFO' chunk'. It has to be the first chunk loaded */
-				if (!Info.Info_Load(br, length)) return false;
+				if (!SaveLoadInfo.Info_Load(br, length)) return false;
 
 				/* Rewind, and read other chunks */
 				fp.Seek(position, SeekOrigin.Begin); //fseek(fp, position, SEEK_SET);
@@ -136,27 +137,27 @@ namespace SharpDune
 					}
 					else if (headerValue == CSharpDune.MultiChar[FourCC.MAP])
                     {
-						if (!SaveLoad.Map_Load(fp, length)) return false;
+						if (!SaveLoadMap.Map_Load(fp, length)) return false;
 					}
 					else if (headerValue == CSharpDune.MultiChar[FourCC.PLYR])
                     {
-						if (!SaveLoad.House_Load(br, length)) return false;
+						if (!SaveLoadHouse.House_Load(br, length)) return false;
 					}
 					else if (headerValue == CSharpDune.MultiChar[FourCC.UNIT])
                     {
-						if (!SaveLoad.Unit_Load(br, length)) return false;
+						if (!SaveLoadUnit.Unit_Load(br, length)) return false;
 					}
 					else if (headerValue == CSharpDune.MultiChar[FourCC.BLDG])
                     {
-						if (!SaveLoad.Structure_Load(br, length)) return false;
+						if (!SaveLoadStructure.Structure_Load(br, length)) return false;
 					}
 					else if (headerValue == CSharpDune.MultiChar[FourCC.TEAM])
                     {
-						if (!SaveLoad.Team_Load(br, length)) return false;
+						if (!SaveLoadTeam.Team_Load(br, length)) return false;
 					}
 					else if (headerValue == CSharpDune.MultiChar[FourCC.ODUN])
                     {
-						if (!SaveLoad.UnitNew_Load(br, length)) return false;
+						if (!SaveLoadUnit.UnitNew_Load(br, length)) return false;
 					}
 					else
                     {

@@ -2,6 +2,7 @@
 
 using SharpDune.Os;
 using SharpDune.Pool;
+using SharpDune.SaveLoad;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -137,13 +138,13 @@ namespace SharpDune
 				}
 
 				/* Store all additional chunks */
-				if (!Save_Chunk(bw, "INFO", Info.Info_Save)) return false;
-				if (!Save_Chunk(bw, "PLYR", SaveLoad.House_Save)) return false;
-				if (!Save_Chunk(bw, "UNIT", SaveLoad.Unit_Save)) return false;
-				if (!Save_Chunk(bw, "BLDG", SaveLoad.Structure_Save)) return false;
-				if (!Save_Chunk(bw, "MAP ", SaveLoad.Map_Save)) return false;
-				if (!Save_Chunk(bw, "TEAM", SaveLoad.Team_Save)) return false;
-				if (!Save_Chunk(bw, "ODUN", SaveLoad.UnitNew_Save)) return false;
+				if (!Save_Chunk(bw, "INFO", SaveLoadInfo.Info_Save)) return false;
+				if (!Save_Chunk(bw, "PLYR", SaveLoadHouse.House_Save)) return false;
+				if (!Save_Chunk(bw, "UNIT", SaveLoadUnit.Unit_Save)) return false;
+				if (!Save_Chunk(bw, "BLDG", SaveLoadStructure.Structure_Save)) return false;
+				if (!Save_Chunk(bw, "MAP ", SaveLoadMap.Map_Save)) return false;
+				if (!Save_Chunk(bw, "TEAM", SaveLoadTeam.Team_Save)) return false;
+				if (!Save_Chunk(bw, "ODUN", SaveLoadUnit.UnitNew_Save)) return false;
 
 				/* Write the total length of all data in the FORM chunk */
 				length = (uint)fp.Position - 8; //length = ftell(fp) - 8;
