@@ -578,7 +578,14 @@ namespace SharpDune.SaveLoad
 							break;
 
 						case SaveLoadType.SLDT_UINT8:
-							fp.Write(Convert.ToByte(values[i], CSharpDune.Culture)); //if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
+                            try
+                            {
+								fp.Write(Convert.ToByte(values[i], CSharpDune.Culture)); //if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
+							}
+							catch (OverflowException)
+                            {
+								fp.Write((byte)(ushort)values[i], CSharpDune.Culture);
+							}
 							break;
 
 						case SaveLoadType.SLDT_UINT16:
