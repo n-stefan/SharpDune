@@ -2250,8 +2250,8 @@ namespace SharpDune
                     while (true)
                     {
                         //packed = CTile.Tile_PackTile(CTile.Tile_MoveByRandom(tile, (ushort)(Tools.Tools_Random_256() & 0x3F), true));
-                        packed = (ushort)((CTile.Tile_GetPosY(CTile.Tile_MoveByRandom(tile, (ushort)(Tools.Tools_Random_256() & 0x3F), true)) << 6) |
-                            CTile.Tile_GetPosX(CTile.Tile_MoveByRandom(tile, (ushort)(Tools.Tools_Random_256() & 0x3F), true)));
+                        var unpacked = CTile.Tile_MoveByRandom(tile, (ushort)(Tools.Tools_Random_256() & 0x3F), true);
+                        packed = CTile.Tile_PackTile(unpacked);
 
                         if (!CTile.Tile_IsOutOfMap(packed)) break;
                     }

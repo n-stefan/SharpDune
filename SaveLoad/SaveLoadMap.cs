@@ -97,11 +97,11 @@ namespace SharpDune.SaveLoad
 				t = Map.g_map[i];
 				if (!fread_tile(t, fp)) return false;
 
-				//if (Map.g_mapTileID[i] != t.groundTileID)
-				//{
-				//	Map.g_mapTileID[i] |= 0x8000;
-				//}
-			}
+                if (Map.g_mapTileID[i] != t.groundTileID)
+                {
+                    Map.g_mapTileID[i] |= 0x8000;
+                }
+            }
 			if (length != 0) return false;
 
 			return true;

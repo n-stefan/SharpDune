@@ -2113,7 +2113,7 @@ namespace SharpDune
             if (tile.groundTileID == tileID) return false;
 
             tile.groundTileID = tileID;
-            //Map.g_mapTileID[position] |= 0x8000;
+            Map.g_mapTileID[position] |= 0x8000;
             Map.Map_Update(position, 0, false);
 
             return true;
@@ -4090,7 +4090,7 @@ namespace SharpDune
                         /* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
                         t.houseID = s.o.houseID;
 
-                        //Map.g_mapTileID[position] |= 0x8000;
+                        Map.g_mapTileID[position] |= 0x8000;
 
                         if (s.o.houseID == (byte)CHouse.g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(position), 1);
 
@@ -4119,7 +4119,7 @@ namespace SharpDune
                             t.groundTileID = Sprites.g_builtSlabTileID;
                             t.houseID = s.o.houseID;
 
-                            //Map.g_mapTileID[curPos] |= 0x8000;
+                            Map.g_mapTileID[curPos] |= 0x8000;
 
                             if (s.o.houseID == (byte)CHouse.g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(curPos), 1);
 
@@ -4143,7 +4143,7 @@ namespace SharpDune
                                 t.groundTileID = Sprites.g_builtSlabTileID;
                                 t.houseID = s.o.houseID;
 
-                                //Map.g_mapTileID[curPos] |= 0x8000;
+                                Map.g_mapTileID[curPos] |= 0x8000;
 
                                 if (s.o.houseID == (byte)CHouse.g_playerHouseID)
                                 {

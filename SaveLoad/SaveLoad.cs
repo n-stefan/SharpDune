@@ -584,7 +584,7 @@ namespace SharpDune.SaveLoad
 							}
 							catch (OverflowException)
                             {
-								fp.Write((byte)(ushort)values[i], CSharpDune.Culture);
+								fp.Write((byte)(ushort)values[i]);
 							}
 							break;
 
