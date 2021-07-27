@@ -1,6 +1,7 @@
 ﻿using SharpDune.Pool;
 using System.IO;
 using static SharpDune.SaveLoad.SaveLoad;
+using static SharpDune.Script.Script;
 
 namespace SharpDune.SaveLoad
 {
@@ -84,7 +85,7 @@ namespace SharpDune.SaveLoad
 
 				length -= SaveLoad_GetLength(s_saveUnit);
 
-				ul.o.script.scriptInfo = Script.g_scriptUnit;
+				ul.o.script.scriptInfo = g_scriptUnit;
 				ul.o.script.delay = 0;
 				ul.timer = 0;
 				ul.o.seenByHouses |= (byte)(1 << ul.o.houseID);

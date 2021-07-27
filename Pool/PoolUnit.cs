@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using static SharpDune.Script.Script;
 
 namespace SharpDune.Pool
 {
@@ -177,7 +178,7 @@ namespace SharpDune.Pool
 
 			u.o.flags = new ObjectFlags(); //memset(&u->o.flags, 0, sizeof(u->o.flags));
 
-			Script.Script_Reset(u.o.script, Script.g_scriptUnit);
+            Script_Reset(u.o.script, g_scriptUnit);
 
 			/* Walk the array to find the Unit we are removing */
 			for (i = 0; i < g_unitFindCount; i++)

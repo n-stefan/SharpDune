@@ -1,6 +1,7 @@
 ﻿using SharpDune.Pool;
 using System.IO;
 using static SharpDune.SaveLoad.SaveLoad;
+using static SharpDune.Script.Script;
 
 namespace SharpDune.SaveLoad
 {
@@ -51,7 +52,7 @@ namespace SharpDune.SaveLoad
 
 				length -= SaveLoad_GetLength(s_saveTeam);
 
-				tl.script.scriptInfo = Script.g_scriptTeam;
+				tl.script.scriptInfo = g_scriptTeam;
 			}
 			if (length != 0) return false;
 

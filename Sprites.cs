@@ -8,10 +8,11 @@ using SharpDune.Input;
 using SharpDune.Os;
 using System;
 using System.Diagnostics;
+using static SharpDune.Script.Script;
 
 namespace SharpDune
 {
-	/*
+    /*
 	 * The \c ICON.MAP contains indices only. An index can point either to another
 	 * index or to a spriteID in the tiles file, as follows.
 	 *  - Index 0 contain the number of icon groups (including the EOF entry).
@@ -22,7 +23,7 @@ namespace SharpDune
 	 * index i, the last one is one entry before the start of icon group i+1 (where 0
 	 * means EOF, as explained already).
 	 */
-	enum IconMapEntries
+    enum IconMapEntries
 	{
 		ICM_ICONGROUP_COUNT,                 /*!< Number of icon groups. */
 		/* Icon groups. */
@@ -308,7 +309,7 @@ namespace SharpDune
 			g_landscapeTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]];
 			g_wallTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_WALLS]];
 
-			Script.Script_LoadFromFile("UNIT.EMC", Script.g_scriptUnit, Script.g_scriptFunctionsUnit, Gfx.GFX_Screen_Get_ByIndex(Screen.NO2));
+            Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, Gfx.GFX_Screen_Get_ByIndex(Screen.NO2));
 		}
 
 		/*

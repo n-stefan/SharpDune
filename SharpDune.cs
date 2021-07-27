@@ -16,6 +16,7 @@ using SharpDune.Gui;
 using SharpDune.Input;
 using SharpDune.Os;
 using SharpDune.Pool;
+using SharpDune.Script;
 using System;
 using System.Diagnostics;
 using System.Globalization;

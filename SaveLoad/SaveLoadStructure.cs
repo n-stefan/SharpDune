@@ -1,6 +1,7 @@
 ﻿using SharpDune.Pool;
 using System.IO;
 using static SharpDune.SaveLoad.SaveLoad;
+using static SharpDune.Script.Script;
 
 namespace SharpDune.SaveLoad
 {
@@ -47,7 +48,7 @@ namespace SharpDune.SaveLoad
 
 				length -= SaveLoad_GetLength(s_saveStructure);
 
-				sl.o.script.scriptInfo = Script.g_scriptStructure;
+				sl.o.script.scriptInfo = g_scriptStructure;
 				if (sl.upgradeTimeLeft == 0) sl.upgradeTimeLeft = (byte)(CStructure.Structure_IsUpgradable(sl) ? 100 : 0);
 			}
 			if (length != 0) return false;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using static SharpDune.Script.Script;
 
 namespace SharpDune.Pool
 {
@@ -205,7 +206,7 @@ namespace SharpDune.Pool
 
             s.o.flags = new ObjectFlags(); //memset(&s->o.flags, 0, sizeof(s->o.flags));
 
-            Script.Script_Reset(s.o.script, Script.g_scriptStructure);
+            Script_Reset(s.o.script, g_scriptStructure);
 
             if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) return;
 
