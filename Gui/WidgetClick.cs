@@ -6,6 +6,12 @@ using SharpDune.Os;
 using SharpDune.Pool;
 using System;
 using System.Diagnostics;
+using static SharpDune.Table.TableActionInfo;
+using static SharpDune.Table.TableStrings;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableUnitInfo;
+using static SharpDune.Table.TableWidget;
+using static SharpDune.Table.TableWindowDesc;
 using static System.Math;
 
 namespace SharpDune.Gui
@@ -28,7 +34,7 @@ namespace SharpDune.Gui
 		 */
         internal static bool GUI_Widget_SaveLoad_Click(bool save)
 		{
-			var desc = CWindowDesc.g_saveLoadWindowDesc;
+			var desc = g_saveLoadWindowDesc;
 			bool loop;
 
 			s_savegameCountOnDisk = GetSavegameCount();
@@ -133,12 +139,12 @@ namespace SharpDune.Gui
 			ActionType unitAction;
 
 			u = CUnit.g_unitSelected;
-			ui = CUnit.g_table_unitInfo[u.o.type];
+			ui = g_table_unitInfo[u.o.type];
 
 			actions = ui.o.actionsPlayer;
 			if (CUnit.Unit_GetHouseID(u) != (byte)CHouse.g_playerHouseID && u.o.type != (byte)UnitType.UNIT_HARVESTER)
 			{
-				actions = CUnit.g_table_actionsAI;
+				actions = g_table_actionsAI;
 			}
 
 			action = (ActionType)actions[w.index - 8];
@@ -170,7 +176,7 @@ namespace SharpDune.Gui
 
 			CWidget.GUI_Widget_MakeSelected(w, false);
 
-			ai = CUnit.g_table_actionInfo[(int)action];
+			ai = g_table_actionInfo[(int)action];
 
 			if (ai.selectionType != CSharpDune.g_selectionType)
 			{
@@ -211,7 +217,7 @@ namespace SharpDune.Gui
 
 			previousIndex = s_savegameIndexBase;
 
-			w = CWidget.g_table_windowWidgets[8];
+			w = g_table_windowWidgets[8];
 			if (s_savegameIndexBase >= 5)
 			{
 				CWidget.GUI_Widget_MakeVisible(w);
@@ -222,7 +228,7 @@ namespace SharpDune.Gui
 				GUI_Widget_Undraw(w, 233);
 			}
 
-			w = CWidget.g_table_windowWidgets[7];
+			w = g_table_windowWidgets[7];
 			if (s_savegameCountOnDisk - (save ? 0 : 1) > s_savegameIndexBase)
 			{
 				CWidget.GUI_Widget_MakeVisible(w);
@@ -497,7 +503,7 @@ namespace SharpDune.Gui
 
 			s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
-			if (s == null || !CStructure.g_table_structureInfo[s.o.type].o.flags.factory) return false;
+			if (s == null || !g_table_structureInfo[s.o.type].o.flags.factory) return false;
 
 			CStructure.Structure_BuildObject(s, 0xFFFF);
 
@@ -530,7 +536,7 @@ namespace SharpDune.Gui
 		 */
 		static bool GUI_Widget_Savegame_Click(ushort index)
 		{
-			var desc = CWindowDesc.g_savegameNameWindowDesc;
+			var desc = g_savegameNameWindowDesc;
 			bool loop;
 			//string saveDesc = g_savegameDesc[index];
 			bool widgetPaint;
@@ -596,7 +602,7 @@ namespace SharpDune.Gui
 
 		static bool GUI_YesNo(ushort stringID)
 		{
-			var desc = CWindowDesc.g_yesNoWindowDesc;
+			var desc = g_yesNoWindowDesc;
 			bool loop;
 			var ret = false;
 
@@ -655,7 +661,7 @@ namespace SharpDune.Gui
 
 			if (Gui.GUI_String_Get_ByIndex(desc.stringID) != null)
 			{
-				Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex(desc.stringID), (short)((CWidget.g_curWidgetXBase << 3) + (CWidget.g_curWidgetWidth << 2)), (short)(CWidget.g_curWidgetYBase + 6 + ((desc == CWindowDesc.g_yesNoWindowDesc) ? 2 : 0)), 238, 0, 0x122);
+				Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex(desc.stringID), (short)((CWidget.g_curWidgetXBase << 3) + (CWidget.g_curWidgetWidth << 2)), (short)(CWidget.g_curWidgetYBase + 6 + ((desc == g_yesNoWindowDesc) ? 2 : 0)), 238, 0, 0x122);
 			}
 
 			if (Gui.GUI_String_Get_ByIndex((short)desc.widgets[0].stringID) == null)
@@ -665,7 +671,7 @@ namespace SharpDune.Gui
 
 			for (i = 0; i < desc.widgetCount; i++)
 			{
-				var w = CWidget.g_table_windowWidgets[i];
+				var w = g_table_windowWidgets[i];
 
 				if (Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].stringID) == null) continue;
 
@@ -677,7 +683,7 @@ namespace SharpDune.Gui
 				w.shortcut = 0;
 				w.shortcut2 = 0;
 
-				if (desc != CWindowDesc.g_savegameNameWindowDesc)
+				if (desc != g_savegameNameWindowDesc)
 				{
 					if (desc.widgets[i].labelStringId != (ushort)Text.STR_NULL)
 					{
@@ -725,7 +731,7 @@ namespace SharpDune.Gui
 
 			if (s_savegameCountOnDisk >= 5 && desc.addArrows)
 			{
-				var w = CWidget.g_table_windowWidgets[7];
+				var w = g_table_windowWidgets[7];
 
 				w.drawParameterNormal.sprite = Sprites.g_sprites[59];
 				w.drawParameterSelected.sprite = Sprites.g_sprites[60];
@@ -739,7 +745,7 @@ namespace SharpDune.Gui
 
 				CWidget.g_widgetLinkedListTail = CWidget.GUI_Widget_Link(CWidget.g_widgetLinkedListTail, w);
 
-				w = CWidget.g_table_windowWidgets[8];
+				w = g_table_windowWidgets[8];
 
 				w.drawParameterNormal.sprite = Sprites.g_sprites[61];
 				w.drawParameterSelected.sprite = Sprites.g_sprites[62];
@@ -1183,7 +1189,7 @@ namespace SharpDune.Gui
 
 			CWidget.GUI_Widget_MakeNormal(w, false);
 
-			if (CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
+			if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 			{
 				if (CSharpDune.g_starPortEnforceUnitLimit && h.unitCount >= h.unitCountMax) canCreateMore = false;
 			}
@@ -1349,7 +1355,7 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Widget_Options_Click(Widget w)
 		{
-			var desc = CWindowDesc.g_optionsWindowDesc;
+			var desc = g_optionsWindowDesc;
 			var cursor = Gui.g_cursorSpriteID;
 			bool loop;
 
@@ -1493,7 +1499,7 @@ namespace SharpDune.Gui
 		 */
 		static void GUI_Widget_GameControls_Click(Widget w)
 		{
-			var desc = CWindowDesc.g_gameControlWindowDesc;
+			var desc = g_gameControlWindowDesc;
 			bool loop;
 
 			GUI_Window_BackupScreen(desc);

@@ -3,6 +3,9 @@
 using SharpDune.Os;
 using SharpDune.Pool;
 using System;
+using static SharpDune.Table.TableHouseInfo;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableUnitInfo;
 
 namespace SharpDune
 {
@@ -86,7 +89,7 @@ namespace SharpDune
 
 		static void Scenario_Load_House(byte houseID)
 		{
-			var houseName = CHouse.g_table_houseInfo[houseID].name;
+			var houseName = g_table_houseInfo[houseID].name;
 			string houseType; //char*
 			string buf; //char[128]
 						//char[] b; //char*
@@ -241,7 +244,7 @@ namespace SharpDune
 			CSharpDune.g_scenarioID = scenarioID;
 
 			/* Load scenario file */
-			filename = $"SCEN{CHouse.g_table_houseInfo[houseID].name[0]}{scenarioID:D3}.INI"; //sprintf(filename, "SCEN%c%03hu.INI", g_table_houseInfo[houseID].name[0], scenarioID);
+			filename = $"SCEN{g_table_houseInfo[houseID].name[0]}{scenarioID:D3}.INI"; //sprintf(filename, "SCEN%c%03hu.INI", g_table_houseInfo[houseID].name[0], scenarioID);
 			if (!CFile.File_Exists(filename)) return false;
 			CFile.File_ReadWholeFile(filename, ref s_scenarioBuffer); //s_scenarioBuffer = CFile.File_ReadWholeFile(filename);
 
@@ -462,7 +465,7 @@ namespace SharpDune
 			if (u == null) return;
 			u.o.flags.byScenario = true;
 
-			u.o.hitpoints = (ushort)(hitpoints * CUnit.g_table_unitInfo[unitType].o.hitpoints / 256);
+			u.o.hitpoints = (ushort)(hitpoints * g_table_unitInfo[unitType].o.hitpoints / 256);
 			u.o.position = position;
 			u.orientation[0].current = orientation;
 			u.actionID = actionType;
@@ -570,7 +573,7 @@ namespace SharpDune
 				s = CStructure.Structure_Create(index, structureType, houseType, position);
 				if (s == null) return;
 
-				s.o.hitpoints = (ushort)(hitpoints * CStructure.g_table_structureInfo[s.o.type].o.hitpoints / 256);
+				s.o.hitpoints = (ushort)(hitpoints * g_table_structureInfo[s.o.type].o.hitpoints / 256);
 				s.o.flags.degrades = false;
 				s.state = (short)StructureState.STRUCTURE_STATE_IDLE;
 			}

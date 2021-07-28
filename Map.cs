@@ -6,6 +6,10 @@ using SharpDune.Pool;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using static SharpDune.Table.TableLandscapeInfo;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableTileDiff;
+using static SharpDune.Table.TableUnitInfo;
 using static System.Math;
 
 namespace SharpDune
@@ -85,545 +89,12 @@ namespace SharpDune
 
     class Map
     {
-        internal static tile32[][] g_table_tilediff;
-
-        static Map()
-        {
-            unchecked
-            {
-                g_table_tilediff = new tile32[][] { //[34][8]
-	                new tile32[] { /* 0 */
-		                new() { /* 0 */ x = 0, y = 0 },
-                        new() { /* 1 */ x = 0, y = (ushort)-1 },
-                        new() { /* 2 */ x = 1, y = 0 },
-                        new() { /* 3 */ x = 0, y = (ushort)-1 },
-                        new() { /* 4 */ x = 1, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 1, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 1 */
-		                new() { /* 0 */ x = 0, y = 0 },
-                        new() { /* 1 */ x = 0, y = 0 },
-                        new() { /* 2 */ x = 0, y = 0 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 2 */
-		                new() { /* 0 */ x = 0, y = 16 },
-                        new() { /* 1 */ x = 16, y = 0 },
-                        new() { /* 2 */ x = 16, y = 16 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 3 */
-		                new() { /* 0 */ x = 0, y = 32 },
-                        new() { /* 1 */ x = 32, y = 0 },
-                        new() { /* 2 */ x = 32, y = 32 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 4 */
-		                new() { /* 0 */ x = 0, y = 48 },
-                        new() { /* 1 */ x = 48, y = 0 },
-                        new() { /* 2 */ x = 48, y = 48 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 5 */
-		                new() { /* 0 */ x = 0, y = 64 },
-                        new() { /* 1 */ x = 64, y = 0 },
-                        new() { /* 2 */ x = 64, y = 64 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 6 */
-		                new() { /* 0 */ x = 0, y = 80 },
-                        new() { /* 1 */ x = 80, y = 0 },
-                        new() { /* 2 */ x = 80, y = 80 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 7 */
-		                new() { /* 0 */ x = 0, y = 96 },
-                        new() { /* 1 */ x = 96, y = 0 },
-                        new() { /* 2 */ x = 96, y = 96 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 8 */
-		                new() { /* 0 */ x = 0, y = 112 },
-                        new() { /* 1 */ x = 112, y = 0 },
-                        new() { /* 2 */ x = 112, y = 112 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 9 */
-		                new() { /* 0 */ x = 0, y = 128 },
-                        new() { /* 1 */ x = 128, y = 0 },
-                        new() { /* 2 */ x = 128, y = 128 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 10 */
-		                new() { /* 0 */ x = 0, y = 144 },
-                        new() { /* 1 */ x = 144, y = 0 },
-                        new() { /* 2 */ x = 144, y = 144 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 11 */
-		                new() { /* 0 */ x = 0, y = 160 },
-                        new() { /* 1 */ x = 160, y = 0 },
-                        new() { /* 2 */ x = 160, y = 160 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 12 */
-		                new() { /* 0 */ x = 0, y = 176 },
-                        new() { /* 1 */ x = 176, y = 0 },
-                        new() { /* 2 */ x = 176, y = 176 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 13 */
-		                new() { /* 0 */ x = 0, y = 192 },
-                        new() { /* 1 */ x = 192, y = 0 },
-                        new() { /* 2 */ x = 192, y = 192 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 14 */
-		                new() { /* 0 */ x = 0, y = 208 },
-                        new() { /* 1 */ x = 208, y = 0 },
-                        new() { /* 2 */ x = 208, y = 208 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 15 */
-		                new() { /* 0 */ x = 0, y = 224 },
-                        new() { /* 1 */ x = 224, y = 0 },
-                        new() { /* 2 */ x = 224, y = 224 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 16 */
-		                new() { /* 0 */ x = 0, y = 240 },
-                        new() { /* 1 */ x = 240, y = 0 },
-                        new() { /* 2 */ x = 240, y = 240 },
-                        new() { /* 3 */ x = 0, y = 0 },
-                        new() { /* 4 */ x = 0, y = 0 },
-                        new() { /* 5 */ x = 0, y = 0 },
-                        new() { /* 6 */ x = 0, y = 0 },
-                        new() { /* 7 */ x = 0, y = 0 },
-                    },
-                    new tile32[] { /* 17 */
-		                new() { /* 0 */ x = 0, y = 256 },
-                        new() { /* 1 */ x = 256, y = 0 },
-                        new() { /* 2 */ x = 256, y = 256 },
-                        new() { /* 3 */ x = 128, y = 0 },
-                        new() { /* 4 */ x = 128, y = 256 },
-                        new() { /* 5 */ x = 0, y = 128 },
-                        new() { /* 6 */ x = 256, y = 128 },
-                        new() { /* 7 */ x = 128, y = 128 },
-                    },
-                    new tile32[] { /* 18 */
-		                new() { /* 0 */ x = 0, y = 272 },
-                        new() { /* 1 */ x = 272, y = 0 },
-                        new() { /* 2 */ x = 272, y = 272 },
-                        new() { /* 3 */ x = 128, y = 0 },
-                        new() { /* 4 */ x = 128, y = 272 },
-                        new() { /* 5 */ x = 0, y = 128 },
-                        new() { /* 6 */ x = 272, y = 128 },
-                        new() { /* 7 */ x = 128, y = 128 },
-                    },
-                    new tile32[] { /* 19 */
-		                new() { /* 0 */ x = 0, y = 288 },
-                        new() { /* 1 */ x = 288, y = 0 },
-                        new() { /* 2 */ x = 288, y = 288 },
-                        new() { /* 3 */ x = 144, y = 0 },
-                        new() { /* 4 */ x = 144, y = 288 },
-                        new() { /* 5 */ x = 0, y = 144 },
-                        new() { /* 6 */ x = 288, y = 144 },
-                        new() { /* 7 */ x = 144, y = 144 },
-                    },
-                    new tile32[] { /* 20 */
-		                new() { /* 0 */ x = 0, y = 304 },
-                        new() { /* 1 */ x = 304, y = 0 },
-                        new() { /* 2 */ x = 304, y = 304 },
-                        new() { /* 3 */ x = 144, y = 0 },
-                        new() { /* 4 */ x = 144, y = 304 },
-                        new() { /* 5 */ x = 0, y = 144 },
-                        new() { /* 6 */ x = 304, y = 144 },
-                        new() { /* 7 */ x = 144, y = 144 },
-                    },
-                    new tile32[] { /* 21 */
-		                new() { /* 0 */ x = 0, y = 320 },
-                        new() { /* 1 */ x = 320, y = 0 },
-                        new() { /* 2 */ x = 320, y = 320 },
-                        new() { /* 3 */ x = 160, y = 0 },
-                        new() { /* 4 */ x = 160, y = 320 },
-                        new() { /* 5 */ x = 0, y = 160 },
-                        new() { /* 6 */ x = 320, y = 160 },
-                        new() { /* 7 */ x = 160, y = 160 },
-                    },
-                    new tile32[] { /* 22 */
-		                new() { /* 0 */ x = 0, y = 336 },
-                        new() { /* 1 */ x = 336, y = 0 },
-                        new() { /* 2 */ x = 336, y = 336 },
-                        new() { /* 3 */ x = 160, y = 0 },
-                        new() { /* 4 */ x = 160, y = 336 },
-                        new() { /* 5 */ x = 0, y = 160 },
-                        new() { /* 6 */ x = 336, y = 160 },
-                        new() { /* 7 */ x = 160, y = 160 },
-                    },
-                    new tile32[] { /* 23 */
-		                new() { /* 0 */ x = 0, y = 352 },
-                        new() { /* 1 */ x = 352, y = 0 },
-                        new() { /* 2 */ x = 352, y = 352 },
-                        new() { /* 3 */ x = 176, y = 0 },
-                        new() { /* 4 */ x = 176, y = 352 },
-                        new() { /* 5 */ x = 0, y = 176 },
-                        new() { /* 6 */ x = 352, y = 176 },
-                        new() { /* 7 */ x = 176, y = 176 },
-                    },
-                    new tile32[] { /* 24 */
-		                new() { /* 0 */ x = 0, y = 368 },
-                        new() { /* 1 */ x = 368, y = 0 },
-                        new() { /* 2 */ x = 368, y = 368 },
-                        new() { /* 3 */ x = 176, y = 0 },
-                        new() { /* 4 */ x = 176, y = 368 },
-                        new() { /* 5 */ x = 0, y = 176 },
-                        new() { /* 6 */ x = 368, y = 176 },
-                        new() { /* 7 */ x = 176, y = 176 },
-                    },
-                    new tile32[] { /* 25 */
-		                new() { /* 0 */ x = 0, y = 384 },
-                        new() { /* 1 */ x = 384, y = 0 },
-                        new() { /* 2 */ x = 384, y = 384 },
-                        new() { /* 3 */ x = 192, y = 0 },
-                        new() { /* 4 */ x = 192, y = 384 },
-                        new() { /* 5 */ x = 0, y = 192 },
-                        new() { /* 6 */ x = 384, y = 192 },
-                        new() { /* 7 */ x = 192, y = 192 },
-                    },
-                    new tile32[] { /* 26 */
-		                new() { /* 0 */ x = 0, y = 400 },
-                        new() { /* 1 */ x = 400, y = 0 },
-                        new() { /* 2 */ x = 400, y = 400 },
-                        new() { /* 3 */ x = 192, y = 0 },
-                        new() { /* 4 */ x = 192, y = 400 },
-                        new() { /* 5 */ x = 0, y = 192 },
-                        new() { /* 6 */ x = 400, y = 192 },
-                        new() { /* 7 */ x = 192, y = 192 },
-                    },
-                    new tile32[] { /* 27 */
-		                new() { /* 0 */ x = 0, y = 416 },
-                        new() { /* 1 */ x = 416, y = 0 },
-                        new() { /* 2 */ x = 416, y = 416 },
-                        new() { /* 3 */ x = 208, y = 0 },
-                        new() { /* 4 */ x = 208, y = 416 },
-                        new() { /* 5 */ x = 0, y = 208 },
-                        new() { /* 6 */ x = 416, y = 208 },
-                        new() { /* 7 */ x = 208, y = 208 },
-                    },
-                    new tile32[] { /* 28 */
-		                new() { /* 0 */ x = 0, y = 432 },
-                        new() { /* 1 */ x = 432, y = 0 },
-                        new() { /* 2 */ x = 432, y = 432 },
-                        new() { /* 3 */ x = 208, y = 0 },
-                        new() { /* 4 */ x = 208, y = 432 },
-                        new() { /* 5 */ x = 0, y = 208 },
-                        new() { /* 6 */ x = 432, y = 208 },
-                        new() { /* 7 */ x = 208, y = 208 },
-                    },
-                    new tile32[] { /* 29 */
-		                new() { /* 0 */ x = 0, y = 448 },
-                        new() { /* 1 */ x = 448, y = 0 },
-                        new() { /* 2 */ x = 448, y = 448 },
-                        new() { /* 3 */ x = 224, y = 0 },
-                        new() { /* 4 */ x = 224, y = 448 },
-                        new() { /* 5 */ x = 0, y = 224 },
-                        new() { /* 6 */ x = 448, y = 224 },
-                        new() { /* 7 */ x = 224, y = 224 },
-                    },
-                    new tile32[] { /* 30 */
-		                new() { /* 0 */ x = 0, y = 464 },
-                        new() { /* 1 */ x = 464, y = 0 },
-                        new() { /* 2 */ x = 464, y = 464 },
-                        new() { /* 3 */ x = 224, y = 0 },
-                        new() { /* 4 */ x = 224, y = 464 },
-                        new() { /* 5 */ x = 0, y = 224 },
-                        new() { /* 6 */ x = 464, y = 224 },
-                        new() { /* 7 */ x = 224, y = 224 },
-                    },
-                    new tile32[] { /* 31 */
-		                new() { /* 0 */ x = 0, y = 480 },
-                        new() { /* 1 */ x = 480, y = 0 },
-                        new() { /* 2 */ x = 480, y = 480 },
-                        new() { /* 3 */ x = 240, y = 0 },
-                        new() { /* 4 */ x = 240, y = 480 },
-                        new() { /* 5 */ x = 0, y = 240 },
-                        new() { /* 6 */ x = 480, y = 240 },
-                        new() { /* 7 */ x = 240, y = 240 },
-                    },
-                    new tile32[] { /* 32 */
-		                new() { /* 0 */ x = 0, y = 496 },
-                        new() { /* 1 */ x = 496, y = 0 },
-                        new() { /* 2 */ x = 496, y = 496 },
-                        new() { /* 3 */ x = 240, y = 0 },
-                        new() { /* 4 */ x = 240, y = 496 },
-                        new() { /* 5 */ x = 0, y = 240 },
-                        new() { /* 6 */ x = 496, y = 240 },
-                        new() { /* 7 */ x = 240, y = 240 },
-                    },
-                    new tile32[] { /* 33 */
-		                new() { /* 0 */ x = 0, y = 768 },
-                        new() { /* 1 */ x = 768, y = 0 },
-                        new() { /* 2 */ x = 768, y = 768 },
-                        new() { /* 3 */ x = 512, y = 0 },
-                        new() { /* 4 */ x = 512, y = 512 },
-                        new() { /* 5 */ x = 0, y = 512 },
-                        new() { /* 6 */ x = 512, y = 256 },
-                        new() { /* 7 */ x = 256, y = 256 },
-                    }
-                };
-            }
-        }
-
         internal static ushort[] g_mapTileID = new ushort[64 * 64];
 
         internal static Tile[] g_map = new Tile[64 * 64];                                        /*!< All map data. */
         
         internal static byte[][] g_functions = { //[3][3]
             new byte[] {0, 1, 0}, new byte[] {2, 3, 0}, new byte[] {0, 1, 0}
-        };
-
-        internal static LandscapeInfo[] g_table_landscapeInfo = { //[LST_MAX]
-            new() { /* 0 / LST_NORMAL_SAND */
-		        movementSpeed = new byte[] { 112, 112, 112, 160, 255, 192 },
-                letUnitWobble = false,
-                isValidForStructure = false,
-                isSand = true,
-                isValidForStructure2 = false,
-                canBecomeSpice = true,
-                craterType = 1,
-                radarColour = 88,
-                spriteID = 37
-            },
-
-            new() { /* 1 / LST_PARTIAL_ROCK */
-		        movementSpeed = new byte[] { 160, 112, 112, 64, 255, 0 },
-                letUnitWobble = true,
-                isValidForStructure = false,
-                isSand = false,
-                isValidForStructure2 = false,
-                canBecomeSpice = false,
-                craterType = 1,
-                radarColour = 28,
-                spriteID = 39
-            },
-
-            new() { /* 2 / LST_ENTIRELY_DUNE */
-		        movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
-                letUnitWobble = false,
-                isValidForStructure = false,
-                isSand = true,
-                isValidForStructure2 = false,
-                canBecomeSpice = true,
-                craterType = 1,
-                radarColour = 92,
-                spriteID = 41
-            },
-
-            new() { /* 3 / LST_PARTIAL_DUNE */
-		        movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
-                letUnitWobble = false,
-                isValidForStructure = false,
-                isSand = true,
-                isValidForStructure2 = false,
-                canBecomeSpice = true,
-                craterType = 1,
-                radarColour = 89,
-                spriteID = 43
-            },
-
-            new() { /* 4 / LST_ENTIRELY_ROCK */
-		        movementSpeed = new byte[] { 112, 160, 160, 112, 255, 0 },
-                letUnitWobble = true,
-                isValidForStructure = true,
-                isSand = false,
-                isValidForStructure2 = true,
-                canBecomeSpice = false,
-                craterType = 2,
-                radarColour = 30,
-                spriteID = 45
-            },
-
-            new() { /* 5 / LST_MOSTLY_ROCK */
-		        movementSpeed = new byte[] { 160, 160, 160, 160, 255, 0 },
-                letUnitWobble = true,
-                isValidForStructure = true,
-                isSand = false,
-                isValidForStructure2 = true,
-                canBecomeSpice = false,
-                craterType = 2,
-                radarColour = 29,
-                spriteID = 47
-            },
-
-            new() { /* 6 / LST_ENTIRELY_MOUNTAIN */
-		        movementSpeed = new byte[] { 64, 0, 0, 0, 255, 0 },
-                letUnitWobble = true,
-                isValidForStructure = false,
-                isSand = false,
-                isValidForStructure2 = false,
-                canBecomeSpice = false,
-                craterType = 0,
-                radarColour = 12,
-                spriteID = 49
-            },
-
-            new() { /* 7 / LST_PARTIAL_MOUNTAIN */
-		        movementSpeed = new byte[] { 64, 0, 0, 0, 255, 0 },
-                letUnitWobble = true,
-                isValidForStructure = false,
-                isSand = false,
-                isValidForStructure2 = false,
-                canBecomeSpice = false,
-                craterType = 0,
-                radarColour = 133,
-                spriteID = 51
-            },
-
-            new() { /* 8 / LST_SPICE */
-		        movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
-                letUnitWobble = false,
-                isValidForStructure = false,
-                isSand = true,
-                isValidForStructure2 = false,
-                canBecomeSpice = true,
-                craterType = 1,
-                radarColour = 215, /* was 88, but is changed on startup */
-		        spriteID = 53  /* was 37, but is changed on startup */
-	        },
-
-            new() { /* 9 / LST_THICK_SPICE */
-		        movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
-                letUnitWobble = true,
-                isValidForStructure = false,
-                isSand = true,
-                isValidForStructure2 = false,
-                canBecomeSpice = true,
-                craterType = 1,
-                radarColour = 216, /* was 88, but is changed on startup */
-		        spriteID = 53  /* was 37, but is changed on startup */
-	        },
-
-            new() { /* 10 / LST_CONCRETE_SLAB */
-		        movementSpeed = new byte[] { 255, 255, 255, 255, 255, 0 },
-                letUnitWobble = false,
-                isValidForStructure = true,
-                isSand = false,
-                isValidForStructure2 = false,
-                canBecomeSpice = false,
-                craterType = 2,
-                radarColour = 133,
-                spriteID = 51
-            },
-
-            new() { /* 11 / LST_WALL */
-		        movementSpeed = new byte[] { 0, 0, 0, 0, 255, 0 },
-                letUnitWobble = false,
-                isValidForStructure = false,
-                isSand = false,
-                isValidForStructure2 = false,
-                canBecomeSpice = false,
-                craterType = 0,
-                radarColour = 65535,
-                spriteID = 31
-            },
-
-            new() { /* 12 / LST_STRUCTURE */
-		        movementSpeed = new byte[] { 0, 0, 0, 0, 255, 0 },
-                letUnitWobble = false,
-                isValidForStructure = false,
-                isSand = false,
-                isValidForStructure2 = false,
-                canBecomeSpice = false,
-                craterType = 0,
-                radarColour = 65535,
-                spriteID = 31
-            },
-
-            new() { /* 13 / LST_DESTROYED_WALL */
-		        movementSpeed = new byte[] { 160, 160, 160, 160, 255, 0 },
-                letUnitWobble = true,
-                isValidForStructure = true,
-                isSand = false,
-                isValidForStructure2 = true,
-                canBecomeSpice = false,
-                craterType = 2,
-                radarColour = 29,
-                spriteID = 47
-            },
-
-            new() { /* 14 / LST_BLOOM_FIELD */
-		        movementSpeed = new byte[] { 112, 112, 112, 160, 255, 192 },
-                letUnitWobble = false,
-                isValidForStructure = false,
-                isSand = true,
-                isValidForStructure2 = false,
-                canBecomeSpice = true,
-                craterType = 1,
-                radarColour = 50,
-                spriteID = 57
-            }
         };
 
         internal static ushort g_changedTilesCount;
@@ -645,10 +116,6 @@ namespace SharpDune
 	        new() { minX =  1, minY =  1, sizeX = 62, sizeY = 62 },
 	        new() { minX = 16, minY = 16, sizeX = 32, sizeY = 32 },
 	        new() { minX = 21, minY = 21, sizeX = 21, sizeY = 21 }
-        };
-
-        internal static short[] g_table_mapDiff = { //[4]
-            -64, 1, 64, -1
         };
 
         internal static ushort g_dirtyViewportCount;
@@ -745,7 +212,7 @@ namespace SharpDune
                 {
                     StructureInfo si;
 
-                    si = CStructure.g_table_structureInfo[s.o.type];
+                    si = g_table_structureInfo[s.o.type];
                     if (s.o.houseID == (byte)CHouse.g_playerHouseID && CSharpDune.g_selectionType != (ushort)SelectionType.MENTAT)
                     {
                         Gui.Gui.GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
@@ -831,8 +298,8 @@ namespace SharpDune
             oldPosition = Map_SetSelectionObjectPosition(0xFFFF);
 
             selectionLayout = layout;
-            Gui.Gui.g_selectionWidth = CStructure.g_table_structure_layoutSize[layout].width;
-            Gui.Gui.g_selectionHeight = CStructure.g_table_structure_layoutSize[layout].height;
+            Gui.Gui.g_selectionWidth = g_table_structure_layoutSize[layout].width;
+            Gui.Gui.g_selectionHeight = g_table_structure_layoutSize[layout].height;
 
             Map_SetSelectionObjectPosition(oldPosition);
 
@@ -1421,7 +888,7 @@ namespace SharpDune
                     u = PoolUnit.Unit_Find(find);
                     if (u == null) break;
 
-                    ui = CUnit.g_table_unitInfo[u.o.type];
+                    ui = g_table_unitInfo[u.o.type];
 
                     distance = (ushort)(CTile.Tile_GetDistance(position, u.o.position) >> 4);
                     if (distance >= reactionDistance) continue;
@@ -1454,14 +921,14 @@ namespace SharpDune
                         target = Tools.Tools_Index_GetUnit(t.target);
                         if (target == null) continue;
 
-                        targetInfo = CUnit.g_table_unitInfo[target.o.type];
+                        targetInfo = g_table_unitInfo[target.o.type];
                         if (targetInfo.bulletType == (byte)UnitType.UNIT_INVALID) t.target = unitOriginEncoded;
                         continue;
                     }
 
                     if (u.o.type == (byte)UnitType.UNIT_HARVESTER)
                     {
-                        var uis = CUnit.g_table_unitInfo[us.o.type];
+                        var uis = g_table_unitInfo[us.o.type];
 
                         if (uis.movementType == (ushort)MovementType.MOVEMENT_FOOT && u.targetMove == 0)
                         {
@@ -1499,7 +966,7 @@ namespace SharpDune
                 {
                     if (type == (ushort)ExplosionType.EXPLOSION_IMPACT_LARGE)
                     {
-                        var si = CStructure.g_table_structureInfo[s.o.type];
+                        var si = g_table_structureInfo[s.o.type];
 
                         if (si.o.hitpoints / 2 > s.o.hitpoints)
                         {
@@ -1514,8 +981,8 @@ namespace SharpDune
 
             if (Map_GetLandscapeType(positionPacked) == (ushort)LandscapeType.LST_WALL && hitpoints != 0)
             {
-                if ((CStructure.g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints <= hitpoints) ||
-                    (Tools.Tools_Random_256() <= (hitpoints * 256 / CStructure.g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints)))
+                if ((g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints <= hitpoints) ||
+                    (Tools.Tools_Random_256() <= (hitpoints * 256 / g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints)))
                 {
                     Map_UpdateWall(positionPacked);
                 }
@@ -1675,7 +1142,7 @@ namespace SharpDune
                 u = PoolUnit.Unit_Find(find);
                 if (u == null) break;
 
-                if (!CUnit.g_table_unitInfo[u.o.type].o.flags.tabSelectable) continue;
+                if (!g_table_unitInfo[u.o.type].o.flags.tabSelectable) continue;
 
                 if (!Map_IsTileVisible(CTile.Tile_PackTile(u.o.position))) continue;
 

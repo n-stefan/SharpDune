@@ -9,6 +9,7 @@ using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using static SharpDune.Script.Script;
+using static SharpDune.Table.TableHouseInfo;
 
 namespace SharpDune
 {
@@ -503,7 +504,7 @@ namespace SharpDune
 			for (i = 0; i < 120; i++) Array.Copy(buf, 7688 + (i * 320), buf, i * 304, 304); //memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
 			bufPointer += 120 * 304;
 
-			filename = $"REGION{CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
+			filename = $"REGION{g_table_houseInfo[(int)CHouse.g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
 			var length = (int)CFile.File_ReadFile(filename, buf, bufPointer);
 			g_fileRegionINI = CSharpDune.Encoding.GetString(buf[bufPointer..(bufPointer + length)]);
 			bufPointer += length;

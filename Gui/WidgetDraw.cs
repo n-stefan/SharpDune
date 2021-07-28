@@ -2,10 +2,14 @@
 
 using SharpDune.Os;
 using SharpDune.Pool;
+using static SharpDune.Table.TableActionInfo;
+using static SharpDune.Table.TableStrings;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableUnitInfo;
 
 namespace SharpDune.Gui
 {
-	class WidgetDraw
+    class WidgetDraw
 	{
 		/*
 		 * Draw the panel on the right side of the screen, with the actions of the
@@ -46,7 +50,7 @@ namespace SharpDune.Gui
 				case 2:
 					{ /* Unit */
 						u = CUnit.g_unitSelected;
-						ui = CUnit.g_table_unitInfo[u.o.type];
+						ui = g_table_unitInfo[u.o.type];
 
 						o = u.o;
 						oi = ui.o;
@@ -60,7 +64,7 @@ namespace SharpDune.Gui
 				case 3:
 					{ /* Structure */
 						s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
-						si = CStructure.g_table_structureInfo[s.o.type];
+						si = g_table_structureInfo[s.o.type];
 
 						o = s.o;
 						oi = si.o;
@@ -76,7 +80,7 @@ namespace SharpDune.Gui
 
 				case 7:
 					{ /* Placement */
-						si = CStructure.g_table_structureInfo[CStructure.g_structureActiveType];
+						si = g_table_structureInfo[CStructure.g_structureActiveType];
 
 						o = null;
 						oi = si.o;
@@ -90,7 +94,7 @@ namespace SharpDune.Gui
 				case 8:
 					{ /* House Missile */
 						u = CUnit.g_unitHouseMissile;
-						ui = CUnit.g_table_unitInfo[u.o.type];
+						ui = g_table_unitInfo[u.o.type];
 
 						o = u.o;
 						oi = ui.o;
@@ -230,11 +234,11 @@ namespace SharpDune.Gui
 								actionCurrent = (u.nextActionID != (byte)ActionType.ACTION_INVALID) ? u.nextActionID : u.actionID;
 
 								actions = oi.actionsPlayer;
-								if (isNotPlayerOwned && o.type != (byte)UnitType.UNIT_HARVESTER) actions = CUnit.g_table_actionsAI;
+								if (isNotPlayerOwned && o.type != (byte)UnitType.UNIT_HARVESTER) actions = g_table_actionsAI;
 
 								for (i = 0; i < 4; i++)
 								{
-									buttons[i].stringID = CUnit.g_table_actionInfo[actions[i]].stringID;
+									buttons[i].stringID = g_table_actionInfo[actions[i]].stringID;
 									buttons[i].shortcut = CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(buttons[i].stringID)[0]);
 
 									if (Config.g_config.language == (byte)Language.FRENCH)
@@ -331,9 +335,9 @@ namespace SharpDune.Gui
 											u2 = CStructure.Structure_GetLinkedUnit(s);
 											if (u2 == null) break;
 
-											Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[CUnit.g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
+											Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
 
-											steps = (ushort)(CUnit.g_table_unitInfo[u2.o.type].o.buildTime / 4);
+											steps = (ushort)(g_table_unitInfo[u2.o.type].o.buildTime / 4);
 											percent = (ushort)((steps - (s.countDown >> 8)) * 100 / steps);
 
 											Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_D_DONE), 258, 116, 29, 0, 0x11, percent);
@@ -557,7 +561,7 @@ namespace SharpDune.Gui
 						|| PoolHouse.House_Get_ByIndex(s.o.houseID).starportTimeLeft != displayedStarportTime
 						|| s.o.flags.all != displayedStructureFlags)
 					{
-						Gui.g_structureHighHealth = (s.o.hitpoints > (CStructure.g_table_structureInfo[s.o.type].o.hitpoints / 2));
+						Gui.g_structureHighHealth = (s.o.hitpoints > (g_table_structureInfo[s.o.type].o.hitpoints / 2));
 						actionType = 3; /* Structure */
 					}
 				}
@@ -652,7 +656,7 @@ namespace SharpDune.Gui
 			{
 				UnitInfo ui;
 
-				ui = CUnit.g_table_unitInfo[CUnit.g_unitSelected.o.type];
+				ui = g_table_unitInfo[CUnit.g_unitSelected.o.type];
 
 				spriteID = ui.o.spriteID;
 			}
@@ -663,7 +667,7 @@ namespace SharpDune.Gui
 
 				s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 				if (s == null) return;
-				si = CStructure.g_table_structureInfo[s.o.type];
+				si = g_table_structureInfo[s.o.type];
 
 				spriteID = si.o.spriteID;
 			}
@@ -837,11 +841,11 @@ namespace SharpDune.Gui
 						sprite = Sprites.g_sprites[24];
 						spriteWidth = (ushort)(Sprites.Sprite_GetWidth(sprite) + 1);
 
-						si = CStructure.g_table_structureInfo[s.objectType];
+						si = g_table_structureInfo[s.objectType];
 
-						for (y = 0; y < CStructure.g_table_structure_layoutSize[si.layout].height; y++)
+						for (y = 0; y < g_table_structure_layoutSize[si.layout].height; y++)
 						{
-							for (x = 0; x < CStructure.g_table_structure_layoutSize[si.layout].width; x++)
+							for (x = 0; x < g_table_structure_layoutSize[si.layout].width; x++)
 							{
 								Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(positionX + x * spriteWidth + 38), (short)(positionY + y * spriteWidth + 6), 0, 0);
 							}
@@ -853,7 +857,7 @@ namespace SharpDune.Gui
 					{
 						UnitInfo ui;
 
-						ui = CUnit.g_table_unitInfo[s.objectType];
+						ui = g_table_unitInfo[s.objectType];
 						spriteID = ui.o.spriteID;
 					}
 					break;
@@ -870,7 +874,7 @@ namespace SharpDune.Gui
 				{
 					StructureInfo si;
 
-					si = CStructure.g_table_structureInfo[s.objectType];
+					si = g_table_structureInfo[s.objectType];
 					buildTime = si.o.buildTime;
 				}
 				else if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
@@ -879,14 +883,14 @@ namespace SharpDune.Gui
 
 					if (s.o.linkedID == 0xFF) return;
 
-					ui = CUnit.g_table_unitInfo[PoolUnit.Unit_Get_ByIndex(s.o.linkedID).o.type];
+					ui = g_table_unitInfo[PoolUnit.Unit_Get_ByIndex(s.o.linkedID).o.type];
 					buildTime = ui.o.buildTime;
 				}
 				else
 				{
 					UnitInfo ui;
 
-					ui = CUnit.g_table_unitInfo[s.objectType];
+					ui = g_table_unitInfo[s.objectType];
 					buildTime = ui.o.buildTime;
 				}
 

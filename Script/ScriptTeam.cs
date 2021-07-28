@@ -4,6 +4,7 @@ using SharpDune.Os;
 using SharpDune.Pool;
 using System.Linq;
 using static SharpDune.Script.Script;
+using static SharpDune.Table.TableUnitInfo;
 
 namespace SharpDune.Script
 {
@@ -77,7 +78,7 @@ namespace SharpDune.Script
 				if (u == null) break;
 				if (!u.o.flags.byScenario) continue;
 				if (u.o.type == (byte)UnitType.UNIT_SABOTEUR) continue;
-				if (CUnit.g_table_unitInfo[u.o.type].movementType != t.movementType) continue;
+				if (g_table_unitInfo[u.o.type].movementType != t.movementType) continue;
 				if (u.team == 0)
 				{
 					distance = CTile.Tile_GetDistance(t.position, u.o.position);
@@ -363,7 +364,7 @@ namespace SharpDune.Script
 					continue;
 				}
 
-				distance = (ushort)(CUnit.g_table_unitInfo[u.o.type].fireDistance << 8);
+				distance = (ushort)(g_table_unitInfo[u.o.type].fireDistance << 8);
 				if (u.actionID == (byte)ActionType.ACTION_ATTACK && u.targetAttack == t.target)
 				{
 					if (u.targetMove != 0) continue;

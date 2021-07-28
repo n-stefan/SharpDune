@@ -3,10 +3,11 @@
 using SharpDune.Os;
 using System;
 using System.Diagnostics;
+using static SharpDune.Table.TableStrings;
 
 namespace SharpDune.Gui
 {
-	class Security
+    class Security
 	{
 		/*
 		 * Ask the security question to the user. Give him 3 times. If he fails,

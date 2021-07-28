@@ -2,6 +2,7 @@
 
 using SharpDune.Pool;
 using SharpDune.Script;
+using static SharpDune.Table.TableStructureInfo;
 
 namespace SharpDune
 {
@@ -164,7 +165,7 @@ namespace SharpDune
 
             if (o.flags.isUnit) return;
 
-            si = CStructure.g_table_structureInfo[o.type];
+            si = g_table_structureInfo[o.type];
             if (!si.o.flags.busyStateIsIncoming) return;
 
             s = PoolStructure.Structure_Get_ByIndex(o.index); //TODO: Check
@@ -244,7 +245,7 @@ namespace SharpDune
                 packed = CTile.Tile_PackTile(position);
 
                 /* ENHANCEMENT -- Originally this was o->type, where 'o' refers to a unit. */
-                packed += CStructure.g_table_structure_layoutEdgeTiles[CStructure.g_table_structureInfo[s.o.type].layout][(CTile.Orientation_Orientation256ToOrientation8((byte)CTile.Tile_GetDirection(o.position, position)) + 4) & 7];
+                packed += g_table_structure_layoutEdgeTiles[g_table_structureInfo[s.o.type].layout][(CTile.Orientation_Orientation256ToOrientation8((byte)CTile.Tile_GetDirection(o.position, position)) + 4) & 7];
 
                 position = CTile.Tile_UnpackTile(packed);
             }

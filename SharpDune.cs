@@ -21,6 +21,10 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using static SharpDune.Table.TableStrings;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableUnitInfo;
+using static SharpDune.Table.TableWidgetInfo;
 using static System.Math;
 
 enum GameMode
@@ -533,9 +537,9 @@ class CSharpDune
         WidgetInfo wi;
         int pointer;
 
-        for (pointer = 0; CWidgetInfo.g_table_gameWidgetInfo[pointer].index >= 0; pointer++)
+        for (pointer = 0; g_table_gameWidgetInfo[pointer].index >= 0; pointer++)
         {
-            wi = CWidgetInfo.g_table_gameWidgetInfo[pointer];
+            wi = g_table_gameWidgetInfo[pointer];
             Widget w;
 
             w = CWidget.GUI_Widget_Allocate((ushort)wi.index, (ushort)wi.shortcut, wi.offsetX, wi.offsetY, (ushort)wi.spriteID, wi.stringID);
@@ -600,12 +604,12 @@ class CSharpDune
             type = CUnit.Unit_StringToType(key);
             if (type != (byte)UnitType.UNIT_INVALID)
             {
-                oi = CUnit.g_table_unitInfo[type].o;
+                oi = g_table_unitInfo[type].o;
             }
             else
             {
                 type = CStructure.Structure_StringToType(key);
-                if (type != (byte)StructureType.STRUCTURE_INVALID) oi = CStructure.g_table_structureInfo[type].o;
+                if (type != (byte)StructureType.STRUCTURE_INVALID) oi = g_table_structureInfo[type].o;
             }
 
             if (oi == null) continue;
@@ -637,7 +641,7 @@ class CSharpDune
         {
             for (locsi = 0; locsi < (ushort)UnitType.UNIT_MAX; locsi++)
             {
-                var oi = CUnit.g_table_unitInfo[locsi].o;
+                var oi = g_table_unitInfo[locsi].o;
 
                 buffer = $"{oi.name.PadRight(15 - oi.name.Length, ' ')}{oi.buildCredits},{oi.buildTime},{oi.hitpoints},{oi.fogUncoverRadius},{oi.availableCampaign},{oi.priorityBuild},{oi.priorityTarget},{oi.sortPriority}";
                 //sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
@@ -649,7 +653,7 @@ class CSharpDune
 
             for (locsi = 0; locsi < (ushort)StructureType.STRUCTURE_MAX; locsi++)
             {
-                var oi = CStructure.g_table_structureInfo[locsi].o;
+                var oi = g_table_structureInfo[locsi].o;
 
                 buffer = $"{oi.name.PadRight(15 - oi.name.Length, ' ')}{oi.buildCredits},{oi.buildTime},{oi.hitpoints},{oi.fogUncoverRadius},{oi.availableCampaign},{oi.priorityBuild},{oi.priorityTarget},{oi.sortPriority}";
                 //sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
@@ -683,7 +687,7 @@ class CSharpDune
 
             for (locsi = 0; locsi < (ushort)UnitType.UNIT_MAX; locsi++)
             {
-                var ui = CUnit.g_table_unitInfo[locsi];
+                var ui = g_table_unitInfo[locsi];
 
                 if (!string.Equals(ui.o.name, key, StringComparison.OrdinalIgnoreCase)) continue;
                 //if (strcasecmp(ui->o.name, key) != 0) continue;
@@ -700,7 +704,7 @@ class CSharpDune
 
         for (locsi = 0; locsi < (ushort)UnitType.UNIT_MAX; locsi++)
         {
-            var ui = CUnit.g_table_unitInfo[locsi];
+            var ui = g_table_unitInfo[locsi];
 
             buffer = $"{ui.o.name.PadRight(15 - ui.o.name.Length, ' ')}{ui.fireDistance},{ui.damage},{ui.fireDelay},{ui.movingSpeedFactor}";
             //sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), string.Empty, ui->fireDistance, ui->damage, ui->fireDelay, ui->movingSpeedFactor);
@@ -1486,13 +1490,13 @@ class CSharpDune
 
         if (CStructure.g_structureActiveType != 0xFFFF)
         {
-            Map.Map_SetSelectionSize(CStructure.g_table_structureInfo[CStructure.g_structureActiveType].layout);
+            Map.Map_SetSelectionSize(g_table_structureInfo[CStructure.g_structureActiveType].layout);
         }
         else
         {
             var s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
-            if (s != null) Map.Map_SetSelectionSize(CStructure.g_table_structureInfo[s.o.type].layout);
+            if (s != null) Map.Map_SetSelectionSize(g_table_structureInfo[s.o.type].layout);
         }
 
         Sound.Voice_LoadVoices((ushort)CHouse.g_playerHouseID);

@@ -4,6 +4,8 @@ using SharpDune.Audio;
 using SharpDune.Input;
 using SharpDune.Os;
 using System.Diagnostics;
+using static SharpDune.Table.TableHouseInfo;
+using static SharpDune.Table.TableStrings;
 using static System.Math;
 
 namespace SharpDune.Gui
@@ -65,19 +67,19 @@ namespace SharpDune.Gui
          * Show the briefing screen.
          */
 		internal static void GUI_Mentat_ShowBriefing() =>
-			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 4), CScenario.g_scenario.pictureBriefing, CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].musicBriefing);
+			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 4), CScenario.g_scenario.pictureBriefing, g_table_houseInfo[(int)CHouse.g_playerHouseID].musicBriefing);
 
 		/*
          * Show the win screen.
          */
 		internal static void GUI_Mentat_ShowWin() =>
-			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 5), CScenario.g_scenario.pictureWin, CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].musicWin);
+			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 5), CScenario.g_scenario.pictureWin, g_table_houseInfo[(int)CHouse.g_playerHouseID].musicWin);
 
 		/*
          * Show the lose screen.
          */
 		internal static void GUI_Mentat_ShowLose() =>
-			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 6), CScenario.g_scenario.pictureLose, CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].musicLose);
+			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 6), CScenario.g_scenario.pictureLose, g_table_houseInfo[(int)CHouse.g_playerHouseID].musicLose);
 
 		/*
 		 * Show the Mentat screen with a dialog (Proceed / Repeat).
@@ -200,7 +202,7 @@ namespace SharpDune.Gui
 			Screen oldScreenID;
 			int i;
 
-			textBuffer = $"MENTAT{CHouse.g_table_houseInfo[houseID].name[0]}.CPS"; //snprintf(textBuffer, sizeof(textBuffer), "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
+			textBuffer = $"MENTAT{g_table_houseInfo[houseID].name[0]}.CPS"; //snprintf(textBuffer, sizeof(textBuffer), "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
 			Sprites.Sprites_LoadImage(textBuffer, Screen.NO1, Gui.g_palette_998A);
 
 			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
@@ -903,7 +905,7 @@ namespace SharpDune.Gui
 
 			CDriver.Driver_Voice_Play(null, 0xFF);
 
-			Sound.Music_Play(CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].musicBriefing);
+			Sound.Music_Play(g_table_houseInfo[(int)CHouse.g_playerHouseID].musicBriefing);
 
 			Sprites.Sprites_UnloadTiles();
 
@@ -1315,7 +1317,7 @@ namespace SharpDune.Gui
 				s_selectedHelpSubject = 0;
 
 				//sprintf(s_mentatFilename, "MENTAT%c", g_table_houseInfo[g_playerHouseID].name[0]);
-				s_mentatFilename = $"MENTAT{CHouse.g_table_houseInfo[(int)CHouse.g_playerHouseID].name[0]}";
+				s_mentatFilename = $"MENTAT{g_table_houseInfo[(int)CHouse.g_playerHouseID].name[0]}";
 				//strncpy(s_mentatFilename, String_GenerateFilename(s_mentatFilename), sizeof(s_mentatFilename));
 				s_mentatFilename = CStrings.String_GenerateFilename(s_mentatFilename);
 			}

@@ -1,8 +1,8 @@
 ﻿/* TeamAction file table */
 
-namespace SharpDune
+namespace SharpDune.Table
 {
-    class TeamAction
+    class TableTeamAction
     {
         internal static string[] g_table_teamActionName =
         {

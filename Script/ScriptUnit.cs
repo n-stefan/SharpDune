@@ -7,6 +7,12 @@ using System;
 using System.Diagnostics;
 using static SharpDune.CUnit;
 using static SharpDune.Script.Script;
+using static SharpDune.Table.TableAnimation;
+using static SharpDune.Table.TableHouseInfo;
+using static SharpDune.Table.TableLandscapeInfo;
+using static SharpDune.Table.TableStrings;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableUnitInfo;
 using static System.Math;
 
 namespace SharpDune.Script
@@ -122,7 +128,7 @@ namespace SharpDune.Script
 				Structure s;
 
 				s = Tools.Tools_Index_GetStructure(u.targetMove);
-				si = CStructure.g_table_structureInfo[s.o.type];
+				si = g_table_structureInfo[s.o.type];
 
 				if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT)
 				{
@@ -1537,7 +1543,7 @@ namespace SharpDune.Script
 			position = CTile.Tile_PackTile(CTile.Tile_Center(u.o.position));
 			CAnimation.Animation_Stop_ByTile(position);
 
-			animationUnitID = (ushort)(Map.g_table_landscapeInfo[Map.Map_GetLandscapeType(CTile.Tile_PackTile(u.o.position))].isSand ? 0 : 1);
+			animationUnitID = (ushort)(g_table_landscapeInfo[Map.Map_GetLandscapeType(CTile.Tile_PackTile(u.o.position))].isSand ? 0 : 1);
 			if (u.o.script.variables[1] == 1) animationUnitID += 2;
 
 			Map.g_map[position].houseID = Unit_GetHouseID(u);
@@ -1545,11 +1551,11 @@ namespace SharpDune.Script
 			Debug.Assert(animationUnitID < 4);
 			if (g_table_unitInfo[u.o.type].displayMode == (ushort)DisplayMode.INFANTRY_3_FRAMES)
 			{
-				CAnimation.Animation_Start(CAnimation.g_table_animation_unitScript1[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
+				CAnimation.Animation_Start(g_table_animation_unitScript1[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
 			}
 			else
 			{
-				CAnimation.Animation_Start(CAnimation.g_table_animation_unitScript2[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
+				CAnimation.Animation_Start(g_table_animation_unitScript2[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
 			}
 
 			return 1;
@@ -1667,11 +1673,11 @@ namespace SharpDune.Script
 
 			if (Config.g_config.language == (byte)Language.FRENCH)
 			{
-				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev), CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name);
+				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev), g_table_houseInfo[Unit_GetHouseID(u)].name);
 			}
 			else
 			{
-				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CHouse.g_table_houseInfo[Unit_GetHouseID(u)].name, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev));
+				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, g_table_houseInfo[Unit_GetHouseID(u)].name, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev));
 			}
 
 			return 0;

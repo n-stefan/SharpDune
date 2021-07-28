@@ -1,6 +1,7 @@
 ﻿/* Various routines */
 
 using SharpDune.Pool;
+using static SharpDune.Table.TableStructureInfo;
 
 namespace SharpDune
 {
@@ -349,9 +350,9 @@ namespace SharpDune
                         if (index >= (ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_MAX_HARD) return tile;
 
                         s = PoolStructure.Structure_Get_ByIndex(index);
-                        si = CStructure.g_table_structureInfo[s.o.type];
+                        si = g_table_structureInfo[s.o.type];
 
-                        return CTile.Tile_AddTileDiff(s.o.position, CStructure.g_table_structure_layoutTileDiff[si.layout]);
+                        return CTile.Tile_AddTileDiff(s.o.position, g_table_structure_layoutTileDiff[si.layout]);
                     }
                 default: return tile;
             }

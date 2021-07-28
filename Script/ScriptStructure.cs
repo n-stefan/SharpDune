@@ -5,6 +5,10 @@ using SharpDune.Os;
 using SharpDune.Pool;
 using static SharpDune.CStructure;
 using static SharpDune.Script.Script;
+using static SharpDune.Table.TableHouseInfo;
+using static SharpDune.Table.TableStrings;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableUnitInfo;
 
 namespace SharpDune.Script
 {
@@ -238,7 +242,7 @@ namespace SharpDune.Script
 
             u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 
-            if (CUnit.g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER && CUnit.Unit_SetPosition(u, s.o.position))
+            if (g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER && CUnit.Unit_SetPosition(u, s.o.position))
             {
                 s.o.linkedID = u.o.linkedID;
                 u.o.linkedID = 0xFF;
@@ -540,13 +544,13 @@ namespace SharpDune.Script
             {
                 type = (ushort)UnitType.UNIT_MISSILE_TURRET;
                 damage = 30;
-                fireDelay = Tools.Tools_AdjustToGameSpeed(CUnit.g_table_unitInfo[(ushort)UnitType.UNIT_LAUNCHER].fireDelay, 1, 0xFFFF, true);
+                fireDelay = Tools.Tools_AdjustToGameSpeed(g_table_unitInfo[(ushort)UnitType.UNIT_LAUNCHER].fireDelay, 1, 0xFFFF, true);
             }
             else
             {
                 type = (ushort)UnitType.UNIT_BULLET;
                 damage = 20;
-                fireDelay = Tools.Tools_AdjustToGameSpeed(CUnit.g_table_unitInfo[(ushort)UnitType.UNIT_TANK].fireDelay, 1, 0xFFFF, true);
+                fireDelay = Tools.Tools_AdjustToGameSpeed(g_table_unitInfo[(ushort)UnitType.UNIT_TANK].fireDelay, 1, 0xFFFF, true);
             }
 
             position.x = (ushort)(s.o.position.x + 0x80);
@@ -624,7 +628,7 @@ namespace SharpDune.Script
                 u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, s.o.houseID, tile, (sbyte)Tools.Tools_Random_256());
                 if (u == null) continue;
 
-                u.o.hitpoints = (ushort)(CUnit.g_table_unitInfo[(int)UnitType.UNIT_SOLDIER].o.hitpoints * (Tools.Tools_Random_256() & 3) / 256);
+                u.o.hitpoints = (ushort)(g_table_unitInfo[(int)UnitType.UNIT_SOLDIER].o.hitpoints * (Tools.Tools_Random_256() & 3) / 256);
 
                 if (s.o.houseID != (byte)CHouse.g_playerHouseID)
                 {
@@ -644,11 +648,11 @@ namespace SharpDune.Script
 
             if (Config.g_config.language == (byte)Language.FRENCH)
             {
-                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, CStrings.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CHouse.g_table_houseInfo[s.o.houseID].name, CStrings.String_Get_ByIndex(Text.STR_IS_DESTROYED));
+                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, CStrings.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), g_table_houseInfo[s.o.houseID].name, CStrings.String_Get_ByIndex(Text.STR_IS_DESTROYED));
             }
             else
             {
-                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, CHouse.g_table_houseInfo[s.o.houseID].name, CStrings.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CStrings.String_Get_ByIndex(Text.STR_IS_DESTROYED));
+                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, g_table_houseInfo[s.o.houseID].name, CStrings.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CStrings.String_Get_ByIndex(Text.STR_IS_DESTROYED));
             }
 
             return 0;

@@ -4,6 +4,7 @@ using SharpDune.Pool;
 using SharpDune.Script;
 using System;
 using static SharpDune.Script.Script;
+using static SharpDune.Table.TableTeamAction;
 
 namespace SharpDune
 {
@@ -121,7 +122,7 @@ namespace SharpDune
 
 			for (type = 0; type < (byte)TeamActionType.TEAM_ACTION_MAX; type++)
 			{
-				if (string.Equals(TeamAction.g_table_teamActionName[type], name, StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(g_table_teamActionName[type], name) == 0)
+				if (string.Equals(g_table_teamActionName[type], name, StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(g_table_teamActionName[type], name) == 0)
 					return type;
 			}
 

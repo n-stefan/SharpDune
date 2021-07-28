@@ -5,11 +5,18 @@ using SharpDune.Input;
 using SharpDune.Os;
 using SharpDune.Pool;
 using System;
+using static SharpDune.Table.TableActionInfo;
+using static SharpDune.Table.TableHouseInfo;
+using static SharpDune.Table.TableLandscapeInfo;
+using static SharpDune.Table.TableStrings;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableTileDiff;
+using static SharpDune.Table.TableUnitInfo;
 using static System.Math;
 
 namespace SharpDune.Gui
 {
-	class Viewport
+    class Viewport
 	{
 		static uint s_tickCursor;                                 /*!< Stores last time Viewport changed the cursor spriteID. */
 		static uint s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */
@@ -69,14 +76,14 @@ namespace SharpDune.Gui
 
 				if (mapScale > 1)
 				{
-					spriteID = (ushort)(CScenario.g_scenario.mapScale + Map.g_table_landscapeInfo[type].spriteID - 1);
+					spriteID = (ushort)(CScenario.g_scenario.mapScale + g_table_landscapeInfo[type].spriteID - 1);
 				}
 				else
 				{
-					colour = Map.g_table_landscapeInfo[type].radarColour;
+					colour = g_table_landscapeInfo[type].radarColour;
 				}
 
-				if (Map.g_table_landscapeInfo[type].radarColour == 0xFFFF)
+				if (g_table_landscapeInfo[type].radarColour == 0xFFFF)
 				{
 					if (mapScale > 1)
 					{
@@ -84,7 +91,7 @@ namespace SharpDune.Gui
 					}
 					else
 					{
-						colour = CHouse.g_table_houseInfo[Map.g_map[packed].houseID].minimapColor;
+						colour = g_table_houseInfo[Map.g_map[packed].houseID].minimapColor;
 					}
 				}
 
@@ -111,7 +118,7 @@ namespace SharpDune.Gui
 						}
 						else
 						{
-							colour = CHouse.g_table_houseInfo[CUnit.Unit_GetHouseID(u)].minimapColor;
+							colour = g_table_houseInfo[CUnit.Unit_GetHouseID(u)].minimapColor;
 						}
 					}
 				}
@@ -130,14 +137,14 @@ namespace SharpDune.Gui
 					}
 					else
 					{
-						colour = CHouse.g_table_houseInfo[s.o.houseID].minimapColor;
+						colour = g_table_houseInfo[s.o.houseID].minimapColor;
 					}
 				}
 				else
 				{
 					if (mapScale > 1)
 					{
-						spriteID = (ushort)(CScenario.g_scenario.mapScale + Map.g_table_landscapeInfo[(int)LandscapeType.LST_ENTIRELY_MOUNTAIN].spriteID - 1);
+						spriteID = (ushort)(CScenario.g_scenario.mapScale + g_table_landscapeInfo[(int)LandscapeType.LST_ENTIRELY_MOUNTAIN].spriteID - 1);
 					}
 					else
 					{
@@ -299,7 +306,7 @@ namespace SharpDune.Gui
 
 				if (!Map.g_map[CTile.Tile_PackTile(u.o.position)].isUnveiled && !CSharpDune.g_debugScenario) continue;
 
-				sprite = Sprites.g_sprites[CUnit.g_table_unitInfo[u.o.type].groundSpriteID];
+				sprite = Sprites.g_sprites[g_table_unitInfo[u.o.type].groundSpriteID];
 				GUI_Widget_Viewport_GetSprite_HousePalette(sprite, CUnit.Unit_GetHouseID(u), paletteHouse);
 
 				if (Map.Map_IsPositionInViewport(u.o.position, out x, out y))
@@ -370,12 +377,12 @@ namespace SharpDune.Gui
 
 					if (!Map.g_map[packed].isUnveiled && !CSharpDune.g_debugScenario) continue;
 
-					ui = CUnit.g_table_unitInfo[u.o.type];
+					ui = g_table_unitInfo[u.o.type];
 
 					if (!Map.Map_IsPositionInViewport(u.o.position, out x, out y)) continue;
 
-					x += Map.g_table_tilediff[0][u.wobbleIndex].x;
-					y += Map.g_table_tilediff[0][u.wobbleIndex].y;
+					x += g_table_tilediff[0][u.wobbleIndex].x;
+					y += g_table_tilediff[0][u.wobbleIndex].y;
 
 					orientation = CTile.Orientation_Orientation256ToOrientation8((byte)u.orientation[0].current);
 
@@ -564,7 +571,7 @@ namespace SharpDune.Gui
 
 					if (!Map.g_map[curPos].isUnveiled && !CSharpDune.g_debugScenario) continue;
 
-					ui = CUnit.g_table_unitInfo[u.o.type];
+					ui = g_table_unitInfo[u.o.type];
 
 					if (!Map.Map_IsPositionInViewport(u.o.position, out x, out y)) continue;
 
@@ -983,9 +990,9 @@ namespace SharpDune.Gui
 				{
 					CDriver.Driver_Sound_Play(36, 0xFF);
 				}
-				else if (CUnit.g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_FOOT)
+				else if (g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_FOOT)
 				{
-					Sound.Sound_StartSound(CUnit.g_table_actionInfo[(int)action].soundID);
+					Sound.Sound_StartSound(g_table_actionInfo[(int)action].soundID);
 				}
 				else
 				{
@@ -1006,7 +1013,7 @@ namespace SharpDune.Gui
 				House h;
 
 				s = CStructure.g_structureActive;
-				si = CStructure.g_table_structureInfo[CStructure.g_structureActiveType];
+				si = g_table_structureInfo[CStructure.g_structureActiveType];
 				h = CHouse.g_playerHouse;
 
 				if (CStructure.Structure_Place(s, Gui.g_selectionPosition))

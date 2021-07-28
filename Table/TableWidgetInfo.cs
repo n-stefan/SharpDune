@@ -1,11 +1,11 @@
 ﻿/* WidgetInfo file table */
 
 using SharpDune.Gui;
-using SharpDune.Os;
+using static SharpDune.Table.TableStrings;
 
-namespace SharpDune
+namespace SharpDune.Table
 {
-    class CWidgetInfo
+    class TableWidgetInfo
     {
 		/* TODO : const */
 		internal static WidgetInfo[] g_table_gameWidgetInfo = {

@@ -5,6 +5,9 @@ using SharpDune.Gui;
 using SharpDune.Os;
 using System;
 using System.Diagnostics;
+using static SharpDune.Table.TableHouseAnimation;
+using static SharpDune.Table.TableSound;
+using static SharpDune.Table.TableStrings;
 using static System.Math;
 
 namespace SharpDune
@@ -64,9 +67,9 @@ namespace SharpDune
 
 			if (Input.Input.Input_Keyboard_NextKey() == 0 || !g_canSkipIntro)
 			{
-				var animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
-				var subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
-				var soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
+				var animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
+				var subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
+				var soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_INTRO];
 
 				Sound.Music_Play(0x1B);
 
@@ -98,24 +101,24 @@ namespace SharpDune
 			switch (CHouse.g_playerHouseID)
 			{
 				case HouseType.HOUSE_HARKONNEN:
-					animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_HARKONNEN];
-					subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_HARKONNEN];
-					soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_HARKONNEN];
+					animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_HARKONNEN];
+					subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_HARKONNEN];
+					soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_HARKONNEN];
 					sound = 0x1E;
 					break;
 
 				default:
 				case HouseType.HOUSE_ATREIDES:
-					animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
-					subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
-					soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
+					animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
+					subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
+					soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
 					sound = 0x1F;
 					break;
 
 				case HouseType.HOUSE_ORDOS:
-					animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ORDOS];
-					subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ORDOS];
-					soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ORDOS];
+					animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ORDOS];
+					subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ORDOS];
+					soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ORDOS];
 					sound = 0x20;
 					break;
 			}
@@ -147,21 +150,21 @@ namespace SharpDune
 					switch (CHouse.g_playerHouseID)
 					{
 						case HouseType.HOUSE_HARKONNEN:
-							animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_HARKONNEN];
-							subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_HARKONNEN];
-							soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_HARKONNEN];
+							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_HARKONNEN];
+							subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_HARKONNEN];
+							soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_HARKONNEN];
 							break;
 
 						case HouseType.HOUSE_ATREIDES:
-							animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ARTREIDES];
-							subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ARTREIDES];
-							soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ARTREIDES];
+							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ARTREIDES];
+							subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ARTREIDES];
+							soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ARTREIDES];
 							break;
 
 						case HouseType.HOUSE_ORDOS:
-							animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ORDOS];
-							subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ORDOS];
-							soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ORDOS];
+							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ORDOS];
+							subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ORDOS];
+							soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_ORDOS];
 							break;
 
 						default: return;
@@ -172,21 +175,21 @@ namespace SharpDune
 					switch (CHouse.g_playerHouseID)
 					{
 						case HouseType.HOUSE_HARKONNEN:
-							animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_HARKONNEN];
-							subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_HARKONNEN];
-							soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_HARKONNEN];
+							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_HARKONNEN];
+							subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_HARKONNEN];
+							soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_HARKONNEN];
 							break;
 
 						case HouseType.HOUSE_ATREIDES:
-							animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ARTREIDES];
-							subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ARTREIDES];
-							soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ARTREIDES];
+							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ARTREIDES];
+							subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ARTREIDES];
+							soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ARTREIDES];
 							break;
 
 						case HouseType.HOUSE_ORDOS:
-							animation = HouseAnimation.g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ORDOS];
-							subtitle = HouseAnimation.g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ORDOS];
-							soundEffect = HouseAnimation.g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ORDOS];
+							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ORDOS];
+							subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ORDOS];
+							soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_ORDOS];
 							break;
 
 						default: return;
@@ -603,7 +606,7 @@ namespace SharpDune
 
 				Sound.Sound_Output_Feedback(feedback_index);
 
-				if (Sound.g_feedback[feedback_index].messageId != 0)
+				if (g_feedback[feedback_index].messageId != 0)
 				{
 					/* force drawing of subtitle */
 					GameLoop_DrawText(CStrings.String_Get_ByIndex(subtitle.stringID), subtitle.top);

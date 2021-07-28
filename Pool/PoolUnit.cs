@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using static SharpDune.Script.Script;
+using static SharpDune.Table.TableUnitInfo;
 
 namespace SharpDune.Pool
 {
@@ -122,7 +123,7 @@ namespace SharpDune.Pool
 			h = PoolHouse.House_Get_ByIndex(houseID);
 			if (h.unitCount >= h.unitCountMax)
 			{
-				if (CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
+				if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 				{
 					if (CSharpDune.g_validateStrictIfZero == 0) return null;
 				}
@@ -130,8 +131,8 @@ namespace SharpDune.Pool
 
 			if (index == 0 || index == (ushort)UnitIndex.UNIT_INDEX_INVALID)
 			{
-				var indexStart = CUnit.g_table_unitInfo[type].indexStart;
-				var indexEnd = CUnit.g_table_unitInfo[type].indexEnd;
+				var indexStart = g_table_unitInfo[type].indexStart;
+				var indexEnd = g_table_unitInfo[type].indexEnd;
 
 				for (index = indexStart; index <= indexEnd; index++)
 				{

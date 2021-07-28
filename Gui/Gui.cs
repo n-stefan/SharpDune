@@ -13,6 +13,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using static SharpDune.Table.TableHouseInfo;
+using static SharpDune.Table.TableSelectionType;
+using static SharpDune.Table.TableStrings;
+using static SharpDune.Table.TableStructureInfo;
+using static SharpDune.Table.TableUnitInfo;
+using static SharpDune.Table.TableWidgetInfo;
 using static System.Math;
 
 namespace SharpDune.Gui
@@ -179,57 +185,6 @@ namespace SharpDune.Gui
 
 	class Gui
 	{
-		static readonly SelectionTypeStruct[] g_table_selectionType = { //[8] [(int)SelectionType.SELECTIONTYPE_MAX]
-			new() {
-				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
-				variable_04 = true,
-				variable_06 = false,
-				defaultWidget = 0
-			},
-			new() {
-				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
-				variable_04 = false,
-				variable_06 = true,
-				defaultWidget = 0
-			},
-			new() {
-				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
-				variable_04 = false,
-				variable_06 = true,
-				defaultWidget = 0
-			},
-			new() {
-				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
-				variable_04 = false,
-				variable_06 = true,
-				defaultWidget = 0
-			},
-			new() {
-				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
-				variable_04 = false,
-				variable_06 = true,
-				defaultWidget = 0
-			},
-			new() {
-				visibleWidgets = new sbyte[] { 1, 2, 12, 13, 14, 15, 16, 17, 26, 27, 28, 29, -1 },
-				variable_04 = true,
-				variable_06 = true,
-				defaultWidget = 2
-			},
-			new() {
-				visibleWidgets = new sbyte[] { 1, 2, 18, 20, 19, 21, 22, 23, 24, 25, 26, 27, 28, -1 },
-				variable_04 = true,
-				variable_06 = true,
-				defaultWidget = 2
-			},
-			new() {
-				visibleWidgets = new sbyte[] { 45, 2, 1, 44, 43, 42, 41, 40, 39, -1 },
-				variable_04 = true,
-				variable_06 = false,
-				defaultWidget = 0
-			}
-		};
-
 		internal static byte[] g_remap = new byte[256];
 
 		static readonly byte[] g_colours = new byte[16];                 /*!< Colors used for drawing chars */
@@ -1075,7 +1030,7 @@ namespace SharpDune.Gui
 						CUnit.Unit_Select(null);
 						WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
 
-						Map.Map_SetSelectionSize(CStructure.g_table_structureInfo[CStructure.g_structureActiveType].layout);
+						Map.Map_SetSelectionSize(g_table_structureInfo[CStructure.g_structureActiveType].layout);
 
 						Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
 						break;
@@ -1582,9 +1537,9 @@ namespace SharpDune.Gui
 
 			g_productionStringID = (ushort)Text.STR_NULL;
 
-			if (!CStructure.g_table_structureInfo[s.o.type].o.flags.factory)
+			if (!g_table_structureInfo[s.o.type].o.flags.factory)
 			{
-				if (s.o.type == (byte)StructureType.STRUCTURE_PALACE) g_productionStringID = (ushort)(Text.STR_LAUNCH + CHouse.g_table_houseInfo[s.o.houseID].specialWeapon - 1);
+				if (s.o.type == (byte)StructureType.STRUCTURE_PALACE) g_productionStringID = (ushort)(Text.STR_LAUNCH + g_table_houseInfo[s.o.houseID].specialWeapon - 1);
 				return;
 			}
 
@@ -3921,7 +3876,7 @@ namespace SharpDune.Gui
 			string groupText; //char[16];
 			var bufferPointer = 0;
 
-			key = CHouse.g_table_houseInfo[houseID].name; //strncpy(key, g_table_houseInfo[houseID].name, 3);
+			key = g_table_houseInfo[houseID].name; //strncpy(key, g_table_houseInfo[houseID].name, 3);
 														  //key[3] = '\0';
 
 			groupText = $"GROUP{campaignID}"; //snprintf(groupText, sizeof(groupText), "GROUP%d", campaignID);
@@ -4180,11 +4135,11 @@ namespace SharpDune.Gui
 				if (Config.g_config.language == (byte)Language.FRENCH)
 				{
 					p1 = CStrings.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
-					p2 = CHouse.g_table_houseInfo[data[i].houseID].name;
+					p2 = g_table_houseInfo[data[i].houseID].name;
 				}
 				else
 				{
-					p1 = CHouse.g_table_houseInfo[data[i].houseID].name;
+					p1 = g_table_houseInfo[data[i].houseID].name;
 					p2 = CStrings.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 				}
 				name = new string(data[i].name).Replace("\0", string.Empty);
@@ -4435,7 +4390,7 @@ namespace SharpDune.Gui
 			{
 				var houseID = (byte)(((byte)CHouse.g_playerHouseID + i) % 6);
 
-				key = CHouse.g_table_houseInfo[houseID].name[0..3]; //strncpy(key, g_table_houseInfo[houseID].name, 3);
+				key = g_table_houseInfo[houseID].name[0..3]; //strncpy(key, g_table_houseInfo[houseID].name, 3);
 																	//key[3] = '\0';
 
 				if ((buf = Ini.Ini_GetString(category, key, null, Sprites.g_fileRegionINI)) == null) continue;
@@ -4494,7 +4449,7 @@ namespace SharpDune.Gui
 				if (s == null) break;
 				if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
-				score += (short)(CStructure.g_table_structureInfo[s.o.type].o.buildCredits / 100);
+				score += (short)(g_table_structureInfo[s.o.type].o.buildCredits / 100);
 			}
 
 			CSharpDune.g_validateStrictIfZero++;
@@ -4922,7 +4877,7 @@ namespace SharpDune.Gui
 		{
 			ushort i;
 			ushort count = 0;
-			var wi = CWidgetInfo.g_table_factoryWidgetInfo;
+			var wi = g_table_factoryWidgetInfo;
 			var w = s_factoryWindowWidgets;
 
 			for (i = 0; i < 13; i++/*, wi++*/)
@@ -5008,11 +4963,11 @@ namespace SharpDune.Gui
 
 				sprite = Sprites.g_sprites[24];
 				width = (ushort)(Sprites.Sprite_GetWidth(sprite) + 1);
-				si = CStructure.g_table_structureInfo[item.objectType];
+				si = g_table_structureInfo[item.objectType];
 
-				for (j = 0; j < CStructure.g_table_structure_layoutSize[si.layout].height; j++)
+				for (j = 0; j < g_table_structure_layoutSize[si.layout].height; j++)
 				{
-					for (i = 0; i < CStructure.g_table_structure_layoutSize[si.layout].width; i++)
+					for (i = 0; i < g_table_structure_layoutSize[si.layout].width; i++)
 					{
 						GUI_DrawSprite(Screen.NO1, sprite, (short)(x + i * width), (short)(y + j * width), 0, 0);
 					}
@@ -5161,7 +5116,7 @@ namespace SharpDune.Gui
 
 			y = 160;
 			if (oi.available <= item.amount) y = 169;
-			else if (CSharpDune.g_starPortEnforceUnitLimit && CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && CUnit.g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
+			else if (CSharpDune.g_starPortEnforceUnitLimit && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 			{
 				var h = CHouse.g_playerHouse;
 				if (h.unitCount >= h.unitCountMax) y = 178;
@@ -5283,7 +5238,7 @@ namespace SharpDune.Gui
 
 				for (i = 0; i < (ushort)UnitType.UNIT_MAX; i++)
 				{
-					var oi = CUnit.g_table_unitInfo[i].o;
+					var oi = g_table_unitInfo[i].o;
 
 					if (oi.available == 0) continue;
 
@@ -5310,7 +5265,7 @@ namespace SharpDune.Gui
 
 				for (i = 0; i < (ushort)StructureType.STRUCTURE_MAX; i++)
 				{
-					var oi = CStructure.g_table_structureInfo[i].o;
+					var oi = g_table_structureInfo[i].o;
 
 					if (oi.available == 0) continue;
 

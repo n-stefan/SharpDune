@@ -1,8 +1,8 @@
 ﻿/* MovementType file table */
 
-namespace SharpDune
+namespace SharpDune.Table
 {
-    class CMovementType
+    class TableMovementType
     {
 		internal static string[] g_table_movementTypeName =
 		{

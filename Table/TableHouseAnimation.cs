@@ -1,11 +1,11 @@
 ﻿/* House animation tables */
 
-using SharpDune.Os;
+using static SharpDune.Table.TableStrings;
 
-namespace SharpDune
+namespace SharpDune.Table
 {
-	class HouseAnimation
-	{
+    class TableHouseAnimation
+    {
 		internal static HouseAnimation_Animation[][] g_table_houseAnimation_animation = { //[HOUSEANIMATION_MAX][32]
 			new HouseAnimation_Animation[] { /* 0 - intro */
 				new() { str = string.Empty, duration = 20, frameCount = 10, flags = 0x40 },

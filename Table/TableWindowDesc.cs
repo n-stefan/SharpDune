@@ -1,16 +1,17 @@
 ﻿/* WindowDesc file table */
 
 using SharpDune.Gui;
-using SharpDune.Os;
+using static SharpDune.Table.TableStrings;
 
-namespace SharpDune
+namespace SharpDune.Table
 {
-    class CWindowDesc
+    class TableWindowDesc
     {
         internal static WindowDesc g_saveLoadWindowDesc;
+
         internal static WindowDesc g_gameControlWindowDesc;
 
-        static CWindowDesc()
+        static TableWindowDesc()
         {
             unchecked
             {
@@ -242,79 +243,6 @@ namespace SharpDune
             }
         };
 
-        internal static WindowDesc g_savegameNameWindowDesc = new()
-        {
-            index = 14,
-            stringID = (short)Text.STR_ENTER_A_DESCRIPTION_OF_YOUR_SAVED_GAME,
-            addArrows = false,
-            widgetCount = 2,
-            widgets = new WindowDescWidget[] {
-                new() {
-                    stringID = (ushort)Text.STR_SAVE,
-                    offsetX = 8,
-                    offsetY = 38,
-                    width = 72,
-                    height = 15,
-                    labelStringId = (ushort)Text.STR_NULL,
-                    shortcut2 = 43
-                },
-                new() {
-                    stringID = (ushort)Text.STR_CANCEL,
-                    offsetX = 208,
-                    offsetY = 38,
-                    width = 72,
-                    height = 15,
-                    labelStringId = (ushort)Text.STR_NULL,
-                    shortcut2 = 110
-                },
-                new() {
-                    stringID = (ushort)Text.STR_NULL,
-                    offsetX = 0,
-                    offsetY = 0,
-                    width = 0,
-                    height = 0,
-                    labelStringId = (ushort)Text.STR_NULL,
-                    shortcut2 = 0
-                },
-                new() {
-                    stringID = (ushort)Text.STR_NULL,
-                    offsetX = 0,
-                    offsetY = 0,
-                    width = 0,
-                    height = 0,
-                    labelStringId = (ushort)Text.STR_NULL,
-                    shortcut2 = 0
-                },
-                new() {
-                    stringID = (ushort)Text.STR_NULL,
-                    offsetX = 0,
-                    offsetY = 0,
-                    width = 0,
-                    height = 0,
-                    labelStringId = (ushort)Text.STR_NULL,
-                    shortcut2 = 0
-                },
-                new() {
-                    stringID = (ushort)Text.STR_NULL,
-                    offsetX = 0,
-                    offsetY = 0,
-                    width = 0,
-                    height = 0,
-                    labelStringId = (ushort)Text.STR_NULL,
-                    shortcut2 = 0
-                },
-                new() {
-                    stringID = (ushort)Text.STR_NULL,
-                    offsetX = 0,
-                    offsetY = 0,
-                    width = 0,
-                    height = 0,
-                    labelStringId = (ushort)Text.STR_NULL,
-                    shortcut2 = 0
-                }
-            }
-        };
-
         internal static WindowDesc g_yesNoWindowDesc = new()
         {
             index = 18,
@@ -384,6 +312,79 @@ namespace SharpDune
                 },
                 new()
                 {
+                    stringID = (ushort)Text.STR_NULL,
+                    offsetX = 0,
+                    offsetY = 0,
+                    width = 0,
+                    height = 0,
+                    labelStringId = (ushort)Text.STR_NULL,
+                    shortcut2 = 0
+                }
+            }
+        };
+
+        internal static WindowDesc g_savegameNameWindowDesc = new()
+        {
+            index = 14,
+            stringID = (short)Text.STR_ENTER_A_DESCRIPTION_OF_YOUR_SAVED_GAME,
+            addArrows = false,
+            widgetCount = 2,
+            widgets = new WindowDescWidget[] {
+                new() {
+                    stringID = (ushort)Text.STR_SAVE,
+                    offsetX = 8,
+                    offsetY = 38,
+                    width = 72,
+                    height = 15,
+                    labelStringId = (ushort)Text.STR_NULL,
+                    shortcut2 = 43
+                },
+                new() {
+                    stringID = (ushort)Text.STR_CANCEL,
+                    offsetX = 208,
+                    offsetY = 38,
+                    width = 72,
+                    height = 15,
+                    labelStringId = (ushort)Text.STR_NULL,
+                    shortcut2 = 110
+                },
+                new() {
+                    stringID = (ushort)Text.STR_NULL,
+                    offsetX = 0,
+                    offsetY = 0,
+                    width = 0,
+                    height = 0,
+                    labelStringId = (ushort)Text.STR_NULL,
+                    shortcut2 = 0
+                },
+                new() {
+                    stringID = (ushort)Text.STR_NULL,
+                    offsetX = 0,
+                    offsetY = 0,
+                    width = 0,
+                    height = 0,
+                    labelStringId = (ushort)Text.STR_NULL,
+                    shortcut2 = 0
+                },
+                new() {
+                    stringID = (ushort)Text.STR_NULL,
+                    offsetX = 0,
+                    offsetY = 0,
+                    width = 0,
+                    height = 0,
+                    labelStringId = (ushort)Text.STR_NULL,
+                    shortcut2 = 0
+                },
+                new() {
+                    stringID = (ushort)Text.STR_NULL,
+                    offsetX = 0,
+                    offsetY = 0,
+                    width = 0,
+                    height = 0,
+                    labelStringId = (ushort)Text.STR_NULL,
+                    shortcut2 = 0
+                },
+                new() {
                     stringID = (ushort)Text.STR_NULL,
                     offsetX = 0,
                     offsetY = 0,
