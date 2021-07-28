@@ -25,7 +25,7 @@
 
 using System.Diagnostics;
 
-namespace SharpDune
+namespace SharpDune.Video
 {
 	class Scale2x
 	{

@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace SharpDune
+namespace SharpDune.Video
 {
     enum VideoScaleFilter
 	{
@@ -16,7 +16,7 @@ namespace SharpDune
 		FILTER_HQX                      /*<! see https://code.google.com/p/hqx/ */
 	}
 
-	class Sdl2Video
+	class VideoSdl2
 	{
 		/* Set DUNE_ICON_DIR at compile time.  e.g. */
 		/* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */

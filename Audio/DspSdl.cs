@@ -8,7 +8,7 @@ using Vanara.Extensions;
 
 namespace SharpDune.Audio
 {
-	class SdlDsp
+	class DspSdl
 	{
 		static /*byte[]*/CArray<byte> s_buffer;
 		static uint s_bufferLen;

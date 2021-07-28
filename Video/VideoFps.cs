@@ -1,6 +1,6 @@
 ﻿/* Display FPS in top right of the screen */
 
-namespace SharpDune
+namespace SharpDune.Video
 {
     class VideoFps
     {

@@ -17,6 +17,7 @@ using SharpDune.Input;
 using SharpDune.Os;
 using SharpDune.Pool;
 using SharpDune.Script;
+using SharpDune.Video;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -1004,7 +1005,7 @@ class CSharpDune
 
         Gui.GUI_ClearScreen(Screen.NO0);
 
-        Sdl2Video.Video_SetPalette(Gfx.g_palette1, 0, 256);
+        VideoSdl2.Video_SetPalette(Gfx.g_palette1, 0, 256);
 
         Gfx.GFX_SetPalette(Gfx.g_palette1);
         Gfx.GFX_SetPalette(Gfx.g_palette2);
@@ -1234,13 +1235,13 @@ class CSharpDune
 
         Timer.Timer_Init();
 
-        if (!Sdl2Video.Video_Init(screen_magnification, filter)) return false;
+        if (!VideoSdl2.Video_Init(screen_magnification, filter)) return false;
 
         Mouse.Mouse_Init();
 
         /* Add the general tickers */
         Timer.Timer_Add(Timer.Timer_Tick, 1000000 / 60, false);
-        Timer.Timer_Add(Sdl2Video.Video_Tick, (uint)(1000000 / frame_rate), true);
+        Timer.Timer_Add(VideoSdl2.Video_Tick, (uint)(1000000 / frame_rate), true);
 
         unchecked { Mouse.g_mouseDisabled = (byte)-1; }
 
@@ -1606,6 +1607,6 @@ class CSharpDune
         CFile.File_Uninit();
         Timer.Timer_Uninit();
         Gfx.GFX_Uninit();
-        Sdl2Video.Video_Uninit();
+        VideoSdl2.Video_Uninit();
     }
 }

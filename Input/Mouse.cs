@@ -1,6 +1,7 @@
 ﻿/* Mouse */
 
 using SharpDune.Os;
+using SharpDune.Video;
 using System;
 using System.Diagnostics;
 using static System.Math;
@@ -169,7 +170,7 @@ namespace SharpDune.Input
             g_mouseDisabled = 1;
             g_mouseFileID = (byte)FileMode.FILE_INVALID;
 
-            Sdl2Video.Video_Mouse_SetPosition(g_mouseX, g_mouseY);
+            VideoSdl2.Video_Mouse_SetPosition(g_mouseX, g_mouseY);
         }
 
         internal static void Mouse_SetMouseMode(byte mouseMode, string filename)
@@ -303,7 +304,7 @@ namespace SharpDune.Input
             g_mouseRegionTop = top;
             g_mouseRegionBottom = bottom;
 
-            Sdl2Video.Video_Mouse_SetRegion(left, right, top, bottom);
+            VideoSdl2.Video_Mouse_SetRegion(left, right, top, bottom);
         }
 
         /*

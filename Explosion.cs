@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Os;
+using SharpDune.Video;
 using System.Diagnostics;
 using static SharpDune.Table.TableAnimation;
 using static SharpDune.Table.TableExplosion;
@@ -293,9 +294,9 @@ namespace SharpDune
 			for (i = 0; i < 2; i++)
 			{
 				Sleep.msleep(30);
-				Sdl2Video.Video_SetOffset(320);
+				VideoSdl2.Video_SetOffset(320);
 				Sleep.msleep(30);
-				Sdl2Video.Video_SetOffset(0);
+				VideoSdl2.Video_SetOffset(0);
 			}
 		}
 

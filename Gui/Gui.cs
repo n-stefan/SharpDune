@@ -8,6 +8,7 @@ using SharpDune.Codec;
 using SharpDune.Input;
 using SharpDune.Os;
 using SharpDune.Pool;
+using SharpDune.Video;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -3858,7 +3859,7 @@ namespace SharpDune.Gui
 			Mouse.g_mouseX = x;
 			Mouse.g_mouseY = y;
 
-			Sdl2Video.Video_Mouse_SetPosition(x, y);
+			VideoSdl2.Video_Mouse_SetPosition(x, y);
 
 			if (Mouse.g_mouseX != Mouse.g_mousePrevX || Mouse.g_mouseY != Mouse.g_mousePrevY)
 			{

@@ -1,11 +1,12 @@
 ﻿/* Graphics */
 
+using SharpDune.Video;
 using System;
 using System.Diagnostics;
 
 namespace SharpDune
 {
-	enum Screen
+    enum Screen
 	{
 		NO0 = 0,
 		NO1 = 1,
@@ -75,7 +76,7 @@ namespace SharpDune
 			switch (screenID)
             {
 				case Screen.NO0:
-					return Sdl2Video.Video_GetFrameBuffer();
+					return VideoSdl2.Video_GetFrameBuffer();
 				case Screen.NO1:
 					return s_screen1;
 				case Screen.NO2:
@@ -316,7 +317,7 @@ namespace SharpDune
 				   palette[to * 3 + 1] != g_paletteActive[to * 3 + 1] ||
 				   palette[to * 3 + 2] != g_paletteActive[to * 3 + 2]) break;
 			}
-			Sdl2Video.Video_SetPalette(palette[(3 * from)..], from, to - from + 1);
+			VideoSdl2.Video_SetPalette(palette[(3 * from)..], from, to - from + 1);
 
 			Array.Copy(palette, 3 * from, g_paletteActive, 3 * from, (to - from + 1) * 3); //memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
 		}
