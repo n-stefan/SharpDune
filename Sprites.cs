@@ -4,6 +4,7 @@
 //#define Sprites_1
 
 using SharpDune.Codec;
+using SharpDune.Include;
 using SharpDune.Input;
 using SharpDune.Os;
 using System;
@@ -406,13 +407,13 @@ namespace SharpDune
 		internal static void Sprites_Init()
 		{
 			Sprites_Load("MOUSE.SHP");                               /*   0 -   6 */
-			Sprites_Load(CStrings.String_GenerateFilename("BTTN"));   /*   7 -  11 */
+			Sprites_Load(CString.String_GenerateFilename("BTTN"));   /*   7 -  11 */
 			Sprites_Load("SHAPES.SHP");                              /*  12 - 110 */
 			Sprites_Load("UNITS2.SHP");                              /* 111 - 150 */
 			Sprites_Load("UNITS1.SHP");                              /* 151 - 237 */
 			Sprites_Load("UNITS.SHP");                               /* 238 - 354 */
-			Sprites_Load(CStrings.String_GenerateFilename("CHOAM"));  /* 355 - 372 */
-			Sprites_Load(CStrings.String_GenerateFilename("MENTAT")); /* 373 - 386 */
+			Sprites_Load(CString.String_GenerateFilename("CHOAM"));  /* 355 - 372 */
+			Sprites_Load(CString.String_GenerateFilename("MENTAT")); /* 373 - 386 */
 			Sprites_Load("MENSHPH.SHP");                             /* 387 - 401 */
 			Sprites_Load("MENSHPA.SHP");                             /* 402 - 416 */
 			Sprites_Load("MENSHPO.SHP");                             /* 417 - 431 */

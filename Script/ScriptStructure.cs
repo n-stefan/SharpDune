@@ -1,7 +1,7 @@
 ﻿/* Structure script routines */
 
 using SharpDune.Audio;
-using SharpDune.Os;
+using SharpDune.Include;
 using SharpDune.Pool;
 using static SharpDune.CStructure;
 using static SharpDune.Script.Script;
@@ -648,11 +648,11 @@ namespace SharpDune.Script
 
             if (Config.g_config.language == (byte)Language.FRENCH)
             {
-                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, CStrings.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), g_table_houseInfo[s.o.houseID].name, CStrings.String_Get_ByIndex(Text.STR_IS_DESTROYED));
+                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, CString.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), g_table_houseInfo[s.o.houseID].name, CString.String_Get_ByIndex(Text.STR_IS_DESTROYED));
             }
             else
             {
-                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, g_table_houseInfo[s.o.houseID].name, CStrings.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CStrings.String_Get_ByIndex(Text.STR_IS_DESTROYED));
+                Gui.Gui.GUI_DisplayText("{0} {1} {2}", 0, g_table_houseInfo[s.o.houseID].name, CString.String_Get_ByIndex(g_table_structureInfo[s.o.type].o.stringID_full), CString.String_Get_ByIndex(Text.STR_IS_DESTROYED));
             }
 
             return 0;

@@ -1,17 +1,16 @@
 ﻿/* Configuration and options load and save */
 
 using SharpDune.Audio;
-using SharpDune.Os;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
 namespace SharpDune
 {
-	/*
+    /*
      * This is the layout of options.cfg.
      */
-	class GameCfg
+    class GameCfg
 	{
 		internal ushort music;                      /*!< 0:Off, 1:On. */
 		internal ushort sounds;                     /*!< 0:Off, 1:On. */
@@ -82,9 +81,9 @@ namespace SharpDune
 		{
 			byte index;
 
-			index = CFile.File_Open_Personal("OPTIONS.CFG", Os.FileMode.FILE_MODE_READ);
+			index = CFile.File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_READ);
 
-			if (index == (byte)Os.FileMode.FILE_INVALID) return false;
+			if (index == (byte)FileMode.FILE_INVALID) return false;
 
 			g_gameConfig.music = CFile.File_Read_LE16(index);
 			g_gameConfig.sounds = CFile.File_Read_LE16(index);
@@ -104,9 +103,9 @@ namespace SharpDune
 		{
 			byte index;
 
-			index = CFile.File_Open_Personal("OPTIONS.CFG", Os.FileMode.FILE_MODE_WRITE);
+			index = CFile.File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_WRITE);
 
-			if (index == (byte)Os.FileMode.FILE_INVALID) return;
+			if (index == (byte)FileMode.FILE_INVALID) return;
 
 			CFile.File_Write_LE16(index, g_gameConfig.music);
 			CFile.File_Write_LE16(index, g_gameConfig.sounds);

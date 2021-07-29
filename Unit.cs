@@ -2,7 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Gui;
-using SharpDune.Os;
+using SharpDune.Include;
 using SharpDune.Pool;
 using System;
 using System.Diagnostics;
@@ -466,18 +466,18 @@ namespace SharpDune
 
 			if (unit.o.type == (byte)UnitType.UNIT_SANDWORM)
 			{
-				buffer = CStrings.String_Get_ByIndex(ui.o.stringID_abbrev); //snprintf(buffer, sizeof(buffer), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
+				buffer = CString.String_Get_ByIndex(ui.o.stringID_abbrev); //snprintf(buffer, sizeof(buffer), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 			}
 			else
 			{
 				var houseName = g_table_houseInfo[Unit_GetHouseID(unit)].name;
 				if (Config.g_config.language == (byte)Language.FRENCH)
 				{
-					buffer = $"{CStrings.String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
+					buffer = $"{CString.String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 				}
 				else
 				{
-					buffer = $"{houseName} {CStrings.String_Get_ByIndex(ui.o.stringID_abbrev)}"; //snprintf(buffer, sizeof(buffer), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
+					buffer = $"{houseName} {CString.String_Get_ByIndex(ui.o.stringID_abbrev)}"; //snprintf(buffer, sizeof(buffer), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
 				}
 			}
 
@@ -512,7 +512,7 @@ namespace SharpDune
 					//size_t len = strlen(buffer);
 					//char* s = buffer + len;
 
-					buffer = $"{buffer}{string.Format(CSharpDune.Culture, CStrings.String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
+					buffer = $"{buffer}{string.Format(CSharpDune.Culture, CString.String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
 				}
 			}
 

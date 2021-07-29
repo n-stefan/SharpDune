@@ -1,6 +1,6 @@
 ﻿/* Basic definitions and data types */
 
-namespace SharpDune
+namespace SharpDune.Include
 {
     /*
     * bits 0 to 7 are the offset in the tile.

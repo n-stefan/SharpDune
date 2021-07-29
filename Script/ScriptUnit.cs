@@ -1,6 +1,7 @@
 ﻿/* Unit script routines */
 
 using SharpDune.Audio;
+using SharpDune.Include;
 using SharpDune.Os;
 using SharpDune.Pool;
 using System;
@@ -1673,11 +1674,11 @@ namespace SharpDune.Script
 
 			if (Config.g_config.language == (byte)Language.FRENCH)
 			{
-				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev), g_table_houseInfo[Unit_GetHouseID(u)].name);
+				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CString.String_Get_ByIndex(ui.o.stringID_abbrev), g_table_houseInfo[Unit_GetHouseID(u)].name);
 			}
 			else
 			{
-				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, g_table_houseInfo[Unit_GetHouseID(u)].name, CStrings.String_Get_ByIndex(ui.o.stringID_abbrev));
+				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, g_table_houseInfo[Unit_GetHouseID(u)].name, CString.String_Get_ByIndex(ui.o.stringID_abbrev));
 			}
 
 			return 0;
@@ -1926,7 +1927,7 @@ namespace SharpDune.Script
 
 			if (Unit_GetHouseID(u) == (byte)CHouse.g_playerHouseID)
 			{
-				Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
+				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
 			}
 
 			Unit_UpdateMap(1, u);

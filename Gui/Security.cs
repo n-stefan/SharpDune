@@ -42,11 +42,11 @@ namespace SharpDune.Gui
 			Gui.GUI_SetPaletteAnimated(Gfx.g_palette1, 15);
 
 			//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_TEXT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
-			question = CStrings.String_Get_ByIndex((ushort)(Text.STR_SECURITY_TEXT_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
+			question = CString.String_Get_ByIndex((ushort)(Text.STR_SECURITY_TEXT_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
 			CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(question);
 			Mentat.GUI_Mentat_Loop(wsaHouseFilename, null, question/*CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer)*/, true, null);
 
-			questionsCount = ushort.Parse(CStrings.String_Get_ByIndex(Text.STR_SECURITY_COUNT), CSharpDune.Culture);
+			questionsCount = ushort.Parse(CString.String_Get_ByIndex(Text.STR_SECURITY_COUNT), CSharpDune.Culture);
 
 			oldCurrentWidget = CWidget.Widget_SetCurrentWidget(8);
 
@@ -64,7 +64,7 @@ namespace SharpDune.Gui
 
 				CWidget.Widget_SetCurrentWidget(8);
 
-				wsa = Wsa.WSA_LoadFile(CStrings.String_Get_ByIndex((ushort)(questionIndex + 1)), Gfx.GFX_Screen_Get_ByIndex(Screen.NO1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO1), false);
+				wsa = Wsa.WSA_LoadFile(CString.String_Get_ByIndex((ushort)(questionIndex + 1)), Gfx.GFX_Screen_Get_ByIndex(Screen.NO1), Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO1), false);
 				Wsa.WSA_DisplayFrame(wsa, 0, (ushort)(CWidget.g_curWidgetXBase << 3), CWidget.g_curWidgetYBase, Screen.NO2);
 				Wsa.WSA_Unload(wsa);
 
@@ -74,7 +74,7 @@ namespace SharpDune.Gui
 				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO2, Screen.NO0);
 				Gui.GUI_Mouse_Show_InWidget();
 
-				question = CStrings.String_Get_ByIndex(questionIndex);
+				question = CString.String_Get_ByIndex(questionIndex);
 				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
 				GUI_Security_DrawText(question/*CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer)*/);
 
@@ -101,7 +101,7 @@ namespace SharpDune.Gui
 
 				var savedColor = Console.ForegroundColor;
 				Console.ForegroundColor = ConsoleColor.Red;
-				Trace.WriteLine($"Answer : {CStrings.String_Get_ByIndex((ushort)(questionIndex + 2))}");
+				Trace.WriteLine($"Answer : {CString.String_Get_ByIndex((ushort)(questionIndex + 2))}");
 				Console.ForegroundColor = savedColor;
 
 				EditBox.GUI_EditBox(ref buffer, (ushort)(buffer.Length - 1), 9, null, Mentat.GUI_Mentat_Tick, false);
@@ -114,18 +114,18 @@ namespace SharpDune.Gui
 
 				GUI_Security_NormaliseText(ref buffer);
 
-				question = CStrings.String_Get_ByIndex((ushort)(questionIndex + 2));
+				question = CString.String_Get_ByIndex((ushort)(questionIndex + 2));
 				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex + 2), g_readBufferSize);
 				GUI_Security_NormaliseText(ref question);
 
 				if (!string.Equals(question/*CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer)*/, buffer, StringComparison.OrdinalIgnoreCase))
 				{ //if (strcasecmp(g_readBuffer, buffer) != 0) {
-					CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(CStrings.String_Get_ByIndex(Text.STR_SECURITY_WRONG_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
+					CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(CString.String_Get_ByIndex(Text.STR_SECURITY_WRONG_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
 					//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_WRONG_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 				}
 				else
 				{
-					CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(CStrings.String_Get_ByIndex(Text.STR_SECURITY_CORRECT_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
+					CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(CString.String_Get_ByIndex(Text.STR_SECURITY_CORRECT_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
 					//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_CORRECT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 
 					valid = true;

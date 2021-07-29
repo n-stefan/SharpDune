@@ -1,5 +1,6 @@
 ﻿/* Team script routines */
 
+using SharpDune.Include;
 using SharpDune.Os;
 using SharpDune.Pool;
 using System.Linq;

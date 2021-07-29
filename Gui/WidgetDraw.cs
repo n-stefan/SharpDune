@@ -1,6 +1,5 @@
 ﻿/* Widget drawing */
 
-using SharpDune.Os;
 using SharpDune.Pool;
 using static SharpDune.Table.TableActionInfo;
 using static SharpDune.Table.TableStrings;
@@ -170,7 +169,7 @@ namespace SharpDune.Gui
 					default: break;
 				}
 
-				if (stringID != (ushort)Text.STR_NULL) Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(stringID), 288, 43, 29, 0, 0x111);
+				if (stringID != (ushort)Text.STR_NULL) Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(stringID), 288, 43, 29, 0, 0x111);
 
 				switch (actionType)
 				{
@@ -216,7 +215,7 @@ namespace SharpDune.Gui
 				{
 					Gui.GUI_DrawProgressbar(o.hitpoints, oi.hitpoints);
 					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[27], 292, 60, 0, 0);
-					Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_DMG), 296, 65, 29, 0, 0x11);
+					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_DMG), 296, 65, 29, 0, 0x11);
 				}
 
 				if (!isNotPlayerOwned || CSharpDune.g_debugGame)
@@ -239,7 +238,7 @@ namespace SharpDune.Gui
 								for (i = 0; i < 4; i++)
 								{
 									buttons[i].stringID = g_table_actionInfo[actions[i]].stringID;
-									buttons[i].shortcut = CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(buttons[i].stringID)[0]);
+									buttons[i].shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(buttons[i].stringID)[0]);
 
 									if (Config.g_config.language == (byte)Language.FRENCH)
 									{
@@ -340,7 +339,7 @@ namespace SharpDune.Gui
 											steps = (ushort)(g_table_unitInfo[u2.o.type].o.buildTime / 4);
 											percent = (ushort)((steps - (s.countDown >> 8)) * 100 / steps);
 
-											Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_D_DONE), 258, 116, 29, 0, 0x11, percent);
+											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_D_DONE), 258, 116, 29, 0, 0x11, percent);
 										}
 										break;
 
@@ -350,7 +349,7 @@ namespace SharpDune.Gui
 											var powerAverage = (ushort)((h.windtrapCount == 0) ? 0 : h.powerUsage / h.windtrapCount);
 
 											Gui.GUI_DrawLine(261, 95, 312, 95, 16);
-											Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_POWER_INFONEEDEDOUTPUT), 258, 88, 29, 0, 0x11);
+											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_POWER_INFONEEDEDOUTPUT), 258, 88, 29, 0, 0x11);
 											Gui.GUI_DrawText_Wrapper("{0, 3}", 292, (short)(CFont.g_fontCurrent.height * 2 + 80), 29, 0, 0x11, powerAverage);
 											Gui.GUI_DrawText_Wrapper("{0, 3}", 292, (short)(CFont.g_fontCurrent.height * 3 + 80), (byte)((powerOutput >= powerAverage) ? 29 : 6), 0, 0x11, powerOutput);
 										}
@@ -360,11 +359,11 @@ namespace SharpDune.Gui
 										{
 											if (h.starportLinkedID != 0xFFFF)
 											{
-												Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_FRIGATEARRIVAL_INTMINUS_D), 258, 88, 29, 0, 0x11, h.starportTimeLeft);
+												Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_FRIGATEARRIVAL_INTMINUS_D), 258, 88, 29, 0, 0x11, h.starportTimeLeft);
 											}
 											else
 											{
-												Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_FRIGATE_INORBIT_ANDAWAITINGORDER), 258, 88, 29, 0, 0x11);
+												Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_FRIGATE_INORBIT_ANDAWAITINGORDER), 258, 88, 29, 0, 0x11);
 											}
 										}
 										break;
@@ -378,14 +377,14 @@ namespace SharpDune.Gui
 											if (h.credits > h.creditsStorage) creditsStored = si.creditsStorage;
 
 											Gui.GUI_DrawLine(261, 95, 312, 95, 16);
-											Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_SPICEHOLDS_4DMAX_4D), 258, 88, 29, 0, 0x11, creditsStored, (si.creditsStorage <= 1000) ? si.creditsStorage : 1000);
+											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SPICEHOLDS_4DMAX_4D), 258, 88, 29, 0, 0x11, creditsStored, (si.creditsStorage <= 1000) ? si.creditsStorage : 1000);
 										}
 										break;
 
 									case (byte)StructureType.STRUCTURE_OUTPOST:
 										{
 											Gui.GUI_DrawLine(261, 95, 312, 95, 16);
-											Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_RADAR_SCANFRIEND_2DENEMY_2D), 258, 88, 29, 0, 0x11, h.unitCountAllied, h.unitCountEnemy);
+											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_RADAR_SCANFRIEND_2DENEMY_2D), 258, 88, 29, 0, 0x11, h.unitCountAllied, h.unitCountEnemy);
 										}
 										break;
 								}
@@ -394,22 +393,22 @@ namespace SharpDune.Gui
 
 						case 4: /* Attack */
 							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_SELECTTARGET), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTTARGET), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 5: /* Movement */
 							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_SELECTDESTINATION), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTDESTINATION), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 6: /* Harvest */
 							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_SELECTPLACE_TOHARVEST), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTPLACE_TOHARVEST), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 7: /* Placement */
 							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_SELECTLOCATION_TOBUILD), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTLOCATION_TOBUILD), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 8: /* House Missile */
@@ -417,7 +416,7 @@ namespace SharpDune.Gui
 								var count = (short)(CHouse.g_houseMissileCountdown - 1);
 								if (count <= 0) count = 0;
 
-								Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_PICK_TARGETTMINUS_D), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11, count);
+								Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_PICK_TARGETTMINUS_D), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11, count);
 							}
 							break;
 
@@ -751,9 +750,9 @@ namespace SharpDune.Gui
 				colour = 0xEF;
 			}
 
-			Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(stringID), (short)(positionX + width / 2), (short)(positionY + 1), colour, 0, 0x121);
+			Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(stringID), (short)(positionX + width / 2), (short)(positionY + 1), colour, 0, 0x121);
 
-			w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(stringID)[0]);
+			w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(stringID)[0]);
 
 			if (oldScreenID != Screen.NO0) return;
 
@@ -903,7 +902,7 @@ namespace SharpDune.Gui
 				percentDone = (ushort)(100 - s.upgradeTimeLeft);
 
 				Gui.GUI_DrawText_Wrapper(
-					CStrings.String_Get_ByIndex(Gui.g_productionStringID),
+					CString.String_Get_ByIndex(Gui.g_productionStringID),
 					(short)(positionX + 1),
 					(short)(positionY + height - 19),
 					(byte)(buttonDown ? 0xE : 0xF),
@@ -915,7 +914,7 @@ namespace SharpDune.Gui
 			else
 			{
 				Gui.GUI_DrawText_Wrapper(
-					CStrings.String_Get_ByIndex(Gui.g_productionStringID),
+					CString.String_Get_ByIndex(Gui.g_productionStringID),
 					(short)(positionX + width / 2),
 					(short)(positionY + height - 9),
 					(byte)((Gui.g_productionStringID == (ushort)Text.STR_PLACE_IT) ? 0xEF : (buttonDown ? 0xE : 0xF)),
@@ -927,11 +926,11 @@ namespace SharpDune.Gui
 
 			if (Gui.g_productionStringID == (ushort)Text.STR_D_DONE || Gui.g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE)
 			{
-				w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(Text.STR_ON_HOLD)[0]);
+				w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_ON_HOLD)[0]);
 			}
 			else
 			{
-				w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(Gui.g_productionStringID)[0]);
+				w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Gui.g_productionStringID)[0]);
 			}
 
 			if (oldScreenID != Screen.NO0) return;

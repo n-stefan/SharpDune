@@ -1,16 +1,17 @@
 ﻿/* String */
 
+using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using static SharpDune.Table.TableStrings;
 using static System.Math;
 
-namespace SharpDune.Os
+namespace SharpDune
 {
-	/*
+    /*
 	 * Types of Language available in the game.
 	 */
-	enum Language
+    enum Language
 	{
 		ENGLISH = 0,
 		FRENCH = 1,
@@ -22,7 +23,7 @@ namespace SharpDune.Os
 		INVALID = 0xFF
 	}
 
-	class CStrings
+	class CString
 	{
 		static string[] s_strings;
 

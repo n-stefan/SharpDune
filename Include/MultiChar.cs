@@ -1,9 +1,9 @@
 ﻿
 using System.Collections.Generic;
 
-namespace SharpDune
+namespace SharpDune.Include
 {
-	enum FourCC
+    enum FourCC
 	{
 		BLDG,
 		CAT,

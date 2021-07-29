@@ -1,6 +1,7 @@
 ﻿/* Widget clicking handling */
 
 using SharpDune.Audio;
+using SharpDune.Include;
 using SharpDune.Input;
 using SharpDune.Os;
 using SharpDune.Pool;
@@ -265,7 +266,7 @@ namespace SharpDune.Gui
 				{
 					if (!save) continue;
 
-					/*desc*/g_savegameDesc[i] = CStrings.String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
+					/*desc*/g_savegameDesc[i] = CString.String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
 					continue;
 				}
 
@@ -666,7 +667,7 @@ namespace SharpDune.Gui
 
 			if (Gui.GUI_String_Get_ByIndex((short)desc.widgets[0].stringID) == null)
 			{
-				Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_THERE_ARE_NO_SAVED_GAMES_TO_LOAD), (short)((CWidget.g_curWidgetXBase + 2) << 3), (short)(CWidget.g_curWidgetYBase + 42), 232, 0, 0x22);
+				Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_THERE_ARE_NO_SAVED_GAMES_TO_LOAD), (short)((CWidget.g_curWidgetXBase + 2) << 3), (short)(CWidget.g_curWidgetYBase + 42), 232, 0, 0x22);
 			}
 
 			for (i = 0; i < desc.widgetCount; i++)
@@ -1267,7 +1268,7 @@ namespace SharpDune.Gui
 
 			Gui.GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
 
-			Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_ITEM_NAME_QTY_TOTAL), 128, (short)y, 12, 0, 0x11);
+			Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_ITEM_NAME_QTY_TOTAL), 128, (short)y, 12, 0, 0x11);
 
 			y += 7;
 
@@ -1292,7 +1293,7 @@ namespace SharpDune.Gui
 					textBuffer = string.Format(CSharpDune.Culture, "{0:D2} {1, 5}", Gui.g_factoryWindowItems[i].amount, amount); //snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
 
 					oi = Gui.g_factoryWindowItems[i].objectInfo;
-					Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(oi.stringID_full), 128, (short)y, 8, 0, 0x11);
+					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(oi.stringID_full), 128, (short)y, 8, 0, 0x11);
 
 					Gui.GUI_DrawText_Monospace(textBuffer, (ushort)(311 - (short)textBuffer.Length * 6), y, 15, 0, 6);
 
@@ -1301,7 +1302,7 @@ namespace SharpDune.Gui
 			}
 			else
 			{
-				Gui.GUI_DrawText_Wrapper(CStrings.String_Get_ByIndex(Text.STR_NO_UNITS_ON_ORDER), 220, 99, 6, 0, 0x112);
+				Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_NO_UNITS_ON_ORDER), 220, 99, 6, 0, 0x112);
 			}
 
 			Gui.GUI_DrawLine(129, 148, 310, 148, 12);
@@ -1321,7 +1322,7 @@ namespace SharpDune.Gui
 
 			Gfx.GFX_Screen_SetActive(Screen.NO0);
 
-			Gui.GUI_FactoryWindow_DrawCaption(CStrings.String_Get_ByIndex(Text.STR_INVOICE_OF_UNITS_ON_ORDER));
+			Gui.GUI_FactoryWindow_DrawCaption(CString.String_Get_ByIndex(Text.STR_INVOICE_OF_UNITS_ON_ORDER));
 
 			Input.Input.Input_History_Clear();
 

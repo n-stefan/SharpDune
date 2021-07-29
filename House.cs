@@ -2,6 +2,7 @@
 
 using SharpDune.Audio;
 using SharpDune.Gui;
+using SharpDune.Include;
 using SharpDune.Os;
 using SharpDune.Pool;
 using System;
@@ -341,7 +342,7 @@ namespace SharpDune
             /* Check if we are low on power */
             if (h.index == (byte)g_playerHouseID && h.powerUsage > h.powerProduction)
             {
-                Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_INSUFFICIENT_POWER_WINDTRAP_IS_NEEDED), 1);
+                Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_INSUFFICIENT_POWER_WINDTRAP_IS_NEEDED), 1);
             }
 
             /* If there are no buildings left, you lose your right on 'credits without storage' */
@@ -599,7 +600,7 @@ namespace SharpDune
                         {
                             h.credits = maxCredits;
 
-                            Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_INSUFFICIENT_SPICE_STORAGE_AVAILABLE_SPICE_IS_LOST), 1);
+                            Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_INSUFFICIENT_SPICE_STORAGE_AVAILABLE_SPICE_IS_LOST), 1);
                         }
                     }
 
@@ -614,13 +615,13 @@ namespace SharpDune
                         {
                             if (h.creditsStorage != 0 && ((h.credits * 256 / h.creditsStorage) > 200))
                             {
-                                Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_SPICE_STORAGE_CAPACITY_LOW_BUILD_SILOS), 0);
+                                Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_SPICE_STORAGE_CAPACITY_LOW_BUILD_SILOS), 0);
                             }
                         }
 
                         if (h.credits < 100 && g_playerCreditsNoSilo != 0)
                         {
-                            Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_CREDITS_ARE_LOW_HARVEST_SPICE_FOR_MORE_CREDITS), 0);
+                            Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_CREDITS_ARE_LOW_HARVEST_SPICE_FOR_MORE_CREDITS), 0);
                         }
                     }
                 }
@@ -754,7 +755,7 @@ namespace SharpDune
 
             if (houseID != (byte)g_playerHouseID) return;
 
-            Gui.Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_HARVESTER_IS_HEADING_TO_REFINERY), 0);
+            Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_HARVESTER_IS_HEADING_TO_REFINERY), 0);
         }
 
         /*

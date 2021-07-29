@@ -1,5 +1,6 @@
 ﻿/* Object */
 
+using SharpDune.Include;
 using SharpDune.Pool;
 using SharpDune.Script;
 using static SharpDune.Table.TableStructureInfo;

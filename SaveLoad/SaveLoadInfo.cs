@@ -1,6 +1,5 @@
 ﻿/* Load/save routines for Info */
 
-using SharpDune.Os;
 using SharpDune.Pool;
 using System.IO;
 using static SharpDune.SaveLoad.SaveLoad;

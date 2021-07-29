@@ -1,7 +1,6 @@
 ﻿/* Widget */
 
 using SharpDune.Input;
-using SharpDune.Os;
 using System;
 using System.Diagnostics;
 using static SharpDune.Table.TableStrings;
@@ -596,7 +595,7 @@ namespace SharpDune.Gui
 
 					if (stringID == (ushort)Text.STR_NULL) break;
 
-					if (CStrings.String_Get_ByIndex(stringID) != null) w.shortcut = GUI_Widget_GetShortcut((byte)CStrings.String_Get_ByIndex(stringID)[0]);
+					if (CString.String_Get_ByIndex(stringID) != null) w.shortcut = GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(stringID)[0]);
 					if (stringID == (ushort)Text.STR_CANCEL) w.shortcut2 = 'n';
 					break;
 

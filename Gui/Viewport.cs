@@ -2,7 +2,6 @@
 
 using SharpDune.Audio;
 using SharpDune.Input;
-using SharpDune.Os;
 using SharpDune.Pool;
 using System;
 using static SharpDune.Table.TableActionInfo;
@@ -1060,7 +1059,7 @@ namespace SharpDune.Gui
 					{
 						if ((h.structuresBuilt & (1 << (byte)StructureType.STRUCTURE_OUTPOST)) != 0)
 						{
-							Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_NOT_ENOUGH_POWER_FOR_RADAR_BUILD_WINDTRAPS), 3);
+							Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_NOT_ENOUGH_POWER_FOR_RADAR_BUILD_WINDTRAPS), 3);
 						}
 					}
 					return true;
@@ -1070,12 +1069,12 @@ namespace SharpDune.Gui
 
 				if (CStructure.g_structureActiveType == (ushort)StructureType.STRUCTURE_SLAB_1x1 || CStructure.g_structureActiveType == (ushort)StructureType.STRUCTURE_SLAB_2x2)
 				{
-					Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_FOUNDATION_HERE), 2);
+					Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_FOUNDATION_HERE), 2);
 				}
 				else
 				{
 					Gui.GUI_DisplayHint((ushort)Text.STR_STRUCTURES_MUST_BE_PLACED_ON_CLEAR_ROCK_OR_CONCRETE_AND_ADJACENT_TO_ANOTHER_FRIENDLY_STRUCTURE, 0xFFFF);
-					Gui.GUI_DisplayText(CStrings.String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_S_HERE), 2, CStrings.String_Get_ByIndex(si.o.stringID_abbrev));
+					Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_S_HERE), 2, CString.String_Get_ByIndex(si.o.stringID_abbrev));
 				}
 				return true;
 			}
