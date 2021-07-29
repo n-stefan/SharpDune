@@ -224,7 +224,6 @@ namespace SharpDune
 
 			if (s_tileMode == 4) return;
 
-			//TODO: Check
 			icon_palette = Sprites.g_iconRPAL[(Sprites.g_iconRTBL[tileID] << 4)..]; //Sprites.g_iconRPAL + (Sprites.g_iconRTBL[tileID] << 4);
 
 			if (houseID != 0)

@@ -233,7 +233,7 @@ namespace SharpDune
 
 			if (type == (ushort)LandscapeType.LST_CONCRETE_SLAB)
 			{
-				t.groundTileID = Map.g_mapTileID[packed];
+				t.groundTileID = (ushort)(Map.g_mapTileID[packed] & 0x1FF);
 				Map.Map_Update(packed, 0, false);
 			}
 
