@@ -90,7 +90,7 @@ namespace SharpDune
 				if (version != 0x0290)
 				{
 					/* Get the scenarioID / campaignID */
-					if (!SaveLoadInfo.Info_LoadOld(br, length)) return false;
+					if (!SaveLoadInfo.Info_LoadOld(br)) return false;
 
 					CSharpDune.g_gameMode = GameMode.GM_RESTART;
 

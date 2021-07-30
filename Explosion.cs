@@ -111,17 +111,17 @@ namespace SharpDune
 					switch ((ExplosionCommand)command)
 					{
 						default:
-						case ExplosionCommand.EXPLOSION_STOP: Explosion_Func_Stop(e, parameter); break;
+						case ExplosionCommand.EXPLOSION_STOP: Explosion_Func_Stop(e); break;
 
 						case ExplosionCommand.EXPLOSION_SET_SPRITE: Explosion_Func_SetSpriteID(e, parameter); break;
 						case ExplosionCommand.EXPLOSION_SET_TIMEOUT: Explosion_Func_SetTimeout(e, parameter); break;
 						case ExplosionCommand.EXPLOSION_SET_RANDOM_TIMEOUT: Explosion_Func_SetRandomTimeout(e, parameter); break;
 						case ExplosionCommand.EXPLOSION_MOVE_Y_POSITION: Explosion_Func_MoveYPosition(e, parameter); break;
-						case ExplosionCommand.EXPLOSION_TILE_DAMAGE: Explosion_Func_TileDamage(e, parameter); break;
+						case ExplosionCommand.EXPLOSION_TILE_DAMAGE: Explosion_Func_TileDamage(e); break;
 						case ExplosionCommand.EXPLOSION_PLAY_VOICE: Explosion_Func_PlayVoice(e, parameter); break;
 						case ExplosionCommand.EXPLOSION_SCREEN_SHAKE: Explosion_Func_ScreenShake(e, parameter); break;
 						case ExplosionCommand.EXPLOSION_SET_ANIMATION: Explosion_Func_SetAnimation(e, parameter); break;
-						case ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION: Explosion_Func_BloomExplosion(e, parameter); break;
+						case ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION: Explosion_Func_BloomExplosion(e); break;
 					}
 				}
 
@@ -152,7 +152,7 @@ namespace SharpDune
 		 * @param e The Explosion to end.
 		 * @param parameter Unused parameter.
 		 */
-		static void Explosion_Func_Stop(Explosion e, ushort parameter)
+		static void Explosion_Func_Stop(Explosion e)
 		{
 			Map.g_map[CTile.Tile_PackTile(e.position)].hasExplosion = false;
 
@@ -203,7 +203,7 @@ namespace SharpDune
 		 * @param e The Explosion to handle damage on.
 		 * @param parameter Unused parameter.
 		 */
-		static void Explosion_Func_TileDamage(Explosion e, ushort parameter)
+		static void Explosion_Func_TileDamage(Explosion e)
 		{
 			ushort packed;
 			ushort type;
@@ -317,7 +317,7 @@ namespace SharpDune
 		 * @param e The Explosion to perform the explosion on.
 		 * @param parameter Unused parameter.
 		 */
-		static void Explosion_Func_BloomExplosion(Explosion e, ushort parameter)
+		static void Explosion_Func_BloomExplosion(Explosion e)
 		{
 			ushort packed;
 
@@ -388,7 +388,7 @@ namespace SharpDune
 
 				if (e.commands == null || CTile.Tile_PackTile(e.position) != packed) continue;
 
-				Explosion_Func_Stop(e, 0);
+				Explosion_Func_Stop(e);
 			}
 		}
 

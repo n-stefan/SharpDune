@@ -186,7 +186,7 @@ namespace SharpDune.SaveLoad
          * @param length The length of the data chunk.
          * @return True if and only if all bytes were read successful.
          */
-        internal static bool Info_LoadOld(BinaryReader fp, uint length)
+        internal static bool Info_LoadOld(BinaryReader fp)
         {
             if (!SaveLoad_Load(s_saveInfoOld, fp, null)) return false;
 
