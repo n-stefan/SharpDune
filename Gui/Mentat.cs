@@ -1165,7 +1165,7 @@ namespace SharpDune.Gui
 			for (i = 0; i < 11; i++)
 			{
 				text = CSharpDune.Encoding.GetString(helpSubjects[(helpSubjectsPointer + 7)..]);
-				text = text[..text.IndexOf('\0')];
+				text = text[..text.IndexOf('\0', CSharpDune.StringComparison)];
 				line.drawParameterDown.text = text;
 				line.drawParameterSelected.text = text;
 				line.drawParameterNormal.text = text;
@@ -1458,14 +1458,14 @@ namespace SharpDune.Gui
 			}
 			else
 			{
-				picture = text[..text.IndexOf('*')];
-				desc = text[textPointer..text.IndexOf('\f')];
+				picture = text[..text.IndexOf('*', CSharpDune.StringComparison)];
+				desc = text[textPointer..text.IndexOf('\f', CSharpDune.StringComparison)];
 
 				while (text[textPointer] != '\0' && text[textPointer] != 0xC) textPointer++;
 				if (text[textPointer] != '\0') textPointer++; //*text++ = '\0';
 			}
 
-			GUI_Mentat_Loop(picture, desc, text[textPointer..text.IndexOf('\0')], loopAnimation, CWidget.g_widgetMentatFirst);
+			GUI_Mentat_Loop(picture, desc, text[textPointer..text.IndexOf('\0', CSharpDune.StringComparison)], loopAnimation, CWidget.g_widgetMentatFirst);
 
 			CWidget.GUI_Widget_MakeNormal(CWidget.g_widgetMentatFirst, false);
 

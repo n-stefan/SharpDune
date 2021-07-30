@@ -3666,7 +3666,7 @@ namespace SharpDune.Gui
 				WidgetProperties backupProperties;
 				string name;
 
-				name = new string(data[editLine - 1].name).Replace("\0", string.Empty);
+				name = new string(data[editLine - 1].name).Replace("\0", string.Empty, CSharpDune.StringComparison);
 
 				backupProperties = CWidget.g_widgetProperties[19].Clone(); //memcpy(&backupProperties, &g_widgetProperties[19], sizeof(WidgetProperties));
 
@@ -4038,7 +4038,7 @@ namespace SharpDune.Gui
 				{
 					//char* hours = strchr(buffer, '0');
 					//while (*hours != ' ') memmove(hours, hours + 1, strlen(hours));
-					buffer = buffer.Replace("0h", string.Empty);
+					buffer = buffer.Replace("0h", string.Empty, CSharpDune.StringComparison);
 				}
 
 				/* "Score: %d" */
@@ -4124,7 +4124,7 @@ namespace SharpDune.Gui
 					p1 = g_table_houseInfo[data[i].houseID].name;
 					p2 = CString.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 				}
-				name = new string(data[i].name).Replace("\0", string.Empty);
+				name = new string(data[i].name).Replace("\0", string.Empty, CSharpDune.StringComparison);
 				buffer = $"{name}, {p1} {p2}"; //snprintf(buffer, sizeof(buffer), "%s, %s %s", data[i].name, p1, p2);
 
 				if (name == string.Empty)

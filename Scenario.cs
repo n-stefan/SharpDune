@@ -165,7 +165,7 @@ namespace SharpDune
 			Unit u;
 			string[] split;
 
-			key = key.Replace(";", "");
+			key = key.Replace(";", "", CSharpDune.StringComparison);
 			index = byte.Parse(key, CSharpDune.Culture);
 			index--;
 

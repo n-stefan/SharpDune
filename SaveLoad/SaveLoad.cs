@@ -264,7 +264,7 @@ namespace SharpDune.SaveLoad
 				member = sld[c].member;
 				if (type != null && member != null)
 				{
-					index = member.IndexOf('.');
+					index = member.IndexOf('.', CSharpDune.StringComparison);
 
 					field = (index != -1) ?
 						type.GetField(member[..index], flags).FieldType.GetField(member[(index + 1)..], flags) :
@@ -476,7 +476,7 @@ namespace SharpDune.SaveLoad
 				member = sld[c].member;
 				if (type != null && member != null)
 				{
-					index = member.IndexOf('.');
+					index = member.IndexOf('.', CSharpDune.StringComparison);
 					
 					field = (index != -1) ?
 						type.GetField(member[..index], flags).FieldType.GetField(member[(index + 1)..], flags) :

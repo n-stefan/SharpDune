@@ -115,7 +115,7 @@ namespace SharpDune.Audio
 						Debug.WriteLine($"DEBUG: MidiOutdevice #{i}: {caps.Mid}:{caps.Pid} v{caps.DriverVersion >> 8}.{caps.DriverVersion & 0xff}" +
 										  $" voices={caps.Voices} notes={caps.Notes} channels={caps.ChannelMask} {caps.Name}");
 						/* select this device if its description contains "MT-32" */
-						if (caps.Name.Contains("MT-32")) devID = i;
+						if (caps.Name.Contains("MT-32", CSharpDune.StringComparison)) devID = i;
 					}
 				}
 			}

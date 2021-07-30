@@ -66,6 +66,8 @@ class CSharpDune
 
     internal static CultureInfo Culture = CultureInfo.InvariantCulture;
 
+    internal static StringComparison StringComparison = StringComparison.InvariantCulture;
+
     internal static MultiChar MultiChar = new();
 
     /*

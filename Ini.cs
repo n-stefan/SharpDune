@@ -14,9 +14,9 @@ namespace SharpDune
 			if (start == -1) return result;
 			start += category.Length + 2;
 			var section = source[start..];
-			var end = section.IndexOf('[');
+			var end = section.IndexOf('[', CSharpDune.StringComparison);
 			if (end != -1) section = section[..end];
-			section = section.Replace("\t", string.Empty).Replace("  =", "=").Replace(" =", "=");
+			section = section.Replace("\t", string.Empty, CSharpDune.StringComparison).Replace("  =", "=", CSharpDune.StringComparison).Replace(" =", "=", CSharpDune.StringComparison);
 
 			if (key != null)
             {
