@@ -1,10 +1,5 @@
 ﻿/* Animation */
 
-using SharpDune.Audio;
-using SharpDune.Include;
-using System.Diagnostics;
-using static SharpDune.Table.TableStructureInfo;
-
 namespace SharpDune
 {
     /*

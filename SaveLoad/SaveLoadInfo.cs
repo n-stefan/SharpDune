@@ -1,9 +1,5 @@
 ﻿/* Load/save routines for Info */
 
-using SharpDune.Pool;
-using System.IO;
-using static SharpDune.SaveLoad.SaveLoad;
-
 namespace SharpDune.SaveLoad
 {
     class SaveLoadInfo

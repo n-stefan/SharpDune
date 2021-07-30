@@ -1,10 +1,5 @@
 ﻿/* Configuration and options load and save */
 
-using SharpDune.Audio;
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-
 namespace SharpDune
 {
     /*

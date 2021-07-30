@@ -1,16 +1,5 @@
 ﻿/* House management */
 
-using SharpDune.Audio;
-using SharpDune.Gui;
-using SharpDune.Include;
-using SharpDune.Os;
-using SharpDune.Pool;
-using System;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static System.Math;
-
 namespace SharpDune
 {
     /*

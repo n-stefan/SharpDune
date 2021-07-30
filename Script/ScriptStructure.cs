@@ -1,15 +1,5 @@
 ﻿/* Structure script routines */
 
-using SharpDune.Audio;
-using SharpDune.Include;
-using SharpDune.Pool;
-using static SharpDune.CStructure;
-using static SharpDune.Script.Script;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableUnitInfo;
-
 namespace SharpDune.Script
 {
     class ScriptStructure

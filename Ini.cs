@@ -1,9 +1,5 @@
 ﻿/* INI file reading */
 
-using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-
 namespace SharpDune
 {
     class Ini

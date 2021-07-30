@@ -1,9 +1,5 @@
 ﻿/* SDL implementation of the DSP */
 
-using SDL2;
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Vanara.Extensions;
 
 namespace SharpDune.Audio

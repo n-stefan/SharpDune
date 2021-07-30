@@ -1,7 +1,5 @@
 ﻿/* House animation tables */
 
-using static SharpDune.Table.TableStrings;
-
 namespace SharpDune.Table
 {
     class TableHouseAnimation

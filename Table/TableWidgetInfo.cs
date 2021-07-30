@@ -1,8 +1,5 @@
 ﻿/* WidgetInfo file table */
 
-using SharpDune.Gui;
-using static SharpDune.Table.TableStrings;
-
 namespace SharpDune.Table
 {
     class TableWidgetInfo

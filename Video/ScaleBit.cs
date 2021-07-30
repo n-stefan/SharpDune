@@ -24,8 +24,6 @@
  * http://www.scale2x.it/
  */
 
-using System;
-
 namespace SharpDune.Video
 {
 	delegate void stage_scale2x_t(object dst0, object dst1, object src0, object src1, object src2, ushort pixel_per_row);

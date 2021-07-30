@@ -1,12 +1,5 @@
 ﻿/* Scenario handling */
 
-using SharpDune.Include;
-using SharpDune.Pool;
-using System;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableUnitInfo;
-
 namespace SharpDune
 {
     /*

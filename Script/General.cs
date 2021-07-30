@@ -1,12 +1,5 @@
 ﻿/* Generic script routines */
 
-using SharpDune.Audio;
-using SharpDune.Include;
-using SharpDune.Os;
-using SharpDune.Pool;
-using System.Linq;
-using static SharpDune.Script.Script;
-
 namespace SharpDune.Script
 {
     class General

@@ -1,11 +1,5 @@
 ﻿/* Widget */
 
-using SharpDune.Input;
-using System;
-using System.Diagnostics;
-using static SharpDune.Table.TableStrings;
-using static System.Math;
-
 namespace SharpDune.Gui
 {
     delegate bool ClickProc(Widget widget);

@@ -1,15 +1,5 @@
 ﻿/* Introduction movie and cutscenes */
 
-using SharpDune.Audio;
-using SharpDune.Gui;
-using SharpDune.Os;
-using System;
-using System.Diagnostics;
-using static SharpDune.Table.TableHouseAnimation;
-using static SharpDune.Table.TableSound;
-using static SharpDune.Table.TableStrings;
-using static System.Math;
-
 namespace SharpDune
 {
     /* Direction of change in the #GameLoop_PalettePart_Update function. */

@@ -3,25 +3,6 @@
 //#define Gui_0
 #define Gui_1
 
-using SharpDune.Audio;
-using SharpDune.Codec;
-using SharpDune.Input;
-using SharpDune.Os;
-using SharpDune.Pool;
-using SharpDune.Video;
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableSelectionType;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableUnitInfo;
-using static SharpDune.Table.TableWidgetInfo;
-using static System.Math;
-
 namespace SharpDune.Gui
 {
     /*

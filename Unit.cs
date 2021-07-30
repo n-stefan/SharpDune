@@ -1,22 +1,5 @@
 ﻿/* Unit */
 
-using SharpDune.Audio;
-using SharpDune.Gui;
-using SharpDune.Include;
-using SharpDune.Pool;
-using System;
-using System.Diagnostics;
-using static SharpDune.Script.Script;
-using static SharpDune.Table.TableActionInfo;
-using static SharpDune.Table.TableAnimation;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableLandscapeInfo;
-using static SharpDune.Table.TableMovementType;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableUnitInfo;
-using static System.Math;
-
 namespace SharpDune
 {
     /*

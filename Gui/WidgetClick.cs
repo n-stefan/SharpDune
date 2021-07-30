@@ -1,20 +1,5 @@
 ﻿/* Widget clicking handling */
 
-using SharpDune.Audio;
-using SharpDune.Include;
-using SharpDune.Input;
-using SharpDune.Os;
-using SharpDune.Pool;
-using System;
-using System.Diagnostics;
-using static SharpDune.Table.TableActionInfo;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableUnitInfo;
-using static SharpDune.Table.TableWidget;
-using static SharpDune.Table.TableWindowDesc;
-using static System.Math;
-
 namespace SharpDune.Gui
 {
     class WidgetClick

@@ -1,12 +1,5 @@
 ﻿/* SDL 2 video driver */
 
-using SDL2;
-using SharpDune.Input;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
-
 namespace SharpDune.Video
 {
     enum VideoScaleFilter

@@ -1,14 +1,5 @@
 ﻿/* Save */
 
-using SharpDune.Os;
-using SharpDune.Pool;
-using SharpDune.SaveLoad;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using static System.Math;
-
 namespace SharpDune
 {
     delegate bool SaveProc(BinaryWriter bw);

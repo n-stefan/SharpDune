@@ -1,9 +1,4 @@
-﻿using SharpDune.Include;
-using SharpDune.Pool;
-using System.IO;
-using static SharpDune.SaveLoad.SaveLoad;
-
-namespace SharpDune.SaveLoad
+﻿namespace SharpDune.SaveLoad
 {
     class SaveLoadHouse
     {

@@ -1,9 +1,5 @@
 ﻿/* Timer */
 
-using SharpDune.Os;
-using System;
-using System.Diagnostics;
-using System.Threading;
 //using Vanara.PInvoke;
 
 namespace SharpDune

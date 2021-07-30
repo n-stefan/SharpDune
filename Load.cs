@@ -1,14 +1,5 @@
 ﻿/* Load */
 
-using SharpDune.Audio;
-using SharpDune.Include;
-using SharpDune.Os;
-using SharpDune.SaveLoad;
-using System;
-using System.Diagnostics;
-using System.IO;
-using static SharpDune.Table.TableStrings;
-
 namespace SharpDune
 {
     class Load

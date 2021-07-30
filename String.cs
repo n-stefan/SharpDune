@@ -1,11 +1,5 @@
 ﻿/* String */
 
-using SharpDune.Os;
-using System;
-using System.Diagnostics;
-using static SharpDune.Table.TableStrings;
-using static System.Math;
-
 namespace SharpDune
 {
     /*

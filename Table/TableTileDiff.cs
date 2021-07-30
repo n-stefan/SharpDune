@@ -1,7 +1,5 @@
 ﻿/* TileDiff file table */
 
-using SharpDune.Include;
-
 namespace SharpDune.Table
 {
     class TableTileDiff

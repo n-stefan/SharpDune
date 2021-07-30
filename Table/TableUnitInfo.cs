@@ -1,7 +1,5 @@
 ﻿/* UnitInfo file table */
 
-using static SharpDune.Table.TableStrings;
-
 namespace SharpDune.Table
 {
     class TableUnitInfo

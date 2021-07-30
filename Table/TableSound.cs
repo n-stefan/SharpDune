@@ -1,7 +1,5 @@
 ﻿/* Sound file tables */
 
-using SharpDune.Audio;
-
 namespace SharpDune.Table
 {
     class TableSound

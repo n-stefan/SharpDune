@@ -1,9 +1,5 @@
 ﻿/* Driver */
 
-using System;
-using System.Diagnostics;
-using System.IO;
-
 namespace SharpDune.Audio
 {
     class Driver

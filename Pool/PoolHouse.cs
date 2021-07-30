@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace SharpDune.Pool
+﻿namespace SharpDune.Pool
 {
     class PoolHouse
     {

@@ -1,6 +1,4 @@
-﻿using static SharpDune.SaveLoad.SaveLoad;
-
-namespace SharpDune.SaveLoad
+﻿namespace SharpDune.SaveLoad
 {
     class SaveLoadScenario
     {

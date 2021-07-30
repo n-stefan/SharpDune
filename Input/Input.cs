@@ -1,16 +1,12 @@
 ﻿/* Input */
 
-using SharpDune.Os;
-using System;
-using System.Diagnostics;
-
 namespace SharpDune.Input
 {
-	/*
+    /*
 	 * There are three different mouse modes.
 	 * It looks like only the first (normal) mode is ever used.
 	 */
-	enum InputMouseMode
+    enum InputMouseMode
 	{
 		INPUT_MOUSE_MODE_NORMAL = 0,                          /*!< Normal mouse mode. */
 		INPUT_MOUSE_MODE_RECORD = 1,                          /*!< Record mouse events to a file. */

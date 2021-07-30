@@ -1,11 +1,5 @@
 ﻿/* Sound */
 
-using SharpDune.Include;
-using SharpDune.Os;
-using System;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableSound;
-
 namespace SharpDune.Audio
 {
     /* Information about sound files. */

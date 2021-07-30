@@ -1,14 +1,5 @@
 ﻿/* Mentat gui */
 
-using SharpDune.Audio;
-using SharpDune.Include;
-using SharpDune.Input;
-using SharpDune.Os;
-using System.Diagnostics;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableStrings;
-using static System.Math;
-
 namespace SharpDune.Gui
 {
     class MentatInfo

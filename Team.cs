@@ -1,12 +1,5 @@
 ﻿/* Team */
 
-using SharpDune.Include;
-using SharpDune.Pool;
-using SharpDune.Script;
-using System;
-using static SharpDune.Script.Script;
-using static SharpDune.Table.TableTeamAction;
-
 namespace SharpDune
 {
     /*

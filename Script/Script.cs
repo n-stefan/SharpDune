@@ -1,16 +1,5 @@
 ﻿/* Script routines */
 
-using SharpDune.Include;
-using SharpDune.Os;
-using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using static SharpDune.Script.General;
-using static SharpDune.Script.ScriptStructure;
-using static SharpDune.Script.ScriptTeam;
-using static SharpDune.Script.ScriptUnit;
-
 namespace SharpDune.Script
 {
     delegate ushort ScriptFunction(ScriptEngine script);

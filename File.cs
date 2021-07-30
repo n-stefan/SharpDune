@@ -2,15 +2,6 @@
 
 //TODO: Add using statements
 
-using SharpDune.Gui;
-using SharpDune.Include;
-using SharpDune.Os;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using static System.Math;
-
 namespace SharpDune
 {
     delegate bool ProcessFileCallback(string name, string path, uint size);

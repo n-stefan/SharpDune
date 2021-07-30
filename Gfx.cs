@@ -1,9 +1,5 @@
 ﻿/* Graphics */
 
-using SharpDune.Video;
-using System;
-using System.Diagnostics;
-
 namespace SharpDune
 {
     enum Screen

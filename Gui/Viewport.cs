@@ -1,18 +1,5 @@
 ﻿/* Viewport */
 
-using SharpDune.Audio;
-using SharpDune.Input;
-using SharpDune.Pool;
-using System;
-using static SharpDune.Table.TableActionInfo;
-using static SharpDune.Table.TableHouseInfo;
-using static SharpDune.Table.TableLandscapeInfo;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableTileDiff;
-using static SharpDune.Table.TableUnitInfo;
-using static System.Math;
-
 namespace SharpDune.Gui
 {
     class Viewport

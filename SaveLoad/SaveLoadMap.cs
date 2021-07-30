@@ -1,7 +1,4 @@
-﻿using SharpDune.Os;
-using System.IO;
-
-namespace SharpDune.SaveLoad
+﻿namespace SharpDune.SaveLoad
 {
     class SaveLoadMap
     {

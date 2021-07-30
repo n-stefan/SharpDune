@@ -1,12 +1,5 @@
 ﻿/* Team script routines */
 
-using SharpDune.Include;
-using SharpDune.Os;
-using SharpDune.Pool;
-using System.Linq;
-using static SharpDune.Script.Script;
-using static SharpDune.Table.TableUnitInfo;
-
 namespace SharpDune.Script
 {
     class ScriptTeam

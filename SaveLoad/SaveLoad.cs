@@ -1,14 +1,5 @@
 ﻿/* Save Load */
 
-using SharpDune.Os;
-using System;
-using System.Collections;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-
 namespace SharpDune.SaveLoad
 {
     delegate uint SaveLoadDescCallback(object obj, uint value, bool loading); //Func<object, uint, bool, uint>

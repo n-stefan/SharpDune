@@ -9,25 +9,7 @@
 
 //INT - BOOL: zero is false and all other values are true
 
-using SharpDune;
-using SharpDune.Audio;
-using SharpDune.CrashLog;
-using SharpDune.Gui;
-using SharpDune.Include;
-using SharpDune.Input;
-using SharpDune.Os;
-using SharpDune.Pool;
-using SharpDune.Script;
-using SharpDune.Video;
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Text;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableUnitInfo;
-using static SharpDune.Table.TableWidgetInfo;
-using static System.Math;
+using Timer = SharpDune.Timer;
 
 enum GameMode
 {

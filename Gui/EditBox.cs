@@ -1,13 +1,8 @@
 ﻿/* Editbox */
 
-using SharpDune.Input;
-using SharpDune.Os;
-using System;
-using System.Text;
-
 namespace SharpDune.Gui
 {
-	class EditBox
+    class EditBox
 	{
 		static uint tickEditBox;           /* Ticker for cursor blinking. */
         static bool editBoxShowCursor; /* Cursor is active. */

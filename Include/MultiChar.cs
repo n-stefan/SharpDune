@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Generic;
-
-namespace SharpDune.Include
+﻿namespace SharpDune.Include
 {
     enum FourCC
 	{

@@ -1,7 +1,5 @@
 ﻿/* Selectiontype table */
 
-using SharpDune.Gui;
-
 namespace SharpDune.Table
 {
     class TableSelectionType

@@ -23,8 +23,6 @@
  * http://www.scale2x.it/
  */
 
-using System.Diagnostics;
-
 namespace SharpDune.Video
 {
 	class Scale2x

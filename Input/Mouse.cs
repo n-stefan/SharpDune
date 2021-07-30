@@ -1,11 +1,5 @@
 ﻿/* Mouse */
 
-using SharpDune.Os;
-using SharpDune.Video;
-using System;
-using System.Diagnostics;
-using static System.Math;
-
 namespace SharpDune.Input
 {
     class Mouse

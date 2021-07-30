@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using static SharpDune.Script.Script;
-
-namespace SharpDune.Pool
+﻿namespace SharpDune.Pool
 {
     class PoolStructure
     {

@@ -1,18 +1,5 @@
 ﻿/* Map */
 
-using SharpDune.Audio;
-using SharpDune.Gui;
-using SharpDune.Include;
-using SharpDune.Pool;
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using static SharpDune.Table.TableLandscapeInfo;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableTileDiff;
-using static SharpDune.Table.TableUnitInfo;
-using static System.Math;
-
 namespace SharpDune
 {
     /* Types of available landscapes. */

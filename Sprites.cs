@@ -3,15 +3,6 @@
 //#define Sprites_0
 //#define Sprites_1
 
-using SharpDune.Codec;
-using SharpDune.Include;
-using SharpDune.Input;
-using SharpDune.Os;
-using System;
-using System.Diagnostics;
-using static SharpDune.Script.Script;
-using static SharpDune.Table.TableHouseInfo;
-
 namespace SharpDune
 {
     /*

@@ -1,9 +1,5 @@
 ﻿/* sharpdune.ini file handling */
 
-using System;
-using System.Diagnostics;
-using System.IO;
-
 namespace SharpDune
 {
     class IniFile

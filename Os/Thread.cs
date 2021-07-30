@@ -1,6 +1,5 @@
 ﻿/* Platform dependant thread implementation for win32 */
 
-using System;
 using Vanara.PInvoke;
 
 namespace SharpDune.Os

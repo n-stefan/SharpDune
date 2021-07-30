@@ -1,8 +1,5 @@
 ﻿/* StructureInfo file table */
 
-using SharpDune.Include;
-using static SharpDune.Table.TableStrings;
-
 namespace SharpDune.Table
 {
     class TableStructureInfo

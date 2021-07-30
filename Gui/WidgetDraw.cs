@@ -1,11 +1,5 @@
 ﻿/* Widget drawing */
 
-using SharpDune.Pool;
-using static SharpDune.Table.TableActionInfo;
-using static SharpDune.Table.TableStrings;
-using static SharpDune.Table.TableStructureInfo;
-using static SharpDune.Table.TableUnitInfo;
-
 namespace SharpDune.Gui
 {
     class WidgetDraw

@@ -1,9 +1,5 @@
 ﻿/* Compiler-independent common statements */
 
-using System;
-using System.Linq;
-using System.Reflection;
-
 namespace SharpDune.Os
 {
     class Common

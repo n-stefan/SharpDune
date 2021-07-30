@@ -1,10 +1,8 @@
 ﻿/* Decoder for 'format80' files */
 
-using System;
-
 namespace SharpDune.Codec
 {
-	class Format80
+    class Format80
 	{
 		/*
 		 * Decode a memory fragment which is encoded with 'format80'.

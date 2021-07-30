@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using static SharpDune.Script.Script;
-using static SharpDune.Table.TableUnitInfo;
-
-namespace SharpDune.Pool
+﻿namespace SharpDune.Pool
 {
     class PoolUnit
     {
