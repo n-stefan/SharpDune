@@ -58,8 +58,8 @@
 				/* See if it is a human house */
 				if (hl.flags.human)
 				{
-					CHouse.g_playerHouseID = (HouseType)hl.index;
-					CHouse.g_playerHouse = hl;
+                    g_playerHouseID = (HouseType)hl.index;
+                    g_playerHouse = hl;
 
 					if (hl.starportLinkedID != 0xFFFF && hl.starportTimeLeft == 0) hl.starportTimeLeft = 1;
 				}
@@ -87,7 +87,7 @@
 				/* See if it is a human house */
 				if (hl.flags.human)
 				{
-					CHouse.g_playerHouseID = (HouseType)hl.index;
+                    g_playerHouseID = (HouseType)hl.index;
 					break;
 				}
 

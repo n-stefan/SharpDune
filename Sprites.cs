@@ -339,7 +339,7 @@ namespace SharpDune
 				Debug.WriteLine($"DEBUG: Sprites: {filename} {i} {Endian.READ_LE_UINT16(src)} {Endian.READ_LE_UINT16(src[3..]) /* flags */} {src[2] /* width */} {src[5] /* height */} {Endian.READ_LE_UINT16(src[6..]) /* packed size */} {Endian.READ_LE_UINT16(src[8..]) /* decoded size */}");
 				if (src != null)
 				{
-					if (CSharpDune.g_unpackSHPonLoad && (src[0] & 0x2) == 0)
+					if (g_unpackSHPonLoad && (src[0] & 0x2) == 0)
 					{
 						size = (ushort)(Endian.READ_LE_UINT16(src[8..]) + 10);
 						if ((Endian.READ_LE_UINT16(src) & 0x1) != 0)
@@ -477,7 +477,7 @@ namespace SharpDune
 
 			textBuffer = Ini.Ini_GetString("INFO", "TOTAL REGIONS", null, g_fileRegionINI);
 
-			g_regions[0] = ushort.Parse(textBuffer, CSharpDune.Culture); //sscanf(textBuffer, "%hu", &regions[0]);
+			g_regions[0] = ushort.Parse(textBuffer, Culture); //sscanf(textBuffer, "%hu", &regions[0]);
 
 			for (i = 0; i < g_regions[0]; i++) g_regions[i + 1] = 0xFFFF;
 		}
@@ -496,7 +496,7 @@ namespace SharpDune
 			for (i = 0; i < 120; i++) Array.Copy(buf, 7688 + (i * 320), buf, i * 304, 304); //memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
 			bufPointer += 120 * 304;
 
-			filename = $"REGION{g_table_houseInfo[(int)CHouse.g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
+			filename = $"REGION{g_table_houseInfo[(int)g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
 			var length = (int)CFile.File_ReadFile(filename, buf, bufPointer);
 			g_fileRegionINI = CSharpDune.Encoding.GetString(buf[bufPointer..(bufPointer + length)]);
 			bufPointer += length;

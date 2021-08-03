@@ -59,19 +59,19 @@ namespace SharpDune.Gui
          * Show the briefing screen.
          */
 		internal static void GUI_Mentat_ShowBriefing() =>
-			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 4), CScenario.g_scenario.pictureBriefing, g_table_houseInfo[(int)CHouse.g_playerHouseID].musicBriefing);
+			GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)(g_campaignID * 4 + 4), CScenario.g_scenario.pictureBriefing, g_table_houseInfo[(int)g_playerHouseID].musicBriefing);
 
 		/*
          * Show the win screen.
          */
 		internal static void GUI_Mentat_ShowWin() =>
-			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 5), CScenario.g_scenario.pictureWin, g_table_houseInfo[(int)CHouse.g_playerHouseID].musicWin);
+			GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)(g_campaignID * 4 + 5), CScenario.g_scenario.pictureWin, g_table_houseInfo[(int)g_playerHouseID].musicWin);
 
 		/*
          * Show the lose screen.
          */
 		internal static void GUI_Mentat_ShowLose() =>
-			GUI_Mentat_ShowDialog((byte)CHouse.g_playerHouseID, (ushort)(CSharpDune.g_campaignID * 4 + 6), CScenario.g_scenario.pictureLose, g_table_houseInfo[(int)CHouse.g_playerHouseID].musicLose);
+			GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)(g_campaignID * 4 + 6), CScenario.g_scenario.pictureLose, g_table_houseInfo[(int)g_playerHouseID].musicLose);
 
 		/*
 		 * Show the Mentat screen with a dialog (Proceed / Repeat).
@@ -84,7 +84,7 @@ namespace SharpDune.Gui
 		{
 			Widget w1, w2;
 
-			if (CSharpDune.g_debugSkipDialogs)
+			if (g_debugSkipDialogs)
 			{
 				Debug.WriteLine("DEBUG: Skipping Mentat dialog...");
 				return;
@@ -107,7 +107,7 @@ namespace SharpDune.Gui
 			do
 			{
 				text = CString.String_Get_ByIndex(stringID);
-				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(text); //strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
+                g_readBuffer = CSharpDune.Encoding.GetBytes(text); //strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
 				Sleep.sleepIdle();
 			} while (GUI_Mentat_Show(text, wsaFilename, w1) == 0x8002);
 
@@ -130,7 +130,7 @@ namespace SharpDune.Gui
 
 			Sprites.Sprites_UnloadTiles();
 
-			GUI_Mentat_Display(wsaFilename, (byte)CHouse.g_playerHouseID);
+			GUI_Mentat_Display(wsaFilename, (byte)g_playerHouseID);
 
 			Gfx.GFX_Screen_SetActive(Screen.NO1);
 
@@ -146,7 +146,7 @@ namespace SharpDune.Gui
 				Wsa.WSA_Unload(wsa);
 			}
 
-			Gui.GUI_DrawSprite(Screen.NO1, Sprites.g_sprites[397 + (int)CHouse.g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+			Gui.GUI_DrawSprite(Screen.NO1, Sprites.g_sprites[397 + (int)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 			Gfx.GFX_Screen_SetActive(Screen.NO0);
 
 			Gui.GUI_Mouse_Hide_Safe();
@@ -305,7 +305,7 @@ namespace SharpDune.Gui
 					Gui.GUI_Mouse_Show_InRegion();
 				}
 
-				switch (CHouse.g_playerHouseID)
+				switch (g_playerHouseID)
 				{
 					case HouseType.HOUSE_HARKONNEN:
 						movingOtherTimer = Timer.g_timerGUI + 300 * 60;
@@ -811,7 +811,7 @@ namespace SharpDune.Gui
 
 				GUI_Mentat_DrawInfo(pictureDetails, (ushort)((CWidget.g_curWidgetXBase << 3) + 5), (ushort)(CWidget.g_curWidgetYBase + 3), 8, 0, (short)lines, 0x31);
 
-				Gui.GUI_DrawSprite(Screen.NO2, Sprites.g_sprites[397 + (byte)CHouse.g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+				Gui.GUI_DrawSprite(Screen.NO2, Sprites.g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 				Gui.GUI_Mouse_Hide_InWidget(CWidget.g_curWidgetIndex);
 				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO2, Screen.NO0);
 				Gui.GUI_Mouse_Show_InWidget();
@@ -821,7 +821,7 @@ namespace SharpDune.Gui
 			if (wsa != (null, null)) Wsa.WSA_Unload(wsa);
 
 			Gfx.GFX_Screen_SetActive(Screen.NO2);
-			Gui.GUI_DrawSprite(Screen.NO2, Sprites.g_sprites[397 + (byte)CHouse.g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+			Gui.GUI_DrawSprite(Screen.NO2, Sprites.g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 			Gui.GUI_Mouse_Hide_InWidget(CWidget.g_curWidgetIndex);
 			Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO2, Screen.NO0);
 			Gui.GUI_Mouse_Show_InWidget();
@@ -897,7 +897,7 @@ namespace SharpDune.Gui
 
 			CDriver.Driver_Voice_Play(null, 0xFF);
 
-			Sound.Music_Play(g_table_houseInfo[(int)CHouse.g_playerHouseID].musicBriefing);
+			Sound.Music_Play(g_table_houseInfo[(int)g_playerHouseID].musicBriefing);
 
 			Sprites.Sprites_UnloadTiles();
 
@@ -957,10 +957,10 @@ namespace SharpDune.Gui
 			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
 			/* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
-			if (!CSharpDune.g_dune2_enhanced) Input.Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
+			if (!g_dune2_enhanced) Input.Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
 			Input.Input.Input_History_Clear();
 
-			GUI_Mentat_Display(null, (byte)CHouse.g_playerHouseID);
+			GUI_Mentat_Display(null, (byte)g_playerHouseID);
 
 			CWidget.g_widgetMentatFirst = CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_EXIT)[0]), 200, 168, (ushort)(proceed ? 379 : 377), 5);
 			CWidget.g_widgetMentatFirst.shortcut2 = 'n';
@@ -990,7 +990,7 @@ namespace SharpDune.Gui
 			CWidget.g_widgetMentatScrollDown = null; //free(g_widgetMentatScrollDown);
 
 			/* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
-			if (!CSharpDune.g_dune2_enhanced) Input.Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
+			if (!g_dune2_enhanced) Input.Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 		}
@@ -1156,7 +1156,7 @@ namespace SharpDune.Gui
 
 			CWidget.Widget_SetAndPaintCurrentWidget(8);
 
-			Gui.GUI_DrawSprite(Screen.NO1, Sprites.g_sprites[397 + (byte)CHouse.g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+			Gui.GUI_DrawSprite(Screen.NO1, Sprites.g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 			Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECT_SUBJECT), (short)((CWidget.g_curWidgetXBase << 3) + 16), (short)(CWidget.g_curWidgetYBase + 2), 12, 0, 0x12);
 			Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x11);
@@ -1165,7 +1165,7 @@ namespace SharpDune.Gui
 			for (i = 0; i < 11; i++)
 			{
 				text = CSharpDune.Encoding.GetString(helpSubjects[(helpSubjectsPointer + 7)..]);
-				text = text[..text.IndexOf('\0', CSharpDune.StringComparison)];
+				text = text[..text.IndexOf('\0', Comparison)];
 				line.drawParameterDown.text = text;
 				line.drawParameterSelected.text = text;
 				line.drawParameterNormal.text = text;
@@ -1309,7 +1309,7 @@ namespace SharpDune.Gui
 				s_selectedHelpSubject = 0;
 
 				//sprintf(s_mentatFilename, "MENTAT%c", g_table_houseInfo[g_playerHouseID].name[0]);
-				s_mentatFilename = $"MENTAT{g_table_houseInfo[(int)CHouse.g_playerHouseID].name[0]}";
+				s_mentatFilename = $"MENTAT{g_table_houseInfo[(int)g_playerHouseID].name[0]}";
 				//strncpy(s_mentatFilename, String_GenerateFilename(s_mentatFilename), sizeof(s_mentatFilename));
 				s_mentatFilename = CString.String_GenerateFilename(s_mentatFilename);
 			}
@@ -1330,7 +1330,7 @@ namespace SharpDune.Gui
 
 				counter += size;
 
-				if (helpSubjects[helpSubjectsPointer + size - 1] > CSharpDune.g_campaignID + 1)
+				if (helpSubjects[helpSubjectsPointer + size - 1] > g_campaignID + 1)
 				{
 					while (size-- != 0) helpSubjects[helpSubjectsPointer++] = (byte)'\0';
 					continue;
@@ -1435,7 +1435,7 @@ namespace SharpDune.Gui
 			fileID = CFile.File_Open(s_mentatFilename, FileMode.FILE_MODE_READ);
 			CFile.File_Seek(fileID, (int)offset, 0);
 			CFile.File_Read(fileID, ref compressedText, info.length);
-			CString.String_Decompress(CSharpDune.Encoding.GetString(compressedText), ref text, (ushort)CSharpDune.g_readBufferSize);
+			CString.String_Decompress(CSharpDune.Encoding.GetString(compressedText), ref text, (ushort)g_readBufferSize);
 			text = CString.String_TranslateSpecial(text);
 			CFile.File_Close(fileID);
 
@@ -1453,19 +1453,19 @@ namespace SharpDune.Gui
 				desc = null;
 
 				textPointer = 0;
-				var index = (ushort)(text[textPointer] - 44 + CSharpDune.g_campaignID * 4 + 405 + (byte)CHouse.g_playerHouseID * 40);
+				var index = (ushort)(text[textPointer] - 44 + g_campaignID * 4 + 405 + (byte)g_playerHouseID * 40);
 				text = $"{CString.String_Get_ByIndex(index)}\0"; //strncpy(g_readBuffer, String_Get_ByIndex(index), g_readBufferSize);
 			}
 			else
 			{
-				picture = text[..text.IndexOf('*', CSharpDune.StringComparison)];
-				desc = text[textPointer..text.IndexOf('\f', CSharpDune.StringComparison)];
+				picture = text[..text.IndexOf('*', Comparison)];
+				desc = text[textPointer..text.IndexOf('\f', Comparison)];
 
 				while (text[textPointer] != '\0' && text[textPointer] != 0xC) textPointer++;
 				if (text[textPointer] != '\0') textPointer++; //*text++ = '\0';
 			}
 
-			GUI_Mentat_Loop(picture, desc, text[textPointer..text.IndexOf('\0', CSharpDune.StringComparison)], loopAnimation, CWidget.g_widgetMentatFirst);
+			GUI_Mentat_Loop(picture, desc, text[textPointer..text.IndexOf('\0', Comparison)], loopAnimation, CWidget.g_widgetMentatFirst);
 
 			CWidget.GUI_Widget_MakeNormal(CWidget.g_widgetMentatFirst, false);
 

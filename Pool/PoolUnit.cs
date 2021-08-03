@@ -49,8 +49,8 @@
 				var u = g_unitFindArray[find.index];
 				if (u == null) continue;
 
-				if (u.o.flags.isNotOnMap && CSharpDune.g_validateStrictIfZero == 0) continue;
-				if (find.houseID != (byte)HouseType.HOUSE_INVALID && find.houseID != CUnit.Unit_GetHouseID(u)) continue;
+				if (u.o.flags.isNotOnMap && g_validateStrictIfZero == 0) continue;
+				if (find.houseID != (byte)HouseType.HOUSE_INVALID && find.houseID != Unit_GetHouseID(u)) continue;
 				if (find.type != (ushort)UnitIndex.UNIT_INDEX_INVALID && find.type != u.o.type) continue;
 
 				return u;
@@ -120,7 +120,7 @@
 			{
 				if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 				{
-					if (CSharpDune.g_validateStrictIfZero == 0) return null;
+					if (g_validateStrictIfZero == 0) return null;
 				}
 			}
 

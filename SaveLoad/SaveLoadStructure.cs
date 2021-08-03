@@ -44,7 +44,7 @@
 				length -= SaveLoad_GetLength(s_saveStructure);
 
 				sl.o.script.scriptInfo = g_scriptStructure;
-				if (sl.upgradeTimeLeft == 0) sl.upgradeTimeLeft = (byte)(CStructure.Structure_IsUpgradable(sl) ? 100 : 0);
+				if (sl.upgradeTimeLeft == 0) sl.upgradeTimeLeft = (byte)(Structure_IsUpgradable(sl) ? 100 : 0);
 			}
 			if (length != 0) return false;
 

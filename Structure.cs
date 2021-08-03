@@ -172,7 +172,7 @@ namespace SharpDune
 
                 lst = Map.Map_GetLandscapeType(curPos);
 
-                if (CSharpDune.g_debugScenario)
+                if (g_debugScenario)
                 {
                     if (!g_table_landscapeInfo[lst].isValidForStructure2)
                     {
@@ -190,7 +190,7 @@ namespace SharpDune
 
                     if (si.o.flags.notOnConcrete)
                     {
-                        if (!g_table_landscapeInfo[lst].isValidForStructure2 && CSharpDune.g_validateStrictIfZero == 0)
+                        if (!g_table_landscapeInfo[lst].isValidForStructure2 && g_validateStrictIfZero == 0)
                         {
                             isValid = false;
                             break;
@@ -198,7 +198,7 @@ namespace SharpDune
                     }
                     else
                     {
-                        if (!g_table_landscapeInfo[lst].isValidForStructure && CSharpDune.g_validateStrictIfZero == 0)
+                        if (!g_table_landscapeInfo[lst].isValidForStructure && g_validateStrictIfZero == 0)
                         {
                             isValid = false;
                             break;
@@ -214,7 +214,7 @@ namespace SharpDune
                 }
             }
 
-            if (CSharpDune.g_validateStrictIfZero == 0 && isValid && type != StructureType.STRUCTURE_CONSTRUCTION_YARD && !CSharpDune.g_debugScenario)
+            if (g_validateStrictIfZero == 0 && isValid && type != StructureType.STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario)
             {
                 isValid = false;
                 for (i = 0; i < 16; i++)
@@ -229,14 +229,14 @@ namespace SharpDune
                     s = Structure_Get_ByPackedTile(curPos);
                     if (s != null)
                     {
-                        if (s.o.houseID != (byte)CHouse.g_playerHouseID) continue;
+                        if (s.o.houseID != (byte)g_playerHouseID) continue;
                         isValid = true;
                         break;
                     }
 
                     lst = Map.Map_GetLandscapeType(curPos);
                     if (lst != (ushort)LandscapeType.LST_CONCRETE_SLAB && lst != (ushort)LandscapeType.LST_WALL) continue;
-                    if (Map.g_map[curPos].houseID != (byte)CHouse.g_playerHouseID) continue;
+                    if (Map.g_map[curPos].houseID != (byte)g_playerHouseID) continue;
 
                     isValid = true;
                     break;
@@ -346,9 +346,9 @@ namespace SharpDune
             si = g_table_structureInfo[s.o.type];
 
             if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) return false;
-            if (s.o.houseID == (byte)HouseType.HOUSE_ORDOS && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE && s.upgradeLevel == 1 && si.upgradeCampaign[2] > CSharpDune.g_campaignID) return false;
+            if (s.o.houseID == (byte)HouseType.HOUSE_ORDOS && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE && s.upgradeLevel == 1 && si.upgradeCampaign[2] > g_campaignID) return false;
 
-            if (s.upgradeLevel < si.upgradeCampaign.Length && si.upgradeCampaign[s.upgradeLevel] != 0 && si.upgradeCampaign[s.upgradeLevel] <= CSharpDune.g_campaignID + 1)
+            if (s.upgradeLevel < si.upgradeCampaign.Length && si.upgradeCampaign[s.upgradeLevel] != 0 && si.upgradeCampaign[s.upgradeLevel] <= g_campaignID + 1)
             {
                 House h;
 
@@ -361,7 +361,7 @@ namespace SharpDune
                 return false;
             }
 
-            if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_WOR_TROOPER && s.upgradeLevel == 0 && CSharpDune.g_campaignID > 3) return true;
+            if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_WOR_TROOPER && s.upgradeLevel == 0 && g_campaignID > 3) return true;
             return false;
         }
 
@@ -401,7 +401,7 @@ namespace SharpDune
 
             h = PoolHouse.House_Get_ByIndex(houseID);
 
-            if (houseID != (byte)CHouse.g_playerHouseID && h.flags.doneFullScaleAttack) return;
+            if (houseID != (byte)g_playerHouseID && h.flags.doneFullScaleAttack) return;
             h.flags.doneFullScaleAttack = true;
 
             if (h.flags.human)
@@ -415,7 +415,7 @@ namespace SharpDune
             }
 
             /* ENHANCEMENT -- Dune2 originally only searches for units with type 0 (Carry-all). In result, the rest of this function does nothing. */
-            if (!CSharpDune.g_dune2_enhanced) return;
+            if (!g_dune2_enhanced) return;
 
             find.houseID = houseID;
             find.index = 0xFFFF;
@@ -434,7 +434,7 @@ namespace SharpDune
                 if (ui.bulletType == (byte)UnitType.UNIT_INVALID) continue;
 
                 /* XXX -- Dune2 does something odd here. What was their intention? */
-                if ((u.actionID == (byte)ActionType.ACTION_GUARD && u.actionID == (byte)ActionType.ACTION_AMBUSH) || u.actionID == (byte)ActionType.ACTION_AREA_GUARD) CUnit.Unit_SetAction(u, ActionType.ACTION_HUNT);
+                if ((u.actionID == (byte)ActionType.ACTION_GUARD && u.actionID == (byte)ActionType.ACTION_AMBUSH) || u.actionID == (byte)ActionType.ACTION_AREA_GUARD) Unit_SetAction(u, ActionType.ACTION_HUNT);
             }
         }
 
@@ -472,7 +472,7 @@ namespace SharpDune
                 score = (ushort)(si.o.buildCredits / 100);
                 if (score < 1) score = 1;
 
-                if (CHouse.House_AreAllied((byte)CHouse.g_playerHouseID, s.o.houseID))
+                if (House_AreAllied((byte)g_playerHouseID, s.o.houseID))
                 {
                     CScenario.g_scenario.destroyedAllied++;
                     CScenario.g_scenario.score -= score;
@@ -485,7 +485,7 @@ namespace SharpDune
 
                 Structure_Destroy(s);
 
-                if ((byte)CHouse.g_playerHouseID == s.o.houseID)
+                if ((byte)g_playerHouseID == s.o.houseID)
                 {
                     ushort index;
 
@@ -570,7 +570,7 @@ namespace SharpDune
 
             if (s == null) return;
 
-            if (CSharpDune.g_debugScenario)
+            if (g_debugScenario)
             {
                 Structure_Remove(s);
                 return;
@@ -603,7 +603,7 @@ namespace SharpDune
 
                         linkedID = u.o.linkedID;
 
-                        CUnit.Unit_Remove(u);
+                        Unit_Remove(u);
                     }
                 }
             }
@@ -613,7 +613,7 @@ namespace SharpDune
 
             h.credits -= (ushort)((h.creditsStorage == 0) ? h.credits : Min(h.credits, (h.credits * 256 / h.creditsStorage) * si.creditsStorage / 256));
 
-            if (s.o.houseID != (byte)CHouse.g_playerHouseID) h.credits += (ushort)(si.o.buildCredits + (CSharpDune.g_campaignID > 7 ? si.o.buildCredits / 2 : 0));
+            if (s.o.houseID != (byte)g_playerHouseID) h.credits += (ushort)(si.o.buildCredits + (g_campaignID > 7 ? si.o.buildCredits / 2 : 0));
 
             if (s.o.type != (byte)StructureType.STRUCTURE_WINDTRAP) return;
 
@@ -646,14 +646,14 @@ namespace SharpDune
                 t = Map.g_map[curPacked];
                 t.hasStructure = false;
 
-                if (CSharpDune.g_debugScenario)
+                if (g_debugScenario)
                 {
                     t.groundTileID = (ushort)(Map.g_mapTileID[curPacked] & 0x1FF);
                     t.overlayTileID = 0;
                 }
             }
 
-            if (!CSharpDune.g_debugScenario)
+            if (!g_debugScenario)
             {
                 CAnimation.Animation_Start(g_table_animation_structure[0], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
             }
@@ -673,18 +673,18 @@ namespace SharpDune
 
             h.structuresBuilt = Structure_GetStructuresBuilt(h);
 
-            CHouse.House_UpdateCreditsStorage(s.o.houseID);
+            House_UpdateCreditsStorage(s.o.houseID);
 
-            if (CSharpDune.g_debugScenario) return;
+            if (g_debugScenario) return;
 
             switch ((StructureType)s.o.type)
             {
                 case StructureType.STRUCTURE_WINDTRAP:
-                    CHouse.House_CalculatePowerAndCredit(h);
+                    House_CalculatePowerAndCredit(h);
                     break;
 
                 case StructureType.STRUCTURE_OUTPOST:
-                    CHouse.House_UpdateRadarState(h);
+                    House_UpdateRadarState(h);
                     break;
 
                 default: break;
@@ -828,14 +828,14 @@ namespace SharpDune
             StructureInfo si;
             tile32 position;
 
-            if (s == null || s.o.houseID != (byte)CHouse.g_playerHouseID) return;
+            if (s == null || s.o.houseID != (byte)g_playerHouseID) return;
 
             si = g_table_structureInfo[s.o.type];
 
             position = s.o.position;
 
             /* ENHANCEMENT -- Fog is removed around the top left corner instead of the center of a structure. */
-            if (CSharpDune.g_dune2_enhanced)
+            if (g_dune2_enhanced)
             {
                 position.x += (ushort)(256 * (g_table_structure_layoutSize[si.layout].width - 1) / 2);
                 position.y += (ushort)(256 * (g_table_structure_layoutSize[si.layout].height - 1) / 2);
@@ -855,7 +855,7 @@ namespace SharpDune
             var tickScript = false;
             var tickPalace = false;
 
-            if (s_tickStructureDegrade <= Timer.g_timerGame && CSharpDune.g_campaignID > 1)
+            if (s_tickStructureDegrade <= Timer.g_timerGame && g_campaignID > 1)
             {
                 tickDegrade = true;
                 s_tickStructureDegrade = Timer.g_timerGame + Tools.Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
@@ -883,7 +883,7 @@ namespace SharpDune
             find.index = 0xFFFF;
             find.type = 0xFFFF;
 
-            if (CSharpDune.g_debugScenario) return;
+            if (g_debugScenario) return;
 
             while (true)
             {
@@ -911,7 +911,7 @@ namespace SharpDune
                     {
                         s.countDown--;
 
-                        if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                        if (s.o.houseID == (byte)g_playerHouseID)
                         {
                             WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
                         }
@@ -964,7 +964,7 @@ namespace SharpDune
                         ushort repairCost;
 
                         /* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
-                        if (CSharpDune.g_dune2_enhanced)
+                        if (g_dune2_enhanced)
                         {
                             repairCost = (ushort)(si.o.buildCredits * 2 / si.o.hitpoints);
                         }
@@ -978,7 +978,7 @@ namespace SharpDune
                             h.credits -= repairCost;
 
                             /* AIs repair in early games slower than in later games */
-                            if (s.o.houseID == (byte)CHouse.g_playerHouseID || CSharpDune.g_campaignID >= 3)
+                            if (s.o.houseID == (byte)g_playerHouseID || g_campaignID >= 3)
                             {
                                 s.o.hitpoints += 5;
                             }
@@ -1027,9 +1027,9 @@ namespace SharpDune
                             }
 
                             /* For AIs, we slow down building speed in all but the last campaign */
-                            if ((byte)CHouse.g_playerHouseID != s.o.houseID)
+                            if ((byte)g_playerHouseID != s.o.houseID)
                             {
-                                if (buildSpeed > CSharpDune.g_campaignID * 20 + 95) buildSpeed = (ushort)(CSharpDune.g_campaignID * 20 + 95);
+                                if (buildSpeed > g_campaignID * 20 + 95) buildSpeed = (ushort)(g_campaignID * 20 + 95);
                             }
 
                             buildCost = (ushort)(oi.buildCredits * 256 / oi.buildTime);
@@ -1062,7 +1062,7 @@ namespace SharpDune
 
                                     Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
 
-                                    if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                                    if (s.o.houseID == (byte)g_playerHouseID)
                                     {
                                         if (s.o.type != (byte)StructureType.STRUCTURE_BARRACKS && s.o.type != (byte)StructureType.STRUCTURE_WOR_TROOPER)
                                         {
@@ -1114,7 +1114,7 @@ namespace SharpDune
                             else
                             {
                                 /* Out of money means the building gets put on hold */
-                                if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                                if (s.o.houseID == (byte)g_playerHouseID)
                                 {
                                     s.o.flags.onHold = true;
                                     Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_INSUFFICIENT_FUNDS_CONSTRUCTION_IS_HALTED), 0);
@@ -1155,7 +1155,7 @@ namespace SharpDune
 
                                         Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
 
-                                        if (s.o.houseID == (byte)CHouse.g_playerHouseID) Sound.Sound_Output_Feedback((ushort)(CHouse.g_playerHouseID + 55));
+                                        if (s.o.houseID == (byte)g_playerHouseID) Sound.Sound_Output_Feedback((ushort)(g_playerHouseID + 55));
                                     }
                                 }
                             }
@@ -1167,7 +1167,7 @@ namespace SharpDune
                         }
 
                         /* AI maintenance on structures */
-                        if (h.flags.isAIActive && s.o.flags.allocated && s.o.houseID != (byte)CHouse.g_playerHouseID && h.credits != 0)
+                        if (h.flags.isAIActive && s.o.flags.allocated && s.o.houseID != (byte)g_playerHouseID && h.credits != 0)
                         {
                             /* When structure is below 50% hitpoints, start repairing */
                             if (s.o.hitpoints < si.o.hitpoints / 2)
@@ -1205,7 +1205,7 @@ namespace SharpDune
                             }
 
                             /* ENHANCEMENT -- Dune2 aborts all other structures if one gives a script error. This doesn't seem correct */
-                            if (!CSharpDune.g_dune2_enhanced && i != 3) return;
+                            if (!g_dune2_enhanced && i != 3) return;
                         }
                         else
                         {
@@ -1229,7 +1229,7 @@ namespace SharpDune
 
             if (h == null) return;
 
-            if (h.index == (byte)CHouse.g_playerHouseID) CHouse.House_UpdateRadarState(h);
+            if (h.index == (byte)g_playerHouseID) House_UpdateRadarState(h);
 
             if (h.powerUsage == 0)
             {
@@ -1334,7 +1334,7 @@ namespace SharpDune
             if (s == null) return false;
 
             /* ENHANCEMENT -- If a structure gets damaged during upgrading, pressing the "Upgrading" button silently starts the repair of the structure, and doesn't cancel upgrading. */
-            if (CSharpDune.g_dune2_enhanced && s.o.flags.upgrading) return false;
+            if (g_dune2_enhanced && s.o.flags.upgrading) return false;
 
             if (!s.o.flags.allocated) state = 0;
 
@@ -1342,7 +1342,7 @@ namespace SharpDune
 
             if (state == 0 && s.o.flags.repairing)
             {
-                if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                if (s.o.houseID == (byte)g_playerHouseID)
                 {
                     Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_REPAIRING_STOPS), 2);
                 }
@@ -1357,7 +1357,7 @@ namespace SharpDune
 
             if (state == 0 || s.o.flags.repairing || s.o.hitpoints == g_table_structureInfo[s.o.type].o.hitpoints) return ret;
 
-            if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+            if (s.o.houseID == (byte)g_playerHouseID)
             {
                 Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_REPAIRING_STARTS), 2);
             }
@@ -1471,11 +1471,11 @@ namespace SharpDune
                             y = 0xFFFF
                         };
 
-                        CSharpDune.g_validateStrictIfZero++;
-                        u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_MISSILE_HOUSE, s.o.houseID, position, (sbyte)Tools.Tools_Random_256());
-                        CSharpDune.g_validateStrictIfZero--;
+                        g_validateStrictIfZero++;
+                        u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_MISSILE_HOUSE, s.o.houseID, position, (sbyte)Tools.Tools_Random_256());
+                        g_validateStrictIfZero--;
 
-                        CUnit.g_unitHouseMissile = u;
+                        g_unitHouseMissile = u;
                         if (u == null) break;
 
                         s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
@@ -1498,22 +1498,22 @@ namespace SharpDune
                                 if (sf == null) break;
                                 if (sf.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || sf.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || sf.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
-                                if (CHouse.House_AreAllied(s.o.houseID, sf.o.houseID)) continue;
+                                if (House_AreAllied(s.o.houseID, sf.o.houseID)) continue;
 
-                                CUnit.Unit_LaunchHouseMissile(CTile.Tile_PackTile(sf.o.position));
+                                Unit_LaunchHouseMissile(CTile.Tile_PackTile(sf.o.position));
 
                                 return;
                             }
 
                             /* We failed to find a target, so remove the missile */
                             PoolUnit.Unit_Free(u);
-                            CUnit.g_unitHouseMissile = null;
+                            g_unitHouseMissile = null;
 
                             return;
                         }
 
                         /* Give the user 7 seconds to select their target */
-                        CHouse.g_houseMissileCountdown = 7;
+                        g_houseMissileCountdown = 7;
 
                         Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.TARGET);
                     }
@@ -1542,13 +1542,13 @@ namespace SharpDune
                             orientation = Tools.Tools_RandomLCG_Range(0, 3);
                             unitType = (ushort)((orientation == 1) ? UnitType.UNIT_TROOPER : UnitType.UNIT_TROOPERS);
 
-                            CSharpDune.g_validateStrictIfZero++;
-                            u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)unitType, (byte)HouseType.HOUSE_FREMEN, position, (sbyte)orientation);
-                            CSharpDune.g_validateStrictIfZero--;
+                            g_validateStrictIfZero++;
+                            u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)unitType, (byte)HouseType.HOUSE_FREMEN, position, (sbyte)orientation);
+                            g_validateStrictIfZero--;
 
                             if (u == null) continue;
 
-                            CUnit.Unit_SetAction(u, ActionType.ACTION_HUNT);
+                            Unit_SetAction(u, ActionType.ACTION_HUNT);
                         }
 
                         s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
@@ -1570,13 +1570,13 @@ namespace SharpDune
                             return;
                         }
 
-                        CSharpDune.g_validateStrictIfZero++;
-                        u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SABOTEUR, s.o.houseID, CTile.Tile_UnpackTile(position), (sbyte)Tools.Tools_Random_256());
-                        CSharpDune.g_validateStrictIfZero--;
+                        g_validateStrictIfZero++;
+                        u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SABOTEUR, s.o.houseID, CTile.Tile_UnpackTile(position), (sbyte)Tools.Tools_Random_256());
+                        g_validateStrictIfZero--;
 
                         if (u == null) return;
 
-                        CUnit.Unit_SetAction(u, ActionType.ACTION_SABOTAGE);
+                        Unit_SetAction(u, ActionType.ACTION_SABOTAGE);
 
                         s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
                     }
@@ -1585,7 +1585,7 @@ namespace SharpDune
                 default: break;
             }
 
-            if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+            if (s.o.houseID == (byte)g_playerHouseID)
             {
                 WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
             }
@@ -1661,22 +1661,22 @@ namespace SharpDune
                         availableCampaign = localsi.o.availableCampaign;
                         structuresRequired = localsi.o.structuresRequired;
 
-                        if (i == (int)StructureType.STRUCTURE_WOR_TROOPER && s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && CSharpDune.g_campaignID >= 1)
+                        if (i == (int)StructureType.STRUCTURE_WOR_TROOPER && s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && g_campaignID >= 1)
                         {
                             structuresRequired &= ~((uint)1 << (byte)StructureType.STRUCTURE_BARRACKS); //TODO: Check
                             availableCampaign = 2;
                         }
 
-                        if ((structuresBuilt & structuresRequired) == structuresRequired || s.o.houseID != (byte)CHouse.g_playerHouseID)
+                        if ((structuresBuilt & structuresRequired) == structuresRequired || s.o.houseID != (byte)g_playerHouseID)
                         {
                             if (s.o.houseID != (byte)HouseType.HOUSE_HARKONNEN && i == (int)StructureType.STRUCTURE_LIGHT_VEHICLE)
                             {
                                 availableCampaign = 2;
                             }
 
-                            if (CSharpDune.g_campaignID >= availableCampaign - 1 && (localsi.o.availableHouse & (1 << s.o.houseID)) != 0)
+                            if (g_campaignID >= availableCampaign - 1 && (localsi.o.availableHouse & (1 << s.o.houseID)) != 0)
                             {
-                                if (s.upgradeLevel >= localsi.o.upgradeLevelRequired || s.o.houseID != (byte)CHouse.g_playerHouseID)
+                                if (s.upgradeLevel >= localsi.o.upgradeLevelRequired || s.o.houseID != (byte)g_playerHouseID)
                                 {
                                     localsi.o.available = 1;
 
@@ -1784,7 +1784,7 @@ namespace SharpDune
 
                             for (i = 0; i < (byte)UnitType.UNIT_MAX; i++)
                             {
-                                var unitsAtStarport = CUnit.g_starportAvailable[i];
+                                var unitsAtStarport = g_starportAvailable[i];
 
                                 if (unitsAtStarport == 0)
                                 {
@@ -1796,9 +1796,9 @@ namespace SharpDune
                                 }
                                 else if (unitsAtStarport > availableUnits[i])
                                 {
-                                    CSharpDune.g_validateStrictIfZero++;
+                                    g_validateStrictIfZero++;
                                     u = PoolUnit.Unit_Allocate((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, i, s.o.houseID);
-                                    CSharpDune.g_validateStrictIfZero--;
+                                    g_validateStrictIfZero--;
 
                                     if (u != null)
                                     {
@@ -1896,17 +1896,17 @@ namespace SharpDune
                                 return false;
                             }
 
-                            CSharpDune.g_validateStrictIfZero++;
+                            g_validateStrictIfZero++;
                             {
                                 var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
-                                u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
+                                u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
                             }
-                            CSharpDune.g_validateStrictIfZero--;
+                            g_validateStrictIfZero--;
 
                             if (u == null)
                             {
                                 h.credits += g_table_unitInfo[(int)UnitType.UNIT_CARRYALL].o.buildCredits;
-                                if (s.o.houseID != (byte)CHouse.g_playerHouseID) continue;
+                                if (s.o.houseID != (byte)g_playerHouseID) continue;
                                 Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
                                 continue;
                             }
@@ -1918,8 +1918,8 @@ namespace SharpDune
                             u.o.linkedID = (byte)(h.starportLinkedID & 0xFF);
                             h.starportLinkedID = u.o.index;
 
-                            CUnit.g_starportAvailable[objectType]--;
-                            if (CUnit.g_starportAvailable[objectType] <= 0) CUnit.g_starportAvailable[objectType] = -1;
+                            g_starportAvailable[objectType]--;
+                            if (g_starportAvailable[objectType] <= 0) g_starportAvailable[objectType] = -1;
 
                             Gui.Gui.g_factoryWindowItems[i].amount--;
                             if (Gui.Gui.g_factoryWindowItems[i].amount != 0) i--;
@@ -1943,7 +1943,7 @@ namespace SharpDune
                 var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
 
                 oi = g_table_unitInfo[objectType].o;
-                o = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
+                o = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
                 str = CString.String_Get_ByIndex(g_table_unitInfo[objectType].o.stringID_full);
             }
             else
@@ -1963,14 +1963,14 @@ namespace SharpDune
 
                 Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_BUSY);
 
-                if (s.o.houseID != (byte)CHouse.g_playerHouseID) return true;
+                if (s.o.houseID != (byte)g_playerHouseID) return true;
 
                 Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_PRODUCTION_OF_S_HAS_STARTED), 2, str);
 
                 return true;
             }
 
-            if (s.o.houseID != (byte)CHouse.g_playerHouseID) return false;
+            if (s.o.houseID != (byte)g_playerHouseID) return false;
 
             Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
 
@@ -1995,7 +1995,7 @@ namespace SharpDune
 
             if (state == 0 && s.o.flags.upgrading)
             {
-                if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                if (s.o.houseID == (byte)g_playerHouseID)
                 {
                     Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UPGRADING_STOPS), 2);
                 }
@@ -2010,7 +2010,7 @@ namespace SharpDune
 
             if (state == 0 || s.o.flags.upgrading || s.upgradeTimeLeft == 0) return ret;
 
-            if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+            if (s.o.houseID == (byte)g_playerHouseID)
             {
                 Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UPGRADING_STARTS), 2);
             }
@@ -2129,7 +2129,7 @@ namespace SharpDune
 
                         Map.g_mapTileID[position] |= 0x8000;
 
-                        if (s.o.houseID == (byte)CHouse.g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(position), 1);
+                        if (s.o.houseID == (byte)g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(position), 1);
 
                         if (Map.Map_IsPositionUnveiled(position)) t.overlayTileID = 0;
 
@@ -2158,7 +2158,7 @@ namespace SharpDune
 
                             Map.g_mapTileID[curPos] |= 0x8000;
 
-                            if (s.o.houseID == (byte)CHouse.g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(curPos), 1);
+                            if (s.o.houseID == (byte)g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(curPos), 1);
 
                             if (Map.Map_IsPositionUnveiled(curPos)) t.overlayTileID = 0;
 
@@ -2182,7 +2182,7 @@ namespace SharpDune
 
                                 Map.g_mapTileID[curPos] |= 0x8000;
 
-                                if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                                if (s.o.houseID == (byte)g_playerHouseID)
                                 {
                                     CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(curPos), 1);
                                     t.overlayTileID = 0;
@@ -2202,13 +2202,13 @@ namespace SharpDune
             }
 
             validBuildLocation = Structure_IsValidBuildLocation(position, (StructureType)s.o.type);
-            if (validBuildLocation == 0 && s.o.houseID == (byte)CHouse.g_playerHouseID && !CSharpDune.g_debugScenario && CSharpDune.g_validateStrictIfZero == 0) return false;
+            if (validBuildLocation == 0 && s.o.houseID == (byte)g_playerHouseID && !g_debugScenario && g_validateStrictIfZero == 0) return false;
 
             /* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-            if (!CSharpDune.g_dune2_enhanced && s.o.houseID == (byte)CHouse.g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(position), 2);
+            if (!g_dune2_enhanced && s.o.houseID == (byte)g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(position), 2);
 
             s.o.seenByHouses |= (byte)(1 << s.o.houseID);
-            if (s.o.houseID == (byte)CHouse.g_playerHouseID) s.o.seenByHouses |= 0xFF;
+            if (s.o.houseID == (byte)g_playerHouseID) s.o.seenByHouses |= 0xFF;
 
             s.o.flags.isNotOnMap = false;
 
@@ -2233,7 +2233,7 @@ namespace SharpDune
             else
             {
                 /* ENHANCEMENT -- When you build a structure completely on slabs, it should not degrade */
-                if (!CSharpDune.g_dune2_enhanced)
+                if (!g_dune2_enhanced)
                 {
                     s.o.flags.degrades = true;
                 }
@@ -2260,12 +2260,12 @@ namespace SharpDune
                     var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
                     Unit u;
 
-                    u = CUnit.Unit_Get_ByPackedTile(curPos);
+                    u = Unit_Get_ByPackedTile(curPos);
 
-                    CUnit.Unit_Remove(u);
+                    Unit_Remove(u);
 
                     /* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-                    if (CSharpDune.g_dune2_enhanced && s.o.houseID == (byte)CHouse.g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(curPos), 2);
+                    if (g_dune2_enhanced && s.o.houseID == (byte)g_playerHouseID) CTile.Tile_RemoveFogInRadius(CTile.Tile_UnpackTile(curPos), 2);
                 }
             }
 
@@ -2277,12 +2277,12 @@ namespace SharpDune
                 h.windtrapCount += 1;
             }
 
-            if (CSharpDune.g_validateStrictIfZero == 0)
+            if (g_validateStrictIfZero == 0)
             {
                 House h;
 
                 h = PoolHouse.House_Get_ByIndex(s.o.houseID);
-                CHouse.House_CalculatePowerAndCredit(h);
+                House_CalculatePowerAndCredit(h);
             }
 
             Structure_UpdateMap(s);
@@ -2323,7 +2323,7 @@ namespace SharpDune
             s.o.position.x = 0;
             s.o.position.y = 0;
             s.o.linkedID = 0xFF;
-            s.state = (short)(CSharpDune.g_debugScenario ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_JUSTBUILT);
+            s.state = (short)(g_debugScenario ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_JUSTBUILT);
 
             if (typeID == (byte)StructureType.STRUCTURE_TURRET)
             {
@@ -2355,7 +2355,7 @@ namespace SharpDune
             s.countDown = 0;
 
             /* AIs get the full upgrade immediately */
-            if (houseID != (byte)CHouse.g_playerHouseID)
+            if (houseID != (byte)g_playerHouseID)
             {
                 while (true)
                 {

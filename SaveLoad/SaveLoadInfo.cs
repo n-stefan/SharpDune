@@ -6,34 +6,34 @@ namespace SharpDune.SaveLoad
     {
         static readonly SaveLoadDesc[] s_saveInfo = {
             SLD_GSLD(() => CScenario.g_scenario, SaveLoadScenario.g_saveScenario),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, (v, _) => CHouse.g_playerCreditsNoSilo = (ushort)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_playerCreditsNoSilo, (v, _) => g_playerCreditsNoSilo = (ushort)v),
             SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.Gui.g_minimapPosition, (v, _) => Gui.Gui.g_minimapPosition = (ushort)v),
             SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.Gui.g_selectionRectanglePosition, (v, _) => Gui.Gui.g_selectionRectanglePosition = (ushort)v),
-            SLD_GCALLB(SaveLoadType.SLDT_INT8, () => CSharpDune.g_selectionType, SaveLoad_SelectionType),
-            SLD_GENTRY2(SaveLoadType.SLDT_INT8, SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActiveType, (v, _) => CStructure.g_structureActiveType = (ushort)(sbyte)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActivePosition, (v, _) => CStructure.g_structureActivePosition = (ushort)v),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureActive, SaveLoad_StructureActive),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitSelected, SaveLoad_UnitSelected),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitActive, SaveLoad_UnitActive),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_activeAction, (v, _) => CSharpDune.g_activeAction = (ushort)v),
+            SLD_GCALLB(SaveLoadType.SLDT_INT8, () => g_selectionType, SaveLoad_SelectionType),
+            SLD_GENTRY2(SaveLoadType.SLDT_INT8, SaveLoadType.SLDT_UINT16, () => g_structureActiveType, (v, _) => g_structureActiveType = (ushort)(sbyte)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_structureActivePosition, (v, _) => g_structureActivePosition = (ushort)v),
+            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_structureActive, SaveLoad_StructureActive),
+            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_unitSelected, SaveLoad_UnitSelected),
+            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_unitActive, SaveLoad_UnitActive),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_activeAction, (v, _) => g_activeAction = (ushort)v),
             SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => Gui.Gui.g_strategicRegionBits, (v, _) => Gui.Gui.g_strategicRegionBits = (uint)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, (v, _) => CSharpDune.g_scenarioID = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, (v, _) => CSharpDune.g_campaignID = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_hintsShown1, (v, _) => CSharpDune.g_hintsShown1 = (uint)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_hintsShown2, (v, _) => CSharpDune.g_hintsShown2 = (uint)v),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT32, () => CSharpDune.g_tickScenarioStart, SaveLoad_TickScenarioStart),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_playerCreditsNoSilo, (v, _) => CHouse.g_playerCreditsNoSilo = (ushort)v),
-            SLD_GARRAY(SaveLoadType.SLDT_INT16, () => CUnit.g_starportAvailable, (v, i) => CUnit.g_starportAvailable[i] = (short)v, (ushort)UnitType.UNIT_MAX),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CHouse.g_houseMissileCountdown, (v, _) => CHouse.g_houseMissileCountdown = (ushort)v),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => CUnit.g_unitHouseMissile, SaveLoad_UnitHouseMissile),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CStructure.g_structureIndex, (v, _) => CStructure.g_structureIndex = (ushort)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_scenarioID, (v, _) => g_scenarioID = (ushort)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_campaignID, (v, _) => g_campaignID = (ushort)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => g_hintsShown1, (v, _) => g_hintsShown1 = (uint)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => g_hintsShown2, (v, _) => g_hintsShown2 = (uint)v),
+            SLD_GCALLB(SaveLoadType.SLDT_UINT32, () => g_tickScenarioStart, SaveLoad_TickScenarioStart),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_playerCreditsNoSilo, (v, _) => g_playerCreditsNoSilo = (ushort)v),
+            SLD_GARRAY(SaveLoadType.SLDT_INT16, () => g_starportAvailable, (v, i) => g_starportAvailable[i] = (short)v, (ushort)UnitType.UNIT_MAX),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_houseMissileCountdown, (v, _) => g_houseMissileCountdown = (ushort)v),
+            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_unitHouseMissile, SaveLoad_UnitHouseMissile),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_structureIndex, (v, _) => g_structureIndex = (ushort)v),
             SLD_END()
         };
 
         static readonly SaveLoadDesc[] s_saveInfoOld = {
             SLD_EMPTY2(SaveLoadType.SLDT_UINT8, 250),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_scenarioID, (v, _) => CSharpDune.g_scenarioID = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => CSharpDune.g_campaignID, (v, _) => CSharpDune.g_campaignID = (ushort)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_scenarioID, (v, _) => g_scenarioID = (ushort)v),
+            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_campaignID, (v, _) => g_campaignID = (ushort)v),
             SLD_END()
         };
 
@@ -41,11 +41,11 @@ namespace SharpDune.SaveLoad
         {
             if (loading)
             {
-                CSharpDune.g_selectionTypeNew = (ushort)value;
+                g_selectionTypeNew = (ushort)value;
                 return 0;
             }
 
-            return CSharpDune.g_selectionType;
+            return g_selectionType;
         }
 
         static uint SaveLoad_StructureActive(object obj, uint value, bool loading)
@@ -54,18 +54,18 @@ namespace SharpDune.SaveLoad
             {
                 if ((ushort)value != 0xFFFF)
                 {
-                    CStructure.g_structureActive = PoolStructure.Structure_Get_ByIndex((ushort)value);
+                    g_structureActive = PoolStructure.Structure_Get_ByIndex((ushort)value);
                 }
                 else
                 {
-                    CStructure.g_structureActive = null;
+                    g_structureActive = null;
                 }
                 return 0;
             }
 
-            if (CStructure.g_structureActiveType != 0xFFFF)
+            if (g_structureActiveType != 0xFFFF)
             {
-                return CStructure.g_structureActive.o.index;
+                return g_structureActive.o.index;
             }
             else
             {
@@ -79,18 +79,18 @@ namespace SharpDune.SaveLoad
             {
                 if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
                 {
-                    CUnit.g_unitSelected = PoolUnit.Unit_Get_ByIndex((ushort)value);
+                    g_unitSelected = PoolUnit.Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
-                    CUnit.g_unitSelected = null;
+                    g_unitSelected = null;
                 }
                 return 0;
             }
 
-            if (CUnit.g_unitSelected != null)
+            if (g_unitSelected != null)
             {
-                return CUnit.g_unitSelected.o.index;
+                return g_unitSelected.o.index;
             }
             else
             {
@@ -104,18 +104,18 @@ namespace SharpDune.SaveLoad
             {
                 if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
                 {
-                    CUnit.g_unitActive = PoolUnit.Unit_Get_ByIndex((ushort)value);
+                    g_unitActive = PoolUnit.Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
-                    CUnit.g_unitActive = null;
+                    g_unitActive = null;
                 }
                 return 0;
             }
 
-            if (CUnit.g_unitActive != null)
+            if (g_unitActive != null)
             {
-                return CUnit.g_unitActive.o.index;
+                return g_unitActive.o.index;
             }
             else
             {
@@ -127,11 +127,11 @@ namespace SharpDune.SaveLoad
         {
             if (loading)
             {
-                CSharpDune.g_tickScenarioStart = Timer.g_timerGame - value;
+                g_tickScenarioStart = Timer.g_timerGame - value;
                 return 0;
             }
 
-            return Timer.g_timerGame - CSharpDune.g_tickScenarioStart;
+            return Timer.g_timerGame - g_tickScenarioStart;
         }
 
         static uint SaveLoad_UnitHouseMissile(object obj, uint value, bool loading)
@@ -140,18 +140,18 @@ namespace SharpDune.SaveLoad
             {
                 if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
                 {
-                    CUnit.g_unitHouseMissile = PoolUnit.Unit_Get_ByIndex((ushort)value);
+                    g_unitHouseMissile = PoolUnit.Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
-                    CUnit.g_unitHouseMissile = null;
+                    g_unitHouseMissile = null;
                 }
                 return 0;
             }
 
-            if (CUnit.g_unitHouseMissile != null)
+            if (g_unitHouseMissile != null)
             {
-                return CUnit.g_unitHouseMissile.o.index;
+                return g_unitHouseMissile.o.index;
             }
             else
             {

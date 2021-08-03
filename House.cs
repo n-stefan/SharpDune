@@ -244,8 +244,8 @@ namespace SharpDune
             var find = new PoolFindStruct();
             uint creditsStorage;
 
-            var oldValidateStrictIfZero = CSharpDune.g_validateStrictIfZero;
-            CSharpDune.g_validateStrictIfZero = 0;
+            var oldValidateStrictIfZero = g_validateStrictIfZero;
+            g_validateStrictIfZero = 0;
 
             find.houseID = houseID;
             find.index = 0xFFFF;
@@ -268,7 +268,7 @@ namespace SharpDune
 
             PoolHouse.House_Get_ByIndex(houseID).creditsStorage = (ushort)creditsStorage;
 
-            CSharpDune.g_validateStrictIfZero = oldValidateStrictIfZero;
+            g_validateStrictIfZero = oldValidateStrictIfZero;
         }
 
         /*
@@ -298,7 +298,7 @@ namespace SharpDune
                 s = PoolStructure.Structure_Find(find);
                 if (s == null) break;
                 /* ENHANCEMENT -- Only count structures that are placed on the map, not ones we are building. */
-                if (CSharpDune.g_dune2_enhanced && s.o.flags.isNotOnMap) continue;
+                if (g_dune2_enhanced && s.o.flags.isNotOnMap) continue;
 
                 si = g_table_structureInfo[s.o.type];
 
@@ -320,7 +320,7 @@ namespace SharpDune
 
                 /* Negative value and partial health, calculate how much should go to production (capped at 50%) */
                 /* ENHANCEMENT -- The 50% cap of Dune2 is silly and disagress with the GUI. If your hp is 10%, so should the production. */
-                if (!CSharpDune.g_dune2_enhanced && s.o.hitpoints <= si.o.hitpoints / 2)
+                if (!g_dune2_enhanced && s.o.hitpoints <= si.o.hitpoints / 2)
                 {
                     h.powerProduction += (ushort)((-si.powerUsage) / 2);
                     continue;
@@ -335,7 +335,7 @@ namespace SharpDune
             }
 
             /* If there are no buildings left, you lose your right on 'credits without storage' */
-            if (h.index == (byte)g_playerHouseID && h.structuresBuilt == 0 && CSharpDune.g_validateStrictIfZero == 0)
+            if (h.index == (byte)g_playerHouseID && h.structuresBuilt == 0 && g_validateStrictIfZero == 0)
             {
                 g_playerCreditsNoSilo = 0;
             }
@@ -399,7 +399,7 @@ namespace SharpDune
 
             Wsa.WSA_Unload(wsa);
 
-            CSharpDune.g_viewport_forceRedraw = true;
+            g_viewport_forceRedraw = true;
 
             Gui.Gui.GUI_Mouse_Show_Safe();
 
@@ -422,7 +422,7 @@ namespace SharpDune
             var tickMissileCountdown = false;
             var tickStarportAvailability = false;
 
-            if (CSharpDune.g_debugScenario) return;
+            if (g_debugScenario) return;
 
             if (s_tickHouseHouse <= Timer.g_timerGame)
             {
@@ -445,7 +445,7 @@ namespace SharpDune
             if (s_tickHouseReinforcement <= Timer.g_timerGame)
             {
                 tickReinforcement = true;
-                s_tickHouseReinforcement = (uint)(Timer.g_timerGame + (CSharpDune.g_debugGame ? 60 : 600));
+                s_tickHouseReinforcement = (uint)(Timer.g_timerGame + (g_debugGame ? 60 : 600));
             }
 
             if (s_tickHouseMissileCountdown <= Timer.g_timerGame)
@@ -465,7 +465,7 @@ namespace SharpDune
                 g_houseMissileCountdown--;
                 Sound.Sound_Output_Feedback((ushort)(g_houseMissileCountdown + 41));
 
-                if (g_houseMissileCountdown == 0) CUnit.Unit_LaunchHouseMissile(Map.Map_FindLocationTile(4, (byte)g_playerHouseID));
+                if (g_houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map.Map_FindLocationTile(4, (byte)g_playerHouseID));
             }
 
             if (tickStarportAvailability)
@@ -476,15 +476,15 @@ namespace SharpDune
                 type = Tools.Tools_RandomLCG_Range(0, (ushort)(UnitType.UNIT_MAX - 1));
 
                 /* Increase how many of this unit is available via starport by one */
-                if (CUnit.g_starportAvailable[type] != 0 && CUnit.g_starportAvailable[type] < 10)
+                if (g_starportAvailable[type] != 0 && g_starportAvailable[type] < 10)
                 {
-                    if (CUnit.g_starportAvailable[type] == -1)
+                    if (g_starportAvailable[type] == -1)
                     {
-                        CUnit.g_starportAvailable[type] = 1;
+                        g_starportAvailable[type] = 1;
                     }
                     else
                     {
-                        CUnit.g_starportAvailable[type]++;
+                        g_starportAvailable[type]++;
                     }
                 }
             }
@@ -513,12 +513,12 @@ namespace SharpDune
                     {
                         if (nu == null)
                         {
-                            nu = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_CARRYALL, u.o.houseID, CTile.Tile_UnpackTile(Map.Map_FindLocationTile((ushort)(Tools.Tools_Random_256() & 3), u.o.houseID)), 100);
+                            nu = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_CARRYALL, u.o.houseID, CTile.Tile_UnpackTile(Map.Map_FindLocationTile((ushort)(Tools.Tools_Random_256() & 3), u.o.houseID)), 100);
 
                             if (nu != null)
                             {
                                 nu.o.flags.byScenario = true;
-                                CUnit.Unit_SetDestination(nu, Tools.Tools_Index_Encode(Map.Map_FindLocationTile(locationID, u.o.houseID), IndexType.IT_TILE));
+                                Unit_SetDestination(nu, Tools.Tools_Index_Encode(Map.Map_FindLocationTile(locationID, u.o.houseID), IndexType.IT_TILE));
                             }
                         }
 
@@ -538,7 +538,7 @@ namespace SharpDune
                     }
                     else
                     {
-                        deployed = CUnit.Unit_SetPosition(u, CTile.Tile_UnpackTile(Map.Map_FindLocationTile(locationID, u.o.houseID)));
+                        deployed = Unit_SetPosition(u, CTile.Tile_UnpackTile(Map.Map_FindLocationTile(locationID, u.o.houseID)));
                     }
 
                     if (deployed && CScenario.g_scenario.reinforcement[i].repeat != 0)
@@ -549,9 +549,9 @@ namespace SharpDune
                             y = 0xFFFF
                         };
 
-                        CSharpDune.g_validateStrictIfZero++;
-                        u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, u.o.type, u.o.houseID, tile, 0);
-                        CSharpDune.g_validateStrictIfZero--;
+                        g_validateStrictIfZero++;
+                        u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, u.o.type, u.o.houseID, tile, 0);
+                        g_validateStrictIfZero--;
 
                         if (u != null)
                         {
@@ -600,7 +600,7 @@ namespace SharpDune
                             g_playerCreditsNoSilo = 0;
                         }
 
-                        if (g_playerCreditsNoSilo == 0 && CSharpDune.g_campaignID > 1 && h.credits != 0)
+                        if (g_playerCreditsNoSilo == 0 && g_campaignID > 1 && h.credits != 0)
                         {
                             if (h.creditsStorage != 0 && ((h.credits * 256 / h.creditsStorage) > 200))
                             {
@@ -628,10 +628,10 @@ namespace SharpDune
                     {
                         Structure s;
 
-                        s = PoolStructure.Structure_Get_ByIndex(CStructure.g_structureIndex);
+                        s = PoolStructure.Structure_Get_ByIndex(g_structureIndex);
                         if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT && s.o.houseID == h.index)
                         {
-                            u = CUnit.Unit_CreateWrapper(h.index, UnitType.UNIT_FRIGATE, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
+                            u = Unit_CreateWrapper(h.index, UnitType.UNIT_FRIGATE, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
                         }
                         else
                         {
@@ -648,7 +648,7 @@ namespace SharpDune
                                 if (s == null) break;
                                 if (s.o.linkedID != 0xFF) continue;
 
-                                u = CUnit.Unit_CreateWrapper(h.index, UnitType.UNIT_FRIGATE, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
+                                u = Unit_CreateWrapper(h.index, UnitType.UNIT_FRIGATE, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
                                 break;
                             }
                         }
@@ -669,12 +669,12 @@ namespace SharpDune
                 if (tickHouse)
                 {
                     House_CalculatePowerAndCredit(h);
-                    CStructure.Structure_CalculateHitpointsMax(h);
+                    Structure_CalculateHitpointsMax(h);
 
                     if (h.timerUnitAttack != 0) h.timerUnitAttack--;
                     if (h.timerSandwormAttack != 0) h.timerSandwormAttack--;
                     if (h.timerStructureAttack != 0) h.timerStructureAttack--;
-                    if (h.harvestersIncoming > 0 && CUnit.Unit_CreateWrapper(h.index, UnitType.UNIT_HARVESTER, 0) != null) h.harvestersIncoming--;
+                    if (h.harvestersIncoming > 0 && Unit_CreateWrapper(h.index, UnitType.UNIT_HARVESTER, 0) != null) h.harvestersIncoming--;
                 }
 
                 if (tickPowerMaintenance)
@@ -711,8 +711,8 @@ namespace SharpDune
                 s = PoolStructure.Structure_Find(find);
                 if (s == null) break;
                 /* ENHANCEMENT -- Dune2 checked the wrong type to skip. LinkedID is a structure for a Construction Yard */
-                if (!CSharpDune.g_dune2_enhanced && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE) continue;
-                if (CSharpDune.g_dune2_enhanced && s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) continue;
+                if (!g_dune2_enhanced && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE) continue;
+                if (g_dune2_enhanced && s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) continue;
                 if (s.o.linkedID == (byte)UnitType.UNIT_INVALID) continue;
                 if (PoolUnit.Unit_Get_ByIndex(s.o.linkedID).o.type == (byte)UnitType.UNIT_HARVESTER) return;
             }
@@ -731,7 +731,7 @@ namespace SharpDune
                 if (PoolUnit.Unit_Get_ByIndex(u.o.linkedID).o.type == (byte)UnitType.UNIT_HARVESTER) return;
             }
 
-            if (CUnit.Unit_IsTypeOnMap(houseID, (byte)UnitType.UNIT_HARVESTER)) return;
+            if (Unit_IsTypeOnMap(houseID, (byte)UnitType.UNIT_HARVESTER)) return;
 
             find.houseID = houseID;
             find.type = (ushort)StructureType.STRUCTURE_REFINERY;
@@ -740,7 +740,7 @@ namespace SharpDune
             s = PoolStructure.Structure_Find(find);
             if (s == null) return;
 
-            if (CUnit.Unit_CreateWrapper(houseID, UnitType.UNIT_HARVESTER, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE)) == null) return;
+            if (Unit_CreateWrapper(houseID, UnitType.UNIT_HARVESTER, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE)) == null) return;
 
             if (houseID != (byte)g_playerHouseID) return;
 

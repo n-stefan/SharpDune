@@ -23,12 +23,12 @@ namespace SharpDune.Gui
 			Mentat.g_disableOtherMovement = true;
 			Mentat.g_interrogation = true;
 
-			wsaHouseFilename = CHouse.House_GetWSAHouseFilename((byte)CHouse.g_playerHouseID);
+			wsaHouseFilename = House_GetWSAHouseFilename((byte)g_playerHouseID);
 			if (wsaHouseFilename == null) return true;
 
 			Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 15);
 
-			Mentat.GUI_Mentat_Display(wsaHouseFilename, (byte)CHouse.g_playerHouseID);
+			Mentat.GUI_Mentat_Display(wsaHouseFilename, (byte)g_playerHouseID);
 
 			Gui.GUI_Mouse_Hide_Safe();
 			Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
@@ -37,11 +37,11 @@ namespace SharpDune.Gui
 			Gui.GUI_SetPaletteAnimated(Gfx.g_palette1, 15);
 
 			//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_TEXT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
-			question = CString.String_Get_ByIndex((ushort)(Text.STR_SECURITY_TEXT_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
-			CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(question);
+			question = CString.String_Get_ByIndex((ushort)(Text.STR_SECURITY_TEXT_HARKONNEN + (byte)g_playerHouseID * 3));
+            g_readBuffer = CSharpDune.Encoding.GetBytes(question);
 			Mentat.GUI_Mentat_Loop(wsaHouseFilename, null, question/*CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer)*/, true, null);
 
-			questionsCount = ushort.Parse(CString.String_Get_ByIndex(Text.STR_SECURITY_COUNT), CSharpDune.Culture);
+			questionsCount = ushort.Parse(CString.String_Get_ByIndex(Text.STR_SECURITY_COUNT), Culture);
 
 			oldCurrentWidget = CWidget.Widget_SetCurrentWidget(8);
 
@@ -63,14 +63,14 @@ namespace SharpDune.Gui
 				Wsa.WSA_DisplayFrame(wsa, 0, (ushort)(CWidget.g_curWidgetXBase << 3), CWidget.g_curWidgetYBase, Screen.NO2);
 				Wsa.WSA_Unload(wsa);
 
-				Gui.GUI_DrawSprite(Screen.NO2, Sprites.g_sprites[397 + (byte)CHouse.g_playerHouseID * 15], Mentat.g_shoulderLeft, Mentat.g_shoulderTop, 0, 0);
+				Gui.GUI_DrawSprite(Screen.NO2, Sprites.g_sprites[397 + (byte)g_playerHouseID * 15], Mentat.g_shoulderLeft, Mentat.g_shoulderTop, 0, 0);
 
 				Gui.GUI_Mouse_Hide_InWidget(CWidget.g_curWidgetIndex);
 				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO2, Screen.NO0);
 				Gui.GUI_Mouse_Show_InWidget();
 
 				question = CString.String_Get_ByIndex(questionIndex);
-				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
+                g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
 				GUI_Security_DrawText(question/*CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer)*/);
 
 				Mentat.g_interrogationTimer = Timer.g_timerGUI + (uint)question.Length * 4; //(uint32)strlen(g_readBuffer) * 4
@@ -110,30 +110,30 @@ namespace SharpDune.Gui
 				GUI_Security_NormaliseText(ref buffer);
 
 				question = CString.String_Get_ByIndex((ushort)(questionIndex + 2));
-				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex + 2), g_readBufferSize);
+                g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex + 2), g_readBufferSize);
 				GUI_Security_NormaliseText(ref question);
 
 				if (!string.Equals(question/*CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer)*/, buffer, StringComparison.OrdinalIgnoreCase))
 				{ //if (strcasecmp(g_readBuffer, buffer) != 0) {
-					CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(CString.String_Get_ByIndex(Text.STR_SECURITY_WRONG_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
+                    g_readBuffer = CSharpDune.Encoding.GetBytes(CString.String_Get_ByIndex(Text.STR_SECURITY_WRONG_HARKONNEN + (byte)g_playerHouseID * 3));
 					//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_WRONG_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 				}
 				else
 				{
-					CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(CString.String_Get_ByIndex(Text.STR_SECURITY_CORRECT_HARKONNEN + (byte)CHouse.g_playerHouseID * 3));
+                    g_readBuffer = CSharpDune.Encoding.GetBytes(CString.String_Get_ByIndex(Text.STR_SECURITY_CORRECT_HARKONNEN + (byte)g_playerHouseID * 3));
 					//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_CORRECT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 
 					valid = true;
 				}
 
-				GUI_Security_DrawText(CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer));
+				GUI_Security_DrawText(CSharpDune.Encoding.GetString(g_readBuffer));
 
-				tickWaitTill = Timer.g_timerGUI + (uint)CSharpDune.Encoding.GetString(CSharpDune.g_readBuffer).Length * 4; //(uint32)strlen(g_readBuffer) * 4;
+				tickWaitTill = Timer.g_timerGUI + (uint)CSharpDune.Encoding.GetString(g_readBuffer).Length * 4; //(uint32)strlen(g_readBuffer) * 4;
 
 				Input.Input.Input_History_Clear();
 
 				/* ENHANCEMENT -- In Dune2, the + 120 is on the other side, causing the 'You are wrong! / Well done.' screen to appear very short (close to invisible, so to say) */
-				while (Timer.g_timerGUI + (CSharpDune.g_dune2_enhanced ? 0 : 120) < tickWaitTill + (CSharpDune.g_dune2_enhanced ? 120 : 0))
+				while (Timer.g_timerGUI + (g_dune2_enhanced ? 0 : 120) < tickWaitTill + (g_dune2_enhanced ? 120 : 0))
 				{
 					if (Input.Input.Input_Keyboard_NextKey() != 0) break;
 
@@ -201,7 +201,7 @@ namespace SharpDune.Gui
 
 			for (var i = 0; i < s.Length; i++)
 				if (char.IsLetterOrDigit(s[i]) && char.IsLower(s[i]))
-					s[i] = char.ToUpper(s[i], CSharpDune.Culture);
+					s[i] = char.ToUpper(s[i], Culture);
 
 			str = new string(s);
 		}

@@ -9,7 +9,7 @@ namespace SharpDune
          */
 		internal static void Load_Palette_Mercenaries()
 		{
-			if (CHouse.g_playerHouseID == HouseType.HOUSE_MERCENARY)
+			if (g_playerHouseID == HouseType.HOUSE_MERCENARY)
 			{
 				CFile.File_ReadBlockFile("IBM.PAL", Gfx.g_palette1, 256 * 3);
 			}
@@ -22,7 +22,7 @@ namespace SharpDune
 
 			Sound.Sound_Output_Feedback(0xFFFE);
 
-			CSharpDune.Game_Init();
+            Game_Init();
 
 			fp = CFile.fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
 			if (fp == null)
@@ -33,9 +33,9 @@ namespace SharpDune
 
 			Sprites.Sprites_LoadTiles();
 
-			CSharpDune.g_validateStrictIfZero++;
+            g_validateStrictIfZero++;
 			res = Load_Main(fp);
-			CSharpDune.g_validateStrictIfZero--;
+            g_validateStrictIfZero--;
 
 			fp.Close();
 
@@ -45,7 +45,7 @@ namespace SharpDune
 				return false;
 			}
 
-			if (CSharpDune.g_gameMode != GameMode.GM_RESTART) CSharpDune.Game_Prepare();
+			if (g_gameMode != GameMode.GM_RESTART) Game_Prepare();
 
 			return true;
 		}
@@ -92,7 +92,7 @@ namespace SharpDune
 					/* Get the scenarioID / campaignID */
 					if (!SaveLoadInfo.Info_LoadOld(br)) return false;
 
-					CSharpDune.g_gameMode = GameMode.GM_RESTART;
+                    g_gameMode = GameMode.GM_RESTART;
 
 					/* Find the 'PLYR' chunk */
 					fp.Seek(position, SeekOrigin.Begin); //fseek(fp, position, SEEK_SET);

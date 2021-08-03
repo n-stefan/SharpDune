@@ -173,7 +173,7 @@ namespace SharpDune
 
                     if (Tile_GetDistanceRoundedUp(tile, t) > radius) continue;
 
-                    Map.Map_UnveilTile(packed, (byte)CHouse.g_playerHouseID);
+                    Map.Map_UnveilTile(packed, (byte)g_playerHouseID);
                 }
             }
         }

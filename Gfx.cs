@@ -232,7 +232,7 @@ namespace SharpDune
 					/* ENHANCEMENT -- Dune2 recolours too many colours, causing clear graphical glitches in the IX building */
 					if ((colour & 0xF0) == 0x90)
 					{
-						if (colour <= 0x96 || !CSharpDune.g_dune2_enhanced) colour += (byte)(houseID << 4);
+						if (colour <= 0x96 || !g_dune2_enhanced) colour += (byte)(houseID << 4);
 					}
 					local_palette[i] = colour;
 				}

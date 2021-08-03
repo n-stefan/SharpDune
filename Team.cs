@@ -99,7 +99,7 @@ namespace SharpDune
 				if (!Script_Run(t.script))
 				{
 					/* ENHANCEMENT -- Dune2 aborts all other teams if one gives a script error. This doesn't seem correct */
-					if (CSharpDune.g_dune2_enhanced) continue;
+					if (g_dune2_enhanced) continue;
 					break;
 				}
 			}

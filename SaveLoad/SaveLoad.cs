@@ -264,7 +264,7 @@ namespace SharpDune.SaveLoad
 				member = sld[c].member;
 				if (type != null && member != null)
 				{
-					index = member.IndexOf('.', CSharpDune.StringComparison);
+					index = member.IndexOf('.', Comparison);
 
 					field = (index != -1) ?
 						type.GetField(member[..index], flags).FieldType.GetField(member[(index + 1)..], flags) :
@@ -338,7 +338,7 @@ namespace SharpDune.SaveLoad
                             {
 								if (field.FieldType == typeof(string))
 								{
-									sb.Append(Convert.ToChar(value, CSharpDune.Culture));
+									sb.Append(Convert.ToChar(value, Culture));
 									if (i == sld[c].count - 1)
 									{
 										field.SetValue(ptr, sb.Replace("\0", string.Empty).ToString());
@@ -356,7 +356,7 @@ namespace SharpDune.SaveLoad
 								}
 								else
 								{
-									field.SetValue(ptr, (sld[c].type_memory == SaveLoadType.SLDT_UINT8) ? Convert.ToByte(value, CSharpDune.Culture) : value);
+									field.SetValue(ptr, (sld[c].type_memory == SaveLoadType.SLDT_UINT8) ? Convert.ToByte(value, Culture) : value);
 									if (ptr is ValueType && index != -1)
 									{
 										type.GetField(member[..index], flags).SetValue(obj, ptr);
@@ -371,7 +371,7 @@ namespace SharpDune.SaveLoad
 
 						case SaveLoadType.SLDT_HOUSEFLAGS:
 							{
-								var v = Convert.ToUInt32(value, CSharpDune.Culture);
+								var v = Convert.ToUInt32(value, Culture);
                                 var f = new HouseFlags
                                 {
                                     used = (v & 0x01) == 0x01,
@@ -387,7 +387,7 @@ namespace SharpDune.SaveLoad
 
 						case SaveLoadType.SLDT_OBJECTFLAGS:
 							{
-								var v = Convert.ToUInt32(value, CSharpDune.Culture);
+								var v = Convert.ToUInt32(value, Culture);
                                 var f = new ObjectFlags
                                 {
                                     used = (v & 0x01) == 0x01,
@@ -419,7 +419,7 @@ namespace SharpDune.SaveLoad
 							{
 								var f = new TeamFlags
 								{
-									used = (Convert.ToUInt32(value, CSharpDune.Culture) & 0x01) == 0x01,
+									used = (Convert.ToUInt32(value, Culture) & 0x01) == 0x01,
 									notused_0002 = false
 								};
 								field.SetValue(ptr, f);
@@ -437,7 +437,7 @@ namespace SharpDune.SaveLoad
 							break;
 
 						case SaveLoadType.SLDT_CALLBACK:
-							sld[c].callback(obj, Convert.ToUInt32(value, CSharpDune.Culture), true);
+							sld[c].callback(obj, Convert.ToUInt32(value, Culture), true);
 							break;
 
 						case SaveLoadType.SLDT_INVALID:
@@ -476,7 +476,7 @@ namespace SharpDune.SaveLoad
 				member = sld[c].member;
 				if (type != null && member != null)
 				{
-					index = member.IndexOf('.', CSharpDune.StringComparison);
+					index = member.IndexOf('.', Comparison);
 					
 					field = (index != -1) ?
 						type.GetField(member[..index], flags).FieldType.GetField(member[(index + 1)..], flags) :
@@ -571,7 +571,7 @@ namespace SharpDune.SaveLoad
 						case SaveLoadType.SLDT_UINT8:
                             try
                             {
-								fp.Write(Convert.ToByte(values[i], CSharpDune.Culture)); //if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
+								fp.Write(Convert.ToByte(values[i], Culture)); //if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
 							}
 							catch (OverflowException)
                             {
@@ -580,18 +580,18 @@ namespace SharpDune.SaveLoad
 							break;
 
 						case SaveLoadType.SLDT_UINT16:
-							fp.Write(Convert.ToUInt16(values[i], CSharpDune.Culture)); //if (!CFile.fwrite_le_uint16(v, fp)) return false;
+							fp.Write(Convert.ToUInt16(values[i], Culture)); //if (!CFile.fwrite_le_uint16(v, fp)) return false;
 							break;
 
 						case SaveLoadType.SLDT_UINT32:
-							fp.Write(Convert.ToUInt32(values[i], CSharpDune.Culture)); //if (!CFile.fwrite_le_uint32(v, fp)) return false;
+							fp.Write(Convert.ToUInt32(values[i], Culture)); //if (!CFile.fwrite_le_uint32(v, fp)) return false;
 							break;
 
 						case SaveLoadType.SLDT_INT8:
 							sbyte v;
 							try
 							{
-							    v = Convert.ToSByte(values[i], CSharpDune.Culture);
+							    v = Convert.ToSByte(values[i], Culture);
 							}
 							catch (OverflowException)
 							{
@@ -601,11 +601,11 @@ namespace SharpDune.SaveLoad
 							break;
 
 						case SaveLoadType.SLDT_INT16:
-							fp.Write(Convert.ToInt16(values[i], CSharpDune.Culture)); //if (!CFile.fwrite_le_int16(v, fp)) return false;
+							fp.Write(Convert.ToInt16(values[i], Culture)); //if (!CFile.fwrite_le_int16(v, fp)) return false;
 							break;
 
 						case SaveLoadType.SLDT_INT32:
-							fp.Write(Convert.ToInt32(values[i], CSharpDune.Culture)); //if (!CFile.fwrite_le_int32(v, fp)) return false;
+							fp.Write(Convert.ToInt32(values[i], Culture)); //if (!CFile.fwrite_le_int32(v, fp)) return false;
 							break;
 
 						default:

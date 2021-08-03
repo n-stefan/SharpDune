@@ -896,26 +896,26 @@ namespace SharpDune.Gui
 		{
 			Screen oldScreenID;
 
-			if (selectionType == (ushort)SelectionType.UNIT && CUnit.g_unitSelected == null)
+			if (selectionType == (ushort)SelectionType.UNIT && g_unitSelected == null)
 			{
 				selectionType = (ushort)SelectionType.STRUCTURE;
 			}
 
-			if (selectionType == (ushort)SelectionType.STRUCTURE && CUnit.g_unitSelected != null)
+			if (selectionType == (ushort)SelectionType.STRUCTURE && g_unitSelected != null)
 			{
-				CUnit.g_unitSelected = null;
+                g_unitSelected = null;
 			}
 
 			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
 
-			if (CSharpDune.g_selectionType != selectionType)
+			if (g_selectionType != selectionType)
 			{
-				var oldSelectionType = CSharpDune.g_selectionType;
+				var oldSelectionType = g_selectionType;
 
 				Timer.Timer_SetTimer(TimerType.TIMER_GAME, false);
 
-				CSharpDune.g_selectionType = selectionType;
-				CSharpDune.g_selectionTypeNew = selectionType;
+                g_selectionType = selectionType;
+                g_selectionTypeNew = selectionType;
 				g_var_37B8 = true;
 
 				switch (oldSelectionType)
@@ -924,17 +924,17 @@ namespace SharpDune.Gui
 					case (ushort)SelectionType.TARGET:
 					case (ushort)SelectionType.STRUCTURE:
 						if (oldSelectionType == (ushort)SelectionType.PLACE)
-							Map.Map_SetSelection(CStructure.g_structureActivePosition);
+							Map.Map_SetSelection(g_structureActivePosition);
 
 						g_cursorDefaultSpriteID = 0;
 						GUI_DisplayText(null, -1);
 						break;
 
 					case (ushort)SelectionType.UNIT:
-						if (CUnit.g_unitSelected != null && selectionType != (ushort)SelectionType.TARGET && selectionType != (ushort)SelectionType.UNIT)
+						if (g_unitSelected != null && selectionType != (ushort)SelectionType.TARGET && selectionType != (ushort)SelectionType.UNIT)
 						{
-							CUnit.Unit_UpdateMap(2, CUnit.g_unitSelected);
-							CUnit.g_unitSelected = null;
+                            Unit_UpdateMap(2, g_unitSelected);
+                            g_unitSelected = null;
 						}
 						break;
 
@@ -944,8 +944,8 @@ namespace SharpDune.Gui
 
 				if (g_table_selectionType[oldSelectionType].variable_04 && g_table_selectionType[selectionType].variable_06)
 				{
-					CSharpDune.g_viewport_forceRedraw = true;
-					CSharpDune.g_viewport_fadein = true;
+                    g_viewport_forceRedraw = true;
+                    g_viewport_fadein = true;
 
 					GUI_DrawInterfaceAndRadar(Screen.NO0);
 				}
@@ -986,7 +986,7 @@ namespace SharpDune.Gui
 					g_textDisplayNeedsUpdate = true;
 				}
 
-				switch (CSharpDune.g_selectionType)
+				switch (g_selectionType)
 				{
 					case (ushort)SelectionType.MENTAT:
 						if (oldSelectionType != (ushort)SelectionType.INTRO)
@@ -1000,7 +1000,7 @@ namespace SharpDune.Gui
 						break;
 
 					case (ushort)SelectionType.TARGET:
-						CStructure.g_structureActivePosition = g_selectionPosition;
+                        g_structureActivePosition = g_selectionPosition;
 						WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
 
 						g_cursorDefaultSpriteID = 5;
@@ -1009,10 +1009,10 @@ namespace SharpDune.Gui
 						break;
 
 					case (ushort)SelectionType.PLACE:
-						CUnit.Unit_Select(null);
+                        Unit_Select(null);
 						WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
 
-						Map.Map_SetSelectionSize(g_table_structureInfo[CStructure.g_structureActiveType].layout);
+						Map.Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
 
 						Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
 						break;
@@ -1101,7 +1101,7 @@ namespace SharpDune.Gui
 			uint mask;
 			ushort hint;
 
-			if (CSharpDune.g_debugGame || stringID == (ushort)Text.STR_NULL || Config.g_gameConfig.hints == 0 || CSharpDune.g_selectionType == (ushort)SelectionType.MENTAT) return 0;
+			if (g_debugGame || stringID == (ushort)Text.STR_NULL || Config.g_gameConfig.hints == 0 || g_selectionType == (ushort)SelectionType.MENTAT) return 0;
 
 			hint = (ushort)(stringID - Text.STR_YOU_MUST_BUILD_A_WINDTRAP_TO_PROVIDE_POWER_TO_YOUR_BASE_WITHOUT_POWER_YOUR_STRUCTURES_WILL_DECAY);
 
@@ -1110,14 +1110,14 @@ namespace SharpDune.Gui
 			if (hint < 32)
 			{
 				mask = (uint)(1 << hint);
-				if ((CSharpDune.g_hintsShown1 & mask) != 0) return 0;
-				CSharpDune.g_hintsShown1 |= mask;
+				if ((g_hintsShown1 & mask) != 0) return 0;
+                g_hintsShown1 |= mask;
 			}
 			else
 			{
 				mask = (uint)(1 << (hint - 32));
-				if ((CSharpDune.g_hintsShown2 & mask) != 0) return 0;
-				CSharpDune.g_hintsShown2 |= mask;
+				if ((g_hintsShown2 & mask) != 0) return 0;
+                g_hintsShown2 |= mask;
 			}
 
 			//if ((hintsShown & mask) != 0) return 0;
@@ -1141,7 +1141,7 @@ namespace SharpDune.Gui
 			Screen oldScreenID;
 			byte[] screenBackup;
 
-			textBuffer = new StringBuilder().AppendFormat(CSharpDune.Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), str, ap);
+			textBuffer = new StringBuilder().AppendFormat(Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), str, ap);
 
 			GUI_Mouse_Hide_Safe();
 
@@ -1224,7 +1224,7 @@ namespace SharpDune.Gui
 			}
 			else
 			{
-				CSharpDune.g_viewport_forceRedraw = true;
+                g_viewport_forceRedraw = true;
 			}
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
@@ -1261,7 +1261,7 @@ namespace SharpDune.Gui
 
 			if (str != null)
 			{
-				buffer = new StringBuilder().AppendFormat(CSharpDune.Culture, str, ap).ToString(); //vsnprintf(buffer, sizeof(buffer), str, ap);
+				buffer = new StringBuilder().AppendFormat(Culture, str, ap).ToString(); //vsnprintf(buffer, sizeof(buffer), str, ap);
 			}
 
 			if (importance == -1) /* Remove all displayed lines. */
@@ -1491,7 +1491,7 @@ namespace SharpDune.Gui
 
 			if (str == null) return;
 
-			textBuffer = new StringBuilder().AppendFormat(CSharpDune.Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), string, ap);
+			textBuffer = new StringBuilder().AppendFormat(Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), string, ap);
 
 			switch (flags & 0x0F00)
 			{
@@ -1513,7 +1513,7 @@ namespace SharpDune.Gui
 		 */
 		internal static void GUI_UpdateProductionStringID()
 		{
-			var s = CStructure.Structure_Get_ByPackedTile(g_selectionPosition);
+			var s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 			if (s == null) return;
 
@@ -2297,7 +2297,7 @@ namespace SharpDune.Gui
 
 			oldScreenID = Gfx.GFX_Screen_SetActive((screenID == Screen.NO0) ? Screen.NO1 : screenID);
 
-			CSharpDune.g_viewport_forceRedraw = true;
+            g_viewport_forceRedraw = true;
 
 			Sprites.Sprites_LoadImage("SCREEN.CPS", Screen.NO1, null);
 			GUI_DrawSprite(Screen.NO1, Sprites.g_sprites[11], 192, 0, 0, 0); /* "Credits" */
@@ -2330,7 +2330,7 @@ namespace SharpDune.Gui
 				if (s == null) break;
 				if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
-				CStructure.Structure_UpdateMap(s);
+                Structure_UpdateMap(s);
 			}
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -2344,7 +2344,7 @@ namespace SharpDune.Gui
 				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
-				CUnit.Unit_UpdateMap(1, u);
+                Unit_UpdateMap(1, u);
 			}
 
 			if (screenID == Screen.NO0)
@@ -2354,7 +2354,7 @@ namespace SharpDune.Gui
 				GUI_Mouse_Hide_Safe();
 
 				GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
-				GUI_DrawCredits((byte)CHouse.g_playerHouseID, (ushort)((CHouse.g_playerCredits == 0xFFFF) ? 2 : 1));
+				GUI_DrawCredits((byte)g_playerHouseID, (ushort)((g_playerCredits == 0xFFFF) ? 2 : 1));
 				GUI_SetPaletteAnimated(Gfx.g_palette1, 15);
 
 				GUI_Mouse_Show_Safe();
@@ -2362,7 +2362,7 @@ namespace SharpDune.Gui
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 
-			GUI_DrawCredits((byte)CHouse.g_playerHouseID, 2);
+			GUI_DrawCredits((byte)g_playerHouseID, 2);
 
 			Input.Input.Input_History_Clear();
 		}
@@ -2433,7 +2433,7 @@ namespace SharpDune.Gui
 				timerAnimation = Timer.g_timerGUI + 60;
 			}
 
-			if (timerSelection < Timer.g_timerGUI && CSharpDune.g_selectionType != (ushort)SelectionType.MENTAT)
+			if (timerSelection < Timer.g_timerGUI && g_selectionType != (ushort)SelectionType.MENTAT)
 			{
 				/* selection color */
 				GUI_Palette_ShiftColour(Gfx.g_palette1, 255, selectionStateColour);
@@ -2446,7 +2446,7 @@ namespace SharpDune.Gui
 					{
 						selectionStateColour = 15;
 
-						if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
+						if (g_selectionType == (ushort)SelectionType.PLACE)
 						{
 							if (g_selectionState != 0)
 							{
@@ -2645,7 +2645,7 @@ namespace SharpDune.Gui
 
 			if (mode == 2)
 			{
-				CHouse.g_playerCredits = h.credits;
+                g_playerCredits = h.credits;
 				creditsAnimation = h.credits;
 			}
 
@@ -2700,10 +2700,10 @@ namespace SharpDune.Gui
 
 			GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[12], 0, 0, 4, DRAWSPRITE_FLAG_WIDGETPOS);
 
-			CHouse.g_playerCredits = (ushort)creditsOld;
+            g_playerCredits = (ushort)creditsOld;
 
-			charCreditsOld = string.Format(CSharpDune.Culture, "{0, 6}", creditsOld); //snprintf(charCreditsOld, sizeof(charCreditsOld), "%6d", creditsOld);
-			charCreditsNew = string.Format(CSharpDune.Culture, "{0, 6}", creditsNew); //snprintf(charCreditsNew, sizeof(charCreditsNew), "%6d", creditsNew);
+			charCreditsOld = string.Format(Culture, "{0, 6}", creditsOld); //snprintf(charCreditsOld, sizeof(charCreditsOld), "%6d", creditsOld);
+			charCreditsNew = string.Format(Culture, "{0, 6}", creditsNew); //snprintf(charCreditsNew, sizeof(charCreditsNew), "%6d", creditsNew);
 
 			for (i = 0; i < 6; i++)
 			{
@@ -2751,20 +2751,20 @@ namespace SharpDune.Gui
 			Screen oldScreenID;
 			ushort xpos;
 
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.MENTAT) return;
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.DEBUG) return;
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.UNKNOWN6) return;
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.INTRO) return;
+			if (g_selectionType == (ushort)SelectionType.MENTAT) return;
+			if (g_selectionType == (ushort)SelectionType.DEBUG) return;
+			if (g_selectionType == (ushort)SelectionType.UNKNOWN6) return;
+			if (g_selectionType == (ushort)SelectionType.INTRO) return;
 
 			oldScreenID = Gfx.GFX_Screen_SetActive(screenID);
 
-			if (!Gfx.GFX_Screen_IsActive(Screen.NO0)) CSharpDune.g_viewport_forceRedraw = true;
+			if (!Gfx.GFX_Screen_IsActive(Screen.NO0)) g_viewport_forceRedraw = true;
 
 			CExplosion.Explosion_Tick();
 			CAnimation.Animation_Tick();
-			CUnit.Unit_Sort();
+            Unit_Sort();
 
-			if (!CSharpDune.g_viewport_forceRedraw && g_viewportPosition != g_minimapPosition)
+			if (!g_viewport_forceRedraw && g_viewportPosition != g_minimapPosition)
 			{
 				var viewportX = CTile.Tile_GetPackedX(g_viewportPosition);
 				var viewportY = CTile.Tile_GetPackedY(g_viewportPosition);
@@ -2779,9 +2779,9 @@ namespace SharpDune.Gui
 
 				if (xOverlap < 1 || yOverlap < 1)
 				{
-					CSharpDune.g_viewport_forceRedraw = true;
+                    g_viewport_forceRedraw = true;
 				}
-				else if (!CSharpDune.g_viewport_forceRedraw && (xOverlap != 15 || yOverlap != 10))
+				else if (!g_viewport_forceRedraw && (xOverlap != 15 || yOverlap != 10))
 				{
 					Map.Map_SetSelectionObjectPosition(0xFFFF);
 					hasScrolled = true;
@@ -2792,7 +2792,7 @@ namespace SharpDune.Gui
 				}
 				else
 				{
-					CSharpDune.g_viewport_forceRedraw = true;
+                    g_viewport_forceRedraw = true;
 				}
 
 				xOffset = Max((short)0, xOffset);
@@ -2804,7 +2804,7 @@ namespace SharpDune.Gui
 
 					for (x = 0; x < 15; x++)
 					{
-						if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && !CSharpDune.g_viewport_forceRedraw) continue;
+						if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && !g_viewport_forceRedraw) continue;
 
 						Map.Map_Update((ushort)(x + viewportX + mapYBase), 0, true);
 					}
@@ -2840,9 +2840,9 @@ namespace SharpDune.Gui
 				}
 			}
 
-			Viewport.GUI_Widget_Viewport_Draw(CSharpDune.g_viewport_forceRedraw, hasScrolled, !Gfx.GFX_Screen_IsActive(Screen.NO0));
+			Viewport.GUI_Widget_Viewport_Draw(g_viewport_forceRedraw, hasScrolled, !Gfx.GFX_Screen_IsActive(Screen.NO0));
 
-			CSharpDune.g_viewport_forceRedraw = false;
+            g_viewport_forceRedraw = false;
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 
@@ -3131,7 +3131,7 @@ namespace SharpDune.Gui
 			x = 0;
 			y = 0;
 
-			switch (CHouse.g_playerHouseID)
+			switch (g_playerHouseID)
 			{
 				case HouseType.HOUSE_HARKONNEN:
 					x = 0;
@@ -3150,7 +3150,7 @@ namespace SharpDune.Gui
 			}
 
 			Array.Copy(Gfx.g_palette1, 251 * 3, loc316, 0, 12); //memcpy(loc316, Gfx.g_palette1 + 251 * 3, 12);
-			Array.Copy(Gfx.g_palette1, (144 + ((int)CHouse.g_playerHouseID * 16)) * 3, s_strategicMapArrowColors, 0, 4 * 3); //memcpy(s_strategicMapArrowColors, Gfx.g_palette1 + (144 + (CHouse.g_playerHouseID * 16)) * 3, 4 * 3);
+			Array.Copy(Gfx.g_palette1, (144 + ((int)g_playerHouseID * 16)) * 3, s_strategicMapArrowColors, 0, 4 * 3); //memcpy(s_strategicMapArrowColors, Gfx.g_palette1 + (144 + (CHouse.g_playerHouseID * 16)) * 3, 4 * 3);
 			Array.Copy(s_strategicMapArrowColors, 0, s_strategicMapArrowColors, 4 * 3, 4 * 3); //memcpy(s_strategicMapArrowColors + 4 * 3, s_strategicMapArrowColors, 4 * 3);
 
 			GUI_Screen_Copy((short)x, (short)y, 0, 152, 7, 40, Screen.NO2, Screen.NO2);
@@ -3355,7 +3355,7 @@ namespace SharpDune.Gui
 
 				GUI_SetPaletteAnimated(palette, 15);
 
-				if (CSharpDune.g_debugSkipDialogs || CSharpDune.g_debugScenario)
+				if (g_debugSkipDialogs || g_debugScenario)
 				{
 					Debug.WriteLine("DEBUG: Skipping House selection confirmation.");
 					break;
@@ -3364,7 +3364,7 @@ namespace SharpDune.Gui
 				w = CWidget.GUI_Widget_Link(w, CWidget.GUI_Widget_Allocate(1, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_YES)[0]), 168, 168, 373, 0));
 				w = CWidget.GUI_Widget_Link(w, CWidget.GUI_Widget_Allocate(2, CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_NO)[0]), 240, 168, 375, 0));
 
-				CHouse.g_playerHouseID = HouseType.HOUSE_MERCENARY;
+                g_playerHouseID = HouseType.HOUSE_MERCENARY;
 
 				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO0);
 
@@ -3372,8 +3372,8 @@ namespace SharpDune.Gui
 
 				//strncpy(g_readBuffer, String_Get_ByIndex(STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40), g_readBufferSize);
 				var text = CString.String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)houseID * 40));
-				CSharpDune.g_readBuffer = CSharpDune.Encoding.GetBytes(text);
-				Mentat.GUI_Mentat_Show(text, CHouse.House_GetWSAHouseFilename((byte)houseID), null);
+                g_readBuffer = CSharpDune.Encoding.GetBytes(text);
+				Mentat.GUI_Mentat_Show(text, House_GetWSAHouseFilename((byte)houseID), null);
 
 				Sprites.Sprites_LoadImage(CString.String_GenerateFilename("MISC"), Screen.NO1, Gfx.g_palette1);
 
@@ -3389,7 +3389,7 @@ namespace SharpDune.Gui
 
 				for (; ; Sleep.sleepIdle())
 				{
-					yes_no = Mentat.GUI_Mentat_Loop(CHouse.House_GetWSAHouseFilename((byte)houseID), null, null, true, w);
+					yes_no = Mentat.GUI_Mentat_Loop(House_GetWSAHouseFilename((byte)houseID), null, null, true, w);
 
 					if ((yes_no & 0x8000) != 0) break;
 				}
@@ -3458,7 +3458,7 @@ namespace SharpDune.Gui
 				new (ushort value, ushort increment)[2], new (ushort value, ushort increment)[2], new (ushort value, ushort increment)[2]
 			};
 
-			s_ticksPlayed = ((Timer.g_timerGame - CSharpDune.g_tickScenarioStart) / 3600) + 1;
+			s_ticksPlayed = ((Timer.g_timerGame - g_tickScenarioStart) / 3600) + 1;
 
 			//TODO: Remove
 			//s_ticksPlayed = 5;
@@ -3473,7 +3473,7 @@ namespace SharpDune.Gui
 			score = (short)Update_Score(score, harvestedAllied, harvestedEnemy, houseID);
 
 			/* 1st scenario doesn't have the "Building destroyed" stats */
-			statsBoxCount = (ushort)((CSharpDune.g_scenarioID == 1) ? 2 : 3);
+			statsBoxCount = (ushort)((g_scenarioID == 1) ? 2 : 3);
 
 			GUI_Mouse_Hide_Safe();
 
@@ -3485,7 +3485,7 @@ namespace SharpDune.Gui
 
 			GUI_DrawTextOnFilledRectangle(CString.String_Get_ByIndex(Text.STR_SPICE_HARVESTED_BY), 83);
 			GUI_DrawTextOnFilledRectangle(CString.String_Get_ByIndex(Text.STR_UNITS_DESTROYED_BY), 119);
-			if (CSharpDune.g_scenarioID != 1) GUI_DrawTextOnFilledRectangle(CString.String_Get_ByIndex(Text.STR_BUILDINGS_DESTROYED_BY), 155);
+			if (g_scenarioID != 1) GUI_DrawTextOnFilledRectangle(CString.String_Get_ByIndex(Text.STR_BUILDINGS_DESTROYED_BY), 155);
 
 			textLeft = (ushort)(19 + Max(CFont.Font_GetStringWidth(CString.String_Get_ByIndex(Text.STR_YOU)), CFont.Font_GetStringWidth(CString.String_Get_ByIndex(Text.STR_ENEMY))));
 			statsBarWidth = (ushort)(261 - textLeft);
@@ -3666,7 +3666,7 @@ namespace SharpDune.Gui
 				WidgetProperties backupProperties;
 				string name;
 
-				name = new string(data[editLine - 1].name).Replace("\0", string.Empty, CSharpDune.StringComparison);
+				name = new string(data[editLine - 1].name).Replace("\0", string.Empty, Comparison);
 
 				backupProperties = CWidget.g_widgetProperties[19].Clone(); //memcpy(&backupProperties, &g_widgetProperties[19], sizeof(WidgetProperties));
 
@@ -3867,7 +3867,7 @@ namespace SharpDune.Gui
 
 			while (buffer[bufferPointer] != Environment.NewLine[0])
 			{ //*s != '\0'
-				var region = ushort.Parse(buffer[bufferPointer].ToString(), CSharpDune.Culture);
+				var region = ushort.Parse(buffer[bufferPointer].ToString(), Culture);
 
 				if (region != 0) Sprites.g_regions[region] = houseID;
 
@@ -4000,14 +4000,14 @@ namespace SharpDune.Gui
 			Sprites.Sprites_LoadImage("FAME.CPS", Screen.NO1, g_palette_998A);
 
 			xSrc = 1;
-			if (CHouse.g_playerHouseID <= HouseType.HOUSE_ORDOS)
+			if (g_playerHouseID <= HouseType.HOUSE_ORDOS)
 			{
-				xSrc = (ushort)(((byte)CHouse.g_playerHouseID * 56 + 8) / 8);
+				xSrc = (ushort)(((byte)g_playerHouseID * 56 + 8) / 8);
 			}
 
 			GUI_Screen_Copy((short)xSrc, 136, 0, 8, 7, 56, Screen.NO1, Screen.NO1);
 
-			if (CHouse.g_playerHouseID > HouseType.HOUSE_ORDOS)
+			if (g_playerHouseID > HouseType.HOUSE_ORDOS)
 			{
 				xSrc += 7;
 			}
@@ -4024,7 +4024,7 @@ namespace SharpDune.Gui
 			else
 			{
 				Gfx.GFX_Screen_Copy2(8, 80, 8, 116, 304, 36, Screen.NO1, Screen.NO1, false);
-				if (CSharpDune.g_scenarioID != 1) Gfx.GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, Screen.NO1, Screen.NO1, false);
+				if (g_scenarioID != 1) Gfx.GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, Screen.NO1, Screen.NO1, false);
 			}
 
 			if (score != 0xFFFF)
@@ -4032,13 +4032,13 @@ namespace SharpDune.Gui
 				string buffer; //char[64];
 
 				//snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
-				buffer = string.Format(CSharpDune.Culture, CString.String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
+				buffer = string.Format(Culture, CString.String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
 
 				if (s_ticksPlayed < 60)
 				{
 					//char* hours = strchr(buffer, '0');
 					//while (*hours != ' ') memmove(hours, hours + 1, strlen(hours));
-					buffer = buffer.Replace("0h", string.Empty, CSharpDune.StringComparison);
+					buffer = buffer.Replace("0h", string.Empty, Comparison);
 				}
 
 				/* "Score: %d" */
@@ -4053,7 +4053,7 @@ namespace SharpDune.Gui
 				GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_HALL_OF_FAME2), Gfx.SCREEN_WIDTH / 2, 15, 15, 0, 0x122);
 			}
 
-			switch (CHouse.g_playerHouseID)
+			switch (g_playerHouseID)
 			{
 				case HouseType.HOUSE_HARKONNEN:
 					colour = 149;
@@ -4124,7 +4124,7 @@ namespace SharpDune.Gui
 					p1 = g_table_houseInfo[data[i].houseID].name;
 					p2 = CString.String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 				}
-				name = new string(data[i].name).Replace("\0", string.Empty, CSharpDune.StringComparison);
+				name = new string(data[i].name).Replace("\0", string.Empty, Comparison);
 				buffer = $"{name}, {p1} {p2}"; //snprintf(buffer, sizeof(buffer), "%s, %s %s", data[i].name, p1, p2);
 
 				if (name == string.Empty)
@@ -4184,13 +4184,13 @@ namespace SharpDune.Gui
 
 			GUI_Palette_CreateRemap(houseId);
 
-			key = region.ToString(CSharpDune.Culture); //sprintf(key, "%hu", region);
+			key = region.ToString(Culture); //sprintf(key, "%hu", region);
 
 			buffer = Ini.Ini_GetString("PIECES", key, null, Sprites.g_fileRegionINI);
 
 			var temp = buffer.Split(",");
-			x = short.Parse(temp[0], CSharpDune.Culture);
-			y = short.Parse(temp[1], CSharpDune.Culture);
+			x = short.Parse(temp[0], Culture);
+			y = short.Parse(temp[1], Culture);
 			//sscanf(buffer, "%hd,%hd", &x, &y);
 
 			sprite = Sprites.g_sprites[477 + region];
@@ -4215,7 +4215,7 @@ namespace SharpDune.Gui
 			ushort region = 0;
 			ushort i;
 
-			GUI_Palette_CreateRemap((byte)CHouse.g_playerHouseID);
+			GUI_Palette_CreateRemap((byte)g_playerHouseID);
 
 			category = $"GROUP{campaignID:X}"; //sprintf(category, "GROUP%hu", campaignID);
 
@@ -4230,10 +4230,10 @@ namespace SharpDune.Gui
 				if ((buffer = Ini.Ini_GetString(category, key, null, Sprites.g_fileRegionINI)) == null) break;
 
 				var temp = buffer.Split(",");
-				data[i].index = short.Parse(temp[0], CSharpDune.Culture);
-				data[i].arrow = short.Parse(temp[1], CSharpDune.Culture);
-				data[i].offsetX = short.Parse(temp[2], CSharpDune.Culture);
-				data[i].offsetY = short.Parse(temp[3], CSharpDune.Culture);
+				data[i].index = short.Parse(temp[0], Culture);
+				data[i].arrow = short.Parse(temp[1], Culture);
+				data[i].offsetX = short.Parse(temp[2], Culture);
+				data[i].offsetY = short.Parse(temp[3], Culture);
 				//sscanf(buffer, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
 				if (!GUI_StrategicMap_IsRegionDone((ushort)data[i].index)) hasRegions = true;
@@ -4370,7 +4370,7 @@ namespace SharpDune.Gui
 
 			for (i = 0; i < 6; i++)
 			{
-				var houseID = (byte)(((byte)CHouse.g_playerHouseID + i) % 6);
+				var houseID = (byte)(((byte)g_playerHouseID + i) % 6);
 
 				key = g_table_houseInfo[houseID].name[0..3]; //strncpy(key, g_table_houseInfo[houseID].name, 3);
 																	//key[3] = '\0';
@@ -4381,7 +4381,7 @@ namespace SharpDune.Gui
 
 				for (var j = 0; j < parts.Length; j++)
 				{
-					var region = ushort.Parse(parts[j], CSharpDune.Culture);
+					var region = ushort.Parse(parts[j], Culture);
 
 					if (region != 0)
 					{
@@ -4434,7 +4434,7 @@ namespace SharpDune.Gui
 				score += (short)(g_table_structureInfo[s.o.type].o.buildCredits / 100);
 			}
 
-			CSharpDune.g_validateStrictIfZero++;
+            g_validateStrictIfZero++;
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.type = (ushort)UnitType.UNIT_HARVESTER;
@@ -4447,7 +4447,7 @@ namespace SharpDune.Gui
 				u = PoolUnit.Unit_Find(find);
 				if (u == null) break;
 
-				if (CHouse.House_AreAllied(CUnit.Unit_GetHouseID(u), (byte)CHouse.g_playerHouseID))
+				if (House_AreAllied(Unit_GetHouseID(u), (byte)g_playerHouseID))
 				{
 					sumHarvestedAllied += (ushort)(u.amount * 7);
 				}
@@ -4457,7 +4457,7 @@ namespace SharpDune.Gui
 				}
 			}
 
-			CSharpDune.g_validateStrictIfZero--;
+            g_validateStrictIfZero--;
 
 			tmp = (uint)(harvestedEnemy + sumHarvestedEnnemy);
 			harvestedEnemy = (ushort)((tmp > 65000) ? 65000 : (tmp & 0xFFFF));
@@ -4469,7 +4469,7 @@ namespace SharpDune.Gui
 
 			if (score < 0) score = 0;
 
-			targetTime = (ushort)(CSharpDune.g_campaignID * 45);
+			targetTime = (ushort)(g_campaignID * 45);
 
 			if (s_ticksPlayed < targetTime)
 			{
@@ -4573,10 +4573,10 @@ namespace SharpDune.Gui
 				{
 					//memset(data->name, 0, 6);
 					score = score,
-					houseID = (byte)CHouse.g_playerHouseID,
+					houseID = (byte)g_playerHouseID,
 					rank = GUI_HallOfFame_GetRank(score),
-					campaignID = CSharpDune.g_campaignID
-				};
+					campaignID = g_campaignID
+                };
 
 				return (ushort)(i + 1);
 			}
@@ -4661,7 +4661,7 @@ namespace SharpDune.Gui
 			{
 				ushort evt;
 
-				GUI_DrawCredits((byte)CHouse.g_playerHouseID, 0);
+				GUI_DrawCredits((byte)g_playerHouseID, 0);
 
 				GUI_FactoryWindow_UpdateSelection(false);
 
@@ -4672,7 +4672,7 @@ namespace SharpDune.Gui
 				GUI_PaletteAnimate();
 			}
 
-			GUI_DrawCredits((byte)CHouse.g_playerHouseID, 1);
+			GUI_DrawCredits((byte)g_playerHouseID, 1);
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 
@@ -4682,8 +4682,8 @@ namespace SharpDune.Gui
 
 			Gfx.GFX_SetPalette(Gfx.g_palette1);
 
-			/* Visible credits have to be reset, as it might not be the real value */
-			CHouse.g_playerCredits = 0xFFFF;
+            /* Visible credits have to be reset, as it might not be the real value */
+            g_playerCredits = 0xFFFF;
 
 			return g_factoryWindowResult;
 		}
@@ -4736,7 +4736,7 @@ namespace SharpDune.Gui
 				return;
 			}
 
-			switch (CHouse.g_playerHouseID)
+			switch (g_playerHouseID)
 			{
 				case HouseType.HOUSE_HARKONNEN:
 					Gfx.g_palette1[255 * 3 + 1] = (byte)paletteColour;
@@ -4783,8 +4783,8 @@ namespace SharpDune.Gui
 
 			GUI_Palette_RemapScreen(0, 0, Gfx.SCREEN_WIDTH, Gfx.SCREEN_HEIGHT, Screen.NO1, g_remap);
 
-			GUI_Screen_Copy(xSrc[(int)CHouse.g_playerHouseID], ySrc[(int)CHouse.g_playerHouseID], 0, 8, 7, 40, Screen.NO1, Screen.NO1);
-			GUI_Screen_Copy(xSrc[(int)CHouse.g_playerHouseID], ySrc[(int)CHouse.g_playerHouseID], 0, 152, 7, 40, Screen.NO1, Screen.NO1);
+			GUI_Screen_Copy(xSrc[(int)g_playerHouseID], ySrc[(int)g_playerHouseID], 0, 8, 7, 40, Screen.NO1, Screen.NO1);
+			GUI_Screen_Copy(xSrc[(int)g_playerHouseID], ySrc[(int)g_playerHouseID], 0, 152, 7, 40, Screen.NO1, Screen.NO1);
 
 			GUI_FactoryWindow_CreateWidgets();
 			GUI_FactoryWindow_LoadGraymapTbl();
@@ -4830,7 +4830,7 @@ namespace SharpDune.Gui
 
 			GUI_FactoryWindow_DrawDetails();
 
-			GUI_DrawCredits((byte)CHouse.g_playerHouseID, 1);
+			GUI_DrawCredits((byte)g_playerHouseID, 1);
 
 			Gfx.GFX_Screen_SetActive(oldScreenID);
 		}
@@ -5098,9 +5098,9 @@ namespace SharpDune.Gui
 
 			y = 160;
 			if (oi.available <= item.amount) y = 169;
-			else if (CSharpDune.g_starPortEnforceUnitLimit && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
+			else if (g_starPortEnforceUnitLimit && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 			{
-				var h = CHouse.g_playerHouse;
+				var h = g_playerHouse;
 				if (h.unitCount >= h.unitCountMax) y = 178;
 			}
 			GUI_Mouse_Hide_Safe();
@@ -5138,7 +5138,7 @@ namespace SharpDune.Gui
 			ushort height;
 			ushort i;
 
-			GUI_Palette_CreateRemap((byte)CHouse.g_playerHouseID);
+			GUI_Palette_CreateRemap((byte)g_playerHouseID);
 
 			for (i = 0; i < 20; i++)
 			{
@@ -5151,13 +5151,13 @@ namespace SharpDune.Gui
 				GUI_Mouse_Show_Safe();
 			}
 
-			key = selected.ToString("D", CSharpDune.Culture); //sprintf(key, "%d", selected);
+			key = selected.ToString("D", Culture); //sprintf(key, "%d", selected);
 
 			buffer = Ini.Ini_GetString("PIECES", key, null, Sprites.g_fileRegionINI);
 
 			var temp = buffer.Split(",");
-			x = short.Parse(temp[0], CSharpDune.Culture);
-			y = short.Parse(temp[1], CSharpDune.Culture);
+			x = short.Parse(temp[0], Culture);
+			y = short.Parse(temp[1], Culture);
 			//sscanf(buffer, "%hd,%hd", &x, &y);
 
 			sprite = Sprites.g_sprites[477 + selected];
@@ -5207,8 +5207,8 @@ namespace SharpDune.Gui
 
 			if (g_factoryWindowStarport)
 			{
-				var seconds = (ushort)((Timer.g_timerGame - CSharpDune.g_tickScenarioStart) / 60);
-				var seed = (ushort)((seconds / 60) + CSharpDune.g_scenarioID + CHouse.g_playerHouseID);
+				var seconds = (ushort)((Timer.g_timerGame - g_tickScenarioStart) / 60);
+				var seed = (ushort)((seconds / 60) + g_scenarioID + g_playerHouseID);
 				seed *= seed;
 
 				Tools.Tools_RandomLCG_Seed(seed);
@@ -5265,7 +5265,7 @@ namespace SharpDune.Gui
 			if (g_factoryWindowTotal == 0)
 			{
 				GUI_DisplayModalMessage("ERROR: No items in construction list!", 0xFFFF);
-				CSharpDune.PrepareEnd();
+                PrepareEnd();
 				Environment.Exit(0);
 			}
 

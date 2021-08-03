@@ -124,17 +124,17 @@ namespace SharpDune.Gui
 			//ushort found;
 			ActionType unitAction;
 
-			u = CUnit.g_unitSelected;
+			u = g_unitSelected;
 			ui = g_table_unitInfo[u.o.type];
 
 			actions = ui.o.actionsPlayer;
-			if (CUnit.Unit_GetHouseID(u) != (byte)CHouse.g_playerHouseID && u.o.type != (byte)UnitType.UNIT_HARVESTER)
+			if (Unit_GetHouseID(u) != (byte)g_playerHouseID && u.o.type != (byte)UnitType.UNIT_HARVESTER)
 			{
 				actions = g_table_actionsAI;
 			}
 
 			action = (ActionType)actions[w.index - 8];
-			if (CSharpDune.g_dune2_enhanced)
+			if (g_dune2_enhanced)
 			{
 				if (Input.Input.Input_Test(0x2c) != 0 || Input.Input.Input_Test(0x39) != 0)
 				{   /* LSHIFT or RSHIFT is pressed */
@@ -152,7 +152,7 @@ namespace SharpDune.Gui
 
 			if (u.deviated != 0)
 			{
-				CUnit.Unit_Deviation_Decrease(u, 5);
+                Unit_Deviation_Decrease(u, 5);
 				if (u.deviated == 0)
 				{
 					CWidget.GUI_Widget_MakeNormal(w, false);
@@ -164,10 +164,10 @@ namespace SharpDune.Gui
 
 			ai = g_table_actionInfo[(int)action];
 
-			if (ai.selectionType != CSharpDune.g_selectionType)
+			if (ai.selectionType != g_selectionType)
 			{
-				CUnit.g_unitActive = CUnit.g_unitSelected;
-				CSharpDune.g_activeAction = (ushort)action;
+                g_unitActive = g_unitSelected;
+                g_activeAction = (ushort)action;
 				Gui.GUI_ChangeSelectionType(ai.selectionType);
 
 				return true;
@@ -178,7 +178,7 @@ namespace SharpDune.Gui
 			u.targetMove = 0;
 			u.route[0] = 0xFF;
 
-			CUnit.Unit_SetAction(u, action);
+            Unit_SetAction(u, action);
 
 			if (ui.movementType == (ushort)MovementType.MOVEMENT_FOOT) Sound.Sound_StartSound(ai.soundID);
 
@@ -357,10 +357,10 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Widget_Cancel_Click(Widget w)
 		{
-			if (CStructure.g_structureActiveType != 0xFFFF)
+			if (g_structureActiveType != 0xFFFF)
 			{
-				var s = CStructure.Structure_Get_ByPackedTile(CStructure.g_structureActivePosition);
-				var s2 = CStructure.g_structureActive;
+				var s = Structure_Get_ByPackedTile(g_structureActivePosition);
+				var s2 = g_structureActive;
 
 				Debug.Assert(s2 != null);
 
@@ -373,18 +373,18 @@ namespace SharpDune.Gui
 					PoolStructure.Structure_Free(s2);
 				}
 
-				CStructure.g_structureActive = null;
-				CStructure.g_structureActiveType = 0xFFFF;
+                g_structureActive = null;
+                g_structureActiveType = 0xFFFF;
 
 				Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 
 				Gui.g_selectionState = 0; /* Invalid. */
 			}
 
-			if (CUnit.g_unitActive == null) return true;
+			if (g_unitActive == null) return true;
 
-			CUnit.g_unitActive = null;
-			CSharpDune.g_activeAction = 0xFFFF;
+            g_unitActive = null;
+            g_activeAction = 0xFFFF;
 			Gui.g_cursorSpriteID = 0;
 
 			Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[0]);
@@ -404,7 +404,7 @@ namespace SharpDune.Gui
 		{
 			Structure s;
 
-			s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
 			switch ((Text)Gui.g_productionStringID)
 			{
@@ -416,10 +416,10 @@ namespace SharpDune.Gui
 						Structure ns;
 
 						ns = PoolStructure.Structure_Get_ByIndex(s.o.linkedID);
-						CStructure.g_structureActive = ns;
-						CStructure.g_structureActiveType = s.objectType;
-						Gui.g_selectionState = CStructure.Structure_IsValidBuildLocation(Gui.g_selectionRectanglePosition, (StructureType)CStructure.g_structureActiveType);
-						CStructure.g_structureActivePosition = Gui.g_selectionPosition;
+                        g_structureActive = ns;
+                        g_structureActiveType = s.objectType;
+						Gui.g_selectionState = Structure_IsValidBuildLocation(Gui.g_selectionRectanglePosition, (StructureType)g_structureActiveType);
+                        g_structureActivePosition = Gui.g_selectionPosition;
 						s.o.linkedID = (byte)StructureType.STRUCTURE_INVALID;
 
 						Gui.GUI_ChangeSelectionType((ushort)SelectionType.PLACE);
@@ -433,13 +433,13 @@ namespace SharpDune.Gui
 					break;
 
 				case Text.STR_BUILD_IT:
-					CStructure.Structure_BuildObject(s, s.objectType);
+                    Structure_BuildObject(s, s.objectType);
 					break;
 
 				case Text.STR_LAUNCH:
 				case Text.STR_FREMEN:
 				case Text.STR_SABOTEUR:
-					CStructure.Structure_ActivateSpecial(s);
+                    Structure_ActivateSpecial(s);
 					break;
 
 				case Text.STR_D_DONE:
@@ -480,18 +480,18 @@ namespace SharpDune.Gui
 		{
 			Structure s;
 
-			if (CUnit.g_unitSelected != null)
+			if (g_unitSelected != null)
 			{
-				CUnit.Unit_DisplayStatusText(CUnit.g_unitSelected);
+                Unit_DisplayStatusText(g_unitSelected);
 
 				return false;
 			}
 
-			s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
 			if (s == null || !g_table_structureInfo[s.o.type].o.flags.factory) return false;
 
-			CStructure.Structure_BuildObject(s, 0xFFFF);
+            Structure_BuildObject(s, 0xFFFF);
 
 			return false;
 		}
@@ -506,10 +506,10 @@ namespace SharpDune.Gui
 		{
 			Structure s;
 
-			s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
-			if (CStructure.Structure_SetRepairingState(s, -1, w)) return false;
-			CStructure.Structure_SetUpgradingState(s, -1, w);
+			if (Structure_SetRepairingState(s, -1, w)) return false;
+            Structure_SetUpgradingState(s, -1, w);
 
 			return false;
 		}
@@ -933,7 +933,7 @@ namespace SharpDune.Gui
 			if (Gui.g_factoryWindowStarport)
 			{
 				byte i = 0;
-				var h = CHouse.g_playerHouse;
+				var h = g_playerHouse;
 				while (Gui.g_factoryWindowOrdered != 0)
 				{
 					if (Gui.g_factoryWindowItems[i].amount != 0)
@@ -945,7 +945,7 @@ namespace SharpDune.Gui
 
 					i++;
 
-					Gui.GUI_DrawCredits((byte)CHouse.g_playerHouseID, 0);
+					Gui.GUI_DrawCredits((byte)g_playerHouseID, 0);
 				}
 			}
 
@@ -1169,7 +1169,7 @@ namespace SharpDune.Gui
 		{
 			var item = Gui.GUI_FactoryWindow_GetItem((short)Gui.g_factoryWindowSelected);
 			var oi = item.objectInfo;
-			var h = CHouse.g_playerHouse;
+			var h = g_playerHouse;
 			var canCreateMore = true;
 			var type = item.objectType;
 
@@ -1177,7 +1177,7 @@ namespace SharpDune.Gui
 
 			if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 			{
-				if (CSharpDune.g_starPortEnforceUnitLimit && h.unitCount >= h.unitCountMax) canCreateMore = false;
+				if (g_starPortEnforceUnitLimit && h.unitCount >= h.unitCountMax) canCreateMore = false;
 			}
 
 			if (item.amount < oi.available && item.credits <= h.credits && canCreateMore)
@@ -1204,7 +1204,7 @@ namespace SharpDune.Gui
 		internal static bool GUI_Purchase_Minus_Click(Widget w)
 		{
 			FactoryWindowItem item;
-			var h = CHouse.g_playerHouse;
+			var h = g_playerHouse;
 
 			CWidget.GUI_Widget_MakeNormal(w, false);
 
@@ -1275,7 +1275,7 @@ namespace SharpDune.Gui
 					amount = (ushort)(Gui.g_factoryWindowItems[i].amount * Gui.g_factoryWindowItems[i].credits);
 					total += amount;
 
-					textBuffer = string.Format(CSharpDune.Culture, "{0:D2} {1, 5}", Gui.g_factoryWindowItems[i].amount, amount); //snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
+					textBuffer = string.Format(Culture, "{0:D2} {1, 5}", Gui.g_factoryWindowItems[i].amount, amount); //snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
 
 					oi = Gui.g_factoryWindowItems[i].objectInfo;
 					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(oi.stringID_full), 128, (short)y, 8, 0, 0x11);
@@ -1293,7 +1293,7 @@ namespace SharpDune.Gui
 			Gui.GUI_DrawLine(129, 148, 310, 148, 12);
 			Gui.GUI_DrawLine(129, 150, 310, 150, 12);
 
-			textBuffer = total.ToString("D", CSharpDune.Culture); //snprintf(textBuffer, sizeof(textBuffer), "%d", total);
+			textBuffer = total.ToString("D", Culture); //snprintf(textBuffer, sizeof(textBuffer), "%d", total);
 
 			x = (ushort)(311 - (short)textBuffer.Length * 6);
 
@@ -1313,7 +1313,7 @@ namespace SharpDune.Gui
 
 			for (; CWidget.GUI_Widget_HandleEvents(w) == 0; Sleep.sleepIdle())
 			{
-				Gui.GUI_DrawCredits((byte)CHouse.g_playerHouseID, 0);
+				Gui.GUI_DrawCredits((byte)g_playerHouseID, 0);
 
 				Gui.GUI_FactoryWindow_UpdateSelection(false);
 
@@ -1395,7 +1395,7 @@ namespace SharpDune.Gui
 							if (!GUI_YesNo((ushort)Text.STR_ARE_YOU_SURE_YOU_WISH_TO_RESTART)) break;
 
 							loop = false;
-							CSharpDune.g_gameMode = GameMode.GM_RESTART;
+                            g_gameMode = GameMode.GM_RESTART;
 							break;
 
 						case 4:
@@ -1404,7 +1404,7 @@ namespace SharpDune.Gui
 
 							loop = false;
 							CDriver.Driver_Music_FadeOut();
-							CSharpDune.g_gameMode = GameMode.GM_PICKHOUSE;
+                            g_gameMode = GameMode.GM_PICKHOUSE;
 							break;
 
 						case 5:
@@ -1414,7 +1414,7 @@ namespace SharpDune.Gui
 						case 6:
 							/* "Are you sure you want to quit playing?" */
 							loop = !GUI_YesNo((ushort)Text.STR_ARE_YOU_SURE_YOU_WANT_TO_QUIT_PLAYING);
-							CSharpDune.g_running = loop;
+                            g_running = loop;
 
 							Sound.Sound_Output_Feedback(0xFFFE);
 
@@ -1424,7 +1424,7 @@ namespace SharpDune.Gui
 						default: break;
 					}
 
-					if (CSharpDune.g_running && loop)
+					if (g_running && loop)
 					{
 						GUI_Window_BackupScreen(desc);
 

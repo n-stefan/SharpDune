@@ -81,7 +81,7 @@
                 }
                 if (s == null) continue;
 
-                if (s.o.flags.isNotOnMap && CSharpDune.g_validateStrictIfZero == 0) continue;
+                if (s.o.flags.isNotOnMap && g_validateStrictIfZero == 0) continue;
                 if (find.houseID != (byte)HouseType.HOUSE_INVALID && find.houseID != s.o.houseID) continue;
                 if (find.type != (ushort)StructureIndex.STRUCTURE_INDEX_INVALID && find.type != s.o.type) continue;
 

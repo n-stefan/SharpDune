@@ -21,7 +21,7 @@ namespace SharpDune
 			/* In debug-scenario mode, the whole map is uncovered. Cover it now in
 			 *  the savegame based on the current position of the units and
 			 *  structures. */
-			if (CSharpDune.g_debugScenario)
+			if (g_debugScenario)
 			{
 				var find = new PoolFindStruct();
 				ushort i;
@@ -46,7 +46,7 @@ namespace SharpDune
 					u = PoolUnit.Unit_Find(find);
 					if (u == null) break;
 
-					CUnit.Unit_RemoveFog(u);
+                    Unit_RemoveFog(u);
 				}
 
 				find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -62,7 +62,7 @@ namespace SharpDune
 					if (s == null) break;
 					if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
-					CStructure.Structure_RemoveFog(s);
+                    Structure_RemoveFog(s);
 				}
 			}
 
@@ -73,9 +73,9 @@ namespace SharpDune
 				return false;
 			}
 
-			CSharpDune.g_validateStrictIfZero++;
+            g_validateStrictIfZero++;
 			res = Save_Main(fp, description);
-			CSharpDune.g_validateStrictIfZero--;
+            g_validateStrictIfZero--;
 
 			fp.Close();
 

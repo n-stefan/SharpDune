@@ -13,6 +13,6 @@ namespace SharpDune.Os
 #endif
 
 	    internal static void msleep(int x) =>
-            System.Threading.Thread.Sleep(x); //Sleep(x)
+            Thread.Sleep(x); //Sleep(x)
     }
 }

@@ -165,9 +165,9 @@ namespace SharpDune
             if (!si.o.flags.busyStateIsIncoming) return;
 
             s = PoolStructure.Structure_Get_ByIndex(o.index); //TODO: Check
-            if (CStructure.Structure_GetLinkedUnit(s) != null) return;
+            if (Structure_GetLinkedUnit(s) != null) return;
 
-            CStructure.Structure_SetState(s, (short)((encoded == 0) ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_BUSY));
+            Structure_SetState(s, (short)((encoded == 0) ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_BUSY));
         }
 
         /*

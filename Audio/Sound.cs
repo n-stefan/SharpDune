@@ -144,7 +144,7 @@ namespace SharpDune.Audio
 				Gui.Gui.g_viewportMessageText = null;
 				if ((Gui.Gui.g_viewportMessageCounter & 1) != 0)
 				{
-					CSharpDune.g_viewport_forceRedraw = true;
+                    g_viewport_forceRedraw = true;
 					Gui.Gui.g_viewportMessageCounter = 0;
 				}
 				s_currentVoicePriority = 0;
@@ -160,7 +160,7 @@ namespace SharpDune.Audio
 
 				if ((Gui.Gui.g_viewportMessageCounter & 1) != 0)
 				{
-					CSharpDune.g_viewport_forceRedraw = true;
+                    g_viewport_forceRedraw = true;
 				}
 
 				Gui.Gui.g_viewportMessageCounter = 4;
@@ -227,14 +227,14 @@ namespace SharpDune.Audio
 				if (filename[0] == '?')
 				{
 					//snprintf(filenameBuffer, sizeof(filenameBuffer), filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
-					filenameBuffer = filename[1..].Replace("%c", CHouse.g_playerHouseID < HouseType.HOUSE_MAX ? Convert.ToString((char)g_table_houseInfo[(int)CHouse.g_playerHouseID].prefixChar, CSharpDune.Culture) : " ", CSharpDune.StringComparison);
+					filenameBuffer = filename[1..].Replace("%c", g_playerHouseID < HouseType.HOUSE_MAX ? Convert.ToString((char)g_table_houseInfo[(int)g_playerHouseID].prefixChar, Culture) : " ", Comparison);
 
-					if (CSharpDune.g_readBuffer.Length < CSharpDune.g_readBufferSize)
-						Array.Resize(ref CSharpDune.g_readBuffer, (int)CSharpDune.g_readBufferSize);
+					if (g_readBuffer.Length < g_readBufferSize)
+						Array.Resize(ref g_readBuffer, (int)g_readBufferSize);
 
-					CDriver.Driver_Voice_LoadFile(filenameBuffer, CSharpDune.g_readBuffer, CSharpDune.g_readBufferSize);
+					CDriver.Driver_Voice_LoadFile(filenameBuffer, g_readBuffer, g_readBufferSize);
 
-					CDriver.Driver_Voice_Play(CSharpDune.g_readBuffer, 0xFF);
+					CDriver.Driver_Voice_Play(g_readBuffer, 0xFF);
 				}
 			}
 		}

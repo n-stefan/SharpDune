@@ -42,13 +42,13 @@ namespace SharpDune.Gui
 			{
 				case 2:
 					{ /* Unit */
-						u = CUnit.g_unitSelected;
+						u = g_unitSelected;
 						ui = g_table_unitInfo[u.o.type];
 
 						o = u.o;
 						oi = ui.o;
 
-						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != CUnit.Unit_GetHouseID(u);
+						isNotPlayerOwned = (byte)g_playerHouseID != Unit_GetHouseID(u);
 
 						h = PoolHouse.House_Get_ByIndex(u.o.houseID);
 					}
@@ -56,45 +56,45 @@ namespace SharpDune.Gui
 
 				case 3:
 					{ /* Structure */
-						s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+						s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 						si = g_table_structureInfo[s.o.type];
 
 						o = s.o;
 						oi = si.o;
 
-						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != s.o.houseID;
+						isNotPlayerOwned = (byte)g_playerHouseID != s.o.houseID;
 
 						h = PoolHouse.House_Get_ByIndex(s.o.houseID);
 
-						if (s.upgradeTimeLeft == 0 && CStructure.Structure_IsUpgradable(s)) s.upgradeTimeLeft = 100;
+						if (s.upgradeTimeLeft == 0 && Structure_IsUpgradable(s)) s.upgradeTimeLeft = 100;
 						Gui.GUI_UpdateProductionStringID();
 					}
 					break;
 
 				case 7:
 					{ /* Placement */
-						si = g_table_structureInfo[CStructure.g_structureActiveType];
+						si = g_table_structureInfo[g_structureActiveType];
 
 						o = null;
 						oi = si.o;
 
 						isNotPlayerOwned = false;
 
-						h = PoolHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
+						h = PoolHouse.House_Get_ByIndex((byte)g_playerHouseID);
 					}
 					break;
 
 				case 8:
 					{ /* House Missile */
-						u = CUnit.g_unitHouseMissile;
+						u = g_unitHouseMissile;
 						ui = g_table_unitInfo[u.o.type];
 
 						o = u.o;
 						oi = ui.o;
 
-						isNotPlayerOwned = (byte)CHouse.g_playerHouseID != CUnit.Unit_GetHouseID(u);
+						isNotPlayerOwned = (byte)g_playerHouseID != Unit_GetHouseID(u);
 
-						h = PoolHouse.House_Get_ByIndex((byte)CHouse.g_playerHouseID);
+						h = PoolHouse.House_Get_ByIndex((byte)g_playerHouseID);
 					}
 					break;
 
@@ -212,7 +212,7 @@ namespace SharpDune.Gui
 					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_DMG), 296, 65, 29, 0, 0x11);
 				}
 
-				if (!isNotPlayerOwned || CSharpDune.g_debugGame)
+				if (!isNotPlayerOwned || g_debugGame)
 				{
 					switch (actionType)
 					{
@@ -325,7 +325,7 @@ namespace SharpDune.Gui
 											ushort steps;
 											Unit u2;
 
-											u2 = CStructure.Structure_GetLinkedUnit(s);
+											u2 = Structure_GetLinkedUnit(s);
 											if (u2 == null) break;
 
 											Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
@@ -407,7 +407,7 @@ namespace SharpDune.Gui
 
 						case 8: /* House Missile */
 							{
-								var count = (short)(CHouse.g_houseMissileCountdown - 1);
+								var count = (short)(g_houseMissileCountdown - 1);
 								if (count <= 0) count = 0;
 
 								Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_PICK_TARGETTMINUS_D), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11, count);
@@ -497,19 +497,19 @@ namespace SharpDune.Gui
 			Structure s = null;
 			Unit u = null;
 
-			if (CSharpDune.g_selectionType == (ushort)SelectionType.PLACE)
+			if (g_selectionType == (ushort)SelectionType.PLACE)
 			{
 				if (displayedActionType != 7 || forceDraw) actionType = 7; /* Placement */
 			}
-			else if (CUnit.g_unitHouseMissile != null)
+			else if (g_unitHouseMissile != null)
 			{
-				if (displayedMissileCountdown != CHouse.g_houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
+				if (displayedMissileCountdown != g_houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
 			}
-			else if (CUnit.g_unitSelected != null)
+			else if (g_unitSelected != null)
 			{
-				if (CSharpDune.g_selectionType == (ushort)SelectionType.TARGET)
+				if (g_selectionType == (ushort)SelectionType.TARGET)
 				{
-					var activeAction = CSharpDune.g_activeAction;
+					var activeAction = g_activeAction;
 
 					if (activeAction != displayedActiveAction || forceDraw)
 					{
@@ -525,7 +525,7 @@ namespace SharpDune.Gui
 				}
 				else
 				{
-					u = CUnit.g_unitSelected;
+					u = g_unitSelected;
 
 					if (forceDraw
 						|| u.o.index != displayedIndex
@@ -537,11 +537,11 @@ namespace SharpDune.Gui
 					}
 				}
 			}
-			else if (!CTile.Tile_IsOutOfMap(Gui.g_selectionPosition) && (Map.g_map[Gui.g_selectionPosition].isUnveiled || CSharpDune.g_debugScenario))
+			else if (!CTile.Tile_IsOutOfMap(Gui.g_selectionPosition) && (Map.g_map[Gui.g_selectionPosition].isUnveiled || g_debugScenario))
 			{
 				if (Map.Map_GetLandscapeType(Gui.g_selectionPosition) == (ushort)LandscapeType.LST_STRUCTURE)
 				{
-					s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+					s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
 					if (forceDraw
 						|| s.o.hitpoints != displayedHitpoints
@@ -571,7 +571,7 @@ namespace SharpDune.Gui
 			switch (actionType)
 			{
 				case 8: /* House Missile */
-					displayedMissileCountdown = CHouse.g_houseMissileCountdown;
+					displayedMissileCountdown = g_houseMissileCountdown;
 					displayedIndex = 0xFFFF;
 					break;
 
@@ -645,11 +645,11 @@ namespace SharpDune.Gui
 			if (w == null) return;
 
 			spriteID = 0;
-			if (CUnit.g_unitSelected != null)
+			if (g_unitSelected != null)
 			{
 				UnitInfo ui;
 
-				ui = g_table_unitInfo[CUnit.g_unitSelected.o.type];
+				ui = g_table_unitInfo[g_unitSelected.o.type];
 
 				spriteID = ui.o.spriteID;
 			}
@@ -658,7 +658,7 @@ namespace SharpDune.Gui
 				StructureInfo si;
 				Structure s;
 
-				s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+				s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 				if (s == null) return;
 				si = g_table_structureInfo[s.o.type];
 
@@ -777,7 +777,7 @@ namespace SharpDune.Gui
 			spriteID = 0;
 			percentDone = 0;
 
-			s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 			if (s == null) return;
 
 			Gui.GUI_UpdateProductionStringID();

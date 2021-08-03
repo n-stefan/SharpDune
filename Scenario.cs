@@ -116,9 +116,9 @@ namespace SharpDune
 
 			h.flags.human = true;
 
-			CHouse.g_playerHouseID = (HouseType)houseID;
-			CHouse.g_playerHouse = h;
-			CHouse.g_playerCreditsNoSilo = h.credits;
+            g_playerHouseID = (HouseType)houseID;
+            g_playerHouse = h;
+            g_playerCreditsNoSilo = h.credits;
 		}
 
 		static void Scenario_Load_Houses()
@@ -131,7 +131,7 @@ namespace SharpDune
 				Scenario_Load_House(houseID);
 			}
 
-			h = CHouse.g_playerHouse;
+			h = g_playerHouse;
 			/* In case there was no unitCountMax in the scenario, calculate
 			 *  it based on values used for the AI controlled houses. */
 			if (h.unitCountMax == 0)
@@ -165,8 +165,8 @@ namespace SharpDune
 			Unit u;
 			string[] split;
 
-			key = key.Replace(";", "", CSharpDune.StringComparison);
-			index = byte.Parse(key, CSharpDune.Culture);
+			key = key.Replace(";", "", Comparison);
+			index = byte.Parse(key, Culture);
 			index--;
 
 			/* The value should have 4 values separated by a ',' */
@@ -175,7 +175,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* First value is the House type */
-			houseType = CHouse.House_StringToType(split[0]);
+			houseType = House_StringToType(split[0]);
 			if (houseType == (byte)HouseType.HOUSE_INVALID) return;
 
 			/* Find the next value in the ',' separated list */
@@ -185,7 +185,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Second value is the Unit type */
-			unitType = CUnit.Unit_StringToType(split[1]);
+			unitType = Unit_StringToType(split[1]);
 			if (unitType == (byte)UnitType.UNIT_INVALID) return;
 
 			/* Find the next value in the ',' separated list */
@@ -208,16 +208,16 @@ namespace SharpDune
 			/* Fourth value is the time between reinforcement */
 			//settings = split + 1;
 			repeat = split[3].EndsWith('+'); //settings[strlen(settings) - 1] == '+') ? true : false;
-			timeBetween = repeat ? (ushort)(ushort.Parse(split[3][..^1], CSharpDune.Culture) * 6 + 1) : (ushort)(ushort.Parse(split[3], CSharpDune.Culture) * 6 + 1);
+			timeBetween = repeat ? (ushort)(ushort.Parse(split[3][..^1], Culture) * 6 + 1) : (ushort)(ushort.Parse(split[3], Culture) * 6 + 1);
 			/* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
-			if (!CSharpDune.g_dune2_enhanced) repeat = false;
+			if (!g_dune2_enhanced) repeat = false;
 
             position = new tile32
             {
                 x = 0xFFFF,
                 y = 0xFFFF
             };
-            u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
+            u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
 			if (u == null) return;
 
 			g_scenario.reinforcement[index].unitID = u.o.index;
@@ -234,7 +234,7 @@ namespace SharpDune
 
 			if (houseID >= (byte)HouseType.HOUSE_MAX) return false;
 
-			CSharpDune.g_scenarioID = scenarioID;
+            g_scenarioID = scenarioID;
 
 			/* Load scenario file */
 			filename = $"SCEN{g_table_houseInfo[houseID].name[0]}{scenarioID:D3}.INI"; //sprintf(filename, "SCEN%c%03hu.INI", g_table_houseInfo[houseID].name[0], scenarioID);
@@ -265,7 +265,7 @@ namespace SharpDune
 			Scenario_Load_MapParts("Field", Scenario_Load_Map_Field);
 			Scenario_Load_MapParts("Special", Scenario_Load_Map_Special);
 
-			CSharpDune.g_tickScenarioStart = Timer.g_timerGame;
+            g_tickScenarioStart = Timer.g_timerGame;
 
 			s_scenarioBuffer = string.Empty; //free(s_scenarioBuffer);
 			return true;
@@ -285,7 +285,7 @@ namespace SharpDune
 				ushort packed;
 				Tile t;
 
-				packed = ushort.Parse(s[i], CSharpDune.Culture); //atoi(s);
+				packed = ushort.Parse(s[i], Culture); //atoi(s);
 				t = Map.g_map[packed];
 
 				ptr?.Invoke(packed, t);
@@ -303,10 +303,10 @@ namespace SharpDune
 		{
 			byte unitType;
 
-			unitType = CUnit.Unit_StringToType(key);
+			unitType = Unit_StringToType(key);
 			if (unitType == (byte)UnitType.UNIT_INVALID) return;
 
-			CUnit.g_starportAvailable[unitType] = short.Parse(settings, CSharpDune.Culture);
+            g_starportAvailable[unitType] = short.Parse(settings, Culture);
 		}
 
 		static void Scenario_Load_Map(string key, string settings)
@@ -322,11 +322,11 @@ namespace SharpDune
 			posY = key[4..6]; //memcpy(posY, key + 4, 2);
 							  //posY[2] = '\0';
 
-			packed = (ushort)(CTile.Tile_PackXY(ushort.Parse(posY, CSharpDune.Culture), ushort.Parse(key[6..], CSharpDune.Culture)) & 0xFFF);
+			packed = (ushort)(CTile.Tile_PackXY(ushort.Parse(posY, Culture), ushort.Parse(key[6..], Culture)) & 0xFFF);
 			t = Map.g_map[packed];
 
 			s = settings.Split(",\r\n"); //strtok(settings, ",\r\n");
-			value = ushort.Parse(s[0], CSharpDune.Culture);
+			value = ushort.Parse(s[0], Culture);
 			t.houseID = (byte)(value & 0x07);
 			t.isUnveiled = (value & 0x08) != 0;
 			t.hasUnit = (value & 0x10) != 0;
@@ -335,7 +335,7 @@ namespace SharpDune
 			t.hasExplosion = (value & 0x80) != 0;
 
 			//s = strtok(NULL, ",\r\n");
-			t.groundTileID = (ushort)(ushort.Parse(s[1], CSharpDune.Culture) & 0x01FF);
+			t.groundTileID = (ushort)(ushort.Parse(s[1], Culture) & 0x01FF);
 			if (Map.g_mapTileID[packed] != t.groundTileID) Map.g_mapTileID[packed] |= 0x8000;
 
 			if (!t.isUnveiled) t.overlayTileID = Sprites.g_veiledTileID;
@@ -352,7 +352,7 @@ namespace SharpDune
 			Map.Map_Bloom_ExplodeSpice(packed, (byte)HouseType.HOUSE_INVALID);
 
 			/* Show where a field started in the preview mode by making it an odd looking sprite */
-			if (CSharpDune.g_debugScenario)
+			if (g_debugScenario)
 			{
 				t.groundTileID = 0x01FF;
 			}
@@ -374,7 +374,7 @@ namespace SharpDune
 			split = settings.Split(',');
 
 			/* First value is the House type */
-			houseType = CHouse.House_StringToType(split[0]);
+			houseType = House_StringToType(split[0]);
 			if (houseType == (byte)HouseType.HOUSE_INVALID) return;
 
 			/* Second value is the teamAction type */
@@ -382,14 +382,14 @@ namespace SharpDune
 			if (teamActionType == (byte)TeamActionType.TEAM_ACTION_INVALID) return;
 
 			/* Third value is the movement type */
-			movementType = CUnit.Unit_MovementStringToType(split[2]);
+			movementType = Unit_MovementStringToType(split[2]);
 			if (movementType == (byte)MovementType.MOVEMENT_INVALID) return;
 
 			/* Fourth value is minimum amount of members in team */
-			minMembers = ushort.Parse(split[3], CSharpDune.Culture);
+			minMembers = ushort.Parse(split[3], Culture);
 
 			/* Fifth value is maximum amount of members in team */
-			maxMembers = ushort.Parse(split[4], CSharpDune.Culture);
+			maxMembers = ushort.Parse(split[4], Culture);
 
 			CTeam.Team_Create(houseType, teamActionType, movementType, minMembers, maxMembers);
 		}
@@ -409,7 +409,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* First value is the House type */
-			houseType = CHouse.House_StringToType(split[0]);
+			houseType = House_StringToType(split[0]);
 			if (houseType == (byte)HouseType.HOUSE_INVALID) return;
 
 			/* Find the next value in the ',' separated list */
@@ -419,7 +419,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Second value is the Unit type */
-			unitType = CUnit.Unit_StringToType(split[1]);
+			unitType = Unit_StringToType(split[1]);
 			if (unitType == (byte)UnitType.UNIT_INVALID) return;
 
 			/* Find the next value in the ',' separated list */
@@ -429,7 +429,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Third value is the Hitpoints in percent (in base 256) */
-			hitpoints = ushort.Parse(split[2], CSharpDune.Culture);
+			hitpoints = ushort.Parse(split[2], Culture);
 
 			/* Find the next value in the ',' separated list */
 			//settings = split + 1;
@@ -438,7 +438,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Fourth value is the position on the map */
-			position = CTile.Tile_UnpackTile(ushort.Parse(split[3], CSharpDune.Culture));
+			position = CTile.Tile_UnpackTile(ushort.Parse(split[3], Culture));
 
 			/* Find the next value in the ',' separated list */
 			//settings = split + 1;
@@ -447,11 +447,11 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Fifth value is orientation */
-			orientation = (sbyte)byte.Parse(split[4], CSharpDune.Culture);
+			orientation = (sbyte)byte.Parse(split[4], Culture);
 
 			/* Sixth value is the current state of the unit */
 			//settings = split + 1;
-			actionType = CUnit.Unit_ActionStringToType(split[5]);
+			actionType = Unit_ActionStringToType(split[5]);
 			if (actionType == (byte)ActionType.ACTION_INVALID) return;
 
 			u = PoolUnit.Unit_Allocate((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, unitType, houseType);
@@ -465,22 +465,22 @@ namespace SharpDune
 			u.nextActionID = (byte)ActionType.ACTION_INVALID;
 
 			/* In case the above function failed and we are passed campaign 2, don't add the unit */
-			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(u.o.position)) && CSharpDune.g_campaignID > 2)
+			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(u.o.position)) && g_campaignID > 2)
 			{
 				PoolUnit.Unit_Free(u);
 				return;
 			}
 
 			/* XXX -- There is no way this is ever possible, as the beingBuilt flag is unset by Unit_Allocate() */
-			if (!u.o.flags.isNotOnMap) CUnit.Unit_SetAction(u, (ActionType)u.actionID);
+			if (!u.o.flags.isNotOnMap) Unit_SetAction(u, (ActionType)u.actionID);
 
 			u.o.seenByHouses = 0x00;
 
-			CUnit.Unit_HouseUnitCount_Add(u, u.o.houseID);
+            Unit_HouseUnitCount_Add(u, u.o.houseID);
 
-			CUnit.Unit_SetOrientation(u, u.orientation[0].current, true, 0);
-			CUnit.Unit_SetOrientation(u, u.orientation[0].current, true, 1);
-			CUnit.Unit_SetSpeed(u, 0);
+            Unit_SetOrientation(u, u.orientation[0].current, true, 0);
+            Unit_SetOrientation(u, u.orientation[0].current, true, 1);
+            Unit_SetSpeed(u, 0);
 		}
 
 		static void Scenario_Load_Structure(string key, string settings)
@@ -494,7 +494,7 @@ namespace SharpDune
 			if (key.StartsWith("GEN", StringComparison.OrdinalIgnoreCase)) //(strncasecmp(key, "GEN", 3) == 0)
 			{
 				/* Position on the map is in the key */
-				position = ushort.Parse(key[3..], CSharpDune.Culture);
+				position = ushort.Parse(key[3..], Culture);
 
 				/* The value should have two values separated by a ',' */
 				split = settings.Split(','); //strchr(settings, ',');
@@ -502,20 +502,20 @@ namespace SharpDune
 				//*split = '\0';
 
 				/* First value is the House type */
-				houseType = CHouse.House_StringToType(split[0]);
+				houseType = House_StringToType(split[0]);
 				if (houseType == (byte)HouseType.HOUSE_INVALID) return;
 
 				/* Second value is the Structure type */
 				//settings = split + 1;
-				structureType = CStructure.Structure_StringToType(split[1]);
+				structureType = Structure_StringToType(split[1]);
 				if (structureType == (byte)StructureType.STRUCTURE_INVALID) return;
 
-				CStructure.Structure_Create((ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_INVALID, structureType, houseType, position);
+                Structure_Create((ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_INVALID, structureType, houseType, position);
 				return;
 			}
 
 			/* The key should start with 'ID', followed by the index */
-			index = byte.Parse(key[2..], CSharpDune.Culture);
+			index = byte.Parse(key[2..], Culture);
 
 			/* The value should have four values separated by a ',' */
 			split = settings.Split(','); //strchr(settings, ',');
@@ -523,7 +523,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* First value is the House type */
-			houseType = CHouse.House_StringToType(split[0]);
+			houseType = House_StringToType(split[0]);
 			if (houseType == (byte)HouseType.HOUSE_INVALID) return;
 
 			/* Find the next value in the ',' separated list */
@@ -533,7 +533,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Second value is the Structure type */
-			structureType = CStructure.Structure_StringToType(split[1]);
+			structureType = Structure_StringToType(split[1]);
 			if (structureType == (byte)StructureType.STRUCTURE_INVALID) return;
 
 			/* Find the next value in the ',' separated list */
@@ -543,9 +543,9 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Third value is the Hitpoints in percent (in base 256) */
-			hitpoints = ushort.Parse(split[2], CSharpDune.Culture);
+			hitpoints = ushort.Parse(split[2], Culture);
 			/* ENHANCEMENT -- Dune2 ignores the % hitpoints read from the scenario */
-			if (!CSharpDune.g_dune2_enhanced) hitpoints = 256;
+			if (!g_dune2_enhanced) hitpoints = 256;
 			else if (hitpoints > 256) hitpoints = 256;
 			/* this is pointless to have more than 100% hitpoint, however ONE scenario
 			 * file has such "bug" : SCENH006.INI
@@ -554,16 +554,16 @@ namespace SharpDune
 
 			/* Fourth value is the position of the structure */
 			//settings = split + 1;
-			position = ushort.Parse(split[3], CSharpDune.Culture);
+			position = ushort.Parse(split[3], Culture);
 
 			/* Ensure nothing is already on the tile */
 			/* XXX -- DUNE2 BUG? -- This only checks the top-left corner? Not really a safety, is it? */
-			if (CStructure.Structure_Get_ByPackedTile(position) != null) return;
+			if (Structure_Get_ByPackedTile(position) != null) return;
 
 			{
 				Structure s;
 
-				s = CStructure.Structure_Create(index, structureType, houseType, position);
+				s = Structure_Create(index, structureType, houseType, position);
 				if (s == null) return;
 
 				s.o.hitpoints = (ushort)(hitpoints * g_table_structureInfo[s.o.type].o.hitpoints / 256);

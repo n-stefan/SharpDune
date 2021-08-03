@@ -413,7 +413,7 @@ namespace SharpDune.Script
             if (g_scriptCurrentStructure != null) type = l_types[1];
             if (g_scriptCurrentTeam != null) type = l_types[2];
 
-            buffer = new StringBuilder().AppendFormat(CSharpDune.Culture, error, va).ToString(); //vsnprintf(buffer, sizeof(buffer), error, va);
+            buffer = new StringBuilder().AppendFormat(Culture, error, va).ToString(); //vsnprintf(buffer, sizeof(buffer), error, va);
 
             Trace.WriteLine($"ERROR: [SCRIPT] {buffer}; Type: {type}; Index: {g_scriptCurrentObject.index}; Type: {g_scriptCurrentObject.type}");
         }

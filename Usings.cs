@@ -24,6 +24,8 @@ global using System.Runtime.InteropServices;
 global using System.Text;
 global using System.Text.RegularExpressions;
 global using System.Threading;
+global using static CSharpDune;
+global using static SharpDune.CHouse;
 global using static SharpDune.CStructure;
 global using static SharpDune.CUnit;
 global using static SharpDune.SaveLoad.SaveLoad;

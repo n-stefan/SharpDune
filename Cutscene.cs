@@ -88,7 +88,7 @@ namespace SharpDune
 
 			Sound.Voice_LoadVoices(0xFFFE);
 
-			switch (CHouse.g_playerHouseID)
+			switch (g_playerHouseID)
 			{
 				case HouseType.HOUSE_HARKONNEN:
 					animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_HARKONNEN];
@@ -134,10 +134,10 @@ namespace SharpDune
 
 			Input.Input.Input_History_Clear();
 
-			switch (CSharpDune.g_campaignID)
+			switch (g_campaignID)
 			{
 				case 4:
-					switch (CHouse.g_playerHouseID)
+					switch (g_playerHouseID)
 					{
 						case HouseType.HOUSE_HARKONNEN:
 							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL4_HARKONNEN];
@@ -162,7 +162,7 @@ namespace SharpDune
 					break;
 
 				case 8:
-					switch (CHouse.g_playerHouseID)
+					switch (g_playerHouseID)
 					{
 						case HouseType.HOUSE_HARKONNEN:
 							animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL8_HARKONNEN];
@@ -280,7 +280,7 @@ namespace SharpDune
 				/*WSAObject*/
 				(WSAHeader, CArray<byte>) wsa;
 
-				if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_POS0_0) != 0)
+				if ((animation[pointer].flags & HOUSEANIM_FLAGS_POS0_0) != 0)
 				{
 					posX = 0;
 					posY = 0;
@@ -314,10 +314,10 @@ namespace SharpDune
 					else
 					{
 						frame = 0;
-						wsaReservedDisplayFrame = (animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_DISPLAYFRAME) != 0;
+						wsaReservedDisplayFrame = (animation[pointer].flags & HOUSEANIM_FLAGS_DISPLAYFRAME) != 0;
 					}
 
-					if ((animation[pointer].flags & (CHouse.HOUSEANIM_FLAGS_FADEIN2 | CHouse.HOUSEANIM_FLAGS_FADEIN)) != 0)
+					if ((animation[pointer].flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) != 0)
 					{
 						Gui.Gui.GUI_ClearScreen(Screen.NO1);
 
@@ -340,18 +340,18 @@ namespace SharpDune
 				}
 
 				addFrameCount = 0;
-				if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_FADEOUTTEXT) != 0)
+				if ((animation[pointer].flags & HOUSEANIM_FLAGS_FADEOUTTEXT) != 0)
 				{
 					timeout -= 45;
 					addFrameCount++;
 				}
-				else if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_FADETOWHITE) != 0)
+				else if ((animation[pointer].flags & HOUSEANIM_FLAGS_FADETOWHITE) != 0)
 				{
 					timeout -= 15;
 					addFrameCount++;
 				}
 
-				if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_FADEINTEXT) != 0)
+				if ((animation[pointer].flags & HOUSEANIM_FLAGS_FADEINTEXT) != 0)
 				{
 					GameLoop_PlaySubtitle(animationStep);
 					Wsa.WSA_DisplayFrame(wsa, frame++, posX, posY, Screen.NO0);
@@ -363,17 +363,17 @@ namespace SharpDune
 
 					addFrameCount++;
 				}
-				else if ((animation[pointer].flags & (CHouse.HOUSEANIM_FLAGS_FADEIN2 | CHouse.HOUSEANIM_FLAGS_FADEIN)) != 0)
+				else if ((animation[pointer].flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) != 0)
 				{
 					GameLoop_PlaySubtitle(animationStep);
 					Wsa.WSA_DisplayFrame(wsa, frame++, posX, posY, Screen.NO1);
 					addFrameCount++;
 
-					if ((animation[pointer].flags & (CHouse.HOUSEANIM_FLAGS_FADEIN2 | CHouse.HOUSEANIM_FLAGS_FADEIN)) == CHouse.HOUSEANIM_FLAGS_FADEIN2)
+					if ((animation[pointer].flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) == HOUSEANIM_FLAGS_FADEIN2)
 					{
 						Gui.Gui.GUI_Screen_FadeIn2(8, 24, 304, 120, Screen.NO1, Screen.NO0, 1, false);
 					}
-					else if ((animation[pointer].flags & (CHouse.HOUSEANIM_FLAGS_FADEIN2 | CHouse.HOUSEANIM_FLAGS_FADEIN)) == CHouse.HOUSEANIM_FLAGS_FADEIN)
+					else if ((animation[pointer].flags & (HOUSEANIM_FLAGS_FADEIN2 | HOUSEANIM_FLAGS_FADEIN)) == HOUSEANIM_FLAGS_FADEIN)
 					{
 						Gui.Gui.GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, Screen.NO1, Screen.NO0);
 					}
@@ -408,7 +408,7 @@ namespace SharpDune
 						break;
 
 					default:
-						CSharpDune.PrepareEnd();
+                        PrepareEnd();
 						Trace.WriteLine($"ERROR: Bad mode in animation #{animationStep}.");
 						Environment.Exit(0);
 						break;
@@ -454,7 +454,7 @@ namespace SharpDune
 					} while (displayed);
 				}
 
-				if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_FADETOWHITE) != 0)
+				if ((animation[pointer].flags & HOUSEANIM_FLAGS_FADETOWHITE) != 0)
 				{
 					Array.Fill<byte>(Gui.Gui.g_palette_998A, 63, 3 * 1, 255 * 3); //memset(&g_palette_998A[3 * 1], 63, 255 * 3);
 
@@ -465,7 +465,7 @@ namespace SharpDune
 					Buffer.BlockCopy(Gfx.g_palette1, 0, Gui.Gui.g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
 				}
 
-				if ((animation[pointer].flags & CHouse.HOUSEANIM_FLAGS_FADEOUTTEXT) != 0)
+				if ((animation[pointer].flags & HOUSEANIM_FLAGS_FADEOUTTEXT) != 0)
 				{
 					GameLoop_PalettePart_Update(true);
 
@@ -628,7 +628,7 @@ namespace SharpDune
 				s_palettePartCount = 1;
 			}
 
-			if (CHouse.g_playerHouseID != HouseType.HOUSE_INVALID || s_houseAnimation_currentSubtitle != 2) return;
+			if (g_playerHouseID != HouseType.HOUSE_INVALID || s_houseAnimation_currentSubtitle != 2) return;
 
 			Gui.Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x21);
 
@@ -774,7 +774,7 @@ namespace SharpDune
 
 			Sound.Music_Play(0);
 
-			CSharpDune.GameLoop_Uninit();
+            GameLoop_Uninit();
 
 			Sound.Music_Play(33);
 
@@ -792,7 +792,7 @@ namespace SharpDune
 				/* map colors 144-150 to the one of the player House */
 				if (high == 9 && low <= 6)
 				{
-					remap[i] = (byte)((((byte)CHouse.g_playerHouseID + 9) << 4) + low);
+					remap[i] = (byte)((((byte)g_playerHouseID + 9) << 4) + low);
 					Debug.WriteLine($"DEBUG: GameLoop_GameCredits() remap color {i} to {remap[i]}");
 				}
 			}

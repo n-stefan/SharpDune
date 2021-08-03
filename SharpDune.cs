@@ -66,7 +66,7 @@ class CSharpDune
 
     internal static CultureInfo Culture = CultureInfo.InvariantCulture;
 
-    internal static StringComparison StringComparison = StringComparison.InvariantCulture;
+    internal static StringComparison Comparison = StringComparison.Ordinal;
 
     internal static MultiChar MultiChar = new();
 
@@ -107,7 +107,7 @@ class CSharpDune
                 if (s.o.type == (byte)StructureType.STRUCTURE_TURRET) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_ROCKET_TURRET) continue;
 
-                if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                if (s.o.houseID == (byte)g_playerHouseID)
                 {
                     countStructureFriendly++;
                 }
@@ -128,9 +128,9 @@ class CSharpDune
         }
 
         /* Check for reaching spice quota */
-        if ((CScenario.g_scenario.winFlags & 0x4) != 0 && CHouse.g_playerCredits != 0xFFFF)
+        if ((CScenario.g_scenario.winFlags & 0x4) != 0 && g_playerCredits != 0xFFFF)
         {
-            if (CHouse.g_playerCredits >= CHouse.g_playerHouse.creditsQuota)
+            if (g_playerCredits >= g_playerHouse.creditsQuota)
             {
                 finish = true;
             }
@@ -185,7 +185,7 @@ class CSharpDune
                 if (s.o.type == (byte)StructureType.STRUCTURE_TURRET) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_ROCKET_TURRET) continue;
 
-                if (s.o.houseID == (byte)CHouse.g_playerHouseID)
+                if (s.o.houseID == (byte)g_playerHouseID)
                 {
                     countStructureFriendly++;
                 }
@@ -207,9 +207,9 @@ class CSharpDune
         }
 
         /* Check for reaching spice quota */
-        if (!win && (CScenario.g_scenario.loseFlags & 0x4) != 0 && CHouse.g_playerCredits != 0xFFFF)
+        if (!win && (CScenario.g_scenario.loseFlags & 0x4) != 0 && g_playerCredits != 0xFFFF)
         {
-            win = (CHouse.g_playerCredits >= CHouse.g_playerHouse.creditsQuota);
+            win = (g_playerCredits >= g_playerHouse.creditsQuota);
         }
 
         /* Check for reaching timeout */
@@ -231,8 +231,8 @@ class CSharpDune
             w = null;
         }
 
-        Script.Script_ClearInfo(Script.g_scriptStructure);
-        Script.Script_ClearInfo(Script.g_scriptTeam);
+        Script_ClearInfo(g_scriptStructure);
+        Script_ClearInfo(g_scriptTeam);
 
         g_readBuffer = null;
 
@@ -276,7 +276,7 @@ class CSharpDune
                 g_campaignID++;
 
                 Gui.GUI_EndStats_Show(CScenario.g_scenario.killedAllied, CScenario.g_scenario.killedEnemy, CScenario.g_scenario.destroyedAllied, CScenario.g_scenario.destroyedEnemy,
-                    CScenario.g_scenario.harvestedAllied, CScenario.g_scenario.harvestedEnemy, (short)CScenario.g_scenario.score, (byte)CHouse.g_playerHouseID);
+                    CScenario.g_scenario.harvestedAllied, CScenario.g_scenario.harvestedEnemy, (short)CScenario.g_scenario.score, (byte)g_playerHouseID);
 
                 if (g_campaignID == 9)
                 {
@@ -321,7 +321,7 @@ class CSharpDune
                 g_scenarioID = Gui.GUI_StrategicMap_Show(g_campaignID, false);
             }
 
-            CHouse.g_playerHouse.flags.doneFullScaleAttack = false;
+            g_playerHouse.flags.doneFullScaleAttack = false;
 
             Sprites.Sprites_LoadTiles();
 
@@ -587,14 +587,14 @@ class CSharpDune
             ushort priorityTarget;
             ushort hitpoints;
 
-            type = CUnit.Unit_StringToType(key);
+            type = Unit_StringToType(key);
             if (type != (byte)UnitType.UNIT_INVALID)
             {
                 oi = g_table_unitInfo[type].o;
             }
             else
             {
-                type = CStructure.Structure_StringToType(key);
+                type = Structure_StringToType(key);
                 if (type != (byte)StructureType.STRUCTURE_INVALID) oi = g_table_structureInfo[type].o;
             }
 
@@ -970,7 +970,7 @@ class CSharpDune
 
         g_campaignID = 0;
         g_scenarioID = 1;
-        CHouse.g_playerHouseID = HouseType.HOUSE_INVALID;
+        g_playerHouseID = HouseType.HOUSE_INVALID;
         g_selectionType = (ushort)SelectionType.MENTAT;
         g_selectionTypeNew = (ushort)SelectionType.MENTAT;
 
@@ -1008,8 +1008,8 @@ class CSharpDune
         Gfx.g_paletteMapping2[0xDF] = 0xDF;
         Gfx.g_paletteMapping2[0xEF] = 0xEF;
 
-        Script.Script_LoadFromFile("TEAM.EMC", Script.g_scriptTeam, Script.g_scriptFunctionsTeam, null);
-        Script.Script_LoadFromFile("BUILD.EMC", Script.g_scriptStructure, Script.g_scriptFunctionsStructure, null);
+        Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, null);
+        Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, null);
 
         Gui.GUI_Palette_CreateRemap((byte)HouseType.HOUSE_MERCENARY);
 
@@ -1059,8 +1059,8 @@ class CSharpDune
             {
                 Sound.Music_Play(28);
 
-                CHouse.g_playerHouseID = HouseType.HOUSE_MERCENARY;
-                CHouse.g_playerHouseID = (HouseType)Gui.GUI_PickHouse();
+                g_playerHouseID = HouseType.HOUSE_MERCENARY;
+                g_playerHouseID = (HouseType)Gui.GUI_PickHouse();
 
                 Gui.GUI_Mouse_Hide_Safe();
 
@@ -1068,9 +1068,9 @@ class CSharpDune
 
                 Sprites.Sprites_LoadTiles();
 
-                Gui.GUI_Palette_CreateRemap((byte)CHouse.g_playerHouseID);
+                Gui.GUI_Palette_CreateRemap((byte)g_playerHouseID);
 
-                Sound.Voice_LoadVoices((ushort)CHouse.g_playerHouseID);
+                Sound.Voice_LoadVoices((ushort)g_playerHouseID);
 
                 Gui.GUI_Mouse_Show_Safe();
 
@@ -1091,7 +1091,7 @@ class CSharpDune
             {
                 Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
-                Game_LoadScenario((byte)CHouse.g_playerHouseID, g_scenarioID);
+                Game_LoadScenario((byte)g_playerHouseID, g_scenarioID);
                 if (!g_debugScenario && !g_debugSkipDialogs)
                 {
                     Mentat.GUI_Mentat_ShowBriefing();
@@ -1150,17 +1150,17 @@ class CSharpDune
 
             if (g_selectionType == (ushort)SelectionType.TARGET || g_selectionType == (ushort)SelectionType.PLACE || g_selectionType == (ushort)SelectionType.UNIT || g_selectionType == (ushort)SelectionType.STRUCTURE)
             {
-                if (CUnit.g_unitSelected != null)
+                if (g_unitSelected != null)
                 {
                     if (l_timerUnitStatus < Timer.g_timerGame)
                     {
-                        CUnit.Unit_DisplayStatusText(CUnit.g_unitSelected);
+                        Unit_DisplayStatusText(g_unitSelected);
                         l_timerUnitStatus = Timer.g_timerGame + 300;
                     }
 
                     if (g_selectionType != (ushort)SelectionType.TARGET)
                     {
-                        Gui.g_selectionPosition = CTile.Tile_PackTile(CTile.Tile_Center(CUnit.g_unitSelected.o.position));
+                        Gui.g_selectionPosition = CTile.Tile_PackTile(CTile.Tile_Center(g_unitSelected.o.position));
                     }
                 }
 
@@ -1168,12 +1168,12 @@ class CSharpDune
 
                 InGame_Numpad_Move(key);
 
-                Gui.GUI_DrawCredits((byte)CHouse.g_playerHouseID, 0);
+                Gui.GUI_DrawCredits((byte)g_playerHouseID, 0);
 
                 CTeam.GameLoop_Team();
-                CUnit.GameLoop_Unit();
-                CStructure.GameLoop_Structure();
-                CHouse.GameLoop_House();
+                GameLoop_Unit();
+                GameLoop_Structure();
+                GameLoop_House();
 
                 Gui.GUI_DrawScreen(Screen.NO0);
             }
@@ -1387,12 +1387,12 @@ class CSharpDune
             Structure s;
             Unit u;
 
-            u = CUnit.Unit_Get_ByPackedTile((ushort)i);
-            s = CStructure.Structure_Get_ByPackedTile((ushort)i);
+            u = Unit_Get_ByPackedTile((ushort)i);
+            s = Structure_Get_ByPackedTile((ushort)i);
 
             if (u == null || !u.o.flags.used) t[tPointer].hasUnit = false;
             if (s == null || !s.o.flags.used) t[tPointer].hasStructure = false;
-            if (t[tPointer].isUnveiled) Map.Map_UnveilTile((ushort)i, (byte)CHouse.g_playerHouseID);
+            if (t[tPointer].isUnveiled) Map.Map_UnveilTile((ushort)i, (byte)g_playerHouseID);
         }
 
         find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1408,8 +1408,8 @@ class CSharpDune
 
             if (u.o.flags.isNotOnMap) continue;
 
-            CUnit.Unit_RemoveFog(u);
-            CUnit.Unit_UpdateMap(1, u);
+            Unit_RemoveFog(u);
+            Unit_UpdateMap(1, u);
         }
 
         find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1426,7 +1426,7 @@ class CSharpDune
 
             if (s.o.flags.isNotOnMap) continue;
 
-            CStructure.Structure_RemoveFog(s);
+            Structure_RemoveFog(s);
 
             if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT && s.o.linkedID != 0xFF)
             {
@@ -1439,11 +1439,11 @@ class CSharpDune
                 }
                 else
                 {
-                    CStructure.Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
+                    Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
                 }
             }
 
-            Script.Script_Load(s.o.script, s.o.type);
+            Script_Load(s.o.script, s.o.type);
 
             if (s.o.type == (byte)StructureType.STRUCTURE_PALACE)
             {
@@ -1465,31 +1465,31 @@ class CSharpDune
             h = PoolHouse.House_Find(find);
             if (h == null) break;
 
-            h.structuresBuilt = CStructure.Structure_GetStructuresBuilt(h);
-            CHouse.House_UpdateCreditsStorage(h.index);
-            CHouse.House_CalculatePowerAndCredit(h);
+            h.structuresBuilt = Structure_GetStructuresBuilt(h);
+            House_UpdateCreditsStorage(h.index);
+            House_CalculatePowerAndCredit(h);
         }
 
-        Gui.GUI_Palette_CreateRemap((byte)CHouse.g_playerHouseID);
+        Gui.GUI_Palette_CreateRemap((byte)g_playerHouseID);
 
         Map.Map_SetSelection(Gui.g_selectionPosition);
 
-        if (CStructure.g_structureActiveType != 0xFFFF)
+        if (g_structureActiveType != 0xFFFF)
         {
-            Map.Map_SetSelectionSize(g_table_structureInfo[CStructure.g_structureActiveType].layout);
+            Map.Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
         }
         else
         {
-            var s = CStructure.Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+            var s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
 
             if (s != null) Map.Map_SetSelectionSize(g_table_structureInfo[s.o.type].layout);
         }
 
-        Sound.Voice_LoadVoices((ushort)CHouse.g_playerHouseID);
+        Sound.Voice_LoadVoices((ushort)g_playerHouseID);
 
-        CHouse.g_tickHousePowerMaintenance = Max(Timer.g_timerGame + 70, CHouse.g_tickHousePowerMaintenance);
+        g_tickHousePowerMaintenance = Max(Timer.g_timerGame + 70, g_tickHousePowerMaintenance);
         g_viewport_forceRedraw = true;
-        CHouse.g_playerCredits = 0xFFFF;
+        g_playerCredits = 0xFFFF;
 
         g_selectionType = oldSelectionType;
         g_validateStrictIfZero--;
@@ -1517,21 +1517,21 @@ class CSharpDune
         Array.Fill<byte>(Map.g_dirtyMinimap, 0, 0, Map.g_dirtyMinimap.Length); //memset(g_dirtyMinimap, 0, sizeof(g_dirtyMinimap));
 
         Array.Fill<ushort>(Map.g_mapTileID, 0, 0, 64 * 64); //memset(g_mapTileID, 0, 64 * 64 * sizeof(uint16));
-        Array.Fill<short>(CUnit.g_starportAvailable, 0, 0, CUnit.g_starportAvailable.Length); //memset(g_starportAvailable, 0, sizeof(g_starportAvailable));
+        Array.Fill<short>(g_starportAvailable, 0, 0, g_starportAvailable.Length); //memset(g_starportAvailable, 0, sizeof(g_starportAvailable));
 
         Sound.Sound_Output_Feedback(0xFFFE);
 
-        CHouse.g_playerCreditsNoSilo = 0;
-        CHouse.g_houseMissileCountdown = 0;
+        g_playerCreditsNoSilo = 0;
+        g_houseMissileCountdown = 0;
         Gui.g_selectionState = 0; /* Invalid. */
-        CStructure.g_structureActivePosition = 0;
+        g_structureActivePosition = 0;
 
-        CUnit.g_unitHouseMissile = null;
-        CUnit.g_unitActive = null;
-        CStructure.g_structureActive = null;
+        g_unitHouseMissile = null;
+        g_unitActive = null;
+        g_structureActive = null;
 
         g_activeAction = 0xFFFF;
-        CStructure.g_structureActiveType = 0xFFFF;
+        g_structureActiveType = 0xFFFF;
 
         Gui.GUI_DisplayText(null, -1);
 

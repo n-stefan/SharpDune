@@ -110,14 +110,14 @@ namespace SharpDune.Script
             if (harvesterStep == 0) return 0;
 
             creditsStep = 7;
-            if (u.o.houseID != (byte)CHouse.g_playerHouseID)
+            if (u.o.houseID != (byte)g_playerHouseID)
             {
                 creditsStep += (ushort)((Tools.Tools_Random_256() % 4) - 1);
             }
 
             creditsStep *= harvesterStep;
 
-            if (CHouse.House_AreAllied((byte)CHouse.g_playerHouseID, s.o.houseID))
+            if (House_AreAllied((byte)g_playerHouseID, s.o.houseID))
             {
                 CScenario.g_scenario.harvestedAllied += creditsStep;
                 if (CScenario.g_scenario.harvestedAllied > 65000) CScenario.g_scenario.harvestedAllied = 65000;
@@ -196,12 +196,12 @@ namespace SharpDune.Script
 
             u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 
-            if ((byte)CHouse.g_playerHouseID == s.o.houseID && u.o.type == (byte)UnitType.UNIT_HARVESTER && (u.targetLast.x == 0 && u.targetLast.y == 0) && position != 0)
+            if ((byte)g_playerHouseID == s.o.houseID && u.o.type == (byte)UnitType.UNIT_HARVESTER && (u.targetLast.x == 0 && u.targetLast.y == 0) && position != 0)
             {
                 return (ushort)IndexType.IT_NONE;
             }
 
-            carryall = CUnit.Unit_CallUnitByType((UnitType)type, s.o.houseID, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE), position == 0);
+            carryall = Unit_CallUnitByType((UnitType)type, s.o.houseID, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE), position == 0);
 
             if (carryall == null) return (ushort)IndexType.IT_NONE;
 
@@ -232,7 +232,7 @@ namespace SharpDune.Script
 
             u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
 
-            if (g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER && CUnit.Unit_SetPosition(u, s.o.position))
+            if (g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER && Unit_SetPosition(u, s.o.position))
             {
                 s.o.linkedID = u.o.linkedID;
                 u.o.linkedID = 0xFF;
@@ -240,7 +240,7 @@ namespace SharpDune.Script
                 if (s.o.linkedID == 0xFF) Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_IDLE);
                 CObject.Object_Script_Variable4_Clear(s.o);
 
-                if (s.o.houseID == (byte)CHouse.g_playerHouseID) Sound.Sound_Output_Feedback((ushort)(CHouse.g_playerHouseID + 49));
+                if (s.o.houseID == (byte)g_playerHouseID) Sound.Sound_Output_Feedback((ushort)(g_playerHouseID + 49));
 
                 return 1;
             }
@@ -252,15 +252,15 @@ namespace SharpDune.Script
 
             tile = CTile.Tile_Center(CTile.Tile_UnpackTile(position));
 
-            if (!CUnit.Unit_SetPosition(u, tile)) return 0;
+            if (!Unit_SetPosition(u, tile)) return 0;
 
             s.o.linkedID = u.o.linkedID;
             u.o.linkedID = 0xFF;
 
-            CUnit.Unit_SetOrientation(u, (sbyte)(CTile.Tile_GetDirection(s.o.position, u.o.position) & 0xE0), true, 0);
-            CUnit.Unit_SetOrientation(u, u.orientation[0].current, true, 1);
+            Unit_SetOrientation(u, (sbyte)(CTile.Tile_GetDirection(s.o.position, u.o.position) & 0xE0), true, 0);
+            Unit_SetOrientation(u, u.orientation[0].current, true, 1);
 
-            if (u.o.houseID == (byte)CHouse.g_playerHouseID && u.o.type == (byte)UnitType.UNIT_HARVESTER)
+            if (u.o.houseID == (byte)g_playerHouseID && u.o.type == (byte)UnitType.UNIT_HARVESTER)
             {
                 Gui.Gui.GUI_DisplayHint((ushort)Text.STR_SEARCH_FOR_SPICE_FIELDS_TO_HARVEST, 0x6A);
             }
@@ -268,10 +268,10 @@ namespace SharpDune.Script
             if (s.o.linkedID == 0xFF) Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_IDLE);
             CObject.Object_Script_Variable4_Clear(s.o);
 
-            if (s.o.houseID != (byte)CHouse.g_playerHouseID) return 1;
+            if (s.o.houseID != (byte)g_playerHouseID) return 1;
             if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR) return 1;
 
-            Sound.Sound_Output_Feedback((ushort)(CHouse.g_playerHouseID + ((u.o.type == (byte)UnitType.UNIT_HARVESTER) ? 68 : 30)));
+            Sound.Sound_Output_Feedback((ushort)(g_playerHouseID + ((u.o.type == (byte)UnitType.UNIT_HARVESTER) ? 68 : 30)));
 
             return 1;
         }
@@ -304,7 +304,7 @@ namespace SharpDune.Script
             find.type = 0xFFFF;
 
             /* ENHANCEMENT -- The original code calculated distances from the top-left corner of the structure. */
-            if (CSharpDune.g_dune2_enhanced)
+            if (g_dune2_enhanced)
             {
                 position = CTile.Tile_Center(s.o.position);
             }
@@ -321,7 +321,7 @@ namespace SharpDune.Script
                 uf = PoolUnit.Unit_Find(find);
                 if (uf == null) break;
 
-                if (CHouse.House_AreAllied(s.o.houseID, CUnit.Unit_GetHouseID(uf))) continue;
+                if (House_AreAllied(s.o.houseID, Unit_GetHouseID(uf))) continue;
 
                 if (uf.o.type != (byte)UnitType.UNIT_ORNITHOPTER)
                 {
@@ -331,7 +331,7 @@ namespace SharpDune.Script
                 distance = CTile.Tile_GetDistance(uf.o.position, position);
                 if (distance >= distanceCurrent) continue;
 
-                if (CSharpDune.g_dune2_enhanced)
+                if (g_dune2_enhanced)
                 {
                     if (uf.o.type == (byte)UnitType.UNIT_ORNITHOPTER)
                     {
@@ -355,7 +355,7 @@ namespace SharpDune.Script
                 }
 
                 /* ENHANCEMENT -- The original code swapped the assignment, making it do nothing, Now it finds the closest unit to shoot at, what seems to be the intention */
-                if (CSharpDune.g_dune2_enhanced) distanceCurrent = distance;
+                if (g_dune2_enhanced) distanceCurrent = distance;
                 u = uf;
             }
 
@@ -499,7 +499,7 @@ namespace SharpDune.Script
 
             s = g_scriptCurrentStructure;
 
-            if (s.o.houseID != (byte)CHouse.g_playerHouseID) return 0;
+            if (s.o.houseID != (byte)g_playerHouseID) return 0;
 
             Sound.Voice_PlayAtTile((short)STACK_PEEK(script, 1), s.o.position);
 
@@ -545,7 +545,7 @@ namespace SharpDune.Script
 
             position.x = (ushort)(s.o.position.x + 0x80);
             position.y = (ushort)(s.o.position.y + 0x80);
-            u = CUnit.Unit_CreateBullet(position, (UnitType)type, s.o.houseID, damage, target);
+            u = Unit_CreateBullet(position, (UnitType)type, s.o.houseID, damage, target);
 
             if (u == null) return 0;
 
@@ -615,26 +615,26 @@ namespace SharpDune.Script
 
                 if (g_table_structureInfo[s.o.type].o.spawnChance < Tools.Tools_Random_256()) continue;
 
-                u = CUnit.Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, s.o.houseID, tile, (sbyte)Tools.Tools_Random_256());
+                u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, s.o.houseID, tile, (sbyte)Tools.Tools_Random_256());
                 if (u == null) continue;
 
                 u.o.hitpoints = (ushort)(g_table_unitInfo[(int)UnitType.UNIT_SOLDIER].o.hitpoints * (Tools.Tools_Random_256() & 3) / 256);
 
-                if (s.o.houseID != (byte)CHouse.g_playerHouseID)
+                if (s.o.houseID != (byte)g_playerHouseID)
                 {
-                    CUnit.Unit_SetAction(u, ActionType.ACTION_ATTACK);
+                    Unit_SetAction(u, ActionType.ACTION_ATTACK);
                     continue;
                 }
 
-                CUnit.Unit_SetAction(u, ActionType.ACTION_MOVE);
+                Unit_SetAction(u, ActionType.ACTION_MOVE);
 
                 tile = CTile.Tile_MoveByRandom(u.o.position, 32, true);
 
                 u.targetMove = Tools.Tools_Index_Encode(CTile.Tile_PackTile(tile), IndexType.IT_TILE);
             }
 
-            if (CSharpDune.g_debugScenario) return 0;
-            if (s.o.houseID != (byte)CHouse.g_playerHouseID) return 0;
+            if (g_debugScenario) return 0;
+            if (s.o.houseID != (byte)g_playerHouseID) return 0;
 
             if (Config.g_config.language == (byte)Language.FRENCH)
             {

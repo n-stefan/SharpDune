@@ -359,11 +359,11 @@ namespace SharpDune.Script
 
             if (!Tools.Tools_Index_IsValid(index)) return 0;
 
-            houseID = (g_scriptCurrentUnit != null) ? CUnit.Unit_GetHouseID(g_scriptCurrentUnit) : g_scriptCurrentObject.houseID;
+            houseID = (g_scriptCurrentUnit != null) ? Unit_GetHouseID(g_scriptCurrentUnit) : g_scriptCurrentObject.houseID;
 
             switch (Tools.Tools_Index_GetType(index))
             {
-                case IndexType.IT_UNIT: return (ushort)((CUnit.Unit_GetHouseID(Tools.Tools_Index_GetUnit(index)) != houseID) ? 1 : 0);
+                case IndexType.IT_UNIT: return (ushort)((Unit_GetHouseID(Tools.Tools_Index_GetUnit(index)) != houseID) ? 1 : 0);
                 case IndexType.IT_STRUCTURE: return (ushort)((Tools.Tools_Index_GetStructure(index).o.houseID != houseID) ? 1 : 0);
                 default: return 0;
             }

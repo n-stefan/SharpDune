@@ -255,7 +255,7 @@ namespace SharpDune
 			/* Boom a bloom if there is one */
 			if (t.groundTileID == Sprites.g_bloomTileID)
 			{
-				Map.Map_Bloom_ExplodeSpice(packed, (byte)CHouse.g_playerHouseID);
+				Map.Map_Bloom_ExplodeSpice(packed, (byte)g_playerHouseID);
 				return;
 			}
 
@@ -303,7 +303,7 @@ namespace SharpDune
 
 			packed = CTile.Tile_PackTile(e.position);
 
-			if (CStructure.Structure_Get_ByPackedTile(packed) != null) return;
+			if (Structure_Get_ByPackedTile(packed) != null) return;
 
 			animationMapID += (ushort)(Tools.Tools_Random_256() & 0x1);
 			animationMapID += (ushort)(g_table_landscapeInfo[Map.Map_GetLandscapeType(packed)].isSand ? 0 : 2);
@@ -325,7 +325,7 @@ namespace SharpDune
 
 			if (Map.g_map[packed].groundTileID != Sprites.g_bloomTileID) return;
 
-			Map.Map_Bloom_ExplodeSpice(packed, (byte)CHouse.g_playerHouseID);
+			Map.Map_Bloom_ExplodeSpice(packed, (byte)g_playerHouseID);
 		}
 
 		/*

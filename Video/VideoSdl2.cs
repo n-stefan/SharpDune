@@ -257,7 +257,7 @@ namespace SharpDune.Video
 					case SDL.SDL_EventType.SDL_QUIT:
 						{
 							s_video_lock = false;
-							CSharpDune.PrepareEnd();
+                            PrepareEnd();
 							Environment.Exit(0);
 						}
 						break;
@@ -406,7 +406,7 @@ namespace SharpDune.Video
 				return false;
 			}
 
-			SDL.SDL_SetWindowTitle(s_window, CSharpDune.window_caption);
+			SDL.SDL_SetWindowTitle(s_window, window_caption);
 
 #if !WITHOUT_SDLIMAGE
 			icon = SDL_image.IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune_32x32.png")); //"sharpdune.png"

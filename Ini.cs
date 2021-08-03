@@ -14,9 +14,9 @@ namespace SharpDune
 			if (start == -1) return result;
 			start += category.Length + 2;
 			var section = source[start..];
-			var end = section.IndexOf('[', CSharpDune.StringComparison);
+			var end = section.IndexOf('[', Comparison);
 			if (end != -1) section = section[..end];
-			section = section.Replace("\t", string.Empty, CSharpDune.StringComparison).Replace("  =", "=", CSharpDune.StringComparison).Replace(" =", "=", CSharpDune.StringComparison);
+			section = section.Replace("\t", string.Empty, Comparison).Replace("  =", "=", Comparison).Replace(" =", "=", Comparison);
 
 			if (key != null)
             {
@@ -39,10 +39,10 @@ namespace SharpDune
 			string value; //char[16];
 			string buffer; //char[16]
 
-			value = defaultValue.ToString(CSharpDune.Culture); //sprintf(value, "%d", defaultValue);
+			value = defaultValue.ToString(Culture); //sprintf(value, "%d", defaultValue);
 
 			buffer = Ini_GetString(category, key, value, source);
-			return int.Parse(buffer, CSharpDune.Culture); //atoi(buffer);
+			return int.Parse(buffer, Culture); //atoi(buffer);
 		}
 
 		internal static void Ini_SetString(string category, string key, string value, string source)
