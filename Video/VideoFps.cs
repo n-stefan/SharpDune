@@ -15,7 +15,7 @@ namespace SharpDune.Video
 		{
 			uint timeStamp;
 
-			timeStamp = Timer.Timer_GetTime();
+			timeStamp = Timer_GetTime();
 			if (s_previousTimeStamps[s_previousTimeStampsIndex] > 0
 					&& timeStamp != s_previousTimeStamps[s_previousTimeStampsIndex])
 			{

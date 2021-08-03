@@ -81,7 +81,7 @@ namespace SharpDune.SaveLoad
          * @param t The type on disk.
          */
 		internal static SaveLoadDesc SLD_EMPTY(SaveLoadType t) =>
-			new() { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_NULL, count = 1, sld = null, /*size = 0,*/ callback = null };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = SLDT_NULL, count = 1, sld = null, /*size = 0,*/ callback = null };
 
 		/*
          * An empty array. Just to pad bytes on disk.
@@ -89,7 +89,7 @@ namespace SharpDune.SaveLoad
          * @param n The number of elements.
          */
 		internal static SaveLoadDesc SLD_EMPTY2(SaveLoadType t, ushort n) =>
-			new() { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_NULL, count = n, sld = null, /*size = 0,*/ callback = null };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = SLDT_NULL, count = n, sld = null, /*size = 0,*/ callback = null };
 
 		/*
          * A normal entry.
@@ -146,17 +146,17 @@ namespace SharpDune.SaveLoad
          * @param p The callback.
          */
 		internal static SaveLoadDesc SLD_CALLB(/*Type c,*/ SaveLoadType t, string m, SaveLoadDescCallback p) =>
-			new() { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = item_size(c, m),*/ callback = p };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = t, type_memory = SLDT_CALLBACK, count = 1, sld = null, /*size = item_size(c, m),*/ callback = p };
 
 		internal static SaveLoadDesc SLD_GCALLB(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescCallback p) =>
-			new() { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, getter = g };
+			new() { /*offset = 0,*/ type_disk = t, type_memory = SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, getter = g };
 
 		//internal static SaveLoadDesc SLD_GCALLB<M>(SaveLoadType t, M m, SaveLoadDescCallback p) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, address = m };
 
 		/* Indicates end of array. */
 		internal static SaveLoadDesc SLD_END() =>
-			new() { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_NULL, type_memory = SaveLoadType.SLDT_NULL, count = 0, sld = null, /*size = 0,*/ callback = null };
+			new() { /*offset = 0,*/ type_disk = SLDT_NULL, type_memory = SLDT_NULL, count = 0, sld = null, /*size = 0,*/ callback = null };
 
 		/*
 		 * A struct entry.
@@ -165,10 +165,10 @@ namespace SharpDune.SaveLoad
 		 * @param s The SaveLoadDesc.
 		 */
 		internal static SaveLoadDesc SLD_SLD(/*Type c,*/ string m, SaveLoadDesc[] s) =>
-			new() { member = m, /*offset = offset(c, m),*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = item_size(c, m),*/ callback = null };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = SLDT_SLD, type_memory = SLDT_SLD, count = 1, sld = s, /*size = item_size(c, m),*/ callback = null };
 
 		internal static SaveLoadDesc SLD_GSLD(SaveLoadDescGetter g, SaveLoadDesc[] s) =>
-			new() { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, getter = g };
+			new() { /*offset = 0,*/ type_disk = SLDT_SLD, type_memory = SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, getter = g };
 
 		//internal static SaveLoadDesc SLD_GSLD<M>(M m, SaveLoadDesc[] s) =>
 		//	new SaveLoadDesc { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, address = m };
@@ -181,7 +181,7 @@ namespace SharpDune.SaveLoad
 		 * @param n The number of elements.
 		 */
 		internal static SaveLoadDesc SLD_SLD2(/*Type c,*/ string m, SaveLoadDesc[] s, ushort n) =>
-			new() { member = m, /*offset = offset(c, m),*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = n, sld = s, /*size = item_size(c, m) / n,*/ callback = null };
+			new() { member = m, /*offset = offset(c, m),*/ type_disk = SLDT_SLD, type_memory = SLDT_SLD, count = n, sld = s, /*size = item_size(c, m) / n,*/ callback = null };
 
 		/*
 		 * Get the length of the struct how it would be on disk.
@@ -193,19 +193,19 @@ namespace SharpDune.SaveLoad
 			uint length = 0;
 			var i = 0;
 
-			while (sld[i].type_disk != SaveLoadType.SLDT_NULL)
+			while (sld[i].type_disk != SLDT_NULL)
 			{
 				switch (sld[i].type_disk)
 				{
-					case SaveLoadType.SLDT_NULL: length += 0; break;
-					case SaveLoadType.SLDT_CALLBACK: length += 0; break;
-					case SaveLoadType.SLDT_UINT8: length += (uint)Common.SizeOf(typeof(byte)) * sld[i].count; break;
-					case SaveLoadType.SLDT_UINT16: length += (uint)Common.SizeOf(typeof(ushort)) * sld[i].count; break;
-					case SaveLoadType.SLDT_UINT32: length += (uint)Common.SizeOf(typeof(uint)) * sld[i].count; break;
-					case SaveLoadType.SLDT_INT8: length += (uint)Common.SizeOf(typeof(sbyte)) * sld[i].count; break;
-					case SaveLoadType.SLDT_INT16: length += (uint)Common.SizeOf(typeof(short)) * sld[i].count; break;
-					case SaveLoadType.SLDT_INT32: length += (uint)Common.SizeOf(typeof(int)) * sld[i].count; break;
-					case SaveLoadType.SLDT_SLD: length += SaveLoad_GetLength(sld[i].sld) * sld[i].count; break;
+					case SLDT_NULL: length += 0; break;
+					case SLDT_CALLBACK: length += 0; break;
+					case SLDT_UINT8: length += (uint)SizeOf(typeof(byte)) * sld[i].count; break;
+					case SLDT_UINT16: length += (uint)SizeOf(typeof(ushort)) * sld[i].count; break;
+					case SLDT_UINT32: length += (uint)SizeOf(typeof(uint)) * sld[i].count; break;
+					case SLDT_INT8: length += (uint)SizeOf(typeof(sbyte)) * sld[i].count; break;
+					case SLDT_INT16: length += (uint)SizeOf(typeof(short)) * sld[i].count; break;
+					case SLDT_INT32: length += (uint)SizeOf(typeof(int)) * sld[i].count; break;
+					case SLDT_SLD: length += SaveLoad_GetLength(sld[i].sld) * sld[i].count; break;
 					default: length += 0; break;
 				}
 				i++;
@@ -255,7 +255,7 @@ namespace SharpDune.SaveLoad
 			string member;
 			var index = -1;
 
-			while (sld[c].type_disk != SaveLoadType.SLDT_NULL)
+			while (sld[c].type_disk != SLDT_NULL)
 			{
 				object/*uint*/ value = 0;
 				object ptr = null;
@@ -287,37 +287,37 @@ namespace SharpDune.SaveLoad
 					
 					switch (sld[c].type_disk)
 					{
-						case SaveLoadType.SLDT_CALLBACK:
-						case SaveLoadType.SLDT_SLD:
-						case SaveLoadType.SLDT_NULL:
+						case SLDT_CALLBACK:
+						case SLDT_SLD:
+						case SLDT_NULL:
 							value = 0;
 							break;
 
-						case SaveLoadType.SLDT_UINT8:
+						case SLDT_UINT8:
 							value = fp.ReadByte(); //if (fread(&v, sizeof(uint8), 1, fp) != 1) return false;
 							break;
 
-						case SaveLoadType.SLDT_UINT16:
+						case SLDT_UINT16:
 							value = fp.ReadUInt16(); //if (!CFile.fread_le_uint16(ref v, (FileStream)fp.BaseStream)) return false;
 							break;
 
-						case SaveLoadType.SLDT_UINT32:
+						case SLDT_UINT32:
 							value = fp.ReadUInt32(); //if (!CFile.fread_le_uint32(ref v, (FileStream)fp.BaseStream)) return false;
 							break;
 
-						case SaveLoadType.SLDT_INT8:
+						case SLDT_INT8:
 							value = fp.ReadSByte(); //if (fread(&v, sizeof(int8), 1, fp) != 1) return false;
 							break;
 
-						case SaveLoadType.SLDT_INT16:
+						case SLDT_INT16:
 							value = fp.ReadInt16(); //if (!CFile.fread_le_int16(ref v, (FileStream)fp.BaseStream)) return false;
 							break;
 
-						case SaveLoadType.SLDT_INT32:
+						case SLDT_INT32:
 							value = fp.ReadInt32(); //if (!CFile.fread_le_int32(ref v, (FileStream)fp.BaseStream)) return false;
 							break;
 
-						case SaveLoadType.SLDT_INVALID:
+						case SLDT_INVALID:
 						default:
 							Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
 							return false;
@@ -325,15 +325,15 @@ namespace SharpDune.SaveLoad
 
 					switch (sld[c].type_memory)
 					{
-						case SaveLoadType.SLDT_NULL:
+						case SLDT_NULL:
 							break;
 
-						case SaveLoadType.SLDT_UINT8: //ptr = (byte)value;
-						case SaveLoadType.SLDT_UINT16: //ptr = (ushort)value;
-						case SaveLoadType.SLDT_UINT32: //ptr = value;
-						case SaveLoadType.SLDT_INT8: //ptr = (sbyte)value;
-						case SaveLoadType.SLDT_INT16: //ptr = (short)value;
-						case SaveLoadType.SLDT_INT32: //ptr = (int)value;
+						case SLDT_UINT8: //ptr = (byte)value;
+						case SLDT_UINT16: //ptr = (ushort)value;
+						case SLDT_UINT32: //ptr = value;
+						case SLDT_INT8: //ptr = (sbyte)value;
+						case SLDT_INT16: //ptr = (short)value;
+						case SLDT_INT32: //ptr = (int)value;
 							if (field != null)
                             {
 								if (field.FieldType == typeof(string))
@@ -356,7 +356,7 @@ namespace SharpDune.SaveLoad
 								}
 								else
 								{
-									field.SetValue(ptr, (sld[c].type_memory == SaveLoadType.SLDT_UINT8) ? Convert.ToByte(value, Culture) : value);
+									field.SetValue(ptr, (sld[c].type_memory == SLDT_UINT8) ? Convert.ToByte(value, Culture) : value);
 									if (ptr is ValueType && index != -1)
 									{
 										type.GetField(member[..index], flags).SetValue(obj, ptr);
@@ -369,7 +369,7 @@ namespace SharpDune.SaveLoad
 							}
 							break;
 
-						case SaveLoadType.SLDT_HOUSEFLAGS:
+						case SLDT_HOUSEFLAGS:
 							{
 								var v = Convert.ToUInt32(value, Culture);
                                 var f = new HouseFlags
@@ -385,7 +385,7 @@ namespace SharpDune.SaveLoad
 							}
 							break;
 
-						case SaveLoadType.SLDT_OBJECTFLAGS:
+						case SLDT_OBJECTFLAGS:
 							{
 								var v = Convert.ToUInt32(value, Culture);
                                 var f = new ObjectFlags
@@ -415,7 +415,7 @@ namespace SharpDune.SaveLoad
 							}
 							break;
 
-						case SaveLoadType.SLDT_TEAMFLAGS:
+						case SLDT_TEAMFLAGS:
 							{
 								var f = new TeamFlags
 								{
@@ -426,7 +426,7 @@ namespace SharpDune.SaveLoad
 							}
 							break;
 
-						case SaveLoadType.SLDT_SLD:
+						case SLDT_SLD:
 							subPtr = (field != null && field.FieldType.IsArray) ?
 								(field.GetValue(ptr) as Array).GetValue(i) :
 								(field != null && field.FieldType.IsClass) ?
@@ -436,11 +436,11 @@ namespace SharpDune.SaveLoad
 							if (!SaveLoad_Load(sld[c].sld, fp, subPtr)) return false;
 							break;
 
-						case SaveLoadType.SLDT_CALLBACK:
+						case SLDT_CALLBACK:
 							sld[c].callback(obj, Convert.ToUInt32(value, Culture), true);
 							break;
 
-						case SaveLoadType.SLDT_INVALID:
+						case SLDT_INVALID:
 							Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
 							return false;
 					}
@@ -468,7 +468,7 @@ namespace SharpDune.SaveLoad
 			string member;
 			int index;
 
-			while (sld[c].type_disk != SaveLoadType.SLDT_NULL)
+			while (sld[c].type_disk != SLDT_NULL)
 			{
 				object/*uint*/ value = 0;
 				object[] values;
@@ -514,37 +514,37 @@ namespace SharpDune.SaveLoad
 
 					switch (sld[c].type_memory)
 					{
-						case SaveLoadType.SLDT_NULL:
+						case SLDT_NULL:
 							values[i] = 0;
 							break;
 
-						case SaveLoadType.SLDT_UINT8: //value = ((byte[])ptr)[0];
-						case SaveLoadType.SLDT_UINT16: //value = ((ushort[])ptr)[0];
-						case SaveLoadType.SLDT_UINT32: //value = ((uint[])ptr)[0];
-						case SaveLoadType.SLDT_INT8: //value = (uint)((sbyte[])ptr)[0];
-						case SaveLoadType.SLDT_INT16: //value = (uint)((short[])ptr)[0];
-						case SaveLoadType.SLDT_INT32: //value = (uint)((int[])ptr)[0];
+						case SLDT_UINT8: //value = ((byte[])ptr)[0];
+						case SLDT_UINT16: //value = ((ushort[])ptr)[0];
+						case SLDT_UINT32: //value = ((uint[])ptr)[0];
+						case SLDT_INT8: //value = (uint)((sbyte[])ptr)[0];
+						case SLDT_INT16: //value = (uint)((short[])ptr)[0];
+						case SLDT_INT32: //value = (uint)((int[])ptr)[0];
 							break;
 
-						case SaveLoadType.SLDT_HOUSEFLAGS:
+						case SLDT_HOUSEFLAGS:
 							//{
 								values[i] = ((HouseFlags)values[i]).all; //ptr;
 								//value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.human) << 1) | (Convert.ToByte(f.doneFullScaleAttack) << 2) | (Convert.ToByte(f.isAIActive) << 3) | (Convert.ToByte(f.radarActivated) << 4));
 							//}
 							break;
 
-						case SaveLoadType.SLDT_OBJECTFLAGS:
+						case SLDT_OBJECTFLAGS:
 							//{
 								values[i] = ((ObjectFlags)values[i]).all; //ptr;
 								//value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.allocated) << 1) | (Convert.ToByte(f.isNotOnMap) << 2) | (Convert.ToByte(f.isSmoking) << 3) | (Convert.ToByte(f.fireTwiceFlip) << 4) | (Convert.ToByte(f.animationFlip) << 5) | (Convert.ToByte(f.bulletIsBig) << 6) | (Convert.ToByte(f.isWobbling) << 7) | (Convert.ToByte(f.inTransport) << 8) | (Convert.ToByte(f.byScenario) << 9) | (Convert.ToByte(f.degrades) << 10) | (Convert.ToByte(f.isHighlighted) << 11) | (Convert.ToByte(f.isDirty) << 12) | (Convert.ToByte(f.repairing) << 13) | (Convert.ToByte(f.onHold) << 14) | (Convert.ToByte(f.isUnit) << 16) | (Convert.ToByte(f.upgrading) << 17));
 							//}
 							break;
 
-						case SaveLoadType.SLDT_TEAMFLAGS:
+						case SLDT_TEAMFLAGS:
 							values[i] = Convert.ToUInt32(((TeamFlags)values[i]).used); //ptr;
 							break;
 
-						case SaveLoadType.SLDT_SLD:
+						case SLDT_SLD:
 							//var subObj = sld[c].address ?? (value as Array).GetValue(i);
 							//var subObj = typeof(Array).IsAssignableFrom(value.GetType()) ?
 							//	(value as Array).GetValue(i) :
@@ -552,23 +552,23 @@ namespace SharpDune.SaveLoad
 							if (!SaveLoad_Save(sld[c].sld, fp, values[i]/*subObj*//*ptr*/)) return false;
 							break;
 
-						case SaveLoadType.SLDT_CALLBACK:
+						case SLDT_CALLBACK:
 							values[i] = sld[c].callback(obj, 0, false);
 							break;
 
-						case SaveLoadType.SLDT_INVALID:
+						case SLDT_INVALID:
 							Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
 							return false;
 					}
 
 					switch (sld[c].type_disk)
 					{
-						case SaveLoadType.SLDT_CALLBACK:
-						case SaveLoadType.SLDT_SLD:
-						case SaveLoadType.SLDT_NULL:
+						case SLDT_CALLBACK:
+						case SLDT_SLD:
+						case SLDT_NULL:
 							break;
 
-						case SaveLoadType.SLDT_UINT8:
+						case SLDT_UINT8:
                             try
                             {
 								fp.Write(Convert.ToByte(values[i], Culture)); //if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
@@ -579,15 +579,15 @@ namespace SharpDune.SaveLoad
 							}
 							break;
 
-						case SaveLoadType.SLDT_UINT16:
+						case SLDT_UINT16:
 							fp.Write(Convert.ToUInt16(values[i], Culture)); //if (!CFile.fwrite_le_uint16(v, fp)) return false;
 							break;
 
-						case SaveLoadType.SLDT_UINT32:
+						case SLDT_UINT32:
 							fp.Write(Convert.ToUInt32(values[i], Culture)); //if (!CFile.fwrite_le_uint32(v, fp)) return false;
 							break;
 
-						case SaveLoadType.SLDT_INT8:
+						case SLDT_INT8:
 							sbyte v;
 							try
 							{
@@ -600,16 +600,16 @@ namespace SharpDune.SaveLoad
 							fp.Write(v); //if (fwrite(&v, sizeof(int8), 1, fp) != 1) return false;
 							break;
 
-						case SaveLoadType.SLDT_INT16:
+						case SLDT_INT16:
 							fp.Write(Convert.ToInt16(values[i], Culture)); //if (!CFile.fwrite_le_int16(v, fp)) return false;
 							break;
 
-						case SaveLoadType.SLDT_INT32:
+						case SLDT_INT32:
 							fp.Write(Convert.ToInt32(values[i], Culture)); //if (!CFile.fwrite_le_int32(v, fp)) return false;
 							break;
 
 						default:
-						case SaveLoadType.SLDT_INVALID:
+						case SLDT_INVALID:
 							Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
 							return false;
 					}

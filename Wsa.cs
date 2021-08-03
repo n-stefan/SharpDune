@@ -118,8 +118,8 @@ namespace SharpDune
 			}
 			else
 			{
-				dst = new CArray<byte> { Arr = Gfx.GFX_Screen_Get_ByIndex(screenID) };
-				dst += (ushort)(posX + posY * Gfx.SCREEN_WIDTH); //dst.Ptr += (ushort)(posX + posY * Gfx.SCREEN_WIDTH);
+				dst = new CArray<byte> { Arr = GFX_Screen_Get_ByIndex(screenID) };
+				dst += (ushort)(posX + posY * SCREEN_WIDTH); //dst.Ptr += (ushort)(posX + posY * Gfx.SCREEN_WIDTH);
 			}
 
 			if (header.frameCurrent == header.frames)
@@ -128,18 +128,18 @@ namespace SharpDune
 				{
 					if (!header.flags.displayInBuffer)
 					{
-						Format40.Format40_Decode_ToScreen(dst.Arr, header.buffer.Arr, header.width, dst.Ptr, header.buffer.Ptr);
+                        Format40_Decode_ToScreen(dst.Arr, header.buffer.Arr, header.width, dst.Ptr, header.buffer.Ptr);
 					}
 					else
 					{
-						Format40.Format40_Decode(new CArray<byte>(dst), new CArray<byte>(header.buffer));
+                        Format40_Decode(new CArray<byte>(dst), new CArray<byte>(header.buffer));
 					}
 				}
 
 				header.frameCurrent = 0;
 			}
 
-			frameDiff = Abs((short)(header.frameCurrent - frameNext));
+			frameDiff = Math.Abs((short)(header.frameCurrent - frameNext));
 			direction = 1;
 
 			if (frameNext > header.frameCurrent)
@@ -200,7 +200,7 @@ namespace SharpDune
 				WSA_DrawFrame((short)posX, (short)posY, (short)header.width, (short)header.height, 0, dst, screenID);
 			}
 
-			Gfx.GFX_Screen_SetDirty(screenID, posX, posY, (ushort)(posX + header.width), (ushort)(posY + header.height));
+            GFX_Screen_SetDirty(screenID, posX, posY, (ushort)(posX + header.width), (ushort)(posY + header.height));
 			return true;
 		}
 
@@ -246,7 +246,7 @@ namespace SharpDune
 				uint length;
 				uint res;
 
-				fileno = CFile.File_Open(header.filename, FileMode.FILE_MODE_READ);
+				fileno = File_Open(header.filename, FileMode.FILE_MODE_READ);
 
 				positionStart = WSA_GetFrameOffset_FromDisk(fileno, frame);
 				positionEnd = WSA_GetFrameOffset_FromDisk(fileno, (ushort)(frame + 1));
@@ -254,28 +254,28 @@ namespace SharpDune
 
 				if (positionStart == 0 || positionEnd == 0 || length == 0)
 				{
-					CFile.File_Close(fileno);
+                    File_Close(fileno);
 					return 0;
 				}
 
 				bufferPointer += (ushort)(header.bufferLength - length);
 
-				CFile.File_Seek(fileno, (int)(positionStart + lengthPalette), 0);
-				res = CFile.File_Read(fileno, ref buffer, length, bufferPointer);
-				CFile.File_Close(fileno);
+                File_Seek(fileno, (int)(positionStart + lengthPalette), 0);
+				res = File_Read(fileno, ref buffer, length, bufferPointer);
+                File_Close(fileno);
 
 				if (res != length) return 0;
 			}
 
-			Format80.Format80_Decode(header.buffer.Arr, buffer, header.bufferLength, header.buffer.Ptr, bufferPointer);
+            Format80_Decode(header.buffer.Arr, buffer, header.bufferLength, header.buffer.Ptr, bufferPointer);
 
 			if (header.flags.displayInBuffer)
 			{
-				Format40.Format40_Decode(new CArray<byte>(dst), new CArray<byte>(header.buffer));
+                Format40_Decode(new CArray<byte>(dst), new CArray<byte>(header.buffer));
 			}
 			else
 			{
-				Format40.Format40_Decode_XorToScreen(dst.Arr, header.buffer.Arr, header.width, dst.Ptr, header.buffer.Ptr);
+                Format40_Decode_XorToScreen(dst.Arr, header.buffer.Arr, header.width, dst.Ptr, header.buffer.Ptr);
 			}
 
 			return 1;
@@ -307,14 +307,14 @@ namespace SharpDune
 
 			//memset(&flags, 0, sizeof(flags));
 
-			fileno = CFile.File_Open(filename, FileMode.FILE_MODE_READ);
-			fileheader.frames = CFile.File_Read_LE16(fileno);
-			fileheader.width = CFile.File_Read_LE16(fileno);
-			fileheader.height = CFile.File_Read_LE16(fileno);
-			fileheader.requiredBufferSize = CFile.File_Read_LE16(fileno);
-			fileheader.hasPalette = CFile.File_Read_LE16(fileno);           /* has palette */
-			fileheader.firstFrameOffset = CFile.File_Read_LE32(fileno);		/* Offset of 1st frame */
-			fileheader.secondFrameOffset = CFile.File_Read_LE32(fileno);    /* Offset of 2nd frame (end of 1st frame) */
+			fileno = File_Open(filename, FileMode.FILE_MODE_READ);
+			fileheader.frames = File_Read_LE16(fileno);
+			fileheader.width = File_Read_LE16(fileno);
+			fileheader.height = File_Read_LE16(fileno);
+			fileheader.requiredBufferSize = File_Read_LE16(fileno);
+			fileheader.hasPalette = File_Read_LE16(fileno);           /* has palette */
+			fileheader.firstFrameOffset = File_Read_LE32(fileno);		/* Offset of 1st frame */
+			fileheader.secondFrameOffset = File_Read_LE32(fileno);    /* Offset of 2nd frame (end of 1st frame) */
 
 			lengthPalette = 0;
 			if (fileheader.hasPalette != 0)
@@ -324,7 +324,7 @@ namespace SharpDune
 				lengthPalette = 0x300;  /* length of a 256 color RGB palette */
 			}
 
-			lengthFileContent = CFile.File_Seek(fileno, 0, 2);
+			lengthFileContent = File_Seek(fileno, 0, 2);
 
 			lengthFirstFrame = 0;
 			if (fileheader.firstFrameOffset != 0)
@@ -350,7 +350,7 @@ namespace SharpDune
 
 			if (wsaSize > 1 && wsaSize < bufferSizeMinimal)
 			{
-				CFile.File_Close(fileno);
+                File_Close(fileno);
 
 				return (null, null);
 			}
@@ -417,10 +417,10 @@ namespace SharpDune
 			{
 				header.fileContent = wsa[(wsaPointer + header.bufferLength)..];
 
-				CFile.File_Seek(fileno, 10, 0);
-				CFile.File_Read(fileno, ref header.fileContent, lengthHeader);
-				CFile.File_Seek(fileno, lengthFirstFrame + lengthPalette, 1);
-				CFile.File_Read(fileno, ref header.fileContent, lengthFileContent - lengthHeader, lengthHeader);
+                File_Seek(fileno, 10, 0);
+                File_Read(fileno, ref header.fileContent, lengthHeader);
+                File_Seek(fileno, lengthFirstFrame + lengthPalette, 1);
+                File_Read(fileno, ref header.fileContent, lengthFileContent - lengthHeader, lengthHeader);
 
 				header.flags.dataInMemory = true;
 				if (WSA_GetFrameOffset_FromMemory(header, (ushort)(header.frames + 1)) == 0) header.flags.noAnimation = true;
@@ -433,11 +433,11 @@ namespace SharpDune
 
 			var b = wsa[(wsaPointer + header.bufferLength - lengthFirstFrame)..];
 
-			CFile.File_Seek(fileno, lengthHeader + lengthPalette + 10, 0);
-			CFile.File_Read(fileno, ref b, lengthFirstFrame);
-			CFile.File_Close(fileno);
-			
-			Format80.Format80_Decode(wsa, b, header.bufferLength, wsaPointer, 0);
+            File_Seek(fileno, lengthHeader + lengthPalette + 10, 0);
+            File_Read(fileno, ref b, lengthFirstFrame);
+            File_Close(fileno);
+
+            Format80_Decode(wsa, b, header.bufferLength, wsaPointer, 0);
 
 			//result.data = new CArray<byte> { Array = wsa, Pointer = wsaPointer };
 
@@ -466,12 +466,12 @@ namespace SharpDune
 			//int srcPointer = 0;
 			var dstPointer = 0;
 
-			dst = Gfx.GFX_Screen_Get_ByIndex(screenID);
+			dst = GFX_Screen_Get_ByIndex(screenID);
 
-			left = (short)(CWidget.g_widgetProperties[windowID].xBase << 3);
-			right = (short)(left + (CWidget.g_widgetProperties[windowID].width << 3));
-			top = (short)CWidget.g_widgetProperties[windowID].yBase;
-			bottom = (short)(top + CWidget.g_widgetProperties[windowID].height);
+			left = (short)(g_widgetProperties[windowID].xBase << 3);
+			right = (short)(left + (g_widgetProperties[windowID].width << 3));
+			top = (short)g_widgetProperties[windowID].yBase;
+			bottom = (short)(top + g_widgetProperties[windowID].height);
 
 			if (y - top < 0)
 			{
@@ -482,7 +482,7 @@ namespace SharpDune
 			}
 
 			if (bottom - y <= 0) return;
-			height = Min((short)(bottom - y), height);
+			height = Math.Min((short)(bottom - y), height);
 
 			skipBefore = 0;
 			if (x - left < 0)
@@ -500,7 +500,7 @@ namespace SharpDune
 				width = (short)(right - x);
 			}
 
-			dstPointer += y * Gfx.SCREEN_WIDTH + x;
+			dstPointer += y * SCREEN_WIDTH + x;
 
 			while (height-- != 0)
 			{
@@ -510,7 +510,7 @@ namespace SharpDune
 				//src.Arr.AsSpan(src.Ptr, width).CopyTo(dst.AsSpan(dstPointer, width));
 
 				/*srcPointer*/src += width + skipAfter; //src.Ptr += width + skipAfter;
-				dstPointer += Gfx.SCREEN_WIDTH;
+				dstPointer += SCREEN_WIDTH;
 			}
 		}
 
@@ -527,14 +527,14 @@ namespace SharpDune
 			uint animationFrame;
 			uint animation0;
 
-			animationFrame = Endian.READ_LE_UINT32(header.fileContent[(frame * 4)..]);
+			animationFrame = READ_LE_UINT32(header.fileContent[(frame * 4)..]);
 
 			if (animationFrame == 0) return 0;
 
-			animation0 = Endian.READ_LE_UINT32(header.fileContent);
+			animation0 = READ_LE_UINT32(header.fileContent);
 			if (animation0 != 0)
 			{
-				lengthAnimation = (ushort)(Endian.READ_LE_UINT32(header.fileContent[4..]) - animation0);
+				lengthAnimation = (ushort)(READ_LE_UINT32(header.fileContent[4..]) - animation0);
 			}
 
 			return animationFrame - lengthAnimation - 10;
@@ -551,8 +551,8 @@ namespace SharpDune
 		{
 			uint offset;
 
-			CFile.File_Seek(fileno, frame * 4 + 10, 0);
-			offset = CFile.File_Read_LE32(fileno);
+            File_Seek(fileno, frame * 4 + 10, 0);
+			offset = File_Read_LE32(fileno);
 
 			return offset;
 		}

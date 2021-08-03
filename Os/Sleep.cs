@@ -9,7 +9,7 @@ namespace SharpDune.Os
             msleep(1);
 #else
         internal static void sleepIdle() =>
-            Timer.SleepAndProcessBackgroundTasks();
+            SleepAndProcessBackgroundTasks();
 #endif
 
 	    internal static void msleep(int x) =>

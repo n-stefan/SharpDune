@@ -9,8 +9,6 @@
 
 //INT - BOOL: zero is false and all other values are true
 
-using Timer = SharpDune.Timer;
-
 enum GameMode
 {
     GM_MENU = 0,
@@ -82,10 +80,10 @@ class CSharpDune
         if (s_debugForceWin) return true;
 
         /* You have to play at least 7200 ticks before you can win the game */
-        if (Timer.g_timerGame - g_tickScenarioStart < 7200) return false;
+        if (g_timerGame - g_tickScenarioStart < 7200) return false;
 
         /* Check for structure counts hitting zero */
-        if ((CScenario.g_scenario.winFlags & 0x3) != 0)
+        if ((g_scenario.winFlags & 0x3) != 0)
         {
             var find = new PoolFindStruct();
             ushort countStructureEnemy = 0;
@@ -100,7 +98,7 @@ class CSharpDune
             {
                 Structure s;
 
-                s = PoolStructure.Structure_Find(find);
+                s = Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
@@ -117,18 +115,18 @@ class CSharpDune
                 }
             }
 
-            if ((CScenario.g_scenario.winFlags & 0x1) != 0 && countStructureEnemy == 0)
+            if ((g_scenario.winFlags & 0x1) != 0 && countStructureEnemy == 0)
             {
                 finish = true;
             }
-            if ((CScenario.g_scenario.winFlags & 0x2) != 0 && countStructureFriendly == 0)
+            if ((g_scenario.winFlags & 0x2) != 0 && countStructureFriendly == 0)
             {
                 finish = true;
             }
         }
 
         /* Check for reaching spice quota */
-        if ((CScenario.g_scenario.winFlags & 0x4) != 0 && g_playerCredits != 0xFFFF)
+        if ((g_scenario.winFlags & 0x4) != 0 && g_playerCredits != 0xFFFF)
         {
             if (g_playerCredits >= g_playerHouse.creditsQuota)
             {
@@ -137,12 +135,12 @@ class CSharpDune
         }
 
         /* Check for reaching timeout */
-        if ((CScenario.g_scenario.winFlags & 0x8) != 0)
+        if ((g_scenario.winFlags & 0x8) != 0)
         {
             /* XXX -- This code was with '<' instead of '>=', which makes
              *  no sense. As it is unused, who knows what the intentions
              *  were. This at least makes it sensible. */
-            if (Timer.g_timerGame >= s_tickGameTimeout)
+            if (g_timerGame >= s_tickGameTimeout)
             {
                 finish = true;
             }
@@ -163,7 +161,7 @@ class CSharpDune
         if (s_debugForceWin) return true;
 
         /* Check for structure counts hitting zero */
-        if ((CScenario.g_scenario.loseFlags & 0x3) != 0)
+        if ((g_scenario.loseFlags & 0x3) != 0)
         {
             var find = new PoolFindStruct();
             ushort countStructureEnemy = 0;
@@ -178,7 +176,7 @@ class CSharpDune
             {
                 Structure s;
 
-                s = PoolStructure.Structure_Find(find);
+                s = Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
@@ -196,26 +194,26 @@ class CSharpDune
             }
 
             win = true;
-            if ((CScenario.g_scenario.loseFlags & 0x1) != 0)
+            if ((g_scenario.loseFlags & 0x1) != 0)
             {
                 win = win && (countStructureEnemy == 0);
             }
-            if ((CScenario.g_scenario.loseFlags & 0x2) != 0)
+            if ((g_scenario.loseFlags & 0x2) != 0)
             {
                 win = win && (countStructureFriendly != 0);
             }
         }
 
         /* Check for reaching spice quota */
-        if (!win && (CScenario.g_scenario.loseFlags & 0x4) != 0 && g_playerCredits != 0xFFFF)
+        if (!win && (g_scenario.loseFlags & 0x4) != 0 && g_playerCredits != 0xFFFF)
         {
             win = (g_playerCredits >= g_playerHouse.creditsQuota);
         }
 
         /* Check for reaching timeout */
-        if (!win && (CScenario.g_scenario.loseFlags & 0x8) != 0)
+        if (!win && (g_scenario.loseFlags & 0x8) != 0)
         {
-            win = (Timer.g_timerGame < s_tickGameTimeout);
+            win = (g_timerGame < s_tickGameTimeout);
         }
 
         return win;
@@ -223,10 +221,10 @@ class CSharpDune
 
     internal static void GameLoop_Uninit()
     {
-        while (CWidget.g_widgetLinkedListHead != null)
+        while (g_widgetLinkedListHead != null)
         {
-            var w = CWidget.g_widgetLinkedListHead;
-            CWidget.g_widgetLinkedListHead = w.next;
+            var w = g_widgetLinkedListHead;
+            g_widgetLinkedListHead = w.next;
 
             w = null;
         }
@@ -236,10 +234,10 @@ class CSharpDune
 
         g_readBuffer = null;
 
-        Gfx.g_palette1 = null;
-        Gfx.g_palette2 = null;
-        Gfx.g_paletteMapping1 = null;
-        Gfx.g_paletteMapping2 = null;
+        g_palette1 = null;
+        g_palette2 = null;
+        g_paletteMapping1 = null;
+        g_paletteMapping2 = null;
     }
 
     static uint levelEndTimer;
@@ -249,59 +247,59 @@ class CSharpDune
     */
     static void GameLoop_LevelEnd()
     {
-        if (levelEndTimer >= Timer.g_timerGame && !s_debugForceWin) return;
+        if (levelEndTimer >= g_timerGame && !s_debugForceWin) return;
 
         if (GameLoop_IsLevelFinished())
         {
-            Sound.Music_Play(0);
+            Music_Play(0);
 
-            Gui.g_cursorSpriteID = 0;
+            g_cursorSpriteID = 0;
 
-            Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[0]);
+            Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-            Sound.Sound_Output_Feedback(0xFFFE);
+            Sound_Output_Feedback(0xFFFE);
 
-            Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
+            GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
             if (GameLoop_IsLevelWon())
             {
-                Sound.Sound_Output_Feedback(40);
+                Sound_Output_Feedback(40);
 
-                Gui.GUI_DisplayModalMessage(CString.String_Get_ByIndex(Text.STR_YOU_HAVE_SUCCESSFULLY_COMPLETED_YOUR_MISSION), 0xFFFF);
+                GUI_DisplayModalMessage(String_Get_ByIndex(Text.STR_YOU_HAVE_SUCCESSFULLY_COMPLETED_YOUR_MISSION), 0xFFFF);
 
-                Mentat.GUI_Mentat_ShowWin();
+                GUI_Mentat_ShowWin();
 
-                Sprites.Sprites_UnloadTiles();
+                Sprites_UnloadTiles();
 
                 g_campaignID++;
 
-                Gui.GUI_EndStats_Show(CScenario.g_scenario.killedAllied, CScenario.g_scenario.killedEnemy, CScenario.g_scenario.destroyedAllied, CScenario.g_scenario.destroyedEnemy,
-                    CScenario.g_scenario.harvestedAllied, CScenario.g_scenario.harvestedEnemy, (short)CScenario.g_scenario.score, (byte)g_playerHouseID);
+                GUI_EndStats_Show(g_scenario.killedAllied, g_scenario.killedEnemy, g_scenario.destroyedAllied, g_scenario.destroyedEnemy,
+                    g_scenario.harvestedAllied, g_scenario.harvestedEnemy, (short)g_scenario.score, (byte)g_playerHouseID);
 
                 if (g_campaignID == 9)
                 {
-                    Gui.GUI_Mouse_Hide_Safe();
+                    GUI_Mouse_Hide_Safe();
 
-                    Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 15);
-                    Gui.GUI_ClearScreen(Screen.NO0);
-                    Cutscene.GameLoop_GameEndAnimation();
+                    GUI_SetPaletteAnimated(g_palette2, 15);
+                    GUI_ClearScreen(Screen.NO0);
+                    GameLoop_GameEndAnimation();
                     PrepareEnd();
                     Environment.Exit(0);
                 }
 
-                Gui.GUI_Mouse_Hide_Safe();
-                Cutscene.GameLoop_LevelEndAnimation();
-                Gui.GUI_Mouse_Show_Safe();
+                GUI_Mouse_Hide_Safe();
+                GameLoop_LevelEndAnimation();
+                GUI_Mouse_Show_Safe();
 
-                CFile.File_ReadBlockFile("IBM.PAL", Gfx.g_palette1, 256 * 3);
+                File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
-                g_scenarioID = Gui.GUI_StrategicMap_Show(g_campaignID, true);
+                g_scenarioID = GUI_StrategicMap_Show(g_campaignID, true);
 
-                Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 15);
+                GUI_SetPaletteAnimated(g_palette2, 15);
 
                 if (g_campaignID == 1 || g_campaignID == 7)
                 {
-                    if (!Security.GUI_Security_Show())
+                    if (!GUI_Security_Show())
                     {
                         PrepareEnd();
                         Environment.Exit(0);
@@ -310,26 +308,26 @@ class CSharpDune
             }
             else
             {
-                Sound.Sound_Output_Feedback(41);
+                Sound_Output_Feedback(41);
 
-                Gui.GUI_DisplayModalMessage(CString.String_Get_ByIndex(Text.STR_YOU_HAVE_FAILED_YOUR_MISSION), 0xFFFF);
+                GUI_DisplayModalMessage(String_Get_ByIndex(Text.STR_YOU_HAVE_FAILED_YOUR_MISSION), 0xFFFF);
 
-                Mentat.GUI_Mentat_ShowLose();
+                GUI_Mentat_ShowLose();
 
-                Sprites.Sprites_UnloadTiles();
+                Sprites_UnloadTiles();
 
-                g_scenarioID = Gui.GUI_StrategicMap_Show(g_campaignID, false);
+                g_scenarioID = GUI_StrategicMap_Show(g_campaignID, false);
             }
 
             g_playerHouse.flags.doneFullScaleAttack = false;
 
-            Sprites.Sprites_LoadTiles();
+            Sprites_LoadTiles();
 
             g_gameMode = GameMode.GM_RESTART;
             s_debugForceWin = false;
         }
 
-        levelEndTimer = Timer.g_timerGame + 300;
+        levelEndTimer = g_timerGame + 300;
     }
 
     static void GameLoop_DrawMenu(string[] strings)
@@ -339,29 +337,29 @@ class CSharpDune
         ushort top;
         byte i;
 
-        props = CWidget.g_widgetProperties[21];
-        top = (ushort)(CWidget.g_curWidgetYBase + props.yBase);
-        left = (ushort)((CWidget.g_curWidgetXBase + props.xBase) << 3);
+        props = g_widgetProperties[21];
+        top = (ushort)(g_curWidgetYBase + props.yBase);
+        left = (ushort)((g_curWidgetXBase + props.xBase) << 3);
 
-        Gui.GUI_Mouse_Hide_Safe();
+        GUI_Mouse_Hide_Safe();
 
         for (i = 0; i < props.height; i++)
         {
-            var pos = (ushort)(top + CFont.g_fontCurrent.height * i);
+            var pos = (ushort)(top + g_fontCurrent.height * i);
 
             if (i == props.fgColourBlink)
             {
-                Gui.GUI_DrawText_Wrapper(strings[i], (short)left, (short)pos, props.fgColourSelected, 0, 0x22);
+                GUI_DrawText_Wrapper(strings[i], (short)left, (short)pos, props.fgColourSelected, 0, 0x22);
             }
             else
             {
-                Gui.GUI_DrawText_Wrapper(strings[i], (short)left, (short)pos, props.fgColourNormal, 0, 0x22);
+                GUI_DrawText_Wrapper(strings[i], (short)left, (short)pos, props.fgColourNormal, 0, 0x22);
             }
         }
 
-        Gui.GUI_Mouse_Show_Safe();
+        GUI_Mouse_Show_Safe();
 
-        Input.Input_History_Clear();
+        Input_History_Clear();
     }
 
     static void GameLoop_DrawText2(string str, ushort left, ushort top, byte fgColourNormal, byte fgColourSelected, byte bgColour)
@@ -370,14 +368,14 @@ class CSharpDune
 
         for (i = 0; i < 3; i++)
         {
-            Gui.GUI_Mouse_Hide_Safe();
+            GUI_Mouse_Hide_Safe();
 
-            Gui.GUI_DrawText_Wrapper(str, (short)left, (short)top, fgColourSelected, bgColour, 0x22);
-            Timer.Timer_Sleep(2);
+            GUI_DrawText_Wrapper(str, (short)left, (short)top, fgColourSelected, bgColour, 0x22);
+            Timer_Sleep(2);
 
-            Gui.GUI_DrawText_Wrapper(str, (short)left, (short)top, fgColourNormal, bgColour, 0x22);
-            Gui.GUI_Mouse_Show_Safe();
-            Timer.Timer_Sleep(2);
+            GUI_DrawText_Wrapper(str, (short)left, (short)top, fgColourNormal, bgColour, 0x22);
+            GUI_Mouse_Show_Safe();
+            Timer_Sleep(2);
         }
     }
 
@@ -402,7 +400,7 @@ class CSharpDune
         WidgetProperties props;
         byte current;
 
-        props = CWidget.g_widgetProperties[21];
+        props = g_widgetProperties[21];
 
         last = (byte)(props.height - 1);
         old = (byte)(props.fgColourBlink % (last + 1));
@@ -410,30 +408,30 @@ class CSharpDune
 
         result = 0xFFFF;
 
-        top = (ushort)(CWidget.g_curWidgetYBase + props.yBase);
-        left = (ushort)((CWidget.g_curWidgetXBase + props.xBase) << 3);
+        top = (ushort)(g_curWidgetYBase + props.yBase);
+        left = (ushort)((g_curWidgetXBase + props.xBase) << 3);
 
-        lineHeight = CFont.g_fontCurrent.height;
+        lineHeight = g_fontCurrent.height;
 
-        minX = (ushort)((CWidget.g_curWidgetXBase << 3) + (CFont.g_fontCurrent.maxWidth * props.xBase));
-        minY = (ushort)(CWidget.g_curWidgetYBase + props.yBase);
-        maxX = (ushort)(minX + (CFont.g_fontCurrent.maxWidth * props.width) - 1);
+        minX = (ushort)((g_curWidgetXBase << 3) + (g_fontCurrent.maxWidth * props.xBase));
+        minY = (ushort)(g_curWidgetYBase + props.yBase);
+        maxX = (ushort)(minX + (g_fontCurrent.maxWidth * props.width) - 1);
         maxY = (ushort)(minY + (props.height * lineHeight) - 1);
 
         fgColourNormal = props.fgColourNormal;
         fgColourSelected = props.fgColourSelected;
 
         key = 0;
-        if (Input.Input_IsInputAvailable() != 0)
+        if (Input_IsInputAvailable() != 0)
         {
-            key = (ushort)(Input.Input_Wait() & 0x8FF);
+            key = (ushort)(Input_Wait() & 0x8FF);
         }
 
-        if (Mouse.g_mouseDisabled == 0)
+        if (g_mouseDisabled == 0)
         {
-            var y = Mouse.g_mouseY;
+            var y = g_mouseY;
 
-            if (GameLoop_IsInRange(Mouse.g_mouseX, y, minX, minY, maxX, maxY))
+            if (GameLoop_IsInRange(g_mouseX, y, minX, minY, maxX, maxY))
             {
                 current = (byte)((y - minY) / lineHeight);
             }
@@ -461,9 +459,9 @@ class CSharpDune
 
             case 0x41: /* MOUSE LEFT BUTTON */
             case 0x42: /* MOUSE RIGHT BUTTON */
-                if (GameLoop_IsInRange(Mouse.g_mouseClickX, Mouse.g_mouseClickY, minX, minY, maxX, maxY))
+                if (GameLoop_IsInRange(g_mouseClickX, g_mouseClickY, minX, minY, maxX, maxY))
                 {
-                    current = (byte)((Mouse.g_mouseClickY - minY) / lineHeight);
+                    current = (byte)((g_mouseClickY - minY) / lineHeight);
                     result = current;
                 }
                 break;
@@ -484,7 +482,7 @@ class CSharpDune
                         var c2 = (char)27;
 
                         c1 = char.ToUpper(strings[0][i], Culture); //TODO: Or strings[i][0]?
-                        var chr = (char)Input.Input_Keyboard_HandleKeys((ushort)(key & 0xFF));
+                        var chr = (char)Input_Keyboard_HandleKeys((ushort)(key & 0xFF));
                         if (char.IsLetterOrDigit(chr))
                             c2 = char.ToUpper(chr, Culture);
 
@@ -501,19 +499,19 @@ class CSharpDune
 
         if (current != old)
         {
-            Gui.GUI_Mouse_Hide_Safe();
-            Gui.GUI_DrawText_Wrapper(strings[old], (short)left, (short)(top + (old * lineHeight)), fgColourNormal, 0, 0x22);
-            Gui.GUI_DrawText_Wrapper(strings[current], (short)left, (short)(top + (current * lineHeight)), fgColourSelected, 0, 0x22);
-            Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Hide_Safe();
+            GUI_DrawText_Wrapper(strings[old], (short)left, (short)(top + (old * lineHeight)), fgColourNormal, 0, 0x22);
+            GUI_DrawText_Wrapper(strings[current], (short)left, (short)(top + (current * lineHeight)), fgColourSelected, 0, 0x22);
+            GUI_Mouse_Show_Safe();
         }
 
         props.fgColourBlink = current;
 
         if (result == 0xFFFF) return 0xFFFF;
 
-        Gui.GUI_Mouse_Hide_Safe();
+        GUI_Mouse_Hide_Safe();
         GameLoop_DrawText2(strings[result], left, (ushort)(top + (current * lineHeight)), fgColourNormal, fgColourSelected, 0);
-        Gui.GUI_Mouse_Show_Safe();
+        GUI_Mouse_Show_Safe();
 
         return result;
     }
@@ -528,7 +526,7 @@ class CSharpDune
             wi = g_table_gameWidgetInfo[pointer];
             Widget w;
 
-            w = CWidget.GUI_Widget_Allocate((ushort)wi.index, (ushort)wi.shortcut, wi.offsetX, wi.offsetY, (ushort)wi.spriteID, wi.stringID);
+            w = GUI_Widget_Allocate((ushort)wi.index, (ushort)wi.shortcut, wi.offsetX, wi.offsetY, (ushort)wi.spriteID, wi.stringID);
 
             if (wi.spriteID < 0)
             {
@@ -539,7 +537,7 @@ class CSharpDune
             w.clickProc = wi.clickProc;
             w.flags.Set(wi.flags);
 
-            CWidget.g_widgetLinkedListHead = CWidget.GUI_Widget_Insert(CWidget.g_widgetLinkedListHead, w);
+            g_widgetLinkedListHead = GUI_Widget_Insert(g_widgetLinkedListHead, w);
         }
     }
 
@@ -558,19 +556,19 @@ class CSharpDune
         ushort locsi;
 
         if (filename == null) return;
-        if (!CFile.File_Exists(filename)) return;
+        if (!File_Exists(filename)) return;
 
-        source = Gfx.GFX_Screen_Get_ByIndex(Screen.NO1);
+        source = GFX_Screen_Get_ByIndex(Screen.NO1);
 
         Array.Fill<byte>(source, 0, 0, 32000); //memset(source, 0, 32000);
 
-        CFile.File_ReadBlockFile(filename, source, Gfx.GFX_Screen_GetSize_ByIndex(Screen.NO1));
+        File_ReadBlockFile(filename, source, GFX_Screen_GetSize_ByIndex(Screen.NO1));
 
         keys = Encoding.GetString(source[(source.Length + 5000)..]);
         //*keys = '\0';
 
         sourceString = Encoding.GetString(source);
-        keys = Ini.Ini_GetString("construct", null, keys, sourceString);
+        keys = Ini_GetString("construct", null, keys, sourceString);
 
         var keyPointer = 0;
         for (key = keys; key[keyPointer] != '\r'; keyPointer++)
@@ -600,7 +598,7 @@ class CSharpDune
 
             if (oi == null) continue;
 
-            buffer = Ini.Ini_GetString("construct", key, buffer, sourceString);
+            buffer = Ini_GetString("construct", key, buffer, sourceString);
             bufferStrings = buffer.Split(",");
             buildCredits = ushort.Parse(bufferStrings[0], Culture);
             buildTime = ushort.Parse(bufferStrings[1], Culture);
@@ -634,7 +632,7 @@ class CSharpDune
                 //	15 - (int)strlen(oi->name), string.Empty, oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
                 //	oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-                Ini.Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source));
+                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source));
             }
 
             for (locsi = 0; locsi < (ushort)StructureType.STRUCTURE_MAX; locsi++)
@@ -646,13 +644,13 @@ class CSharpDune
                 //	15 - (int)strlen(oi->name), string.Empty, oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
                 //	oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-                Ini.Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source));
+                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source));
             }
         }
 
         //*keys = '\0';
 
-        keys = Ini.Ini_GetString("combat", null, keys, sourceString);
+        keys = Ini_GetString("combat", null, keys, sourceString);
 
         for (key = keys; key[keyPointer] != '\r'; keyPointer++)
         { //key += strlen(key) + 1) {
@@ -661,7 +659,7 @@ class CSharpDune
             ushort fireDelay;
             ushort fireDistance;
 
-            buffer = Ini.Ini_GetString("combat", key, buffer, sourceString);
+            buffer = Ini_GetString("combat", key, buffer, sourceString);
 
             bufferStrings = buffer.Trim().Split(","); //String_Trim(buffer);
             if (bufferStrings.Length < 4) continue;
@@ -694,7 +692,7 @@ class CSharpDune
 
             buffer = $"{ui.o.name.PadRight(15 - ui.o.name.Length, ' ')}{ui.fireDistance},{ui.damage},{ui.fireDelay},{ui.movingSpeedFactor}";
             //sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), string.Empty, ui->fireDistance, ui->damage, ui->fireDelay, ui->movingSpeedFactor);
-            Ini.Ini_SetString("combat", ui.o.name, buffer, Encoding.GetString(source));
+            Ini_SetString("combat", ui.o.name, buffer, Encoding.GetString(source));
         }
     }
 
@@ -720,50 +718,50 @@ class CSharpDune
 
         if (index == 0xFFFF)
         {
-            hasSave = CFile.File_Exists_Personal("_save000.dat");
-            hasFame = CFile.File_Exists_Personal("SAVEFAME.DAT");
+            hasSave = File_Exists_Personal("_save000.dat");
+            hasFame = File_Exists_Personal("SAVEFAME.DAT");
             index = (ushort)((hasFame ? 2 : 0) + (hasSave ? 1 : 0));
         }
 
-        if (!Cutscene.g_canSkipIntro)
+        if (!g_canSkipIntro)
         {
-            if (hasSave) Cutscene.g_canSkipIntro = true;
+            if (hasSave) g_canSkipIntro = true;
         }
 
         switch ((Text)stringID)
         {
             case Text.STR_REPLAY_INTRODUCTION:
-                Sound.Music_Play(0);
+                Music_Play(0);
 
                 g_readBuffer = null; //free(g_readBuffer);
-                g_readBufferSize = (uint)(!Config.g_enableVoices ? 12000 : 28000);
+                g_readBufferSize = (uint)(!g_enableVoices ? 12000 : 28000);
                 g_readBuffer = new byte[g_readBufferSize]; //calloc(1, g_readBufferSize);
 
-                Gui.GUI_Mouse_Hide_Safe();
+                GUI_Mouse_Hide_Safe();
 
-                CDriver.Driver_Music_FadeOut();
+                Driver_Music_FadeOut();
 
-                Cutscene.GameLoop_GameIntroAnimation();
+                GameLoop_GameIntroAnimation();
 
-                Sound.Sound_Output_Feedback(0xFFFE);
+                Sound_Output_Feedback(0xFFFE);
 
-                CFile.File_ReadBlockFile("IBM.PAL", Gfx.g_palette1, 256 * 3);
+                File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
-                if (!Cutscene.g_canSkipIntro)
+                if (!g_canSkipIntro)
                 {
-                    CFile.File_Create_Personal("ONETIME.DAT");
-                    Cutscene.g_canSkipIntro = true;
+                    File_Create_Personal("ONETIME.DAT");
+                    g_canSkipIntro = true;
                 }
 
-                Sound.Music_Play(0);
+                Music_Play(0);
 
                 g_readBuffer = null; //free(g_readBuffer);
-                g_readBufferSize = (uint)(!Config.g_enableVoices ? 12000 : 20000);
+                g_readBufferSize = (uint)(!g_enableVoices ? 12000 : 20000);
                 g_readBuffer = new byte[g_readBufferSize]; //calloc(1, g_readBufferSize);
 
-                Gui.GUI_Mouse_Show_Safe();
+                GUI_Mouse_Show_Safe();
 
-                Sound.Music_Play(28);
+                Music_Play(28);
 
                 drawMenu = true;
                 break;
@@ -773,23 +771,23 @@ class CSharpDune
                 return;
 
             case Text.STR_HALL_OF_FAME:
-                Gui.GUI_HallOfFame_Show(0xFFFF);
+                GUI_HallOfFame_Show(0xFFFF);
 
-                Gfx.GFX_SetPalette(Gfx.g_palette2);
+                GFX_SetPalette(g_palette2);
 
-                hasFame = CFile.File_Exists_Personal("SAVEFAME.DAT");
+                hasFame = File_Exists_Personal("SAVEFAME.DAT");
                 drawMenu = true;
                 break;
 
             case Text.STR_LOAD_GAME:
-                Gui.GUI_Mouse_Hide_Safe();
-                Gui.GUI_SetPaletteAnimated(Gfx.g_palette2, 30);
-                Gui.GUI_ClearScreen(Screen.NO0);
-                Gui.GUI_Mouse_Show_Safe();
+                GUI_Mouse_Hide_Safe();
+                GUI_SetPaletteAnimated(g_palette2, 30);
+                GUI_ClearScreen(Screen.NO0);
+                GUI_Mouse_Show_Safe();
 
-                Gfx.GFX_SetPalette(Gfx.g_palette1);
+                GFX_SetPalette(g_palette1);
 
-                if (WidgetClick.GUI_Widget_SaveLoad_Click(false))
+                if (GUI_Widget_SaveLoad_Click(false))
                 {
                     loadGame = true;
                     if (g_gameMode == GameMode.GM_RESTART) break;
@@ -797,7 +795,7 @@ class CSharpDune
                 }
                 else
                 {
-                    Gfx.GFX_SetPalette(Gfx.g_palette2);
+                    GFX_SetPalette(g_palette2);
 
                     drawMenu = true;
                 }
@@ -810,7 +808,7 @@ class CSharpDune
         {
             ushort i;
 
-            CWidget.g_widgetProperties[21].height = 0;
+            g_widgetProperties[21].height = 0;
 
             for (i = 0; i < 6; i++)
             {
@@ -818,51 +816,51 @@ class CSharpDune
 
                 if (mainMenuStrings[index][i] == 0)
                 {
-                    if (CWidget.g_widgetProperties[21].height == 0) CWidget.g_widgetProperties[21].height = i;
+                    if (g_widgetProperties[21].height == 0) g_widgetProperties[21].height = i;
                     continue;
                 }
 
-                strings[i] = CString.String_Get_ByIndex(mainMenuStrings[index][i]);
+                strings[i] = String_Get_ByIndex(mainMenuStrings[index][i]);
             }
 
-            Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
+            GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
 
             maxWidth = 0;
 
-            for (i = 0; i < CWidget.g_widgetProperties[21].height; i++)
+            for (i = 0; i < g_widgetProperties[21].height; i++)
             {
-                if (CFont.Font_GetStringWidth(strings[i]) <= maxWidth) continue;
-                maxWidth = CFont.Font_GetStringWidth(strings[i]);
+                if (Font_GetStringWidth(strings[i]) <= maxWidth) continue;
+                maxWidth = Font_GetStringWidth(strings[i]);
             }
 
             maxWidth += 7;
 
-            CWidget.g_widgetProperties[21].width = (ushort)(maxWidth >> 3);
-            CWidget.g_widgetProperties[13].width = (ushort)(CWidget.g_widgetProperties[21].width + 2);
-            CWidget.g_widgetProperties[13].xBase = (ushort)(19 - (maxWidth >> 4));
-            CWidget.g_widgetProperties[13].yBase = (ushort)(160 - ((CWidget.g_widgetProperties[21].height * CFont.g_fontCurrent.height) >> 1));
-            CWidget.g_widgetProperties[13].height = (ushort)((CWidget.g_widgetProperties[21].height * CFont.g_fontCurrent.height) + 11);
+            g_widgetProperties[21].width = (ushort)(maxWidth >> 3);
+            g_widgetProperties[13].width = (ushort)(g_widgetProperties[21].width + 2);
+            g_widgetProperties[13].xBase = (ushort)(19 - (maxWidth >> 4));
+            g_widgetProperties[13].yBase = (ushort)(160 - ((g_widgetProperties[21].height * g_fontCurrent.height) >> 1));
+            g_widgetProperties[13].height = (ushort)((g_widgetProperties[21].height * g_fontCurrent.height) + 11);
 
-            Sprites.Sprites_LoadImage(CString.String_GenerateFilename("TITLE"), Screen.NO1, null);
+            Sprites_LoadImage(String_GenerateFilename("TITLE"), Screen.NO1, null);
 
-            Gui.GUI_Mouse_Hide_Safe();
+            GUI_Mouse_Hide_Safe();
 
-            Gui.GUI_ClearScreen(Screen.NO0);
+            GUI_ClearScreen(Screen.NO0);
 
-            Gui.GUI_Screen_Copy(0, 0, 0, 0, Gfx.SCREEN_WIDTH / 8, (short)Gfx.SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
+            GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, (short)SCREEN_HEIGHT, Screen.NO1, Screen.NO0);
 
-            Gui.GUI_SetPaletteAnimated(Gfx.g_palette1, 30);
+            GUI_SetPaletteAnimated(g_palette1, 30);
 
-            Gui.GUI_DrawText_Wrapper("V1.07", 319, 192, 133, 0, 0x231, 0x39);
-            Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
+            GUI_DrawText_Wrapper("V1.07", 319, 192, 133, 0, 0x231, 0x39);
+            GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
 
-            CWidget.Widget_SetCurrentWidget(13);
+            Widget_SetCurrentWidget(13);
 
-            WidgetDraw.GUI_Widget_DrawBorder(13, 2, true/*1*/);
+            GUI_Widget_DrawBorder(13, 2, true/*1*/);
 
             GameLoop_DrawMenu(strings);
 
-            Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Show_Safe();
 
             drawMenu = false;
         }
@@ -873,7 +871,7 @@ class CSharpDune
 
         if (stringID != 0xFFFF) stringID = mainMenuStrings[index][stringID];
 
-        Gui.GUI_PaletteAnimate();
+        GUI_PaletteAnimate();
 
         if (stringID == (ushort)Text.STR_PLAY_A_GAME) g_gameMode = GameMode.GM_PICKHOUSE;
     }
@@ -885,59 +883,59 @@ class CSharpDune
         switch (key)
         {
             case 0x0010: /* TAB */
-                Map.Map_SelectNext(true);
+                Map_SelectNext(true);
                 return;
 
             case 0x0110: /* SHIFT TAB */
-                Map.Map_SelectNext(false);
+                Map_SelectNext(false);
                 return;
 
             case 0x005C: /* NUMPAD 4 / ARROW LEFT */
             case 0x045C:
             case 0x055C:
-                Map.Map_MoveDirection(6);
+                Map_MoveDirection(6);
                 return;
 
             case 0x0066: /* NUMPAD 6 / ARROW RIGHT */
             case 0x0466:
             case 0x0566:
-                Map.Map_MoveDirection(2);
+                Map_MoveDirection(2);
                 return;
 
             case 0x0060: /* NUMPAD 8 / ARROW UP */
             case 0x0460:
             case 0x0560:
-                Map.Map_MoveDirection(0);
+                Map_MoveDirection(0);
                 return;
 
             case 0x0062: /* NUMPAD 2 / ARROW DOWN */
             case 0x0462:
             case 0x0562:
-                Map.Map_MoveDirection(4);
+                Map_MoveDirection(4);
                 return;
 
             case 0x005B: /* NUMPAD 7 / HOME */
             case 0x045B:
             case 0x055B:
-                Map.Map_MoveDirection(7);
+                Map_MoveDirection(7);
                 return;
 
             case 0x005D: /* NUMPAD 1 / END */
             case 0x045D:
             case 0x055D:
-                Map.Map_MoveDirection(5);
+                Map_MoveDirection(5);
                 return;
 
             case 0x0065: /* NUMPAD 9 / PAGE UP */
             case 0x0465:
             case 0x0565:
-                Map.Map_MoveDirection(1);
+                Map_MoveDirection(1);
                 return;
 
             case 0x0067: /* NUMPAD 3 / PAGE DOWN */
             case 0x0467:
             case 0x0567:
-                Map.Map_MoveDirection(3);
+                Map_MoveDirection(3);
                 return;
 
             default: return;
@@ -954,19 +952,19 @@ class CSharpDune
     {
         ushort key;
 
-        CString.String_Init();
-        Sprites.Sprites_Init();
+        String_Init();
+        Sprites_Init();
 
-        if (IniFile.IniFile_GetInteger("mt32midi", 0) != 0) Sound.Music_InitMT32();
+        if (IniFile_GetInteger("mt32midi", 0) != 0) Music_InitMT32();
 
-        Input.Input_Flags_SetBits((ushort)(InputFlagsEnum.INPUT_FLAG_KEY_REPEAT | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0010 | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0200 |
+        Input_Flags_SetBits((ushort)(InputFlagsEnum.INPUT_FLAG_KEY_REPEAT | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0010 | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0200 |
                                            InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000));
-        Input.Input_Flags_ClearBits((ushort)(InputFlagsEnum.INPUT_FLAG_KEY_RELEASE | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0400 | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0100 |
+        Input_Flags_ClearBits((ushort)(InputFlagsEnum.INPUT_FLAG_KEY_RELEASE | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0400 | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0100 |
                                              InputFlagsEnum.INPUT_FLAG_UNKNOWN_0080 | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0040 | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0020 |
                                              InputFlagsEnum.INPUT_FLAG_UNKNOWN_0008 | InputFlagsEnum.INPUT_FLAG_UNKNOWN_0004 | InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE));
 
-        Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
-        Timer.Timer_SetTimer(TimerType.TIMER_GUI, true);
+        Timer_SetTimer(TimerType.TIMER_GAME, true);
+        Timer_SetTimer(TimerType.TIMER_GUI, true);
 
         g_campaignID = 0;
         g_scenarioID = 1;
@@ -974,10 +972,10 @@ class CSharpDune
         g_selectionType = (ushort)SelectionType.MENTAT;
         g_selectionTypeNew = (ushort)SelectionType.MENTAT;
 
-        if (Gfx.g_palette1 != null) Trace.WriteLine("WARNING: g_palette1");
-        else Gfx.g_palette1 = new byte[256 * 3]; //calloc(1, 256 * 3);
-        if (Gfx.g_palette2 != null) Trace.WriteLine("WARNING: g_palette2");
-        else Gfx.g_palette2 = new byte[256 * 3]; //calloc(1, 256 * 3);
+        if (g_palette1 != null) Trace.WriteLine("WARNING: g_palette1");
+        else g_palette1 = new byte[256 * 3]; //calloc(1, 256 * 3);
+        if (g_palette2 != null) Trace.WriteLine("WARNING: g_palette2");
+        else g_palette2 = new byte[256 * 3]; //calloc(1, 256 * 3);
 
         g_readBufferSize = 12000;
         g_readBuffer = new byte[g_readBufferSize]; //calloc(1, g_readBufferSize);
@@ -986,54 +984,54 @@ class CSharpDune
 
         g_readBuffer = null; //free(g_readBuffer);
 
-        CFile.File_ReadBlockFile("IBM.PAL", Gfx.g_palette1, 256 * 3);
+        File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
-        Gui.GUI_ClearScreen(Screen.NO0);
+        GUI_ClearScreen(Screen.NO0);
 
-        VideoSdl2.Video_SetPalette(Gfx.g_palette1, 0, 256);
+        Video_SetPalette(g_palette1, 0, 256);
 
-        Gfx.GFX_SetPalette(Gfx.g_palette1);
-        Gfx.GFX_SetPalette(Gfx.g_palette2);
+        GFX_SetPalette(g_palette1);
+        GFX_SetPalette(g_palette2);
 
-        Gfx.g_paletteMapping1 = new byte[256]; //malloc(256);
-        Gfx.g_paletteMapping2 = new byte[256]; //malloc(256);
+        g_paletteMapping1 = new byte[256]; //malloc(256);
+        g_paletteMapping2 = new byte[256]; //malloc(256);
 
-        Gui.GUI_Palette_CreateMapping(Gfx.g_palette1, Gfx.g_paletteMapping1, 0xC, 0x55);
-        Gfx.g_paletteMapping1[0xFF] = 0xFF;
-        Gfx.g_paletteMapping1[0xDF] = 0xDF;
-        Gfx.g_paletteMapping1[0xEF] = 0xEF;
+        GUI_Palette_CreateMapping(g_palette1, g_paletteMapping1, 0xC, 0x55);
+        g_paletteMapping1[0xFF] = 0xFF;
+        g_paletteMapping1[0xDF] = 0xDF;
+        g_paletteMapping1[0xEF] = 0xEF;
 
-        Gui.GUI_Palette_CreateMapping(Gfx.g_palette1, Gfx.g_paletteMapping2, 0xF, 0x55);
-        Gfx.g_paletteMapping2[0xFF] = 0xFF;
-        Gfx.g_paletteMapping2[0xDF] = 0xDF;
-        Gfx.g_paletteMapping2[0xEF] = 0xEF;
+        GUI_Palette_CreateMapping(g_palette1, g_paletteMapping2, 0xF, 0x55);
+        g_paletteMapping2[0xFF] = 0xFF;
+        g_paletteMapping2[0xDF] = 0xDF;
+        g_paletteMapping2[0xEF] = 0xEF;
 
         Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, null);
         Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, null);
 
-        Gui.GUI_Palette_CreateRemap((byte)HouseType.HOUSE_MERCENARY);
+        GUI_Palette_CreateRemap((byte)HouseType.HOUSE_MERCENARY);
 
-        Gui.g_cursorSpriteID = 0;
+        g_cursorSpriteID = 0;
 
-        Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[0]);
+        Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-        while (Mouse.g_mouseHiddenDepth > 1)
+        while (g_mouseHiddenDepth > 1)
         {
-            Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Show_Safe();
         }
 
         Window_WidgetClick_Create();
-        Config.GameOptions_Load();
-        PoolUnit.Unit_Init();
-        PoolTeam.Team_Init();
-        PoolHouse.House_Init();
-        PoolStructure.Structure_Init();
+        GameOptions_Load();
+        Unit_Init();
+        Team_Init();
+        House_Init();
+        Structure_Init();
 
-        Gui.GUI_Mouse_Show_Safe();
+        GUI_Mouse_Show_Safe();
 
-        Cutscene.g_canSkipIntro = CFile.File_Exists_Personal("ONETIME.DAT");
+        g_canSkipIntro = File_Exists_Personal("ONETIME.DAT");
 
-        for (; ; Sleep.sleepIdle())
+        for (; ; sleepIdle())
         {
             if (g_gameMode == GameMode.GM_MENU)
             {
@@ -1042,59 +1040,59 @@ class CSharpDune
                 if (!g_running) break;
                 if (g_gameMode == GameMode.GM_MENU) continue;
 
-                Gui.GUI_Mouse_Hide_Safe();
+                GUI_Mouse_Hide_Safe();
 
-                Gui.GUI_DrawFilledRectangle((short)(CWidget.g_curWidgetXBase << 3), (short)CWidget.g_curWidgetYBase, (short)((CWidget.g_curWidgetXBase + CWidget.g_curWidgetWidth) << 3), (short)(CWidget.g_curWidgetYBase + CWidget.g_curWidgetHeight), 12);
+                GUI_DrawFilledRectangle((short)(g_curWidgetXBase << 3), (short)g_curWidgetYBase, (short)((g_curWidgetXBase + g_curWidgetWidth) << 3), (short)(g_curWidgetYBase + g_curWidgetHeight), 12);
 
-                Input.Input_History_Clear();
+                Input_History_Clear();
 
-                if (s_enableLog != 0) Mouse.Mouse_SetMouseMode(s_enableLog, "DUNE.LOG");
+                if (s_enableLog != 0) Mouse_SetMouseMode(s_enableLog, "DUNE.LOG");
 
-                Gfx.GFX_SetPalette(Gfx.g_palette1);
+                GFX_SetPalette(g_palette1);
 
-                Gui.GUI_Mouse_Show_Safe();
+                GUI_Mouse_Show_Safe();
             }
 
             if (g_gameMode == GameMode.GM_PICKHOUSE)
             {
-                Sound.Music_Play(28);
+                Music_Play(28);
 
                 g_playerHouseID = HouseType.HOUSE_MERCENARY;
-                g_playerHouseID = (HouseType)Gui.GUI_PickHouse();
+                g_playerHouseID = (HouseType)GUI_PickHouse();
 
-                Gui.GUI_Mouse_Hide_Safe();
+                GUI_Mouse_Hide_Safe();
 
-                Gfx.GFX_ClearBlock(Screen.NO0);
+                GFX_ClearBlock(Screen.NO0);
 
-                Sprites.Sprites_LoadTiles();
+                Sprites_LoadTiles();
 
-                Gui.GUI_Palette_CreateRemap((byte)g_playerHouseID);
+                GUI_Palette_CreateRemap((byte)g_playerHouseID);
 
-                Sound.Voice_LoadVoices((ushort)g_playerHouseID);
+                Voice_LoadVoices((ushort)g_playerHouseID);
 
-                Gui.GUI_Mouse_Show_Safe();
+                GUI_Mouse_Show_Safe();
 
                 g_gameMode = GameMode.GM_RESTART;
                 g_scenarioID = 1;
                 g_campaignID = 0;
-                Gui.g_strategicRegionBits = 0;
+                g_strategicRegionBits = 0;
             }
 
             if (g_selectionTypeNew != g_selectionType)
             {
-                Gui.GUI_ChangeSelectionType(g_selectionTypeNew);
+                GUI_ChangeSelectionType(g_selectionTypeNew);
             }
 
-            Gui.GUI_PaletteAnimate();
+            GUI_PaletteAnimate();
 
             if (g_gameMode == GameMode.GM_RESTART)
             {
-                Gui.GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
+                GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 
                 Game_LoadScenario((byte)g_playerHouseID, g_scenarioID);
                 if (!g_debugScenario && !g_debugSkipDialogs)
                 {
-                    Mentat.GUI_Mentat_ShowBriefing();
+                    GUI_Mentat_ShowBriefing();
                 }
                 else
                 {
@@ -1103,82 +1101,82 @@ class CSharpDune
 
                 g_gameMode = GameMode.GM_NORMAL;
 
-                Gui.GUI_ChangeSelectionType((ushort)(g_debugScenario ? SelectionType.DEBUG : SelectionType.STRUCTURE));
+                GUI_ChangeSelectionType((ushort)(g_debugScenario ? SelectionType.DEBUG : SelectionType.STRUCTURE));
 
-                Sound.Music_Play((ushort)(Tools.Tools_RandomLCG_Range(0, 8) + 8));
-                l_timerNext = Timer.g_timerGUI + 300;
+                Music_Play((ushort)(Tools_RandomLCG_Range(0, 8) + 8));
+                l_timerNext = g_timerGUI + 300;
             }
 
-            if (l_selectionState != Gui.g_selectionState)
+            if (l_selectionState != g_selectionState)
             {
-                Map.Map_SetSelectionObjectPosition(0xFFFF);
-                Map.Map_SetSelectionObjectPosition(Gui.g_selectionRectanglePosition);
-                l_selectionState = Gui.g_selectionState;
+                Map_SetSelectionObjectPosition(0xFFFF);
+                Map_SetSelectionObjectPosition(g_selectionRectanglePosition);
+                l_selectionState = g_selectionState;
             }
 
-            if (!CDriver.Driver_Voice_IsPlaying() && !Sound.Sound_StartSpeech())
+            if (!Driver_Voice_IsPlaying() && !Sound_StartSpeech())
             {
-                if (Config.g_gameConfig.music == 0)
+                if (g_gameConfig.music == 0)
                 {
-                    Sound.Music_Play(2);
+                    Music_Play(2);
 
                     g_musicInBattle = 0;
                 }
                 else if (g_musicInBattle > 0)
                 {
-                    Sound.Music_Play((ushort)(Tools.Tools_RandomLCG_Range(0, 5) + 17));
-                    l_timerNext = Timer.g_timerGUI + 300;
+                    Music_Play((ushort)(Tools_RandomLCG_Range(0, 5) + 17));
+                    l_timerNext = g_timerGUI + 300;
                     g_musicInBattle = -1;
                 }
                 else
                 {
                     g_musicInBattle = 0;
-                    if (Config.g_enableSoundMusic && Timer.g_timerGUI > l_timerNext)
+                    if (g_enableSoundMusic && g_timerGUI > l_timerNext)
                     {
-                        if (!CDriver.Driver_Music_IsPlaying())
+                        if (!Driver_Music_IsPlaying())
                         {
-                            Sound.Music_Play((ushort)(Tools.Tools_RandomLCG_Range(0, 8) + 8));
-                            l_timerNext = Timer.g_timerGUI + 300;
+                            Music_Play((ushort)(Tools_RandomLCG_Range(0, 8) + 8));
+                            l_timerNext = g_timerGUI + 300;
                         }
                     }
                 }
             }
 
-            Gfx.GFX_Screen_SetActive(Screen.NO0);
+            GFX_Screen_SetActive(Screen.NO0);
 
-            key = CWidget.GUI_Widget_HandleEvents(CWidget.g_widgetLinkedListHead);
+            key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
             if (g_selectionType == (ushort)SelectionType.TARGET || g_selectionType == (ushort)SelectionType.PLACE || g_selectionType == (ushort)SelectionType.UNIT || g_selectionType == (ushort)SelectionType.STRUCTURE)
             {
                 if (g_unitSelected != null)
                 {
-                    if (l_timerUnitStatus < Timer.g_timerGame)
+                    if (l_timerUnitStatus < g_timerGame)
                     {
                         Unit_DisplayStatusText(g_unitSelected);
-                        l_timerUnitStatus = Timer.g_timerGame + 300;
+                        l_timerUnitStatus = g_timerGame + 300;
                     }
 
                     if (g_selectionType != (ushort)SelectionType.TARGET)
                     {
-                        Gui.g_selectionPosition = CTile.Tile_PackTile(CTile.Tile_Center(g_unitSelected.o.position));
+                        g_selectionPosition = Tile_PackTile(Tile_Center(g_unitSelected.o.position));
                     }
                 }
 
-                WidgetDraw.GUI_Widget_ActionPanel_Draw(false);
+                GUI_Widget_ActionPanel_Draw(false);
 
                 InGame_Numpad_Move(key);
 
-                Gui.GUI_DrawCredits((byte)g_playerHouseID, 0);
+                GUI_DrawCredits((byte)g_playerHouseID, 0);
 
-                CTeam.GameLoop_Team();
+                GameLoop_Team();
                 GameLoop_Unit();
                 GameLoop_Structure();
                 GameLoop_House();
 
-                Gui.GUI_DrawScreen(Screen.NO0);
+                GUI_DrawScreen(Screen.NO0);
             }
 
-            Gui.GUI_DisplayText(null, 0);
+            GUI_DisplayText(null, 0);
 
             if (g_running && !g_debugScenario)
             {
@@ -1188,19 +1186,19 @@ class CSharpDune
             if (!g_running) break;
         }
 
-        Gui.GUI_Mouse_Hide_Safe();
+        GUI_Mouse_Hide_Safe();
 
-        if (s_enableLog != 0) Mouse.Mouse_SetMouseMode((byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL, "DUNE.LOG");
+        if (s_enableLog != 0) Mouse_SetMouseMode((byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL, "DUNE.LOG");
 
-        Gui.GUI_Mouse_Hide_Safe();
+        GUI_Mouse_Hide_Safe();
 
-        CWidget.Widget_SetCurrentWidget(0);
+        Widget_SetCurrentWidget(0);
 
-        Gfx.GFX_Screen_SetActive(Screen.NO1);
+        GFX_Screen_SetActive(Screen.NO1);
 
-        Gfx.GFX_ClearScreen(Screen.NO1);
+        GFX_ClearScreen(Screen.NO1);
 
-        Gui.GUI_Screen_FadeIn(CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetWidth, CWidget.g_curWidgetHeight, Screen.NO1, Screen.NO0);
+        GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, Screen.NO1, Screen.NO0);
     }
 
     /*
@@ -1209,7 +1207,7 @@ class CSharpDune
      */
     static bool SharpDune_Init(int screen_magnification, VideoScaleFilter filter, int frame_rate)
     {
-        if (!CFont.Font_Init())
+        if (!Font_Init())
         {
             Trace.WriteLine("ERROR: --------------------------");
             Trace.WriteLine("ERROR LOADING DATA FILE");
@@ -1218,32 +1216,32 @@ class CSharpDune
             return false;
         }
 
-        Timer.Timer_Init();
+        Timer_Init();
 
-        if (!VideoSdl2.Video_Init(screen_magnification, filter)) return false;
+        if (!Video_Init(screen_magnification, filter)) return false;
 
-        Mouse.Mouse_Init();
+        Mouse_Init();
 
         /* Add the general tickers */
-        Timer.Timer_Add(Timer.Timer_Tick, 1000000 / 60, false);
-        Timer.Timer_Add(VideoSdl2.Video_Tick, (uint)(1000000 / frame_rate), true);
+        Timer_Add(Timer_Tick, 1000000 / 60, false);
+        Timer_Add(Video_Tick, (uint)(1000000 / frame_rate), true);
 
-        unchecked { Mouse.g_mouseDisabled = (byte)-1; }
+        unchecked { g_mouseDisabled = (byte)-1; }
 
-        Gfx.GFX_Init();
-        Gfx.GFX_ClearScreen(Screen.ACTIVE);
+        GFX_Init();
+        GFX_ClearScreen(Screen.ACTIVE);
 
-        CFont.Font_Select(CFont.g_fontNew8p);
+        Font_Select(g_fontNew8p);
 
-        Gui.g_palette_998A = new byte[256 * 3]; //calloc(256 * 3, sizeof(uint8));
+        g_palette_998A = new byte[256 * 3]; //calloc(256 * 3, sizeof(uint8));
 
-        Array.Fill<byte>(Gui.g_palette_998A, 63, 45, 3); //memset(&g_palette_998A[45], 63, 3);	/* Set color 15 to WHITE */
+        Array.Fill<byte>(g_palette_998A, 63, 45, 3); //memset(&g_palette_998A[45], 63, 3);	/* Set color 15 to WHITE */
 
-        Gfx.GFX_SetPalette(Gui.g_palette_998A);
+        GFX_SetPalette(g_palette_998A);
 
-        Tools.Tools_RandomLCG_Seed((ushort)DateTime.UnixEpoch.Ticks); //(unsigned)time(NULL));
+        Tools_RandomLCG_Seed((ushort)DateTime.UnixEpoch.Ticks); //(unsigned)time(NULL));
 
-        CWidget.Widget_SetCurrentWidget(0);
+        Widget_SetCurrentWidget(0);
 
         return true;
     }
@@ -1277,18 +1275,18 @@ class CSharpDune
         //	FreeConsole();
         //#endif /* _WIN32 */
 
-        CrashLog.CrashLog_Init();
+        CrashLog_Init();
 
         /* Load sharpdune.ini file */
-        IniFile.Load_IniFile();
+        Load_IniFile();
 
         /* set globals according to sharpdune.ini */
-        g_dune2_enhanced = (IniFile.IniFile_GetInteger("dune2_enhanced", 1) != 0);
-        g_debugGame = (IniFile.IniFile_GetInteger("debug_game", 0) != 0);
-        g_debugScenario = (IniFile.IniFile_GetInteger("debug_scenario", 0) != 0);
-        g_debugSkipDialogs = (IniFile.IniFile_GetInteger("debug_skip_dialogs", 0) != 0);
-        s_enableLog = (byte)IniFile.IniFile_GetInteger("debug_log_game", 0);
-        g_starPortEnforceUnitLimit = (IniFile.IniFile_GetInteger("startport_unit_cap", 0) != 0);
+        g_dune2_enhanced = (IniFile_GetInteger("dune2_enhanced", 1) != 0);
+        g_debugGame = (IniFile_GetInteger("debug_game", 0) != 0);
+        g_debugScenario = (IniFile_GetInteger("debug_scenario", 0) != 0);
+        g_debugSkipDialogs = (IniFile_GetInteger("debug_skip_dialogs", 0) != 0);
+        s_enableLog = (byte)IniFile_GetInteger("debug_log_game", 0);
+        g_starPortEnforceUnitLimit = (IniFile_GetInteger("startport_unit_cap", 0) != 0);
 
         Debug.WriteLine("DEBUG: Globals :");
         Debug.WriteLine($"DEBUG:  g_dune2_enhanced = {g_dune2_enhanced}");
@@ -1298,33 +1296,33 @@ class CSharpDune
         Debug.WriteLine($"DEBUG:  s_enableLog = {s_enableLog}");
         Debug.WriteLine($"DEBUG:  g_starPortEnforceUnitLimit = {g_starPortEnforceUnitLimit}");
 
-        if (!CFile.File_Init())
+        if (!File_Init())
         {
             return 1;
         }
 
         /* Loading config from dune.cfg */
-        if (!Config.Config_Read("dune.cfg", Config.g_config))
+        if (!Config_Read("dune.cfg", g_config))
         {
-            Config.Config_Default(Config.g_config);
+            Config_Default(g_config);
             commit_dune_cfg = true;
         }
         /* reading config from sharpdune.ini which prevail over dune.cfg */
-        IniFile.SetLanguage_From_IniFile(Config.g_config);
+        SetLanguage_From_IniFile(g_config);
 
         /* Writing config to dune.cfg */
-        if (commit_dune_cfg && !Config.Config_Write("dune.cfg", Config.g_config))
+        if (commit_dune_cfg && !Config_Write("dune.cfg", g_config))
         {
             Trace.WriteLine("ERROR: Error writing to dune.cfg file.");
             return 1;
         }
 
-        Input.Input_Init();
+        Input_Init();
 
-        CDriver.Drivers_All_Init();
+        Drivers_All_Init();
 
-        scaling_factor = IniFile.IniFile_GetInteger("scalefactor", 2);
-        if ((filter_text = IniFile.IniFile_GetString("scalefilter", null)) != null)
+        scaling_factor = IniFile_GetInteger("scalefactor", 2);
+        if ((filter_text = IniFile_GetString("scalefilter", null)) != null)
         {
             if (string.Equals(filter_text, "nearest", StringComparison.OrdinalIgnoreCase))
             { //if (strcasecmp(filter_text, "nearest") == 0) {
@@ -1344,18 +1342,18 @@ class CSharpDune
             }
         }
 
-        frame_rate = IniFile.IniFile_GetInteger("framerate", 60);
+        frame_rate = IniFile_GetInteger("framerate", 60);
 
         if (!SharpDune_Init(scaling_factor, scale_filter, frame_rate)) Environment.Exit(1);
 
-        Mouse.g_mouseDisabled = 0;
+        g_mouseDisabled = 0;
 
         GameLoop_Main();
 
-        Trace.WriteLine(CString.String_Get_ByIndex(Text.STR_THANK_YOU_FOR_PLAYING_DUNE_II));
+        Trace.WriteLine(String_Get_ByIndex(Text.STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
         PrepareEnd();
-        IniFile.Free_IniFile();
+        Free_IniFile();
 
         return 0;
     }
@@ -1377,11 +1375,11 @@ class CSharpDune
         oldSelectionType = g_selectionType;
         g_selectionType = (ushort)SelectionType.MENTAT;
 
-        PoolStructure.Structure_Recount();
-        PoolUnit.Unit_Recount();
-        PoolTeam.Team_Recount();
+        Structure_Recount();
+        Unit_Recount();
+        Team_Recount();
 
-        t = Map.g_map; //[0];
+        t = g_map; //[0];
         for (i = 0; i < 64 * 64; i++, tPointer++)
         {
             Structure s;
@@ -1392,7 +1390,7 @@ class CSharpDune
 
             if (u == null || !u.o.flags.used) t[tPointer].hasUnit = false;
             if (s == null || !s.o.flags.used) t[tPointer].hasStructure = false;
-            if (t[tPointer].isUnveiled) Map.Map_UnveilTile((ushort)i, (byte)g_playerHouseID);
+            if (t[tPointer].isUnveiled) Map_UnveilTile((ushort)i, (byte)g_playerHouseID);
         }
 
         find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1403,7 +1401,7 @@ class CSharpDune
         {
             Unit u;
 
-            u = PoolUnit.Unit_Find(find);
+            u = Unit_Find(find);
             if (u == null) break;
 
             if (u.o.flags.isNotOnMap) continue;
@@ -1420,7 +1418,7 @@ class CSharpDune
         {
             Structure s;
 
-            s = PoolStructure.Structure_Find(find);
+            s = Structure_Find(find);
             if (s == null) break;
             if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -1430,7 +1428,7 @@ class CSharpDune
 
             if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT && s.o.linkedID != 0xFF)
             {
-                var u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
+                var u = Unit_Get_ByIndex(s.o.linkedID);
 
                 if (!u.o.flags.used || !u.o.flags.isNotOnMap)
                 {
@@ -1447,11 +1445,11 @@ class CSharpDune
 
             if (s.o.type == (byte)StructureType.STRUCTURE_PALACE)
             {
-                PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
+                House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
             }
 
-            if ((PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition.x != 0) || (PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition.y != 0)) continue;
-            PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
+            if ((House_Get_ByIndex(s.o.houseID).palacePosition.x != 0) || (House_Get_ByIndex(s.o.houseID).palacePosition.y != 0)) continue;
+            House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
         }
 
         find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1462,7 +1460,7 @@ class CSharpDune
         {
             House h;
 
-            h = PoolHouse.House_Find(find);
+            h = House_Find(find);
             if (h == null) break;
 
             h.structuresBuilt = Structure_GetStructuresBuilt(h);
@@ -1470,24 +1468,24 @@ class CSharpDune
             House_CalculatePowerAndCredit(h);
         }
 
-        Gui.GUI_Palette_CreateRemap((byte)g_playerHouseID);
+        GUI_Palette_CreateRemap((byte)g_playerHouseID);
 
-        Map.Map_SetSelection(Gui.g_selectionPosition);
+        Map_SetSelection(g_selectionPosition);
 
         if (g_structureActiveType != 0xFFFF)
         {
-            Map.Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
+            Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
         }
         else
         {
-            var s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+            var s = Structure_Get_ByPackedTile(g_selectionPosition);
 
-            if (s != null) Map.Map_SetSelectionSize(g_table_structureInfo[s.o.type].layout);
+            if (s != null) Map_SetSelectionSize(g_table_structureInfo[s.o.type].layout);
         }
 
-        Sound.Voice_LoadVoices((ushort)g_playerHouseID);
+        Voice_LoadVoices((ushort)g_playerHouseID);
 
-        g_tickHousePowerMaintenance = Max(Timer.g_timerGame + 70, g_tickHousePowerMaintenance);
+        g_tickHousePowerMaintenance = Math.Max(g_timerGame + 70, g_tickHousePowerMaintenance);
         g_viewport_forceRedraw = true;
         g_playerCredits = 0xFFFF;
 
@@ -1501,29 +1499,29 @@ class CSharpDune
      */
     internal static void Game_Init()
     {
-        PoolUnit.Unit_Init();
-        PoolStructure.Structure_Init();
-        PoolTeam.Team_Init();
-        PoolHouse.House_Init();
+        Unit_Init();
+        Structure_Init();
+        Team_Init();
+        House_Init();
 
-        CAnimation.Animation_Init();
-        CExplosion.Explosion_Init();
-        for (var i = 0; i < Map.g_map.Length; i++) Map.g_map[i] = new Tile(); //memset(g_map, 0, 64 * 64 * sizeof(Tile));
+        Animation_Init();
+        Explosion_Init();
+        for (var i = 0; i < g_map.Length; i++) g_map[i] = new Tile(); //memset(g_map, 0, 64 * 64 * sizeof(Tile));
 
-        Array.Fill<byte>(Map.g_displayedViewport, 0, 0, Map.g_displayedViewport.Length); //memset(g_displayedViewport, 0, sizeof(g_displayedViewport));
-        Array.Fill<byte>(Map.g_displayedMinimap, 0, 0, Map.g_displayedMinimap.Length); //memset(g_displayedMinimap, 0, sizeof(g_displayedMinimap));
-        Array.Fill<byte>(Map.g_changedTilesMap, 0, 0, Map.g_changedTilesMap.Length); //memset(g_changedTilesMap, 0, sizeof(g_changedTilesMap));
-        Array.Fill<byte>(Map.g_dirtyViewport, 0, 0, Map.g_dirtyViewport.Length); //memset(g_dirtyViewport, 0, sizeof(g_dirtyViewport));
-        Array.Fill<byte>(Map.g_dirtyMinimap, 0, 0, Map.g_dirtyMinimap.Length); //memset(g_dirtyMinimap, 0, sizeof(g_dirtyMinimap));
+        Array.Fill<byte>(g_displayedViewport, 0, 0, g_displayedViewport.Length); //memset(g_displayedViewport, 0, sizeof(g_displayedViewport));
+        Array.Fill<byte>(g_displayedMinimap, 0, 0, g_displayedMinimap.Length); //memset(g_displayedMinimap, 0, sizeof(g_displayedMinimap));
+        Array.Fill<byte>(g_changedTilesMap, 0, 0, g_changedTilesMap.Length); //memset(g_changedTilesMap, 0, sizeof(g_changedTilesMap));
+        Array.Fill<byte>(g_dirtyViewport, 0, 0, g_dirtyViewport.Length); //memset(g_dirtyViewport, 0, sizeof(g_dirtyViewport));
+        Array.Fill<byte>(g_dirtyMinimap, 0, 0, g_dirtyMinimap.Length); //memset(g_dirtyMinimap, 0, sizeof(g_dirtyMinimap));
 
-        Array.Fill<ushort>(Map.g_mapTileID, 0, 0, 64 * 64); //memset(g_mapTileID, 0, 64 * 64 * sizeof(uint16));
+        Array.Fill<ushort>(g_mapTileID, 0, 0, 64 * 64); //memset(g_mapTileID, 0, 64 * 64 * sizeof(uint16));
         Array.Fill<short>(g_starportAvailable, 0, 0, g_starportAvailable.Length); //memset(g_starportAvailable, 0, sizeof(g_starportAvailable));
 
-        Sound.Sound_Output_Feedback(0xFFFE);
+        Sound_Output_Feedback(0xFFFE);
 
         g_playerCreditsNoSilo = 0;
         g_houseMissileCountdown = 0;
-        Gui.g_selectionState = 0; /* Invalid. */
+        g_selectionState = 0; /* Invalid. */
         g_structureActivePosition = 0;
 
         g_unitHouseMissile = null;
@@ -1533,9 +1531,9 @@ class CSharpDune
         g_activeAction = 0xFFFF;
         g_structureActiveType = 0xFFFF;
 
-        Gui.GUI_DisplayText(null, -1);
+        GUI_DisplayText(null, -1);
 
-        Sleep.sleepIdle();  /* let the game a chance to update screen, etc. */
+        sleepIdle();  /* let the game a chance to update screen, etc. */
     }
 
     /*
@@ -1545,15 +1543,15 @@ class CSharpDune
      */
     static void Game_LoadScenario(byte houseID, ushort scenarioID)
     {
-        Sound.Sound_Output_Feedback(0xFFFE);
+        Sound_Output_Feedback(0xFFFE);
 
         Game_Init();
 
         g_validateStrictIfZero++;
 
-        if (!CScenario.Scenario_Load(scenarioID, houseID))
+        if (!Scenario_Load(scenarioID, houseID))
         {
-            Gui.GUI_DisplayModalMessage("No more scenarios!", 0xFFFF);
+            GUI_DisplayModalMessage("No more scenarios!", 0xFFFF);
 
             PrepareEnd();
             Environment.Exit(0);
@@ -1576,22 +1574,22 @@ class CSharpDune
      */
     internal static void PrepareEnd()
     {
-        Gui.g_palette_998A = null; //free(g_palette_998A);
+        g_palette_998A = null; //free(g_palette_998A);
 
         GameLoop_Uninit();
 
-        CString.String_Uninit();
-        Sprites.Sprites_Uninit();
-        CFont.Font_Uninit();
-        Sound.Voice_UnloadVoices();
+        String_Uninit();
+        Sprites_Uninit();
+        Font_Uninit();
+        Voice_UnloadVoices();
 
-        CDriver.Drivers_All_Uninit();
+        Drivers_All_Uninit();
 
-        if (Mouse.g_mouseFileID != 0xFF) Mouse.Mouse_SetMouseMode((byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL, null);
+        if (g_mouseFileID != 0xFF) Mouse_SetMouseMode((byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL, null);
 
-        CFile.File_Uninit();
-        Timer.Timer_Uninit();
-        Gfx.GFX_Uninit();
-        VideoSdl2.Video_Uninit();
+        File_Uninit();
+        Timer_Uninit();
+        GFX_Uninit();
+        Video_Uninit();
     }
 }

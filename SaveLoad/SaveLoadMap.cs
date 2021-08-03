@@ -76,27 +76,27 @@
 
 			for (i = 0; i < 0x1000; i++)
 			{
-				var t = Map.g_map[i];
+				var t = g_map[i];
 
 				t.isUnveiled = false;
-				t.overlayTileID = Sprites.g_veiledTileID;
+				t.overlayTileID = g_veiledTileID;
 			}
 
-			while (length >= Common.SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/)
+			while (length >= SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/)
 			{
 				Tile t;
 
-				length -= (uint)(Common.SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/);
+				length -= (uint)(SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/);
 
-				if (!CFile.fread_le_uint16(ref i, fp)) return false;
+				if (!fread_le_uint16(ref i, fp)) return false;
 				if (i >= 0x1000) return false;
 
-				t = Map.g_map[i];
+				t = g_map[i];
 				if (!fread_tile(t, fp)) return false;
 
-                if (Map.g_mapTileID[i] != t.groundTileID)
+                if (g_mapTileID[i] != t.groundTileID)
                 {
-                    Map.g_mapTileID[i] |= 0x8000;
+                    g_mapTileID[i] |= 0x8000;
                 }
             }
 			if (length != 0) return false;
@@ -115,13 +115,13 @@
 
 			for (i = 0; i < 0x1000; i++)
 			{
-				var tile = Map.g_map[i];
+				var tile = g_map[i];
 
 				/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-				if (!tile.isUnveiled && !tile.hasStructure && !tile.hasUnit && !tile.hasAnimation && !tile.hasExplosion && (Map.g_mapTileID[i] & 0x8000) == 0 && Map.g_mapTileID[i] == tile.groundTileID) continue;
+				if (!tile.isUnveiled && !tile.hasStructure && !tile.hasUnit && !tile.hasAnimation && !tile.hasExplosion && (g_mapTileID[i] & 0x8000) == 0 && g_mapTileID[i] == tile.groundTileID) continue;
 
 				/* Store the index, then the tile itself */
-				if (!CFile.fwrite_le_uint16(i, fp)) return false;
+				if (!fwrite_le_uint16(i, fp)) return false;
 				if (!fwrite_tile(tile, fp)) return false;
 			}
 

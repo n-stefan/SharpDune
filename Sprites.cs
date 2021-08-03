@@ -84,15 +84,15 @@ namespace SharpDune
 			ushort size;
 			var spritePointer = 0;
 
-			if (sprite == null || Mouse.g_mouseDisabled != 0) return;
+			if (sprite == null || g_mouseDisabled != 0) return;
 
-			while (Mouse.g_mouseLock != 0) Sleep.sleepIdle();
+			while (g_mouseLock != 0) sleepIdle();
 
-			Mouse.g_mouseLock++;
+            g_mouseLock++;
 
-			Gui.Gui.GUI_Mouse_Hide();
+            GUI_Mouse_Hide();
 
-			size = Gfx.GFX_GetSize((short)(Endian.READ_LE_UINT16(sprite[3..]) + 16), sprite[5]);
+			size = GFX_GetSize((short)(READ_LE_UINT16(sprite[3..]) + 16), sprite[5]);
 
 			if (s_mouseSpriteBufferSize < size)
 			{
@@ -100,7 +100,7 @@ namespace SharpDune
 				s_mouseSpriteBufferSize = size;
 			}
 
-			size = (ushort)(Endian.READ_LE_UINT16(sprite[8..]) + 10);
+			size = (ushort)(READ_LE_UINT16(sprite[8..]) + 10);
 			if ((sprite[spritePointer] & 0x1) != 0) size += 16;
 
 			if (s_mouseSpriteSize < size)
@@ -111,7 +111,7 @@ namespace SharpDune
 
 			if ((sprite[spritePointer] & 0x2) != 0)
 			{
-				Buffer.BlockCopy(sprite, spritePointer, g_mouseSprite, 0, Endian.READ_LE_UINT16(sprite[6..])); //memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6));
+				Buffer.BlockCopy(sprite, spritePointer, g_mouseSprite, 0, READ_LE_UINT16(sprite[6..])); //memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6));
 			}
 			else
 			{
@@ -128,7 +128,7 @@ namespace SharpDune
 				dstPointer += 6;
 				spritePointer += 6;
 
-				size = Endian.READ_LE_UINT16(sprite);
+				size = READ_LE_UINT16(sprite);
 				dst[0] = sprite[0];
 				dst[1] = sprite[1];
 				dstPointer += 2;
@@ -141,19 +141,19 @@ namespace SharpDune
 					spritePointer += 16;
 				}
 
-				Format80.Format80_Decode(dst, sprite, size, dstPointer, spritePointer);
+                Format80_Decode(dst, sprite, size, dstPointer, spritePointer);
 			}
 
-			Gui.Gui.g_mouseSpriteHotspotX = hotSpotX;
-			Gui.Gui.g_mouseSpriteHotspotY = hotSpotY;
+            g_mouseSpriteHotspotX = hotSpotX;
+            g_mouseSpriteHotspotY = hotSpotY;
 
 			sprite = g_mouseSprite;
-			Gui.Gui.g_mouseHeight = sprite[5];
-			Gui.Gui.g_mouseWidth = (ushort)((Endian.READ_LE_UINT16(sprite[3..]) >> 3) + 2);
+            g_mouseHeight = sprite[5];
+            g_mouseWidth = (ushort)((READ_LE_UINT16(sprite[3..]) >> 3) + 2);
 
-			Gui.Gui.GUI_Mouse_Show();
+            GUI_Mouse_Show();
 
-			Mouse.g_mouseLock--;
+            g_mouseLock--;
 		}
 
 		/*
@@ -210,38 +210,38 @@ namespace SharpDune
 			var buffer2Pointer = 0;
 			ushort paletteSize;
 
-			buffer = Gfx.GFX_Screen_Get_ByIndex(screenID);
+			buffer = GFX_Screen_Get_ByIndex(screenID);
 
-			index = CFile.File_Open(filename, FileMode.FILE_MODE_READ);
+			index = File_Open(filename, FileMode.FILE_MODE_READ);
 
-			size = CFile.File_Read_LE16(index);
+			size = File_Read_LE16(index);
 
-			CFile.File_Read(index, ref buffer, 8);
+            File_Read(index, ref buffer, 8);
 
 			size -= 8;
 
-			paletteSize = Endian.READ_LE_UINT16(buffer[6..]);
+			paletteSize = READ_LE_UINT16(buffer[6..]);
 
 			if (palette != null && paletteSize != 0)
 			{
-				CFile.File_Read(index, ref palette, paletteSize);
+                File_Read(index, ref palette, paletteSize);
 			}
 			else
 			{
-				CFile.File_Seek(index, paletteSize, 1);
+                File_Seek(index, paletteSize, 1);
 			}
 
 			buffer[6] = 0;  /* dont read palette next time */
 			buffer[7] = 0;
 			size -= paletteSize;
 
-			buffer2 = Gfx.GFX_Screen_Get_ByIndex(screenID);
-			buffer2Pointer += (ushort)(Gfx.GFX_Screen_GetSize_ByIndex(screenID) - size - 8);
+			buffer2 = GFX_Screen_Get_ByIndex(screenID);
+			buffer2Pointer += (ushort)(GFX_Screen_GetSize_ByIndex(screenID) - size - 8);
 
 			Array.Copy(buffer, 0, buffer2, buffer2Pointer, 8); //memmove(buffer2, buffer, 8);
-			CFile.File_Read(index, ref buffer2, size, buffer2Pointer + 8);
+            File_Read(index, ref buffer2, size, buffer2Pointer + 8);
 
-			CFile.File_Close(index);
+            File_Close(index);
 
 			return Sprites_Decode(buffer2[buffer2Pointer..], buffer);
 		}
@@ -262,18 +262,18 @@ namespace SharpDune
 			{
 				case 0x0:
 					sourcePointer += 2;
-					size = Endian.READ_LE_UINT32(source[sourcePointer..]);
+					size = READ_LE_UINT32(source[sourcePointer..]);
 					sourcePointer += 4;
-					sourcePointer += Endian.READ_LE_UINT16(source[sourcePointer..]);
+					sourcePointer += READ_LE_UINT16(source[sourcePointer..]);
 					sourcePointer += 2;
 					Array.Copy(source, sourcePointer, dest, 0, size); //memmove(dest, source, size);
 					break;
 
 				case 0x4:
 					sourcePointer += 6;
-					sourcePointer += Endian.READ_LE_UINT16(source[sourcePointer..]);
+					sourcePointer += READ_LE_UINT16(source[sourcePointer..]);
 					sourcePointer += 2;
-					size = Format80.Format80_Decode(dest, source, 0xFFFF, 0, sourcePointer);
+					size = Format80_Decode(dest, source, 0xFFFF, 0, sourcePointer);
 					break;
 
 				default: break;
@@ -294,7 +294,7 @@ namespace SharpDune
 			Tiles_LoadICNFile("ICON.ICN");
 
 			g_iconMap = null; //free(g_iconMap);
-			g_iconMap = CFile.File_ReadWholeFileLE16("ICON.MAP");
+			g_iconMap = File_ReadWholeFileLE16("ICON.MAP");
 
 			g_veiledTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_FOG_OF_WAR] + 16];
 			g_bloomTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_SPICE_BLOOM]];
@@ -302,7 +302,7 @@ namespace SharpDune
 			g_landscapeTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]];
 			g_wallTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_WALLS]];
 
-            Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, Gfx.GFX_Screen_Get_ByIndex(Screen.NO2));
+            Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, GFX_Screen_Get_ByIndex(Screen.NO2));
 		}
 
 		/*
@@ -324,9 +324,9 @@ namespace SharpDune
 			ushort i;
 			ushort size;
 
-			buffer = CFile.File_ReadWholeFile(filename);
+			buffer = File_ReadWholeFile(filename);
 
-			count = Endian.READ_LE_UINT16(buffer);
+			count = READ_LE_UINT16(buffer);
 
 			s_spritesCount += count;
 			Array.Resize(ref g_sprites, s_spritesCount); //g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *)); //g_sprites = new byte[s_spritesCount][];
@@ -336,13 +336,13 @@ namespace SharpDune
 				var src = Sprites_GetSprite(buffer, i);
 				byte[] dst = null;
 
-				Debug.WriteLine($"DEBUG: Sprites: {filename} {i} {Endian.READ_LE_UINT16(src)} {Endian.READ_LE_UINT16(src[3..]) /* flags */} {src[2] /* width */} {src[5] /* height */} {Endian.READ_LE_UINT16(src[6..]) /* packed size */} {Endian.READ_LE_UINT16(src[8..]) /* decoded size */}");
+				Debug.WriteLine($"DEBUG: Sprites: {filename} {i} {READ_LE_UINT16(src)} {READ_LE_UINT16(src[3..]) /* flags */} {src[2] /* width */} {src[5] /* height */} {READ_LE_UINT16(src[6..]) /* packed size */} {READ_LE_UINT16(src[8..]) /* decoded size */}");
 				if (src != null)
 				{
 					if (g_unpackSHPonLoad && (src[0] & 0x2) == 0)
 					{
-						size = (ushort)(Endian.READ_LE_UINT16(src[8..]) + 10);
-						if ((Endian.READ_LE_UINT16(src) & 0x1) != 0)
+						size = (ushort)(READ_LE_UINT16(src[8..]) + 10);
+						if ((READ_LE_UINT16(src) & 0x1) != 0)
 						{
 							size += 16; /* 16 bytes more for the palette */
 						}
@@ -360,23 +360,23 @@ namespace SharpDune
 							decoded_data[decoded_dataPointer++] = (byte)(encoded_data[encoded_dataPointer++] | 0x2);    /* the sprite is not Format80 encoded any more */
 							Array.Copy(encoded_data, encoded_dataPointer, decoded_data, decoded_dataPointer, 5); //memcpy(decoded_data, encoded_data, 5);
 							decoded_dataPointer += 5;
-							Endian.WRITE_LE_UINT16(decoded_data, size, decoded_dataPointer);  /* new packed size */
+                            WRITE_LE_UINT16(decoded_data, size, decoded_dataPointer);  /* new packed size */
 							decoded_dataPointer += 2;
 							encoded_dataPointer += 7;
 							decoded_data[decoded_dataPointer++] = encoded_data[encoded_dataPointer++];    /* copy pixel size */
 							decoded_data[decoded_dataPointer++] = encoded_data[encoded_dataPointer++];
-							if ((Endian.READ_LE_UINT16(src) & 0x1) != 0)
+							if ((READ_LE_UINT16(src) & 0x1) != 0)
 							{
 								Array.Copy(encoded_data, encoded_dataPointer, decoded_data, decoded_dataPointer, 16); //memcpy(decoded_data, encoded_data, 16);	/* copy palette */
 								decoded_dataPointer += 16;
 								encoded_dataPointer += 16;
 							}
-							Format80.Format80_Decode(decoded_data, encoded_data, Endian.READ_LE_UINT16(src[8..]), decoded_dataPointer, encoded_dataPointer);
+                            Format80_Decode(decoded_data, encoded_data, READ_LE_UINT16(src[8..]), decoded_dataPointer, encoded_dataPointer);
 						}
 					}
 					else
 					{
-						size = Endian.READ_LE_UINT16(src[6..]); /* "packed" size */
+						size = READ_LE_UINT16(src[6..]); /* "packed" size */
 						dst = new byte[size]; //(uint8 *)malloc(size);
 						if (dst == null)
 						{
@@ -398,13 +398,13 @@ namespace SharpDune
 		internal static void Sprites_Init()
 		{
 			Sprites_Load("MOUSE.SHP");                               /*   0 -   6 */
-			Sprites_Load(CString.String_GenerateFilename("BTTN"));   /*   7 -  11 */
+			Sprites_Load(String_GenerateFilename("BTTN"));   /*   7 -  11 */
 			Sprites_Load("SHAPES.SHP");                              /*  12 - 110 */
 			Sprites_Load("UNITS2.SHP");                              /* 111 - 150 */
 			Sprites_Load("UNITS1.SHP");                              /* 151 - 237 */
 			Sprites_Load("UNITS.SHP");                               /* 238 - 354 */
-			Sprites_Load(CString.String_GenerateFilename("CHOAM"));  /* 355 - 372 */
-			Sprites_Load(CString.String_GenerateFilename("MENTAT")); /* 373 - 386 */
+			Sprites_Load(String_GenerateFilename("CHOAM"));  /* 355 - 372 */
+			Sprites_Load(String_GenerateFilename("MENTAT")); /* 373 - 386 */
 			Sprites_Load("MENSHPH.SHP");                             /* 387 - 401 */
 			Sprites_Load("MENSHPA.SHP");                             /* 402 - 416 */
 			Sprites_Load("MENSHPO.SHP");                             /* 417 - 431 */
@@ -475,7 +475,7 @@ namespace SharpDune
 			ushort i;
 			string textBuffer; //char[81]
 
-			textBuffer = Ini.Ini_GetString("INFO", "TOTAL REGIONS", null, g_fileRegionINI);
+			textBuffer = Ini_GetString("INFO", "TOTAL REGIONS", null, g_fileRegionINI);
 
 			g_regions[0] = ushort.Parse(textBuffer, Culture); //sscanf(textBuffer, "%hu", &regions[0]);
 
@@ -489,7 +489,7 @@ namespace SharpDune
 			string filename; //char[16];
 			var bufPointer = 0;
 
-			buf = Gfx.GFX_Screen_Get_ByIndex(Screen.NO2);
+			buf = GFX_Screen_Get_ByIndex(Screen.NO2);
 
 			g_fileRgnclkCPS = buf;
 			Sprites_LoadCPSFile("RGNCLK.CPS", Screen.NO2, null);
@@ -497,11 +497,11 @@ namespace SharpDune
 			bufPointer += 120 * 304;
 
 			filename = $"REGION{g_table_houseInfo[(int)g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
-			var length = (int)CFile.File_ReadFile(filename, buf, bufPointer);
+			var length = (int)File_ReadFile(filename, buf, bufPointer);
 			g_fileRegionINI = CSharpDune.Encoding.GetString(buf[bufPointer..(bufPointer + length)]);
 			bufPointer += length;
 
-			g_regions = Common.FromByteArrayToUshortArray(buf[bufPointer..]);
+			g_regions = FromByteArrayToUshortArray(buf[bufPointer..]);
 
 			InitRegions();
 		}
@@ -519,11 +519,11 @@ namespace SharpDune
 			var bufferPointer = 0;
 
 			if (buffer == null) return null;
-			if (Endian.READ_LE_UINT16(buffer) <= index) return null;
+			if (READ_LE_UINT16(buffer) <= index) return null;
 
 			bufferPointer += 2;
 
-			offset = Endian.READ_LE_UINT32(buffer[(bufferPointer + 4 * index)..]);
+			offset = READ_LE_UINT32(buffer[(bufferPointer + 4 * index)..]);
 
 			if (offset == 0) return null;
 
@@ -546,32 +546,32 @@ namespace SharpDune
 			uint paletteLength;
 			var info = new sbyte[4];
 
-			fileIndex = CFile.ChunkFile_Open(filename);
+			fileIndex = ChunkFile_Open(filename);
 
 			/* Get the length of the chunks */
-			tilesDataLength = CFile.ChunkFile_Seek(fileIndex, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.SSET]));
-			tableLength = CFile.ChunkFile_Seek(fileIndex, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.RTBL]));
-			paletteLength = CFile.ChunkFile_Seek(fileIndex, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.RPAL]));
+			tilesDataLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.SSET]));
+			tableLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RTBL]));
+			paletteLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RPAL]));
 
-			/* Read the header information */
-			CFile.ChunkFile_Read(fileIndex, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.SINF]), ref info, 4);
-			Gfx.GFX_Init_TilesInfo((ushort)info[0], (ushort)info[1]);
+            /* Read the header information */
+            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.SINF]), ref info, 4);
+            GFX_Init_TilesInfo((ushort)info[0], (ushort)info[1]);
 
 			/* Get the SpritePixels chunk */
 			g_tilesPixels = new byte[tilesDataLength]; //calloc(1, tilesDataLength);
-			CFile.ChunkFile_Read(fileIndex, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.SSET]), ref g_tilesPixels, tilesDataLength);
+            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.SSET]), ref g_tilesPixels, tilesDataLength);
 			tilesDataLength = Sprites_Decode(g_tilesPixels, g_tilesPixels);
 			/*g_tilesPixels = realloc(g_tilesPixels, tilesDataLength);*/
 
 			/* Get the Table chunk */
 			g_iconRTBL = new byte[tableLength]; //calloc(1, tableLength);
-			CFile.ChunkFile_Read(fileIndex, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.RTBL]), ref g_iconRTBL, tableLength);
+            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RTBL]), ref g_iconRTBL, tableLength);
 
 			/* Get the Palette chunk */
 			g_iconRPAL = new byte[paletteLength]; //calloc(1, paletteLength);
-			CFile.ChunkFile_Read(fileIndex, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.RPAL]), ref g_iconRPAL, paletteLength);
+            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RPAL]), ref g_iconRPAL, paletteLength);
 
-			CFile.ChunkFile_Close(fileIndex);
+            ChunkFile_Close(fileIndex);
 		}
 	}
 }

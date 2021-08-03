@@ -44,9 +44,9 @@ namespace SharpDune
 		 */
 		internal static string String_GenerateFilename(string name)
 		{
-			Debug.Assert(Config.g_config.language < g_languageSuffixes.Length);
+			Debug.Assert(g_config.language < g_languageSuffixes.Length);
 
-			filename = $"{name}.{g_languageSuffixes[Config.g_config.language]}"; //snprintf(filename, sizeof(filename), "%s.%s", name, g_languageSuffixes[g_config.language]);
+			filename = $"{name}.{g_languageSuffixes[g_config.language]}"; //snprintf(filename, sizeof(filename), "%s.%s", name, g_languageSuffixes[g_config.language]);
 			return filename;
 		}
 
@@ -59,22 +59,22 @@ namespace SharpDune
 			ushort from, to, prev;
 			Range range;
 
-			buf = CFile.File_ReadWholeFile(String_GenerateFilename(filename));
-			count = (ushort)(Endian.READ_LE_UINT16(buf) / 2);
+			buf = File_ReadWholeFile(String_GenerateFilename(filename));
+			count = (ushort)(READ_LE_UINT16(buf) / 2);
 
 			if (end < 0) end = start + count - 1;
 
 			Array.Resize(ref s_strings, end + 1); //(char**)realloc(s_strings, (end + 1) * sizeof(char*));
 			s_strings[s_stringsCount] = null;
 
-			prev = Endian.READ_LE_UINT16(buf);
+			prev = READ_LE_UINT16(buf);
 			for (i = 0; i <= count && s_stringsCount <= end; i++)
 			{
 				//from = Endian.READ_LE_UINT16(buf[(i * 2)..]);
 				//to = (ushort)Min(Endian.READ_LE_UINT16(buf[((i + 1) * 2)..]), buf.Length - 1);
 				//range = from == to ? from..to : from..(to - 1);
 				from = prev;
-				to = (ushort)Min(Endian.READ_LE_UINT16(buf[(i * 2)..]), buf.Length - 1);
+				to = (ushort)Math.Min(READ_LE_UINT16(buf[(i * 2)..]), buf.Length - 1);
 				prev = to;
 				range = from == to ? from..to : from..(to - 1);
 
@@ -118,7 +118,7 @@ namespace SharpDune
 
 		static void String_Sanitize()
 		{
-			if (Config.g_config.language == (byte)Language.ENGLISH)
+			if (g_config.language == (byte)Language.ENGLISH)
             {
 				s_strings[Array.FindIndex(s_strings, s => s == "Insufficient memory by %ld bytes.")] = "Insufficient memory by {0} bytes.";
 				s_strings[Array.FindIndex(s_strings, s => s == "%s %s destroyed.")] = "{0} {1} destroyed.";

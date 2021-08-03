@@ -72,7 +72,7 @@ namespace SharpDune
 			switch (screenID)
             {
 				case Screen.NO0:
-					return VideoSdl2.Video_GetFrameBuffer();
+					return Video_GetFrameBuffer();
 				case Screen.NO1:
 					return s_screen1;
 				case Screen.NO2:
@@ -220,7 +220,7 @@ namespace SharpDune
 
 			if (s_tileMode == 4) return;
 
-			icon_palette = Sprites.g_iconRPAL[(Sprites.g_iconRTBL[tileID] << 4)..]; //Sprites.g_iconRPAL + (Sprites.g_iconRTBL[tileID] << 4);
+			icon_palette = g_iconRPAL[(g_iconRTBL[tileID] << 4)..]; //g_iconRPAL + (g_iconRTBL[tileID] << 4);
 
 			if (houseID != 0)
 			{
@@ -241,7 +241,7 @@ namespace SharpDune
 
 			wArray = (byte[])GFX_Screen_GetActive();
 			wPointer += (ushort)(y * SCREEN_WIDTH + x);
-			rArray = Sprites.g_tilesPixels[(tileID * s_tileByteSize)..];
+			rArray = g_tilesPixels[(tileID * s_tileByteSize)..];
 
 			/* tiles with transparent pixels : [1 : 33] U [108 : 122] and 124
 			 * palettes 1 to 18 and 22 and 24 */
@@ -312,7 +312,7 @@ namespace SharpDune
 				   palette[to * 3 + 1] != g_paletteActive[to * 3 + 1] ||
 				   palette[to * 3 + 2] != g_paletteActive[to * 3 + 2]) break;
 			}
-			VideoSdl2.Video_SetPalette(palette[(3 * from)..], from, to - from + 1);
+            Video_SetPalette(palette[(3 * from)..], from, to - from + 1);
 
 			Array.Copy(palette, 3 * from, g_paletteActive, 3 * from, (to - from + 1) * 3); //memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
 		}

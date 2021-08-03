@@ -50,13 +50,13 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = (byte)g_playerHouseID != Unit_GetHouseID(u);
 
-						h = PoolHouse.House_Get_ByIndex(u.o.houseID);
+						h = House_Get_ByIndex(u.o.houseID);
 					}
 					break;
 
 				case 3:
 					{ /* Structure */
-						s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+						s = Structure_Get_ByPackedTile(g_selectionPosition);
 						si = g_table_structureInfo[s.o.type];
 
 						o = s.o;
@@ -64,10 +64,10 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = (byte)g_playerHouseID != s.o.houseID;
 
-						h = PoolHouse.House_Get_ByIndex(s.o.houseID);
+						h = House_Get_ByIndex(s.o.houseID);
 
 						if (s.upgradeTimeLeft == 0 && Structure_IsUpgradable(s)) s.upgradeTimeLeft = 100;
-						Gui.GUI_UpdateProductionStringID();
+                        GUI_UpdateProductionStringID();
 					}
 					break;
 
@@ -80,7 +80,7 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = false;
 
-						h = PoolHouse.House_Get_ByIndex((byte)g_playerHouseID);
+						h = House_Get_ByIndex((byte)g_playerHouseID);
 					}
 					break;
 
@@ -94,7 +94,7 @@ namespace SharpDune.Gui
 
 						isNotPlayerOwned = (byte)g_playerHouseID != Unit_GetHouseID(u);
 
-						h = PoolHouse.House_Get_ByIndex((byte)g_playerHouseID);
+						h = House_Get_ByIndex((byte)g_playerHouseID);
 					}
 					break;
 
@@ -107,39 +107,39 @@ namespace SharpDune.Gui
 			}
 
 			oldScreenID = Screen.ACTIVE;
-			oldWidgetID = CWidget.g_curWidgetIndex;
+			oldWidgetID = g_curWidgetIndex;
 
 			if (actionType != 0)
 			{
-				var w = CWidget.g_widgetLinkedListHead;
+				var w = g_widgetLinkedListHead;
 				int i;
 
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
-				oldWidgetID = CWidget.Widget_SetCurrentWidget(6);
+				oldScreenID = GFX_Screen_SetActive(Screen.NO1);
+				oldWidgetID = Widget_SetCurrentWidget(6);
 
-				widget30 = CWidget.GUI_Widget_Get_ByIndex(w, 7);
-				CWidget.GUI_Widget_MakeInvisible(widget30);
+				widget30 = GUI_Widget_Get_ByIndex(w, 7);
+                GUI_Widget_MakeInvisible(widget30);
 
-				widget24 = CWidget.GUI_Widget_Get_ByIndex(w, 4);
-				CWidget.GUI_Widget_MakeInvisible(widget24);
+				widget24 = GUI_Widget_Get_ByIndex(w, 4);
+                GUI_Widget_MakeInvisible(widget24);
 
-				widget28 = CWidget.GUI_Widget_Get_ByIndex(w, 6);
-				CWidget.GUI_Widget_MakeInvisible(widget28);
+				widget28 = GUI_Widget_Get_ByIndex(w, 6);
+                GUI_Widget_MakeInvisible(widget28);
 
-				widget2C = CWidget.GUI_Widget_Get_ByIndex(w, 5);
-				CWidget.GUI_Widget_MakeInvisible(widget2C);
+				widget2C = GUI_Widget_Get_ByIndex(w, 5);
+                GUI_Widget_MakeInvisible(widget2C);
 
-				widget34 = CWidget.GUI_Widget_Get_ByIndex(w, 3);
-				CWidget.GUI_Widget_MakeInvisible(widget34);
+				widget34 = GUI_Widget_Get_ByIndex(w, 3);
+                GUI_Widget_MakeInvisible(widget34);
 
 				/* Create the 4 buttons */
 				for (i = 0; i < 4; i++)
 				{
-					buttons[i] = CWidget.GUI_Widget_Get_ByIndex(w, (ushort)(i + 8));
-					CWidget.GUI_Widget_MakeInvisible(buttons[i]);
+					buttons[i] = GUI_Widget_Get_ByIndex(w, (ushort)(i + 8));
+                    GUI_Widget_MakeInvisible(buttons[i]);
 				}
 
-				GUI_Widget_DrawBorder(CWidget.g_curWidgetIndex, 0, false /*0*/);
+				GUI_Widget_DrawBorder(g_curWidgetIndex, 0, false /*0*/);
 			}
 
 			if (actionType > 1)
@@ -163,7 +163,7 @@ namespace SharpDune.Gui
 					default: break;
 				}
 
-				if (stringID != (ushort)Text.STR_NULL) Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(stringID), 288, 43, 29, 0, 0x111);
+				if (stringID != (ushort)Text.STR_NULL) GUI_DrawText_Wrapper(String_Get_ByIndex(stringID), 288, 43, 29, 0, 0x111);
 
 				switch (actionType)
 				{
@@ -174,7 +174,7 @@ namespace SharpDune.Gui
 						{
 							if (oi.flags.factory && !isNotPlayerOwned)
 							{
-								CWidget.GUI_Widget_MakeVisible(widget28);
+                                GUI_Widget_MakeVisible(widget28);
 								break;
 							}
 						}
@@ -201,15 +201,15 @@ namespace SharpDune.Gui
 
 				if (spriteID != 0xFFFF)
 				{
-					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], 258, 51, 0, 0);
+                    GUI_DrawSprite(Screen.ACTIVE, g_sprites[spriteID], 258, 51, 0, 0);
 				}
 
 				/* Unit / Structure */
 				if (actionType == 2 || actionType == 3)
 				{
-					Gui.GUI_DrawProgressbar(o.hitpoints, oi.hitpoints);
-					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[27], 292, 60, 0, 0);
-					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_DMG), 296, 65, 29, 0, 0x11);
+                    GUI_DrawProgressbar(o.hitpoints, oi.hitpoints);
+                    GUI_DrawSprite(Screen.ACTIVE, g_sprites[27], 292, 60, 0, 0);
+                    GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_DMG), 296, 65, 29, 0, 0x11);
 				}
 
 				if (!isNotPlayerOwned || g_debugGame)
@@ -222,7 +222,7 @@ namespace SharpDune.Gui
 								ushort actionCurrent;
 								int i;
 
-								CWidget.GUI_Widget_MakeVisible(widget34);
+                                GUI_Widget_MakeVisible(widget34);
 
 								actionCurrent = (u.nextActionID != (byte)ActionType.ACTION_INVALID) ? u.nextActionID : u.actionID;
 
@@ -232,27 +232,27 @@ namespace SharpDune.Gui
 								for (i = 0; i < 4; i++)
 								{
 									buttons[i].stringID = g_table_actionInfo[actions[i]].stringID;
-									buttons[i].shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(buttons[i].stringID)[0]);
+									buttons[i].shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(buttons[i].stringID)[0]);
 
-									if (Config.g_config.language == (byte)Language.FRENCH)
+									if (g_config.language == (byte)Language.FRENCH)
 									{
 										if (buttons[i].stringID == (ushort)Text.STR_MOVE) buttons[i].shortcut2 = 0x27;  /* L key */
 										else if (buttons[i].stringID == (ushort)Text.STR_RETURN) buttons[i].shortcut2 = 0x13;   /* E key */
 									}
-									else if (Config.g_config.language == (byte)Language.GERMAN)
+									else if (g_config.language == (byte)Language.GERMAN)
 									{
 										if (buttons[i].stringID == (ushort)Text.STR_GUARD) buttons[i].shortcut2 = 0x17; /* U key */
 									}
 
-									CWidget.GUI_Widget_MakeVisible(buttons[i]);
+                                    GUI_Widget_MakeVisible(buttons[i]);
 
 									if (actions[i] == actionCurrent)
 									{
-										CWidget.GUI_Widget_MakeSelected(buttons[i], false);
+                                        GUI_Widget_MakeSelected(buttons[i], false);
 									}
 									else
 									{
-										CWidget.GUI_Widget_MakeNormal(buttons[i], false);
+                                        GUI_Widget_MakeNormal(buttons[i], false);
 									}
 								}
 							}
@@ -260,14 +260,14 @@ namespace SharpDune.Gui
 
 						case 3: /* Structure */
 							{
-								CWidget.GUI_Widget_MakeVisible(widget34);
+                                GUI_Widget_MakeVisible(widget34);
 
 								if (o.flags.upgrading)
 								{
 									widget24.stringID = (ushort)Text.STR_UPGRADING;
 
-									CWidget.GUI_Widget_MakeVisible(widget24);
-									CWidget.GUI_Widget_MakeSelected(widget24, false);
+                                    GUI_Widget_MakeVisible(widget24);
+                                    GUI_Widget_MakeSelected(widget24, false);
 								}
 								else if (o.hitpoints != oi.hitpoints)
 								{
@@ -275,31 +275,31 @@ namespace SharpDune.Gui
 									{
 										widget24.stringID = (ushort)Text.STR_REPAIRING;
 
-										CWidget.GUI_Widget_MakeVisible(widget24);
-										CWidget.GUI_Widget_MakeSelected(widget24, false);
+                                        GUI_Widget_MakeVisible(widget24);
+                                        GUI_Widget_MakeSelected(widget24, false);
 									}
 									else
 									{
 										widget24.stringID = (ushort)Text.STR_REPAIR;
 
-										CWidget.GUI_Widget_MakeVisible(widget24);
-										CWidget.GUI_Widget_MakeNormal(widget24, false);
+                                        GUI_Widget_MakeVisible(widget24);
+                                        GUI_Widget_MakeNormal(widget24, false);
 									}
 								}
 								else if (s.upgradeTimeLeft != 0)
 								{
 									widget24.stringID = (ushort)Text.STR_UPGRADE;
 
-									CWidget.GUI_Widget_MakeVisible(widget24);
-									CWidget.GUI_Widget_MakeNormal(widget24, false);
+                                    GUI_Widget_MakeVisible(widget24);
+                                    GUI_Widget_MakeNormal(widget24, false);
 								}
 
 								if (o.type != (byte)StructureType.STRUCTURE_STARPORT)
 								{
 									if (oi.flags.factory || (o.type == (byte)StructureType.STRUCTURE_PALACE && s.countDown == 0))
 									{
-										CWidget.GUI_Widget_MakeVisible(widget2C);
-										CWidget.GUI_Widget_Draw(widget2C);
+                                        GUI_Widget_MakeVisible(widget2C);
+                                        GUI_Widget_Draw(widget2C);
 									}
 								}
 
@@ -328,12 +328,12 @@ namespace SharpDune.Gui
 											u2 = Structure_GetLinkedUnit(s);
 											if (u2 == null) break;
 
-											Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
+                                            GUI_DrawSprite(Screen.ACTIVE, g_sprites[g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
 
 											steps = (ushort)(g_table_unitInfo[u2.o.type].o.buildTime / 4);
 											percent = (ushort)((steps - (s.countDown >> 8)) * 100 / steps);
 
-											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_D_DONE), 258, 116, 29, 0, 0x11, percent);
+                                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_D_DONE), 258, 116, 29, 0, 0x11, percent);
 										}
 										break;
 
@@ -342,10 +342,10 @@ namespace SharpDune.Gui
 											var powerOutput = (ushort)(o.hitpoints * -si.powerUsage / oi.hitpoints);
 											var powerAverage = (ushort)((h.windtrapCount == 0) ? 0 : h.powerUsage / h.windtrapCount);
 
-											Gui.GUI_DrawLine(261, 95, 312, 95, 16);
-											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_POWER_INFONEEDEDOUTPUT), 258, 88, 29, 0, 0x11);
-											Gui.GUI_DrawText_Wrapper("{0, 3}", 292, (short)(CFont.g_fontCurrent.height * 2 + 80), 29, 0, 0x11, powerAverage);
-											Gui.GUI_DrawText_Wrapper("{0, 3}", 292, (short)(CFont.g_fontCurrent.height * 3 + 80), (byte)((powerOutput >= powerAverage) ? 29 : 6), 0, 0x11, powerOutput);
+                                            GUI_DrawLine(261, 95, 312, 95, 16);
+                                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_POWER_INFONEEDEDOUTPUT), 258, 88, 29, 0, 0x11);
+                                            GUI_DrawText_Wrapper("{0, 3}", 292, (short)(g_fontCurrent.height * 2 + 80), 29, 0, 0x11, powerAverage);
+                                            GUI_DrawText_Wrapper("{0, 3}", 292, (short)(g_fontCurrent.height * 3 + 80), (byte)((powerOutput >= powerAverage) ? 29 : 6), 0, 0x11, powerOutput);
 										}
 										break;
 
@@ -353,11 +353,11 @@ namespace SharpDune.Gui
 										{
 											if (h.starportLinkedID != 0xFFFF)
 											{
-												Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_FRIGATEARRIVAL_INTMINUS_D), 258, 88, 29, 0, 0x11, h.starportTimeLeft);
+                                                GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_FRIGATEARRIVAL_INTMINUS_D), 258, 88, 29, 0, 0x11, h.starportTimeLeft);
 											}
 											else
 											{
-												Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_FRIGATE_INORBIT_ANDAWAITINGORDER), 258, 88, 29, 0, 0x11);
+                                                GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_FRIGATE_INORBIT_ANDAWAITINGORDER), 258, 88, 29, 0, 0x11);
 											}
 										}
 										break;
@@ -370,15 +370,15 @@ namespace SharpDune.Gui
 											creditsStored = (ushort)(h.credits * si.creditsStorage / h.creditsStorage);
 											if (h.credits > h.creditsStorage) creditsStored = si.creditsStorage;
 
-											Gui.GUI_DrawLine(261, 95, 312, 95, 16);
-											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SPICEHOLDS_4DMAX_4D), 258, 88, 29, 0, 0x11, creditsStored, (si.creditsStorage <= 1000) ? si.creditsStorage : 1000);
+                                            GUI_DrawLine(261, 95, 312, 95, 16);
+                                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_SPICEHOLDS_4DMAX_4D), 258, 88, 29, 0, 0x11, creditsStored, (si.creditsStorage <= 1000) ? si.creditsStorage : 1000);
 										}
 										break;
 
 									case (byte)StructureType.STRUCTURE_OUTPOST:
 										{
-											Gui.GUI_DrawLine(261, 95, 312, 95, 16);
-											Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_RADAR_SCANFRIEND_2DENEMY_2D), 258, 88, 29, 0, 0x11, h.unitCountAllied, h.unitCountEnemy);
+                                            GUI_DrawLine(261, 95, 312, 95, 16);
+                                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_RADAR_SCANFRIEND_2DENEMY_2D), 258, 88, 29, 0, 0x11, h.unitCountAllied, h.unitCountEnemy);
 										}
 										break;
 								}
@@ -386,23 +386,23 @@ namespace SharpDune.Gui
 							break;
 
 						case 4: /* Attack */
-							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTTARGET), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+                            GUI_Widget_MakeVisible(widget30);
+                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_SELECTTARGET), 259, 76, g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 5: /* Movement */
-							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTDESTINATION), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+                            GUI_Widget_MakeVisible(widget30);
+                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_SELECTDESTINATION), 259, 76, g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 6: /* Harvest */
-							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTPLACE_TOHARVEST), 259, 76, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+                            GUI_Widget_MakeVisible(widget30);
+                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_SELECTPLACE_TOHARVEST), 259, 76, g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 7: /* Placement */
-							CWidget.GUI_Widget_MakeVisible(widget30);
-							Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_SELECTLOCATION_TOBUILD), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11);
+                            GUI_Widget_MakeVisible(widget30);
+                            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_SELECTLOCATION_TOBUILD), 259, 84, g_curWidgetFGColourBlink, 0, 0x11);
 							break;
 
 						case 8: /* House Missile */
@@ -410,7 +410,7 @@ namespace SharpDune.Gui
 								var count = (short)(g_houseMissileCountdown - 1);
 								if (count <= 0) count = 0;
 
-								Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_PICK_TARGETTMINUS_D), 259, 84, CWidget.g_curWidgetFGColourBlink, 0, 0x11, count);
+                                GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_PICK_TARGETTMINUS_D), 259, 84, g_curWidgetFGColourBlink, 0, 0x11, count);
 							}
 							break;
 
@@ -422,15 +422,15 @@ namespace SharpDune.Gui
 
 			if (actionType != 0)
 			{
-				Gui.GUI_Mouse_Hide_InWidget(6);
-				Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.ACTIVE, Screen.NO0);
-				Gui.GUI_Mouse_Show_InWidget();
+                GUI_Mouse_Hide_InWidget(6);
+                GUI_Screen_Copy((short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetWidth, (short)g_curWidgetHeight, Screen.ACTIVE, Screen.NO0);
+                GUI_Mouse_Show_InWidget();
 			}
 
 			if (actionType > 1)
 			{
-				CWidget.Widget_SetCurrentWidget(oldWidgetID);
-				Gfx.GFX_Screen_SetActive(oldScreenID);
+                Widget_SetCurrentWidget(oldWidgetID);
+                GFX_Screen_SetActive(oldScreenID);
 			}
 		}
 
@@ -445,32 +445,32 @@ namespace SharpDune.Gui
 		 */
 		internal static void GUI_Widget_DrawBorder(ushort widgetIndex, ushort borderType, bool pressed)
 		{
-			var left = (ushort)(CWidget.g_widgetProperties[widgetIndex].xBase << 3);
-			var top = CWidget.g_widgetProperties[widgetIndex].yBase;
-			var width = (ushort)(CWidget.g_widgetProperties[widgetIndex].width << 3);
-			var height = CWidget.g_widgetProperties[widgetIndex].height;
+			var left = (ushort)(g_widgetProperties[widgetIndex].xBase << 3);
+			var top = g_widgetProperties[widgetIndex].yBase;
+			var width = (ushort)(g_widgetProperties[widgetIndex].width << 3);
+			var height = g_widgetProperties[widgetIndex].height;
 
 			var colourSchemaIndex = (ushort)(pressed ? 2 : 0);
 			ushort size;
 
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Hide_InRegion(left, top, (ushort)(left + width), (ushort)(top + height));
+                GUI_Mouse_Hide_InRegion(left, top, (ushort)(left + width), (ushort)(top + height));
 			}
 
-			Gui.GUI_DrawBorder(left, top, width, height, (ushort)(colourSchemaIndex + 1), true);
+            GUI_DrawBorder(left, top, width, height, (ushort)(colourSchemaIndex + 1), true);
 
 			size = borderIndexSize[borderType][1];
 
 			if (size != 0)
 			{
 				colourSchemaIndex += borderIndexSize[borderType][0];
-				Gui.GUI_DrawBorder((ushort)(left + size), (ushort)(top + size), (ushort)(width - (size * 2)), (ushort)(height - (size * 2)), colourSchemaIndex, false);
+                GUI_DrawBorder((ushort)(left + size), (ushort)(top + size), (ushort)(width - (size * 2)), (ushort)(height - (size * 2)), colourSchemaIndex, false);
 			}
 
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Show_InRegion();
+                GUI_Mouse_Show_InRegion();
 			}
 		}
 
@@ -537,11 +537,11 @@ namespace SharpDune.Gui
 					}
 				}
 			}
-			else if (!CTile.Tile_IsOutOfMap(Gui.g_selectionPosition) && (Map.g_map[Gui.g_selectionPosition].isUnveiled || g_debugScenario))
+			else if (!Tile_IsOutOfMap(g_selectionPosition) && (g_map[g_selectionPosition].isUnveiled || g_debugScenario))
 			{
-				if (Map.Map_GetLandscapeType(Gui.g_selectionPosition) == (ushort)LandscapeType.LST_STRUCTURE)
+				if (Map_GetLandscapeType(g_selectionPosition) == (ushort)LandscapeType.LST_STRUCTURE)
 				{
-					s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+					s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 					if (forceDraw
 						|| s.o.hitpoints != displayedHitpoints
@@ -551,10 +551,10 @@ namespace SharpDune.Gui
 						|| s.o.linkedID != displayedLinkedID
 						|| s.objectType != displayedObjectType
 						|| s.o.houseID != displayedHouseID
-						|| PoolHouse.House_Get_ByIndex(s.o.houseID).starportTimeLeft != displayedStarportTime
+						|| House_Get_ByIndex(s.o.houseID).starportTimeLeft != displayedStarportTime
 						|| s.o.flags.all != displayedStructureFlags)
 					{
-						Gui.g_structureHighHealth = (s.o.hitpoints > (g_table_structureInfo[s.o.type].o.hitpoints / 2));
+                        g_structureHighHealth = (s.o.hitpoints > (g_table_structureInfo[s.o.type].o.hitpoints / 2));
 						actionType = 3; /* Structure */
 					}
 				}
@@ -603,7 +603,7 @@ namespace SharpDune.Gui
 					displayedStructureFlags = (ushort)s.o.flags.all;
 					displayedHouseID = s.o.houseID;
 					displayedMissileCountdown = 0xFFFF;
-					displayedStarportTime = PoolHouse.House_Get_ByIndex(s.o.houseID).starportTimeLeft;
+					displayedStarportTime = House_Get_ByIndex(s.o.houseID).starportTimeLeft;
 					break;
 
 				case 0:
@@ -624,8 +624,8 @@ namespace SharpDune.Gui
 		{
 			while (w != null)
 			{
-				CWidget.GUI_Widget_Draw(w);
-				w = CWidget.GUI_Widget_GetNext(w);
+                GUI_Widget_Draw(w);
+				w = GUI_Widget_GetNext(w);
 			}
 		}
 
@@ -658,7 +658,7 @@ namespace SharpDune.Gui
 				StructureInfo si;
 				Structure s;
 
-				s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+				s = Structure_Get_ByPackedTile(g_selectionPosition);
 				if (s == null) return;
 				si = g_table_structureInfo[s.o.type];
 
@@ -666,9 +666,9 @@ namespace SharpDune.Gui
 			}
 
 			oldScreenID = Screen.ACTIVE;
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+				oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 			}
 
 			buttonDown = w.state.hover2;
@@ -678,19 +678,19 @@ namespace SharpDune.Gui
 			width = w.width;
 			height = w.height;
 
-			Gui.GUI_DrawWiredRectangle((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width), (ushort)(positionY + height), 12);
+            GUI_DrawWiredRectangle((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width), (ushort)(positionY + height), 12);
 
-			Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)positionX, (short)positionY, 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 1 : 0));
+            GUI_DrawSprite(Screen.ACTIVE, g_sprites[spriteID], (short)positionX, (short)positionY, 0, DRAWSPRITE_FLAG_REMAP, g_paletteMapping1, (short)(buttonDown ? 1 : 0));
 
-			Gui.GUI_DrawBorder(positionX, positionY, width, height, (ushort)(buttonDown ? 0 : 1), false);
+            GUI_DrawBorder(positionX, positionY, width, height, (ushort)(buttonDown ? 0 : 1), false);
 
 			if (oldScreenID != Screen.NO0) return;
 
-			Gui.GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
-			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
-			Gui.GUI_Mouse_Show_InRegion();
+            GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
+            GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
+            GUI_Mouse_Show_InRegion();
 
-			Gfx.GFX_Screen_SetActive(Screen.NO0);
+            GFX_Screen_SetActive(Screen.NO0);
 		}
 
 		/*
@@ -711,9 +711,9 @@ namespace SharpDune.Gui
 			if (w == null) return;
 
 			oldScreenID = Screen.ACTIVE;
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+				oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 			}
 
 			stringID = w.stringID;
@@ -726,8 +726,8 @@ namespace SharpDune.Gui
 			width = w.width;
 			height = w.height;
 
-			Gui.GUI_DrawWiredRectangle((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width), (ushort)(positionY + height), 12);
-			Gui.GUI_DrawBorder(positionX, positionY, width, height, (ushort)(buttonDown ? 0 : 1), true);
+            GUI_DrawWiredRectangle((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width), (ushort)(positionY + height), 12);
+            GUI_DrawBorder(positionX, positionY, width, height, (ushort)(buttonDown ? 0 : 1), true);
 
 			colour = 0xF;
 			if (buttonSelected)
@@ -744,17 +744,17 @@ namespace SharpDune.Gui
 				colour = 0xEF;
 			}
 
-			Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(stringID), (short)(positionX + width / 2), (short)(positionY + 1), colour, 0, 0x121);
+            GUI_DrawText_Wrapper(String_Get_ByIndex(stringID), (short)(positionX + width / 2), (short)(positionY + 1), colour, 0, 0x121);
 
-			w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(stringID)[0]);
+			w.shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(stringID)[0]);
 
 			if (oldScreenID != Screen.NO0) return;
 
-			Gui.GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
-			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
-			Gui.GUI_Mouse_Show_InRegion();
+            GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
+            GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
+            GUI_Mouse_Show_InRegion();
 
-			Gfx.GFX_Screen_SetActive(Screen.NO0);
+            GFX_Screen_SetActive(Screen.NO0);
 		}
 
 		/*
@@ -777,15 +777,15 @@ namespace SharpDune.Gui
 			spriteID = 0;
 			percentDone = 0;
 
-			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(g_selectionPosition);
 			if (s == null) return;
 
-			Gui.GUI_UpdateProductionStringID();
+            GUI_UpdateProductionStringID();
 
 			oldScreenID = Screen.ACTIVE;
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+				oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 			}
 
 			buttonDown = w.state.hover2;
@@ -795,10 +795,10 @@ namespace SharpDune.Gui
 			width = w.width;
 			height = w.height;
 
-			Gui.GUI_DrawWiredRectangle((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width), (ushort)(positionY + height), 12);
-			Gui.GUI_DrawBorder(positionX, positionY, width, height, (ushort)(buttonDown ? 0 : 1), true);
+            GUI_DrawWiredRectangle((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width), (ushort)(positionY + height), 12);
+            GUI_DrawBorder(positionX, positionY, width, height, (ushort)(buttonDown ? 0 : 1), true);
 
-			switch ((Text)Gui.g_productionStringID)
+			switch ((Text)g_productionStringID)
 			{
 				case Text.STR_LAUNCH:
 					spriteID = 0x1E;
@@ -829,10 +829,10 @@ namespace SharpDune.Gui
 						ushort x, y;
 						byte[] sprite;
 
-						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[63], (short)(positionX + 37), (short)(positionY + 5), 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 2 : 0));
+                        GUI_DrawSprite(Screen.ACTIVE, g_sprites[63], (short)(positionX + 37), (short)(positionY + 5), 0, DRAWSPRITE_FLAG_REMAP, g_paletteMapping1, (short)(buttonDown ? 2 : 0));
 
-						sprite = Sprites.g_sprites[24];
-						spriteWidth = (ushort)(Sprites.Sprite_GetWidth(sprite) + 1);
+						sprite = g_sprites[24];
+						spriteWidth = (ushort)(Sprite_GetWidth(sprite) + 1);
 
 						si = g_table_structureInfo[s.objectType];
 
@@ -840,7 +840,7 @@ namespace SharpDune.Gui
 						{
 							for (x = 0; x < g_table_structure_layoutSize[si.layout].width; x++)
 							{
-								Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(positionX + x * spriteWidth + 38), (short)(positionY + y * spriteWidth + 6), 0, 0);
+                                GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(positionX + x * spriteWidth + 38), (short)(positionY + y * spriteWidth + 6), 0, 0);
 							}
 						}
 
@@ -856,9 +856,9 @@ namespace SharpDune.Gui
 					break;
 			}
 
-			if (spriteID != 0) Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)(positionX + 2), (short)(positionY + 2), 0, Gui.DRAWSPRITE_FLAG_REMAP, Gfx.g_paletteMapping1, (short)(buttonDown ? 1 : 0));
+			if (spriteID != 0) GUI_DrawSprite(Screen.ACTIVE, g_sprites[spriteID], (short)(positionX + 2), (short)(positionY + 2), 0, DRAWSPRITE_FLAG_REMAP, g_paletteMapping1, (short)(buttonDown ? 1 : 0));
 
-			if (Gui.g_productionStringID == (ushort)Text.STR_D_DONE)
+			if (g_productionStringID == (ushort)Text.STR_D_DONE)
 			{
 				ushort buildTime;
 				ushort timeLeft;
@@ -876,7 +876,7 @@ namespace SharpDune.Gui
 
 					if (s.o.linkedID == 0xFF) return;
 
-					ui = g_table_unitInfo[PoolUnit.Unit_Get_ByIndex(s.o.linkedID).o.type];
+					ui = g_table_unitInfo[Unit_Get_ByIndex(s.o.linkedID).o.type];
 					buildTime = ui.o.buildTime;
 				}
 				else
@@ -891,12 +891,12 @@ namespace SharpDune.Gui
 				percentDone = (ushort)(100 * timeLeft / buildTime);
 			}
 
-			if (Gui.g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE)
+			if (g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE)
 			{
 				percentDone = (ushort)(100 - s.upgradeTimeLeft);
 
-				Gui.GUI_DrawText_Wrapper(
-					CString.String_Get_ByIndex(Gui.g_productionStringID),
+                GUI_DrawText_Wrapper(
+                    String_Get_ByIndex(g_productionStringID),
 					(short)(positionX + 1),
 					(short)(positionY + height - 19),
 					(byte)(buttonDown ? 0xE : 0xF),
@@ -907,33 +907,33 @@ namespace SharpDune.Gui
 			}
 			else
 			{
-				Gui.GUI_DrawText_Wrapper(
-					CString.String_Get_ByIndex(Gui.g_productionStringID),
+                GUI_DrawText_Wrapper(
+                    String_Get_ByIndex(g_productionStringID),
 					(short)(positionX + width / 2),
 					(short)(positionY + height - 9),
-					(byte)((Gui.g_productionStringID == (ushort)Text.STR_PLACE_IT) ? 0xEF : (buttonDown ? 0xE : 0xF)),
+					(byte)((g_productionStringID == (ushort)Text.STR_PLACE_IT) ? 0xEF : (buttonDown ? 0xE : 0xF)),
 					0,
 					0x121,
 					percentDone
 				);
 			}
 
-			if (Gui.g_productionStringID == (ushort)Text.STR_D_DONE || Gui.g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE)
+			if (g_productionStringID == (ushort)Text.STR_D_DONE || g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE)
 			{
-				w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Text.STR_ON_HOLD)[0]);
+				w.shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(Text.STR_ON_HOLD)[0]);
 			}
 			else
 			{
-				w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(Gui.g_productionStringID)[0]);
+				w.shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(g_productionStringID)[0]);
 			}
 
 			if (oldScreenID != Screen.NO0) return;
 
-			Gui.GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
-			Gfx.GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
-			Gui.GUI_Mouse_Show_InRegion();
+            GUI_Mouse_Hide_InRegion((ushort)(positionX - 1), (ushort)(positionY - 1), (ushort)(positionX + width + 1), (ushort)(positionY + height + 1));
+            GFX_Screen_Copy2((short)(positionX - 1), (short)(positionY - 1), (short)(positionX - 1), (short)(positionY - 1), (short)(width + 2), (short)(height + 2), Screen.NO1, Screen.NO0, false);
+            GUI_Mouse_Show_InRegion();
 
-			Gfx.GFX_Screen_SetActive(Screen.NO0);
+            GFX_Screen_SetActive(Screen.NO0);
 		}
 
 		/*
@@ -951,17 +951,17 @@ namespace SharpDune.Gui
 
 			if (w == null) return;
 
-			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+			oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
-			positionX = (ushort)(w.offsetX + (CWidget.g_widgetProperties[w.parentID].xBase << 3));
-			positionY = (ushort)(w.offsetY + CWidget.g_widgetProperties[w.parentID].yBase);
+			positionX = (ushort)(w.offsetX + (g_widgetProperties[w.parentID].xBase << 3));
+			positionY = (ushort)(w.offsetY + g_widgetProperties[w.parentID].yBase);
 			width = w.width;
 			height = w.height;
 
-			CWidget.g_widgetProperties[19].xBase = (ushort)(positionX >> 3);
-			CWidget.g_widgetProperties[19].yBase = positionY;
-			CWidget.g_widgetProperties[19].width = (ushort)(width >> 3);
-			CWidget.g_widgetProperties[19].height = height;
+            g_widgetProperties[19].xBase = (ushort)(positionX >> 3);
+            g_widgetProperties[19].yBase = positionY;
+            g_widgetProperties[19].width = (ushort)(width >> 3);
+            g_widgetProperties[19].height = height;
 
 			state = (ushort)(w.state.selected ? 0 : 2);
 			colour = (byte)(w.state.hover2 ? 231 : 232);
@@ -970,21 +970,21 @@ namespace SharpDune.Gui
 
 			if (w.stringID == (ushort)Text.STR_CANCEL || w.stringID == (ushort)Text.STR_PREVIOUS || w.stringID == (ushort)Text.STR_YES || w.stringID == (ushort)Text.STR_NO)
 			{
-				Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex((short)w.stringID), (short)(positionX + (width / 2)), (short)(positionY + 2), colour, 0, 0x122);
+                GUI_DrawText_Wrapper(GUI_String_Get_ByIndex((short)w.stringID), (short)(positionX + (width / 2)), (short)(positionY + 2), colour, 0, 0x122);
 			}
 			else
 			{
-				Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex((short)w.stringID), (short)(positionX + 3), (short)(positionY + 2), colour, 0, 0x22);
+                GUI_DrawText_Wrapper(GUI_String_Get_ByIndex((short)w.stringID), (short)(positionX + 3), (short)(positionY + 2), colour, 0, 0x22);
 			}
 
 			if (oldScreenID == Screen.NO0)
 			{
-				Gui.GUI_Mouse_Hide_InRegion(positionX, positionY, (ushort)(positionX + width), (ushort)(positionY + height));
-				Gui.GUI_Screen_Copy((short)(positionX >> 3), (short)positionY, (short)(positionX >> 3), (short)positionY, (short)(width >> 3), (short)height, Screen.NO1, Screen.NO0);
-				Gui.GUI_Mouse_Show_InRegion();
+                GUI_Mouse_Hide_InRegion(positionX, positionY, (ushort)(positionX + width), (ushort)(positionY + height));
+                GUI_Screen_Copy((short)(positionX >> 3), (short)positionY, (short)(positionX >> 3), (short)positionY, (short)(width >> 3), (short)height, Screen.NO1, Screen.NO0);
+                GUI_Mouse_Show_InRegion();
 			}
 
-			Gfx.GFX_Screen_SetActive(oldScreenID);
+            GFX_Screen_SetActive(oldScreenID);
 		}
 
 		/*
@@ -1009,12 +1009,12 @@ namespace SharpDune.Gui
 			height = w.height;
 
 			positionX = (ushort)w.offsetX;
-			if (w.offsetX < 0) positionX += (ushort)(CWidget.g_widgetProperties[w.parentID].width << 3);
-			positionX += (ushort)(CWidget.g_widgetProperties[w.parentID].xBase << 3);
+			if (w.offsetX < 0) positionX += (ushort)(g_widgetProperties[w.parentID].width << 3);
+			positionX += (ushort)(g_widgetProperties[w.parentID].xBase << 3);
 
 			positionY = (ushort)w.offsetY;
-			if (w.offsetY < 0) positionY += CWidget.g_widgetProperties[w.parentID].height;
-			positionY += CWidget.g_widgetProperties[w.parentID].yBase;
+			if (w.offsetY < 0) positionY += g_widgetProperties[w.parentID].height;
+			positionY += g_widgetProperties[w.parentID].yBase;
 
 			if (width > height)
 			{
@@ -1031,20 +1031,20 @@ namespace SharpDune.Gui
 				scrollBottom = (ushort)(scrollTop + scrollbar.size - 1);
 			}
 
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Hide_InRegion(positionX, positionY, (ushort)(positionX + width - 1), (ushort)(positionY + height - 1));
+                GUI_Mouse_Hide_InRegion(positionX, positionY, (ushort)(positionX + width - 1), (ushort)(positionY + height - 1));
 			}
 
-			/* Draw background */
-			Gui.GUI_DrawFilledRectangle((short)positionX, (short)positionY, (short)(positionX + width - 1), (short)(positionY + height - 1), w.bgColourNormal);
+            /* Draw background */
+            GUI_DrawFilledRectangle((short)positionX, (short)positionY, (short)(positionX + width - 1), (short)(positionY + height - 1), w.bgColourNormal);
 
-			/* Draw where we currently are */
-			Gui.GUI_DrawFilledRectangle((short)(positionX + scrollLeft), (short)(positionY + scrollTop), (short)(positionX + scrollRight), (short)(positionY + scrollBottom), (scrollbar.pressed == 0) ? w.fgColourNormal : w.fgColourSelected);
+            /* Draw where we currently are */
+            GUI_DrawFilledRectangle((short)(positionX + scrollLeft), (short)(positionY + scrollTop), (short)(positionX + scrollRight), (short)(positionY + scrollBottom), (scrollbar.pressed == 0) ? w.fgColourNormal : w.fgColourSelected);
 
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Show_InRegion();
+                GUI_Mouse_Show_InRegion();
 			}
 
 			/* Call custom callback function if set */

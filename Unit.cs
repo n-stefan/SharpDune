@@ -271,11 +271,11 @@ namespace SharpDune
 		{
 			Tile tile;
 
-			if (CTile.Tile_IsOutOfMap(packed)) return null;
+			if (Tile_IsOutOfMap(packed)) return null;
 
-			tile = Map.g_map[packed];
+			tile = g_map[packed];
 			if (!tile.hasUnit) return null;
-			return PoolUnit.Unit_Get_ByIndex((ushort)(tile.index - 1));
+			return Unit_Get_ByIndex((ushort)(tile.index - 1));
 		}
 
 		/*
@@ -303,7 +303,7 @@ namespace SharpDune
 			{
 				g_unitSelected = null;
 
-				Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+                GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 				return;
 			}
 
@@ -313,10 +313,10 @@ namespace SharpDune
 
 				ui = g_table_unitInfo[unit.o.type];
 
-				/* Plays the 'reporting' sound file. */
-				Sound.Sound_StartSound((ushort)(ui.movementType == (ushort)MovementType.MOVEMENT_FOOT ? 18 : 19));
+                /* Plays the 'reporting' sound file. */
+                Sound_StartSound((ushort)(ui.movementType == (ushort)MovementType.MOVEMENT_FOOT ? 18 : 19));
 
-				Gui.Gui.GUI_DisplayHint(ui.o.hintStringID, ui.o.spriteID);
+                GUI_DisplayHint(ui.o.hintStringID, ui.o.spriteID);
 			}
 
 			if (g_unitSelected != null)
@@ -325,19 +325,19 @@ namespace SharpDune
 
 				g_unitSelected = unit;
 
-				WidgetDraw.GUI_Widget_ActionPanel_Draw(true);
+                GUI_Widget_ActionPanel_Draw(true);
 			}
 			else
 			{
 				Unit_DisplayStatusText(unit);
 				g_unitSelected = unit;
 
-				Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
+                GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
 			}
 
 			Unit_UpdateMap(2, g_unitSelected);
 
-			Map.Map_SetSelectionObjectPosition(0xFFFF);
+            Map_SetSelectionObjectPosition(0xFFFF);
 		}
 
 		/*
@@ -365,13 +365,13 @@ namespace SharpDune
 					g_dirtyAirUnitCount++;
 				}
 
-				Map.Map_UpdateAround(g_table_unitInfo[unit.o.type].dimension, unit.o.position, unit, Map.g_functions[0][type]);
+                Map_UpdateAround(g_table_unitInfo[unit.o.type].dimension, unit.o.position, unit, g_functions[0][type]);
 				return;
 			}
 
 			position = unit.o.position;
-			packed = CTile.Tile_PackTile(position);
-			t = Map.g_map[packed];
+			packed = Tile_PackTile(position);
+			t = g_map[packed];
 
 			if (t.isUnveiled || unit.o.houseID == (byte)g_playerHouseID)
 			{
@@ -384,12 +384,12 @@ namespace SharpDune
 
 			if (type == 1)
 			{
-				if (House_AreAllied(Unit_GetHouseID(unit), (byte)g_playerHouseID) && !Map.Map_IsPositionUnveiled(packed) && unit.o.type != (byte)UnitType.UNIT_SANDWORM)
+				if (House_AreAllied(Unit_GetHouseID(unit), (byte)g_playerHouseID) && !Map_IsPositionUnveiled(packed) && unit.o.type != (byte)UnitType.UNIT_SANDWORM)
 				{
-					CTile.Tile_RemoveFogInRadius(position, 1);
+                    Tile_RemoveFogInRadius(position, 1);
 				}
 
-				if (CObject.Object_GetByPackedTile(packed) == null)
+				if (Object_GetByPackedTile(packed) == null)
 				{
 					t.index = (ushort)(unit.o.index + 1);
 					t.hasUnit = true;
@@ -406,13 +406,13 @@ namespace SharpDune
 
 			if (unit.o.flags.bulletIsBig || unit.o.flags.isSmoking || (unit.o.type == (byte)UnitType.UNIT_HARVESTER && unit.actionID == (byte)ActionType.ACTION_HARVEST)) radius = 33;
 
-			Map.Map_UpdateAround(radius, position, unit, Map.g_functions[1][type]);
+            Map_UpdateAround(radius, position, unit, g_functions[1][type]);
 
 			if (unit.o.type != (byte)UnitType.UNIT_HARVESTER) return;
 
-			/* The harvester is the only 2x1 unit, so also update tiles in behind us. */
-			Map.Map_UpdateAround(radius, unit.targetPreLast, unit, Map.g_functions[1][type]);
-			Map.Map_UpdateAround(radius, unit.targetLast, unit, Map.g_functions[1][type]);
+            /* The harvester is the only 2x1 unit, so also update tiles in behind us. */
+            Map_UpdateAround(radius, unit.targetPreLast, unit, g_functions[1][type]);
+            Map_UpdateAround(radius, unit.targetLast, unit, g_functions[1][type]);
 		}
 
 		/*
@@ -449,18 +449,18 @@ namespace SharpDune
 
 			if (unit.o.type == (byte)UnitType.UNIT_SANDWORM)
 			{
-				buffer = CString.String_Get_ByIndex(ui.o.stringID_abbrev); //snprintf(buffer, sizeof(buffer), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
+				buffer = String_Get_ByIndex(ui.o.stringID_abbrev); //snprintf(buffer, sizeof(buffer), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 			}
 			else
 			{
 				var houseName = g_table_houseInfo[Unit_GetHouseID(unit)].name;
-				if (Config.g_config.language == (byte)Language.FRENCH)
+				if (g_config.language == (byte)Language.FRENCH)
 				{
-					buffer = $"{CString.String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
+					buffer = $"{String_Get_ByIndex(ui.o.stringID_abbrev)} {houseName}"; //snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 				}
 				else
 				{
-					buffer = $"{houseName} {CString.String_Get_ByIndex(ui.o.stringID_abbrev)}"; //snprintf(buffer, sizeof(buffer), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
+					buffer = $"{houseName} {String_Get_ByIndex(ui.o.stringID_abbrev)}"; //snprintf(buffer, sizeof(buffer), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
 				}
 			}
 
@@ -472,12 +472,12 @@ namespace SharpDune
 
 				if (unit.actionID == (byte)ActionType.ACTION_HARVEST && unit.amount < 100)
 				{
-					var type = Map.Map_GetLandscapeType(CTile.Tile_PackTile(unit.o.position));
+					var type = Map_GetLandscapeType(Tile_PackTile(unit.o.position));
 
 					if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE) stringID = (ushort)Text.STR_IS_D_PERCENT_FULL_AND_HARVESTING;
 				}
 
-				if (unit.actionID == (byte)ActionType.ACTION_MOVE && Tools.Tools_Index_GetStructure(unit.targetMove) != null)
+				if (unit.actionID == (byte)ActionType.ACTION_MOVE && Tools_Index_GetStructure(unit.targetMove) != null)
 				{
 					stringID = (ushort)Text.STR_IS_D_PERCENT_FULL_AND_HEADING_BACK;
 				}
@@ -495,7 +495,7 @@ namespace SharpDune
 					//size_t len = strlen(buffer);
 					//char* s = buffer + len;
 
-					buffer = $"{buffer}{string.Format(Culture, CString.String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
+					buffer = $"{buffer}{string.Format(Culture, String_Get_ByIndex(stringID), unit.amount)}"; //snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
 				}
 			}
 
@@ -503,9 +503,9 @@ namespace SharpDune
 			//size_t len = strlen(buffer);
 			//if (len < sizeof(buffer) - 1) {
 			buffer = $"{buffer}.";
-			//buffer[len + 1] = '\0';
-			//}
-			Gui.Gui.GUI_DisplayText(buffer, 2);
+            //buffer[len + 1] = '\0';
+            //}
+            GUI_DisplayText(buffer, 2);
 		}
 
 		/*
@@ -516,24 +516,24 @@ namespace SharpDune
 		 */
 		internal static void Unit_RemoveFromTile(Unit unit, ushort packed)
 		{
-			var t = Map.g_map[packed];
+			var t = g_map[packed];
 
-			if (t.hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != CTile.Tile_PackTile(unit.currentDestination) || unit.o.flags.bulletIsBig))
+			if (t.hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != Tile_PackTile(unit.currentDestination) || unit.o.flags.bulletIsBig))
 			{
 				t.index = 0;
 				t.hasUnit = false;
 			}
 
-			Map.Map_MarkTileDirty(packed);
+            Map_MarkTileDirty(packed);
 
-			Map.Map_Update(packed, 0, false);
+            Map_Update(packed, 0, false);
 		}
 
 		internal static void Unit_AddToTile(Unit unit, ushort packed)
 		{
-			Map.Map_UnveilTile(packed, Unit_GetHouseID(unit));
-			Map.Map_MarkTileDirty(packed);
-			Map.Map_Update(packed, 1, false);
+            Map_UnveilTile(packed, Unit_GetHouseID(unit));
+            Map_MarkTileDirty(packed);
+            Map_Update(packed, 1, false);
 		}
 
 		/*
@@ -551,9 +551,9 @@ namespace SharpDune
 
 			if (unit == null) return;
 
-			hp = PoolHouse.House_Get_ByIndex((byte)g_playerHouseID);
+			hp = House_Get_ByIndex((byte)g_playerHouseID);
 			ui = g_table_unitInfo[unit.o.type];
-			h = PoolHouse.House_Get_ByIndex(houseID);
+			h = House_Get_ByIndex(houseID);
 			houseIDBit = (ushort)(1 << houseID);
 
 			if (houseID == (byte)HouseType.HOUSE_ATREIDES && unit.o.type != (byte)UnitType.UNIT_SANDWORM)
@@ -589,7 +589,7 @@ namespace SharpDune
 				if (!House_AreAllied(houseID, Unit_GetHouseID(unit)))
 				{
 					h.flags.isAIActive = true;
-					var t = PoolHouse.House_Get_ByIndex(Unit_GetHouseID(unit));
+					var t = House_Get_ByIndex(Unit_GetHouseID(unit));
 					t.flags.isAIActive = true;
 				}
 			}
@@ -602,11 +602,11 @@ namespace SharpDune
 					{
 						if (g_musicInBattle == 0) g_musicInBattle = 1;
 
-						Sound.Sound_Output_Feedback(37);
+                        Sound_Output_Feedback(37);
 
-						if (Config.g_config.language == (byte)Language.ENGLISH)
+						if (g_config.language == (byte)Language.ENGLISH)
 						{
-							Gui.Gui.GUI_DisplayHint((ushort)Text.STR_WARNING_SANDWORMS_SHAIHULUD_ROAM_DUNE_DEVOURING_ANYTHING_ON_THE_SAND, 105);
+                            GUI_DisplayHint((ushort)Text.STR_WARNING_SANDWORMS_SHAIHULUD_ROAM_DUNE_DEVOURING_ANYTHING_ON_THE_SAND, 105);
 						}
 
 						hp.timerSandwormAttack = 8;
@@ -622,7 +622,7 @@ namespace SharpDune
 
 						if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR)
 						{
-							Sound.Sound_Output_Feedback(12);
+                            Sound_Output_Feedback(12);
 						}
 						else
 						{
@@ -636,28 +636,28 @@ namespace SharpDune
 								find.index = 0xFFFF;
 								find.type = (ushort)StructureType.STRUCTURE_CONSTRUCTION_YARD;
 
-								s = PoolStructure.Structure_Find(find);
+								s = Structure_Find(find);
 								if (s != null)
 								{
-									feedbackID = (ushort)(((CTile.Orientation_Orientation256ToOrientation8((byte)CTile.Tile_GetDirection(s.o.position, unit.o.position)) + 1) & 7) / 2 + 2);
+									feedbackID = (ushort)(((Orientation_Orientation256ToOrientation8((byte)Tile_GetDirection(s.o.position, unit.o.position)) + 1) & 7) / 2 + 2);
 								}
 								else
 								{
 									feedbackID = 1;
 								}
 
-								Sound.Sound_Output_Feedback(feedbackID);
+                                Sound_Output_Feedback(feedbackID);
 							}
 							else
 							{
-								Sound.Sound_Output_Feedback((ushort)(unit.o.houseID + 6));
+                                Sound_Output_Feedback((ushort)(unit.o.houseID + 6));
 							}
 						}
 
 						hp.timerUnitAttack = 8;
 					}
 
-					t = PoolTeam.Team_Get_ByIndex(unit.team);
+					t = Team_Get_ByIndex(unit.team);
 					if (t != null) t.script.variables[4] = 1;
 				}
 			}
@@ -695,7 +695,7 @@ namespace SharpDune
 			{
 				House h;
 
-				h = PoolHouse.House_Find(find);
+				h = House_Find(find);
 				if (h == null) break;
 
 				if ((unit.o.seenByHouses & (1 << h.index)) == 0) continue;
@@ -785,7 +785,7 @@ namespace SharpDune
 				Unit u;
 				ushort priority;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 
 				if (u == null) break;
 
@@ -819,8 +819,8 @@ namespace SharpDune
 			ushort distance;
 
 			if (unit == null || target == null) return 0;
-			if (!Map.Map_IsPositionUnveiled(CTile.Tile_PackTile(target.o.position))) return 0;
-			if (!g_table_landscapeInfo[Map.Map_GetLandscapeType(CTile.Tile_PackTile(target.o.position))].isSand) return 0;
+			if (!Map_IsPositionUnveiled(Tile_PackTile(target.o.position))) return 0;
+			if (!g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(target.o.position))].isSand) return 0;
 
 			switch ((MovementType)g_table_unitInfo[target.o.type].movementType)
 			{
@@ -833,7 +833,7 @@ namespace SharpDune
 
 			if (target.speed != 0 || target.fireDelay != 0) res *= 4;
 
-			distance = CTile.Tile_GetDistanceRoundedUp(unit.o.position, target.o.position);
+			distance = Tile_GetDistanceRoundedUp(unit.o.position, target.o.position);
 
 			if (distance != 0 && res != 0) res /= distance;
 			if (distance < 2) res *= 2;
@@ -866,9 +866,9 @@ namespace SharpDune
 			Unit_SetOrientation(unit, orientation, true, 0);
 			Unit_SetOrientation(unit, orientation, false, 1);
 
-			position = CTile.Tile_MoveByOrientation(unit.o.position, (byte)orientation);
+			position = Tile_MoveByOrientation(unit.o.position, (byte)orientation);
 
-			packed = CTile.Tile_PackTile(position);
+			packed = Tile_PackTile(position);
 
 			unit.distanceToDestination = 0x7FFF;
 
@@ -876,7 +876,7 @@ namespace SharpDune
 
 			if (score > 255 || score == -1) return false;
 
-			type = Map.Map_GetLandscapeType(packed);
+			type = Map_GetLandscapeType(packed);
 			if (type == (ushort)LandscapeType.LST_STRUCTURE) type = (ushort)LandscapeType.LST_CONCRETE_SLAB;
 
 			speed = g_table_landscapeInfo[type].movementSpeed[ui.movementType];
@@ -938,12 +938,12 @@ namespace SharpDune
 
 			ui = g_table_unitInfo[unit.o.type];
 
-			if (!Map.Map_IsValidPosition(packed) && ui.movementType != (ushort)MovementType.MOVEMENT_WINGER) return 256;
+			if (!Map_IsValidPosition(packed) && ui.movementType != (ushort)MovementType.MOVEMENT_WINGER) return 256;
 
 			u = Unit_Get_ByPackedTile(packed);
 			if (u != null && u != unit && unit.o.type != (byte)UnitType.UNIT_SANDWORM)
 			{
-				if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR && unit.targetMove == Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT)) return 0;
+				if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR && unit.targetMove == Tools_Index_Encode(u.o.index, IndexType.IT_UNIT)) return 0;
 
 				if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return 256;
 				if (g_table_unitInfo[u.o.type].movementType != (ushort)MovementType.MOVEMENT_FOOT || (ui.movementType != (ushort)MovementType.MOVEMENT_TRACKED && ui.movementType != (ushort)MovementType.MOVEMENT_HARVESTER)) return 256;
@@ -957,7 +957,7 @@ namespace SharpDune
 				return (short)-res;
 			}
 
-			type = Map.Map_GetLandscapeType(packed);
+			type = Map_GetLandscapeType(packed);
 
 			if (g_dune2_enhanced)
 			{
@@ -970,7 +970,7 @@ namespace SharpDune
 
 			if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR && type == (ushort)LandscapeType.LST_WALL)
 			{
-				if (!House_AreAllied(Map.g_map[packed].houseID, Unit_GetHouseID(unit))) res = 255;
+				if (!House_AreAllied(g_map[packed].houseID, Unit_GetHouseID(unit))) res = 255;
 			}
 
 			if (res == 0) return 256;
@@ -999,32 +999,32 @@ namespace SharpDune
 			h.unitCountEnemy = 0;
 			h.unitCountAllied = 0;
 
-			for (i = 0; i < PoolUnit.g_unitFindCount - 1; i++)
+			for (i = 0; i < g_unitFindCount - 1; i++)
 			{
 				Unit u1;
 				Unit u2;
 				ushort y1;
 				ushort y2;
 
-				u1 = PoolUnit.g_unitFindArray[i];
-				u2 = PoolUnit.g_unitFindArray[i + 1];
-				y1 = CTile.Tile_GetY(u1.o.position);
-				y2 = CTile.Tile_GetY(u2.o.position);
+				u1 = g_unitFindArray[i];
+				u2 = g_unitFindArray[i + 1];
+				y1 = Tile_GetY(u1.o.position);
+				y2 = Tile_GetY(u2.o.position);
 				if (g_table_unitInfo[u1.o.type].movementType == (ushort)MovementType.MOVEMENT_FOOT) y1 -= 0x100;
 				if (g_table_unitInfo[u2.o.type].movementType == (ushort)MovementType.MOVEMENT_FOOT) y2 -= 0x100;
 
 				if ((short)y1 > (short)y2)
 				{
-					PoolUnit.g_unitFindArray[i] = u2;
-					PoolUnit.g_unitFindArray[i + 1] = u1;
+                    g_unitFindArray[i] = u2;
+                    g_unitFindArray[i + 1] = u1;
 				}
 			}
 
-			for (i = 0; i < PoolUnit.g_unitFindCount; i++)
+			for (i = 0; i < g_unitFindCount; i++)
 			{
 				Unit u;
 
-				u = PoolUnit.g_unitFindArray[i];
+				u = g_unitFindArray[i];
 				if ((u.o.seenByHouses & (1 << (byte)g_playerHouseID)) != 0 && !u.o.flags.isNotOnMap)
 				{
 					if (House_AreAllied(u.o.houseID, (byte)g_playerHouseID))
@@ -1061,7 +1061,7 @@ namespace SharpDune
 
             Script_Reset(u.o.script, g_scriptUnit);
 
-			PoolUnit.Unit_Free(u);
+            Unit_Free(u);
 		}
 
 		/*
@@ -1074,7 +1074,7 @@ namespace SharpDune
 		{
 			if (u == null) return null;
 			if (u.team == 0) return null;
-			return PoolTeam.Team_Get_ByIndex((ushort)(u.team - 1));
+			return Team_Get_ByIndex((ushort)(u.team - 1));
 		}
 
 		/*
@@ -1085,9 +1085,9 @@ namespace SharpDune
 		static void Unit_UntargetMe(Unit unit)
 		{
 			var find = new PoolFindStruct();
-			var encoded = Tools.Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT);
+			var encoded = Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT);
 
-			CObject.Object_Script_Variable4_Clear(unit.o);
+            Object_Script_Variable4_Clear(unit.o);
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.type = 0xFFFF;
@@ -1097,12 +1097,12 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 				if (u == null) break;
 
 				if (u.targetMove == encoded) u.targetMove = 0;
 				if (u.targetAttack == encoded) u.targetAttack = 0;
-				if (u.o.script.variables[4] == encoded) CObject.Object_Script_Variable4_Clear(u.o);
+				if (u.o.script.variables[4] == encoded) Object_Script_Variable4_Clear(u.o);
 			}
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1113,7 +1113,7 @@ namespace SharpDune
 			{
 				Structure s;
 
-				s = PoolStructure.Structure_Find(find);
+				s = Structure_Find(find);
 				if (s == null) break;
 
 				if (s.o.type != (byte)StructureType.STRUCTURE_TURRET && s.o.type != (byte)StructureType.STRUCTURE_ROCKET_TURRET) continue;
@@ -1130,7 +1130,7 @@ namespace SharpDune
 			{
 				Team t;
 
-				t = PoolTeam.Team_Find(find);
+				t = Team_Find(find);
 				if (t == null) break;
 
 				if (t.target == encoded) t.target = 0;
@@ -1150,7 +1150,7 @@ namespace SharpDune
 			if (u == null) return 0;
 			if (u.team == 0) return 0;
 
-			t = PoolTeam.Team_Get_ByIndex((ushort)(u.team - 1));
+			t = Team_Get_ByIndex((ushort)(u.team - 1));
 
 			t.members--;
 			u.team = 0;
@@ -1197,17 +1197,17 @@ namespace SharpDune
 			{
 				Unit_RemovePlayer(unit);
 
-				if (unit.o.type == (byte)UnitType.UNIT_HARVESTER) Map.Map_FillCircleWithSpice(CTile.Tile_PackTile(unit.o.position), (ushort)(unit.amount / 32));
+				if (unit.o.type == (byte)UnitType.UNIT_HARVESTER) Map_FillCircleWithSpice(Tile_PackTile(unit.o.position), (ushort)(unit.amount / 32));
 
 				if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR)
 				{
-					Sound.Sound_Output_Feedback(20);
+                    Sound_Output_Feedback(20);
 				}
 				else
 				{
 					if (!ui.o.flags.noMessageOnDeath && alive)
 					{
-						Sound.Sound_Output_Feedback((ushort)((houseID == (byte)g_playerHouseID || g_campaignID > 3) ? houseID + 14 : 13));
+                        Sound_Output_Feedback((ushort)((houseID == (byte)g_playerHouseID || g_campaignID > 3) ? houseID + 14 : 13));
 					}
 				}
 
@@ -1217,7 +1217,7 @@ namespace SharpDune
 
 			if (range != 0)
 			{
-				Map.Map_MakeExplosion((ushort)((damage < 25) ? ExplosionType.EXPLOSION_IMPACT_SMALL : ExplosionType.EXPLOSION_IMPACT_MEDIUM), unit.o.position, 0, 0);
+                Map_MakeExplosion((ushort)((damage < 25) ? ExplosionType.EXPLOSION_IMPACT_SMALL : ExplosionType.EXPLOSION_IMPACT_MEDIUM), unit.o.position, 0, 0);
 			}
 
 			if (houseID != (byte)g_playerHouseID && unit.actionID == (byte)ActionType.ACTION_AMBUSH && unit.o.type != (byte)UnitType.UNIT_HARVESTER)
@@ -1240,7 +1240,7 @@ namespace SharpDune
 
 				Unit_UpdateMap(2, unit);
 
-				if (Tools.Tools_Random_256() < g_table_houseInfo[unit.o.houseID].toughness)
+				if (Tools_Random_256() < g_table_houseInfo[unit.o.houseID].toughness)
 				{
 					Unit_SetAction(unit, ActionType.ACTION_RETREAT);
 				}
@@ -1276,7 +1276,7 @@ namespace SharpDune
 				g_unitActive = null;
                 g_activeAction = 0xFFFF;
 
-				Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+                GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 			}
 
 			Unit_Select(null);
@@ -1340,20 +1340,20 @@ namespace SharpDune
 		 */
 		internal static void Unit_SetTarget(Unit unit, ushort encoded)
 		{
-			if (unit == null || !Tools.Tools_Index_IsValid(encoded)) return;
+			if (unit == null || !Tools_Index_IsValid(encoded)) return;
 			if (unit.targetAttack == encoded) return;
 
-			if (Tools.Tools_Index_GetType(encoded) == IndexType.IT_TILE)
+			if (Tools_Index_GetType(encoded) == IndexType.IT_TILE)
 			{
 				ushort packed;
 				Unit u;
 
-				packed = Tools.Tools_Index_Decode(encoded);
+				packed = Tools_Index_Decode(encoded);
 
 				u = Unit_Get_ByPackedTile(packed);
 				if (u != null)
 				{
-					encoded = Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
+					encoded = Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
 				}
 				else
 				{
@@ -1362,14 +1362,14 @@ namespace SharpDune
 					s = Structure_Get_ByPackedTile(packed);
 					if (s != null)
 					{
-						encoded = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+						encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 					}
 				}
 			}
 
-			if (Tools.Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT) == encoded)
+			if (Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT) == encoded)
 			{
-				encoded = Tools.Tools_Index_Encode(CTile.Tile_PackTile(unit.o.position), IndexType.IT_TILE);
+				encoded = Tools_Index_Encode(Tile_PackTile(unit.o.position), IndexType.IT_TILE);
 			}
 
 			unit.targetAttack = encoded;
@@ -1417,7 +1417,7 @@ namespace SharpDune
 
 			if (fogUncoverRadius == 0) return;
 
-			CTile.Tile_RemoveFogInRadius(unit.o.position, fogUncoverRadius);
+            Tile_RemoveFogInRadius(unit.o.position, fogUncoverRadius);
 		}
 
 		/*
@@ -1436,46 +1436,46 @@ namespace SharpDune
 
 			if (g_debugScenario) return;
 
-			if (s_tickUnitMovement <= Timer.g_timerGame)
+			if (s_tickUnitMovement <= g_timerGame)
 			{
 				tickMovement = true;
-				s_tickUnitMovement = Timer.g_timerGame + 3;
+				s_tickUnitMovement = g_timerGame + 3;
 			}
 
-			if (s_tickUnitRotation <= Timer.g_timerGame)
+			if (s_tickUnitRotation <= g_timerGame)
 			{
 				tickRotation = true;
-				s_tickUnitRotation = Timer.g_timerGame + Tools.Tools_AdjustToGameSpeed(4, 2, 8, true);
+				s_tickUnitRotation = g_timerGame + Tools_AdjustToGameSpeed(4, 2, 8, true);
 			}
 
-			if (s_tickUnitBlinking <= Timer.g_timerGame)
+			if (s_tickUnitBlinking <= g_timerGame)
 			{
 				tickBlinking = true;
-				s_tickUnitBlinking = Timer.g_timerGame + 3;
+				s_tickUnitBlinking = g_timerGame + 3;
 			}
 
-			if (s_tickUnitUnknown4 <= Timer.g_timerGame)
+			if (s_tickUnitUnknown4 <= g_timerGame)
 			{
 				tickUnknown4 = true;
-				s_tickUnitUnknown4 = Timer.g_timerGame + 20;
+				s_tickUnitUnknown4 = g_timerGame + 20;
 			}
 
-			if (s_tickUnitScript <= Timer.g_timerGame)
+			if (s_tickUnitScript <= g_timerGame)
 			{
 				tickScript = true;
-				s_tickUnitScript = Timer.g_timerGame + 5;
+				s_tickUnitScript = g_timerGame + 5;
 			}
 
-			if (s_tickUnitUnknown5 <= Timer.g_timerGame)
+			if (s_tickUnitUnknown5 <= g_timerGame)
 			{
 				tickUnknown5 = true;
-				s_tickUnitUnknown5 = Timer.g_timerGame + 5;
+				s_tickUnitUnknown5 = g_timerGame + 5;
 			}
 
-			if (s_tickUnitDeviation <= Timer.g_timerGame)
+			if (s_tickUnitDeviation <= g_timerGame)
 			{
 				tickDeviation = true;
-				s_tickUnitDeviation = Timer.g_timerGame + 60;
+				s_tickUnitDeviation = g_timerGame + 60;
 			}
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1487,7 +1487,7 @@ namespace SharpDune
 				UnitInfo ui;
 				Unit u;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 				if (u == null) break;
 
 				ui = g_table_unitInfo[u.o.type];
@@ -1503,9 +1503,9 @@ namespace SharpDune
 				{
 					tile32 tile;
 
-					tile = Tools.Tools_Index_GetTile(u.targetAttack);
+					tile = Tools_Index_GetTile(u.targetAttack);
 
-					Unit_SetOrientation(u, CTile.Tile_GetDirection(u.o.position, tile), false, 1);
+					Unit_SetOrientation(u, Tile_GetDirection(u.o.position, tile), false, 1);
 				}
 
 				if (tickMovement)
@@ -1520,12 +1520,12 @@ namespace SharpDune
 
 							tile = u.currentDestination;
 
-							if (Tools.Tools_Index_GetType(u.targetAttack) == IndexType.IT_UNIT && g_table_unitInfo[Tools.Tools_Index_GetUnit(u.targetAttack).o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER)
+							if (Tools_Index_GetType(u.targetAttack) == IndexType.IT_UNIT && g_table_unitInfo[Tools_Index_GetUnit(u.targetAttack).o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER)
 							{
-								tile = Tools.Tools_Index_GetTile(u.targetAttack);
+								tile = Tools_Index_GetTile(u.targetAttack);
 							}
 
-							Unit_SetOrientation(u, CTile.Tile_GetDirection(u.o.position, tile), false, 0);
+							Unit_SetOrientation(u, Tile_GetDirection(u.o.position, tile), false, 0);
 						}
 
 						u.fireDelay--;
@@ -1555,7 +1555,7 @@ namespace SharpDune
 
 				if (tickDeviation) Unit_Deviation_Decrease(u, 1);
 
-				if (ui.movementType != (ushort)MovementType.MOVEMENT_WINGER && CObject.Object_GetByPackedTile(CTile.Tile_PackTile(u.o.position)) == null) Unit_UpdateMap(1, u);
+				if (ui.movementType != (ushort)MovementType.MOVEMENT_WINGER && Object_GetByPackedTile(Tile_PackTile(u.o.position)) == null) Unit_UpdateMap(1, u);
 
 				if (tickUnknown5)
 				{
@@ -1628,7 +1628,7 @@ namespace SharpDune
 						if (Script_IsLoaded(u.o.script))
 						{
 							var opcodesLeft = SCRIPT_UNIT_OPCODES_PER_TICK + 2;
-							if (!ui.o.flags.scriptNoSlowdown && !Map.Map_IsPositionInViewport(u.o.position, out _, out _))
+							if (!ui.o.flags.scriptNoSlowdown && !Map_IsPositionInViewport(u.o.position, out _, out _))
 							{
 								opcodesLeft = 3;
 							}
@@ -1708,7 +1708,7 @@ namespace SharpDune
 			ui = g_table_unitInfo[u.o.type];
 			u.o.flags.isNotOnMap = false;
 
-			u.o.position = CTile.Tile_Center(position);
+			u.o.position = Tile_Center(position);
 
 			if (u.originEncoded == 0) Unit_FindClosestRefinery(u);
 
@@ -1725,7 +1725,7 @@ namespace SharpDune
 			u.targetMove = 0;
 			u.targetAttack = 0;
 
-			if (Map.g_map[CTile.Tile_PackTile(u.o.position)].isUnveiled)
+			if (g_map[Tile_PackTile(u.o.position)].isUnveiled)
 			{
 				/* A new unit being delivered fresh from the factory; force a seenByHouses
 				 *  update and add it to the statistics etc. */
@@ -1771,7 +1771,7 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 				if (u == null) break;
 				if (u.o.linkedID != 0xFF) continue;
 				if (u.targetMove != 0) continue;
@@ -1785,7 +1785,7 @@ namespace SharpDune
                 g_validateStrictIfZero++;
 				position.x = 0;
 				position.y = 0;
-				unit = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, 96);
+				unit = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, 96);
                 g_validateStrictIfZero--;
 
 				if (unit != null) unit.o.flags.byScenario = true;
@@ -1795,7 +1795,7 @@ namespace SharpDune
 			{
 				unit.targetMove = target;
 
-				CObject.Object_Script_Variable4_Set(unit.o, target);
+                Object_Script_Variable4_Set(unit.o, target);
 			}
 
 			return unit;
@@ -1820,7 +1820,7 @@ namespace SharpDune
 			if (typeID >= (byte)UnitType.UNIT_MAX) return null;
 
 			ui = g_table_unitInfo[typeID];
-			u = PoolUnit.Unit_Allocate(index, typeID, houseID);
+			u = Unit_Allocate(index, typeID, houseID);
 			if (u == null) return null;
 
 			u.o.houseID = houseID;
@@ -1863,7 +1863,7 @@ namespace SharpDune
 
 			if (ui.movementType == (ushort)MovementType.MOVEMENT_TRACKED)
 			{
-				if (Tools.Tools_Random_256() < g_table_houseInfo[houseID].degradingChance)
+				if (Tools_Random_256() < g_table_houseInfo[houseID].degradingChance)
 				{
 					u.o.flags.degrades = true;
 				}
@@ -1877,7 +1877,7 @@ namespace SharpDune
 			{
 				if ((position.x != 0xFFFF || position.y != 0xFFFF) && Unit_IsTileOccupied(u))
 				{
-					PoolUnit.Unit_Free(u);
+                    Unit_Free(u);
 					return null;
 				}
 			}
@@ -1914,7 +1914,7 @@ namespace SharpDune
 
 			if (unit.o.type != (byte)UnitType.UNIT_HARVESTER)
 			{
-				unit.originEncoded = Tools.Tools_Index_Encode(CTile.Tile_PackTile(unit.o.position), IndexType.IT_TILE);
+				unit.originEncoded = Tools_Index_Encode(Tile_PackTile(unit.o.position), IndexType.IT_TILE);
 				return res;
 			}
 
@@ -1924,10 +1924,10 @@ namespace SharpDune
 
 			while (true)
 			{
-				s2 = PoolStructure.Structure_Find(find);
+				s2 = Structure_Find(find);
 				if (s2 == null) break;
 				if (s2.state != (short)StructureState.STRUCTURE_STATE_BUSY) continue;
-				d = CTile.Tile_GetDistance(unit.o.position, s2.o.position);
+				d = Tile_GetDistance(unit.o.position, s2.o.position);
 				if (mind != 0 && d >= mind) continue;
 				mind = d;
 				s = s2;
@@ -1941,16 +1941,16 @@ namespace SharpDune
 
 				while (true)
 				{
-					s2 = PoolStructure.Structure_Find(find);
+					s2 = Structure_Find(find);
 					if (s2 == null) break;
-					d = CTile.Tile_GetDistance(unit.o.position, s2.o.position);
+					d = Tile_GetDistance(unit.o.position, s2.o.position);
 					if (mind != 0 && d >= mind) continue;
 					mind = d;
 					s = s2;
 				}
 			}
 
-			if (s != null) unit.originEncoded = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+			if (s != null) unit.originEncoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
 			return res;
 		}
@@ -1971,9 +1971,9 @@ namespace SharpDune
 			if (unit == null) return true;
 
 			ui = g_table_unitInfo[unit.o.type];
-			packed = CTile.Tile_PackTile(unit.o.position);
+			packed = Tile_PackTile(unit.o.position);
 
-			speed = g_table_landscapeInfo[Map.Map_GetLandscapeType(packed)].movementSpeed[ui.movementType];
+			speed = g_table_landscapeInfo[Map_GetLandscapeType(packed)].movementSpeed[ui.movementType];
 			if (speed == 0) return true;
 
 			if (unit.o.type == (byte)UnitType.UNIT_SANDWORM || ui.movementType == (ushort)MovementType.MOVEMENT_WINGER) return false;
@@ -2024,7 +2024,7 @@ namespace SharpDune
 			/* Units in the air don't feel the effect of gameSpeed */
 			if (g_table_unitInfo[unit.o.type].movementType != (ushort)MovementType.MOVEMENT_WINGER)
 			{
-				speed = Tools.Tools_AdjustToGameSpeed(speed, 1, 255, false);
+				speed = Tools_AdjustToGameSpeed(speed, 1, 255, false);
 			}
 
 			speedPerTick = (ushort)(speed << 4);
@@ -2066,11 +2066,11 @@ namespace SharpDune
 
 			if (diff > 128) diff -= 256;
 			if (diff < -128) diff += 256;
-			diff = Abs(diff);
+			diff = Math.Abs(diff);
 
 			newCurrent = (sbyte)(current + unit.orientation[level].speed);
 
-			if (Abs(unit.orientation[level].speed) >= diff)
+			if (Math.Abs(unit.orientation[level].speed) >= diff)
 			{
 				unit.orientation[level].speed = 0;
 				newCurrent = target;
@@ -2078,8 +2078,8 @@ namespace SharpDune
 
 			unit.orientation[level].current = newCurrent;
 
-			if (CTile.Orientation_Orientation256ToOrientation16((byte)newCurrent) == CTile.Orientation_Orientation256ToOrientation16((byte)current) &&
-				CTile.Orientation_Orientation256ToOrientation8((byte)newCurrent) == CTile.Orientation_Orientation256ToOrientation8((byte)current)) return;
+			if (Orientation_Orientation256ToOrientation16((byte)newCurrent) == Orientation_Orientation256ToOrientation16((byte)current) &&
+                Orientation_Orientation256ToOrientation8((byte)newCurrent) == Orientation_Orientation256ToOrientation8((byte)current)) return;
 
 			Unit_UpdateMap(2, unit);
 		}
@@ -2100,9 +2100,9 @@ namespace SharpDune
 			Unit unit;
 			Unit carryall;
 
-			tile = CTile.Tile_UnpackTile(Map.Map_FindLocationTile((ushort)(Tools.Tools_Random_256() & 3), houseID));
+			tile = Tile_UnpackTile(Map_FindLocationTile((ushort)(Tools_Random_256() & 3), houseID));
 
-			h = PoolHouse.House_Get_ByIndex(houseID);
+			h = House_Get_ByIndex(houseID);
 
 			{
                 var t = new tile32
@@ -2110,13 +2110,13 @@ namespace SharpDune
                     x = 0x2000,
                     y = 0x2000
                 };
-                orientation = CTile.Tile_GetDirection(tile, t);
+                orientation = Tile_GetDirection(tile, t);
 			}
 
 			if (g_table_unitInfo[(int)typeID].movementType == (ushort)MovementType.MOVEMENT_WINGER)
 			{
                 g_validateStrictIfZero++;
-				unit = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, orientation);
+				unit = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, orientation);
                 g_validateStrictIfZero--;
 
 				if (unit == null) return null;
@@ -2132,7 +2132,7 @@ namespace SharpDune
 			}
 
             g_validateStrictIfZero++;
-			carryall = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_CARRYALL, houseID, tile, orientation);
+			carryall = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_CARRYALL, houseID, tile, orientation);
             g_validateStrictIfZero--;
 
 			if (carryall == null)
@@ -2150,7 +2150,7 @@ namespace SharpDune
 			tile.y = 0xFFFF;
 
             g_validateStrictIfZero++;
-			unit = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, 0);
+			unit = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)typeID, houseID, tile, 0);
             g_validateStrictIfZero--;
 
 			if (unit == null)
@@ -2183,34 +2183,34 @@ namespace SharpDune
 			Structure s;
 
 			if (u == null) return;
-			if (!Tools.Tools_Index_IsValid(destination)) return;
+			if (!Tools_Index_IsValid(destination)) return;
 			if (u.targetMove == destination) return;
 
-			if (Tools.Tools_Index_GetType(destination) == IndexType.IT_TILE)
+			if (Tools_Index_GetType(destination) == IndexType.IT_TILE)
 			{
 				Unit u2;
 				ushort packed;
 
-				packed = Tools.Tools_Index_Decode(destination);
+				packed = Tools_Index_Decode(destination);
 
 				u2 = Unit_Get_ByPackedTile(packed);
 				if (u2 != null)
 				{
-					if (u != u2) destination = Tools.Tools_Index_Encode(u2.o.index, IndexType.IT_UNIT);
+					if (u != u2) destination = Tools_Index_Encode(u2.o.index, IndexType.IT_UNIT);
 				}
 				else
 				{
 					s = Structure_Get_ByPackedTile(packed);
-					if (s != null) destination = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+					if (s != null) destination = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 				}
 			}
 
-			s = Tools.Tools_Index_GetStructure(destination);
+			s = Tools_Index_GetStructure(destination);
 			if (s != null && s.o.houseID == Unit_GetHouseID(u))
 			{
 				if (Unit_IsValidMovementIntoStructure(u, s) == 1 || g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER)
 				{
-					CObject.Object_Script_Variable4_Link(Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), destination);
+                    Object_Script_Variable4_Link(Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), destination);
 				}
 			}
 
@@ -2229,11 +2229,11 @@ namespace SharpDune
 		{
 			ushort i;
 
-			for (i = 0; i < PoolUnit.g_unitFindCount; i++)
+			for (i = 0; i < g_unitFindCount; i++)
 			{
 				Unit u;
 
-				u = PoolUnit.g_unitFindArray[i];
+				u = g_unitFindArray[i];
 				if (houseID != (byte)HouseType.HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
 				if (typeID != (byte)UnitType.UNIT_INVALID && u.o.type != typeID) continue;
 				if (g_validateStrictIfZero == 0 && u.o.flags.isNotOnMap) continue;
@@ -2269,8 +2269,8 @@ namespace SharpDune
 			si = g_table_structureInfo[s.o.type];
 			ui = g_table_unitInfo[unit.o.type];
 
-			unitEnc = Tools.Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT);
-			structEnc = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+			unitEnc = Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT);
+			structEnc = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
 			/* Movement into structure of other owner. */
 			if (Unit_GetHouseID(unit) != s.o.houseID)
@@ -2304,7 +2304,7 @@ namespace SharpDune
 			/* Units in the air don't feel the effect of gameSpeed */
 			if (g_table_unitInfo[unit.o.type].movementType != (ushort)MovementType.MOVEMENT_WINGER)
 			{
-				speed += Tools.Tools_AdjustToGameSpeed(unit.speedPerTick, 1, 255, false);
+				speed += Tools_AdjustToGameSpeed(unit.speedPerTick, 1, 255, false);
 			}
 			else
 			{
@@ -2313,7 +2313,7 @@ namespace SharpDune
 
 			if ((speed & 0xFF00) != 0)
 			{
-				Unit_Move(unit, (ushort)Min(unit.speed * 16, CTile.Tile_GetDistance(unit.o.position, unit.currentDestination) + 16));
+				Unit_Move(unit, (ushort)Math.Min(unit.speed * 16, Tile_GetDistance(unit.o.position, unit.currentDestination) + 16));
 			}
 
 			unit.speedRemainder = (byte)(speed & 0xFF);
@@ -2334,10 +2334,10 @@ namespace SharpDune
 			UnitInfo ui;
 			tile32 tile;
 
-			if (!Tools.Tools_Index_IsValid(target)) return null;
+			if (!Tools_Index_IsValid(target)) return null;
 
 			ui = g_table_unitInfo[(int)type];
-			tile = Tools.Tools_Index_GetTile(target);
+			tile = Tools_Index_GetTile(target);
 
 			switch (type)
 			{
@@ -2351,12 +2351,12 @@ namespace SharpDune
 						Unit bullet;
 						Unit u;
 
-						orientation = CTile.Tile_GetDirection(position, tile);
+						orientation = Tile_GetDirection(position, tile);
 
-						bullet = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, orientation);
+						bullet = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, orientation);
 						if (bullet == null) return null;
 
-						Sound.Voice_PlayAtTile((short)ui.bulletSound, position);
+                        Voice_PlayAtTile((short)ui.bulletSound, position);
 
 						bullet.targetAttack = target;
 						bullet.o.hitpoints = damage;
@@ -2364,12 +2364,12 @@ namespace SharpDune
 
 						if (ui.flags.notAccurate)
 						{
-							bullet.currentDestination = CTile.Tile_MoveByRandom(tile, (ushort)((Tools.Tools_Random_256() & 0xF) != 0 ? CTile.Tile_GetDistance(position, tile) / 256 + 8 : Tools.Tools_Random_256() + 8), false);
+							bullet.currentDestination = Tile_MoveByRandom(tile, (ushort)((Tools_Random_256() & 0xF) != 0 ? Tile_GetDistance(position, tile) / 256 + 8 : Tools_Random_256() + 8), false);
 						}
 
 						bullet.fireDelay = (ushort)(ui.fireDistance & 0xFF);
 
-						u = Tools.Tools_Index_GetUnit(target);
+						u = Tools_Index_GetUnit(target);
 						if (u != null && g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER)
 						{
 							bullet.fireDelay <<= 1;
@@ -2377,7 +2377,7 @@ namespace SharpDune
 
 						if (type == UnitType.UNIT_MISSILE_HOUSE || (bullet.o.seenByHouses & (1 << (byte)g_playerHouseID)) != 0) return bullet;
 
-						CTile.Tile_RemoveFogInRadius(bullet.o.position, 2);
+                        Tile_RemoveFogInRadius(bullet.o.position, 2);
 
 						return bullet;
 					}
@@ -2389,11 +2389,11 @@ namespace SharpDune
 						tile32 t;
 						Unit bullet;
 
-						orientation = CTile.Tile_GetDirection(position, tile);
+						orientation = Tile_GetDirection(position, tile);
 
-						t = CTile.Tile_MoveByDirection(CTile.Tile_MoveByDirection(position, 0, 32), orientation, 128);
+						t = Tile_MoveByDirection(Tile_MoveByDirection(position, 0, 32), orientation, 128);
 
-						bullet = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, t, orientation);
+						bullet = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, t, orientation);
 						if (bullet == null) return null;
 
 						if (type == UnitType.UNIT_SONIC_BLAST)
@@ -2408,7 +2408,7 @@ namespace SharpDune
 
 						if ((bullet.o.seenByHouses & (1 << (byte)g_playerHouseID)) != 0) return bullet;
 
-						CTile.Tile_RemoveFogInRadius(bullet.o.position, 2);
+                        Tile_RemoveFogInRadius(bullet.o.position, 2);
 
 						return bullet;
 					}
@@ -2442,31 +2442,31 @@ namespace SharpDune
 
 			if (g_unitHouseMissile == null) return;
 
-			h = PoolHouse.House_Get_ByIndex(g_unitHouseMissile.o.houseID);
+			h = House_Get_ByIndex(g_unitHouseMissile.o.houseID);
 
-			tile = CTile.Tile_UnpackTile(packed);
-			tile = CTile.Tile_MoveByRandom(tile, 160, false);
+			tile = Tile_UnpackTile(packed);
+			tile = Tile_MoveByRandom(tile, 160, false);
 
-			packed = CTile.Tile_PackTile(tile);
+			packed = Tile_PackTile(tile);
 
 			isAI = g_unitHouseMissile.o.houseID != (byte)g_playerHouseID;
 
-			PoolUnit.Unit_Free(g_unitHouseMissile);
+            Unit_Free(g_unitHouseMissile);
 
-			Sound.Sound_Output_Feedback(0xFFFE);
+            Sound_Output_Feedback(0xFFFE);
 
-			Unit_CreateBullet(h.palacePosition, (UnitType)g_unitHouseMissile.o.type, g_unitHouseMissile.o.houseID, 0x1F4, Tools.Tools_Index_Encode(packed, IndexType.IT_TILE));
+			Unit_CreateBullet(h.palacePosition, (UnitType)g_unitHouseMissile.o.type, g_unitHouseMissile.o.houseID, 0x1F4, Tools_Index_Encode(packed, IndexType.IT_TILE));
 
             g_houseMissileCountdown = 0;
 			g_unitHouseMissile = null;
 
 			if (isAI)
 			{
-				Sound.Sound_Output_Feedback(39);
+                Sound_Output_Feedback(39);
 				return;
 			}
 
-			Gui.Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+            GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 		}
 
 		/*
@@ -2489,12 +2489,12 @@ namespace SharpDune
 			{
 				s = Unit_FindBestTargetStructure(unit, mode);
 
-				if (s != null) return Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+				if (s != null) return Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
 				target = Unit_FindBestTargetUnit(unit, mode);
 
 				if (target == null) return 0;
-				return Tools.Tools_Index_Encode(target.o.index, IndexType.IT_UNIT);
+				return Tools_Index_Encode(target.o.index, IndexType.IT_UNIT);
 			}
 
 			target = Unit_FindBestTargetUnit(unit, mode);
@@ -2507,12 +2507,12 @@ namespace SharpDune
 
 				priority = Unit_GetTargetUnitPriority(unit, target);
 
-				if (Unit_GetTargetStructurePriority(unit, s) >= priority) return Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
-				return Tools.Tools_Index_Encode(target.o.index, IndexType.IT_UNIT);
+				if (Unit_GetTargetStructurePriority(unit, s) >= priority) return Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+				return Tools_Index_Encode(target.o.index, IndexType.IT_UNIT);
 			}
 
-			if (target != null) return Tools.Tools_Index_Encode(target.o.index, IndexType.IT_UNIT);
-			if (s != null) return Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+			if (target != null) return Tools_Index_Encode(target.o.index, IndexType.IT_UNIT);
+			if (s != null) return Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
 			return 0;
 		}
@@ -2537,11 +2537,11 @@ namespace SharpDune
 			position = u.o.position;
 			if (u.originEncoded == 0)
 			{
-				u.originEncoded = Tools.Tools_Index_Encode(CTile.Tile_PackTile(position), IndexType.IT_TILE);
+				u.originEncoded = Tools_Index_Encode(Tile_PackTile(position), IndexType.IT_TILE);
 			}
 			else
 			{
-				position = Tools.Tools_Index_GetTile(u.originEncoded);
+				position = Tools_Index_GetTile(u.originEncoded);
 			}
 
 			distance = (ushort)(g_table_unitInfo[u.o.type].fireDistance << 8);
@@ -2556,7 +2556,7 @@ namespace SharpDune
 				Unit target;
 				ushort priority;
 
-				target = PoolUnit.Unit_Find(find);
+				target = Unit_Find(find);
 
 				if (target == null) break;
 
@@ -2564,11 +2564,11 @@ namespace SharpDune
 				{
 					if (mode == 1)
 					{
-						if (CTile.Tile_GetDistance(u.o.position, target.o.position) > distance) continue;
+						if (Tile_GetDistance(u.o.position, target.o.position) > distance) continue;
 					}
 					if (mode == 2)
 					{
-						if (CTile.Tile_GetDistance(position, target.o.position) > distance) continue;
+						if (Tile_GetDistance(position, target.o.position) > distance) continue;
 					}
 				}
 
@@ -2603,7 +2603,7 @@ namespace SharpDune
 
 			if (unit == null) return null;
 
-			position = Tools.Tools_Index_GetTile(unit.originEncoded);
+			position = Tools_Index_GetTile(unit.originEncoded);
 			distance = (ushort)(g_table_unitInfo[unit.o.type].fireDistance << 8);
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -2616,7 +2616,7 @@ namespace SharpDune
 				var curPosition = new tile32();
 				ushort priority;
 
-				s = PoolStructure.Structure_Find(find);
+				s = Structure_Find(find);
 				if (s == null) break;
 				if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -2627,12 +2627,12 @@ namespace SharpDune
 				{
 					if (mode == 1)
 					{
-						if (CTile.Tile_GetDistance(unit.o.position, curPosition) > distance) continue;
+						if (Tile_GetDistance(unit.o.position, curPosition) > distance) continue;
 					}
 					else
 					{
 						if (mode != 2) continue;
-						if (CTile.Tile_GetDistance(position, curPosition) > distance * 2) continue;
+						if (Tile_GetDistance(position, curPosition) > distance * 2) continue;
 					}
 				}
 
@@ -2681,14 +2681,14 @@ namespace SharpDune
 			if (targetInfo.movementType == (ushort)MovementType.MOVEMENT_WINGER)
 			{
 				if (!unitInfo.o.flags.targetAir) return 0;
-				if (target.o.houseID == (byte)g_playerHouseID && !Map.Map_IsPositionUnveiled(CTile.Tile_PackTile(target.o.position))) return 0;
+				if (target.o.houseID == (byte)g_playerHouseID && !Map_IsPositionUnveiled(Tile_PackTile(target.o.position))) return 0;
 			}
 
-			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(target.o.position))) return 0;
+			if (!Map_IsValidPosition(Tile_PackTile(target.o.position))) return 0;
 
-			distance = CTile.Tile_GetDistanceRoundedUp(unit.o.position, target.o.position);
+			distance = Tile_GetDistanceRoundedUp(unit.o.position, target.o.position);
 
-			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(unit.o.position)))
+			if (!Map_IsValidPosition(Tile_PackTile(unit.o.position)))
 			{
 				if (targetInfo.fireDistance >= distance) return 0;
 			}
@@ -2721,10 +2721,10 @@ namespace SharpDune
 
 			si = g_table_structureInfo[target.o.type];
 			priority = (ushort)(si.o.priorityBuild + si.o.priorityTarget);
-			distance = CTile.Tile_GetDistanceRoundedUp(unit.o.position, target.o.position);
+			distance = Tile_GetDistanceRoundedUp(unit.o.position, target.o.position);
 			if (distance != 0) priority /= distance;
 
-			return Min(priority, (ushort)32000);
+			return Math.Min(priority, (ushort)32000);
 		}
 
 		static readonly short[] offsetX = { 0, 0, 200, 256, 200, 0, -200, -256, -200, 0, 400, 512, 400, 0, -400, -512, -400 };
@@ -2751,11 +2751,11 @@ namespace SharpDune
 
 			ui = g_table_unitInfo[unit.o.type];
 
-			newPosition = CTile.Tile_MoveByDirection(unit.o.position, unit.orientation[0].current, distance);
+			newPosition = Tile_MoveByDirection(unit.o.position, unit.orientation[0].current, distance);
 
 			if ((newPosition.x == unit.o.position.x) && (newPosition.y == unit.o.position.y)) return false;
 
-			if (!CTile.Tile_IsValid(newPosition))
+			if (!Tile_IsValid(newPosition))
 			{
 				if (!ui.flags.mustStayInMap)
 				{
@@ -2770,17 +2770,17 @@ namespace SharpDune
 				}
 
 				newPosition = unit.o.position;
-				Unit_SetOrientation(unit, (sbyte)(unit.orientation[0].current + (Tools.Tools_Random_256() & 0xF)), false, 0);
+				Unit_SetOrientation(unit, (sbyte)(unit.orientation[0].current + (Tools_Random_256() & 0xF)), false, 0);
 			}
 
 			unit.wobbleIndex = 0;
 			if (ui.flags.canWobble && unit.o.flags.isWobbling)
 			{
-				unit.wobbleIndex = (byte)(Tools.Tools_Random_256() & 7);
+				unit.wobbleIndex = (byte)(Tools_Random_256() & 7);
 			}
 
-			d = CTile.Tile_GetDistance(newPosition, unit.currentDestination);
-			packed = CTile.Tile_PackTile(newPosition);
+			d = Tile_GetDistance(newPosition, unit.currentDestination);
+			packed = Tile_PackTile(newPosition);
 
 			if (ui.flags.isTracked && d < 48)
 			{
@@ -2798,14 +2798,14 @@ namespace SharpDune
 				}
 				else
 				{
-					var type = Map.Map_GetLandscapeType(packed);
+					var type = Map_GetLandscapeType(packed);
 					/* Produce tracks in the sand */
-					if ((type == (ushort)LandscapeType.LST_NORMAL_SAND || type == (ushort)LandscapeType.LST_ENTIRELY_DUNE) && Map.g_map[packed].overlayTileID == 0)
+					if ((type == (ushort)LandscapeType.LST_NORMAL_SAND || type == (ushort)LandscapeType.LST_ENTIRELY_DUNE) && g_map[packed].overlayTileID == 0)
 					{
-						var animationID = CTile.Orientation_Orientation256ToOrientation8((byte)unit.orientation[0].current);
+						var animationID = Orientation_Orientation256ToOrientation8((byte)unit.orientation[0].current);
 
 						Debug.Assert(animationID < 8);
-						CAnimation.Animation_Start(g_table_animation_unitMove[animationID], unit.o.position, 0, unit.o.houseID, 5);
+                        Animation_Start(g_table_animation_unitMove[animationID], unit.o.position, 0, unit.o.houseID, 5);
 					}
 				}
 			}
@@ -2818,7 +2818,7 @@ namespace SharpDune
 			}
 
 			currentDestination = unit.currentDestination;
-			distance = CTile.Tile_GetDistance(newPosition, currentDestination);
+			distance = Tile_GetDistance(newPosition, currentDestination);
 
 			if (unit.o.type == (byte)UnitType.UNIT_SONIC_BLAST)
 			{
@@ -2856,7 +2856,7 @@ namespace SharpDune
 					}
 					else
 					{
-						if (Map.Map_GetLandscapeType(packed) == (ushort)LandscapeType.LST_WALL && g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints > damage) Tools.Tools_Random_256();
+						if (Map_GetLandscapeType(packed) == (ushort)LandscapeType.LST_WALL && g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints > damage) Tools_Random_256();
 					}
 				}
 
@@ -2874,12 +2874,12 @@ namespace SharpDune
 			{
 				if (unit.o.type == (byte)UnitType.UNIT_BULLET)
 				{
-					var type = Map.Map_GetLandscapeType(CTile.Tile_PackTile(newPosition));
+					var type = Map_GetLandscapeType(Tile_PackTile(newPosition));
 					if (type == (ushort)LandscapeType.LST_WALL || type == (ushort)LandscapeType.LST_STRUCTURE)
 					{
-						if (Tools.Tools_Index_GetType(unit.originEncoded) == IndexType.IT_STRUCTURE)
+						if (Tools_Index_GetType(unit.originEncoded) == IndexType.IT_STRUCTURE)
 						{
-							if (Map.g_map[CTile.Tile_PackTile(newPosition)].houseID == unit.o.houseID)
+							if (g_map[Tile_PackTile(newPosition)].houseID == unit.o.houseID)
 							{
 								type = (ushort)LandscapeType.LST_NORMAL_SAND;
 							}
@@ -2890,7 +2890,7 @@ namespace SharpDune
 					{
 						unit.o.position = newPosition;
 
-						Map.Map_MakeExplosion((ushort)((ui.explosionType + unit.o.hitpoints / 10) & 3), unit.o.position, unit.o.hitpoints, unit.originEncoded);
+                        Map_MakeExplosion((ushort)((ui.explosionType + unit.o.hitpoints / 10) & 3), unit.o.position, unit.o.hitpoints, unit.originEncoded);
 
 						Unit_Remove(unit);
 						return true;
@@ -2915,17 +2915,17 @@ namespace SharpDune
 									p.y += (ushort)offsetY[i];
 									p.x += (ushort)offsetX[i];
 
-									if (CTile.Tile_IsValid(p))
+									if (Tile_IsValid(p))
 									{
-										Map.Map_MakeExplosion(ui.explosionType, p, 200, 0);
+                                        Map_MakeExplosion(ui.explosionType, p, 200, 0);
 									}
 								}
 							}
 							else if (ui.explosionType != 0xFFFF)
 							{
-								if (ui.flags.impactOnSand && Map.g_map[CTile.Tile_PackTile(unit.o.position)].index == 0 && Map.Map_GetLandscapeType(CTile.Tile_PackTile(unit.o.position)) == (ushort)LandscapeType.LST_NORMAL_SAND)
+								if (ui.flags.impactOnSand && g_map[Tile_PackTile(unit.o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit.o.position)) == (ushort)LandscapeType.LST_NORMAL_SAND)
 								{
-									Map.Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SAND_BURST, newPosition, unit.o.hitpoints, unit.originEncoded);
+                                    Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SAND_BURST, newPosition, unit.o.hitpoints, unit.originEncoded);
 								}
 								else if (unit.o.type == (byte)UnitType.UNIT_MISSILE_DEVIATOR)
 								{
@@ -2933,7 +2933,7 @@ namespace SharpDune
 								}
 								else
 								{
-									Map.Map_MakeExplosion((ushort)((ui.explosionType + unit.o.hitpoints / 20) & 3), newPosition, unit.o.hitpoints, unit.originEncoded);
+                                    Map_MakeExplosion((ushort)((ui.explosionType + unit.o.hitpoints / 20) & 3), newPosition, unit.o.hitpoints, unit.originEncoded);
 								}
 							}
 
@@ -2949,31 +2949,31 @@ namespace SharpDune
 						unit.currentDestination.x = 0;
 						unit.currentDestination.y = 0;
 
-						if (unit.o.flags.degrades && (Tools.Tools_Random_256() & 3) == 0)
+						if (unit.o.flags.degrades && (Tools_Random_256() & 3) == 0)
 						{
 							Unit_Damage(unit, 1, 0);
 						}
 
 						if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR)
 						{
-							var detonate = (Map.Map_GetLandscapeType(CTile.Tile_PackTile(newPosition)) == (ushort)LandscapeType.LST_WALL);
+							var detonate = (Map_GetLandscapeType(Tile_PackTile(newPosition)) == (ushort)LandscapeType.LST_WALL);
 
 							if (!detonate)
 							{
 								/* ENHANCEMENT -- Saboteurs tend to forget their goal, depending on terrain and game speed: to blow up on reaching their destination. */
 								if (g_dune2_enhanced)
 								{
-									detonate = (unit.targetMove != 0 && CTile.Tile_GetDistance(newPosition, Tools.Tools_Index_GetTile(unit.targetMove)) < 16);
+									detonate = (unit.targetMove != 0 && Tile_GetDistance(newPosition, Tools_Index_GetTile(unit.targetMove)) < 16);
 								}
 								else
 								{
-									detonate = (unit.targetMove != 0 && CTile.Tile_GetDistance(unit.o.position, Tools.Tools_Index_GetTile(unit.targetMove)) < 32);
+									detonate = (unit.targetMove != 0 && Tile_GetDistance(unit.o.position, Tools_Index_GetTile(unit.targetMove)) < 32);
 								}
 							}
 
 							if (detonate)
 							{
-								Map.Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SABOTEUR_DEATH, newPosition, 500, 0);
+                                Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SABOTEUR_DEATH, newPosition, 500, 0);
 
 								Unit_Remove(unit);
 								return true;
@@ -2982,7 +2982,7 @@ namespace SharpDune
 
 						Unit_SetSpeed(unit, 0);
 
-						if (unit.targetMove == Tools.Tools_Index_Encode(packed, IndexType.IT_TILE))
+						if (unit.targetMove == Tools_Index_Encode(packed, IndexType.IT_TILE))
 						{
 							unit.targetMove = 0;
 						}
@@ -3004,7 +3004,7 @@ namespace SharpDune
 
 						if (unit.o.type != (byte)UnitType.UNIT_SANDWORM)
 						{
-							if (Map.g_map[packed].groundTileID == Sprites.g_bloomTileID || Map.g_map[packed].groundTileID == Sprites.g_bloomTileID + 1)
+							if (g_map[packed].groundTileID == g_bloomTileID || g_map[packed].groundTileID == g_bloomTileID + 1)
 							{
 								isSpiceBloom = true;
 							}
@@ -3018,8 +3018,8 @@ namespace SharpDune
 
 			Unit_UpdateMap(1, unit);
 
-			if (isSpecialBloom) Map.Map_Bloom_ExplodeSpecial(packed, Unit_GetHouseID(unit));
-			if (isSpiceBloom) Map.Map_Bloom_ExplodeSpice(packed, Unit_GetHouseID(unit));
+			if (isSpecialBloom) Map_Bloom_ExplodeSpecial(packed, Unit_GetHouseID(unit));
+			if (isSpiceBloom) Map_Bloom_ExplodeSpice(packed, Unit_GetHouseID(unit));
 
 			return ret;
 		}
@@ -3036,7 +3036,7 @@ namespace SharpDune
 		{
 			var find = new PoolFindStruct();
 
-			CExplosion.Explosion_Start(type, position);
+            Explosion_Start(type, position);
 
 			find.type = 0xFFFF;
 			find.index = 0xFFFF;
@@ -3046,10 +3046,10 @@ namespace SharpDune
 			{
 				Unit u;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 
 				if (u == null) break;
-				if (CTile.Tile_GetDistance(position, u.o.position) / 16 >= radius) continue;
+				if (Tile_GetDistance(position, u.o.position) / 16 >= radius) continue;
 
 				Unit_Deviate(u, 0, houseID);
 			}
@@ -3082,7 +3082,7 @@ namespace SharpDune
 				probability -= (ushort)(probability / 8);
 			}
 
-			if (Tools.Tools_Random_256() >= probability) return false;
+			if (Tools_Random_256() >= probability) return false;
 
 			unit.deviated = 120;
 			unit.deviatedHouse = houseID;
@@ -3123,7 +3123,7 @@ namespace SharpDune
 				/* ENHANCEMENT -- When a Unit enters a Structure, the last tile the Unit was on becomes selected rather than the entire Structure. */
 				if (g_dune2_enhanced)
 				{
-					Map.Map_SetSelection(CTile.Tile_PackTile(s.o.position));
+                    Map_SetSelection(Tile_PackTile(s.o.position));
 				}
 				else
 				{
@@ -3182,23 +3182,23 @@ namespace SharpDune
 			{
 				House h;
 
-				h = PoolHouse.House_Get_ByIndex(s.o.houseID);
+				h = House_Get_ByIndex(s.o.houseID);
 				s.o.houseID = Unit_GetHouseID(unit);
 				h.structuresBuilt = Structure_GetStructuresBuilt(h);
 
 				/* ENHANCEMENT -- recalculate the power and credits for the house losing the structure. */
 				if (g_dune2_enhanced) House_CalculatePowerAndCredit(h);
 
-				h = PoolHouse.House_Get_ByIndex(s.o.houseID);
+				h = House_Get_ByIndex(s.o.houseID);
 				h.structuresBuilt = Structure_GetStructuresBuilt(h);
 
 				if (s.o.linkedID != 0xFF)
 				{
-					var u = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
+					var u = Unit_Get_ByIndex(s.o.linkedID);
 					if (u != null) u.o.houseID = Unit_GetHouseID(unit);
 				}
 
-                House_CalculatePowerAndCredit(PoolHouse.House_Get_ByIndex(s.o.houseID));
+                House_CalculatePowerAndCredit(House_Get_ByIndex(s.o.houseID));
                 Structure_UpdateMap(s);
 
 				/* ENHANCEMENT -- When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
@@ -3209,10 +3209,10 @@ namespace SharpDune
 			}
 			else
 			{
-                Structure_Damage(s, (ushort)Min(unit.o.hitpoints * 2, s.o.hitpoints / 2), 1);
+                Structure_Damage(s, (ushort)Math.Min(unit.o.hitpoints * 2, s.o.hitpoints / 2), 1);
 			}
 
-			CObject.Object_Script_Variable4_Clear(s.o);
+            Object_Script_Variable4_Clear(s.o);
 
 			Unit_Remove(unit);
 		}
@@ -3253,7 +3253,7 @@ namespace SharpDune
 
 			if (Structure_Get_ByPackedTile(packed) != null) return packed;
 
-			if (Map.Map_GetLandscapeType(packed) == (ushort)LandscapeType.LST_BLOOM_FIELD) return packed;
+			if (Map_GetLandscapeType(packed) == (ushort)LandscapeType.LST_BLOOM_FIELD) return packed;
 
 			for (i = 0; i < around.Length; i++)
 			{
@@ -3262,7 +3262,7 @@ namespace SharpDune
 				u = Unit_Get_ByPackedTile((ushort)(packed + around[i]));
 				if (u == null) continue;
 
-				return CTile.Tile_PackTile(u.o.position);
+				return Tile_PackTile(u.o.position);
 			}
 
 			return packed;

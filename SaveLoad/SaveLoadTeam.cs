@@ -3,21 +3,21 @@
     class SaveLoadTeam
     {
 		static readonly SaveLoadDesc[] s_saveTeam = {
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.index)),
-			SLD_ENTRY2(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.flags), SaveLoadType.SLDT_TEAMFLAGS),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.members)),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.minMembers)),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.maxMembers)),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.movementType)),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.action)),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.actionStart)),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT8, nameof(Team.houseID)),
-			SLD_EMPTY2(SaveLoadType.SLDT_UINT8, 3),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Team.position)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Team.position)}.{nameof(tile32.y)}"),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.targetTile)),
-			SLD_ENTRY(/*team,*/ SaveLoadType.SLDT_UINT16, nameof(Team.target)),
-			SLD_SLD(/*team,*/ nameof(Team.script), SaveLoadScriptEngine.g_saveScriptEngine),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.index)),
+			SLD_ENTRY2(/*team,*/ SLDT_UINT16, nameof(Team.flags), SLDT_TEAMFLAGS),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.members)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.minMembers)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.maxMembers)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.movementType)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.action)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.actionStart)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT8, nameof(Team.houseID)),
+			SLD_EMPTY2(SLDT_UINT8, 3),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(Team.position)}.{nameof(tile32.x)}"),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(Team.position)}.{nameof(tile32.y)}"),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.targetTile)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.target)),
+			SLD_SLD(/*team,*/ nameof(Team.script), g_saveScriptEngine),
 			SLD_END()
 		};
 
@@ -37,7 +37,7 @@
 				var index = fp.ReadUInt16();
 
 				/* Get the Team from the pool */
-				tl = PoolTeam.Team_Get_ByIndex(index);
+				tl = Team_Get_ByIndex(index);
 				if (tl == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -51,7 +51,7 @@
 			}
 			if (length != 0) return false;
 
-			PoolTeam.Team_Recount();
+            Team_Recount();
 
 			return true;
 		}
@@ -74,7 +74,7 @@
 			{
 				Team t;
 
-				t = PoolTeam.Team_Find(find);
+				t = Team_Find(find);
 				if (t == null) break;
 
 				if (!SaveLoad_Save(s_saveTeam, fp, t)) return false;

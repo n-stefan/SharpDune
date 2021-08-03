@@ -106,7 +106,7 @@ namespace SharpDune.Audio
 			uint devID = 0;
 			uint i;
 			var numDevs = midiOutGetNumDevs();
-			if (IniFile.IniFile_GetInteger("mt32midi", 0) != 0)
+			if (IniFile_GetInteger("mt32midi", 0) != 0)
 			{
 				for (i = 0; i < numDevs; i++)
 				{

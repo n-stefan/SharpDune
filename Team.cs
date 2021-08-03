@@ -63,8 +63,8 @@ namespace SharpDune
 		{
 			var find = new PoolFindStruct();
 
-			if (s_tickTeamGameLoop > Timer.g_timerGame) return;
-			s_tickTeamGameLoop = (uint)(Timer.g_timerGame + (Tools.Tools_Random_256() & 7) + 5);
+			if (s_tickTeamGameLoop > g_timerGame) return;
+			s_tickTeamGameLoop = (uint)(g_timerGame + (Tools_Random_256() & 7) + 5);
 
 			find.houseID = (byte)HouseType.HOUSE_INVALID;
 			find.index = 0xFFFF;
@@ -79,10 +79,10 @@ namespace SharpDune
 				Team t;
 				House h;
 
-				t = PoolTeam.Team_Find(find);
+				t = Team_Find(find);
 				if (t == null) break;
 
-				h = PoolHouse.House_Get_ByIndex(t.houseID);
+				h = House_Get_ByIndex(t.houseID);
 
                 g_scriptCurrentTeam = t;
 
@@ -137,7 +137,7 @@ namespace SharpDune
 		{
 			Team t;
 
-			t = PoolTeam.Team_Allocate(0xFFFF);
+			t = Team_Allocate(0xFFFF);
 
 			if (t == null) return null;
 			t.flags.used = true;

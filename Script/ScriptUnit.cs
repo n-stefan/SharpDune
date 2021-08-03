@@ -30,11 +30,11 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 
-			if (Tools.Tools_Random_256() >= g_table_unitInfo[u.o.type].o.spawnChance) return 0;
+			if (Tools_Random_256() >= g_table_unitInfo[u.o.type].o.spawnChance) return 0;
 
-			position = CTile.Tile_MoveByRandom(u.o.position, 20, true);
+			position = Tile_MoveByRandom(u.o.position, 20, true);
 
-			nu = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, u.o.houseID, position, (sbyte)Tools.Tools_Random_256());
+			nu = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SOLDIER, u.o.houseID, position, (sbyte)Tools_Random_256());
 
 			if (nu == null) return 0;
 
@@ -80,10 +80,10 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 			encoded = STACK_PEEK(script, 1);
 
-			target = Tools.Tools_Index_GetUnit(encoded);
+			target = Tools_Index_GetUnit(encoded);
 			if (target != null) return Unit_GetTargetUnitPriority(u, target);
 
-			s = Tools.Tools_Index_GetStructure(encoded);
+			s = Tools_Index_GetStructure(encoded);
 			if (s == null) return 0;
 
 			return Unit_GetTargetStructurePriority(u, s);
@@ -105,14 +105,14 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 
 			if (u.o.linkedID == 0xFF) return 0;
-			if (Tools.Tools_Index_GetType(u.targetMove) == IndexType.IT_UNIT) return 0;
+			if (Tools_Index_GetType(u.targetMove) == IndexType.IT_UNIT) return 0;
 
-			if (Tools.Tools_Index_GetType(u.targetMove) == IndexType.IT_STRUCTURE)
+			if (Tools_Index_GetType(u.targetMove) == IndexType.IT_STRUCTURE)
 			{
 				StructureInfo si;
 				Structure s;
 
-				s = Tools.Tools_Index_GetStructure(u.targetMove);
+				s = Tools_Index_GetStructure(u.targetMove);
 				si = g_table_structureInfo[s.o.type];
 
 				if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT)
@@ -128,14 +128,14 @@ namespace SharpDune.Script
 
 						Unit_UpdateMap(2, u);
 
-						Sound.Voice_PlayAtTile(24, u.o.position);
+                        Voice_PlayAtTile(24, u.o.position);
 
                         Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
 
 						ret = 1;
 					}
 
-					CObject.Object_Script_Variable4_Clear(u.o);
+                    Object_Script_Variable4_Clear(u.o);
 					u.targetMove = 0;
 
 					return ret;
@@ -143,11 +143,11 @@ namespace SharpDune.Script
 
 				if ((s.state == (short)StructureState.STRUCTURE_STATE_IDLE || (si.o.flags.busyStateIsIncoming && s.state == (short)StructureState.STRUCTURE_STATE_BUSY)) && s.o.linkedID == 0xFF)
 				{
-					Sound.Voice_PlayAtTile(24, u.o.position);
+                    Voice_PlayAtTile(24, u.o.position);
 
-					Unit_EnterStructure(PoolUnit.Unit_Get_ByIndex(u.o.linkedID), s);
+					Unit_EnterStructure(Unit_Get_ByIndex(u.o.linkedID), s);
 
-					CObject.Object_Script_Variable4_Clear(u.o);
+                    Object_Script_Variable4_Clear(u.o);
 					u.targetMove = 0;
 
 					u.o.linkedID = 0xFF;
@@ -159,21 +159,21 @@ namespace SharpDune.Script
 					return 1;
 				}
 
-				CObject.Object_Script_Variable4_Clear(u.o);
+                Object_Script_Variable4_Clear(u.o);
 				u.targetMove = 0;
 
 				return 0;
 			}
 
-			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(CTile.Tile_Center(u.o.position)))) return 0;
+			if (!Map_IsValidPosition(Tile_PackTile(Tile_Center(u.o.position)))) return 0;
 
-			u2 = PoolUnit.Unit_Get_ByIndex(u.o.linkedID);
+			u2 = Unit_Get_ByIndex(u.o.linkedID);
 
-			if (!Unit_SetPosition(u2, CTile.Tile_Center(u.o.position))) return 0;
+			if (!Unit_SetPosition(u2, Tile_Center(u.o.position))) return 0;
 
 			if (u2.o.houseID == (byte)g_playerHouseID)
 			{
-				Sound.Voice_PlayAtTile(24, u.o.position);
+                Voice_PlayAtTile(24, u.o.position);
 			}
 
 			Unit_SetOrientation(u2, u.orientation[0].current, true, 0);
@@ -187,7 +187,7 @@ namespace SharpDune.Script
 
 			u.o.flags.inTransport = false;
 
-			CObject.Object_Script_Variable4_Clear(u.o);
+            Object_Script_Variable4_Clear(u.o);
 			u.targetMove = 0;
 
 			return 1;
@@ -210,29 +210,29 @@ namespace SharpDune.Script
 
 			if (u.o.linkedID != 0xFF) return 0;
 
-			switch (Tools.Tools_Index_GetType(u.targetMove))
+			switch (Tools_Index_GetType(u.targetMove))
 			{
 				case IndexType.IT_STRUCTURE:
 					{
 						Structure s;
 						Unit u2;
 
-						s = Tools.Tools_Index_GetStructure(u.targetMove);
+						s = Tools_Index_GetStructure(u.targetMove);
 
 						/* There was nothing to pickup here */
 						if (s.state != (short)StructureState.STRUCTURE_STATE_READY)
 						{
-							CObject.Object_Script_Variable4_Clear(u.o);
+                            Object_Script_Variable4_Clear(u.o);
 							u.targetMove = 0;
 							return 0;
 						}
 
 						u.o.flags.inTransport = true;
 
-						CObject.Object_Script_Variable4_Clear(u.o);
+                        Object_Script_Variable4_Clear(u.o);
 						u.targetMove = 0;
 
-						u2 = PoolUnit.Unit_Get_ByIndex(s.o.linkedID);
+						u2 = Unit_Get_ByIndex(s.o.linkedID);
 
 						/* Pickup the unit */
 						u.o.linkedID = (byte)(u2.o.index & 0xFF);
@@ -244,11 +244,11 @@ namespace SharpDune.Script
 						/* Check if the unit has a return-to position or try to find spice in case of a harvester */
 						if (u2.targetLast.x != 0 || u2.targetLast.y != 0)
 						{
-							u.targetMove = Tools.Tools_Index_Encode(CTile.Tile_PackTile(u2.targetLast), IndexType.IT_TILE);
+							u.targetMove = Tools_Index_Encode(Tile_PackTile(u2.targetLast), IndexType.IT_TILE);
 						}
 						else if (u2.o.type == (byte)UnitType.UNIT_HARVESTER && Unit_GetHouseID(u2) != (byte)g_playerHouseID)
 						{
-							u.targetMove = Tools.Tools_Index_Encode(Map.Map_SearchSpice(CTile.Tile_PackTile(u.o.position), 20), IndexType.IT_TILE);
+							u.targetMove = Tools_Index_Encode(Map_SearchSpice(Tile_PackTile(u.o.position), 20), IndexType.IT_TILE);
 						}
 
 						Unit_UpdateMap(2, u);
@@ -263,7 +263,7 @@ namespace SharpDune.Script
 						var find = new PoolFindStruct();
 						short minDistance = 0;
 
-						u2 = Tools.Tools_Index_GetUnit(u.targetMove);
+						u2 = Tools_Index_GetUnit(u.targetMove);
 
 						if (!u2.o.flags.allocated) return 0;
 
@@ -277,10 +277,10 @@ namespace SharpDune.Script
 							Structure s2;
 							short distance;
 
-							s2 = PoolStructure.Structure_Find(find);
+							s2 = Structure_Find(find);
 							if (s2 == null) break;
 
-							distance = (short)CTile.Tile_GetDistanceRoundedUp(s2.o.position, u.o.position);
+							distance = (short)Tile_GetDistanceRoundedUp(s2.o.position, u.o.position);
 
 							if (u2.o.type == (byte)UnitType.UNIT_HARVESTER)
 							{
@@ -311,8 +311,8 @@ namespace SharpDune.Script
 
 						Unit_Hide(u2);
 
-						/* Set where we are going to */
-						CObject.Object_Script_Variable4_Link(Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
+                        /* Set where we are going to */
+                        Object_Script_Variable4_Link(Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
 						u.targetMove = u.o.script.variables[4];
 
 						Unit_UpdateMap(2, u);
@@ -320,7 +320,7 @@ namespace SharpDune.Script
 						if (u2.o.type != (byte)UnitType.UNIT_HARVESTER) return 0;
 
 						/* Check if we want to return to this spice field later */
-						if (Map.Map_SearchSpice(CTile.Tile_PackTile(u2.o.position), 2) == 0)
+						if (Map_SearchSpice(Tile_PackTile(u2.o.position), 2) == 0)
 						{
 							u2.targetPreLast.x = 0;
 							u2.targetPreLast.y = 0;
@@ -370,7 +370,7 @@ namespace SharpDune.Script
 			ushort speed;
 
 			u = g_scriptCurrentUnit;
-			speed = CMath.clamp(STACK_PEEK(script, 1), 0, 255);
+			speed = clamp(STACK_PEEK(script, 1), 0, 255);
 
 			if (!u.o.flags.byScenario) speed = (ushort)(speed * 192 / 256);
 
@@ -423,16 +423,16 @@ namespace SharpDune.Script
 
 			if (u.targetMove == 0) return 0;
 
-			tile = Tools.Tools_Index_GetTile(u.targetMove);
+			tile = Tools_Index_GetTile(u.targetMove);
 
-			distance = CTile.Tile_GetDistance(u.o.position, tile);
+			distance = Tile_GetDistance(u.o.position, tile);
 
 			if ((short)distance < 128)
 			{
 				Unit_SetSpeed(u, 0);
 
-				u.o.position.x += (ushort)CMath.clamp((short)(tile.x - u.o.position.x), -16, 16);
-				u.o.position.y += (ushort)CMath.clamp((short)(tile.y - u.o.position.y), -16, 16);
+				u.o.position.x += (ushort)clamp((short)(tile.x - u.o.position.x), -16, 16);
+				u.o.position.y += (ushort)clamp((short)(tile.y - u.o.position.y), -16, 16);
 
 				Unit_UpdateMap(2, u);
 
@@ -444,16 +444,16 @@ namespace SharpDune.Script
 				return 0;
 			}
 
-			orientation = CTile.Tile_GetDirection(u.o.position, tile);
+			orientation = Tile_GetDirection(u.o.position, tile);
 
 			Unit_SetOrientation(u, orientation, false, 0);
 
-			diff = (short)Abs(orientation - u.orientation[0].current);
+			diff = (short)Math.Abs(orientation - u.orientation[0].current);
 			if (diff > 128) diff = (short)(256 - diff);
 
-			Unit_SetSpeed(u, (ushort)((Max(Min(distance / 8, 255), 25) * (255 - diff) + 128) / 256));
+			Unit_SetSpeed(u, (ushort)((Math.Max(Math.Min(distance / 8, 255), 25) * (255 - diff) + 128) / 256));
 
-			delay = (ushort)Max((short)distance / 1024, 1);
+			delay = (ushort)Math.Max((short)distance / 1024, 1);
 
 			Unit_UpdateMap(2, u);
 
@@ -489,17 +489,17 @@ namespace SharpDune.Script
 			{
 				ushort credits;
 
-				credits = (ushort)Max(ui.o.buildCredits / 100, 1);
+				credits = (ushort)Math.Max(ui.o.buildCredits / 100, 1);
 
 				if (u.o.houseID == (byte)g_playerHouseID)
 				{
-					CScenario.g_scenario.killedAllied++;
-					CScenario.g_scenario.score -= credits;
+                    g_scenario.killedAllied++;
+                    g_scenario.score -= credits;
 				}
 				else
 				{
-					CScenario.g_scenario.killedEnemy++;
-					CScenario.g_scenario.score += credits;
+                    g_scenario.killedEnemy++;
+                    g_scenario.score += credits;
 				}
 			}
 
@@ -507,7 +507,7 @@ namespace SharpDune.Script
 
 			if (u.o.type != (byte)UnitType.UNIT_SABOTEUR) return 0;
 
-			Map.Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SABOTEUR_DEATH, u.o.position, 300, 0);
+            Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SABOTEUR_DEATH, u.o.position, 300, 0);
 			return 0;
 		}
 
@@ -526,7 +526,7 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 
-			Map.Map_MakeExplosion(STACK_PEEK(script, 1), u.o.position, g_table_unitInfo[u.o.type].o.hitpoints, Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT));
+            Map_MakeExplosion(STACK_PEEK(script, 1), u.o.position, g_table_unitInfo[u.o.type].o.hitpoints, Tools_Index_Encode(u.o.index, IndexType.IT_UNIT));
 			return 0;
 		}
 
@@ -547,11 +547,11 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 
-			Map.Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_DEATH_HAND, u.o.position, Tools.Tools_RandomLCG_Range(25, 50), 0);
+            Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_DEATH_HAND, u.o.position, Tools_RandomLCG_Range(25, 50), 0);
 
 			for (i = 0; i < 7; i++)
 			{
-				Map.Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_DEATH_HAND, CTile.Tile_MoveByRandom(u.o.position, STACK_PEEK(script, 1), false), Tools.Tools_RandomLCG_Range(75, 150), 0);
+                Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_DEATH_HAND, Tile_MoveByRandom(u.o.position, STACK_PEEK(script, 1), false), Tools_RandomLCG_Range(75, 150), 0);
 			}
 
 			return 0;
@@ -578,9 +578,9 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 
 			target = u.targetAttack;
-			if (target == 0 || !Tools.Tools_Index_IsValid(target)) return 0;
+			if (target == 0 || !Tools_Index_IsValid(target)) return 0;
 
-			if (u.o.type != (byte)UnitType.UNIT_SANDWORM && target == Tools.Tools_Index_Encode(CTile.Tile_PackTile(u.o.position), IndexType.IT_TILE)) u.targetAttack = 0;
+			if (u.o.type != (byte)UnitType.UNIT_SANDWORM && target == Tools_Index_Encode(Tile_PackTile(u.o.position), IndexType.IT_TILE)) u.targetAttack = 0;
 
 			if (u.targetAttack != target)
 			{
@@ -592,22 +592,22 @@ namespace SharpDune.Script
 
 			if (u.o.type != (byte)UnitType.UNIT_SANDWORM && u.orientation[ui.o.flags.hasTurret ? 1 : 0].speed != 0) return 0;
 
-			if (Tools.Tools_Index_GetType(target) == IndexType.IT_TILE && CObject.Object_GetByPackedTile(Tools.Tools_Index_GetPackedTile(target)) != null) Unit_SetTarget(u, target);
+			if (Tools_Index_GetType(target) == IndexType.IT_TILE && Object_GetByPackedTile(Tools_Index_GetPackedTile(target)) != null) Unit_SetTarget(u, target);
 
 			if (u.fireDelay != 0) return 0;
 
-			distance = CObject.Object_GetDistanceToEncoded(u.o, target);
+			distance = Object_GetDistanceToEncoded(u.o, target);
 
 			if ((short)(ui.fireDistance << 8) < (short)distance) return 0;
 
-			if (u.o.type != (byte)UnitType.UNIT_SANDWORM && (Tools.Tools_Index_GetType(target) != IndexType.IT_UNIT || g_table_unitInfo[Tools.Tools_Index_GetUnit(target).o.type].movementType != (ushort)MovementType.MOVEMENT_WINGER))
+			if (u.o.type != (byte)UnitType.UNIT_SANDWORM && (Tools_Index_GetType(target) != IndexType.IT_UNIT || g_table_unitInfo[Tools_Index_GetUnit(target).o.type].movementType != (ushort)MovementType.MOVEMENT_WINGER))
 			{
 				short diff = 0;
 				sbyte orientation;
 
-				orientation = CTile.Tile_GetDirection(u.o.position, Tools.Tools_Index_GetTile(target));
+				orientation = Tile_GetDirection(u.o.position, Tools_Index_GetTile(target));
 
-				diff = (short)Abs(u.orientation[ui.o.flags.hasTurret ? 1 : 0].current - orientation);
+				diff = (short)Math.Abs(u.orientation[ui.o.flags.hasTurret ? 1 : 0].current - orientation);
 				if (ui.movementType == (ushort)MovementType.MOVEMENT_WINGER) diff /= 8;
 
 				if (diff >= 8) return 0;
@@ -628,7 +628,7 @@ namespace SharpDune.Script
 
 						Unit_UpdateMap(0, u);
 
-						u2 = Tools.Tools_Index_GetUnit(target);
+						u2 = Tools_Index_GetUnit(target);
 
 						if (u2 != null)
 						{
@@ -638,9 +638,9 @@ namespace SharpDune.Script
 							Unit_Remove(u2);
 						}
 
-						Map.Map_MakeExplosion(ui.explosionType, u.o.position, 0, 0);
+                        Map_MakeExplosion(ui.explosionType, u.o.position, 0, 0);
 
-						Sound.Voice_PlayAtTile(63, u.o.position);
+                        Voice_PlayAtTile(63, u.o.position);
 
 						Unit_UpdateMap(1, u);
 
@@ -668,9 +668,9 @@ namespace SharpDune.Script
 
 						if (bullet == null) return 0;
 
-						bullet.originEncoded = Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
+						bullet.originEncoded = Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
 
-						Sound.Voice_PlayAtTile((short)ui.bulletSound, u.o.position);
+                        Voice_PlayAtTile((short)ui.bulletSound, u.o.position);
 
 						Unit_Deviation_Decrease(u, 20);
 					}
@@ -679,19 +679,19 @@ namespace SharpDune.Script
 				default: break;
 			}
 
-			u.fireDelay = Tools.Tools_AdjustToGameSpeed((ushort)(ui.fireDelay * 2), 1, 0xFFFF, true);
+			u.fireDelay = Tools_AdjustToGameSpeed((ushort)(ui.fireDelay * 2), 1, 0xFFFF, true);
 
 			if (fireTwice)
 			{
 				u.o.flags.fireTwiceFlip = !u.o.flags.fireTwiceFlip;
-				if (u.o.flags.fireTwiceFlip) u.fireDelay = Tools.Tools_AdjustToGameSpeed(5, 1, 10, true);
+				if (u.o.flags.fireTwiceFlip) u.fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true);
 			}
 			else
 			{
 				u.o.flags.fireTwiceFlip = false;
 			}
 
-			u.fireDelay += (ushort)(Tools.Tools_Random_256() & 1);
+			u.fireDelay += (ushort)(Tools_Random_256() & 1);
 
 			Unit_UpdateMap(2, u);
 
@@ -745,11 +745,11 @@ namespace SharpDune.Script
 			if (u.orientation[index].speed != 0) return 1;
 			current = u.orientation[index].current;
 
-			if (!Tools.Tools_Index_IsValid(u.targetAttack)) return 0;
+			if (!Tools_Index_IsValid(u.targetAttack)) return 0;
 
 			/* Check where we should rotate to */
-			tile = Tools.Tools_Index_GetTile(u.targetAttack);
-			orientation = CTile.Tile_GetDirection(u.o.position, tile);
+			tile = Tools_Index_GetTile(u.targetAttack);
+			orientation = Tile_GetDirection(u.o.position, tile);
 
 			/* If we aren't already looking at it, rotate */
 			if (orientation == current) return 0;
@@ -774,13 +774,13 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 			encoded = STACK_PEEK(script, 1);
 
-			if (Tools.Tools_Index_IsValid(encoded))
+			if (Tools_Index_IsValid(encoded))
 			{
 				tile32 tile;
 
-				tile = Tools.Tools_Index_GetTile(encoded);
+				tile = Tools_Index_GetTile(encoded);
 
-				return (ushort)CTile.Tile_GetDirection(u.o.position, tile);
+				return (ushort)Tile_GetDirection(u.o.position, tile);
 			}
 
 			return (ushort)u.orientation[0].current;
@@ -802,7 +802,7 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 			encoded = STACK_PEEK(script, 1);
 
-			if (encoded == 0 || !Tools.Tools_Index_IsValid(encoded))
+			if (encoded == 0 || !Tools_Index_IsValid(encoded))
 			{
 				u.targetMove = 0;
 				return 0;
@@ -812,7 +812,7 @@ namespace SharpDune.Script
 			{
 				Structure s;
 
-				s = Tools.Tools_Index_GetStructure(encoded);
+				s = Tools_Index_GetStructure(encoded);
 				if (s == null)
 				{
 					u.targetMove = encoded;
@@ -846,15 +846,15 @@ namespace SharpDune.Script
 
 			target = STACK_PEEK(script, 1);
 
-			if (target == 0 || !Tools.Tools_Index_IsValid(target))
+			if (target == 0 || !Tools_Index_IsValid(target))
 			{
 				u.targetAttack = 0;
 				return 0;
 			}
 
-			tile = Tools.Tools_Index_GetTile(target);
+			tile = Tools_Index_GetTile(target);
 
-			orientation = CTile.Tile_GetDirection(u.o.position, tile);
+			orientation = Tile_GetDirection(u.o.position, tile);
 
 			u.targetAttack = target;
 			if (!g_table_unitInfo[u.o.type].o.flags.hasTurret)
@@ -926,16 +926,16 @@ namespace SharpDune.Script
 
 			encoded = STACK_PEEK(script, 1);
 
-			if (!Tools.Tools_Index_IsValid(encoded)) return 0;
+			if (!Tools_Index_IsValid(encoded)) return 0;
 
 			u = g_scriptCurrentUnit;
 
 			if ((u.currentDestination.x == 0 && u.currentDestination.y == 0) || g_table_unitInfo[u.o.type].flags.isNormalUnit)
 			{
-				u.currentDestination = Tools.Tools_Index_GetTile(encoded);
+				u.currentDestination = Tools_Index_GetTile(encoded);
 			}
 
-			Unit_SetOrientation(u, CTile.Tile_GetDirection(u.o.position, u.currentDestination), false, 0);
+			Unit_SetOrientation(u, Tile_GetDirection(u.o.position, u.currentDestination), false, 0);
 
 			return 0;
 		}
@@ -959,7 +959,7 @@ namespace SharpDune.Script
 			switch (STACK_PEEK(script, 1))
 			{
 				case 0x00: return (ushort)(u.o.hitpoints * 256 / ui.o.hitpoints);
-				case 0x01: return (ushort)(Tools.Tools_Index_IsValid(u.targetMove) ? u.targetMove : 0);
+				case 0x01: return (ushort)(Tools_Index_IsValid(u.targetMove) ? u.targetMove : 0);
 				case 0x02: return (ushort)(ui.fireDistance << 8);
 				case 0x03: return u.o.index;
 				case 0x04: return (ushort)u.orientation[0].current;
@@ -968,16 +968,16 @@ namespace SharpDune.Script
 					if (u.originEncoded == 0 || u.o.type == (byte)UnitType.UNIT_HARVESTER) Unit_FindClosestRefinery(u);
 					return u.originEncoded;
 				case 0x07: return u.o.type;
-				case 0x08: return Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
+				case 0x08: return Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
 				case 0x09: return u.movingSpeed;
-				case 0x0A: return (ushort)Abs(u.orientation[0].target - u.orientation[0].current);
+				case 0x0A: return (ushort)Math.Abs(u.orientation[0].target - u.orientation[0].current);
 				case 0x0B: return (ushort)((u.currentDestination.x == 0 && u.currentDestination.y == 0) ? 0 : 1);
 				case 0x0C: return (ushort)(u.fireDelay == 0 ? 1 : 0);
 				case 0x0D: return (ushort)(ui.flags.explodeOnDeath ? 1 : 0);
 				case 0x0E: return Unit_GetHouseID(u);
 				case 0x0F: return (ushort)(u.o.flags.byScenario ? 1 : 0);
 				case 0x10: return (ushort)u.orientation[ui.o.flags.hasTurret ? 1 : 0].current;
-				case 0x11: return (ushort)Abs(u.orientation[ui.o.flags.hasTurret ? 1 : 0].target - u.orientation[ui.o.flags.hasTurret ? 1 : 0].current);
+				case 0x11: return (ushort)Math.Abs(u.orientation[ui.o.flags.hasTurret ? 1 : 0].target - u.orientation[ui.o.flags.hasTurret ? 1 : 0].current);
 				case 0x12: return (ushort)((ui.movementType & 0x40) == 0 ? 0 : 1);
 				case 0x13: return (ushort)((u.o.seenByHouses & (1 << (byte)g_playerHouseID)) == 0 ? 0 : 1);
 				default: return 0;
@@ -1043,7 +1043,7 @@ namespace SharpDune.Script
 
 					bufferFrom.Ptr = bufferTo.Ptr - 1; //bufferFrom = bufferTo[(bufferToPointer - 1)..];
 
-					while (bufferFrom.Arr[bufferFrom.Ptr] == 0xFE && !Common.AreArraysEqual(bufferFrom.Arr, bufferFrom.Ptr, data.buffer, 0, Min(bufferFrom.Arr.Length, data.buffer.Length))) bufferFrom.Ptr--;
+					while (bufferFrom.Arr[bufferFrom.Ptr] == 0xFE && !AreArraysEqual(bufferFrom.Arr, bufferFrom.Ptr, data.buffer, 0, Math.Min(bufferFrom.Arr.Length, data.buffer.Length))) bufferFrom.Ptr--;
 
 					if (bufferFrom.Arr[bufferFrom.Ptr] == 0xFE)
 					{
@@ -1077,7 +1077,7 @@ namespace SharpDune.Script
 						dir = (byte)((bufferFrom.Arr[bufferFrom.Ptr] + (direction < 0 ? -1 : 1)) & 0x7);
 
 						/* If we go 45 degrees with 90 degree difference, we can also go straight */
-						if (Abs(direction) == 1)
+						if (Math.Abs(direction) == 1)
 						{
 							if (Script_Unit_Pathfind_GetScore((ushort)(packed + s_mapDirection[dir]), dir) <= 255)
 							{
@@ -1240,7 +1240,7 @@ namespace SharpDune.Script
 				if (packedCur == packedDst) break;
 
 				/* Try going directly to the destination tile */
-				direction = (byte)(CTile.Tile_GetDirectionPacked(packedCur, packedDst) / 32);
+				direction = (byte)(Tile_GetDirectionPacked(packedCur, packedDst) / 32);
 				packedNext = (ushort)(packedCur + s_mapDirection[direction]);
 
 				/* Check for valid movement towards the tile */
@@ -1265,7 +1265,7 @@ namespace SharpDune.Script
 						if (packedNext == packedDst) break;
 
 						/* Find the first valid tile on the (direct) route. */
-						dir = (byte)(CTile.Tile_GetDirectionPacked(packedNext, packedDst) / 32);
+						dir = (byte)(Tile_GetDirectionPacked(packedNext, packedDst) / 32);
 						packedNext += (ushort)s_mapDirection[dir];
 						if (Script_Unit_Pathfind_GetScore(packedNext, dir) > 255) continue;
 
@@ -1288,7 +1288,7 @@ namespace SharpDune.Script
 						{
 							if (packedNext == packedDst) break;
 
-							dir = (byte)(CTile.Tile_GetDirectionPacked(packedNext, packedDst) / 32);
+							dir = (byte)(Tile_GetDirectionPacked(packedNext, packedDst) / 32);
 							packedNext += (ushort)s_mapDirection[dir];
 						} while (Script_Unit_Pathfind_GetScore(packedNext, dir) <= 255);
 					}
@@ -1310,7 +1310,7 @@ namespace SharpDune.Script
 						}
 
 						/* Calculate how much more we can copy into our own buffer */
-						routeSize = (short)Min(bufferSize - res.routeSize, bestRoute.routeSize);
+						routeSize = (short)Math.Min(bufferSize - res.routeSize, bestRoute.routeSize);
 						if (routeSize <= 0) break;
 
 						/* Copy the rest into our own buffer */
@@ -1353,10 +1353,10 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 			encoded = STACK_PEEK(script, 1);
 
-			if (u.currentDestination.x != 0 || u.currentDestination.y != 0 || !Tools.Tools_Index_IsValid(encoded)) return 1;
+			if (u.currentDestination.x != 0 || u.currentDestination.y != 0 || !Tools_Index_IsValid(encoded)) return 1;
 
-			packedSrc = CTile.Tile_PackTile(u.o.position);
-			packedDst = Tools.Tools_Index_GetPackedTile(encoded);
+			packedSrc = Tile_PackTile(u.o.position);
+			packedDst = Tools_Index_GetPackedTile(encoded);
 
 			if (packedDst == packedSrc)
 			{
@@ -1372,7 +1372,7 @@ namespace SharpDune.Script
 
 				res = Script_Unit_Pathfinder(packedSrc, packedDst, buffer, 40);
 
-				Buffer.BlockCopy(res.buffer, 0, u.route, 0, Min(res.routeSize, (ushort)14)); //memcpy(u->route, res.buffer, min(res.routeSize, 14));
+				Buffer.BlockCopy(res.buffer, 0, u.route, 0, Math.Min(res.routeSize, (ushort)14)); //memcpy(u->route, res.buffer, min(res.routeSize, 14));
 
 				if (u.route[0] == 0xFF)
 				{
@@ -1387,7 +1387,7 @@ namespace SharpDune.Script
 			{
 				ushort distance;
 
-				distance = CTile.Tile_GetDistancePacked(packedDst, packedSrc);
+				distance = Tile_GetDistancePacked(packedDst, packedSrc);
 				if (distance < 14) u.route[distance] = 0xFF;
 			}
 
@@ -1430,15 +1430,15 @@ namespace SharpDune.Script
 			{
 				Structure s;
 
-				s = Tools.Tools_Index_GetStructure(PoolUnit.Unit_Get_ByIndex(u.o.linkedID).originEncoded);
+				s = Tools_Index_GetStructure(Unit_Get_ByIndex(u.o.linkedID).originEncoded);
 
 				if (s != null && s.state == (short)StructureState.STRUCTURE_STATE_IDLE && s.o.script.variables[4] == 0)
 				{
 					ushort encoded;
 
-					encoded = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+					encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
-					CObject.Object_Script_Variable4_Link(Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), encoded);
+                    Object_Script_Variable4_Link(Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), encoded);
 
 					u.targetMove = u.o.script.variables[4];
 
@@ -1455,15 +1455,15 @@ namespace SharpDune.Script
 				Structure s;
 				ushort encoded;
 
-				s = PoolStructure.Structure_Find(find);
+				s = Structure_Find(find);
 				if (s == null) break;
 
 				if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
 				if (s.o.script.variables[4] != 0) continue;
 
-				encoded = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+				encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
-				CObject.Object_Script_Variable4_Link(Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), encoded);
+                Object_Script_Variable4_Link(Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), encoded);
 
 				u.targetMove = encoded;
 
@@ -1489,7 +1489,7 @@ namespace SharpDune.Script
 
 			if (u.o.linkedID == 0xFF) return u.amount;
 
-			return PoolUnit.Unit_Get_ByIndex(u.o.linkedID).amount;
+			return Unit_Get_ByIndex(u.o.linkedID).amount;
 		}
 
 		/*
@@ -1525,22 +1525,22 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 
-			position = CTile.Tile_PackTile(CTile.Tile_Center(u.o.position));
-			CAnimation.Animation_Stop_ByTile(position);
+			position = Tile_PackTile(Tile_Center(u.o.position));
+            Animation_Stop_ByTile(position);
 
-			animationUnitID = (ushort)(g_table_landscapeInfo[Map.Map_GetLandscapeType(CTile.Tile_PackTile(u.o.position))].isSand ? 0 : 1);
+			animationUnitID = (ushort)(g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(u.o.position))].isSand ? 0 : 1);
 			if (u.o.script.variables[1] == 1) animationUnitID += 2;
 
-			Map.g_map[position].houseID = Unit_GetHouseID(u);
+            g_map[position].houseID = Unit_GetHouseID(u);
 
 			Debug.Assert(animationUnitID < 4);
 			if (g_table_unitInfo[u.o.type].displayMode == (ushort)DisplayMode.INFANTRY_3_FRAMES)
 			{
-				CAnimation.Animation_Start(g_table_animation_unitScript1[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
+                Animation_Start(g_table_animation_unitScript1[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
 			}
 			else
 			{
-				CAnimation.Animation_Start(g_table_animation_unitScript2[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
+                Animation_Start(g_table_animation_unitScript2[animationUnitID], u.o.position, 0, Unit_GetHouseID(u), 4);
 			}
 
 			return 1;
@@ -1567,14 +1567,14 @@ namespace SharpDune.Script
 			if (u.o.script.variables[4] != 0) return u.o.script.variables[4];
 			if (!g_table_unitInfo[u.o.type].o.flags.canBePickedUp || u.deviated != 0) return 0;
 
-			encoded = Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
+			encoded = Tools_Index_Encode(u.o.index, IndexType.IT_UNIT);
 
 			u2 = Unit_CallUnitByType((UnitType)STACK_PEEK(script, 1), Unit_GetHouseID(u), encoded, false);
 			if (u2 == null) return 0;
 
-			encoded2 = Tools.Tools_Index_Encode(u2.o.index, IndexType.IT_UNIT);
+			encoded2 = Tools_Index_Encode(u2.o.index, IndexType.IT_UNIT);
 
-			CObject.Object_Script_Variable4_Link(encoded, encoded2);
+            Object_Script_Variable4_Link(encoded, encoded2);
 			u2.targetMove = encoded;
 
 			return encoded2;
@@ -1596,10 +1596,10 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 			if (u.o.script.variables[4] == 0) return 0;
 
-			u2 = Tools.Tools_Index_GetUnit(u.o.script.variables[4]);
+			u2 = Tools_Index_GetUnit(u.o.script.variables[4]);
 			if (u2 == null || u2.o.type != (byte)UnitType.UNIT_CARRYALL) return 0;
 
-			CObject.Object_Script_Variable4_Clear(u.o);
+            Object_Script_Variable4_Clear(u.o);
 			u2.targetMove = 0;
 
 			return 0;
@@ -1628,13 +1628,13 @@ namespace SharpDune.Script
 			{
 				Structure s;
 
-				s = PoolStructure.Structure_Find(find);
+				s = Structure_Find(find);
 				if (s == null) break;
 				if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
 				if (s.o.linkedID != 0xFF) continue;
 				if (s.o.script.variables[4] != 0) continue;
 
-				return Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+				return Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 			}
 
 			return 0;
@@ -1656,13 +1656,13 @@ namespace SharpDune.Script
 			u = g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
 
-			if (Config.g_config.language == (byte)Language.FRENCH)
+			if (g_config.language == (byte)Language.FRENCH)
 			{
-				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, CString.String_Get_ByIndex(ui.o.stringID_abbrev), g_table_houseInfo[Unit_GetHouseID(u)].name);
+                GUI_DisplayText(String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, String_Get_ByIndex(ui.o.stringID_abbrev), g_table_houseInfo[Unit_GetHouseID(u)].name);
 			}
 			else
 			{
-				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, g_table_houseInfo[Unit_GetHouseID(u)].name, CString.String_Get_ByIndex(ui.o.stringID_abbrev));
+                GUI_DisplayText(String_Get_ByIndex(Text.STR_S_S_DESTROYED), 0, g_table_houseInfo[Unit_GetHouseID(u)].name, String_Get_ByIndex(ui.o.stringID_abbrev));
 			}
 
 			return 0;
@@ -1704,21 +1704,21 @@ namespace SharpDune.Script
 			if (u.o.type != (byte)UnitType.UNIT_HARVESTER) return 0;
 			if (u.amount >= 100) return 0;
 
-			packed = CTile.Tile_PackTile(u.o.position);
+			packed = Tile_PackTile(u.o.position);
 
-			type = Map.Map_GetLandscapeType(packed);
+			type = Map_GetLandscapeType(packed);
 			if (type != (ushort)LandscapeType.LST_SPICE && type != (ushort)LandscapeType.LST_THICK_SPICE) return 0;
 
-			u.amount += (byte)(Tools.Tools_Random_256() & 1);
+			u.amount += (byte)(Tools_Random_256() & 1);
 			u.o.flags.inTransport = true;
 
 			Unit_UpdateMap(2, u);
 
 			if (u.amount > 100) u.amount = 100;
 
-			if ((Tools.Tools_Random_256() & 0x1F) != 0) return 1;
+			if ((Tools_Random_256() & 0x1F) != 0) return 1;
 
-			Map.Map_ChangeSpiceAmount(packed, -1);
+            Map_ChangeSpiceAmount(packed, -1);
 
 			return 0;
 		}
@@ -1742,15 +1742,15 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 			encoded = STACK_PEEK(script, 1);
-			index = Tools.Tools_Index_Decode(encoded);
+			index = Tools_Index_Decode(encoded);
 
-			switch (Tools.Tools_Index_GetType(encoded))
+			switch (Tools_Index_GetType(encoded))
 			{
 				case IndexType.IT_TILE:
-					if (!Map.Map_IsValidPosition(index)) return 1;
+					if (!Map_IsValidPosition(index)) return 1;
 					if (u.o.linkedID == 0xFF) return 1;
-					u2 = PoolUnit.Unit_Get_ByIndex(u.o.linkedID);
-					u2.o.position = Tools.Tools_Index_GetTile(encoded);
+					u2 = Unit_Get_ByIndex(u.o.linkedID);
+					u2.o.position = Tools_Index_GetTile(encoded);
 					if (!Unit_IsTileOccupied(u2)) return 0;
 					u2.o.position.x = 0xFFFF;
 					u2.o.position.y = 0xFFFF;
@@ -1760,10 +1760,10 @@ namespace SharpDune.Script
 					{
 						Structure s;
 
-						s = PoolStructure.Structure_Get_ByIndex(index);
+						s = Structure_Get_ByIndex(index);
 						if (s.o.houseID == Unit_GetHouseID(u)) return 0;
 						if (u.o.linkedID == 0xFF) return 1;
-						u2 = PoolUnit.Unit_Get_ByIndex(u.o.linkedID);
+						u2 = Unit_Get_ByIndex(u.o.linkedID);
 						return (ushort)(Unit_IsValidMovementIntoStructure(u2, s) != 0 ? 1 : 0);
 					}
 
@@ -1786,11 +1786,11 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 
-			if (Tools.Tools_Index_GetType(STACK_PEEK(script, 1)) != IndexType.IT_TILE) return 0;
+			if (Tools_Index_GetType(STACK_PEEK(script, 1)) != IndexType.IT_TILE) return 0;
 
-			tile = CTile.Tile_MoveByRandom(u.o.position, 80, true);
+			tile = Tile_MoveByRandom(u.o.position, 80, true);
 
-			return Tools.Tools_Index_Encode(CTile.Tile_PackTile(tile), IndexType.IT_TILE);
+			return Tools_Index_Encode(Tile_PackTile(tile), IndexType.IT_TILE);
 		}
 
 		/*
@@ -1810,22 +1810,22 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 
-			random = Tools.Tools_RandomLCG_Range(0, 10);
+			random = Tools_RandomLCG_Range(0, 10);
 			movementType = g_table_unitInfo[u.o.type].movementType;
 
 			if (movementType != (ushort)MovementType.MOVEMENT_FOOT && movementType != (ushort)MovementType.MOVEMENT_TRACKED && movementType != (ushort)MovementType.MOVEMENT_WHEELED) return 0;
 
 			if (movementType == (ushort)MovementType.MOVEMENT_FOOT && random > 8)
 			{
-				u.spriteOffset = (sbyte)(Tools.Tools_Random_256() & 0x3F);
+				u.spriteOffset = (sbyte)(Tools_Random_256() & 0x3F);
 				Unit_UpdateMap(2, u);
 			}
 
 			if (random > 2) return 0;
 
 			/* Ensure the order of Tools_Random_256() calls. */
-			i = (ushort)((Tools.Tools_Random_256() & 1) == 0 ? 1 : 0);
-			Unit_SetOrientation(u, (sbyte)Tools.Tools_Random_256(), false, i);
+			i = (ushort)((Tools_Random_256() & 1) == 0 ? 1 : 0);
+			Unit_SetOrientation(u, (sbyte)Tools_Random_256(), false, i);
 
 			return 0;
 		}
@@ -1856,14 +1856,14 @@ namespace SharpDune.Script
 				Structure s2;
 				ushort distance;
 
-				s2 = PoolStructure.Structure_Find(find);
+				s2 = Structure_Find(find);
 
 				if (s2 == null) break;
 				if (s2.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
 				if (s2.o.linkedID != 0xFF) continue;
 				if (s2.o.script.variables[4] != 0) continue;
 
-				distance = CTile.Tile_GetDistanceRoundedUp(s2.o.position, u.o.position);
+				distance = Tile_GetDistanceRoundedUp(s2.o.position, u.o.position);
 
 				if (distance >= distanceMin && distanceMin != 0) continue;
 
@@ -1874,7 +1874,7 @@ namespace SharpDune.Script
 			if (s == null) return 0;
 
 			Unit_SetAction(u, ActionType.ACTION_MOVE);
-			Unit_SetDestination(u, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
+			Unit_SetDestination(u, Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
 
 			return 1;
 		}
@@ -1900,7 +1900,7 @@ namespace SharpDune.Script
 
 			for (i = 0; i < 4; i++)
 			{
-				s = Structure_Create((ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_INVALID, (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), (ushort)(CTile.Tile_PackTile(u.o.position) + offsets[i]));
+				s = Structure_Create((ushort)StructureIndex.STRUCTURE_INDEX_INVALID, (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), (ushort)(Tile_PackTile(u.o.position) + offsets[i]));
 
 				if (s != null)
 				{
@@ -1911,7 +1911,7 @@ namespace SharpDune.Script
 
 			if (Unit_GetHouseID(u) == (byte)g_playerHouseID)
 			{
-				Gui.Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
+                GUI_DisplayText(String_Get_ByIndex(Text.STR_UNIT_IS_UNABLE_TO_DEPLOY_HERE), 0);
 			}
 
 			Unit_UpdateMap(1, u);
@@ -1937,7 +1937,7 @@ namespace SharpDune.Script
 			u2 = Unit_Sandworm_FindBestTarget(u);
 			if (u2 == null) return 0;
 
-			return Tools.Tools_Index_Encode(u2.o.index, IndexType.IT_UNIT);
+			return Tools_Index_Encode(u2.o.index, IndexType.IT_UNIT);
 		}
 
 		/*
@@ -1954,15 +1954,15 @@ namespace SharpDune.Script
 
 			u = g_scriptCurrentUnit;
 
-			switch (Tools.Tools_Index_GetType(u.o.script.variables[4]))
+			switch (Tools_Index_GetType(u.o.script.variables[4]))
 			{
 				case IndexType.IT_UNIT:
 					{
 						Unit u2;
 
-						u2 = Tools.Tools_Index_GetUnit(u.o.script.variables[4]);
+						u2 = Tools_Index_GetUnit(u.o.script.variables[4]);
 
-						if (Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT) == u2.o.script.variables[4] && u2.o.houseID == u.o.houseID) return 1;
+						if (Tools_Index_Encode(u.o.index, IndexType.IT_UNIT) == u2.o.script.variables[4] && u2.o.houseID == u.o.houseID) return 1;
 
 						u2.targetMove = 0;
 					}
@@ -1972,15 +1972,15 @@ namespace SharpDune.Script
 					{
 						Structure s;
 
-						s = Tools.Tools_Index_GetStructure(u.o.script.variables[4]);
-						if (Tools.Tools_Index_Encode(u.o.index, IndexType.IT_UNIT) == s.o.script.variables[4] && s.o.houseID == u.o.houseID) return 1;
+						s = Tools_Index_GetStructure(u.o.script.variables[4]);
+						if (Tools_Index_Encode(u.o.index, IndexType.IT_UNIT) == s.o.script.variables[4] && s.o.houseID == u.o.houseID) return 1;
 					}
 					break;
 
 				default: break;
 			}
 
-			CObject.Object_Script_Variable4_Clear(u.o);
+            Object_Script_Variable4_Clear(u.o);
 			return 0;
 		}
 

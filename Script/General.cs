@@ -39,7 +39,7 @@ namespace SharpDune.Script
         {
             ushort delay;
 
-            delay = (ushort)(Tools.Tools_Random_256() * STACK_PEEK(script, 1) / 256);
+            delay = (ushort)(Tools_Random_256() * STACK_PEEK(script, 1) / 256);
             delay /= 5;
 
             script.delay = delay;
@@ -63,9 +63,9 @@ namespace SharpDune.Script
             encoded = STACK_PEEK(script, 1);
             o = g_scriptCurrentObject;
 
-            if (!Tools.Tools_Index_IsValid(encoded)) return 0xFFFF;
+            if (!Tools_Index_IsValid(encoded)) return 0xFFFF;
 
-            return CTile.Tile_GetDistance(o.position, Tools.Tools_Index_GetTile(encoded));
+            return Tile_GetDistance(o.position, Tools_Index_GetTile(encoded));
         }
 
         /*
@@ -94,10 +94,10 @@ namespace SharpDune.Script
             string text; //char *
             ushort offset;
 
-            offset = Endian.BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+            offset = BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
             text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
-            Gui.Gui.GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
+            GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
 
             return 0;
         }
@@ -112,7 +112,7 @@ namespace SharpDune.Script
          * @return The random value.
          */
         internal static ushort Script_General_RandomRange(ScriptEngine script) =>
-            Tools.Tools_RandomLCG_Range(STACK_PEEK(script, 1), STACK_PEEK(script, 2));
+            Tools_RandomLCG_Range(STACK_PEEK(script, 1), STACK_PEEK(script, 2));
 
         /*
          * Display a modal message.
@@ -127,10 +127,10 @@ namespace SharpDune.Script
             string text; //char *
             ushort offset;
 
-            offset = Endian.BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+            offset = BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
             text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
-            return Gui.Gui.GUI_DisplayModalMessage(text, 0xFFFF);
+            return GUI_DisplayModalMessage(text, 0xFFFF);
         }
 
         /*
@@ -147,9 +147,9 @@ namespace SharpDune.Script
 
             index = STACK_PEEK(script, 1);
 
-            if (!Tools.Tools_Index_IsValid(index)) return 0xFFFF;
+            if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
-            return CObject.Object_GetDistanceToEncoded(g_scriptCurrentObject, index);
+            return Object_GetDistanceToEncoded(g_scriptCurrentObject, index);
         }
 
         /*
@@ -166,11 +166,11 @@ namespace SharpDune.Script
             Structure s;
 
             index = STACK_PEEK(script, 1);
-            s = Tools.Tools_Index_GetStructure(index);
+            s = Tools_Index_GetStructure(index);
 
-            if (s != null && Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE) != index) return 1;
+            if (s != null && Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE) != index) return 1;
 
-            return (ushort)((Tools.Tools_Index_GetObject(index) == null) ? 1 : 0);
+            return (ushort)((Tools_Index_GetObject(index) == null) ? 1 : 0);
         }
 
         /*
@@ -185,7 +185,7 @@ namespace SharpDune.Script
         {
             Unit u;
 
-            u = Tools.Tools_Index_GetUnit(STACK_PEEK(script, 1));
+            u = Tools_Index_GetUnit(STACK_PEEK(script, 1));
 
             if (u == null) return 128;
 
@@ -212,7 +212,7 @@ namespace SharpDune.Script
 
             while (true)
             {
-                var u = PoolUnit.Unit_Find(find);
+                var u = Unit_Find(find);
                 if (u == null) break;
                 count++;
             }
@@ -234,9 +234,9 @@ namespace SharpDune.Script
 
             index = STACK_PEEK(script, 1);
 
-            if (!Tools.Tools_Index_IsValid(index)) return 0xFFFF;
+            if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
-            return Tools.Tools_Index_Decode(index);
+            return Tools_Index_Decode(index);
         }
 
         /*
@@ -253,9 +253,9 @@ namespace SharpDune.Script
 
             index = STACK_PEEK(script, 1);
 
-            if (!Tools.Tools_Index_IsValid(index)) return 0xFFFF;
+            if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
-            return (ushort)Tools.Tools_Index_GetType(index);
+            return (ushort)Tools_Index_GetType(index);
         }
 
         /*
@@ -274,7 +274,7 @@ namespace SharpDune.Script
 
             if (linkedID == 0xFF) return 0xFFFF;
 
-            return PoolUnit.Unit_Get_ByIndex(linkedID).o.type;
+            return Unit_Get_ByIndex(linkedID).o.type;
         }
 
         /*
@@ -291,7 +291,7 @@ namespace SharpDune.Script
 
             position = g_scriptCurrentObject.position;
 
-            Sound.Voice_PlayAtTile((short)STACK_PEEK(script, 1), position);
+            Voice_PlayAtTile((short)STACK_PEEK(script, 1), position);
 
             return 0;
         }
@@ -311,10 +311,10 @@ namespace SharpDune.Script
 
             position = g_scriptCurrentObject.position;
 
-            packedSpicePos = Map.Map_SearchSpice(CTile.Tile_PackTile(position), STACK_PEEK(script, 1));
+            packedSpicePos = Map_SearchSpice(Tile_PackTile(position), STACK_PEEK(script, 1));
 
             if (packedSpicePos == 0) return 0;
-            return Tools.Tools_Index_Encode(packedSpicePos, IndexType.IT_TILE);
+            return Tools_Index_Encode(packedSpicePos, IndexType.IT_TILE);
         }
 
         /*
@@ -333,7 +333,7 @@ namespace SharpDune.Script
 
             index = STACK_PEEK(script, 1);
 
-            o = Tools.Tools_Index_GetObject(index);
+            o = Tools_Index_GetObject(index);
 
             if (o == null || o.flags.isNotOnMap || !o.flags.used) return 0;
 
@@ -357,14 +357,14 @@ namespace SharpDune.Script
 
             index = STACK_PEEK(script, 1);
 
-            if (!Tools.Tools_Index_IsValid(index)) return 0;
+            if (!Tools_Index_IsValid(index)) return 0;
 
             houseID = (g_scriptCurrentUnit != null) ? Unit_GetHouseID(g_scriptCurrentUnit) : g_scriptCurrentObject.houseID;
 
-            switch (Tools.Tools_Index_GetType(index))
+            switch (Tools_Index_GetType(index))
             {
-                case IndexType.IT_UNIT: return (ushort)((Unit_GetHouseID(Tools.Tools_Index_GetUnit(index)) != houseID) ? 1 : 0);
-                case IndexType.IT_STRUCTURE: return (ushort)((Tools.Tools_Index_GetStructure(index).o.houseID != houseID) ? 1 : 0);
+                case IndexType.IT_UNIT: return (ushort)((Unit_GetHouseID(Tools_Index_GetUnit(index)) != houseID) ? 1 : 0);
+                case IndexType.IT_STRUCTURE: return (ushort)((Tools_Index_GetStructure(index).o.houseID != houseID) ? 1 : 0);
                 default: return 0;
             }
         }
@@ -391,12 +391,12 @@ namespace SharpDune.Script
 
             houseID = g_scriptCurrentObject.houseID;
 
-            if (Tools.Tools_Index_GetType(index) == IndexType.IT_UNIT) return 0;
-            if (Tools.Tools_Index_GetType(index) == IndexType.IT_TILE) return 0;
+            if (Tools_Index_GetType(index) == IndexType.IT_UNIT) return 0;
+            if (Tools_Index_GetType(index) == IndexType.IT_TILE) return 0;
 
-            if (Tools.Tools_Index_GetType(index) == IndexType.IT_STRUCTURE)
+            if (Tools_Index_GetType(index) == IndexType.IT_STRUCTURE)
             {
-                s = Tools.Tools_Index_GetStructure(index);
+                s = Tools_Index_GetStructure(index);
                 if (s.o.houseID != houseID) return 0;
                 if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) return 0;
                 return 1;
@@ -408,10 +408,10 @@ namespace SharpDune.Script
 
             while (true)
             {
-                s = PoolStructure.Structure_Find(find);
+                s = Structure_Find(find);
                 if (s == null) return 0;
                 if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
-                return Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+                return Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
             }
         }
     }

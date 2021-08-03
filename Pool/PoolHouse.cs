@@ -84,7 +84,7 @@
             //memset(h, 0, sizeof(House));
             h.index = index;
             h.flags.used = true;
-            h.starportLinkedID = (ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID;
+            h.starportLinkedID = (ushort)UnitIndex.UNIT_INDEX_INVALID;
 
             g_houseFindArray[g_houseFindCount++] = h;
 

@@ -52,32 +52,32 @@ namespace SharpDune
 		{
 			string value;
 
-			var keys = Ini.Ini_GetString(category, null, null, s_scenarioBuffer);
+			var keys = Ini_GetString(category, null, null, s_scenarioBuffer);
 			if (keys == null) return;
 
 			foreach (var key in keys.Split('|'))
 			{
-				value = Ini.Ini_GetString(category, key, null, s_scenarioBuffer);
+				value = Ini_GetString(category, key, null, s_scenarioBuffer);
 				ptr?.Invoke(key, value);
 			}
 		}
 
 		static void Scenario_Load_General()
 		{
-			g_scenario.winFlags = (ushort)Ini.Ini_GetInteger("BASIC", "WinFlags", 0, s_scenarioBuffer);
-			g_scenario.loseFlags = (ushort)Ini.Ini_GetInteger("BASIC", "LoseFlags", 0, s_scenarioBuffer);
-			g_scenario.mapSeed = (uint)Ini.Ini_GetInteger("MAP", "Seed", 0, s_scenarioBuffer);
-			g_scenario.timeOut = (ushort)Ini.Ini_GetInteger("BASIC", "TimeOut", 0, s_scenarioBuffer);
-			Gui.Gui.g_minimapPosition = (ushort)Ini.Ini_GetInteger("BASIC", "TacticalPos", Gui.Gui.g_minimapPosition, s_scenarioBuffer);
-			Gui.Gui.g_selectionRectanglePosition = (ushort)Ini.Ini_GetInteger("BASIC", "CursorPos", Gui.Gui.g_selectionRectanglePosition, s_scenarioBuffer);
-			g_scenario.mapScale = (ushort)Ini.Ini_GetInteger("BASIC", "MapScale", 0, s_scenarioBuffer);
+			g_scenario.winFlags = (ushort)Ini_GetInteger("BASIC", "WinFlags", 0, s_scenarioBuffer);
+			g_scenario.loseFlags = (ushort)Ini_GetInteger("BASIC", "LoseFlags", 0, s_scenarioBuffer);
+			g_scenario.mapSeed = (uint)Ini_GetInteger("MAP", "Seed", 0, s_scenarioBuffer);
+			g_scenario.timeOut = (ushort)Ini_GetInteger("BASIC", "TimeOut", 0, s_scenarioBuffer);
+            g_minimapPosition = (ushort)Ini_GetInteger("BASIC", "TacticalPos", g_minimapPosition, s_scenarioBuffer);
+            g_selectionRectanglePosition = (ushort)Ini_GetInteger("BASIC", "CursorPos", g_selectionRectanglePosition, s_scenarioBuffer);
+			g_scenario.mapScale = (ushort)Ini_GetInteger("BASIC", "MapScale", 0, s_scenarioBuffer);
 
-			g_scenario.pictureBriefing = Ini.Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA", s_scenarioBuffer);
-			g_scenario.pictureWin = Ini.Ini_GetString("BASIC", "WinPicture", "WIN1.WSA", s_scenarioBuffer);
-			g_scenario.pictureLose = Ini.Ini_GetString("BASIC", "LosePicture", "LOSTBILD.WSA", s_scenarioBuffer);
+			g_scenario.pictureBriefing = Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA", s_scenarioBuffer);
+			g_scenario.pictureWin = Ini_GetString("BASIC", "WinPicture", "WIN1.WSA", s_scenarioBuffer);
+			g_scenario.pictureLose = Ini_GetString("BASIC", "LosePicture", "LOSTBILD.WSA", s_scenarioBuffer);
 
-			Gui.Gui.g_viewportPosition = Gui.Gui.g_minimapPosition;
-			Gui.Gui.g_selectionPosition = Gui.Gui.g_selectionRectanglePosition;
+            g_viewportPosition = g_minimapPosition;
+            g_selectionPosition = g_selectionRectanglePosition;
 		}
 
 		static void Scenario_Load_House(byte houseID)
@@ -89,7 +89,7 @@ namespace SharpDune
 			House h;
 
 			/* Get the type of the House (CPU / Human) */
-			buf = Ini.Ini_GetString(houseName, "Brain", "NONE", s_scenarioBuffer);
+			buf = Ini_GetString(houseName, "Brain", "NONE", s_scenarioBuffer);
 			//b = buf.ToArray();
 			//for (var i = 0; i < b.Length; i++) if (b[i] >= 'a' && b[i] <= 'z') unchecked { b[i] += (char)('A' - 'a'); }
 			//for (b = buf; *b != '\0'; b++) if (*b >= 'a' && *b <= 'z') *b += 'A' - 'a';
@@ -105,11 +105,11 @@ namespace SharpDune
 				return;
 
 			/* Create the house */
-			h = PoolHouse.House_Allocate(houseID);
+			h = House_Allocate(houseID);
 
-			h.credits = (ushort)Ini.Ini_GetInteger(houseName, "Credits", 0, s_scenarioBuffer);
-			h.creditsQuota = (ushort)Ini.Ini_GetInteger(houseName, "Quota", 0, s_scenarioBuffer);
-			h.unitCountMax = (ushort)Ini.Ini_GetInteger(houseName, "MaxUnit", 39, s_scenarioBuffer);
+			h.credits = (ushort)Ini_GetInteger(houseName, "Credits", 0, s_scenarioBuffer);
+			h.creditsQuota = (ushort)Ini_GetInteger(houseName, "Quota", 0, s_scenarioBuffer);
+			h.unitCountMax = (ushort)Ini_GetInteger(houseName, "MaxUnit", 39, s_scenarioBuffer);
 
 			/* For 'Brain = Human' we have to set a few additional things */
 			if (houseType[0] != 'H') return;
@@ -145,7 +145,7 @@ namespace SharpDune
 				find.type = 0xFFFF;
 
 				max = 80;
-				while ((h2 = PoolHouse.House_Find(find)) != null)
+				while ((h2 = House_Find(find)) != null)
 				{
 					/* Skip the human controlled house */
 					if (h2.flags.human) continue;
@@ -217,7 +217,7 @@ namespace SharpDune
                 x = 0xFFFF,
                 y = 0xFFFF
             };
-            u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
+            u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, unitType, houseType, position, 0);
 			if (u == null) return;
 
 			g_scenario.reinforcement[index].unitID = u.o.index;
@@ -238,18 +238,18 @@ namespace SharpDune
 
 			/* Load scenario file */
 			filename = $"SCEN{g_table_houseInfo[houseID].name[0]}{scenarioID:D3}.INI"; //sprintf(filename, "SCEN%c%03hu.INI", g_table_houseInfo[houseID].name[0], scenarioID);
-			if (!CFile.File_Exists(filename)) return false;
-			CFile.File_ReadWholeFile(filename, ref s_scenarioBuffer); //s_scenarioBuffer = CFile.File_ReadWholeFile(filename);
+			if (!File_Exists(filename)) return false;
+            File_ReadWholeFile(filename, ref s_scenarioBuffer); //s_scenarioBuffer = CFile.File_ReadWholeFile(filename);
 
 			//memset(&g_scenario, 0, sizeof(Scenario));
 
 			Scenario_Load_General();
-			Sprites.Sprites_LoadTiles();
-			Map.Map_CreateLandscape(g_scenario.mapSeed);
+            Sprites_LoadTiles();
+            Map_CreateLandscape(g_scenario.mapSeed);
 
 			for (i = 0; i < 16; i++)
 			{
-				g_scenario.reinforcement[i].unitID = (ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID;
+				g_scenario.reinforcement[i].unitID = (ushort)UnitIndex.UNIT_INDEX_INVALID;
 			}
 
 			Scenario_Load_Houses();
@@ -265,7 +265,7 @@ namespace SharpDune
 			Scenario_Load_MapParts("Field", Scenario_Load_Map_Field);
 			Scenario_Load_MapParts("Special", Scenario_Load_Map_Special);
 
-            g_tickScenarioStart = Timer.g_timerGame;
+            g_tickScenarioStart = g_timerGame;
 
 			s_scenarioBuffer = string.Empty; //free(s_scenarioBuffer);
 			return true;
@@ -276,7 +276,7 @@ namespace SharpDune
 			string[] s; //char*
 			string buf; //char[128]
 
-			buf = Ini.Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer);
+			buf = Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer);
 			if (buf == string.Empty) return;
 
 			s = buf.Split(","); //strtok(buf, ",\r\n");
@@ -286,7 +286,7 @@ namespace SharpDune
 				Tile t;
 
 				packed = ushort.Parse(s[i], Culture); //atoi(s);
-				t = Map.g_map[packed];
+				t = g_map[packed];
 
 				ptr?.Invoke(packed, t);
 
@@ -322,8 +322,8 @@ namespace SharpDune
 			posY = key[4..6]; //memcpy(posY, key + 4, 2);
 							  //posY[2] = '\0';
 
-			packed = (ushort)(CTile.Tile_PackXY(ushort.Parse(posY, Culture), ushort.Parse(key[6..], Culture)) & 0xFFF);
-			t = Map.g_map[packed];
+			packed = (ushort)(Tile_PackXY(ushort.Parse(posY, Culture), ushort.Parse(key[6..], Culture)) & 0xFFF);
+			t = g_map[packed];
 
 			s = settings.Split(",\r\n"); //strtok(settings, ",\r\n");
 			value = ushort.Parse(s[0], Culture);
@@ -336,20 +336,20 @@ namespace SharpDune
 
 			//s = strtok(NULL, ",\r\n");
 			t.groundTileID = (ushort)(ushort.Parse(s[1], Culture) & 0x01FF);
-			if (Map.g_mapTileID[packed] != t.groundTileID) Map.g_mapTileID[packed] |= 0x8000;
+			if (g_mapTileID[packed] != t.groundTileID) g_mapTileID[packed] |= 0x8000;
 
-			if (!t.isUnveiled) t.overlayTileID = Sprites.g_veiledTileID;
+			if (!t.isUnveiled) t.overlayTileID = g_veiledTileID;
 		}
 
 		static void Scenario_Load_Map_Bloom(ushort packed, Tile t)
 		{
-			t.groundTileID = Sprites.g_bloomTileID;
-			Map.g_mapTileID[packed] |= 0x8000;
+			t.groundTileID = g_bloomTileID;
+            g_mapTileID[packed] |= 0x8000;
 		}
 
         static void Scenario_Load_Map_Field(ushort packed, Tile t)
 		{
-			Map.Map_Bloom_ExplodeSpice(packed, (byte)HouseType.HOUSE_INVALID);
+            Map_Bloom_ExplodeSpice(packed, (byte)HouseType.HOUSE_INVALID);
 
 			/* Show where a field started in the preview mode by making it an odd looking sprite */
 			if (g_debugScenario)
@@ -360,8 +360,8 @@ namespace SharpDune
 
 		static void Scenario_Load_Map_Special(ushort packed, Tile t)
 		{
-			t.groundTileID = (ushort)(Sprites.g_bloomTileID + 1);
-			Map.g_mapTileID[packed] |= 0x8000;
+			t.groundTileID = (ushort)(g_bloomTileID + 1);
+            g_mapTileID[packed] |= 0x8000;
 		}
 
         static void Scenario_Load_Team(string key, string settings)
@@ -378,7 +378,7 @@ namespace SharpDune
 			if (houseType == (byte)HouseType.HOUSE_INVALID) return;
 
 			/* Second value is the teamAction type */
-			teamActionType = CTeam.Team_ActionStringToType(split[1]);
+			teamActionType = Team_ActionStringToType(split[1]);
 			if (teamActionType == (byte)TeamActionType.TEAM_ACTION_INVALID) return;
 
 			/* Third value is the movement type */
@@ -391,7 +391,7 @@ namespace SharpDune
 			/* Fifth value is maximum amount of members in team */
 			maxMembers = ushort.Parse(split[4], Culture);
 
-			CTeam.Team_Create(houseType, teamActionType, movementType, minMembers, maxMembers);
+            Team_Create(houseType, teamActionType, movementType, minMembers, maxMembers);
 		}
 
 		static void Scenario_Load_Unit(string key, string settings)
@@ -438,7 +438,7 @@ namespace SharpDune
 			//*split = '\0';
 
 			/* Fourth value is the position on the map */
-			position = CTile.Tile_UnpackTile(ushort.Parse(split[3], Culture));
+			position = Tile_UnpackTile(ushort.Parse(split[3], Culture));
 
 			/* Find the next value in the ',' separated list */
 			//settings = split + 1;
@@ -454,7 +454,7 @@ namespace SharpDune
 			actionType = Unit_ActionStringToType(split[5]);
 			if (actionType == (byte)ActionType.ACTION_INVALID) return;
 
-			u = PoolUnit.Unit_Allocate((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, unitType, houseType);
+			u = Unit_Allocate((ushort)UnitIndex.UNIT_INDEX_INVALID, unitType, houseType);
 			if (u == null) return;
 			u.o.flags.byScenario = true;
 
@@ -465,9 +465,9 @@ namespace SharpDune
 			u.nextActionID = (byte)ActionType.ACTION_INVALID;
 
 			/* In case the above function failed and we are passed campaign 2, don't add the unit */
-			if (!Map.Map_IsValidPosition(CTile.Tile_PackTile(u.o.position)) && g_campaignID > 2)
+			if (!Map_IsValidPosition(Tile_PackTile(u.o.position)) && g_campaignID > 2)
 			{
-				PoolUnit.Unit_Free(u);
+                Unit_Free(u);
 				return;
 			}
 
@@ -510,7 +510,7 @@ namespace SharpDune
 				structureType = Structure_StringToType(split[1]);
 				if (structureType == (byte)StructureType.STRUCTURE_INVALID) return;
 
-                Structure_Create((ushort)PoolStructure.StructureIndex.STRUCTURE_INDEX_INVALID, structureType, houseType, position);
+                Structure_Create((ushort)StructureIndex.STRUCTURE_INDEX_INVALID, structureType, houseType, position);
 				return;
 			}
 

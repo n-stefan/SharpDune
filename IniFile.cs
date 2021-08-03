@@ -9,7 +9,7 @@ namespace SharpDune
         internal static int IniFile_GetInteger(string key, int defaultValue)
 		{
 			if (g_sharpduneini == null) return defaultValue;
-			return Ini.Ini_GetInteger("sharpdune", key, defaultValue, g_sharpduneini);
+			return Ini_GetInteger("sharpdune", key, defaultValue, g_sharpduneini);
 		}
 
 		/*
@@ -128,7 +128,7 @@ namespace SharpDune
 			string p;
 			//ushort i;
 			/* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
-			p = Ini.Ini_GetString("sharpdune", key, defaultValue, g_sharpduneini);
+			p = Ini_GetString("sharpdune", key, defaultValue, g_sharpduneini);
 			//TODO: Check
 			if (!string.IsNullOrEmpty(p))
 			{

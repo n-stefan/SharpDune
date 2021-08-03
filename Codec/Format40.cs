@@ -105,7 +105,7 @@ namespace SharpDune.Codec
 						if (length == width)
 						{
 							length = 0;
-							dstPointer += Gfx.SCREEN_WIDTH - width;
+							dstPointer += SCREEN_WIDTH - width;
 						}
 					}
 					srcPointer++;
@@ -120,7 +120,7 @@ namespace SharpDune.Codec
 						if (length == width)
 						{
 							length = 0;
-							dstPointer += Gfx.SCREEN_WIDTH - width;
+							dstPointer += SCREEN_WIDTH - width;
 						}
 					}
 				}
@@ -132,7 +132,7 @@ namespace SharpDune.Codec
 					while (length >= width)
 					{
 						length -= width;
-						dstPointer += Gfx.SCREEN_WIDTH - width;
+						dstPointer += SCREEN_WIDTH - width;
 					}
 				}
 				else
@@ -151,7 +151,7 @@ namespace SharpDune.Codec
 						while (length >= width)
 						{
 							length -= width;
-							dstPointer += Gfx.SCREEN_WIDTH - width;
+							dstPointer += SCREEN_WIDTH - width;
 						}
 					}
 					else if ((cmd & 0x4000) == 0)
@@ -164,7 +164,7 @@ namespace SharpDune.Codec
 							if (length == width)
 							{
 								length = 0;
-								dstPointer += Gfx.SCREEN_WIDTH - width;
+								dstPointer += SCREEN_WIDTH - width;
 							}
 						}
 					}
@@ -178,7 +178,7 @@ namespace SharpDune.Codec
 							if (length == width)
 							{
 								length = 0;
-								dstPointer += Gfx.SCREEN_WIDTH - width;
+								dstPointer += SCREEN_WIDTH - width;
 							}
 						}
 						srcPointer++;
@@ -217,7 +217,7 @@ namespace SharpDune.Codec
 						if (length == width)
 						{
 							length = 0;
-							dstPointer += Gfx.SCREEN_WIDTH - width;
+							dstPointer += SCREEN_WIDTH - width;
 						}
 					}
 					srcPointer++;
@@ -232,7 +232,7 @@ namespace SharpDune.Codec
 						if (length == width)
 						{
 							length = 0;
-							dstPointer += Gfx.SCREEN_WIDTH - width;
+							dstPointer += SCREEN_WIDTH - width;
 						}
 					}
 				}
@@ -244,7 +244,7 @@ namespace SharpDune.Codec
 					while (length >= width)
 					{
 						length -= width;
-						dstPointer += Gfx.SCREEN_WIDTH - width;
+						dstPointer += SCREEN_WIDTH - width;
 					}
 				}
 				else
@@ -263,7 +263,7 @@ namespace SharpDune.Codec
 						while (length >= width)
 						{
 							length -= width;
-							dstPointer += Gfx.SCREEN_WIDTH - width;
+							dstPointer += SCREEN_WIDTH - width;
 						}
 					}
 					else if ((cmd & 0x4000) == 0)
@@ -276,7 +276,7 @@ namespace SharpDune.Codec
 							if (length == width)
 							{
 								length = 0;
-								dstPointer += Gfx.SCREEN_WIDTH - width;
+								dstPointer += SCREEN_WIDTH - width;
 							}
 						}
 					}
@@ -290,7 +290,7 @@ namespace SharpDune.Codec
 							if (length == width)
 							{
 								length = 0;
-								dstPointer += Gfx.SCREEN_WIDTH - width;
+								dstPointer += SCREEN_WIDTH - width;
 							}
 						}
 						srcPointer++;

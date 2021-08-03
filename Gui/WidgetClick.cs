@@ -25,7 +25,7 @@ namespace SharpDune.Gui
 
 			s_savegameCountOnDisk = GetSavegameCount();
 
-			s_savegameIndexBase = (ushort)Max(0, s_savegameCountOnDisk - (save ? 0 : 1));
+			s_savegameIndexBase = (ushort)Math.Max(0, s_savegameCountOnDisk - (save ? 0 : 1));
 
 			FillSavegameDesc(save);
 
@@ -37,10 +37,10 @@ namespace SharpDune.Gui
 
 			UpdateArrows(save, true);
 
-			for (loop = true; loop; Sleep.sleepIdle())
+			for (loop = true; loop; sleepIdle())
 			{
-				var w = CWidget.g_widgetLinkedListTail;
-				var key = CWidget.GUI_Widget_HandleEvents(w);
+				var w = g_widgetLinkedListTail;
+				var key = GUI_Widget_HandleEvents(w);
 
 				UpdateArrows(save, false);
 
@@ -49,24 +49,24 @@ namespace SharpDune.Gui
 					Widget w2;
 
 					key &= 0x7FFF;
-					w2 = CWidget.GUI_Widget_Get_ByIndex(w, key);
+					w2 = GUI_Widget_Get_ByIndex(w, key);
 
 					switch (key)
 					{
 						case 0x25:
-							s_savegameIndexBase = (ushort)Min(s_savegameCountOnDisk - (save ? 0 : 1), s_savegameIndexBase + 1);
+							s_savegameIndexBase = (ushort)Math.Min(s_savegameCountOnDisk - (save ? 0 : 1), s_savegameIndexBase + 1);
 
 							FillSavegameDesc(save);
 
-							WidgetDraw.GUI_Widget_DrawAll(w);
+                            GUI_Widget_DrawAll(w);
 							break;
 
 						case 0x26:
-							s_savegameIndexBase = (ushort)Max(0, s_savegameIndexBase - 1);
+							s_savegameIndexBase = (ushort)Math.Max(0, s_savegameIndexBase - 1);
 
 							FillSavegameDesc(save);
 
-							WidgetDraw.GUI_Widget_DrawAll(w);
+                            GUI_Widget_DrawAll(w);
 							break;
 
 						case 0x23:
@@ -81,7 +81,7 @@ namespace SharpDune.Gui
 
 								if (!save)
 								{
-									return Load.SaveGame_LoadFile(GenerateSavegameFilename((ushort)(s_savegameIndexBase - key)));
+									return SaveGame_LoadFile(GenerateSavegameFilename((ushort)(s_savegameIndexBase - key)));
 								}
 
 								if (GUI_Widget_Savegame_Click(key)) return true;
@@ -97,10 +97,10 @@ namespace SharpDune.Gui
 							break;
 					}
 
-					CWidget.GUI_Widget_MakeNormal(w2, false);
+                    GUI_Widget_MakeNormal(w2, false);
 				}
 
-				Gui.GUI_PaletteAnimate();
+                GUI_PaletteAnimate();
 			}
 
 			GUI_Window_RestoreScreen(desc);
@@ -136,7 +136,7 @@ namespace SharpDune.Gui
 			action = (ActionType)actions[w.index - 8];
 			if (g_dune2_enhanced)
 			{
-				if (Input.Input.Input_Test(0x2c) != 0 || Input.Input.Input_Test(0x39) != 0)
+				if (Input_Test(0x2c) != 0 || Input_Test(0x39) != 0)
 				{   /* LSHIFT or RSHIFT is pressed */
 					if (action == ActionType.ACTION_GUARD) action = ActionType.ACTION_AREA_GUARD;   /* AREA GUARD instead of GUARD */
 					else if (action == ActionType.ACTION_ATTACK) action = ActionType.ACTION_AMBUSH; /* AMBUSH instead of ATTACK */
@@ -155,12 +155,12 @@ namespace SharpDune.Gui
                 Unit_Deviation_Decrease(u, 5);
 				if (u.deviated == 0)
 				{
-					CWidget.GUI_Widget_MakeNormal(w, false);
+                    GUI_Widget_MakeNormal(w, false);
 					return true;
 				}
 			}
 
-			CWidget.GUI_Widget_MakeSelected(w, false);
+            GUI_Widget_MakeSelected(w, false);
 
 			ai = g_table_actionInfo[(int)action];
 
@@ -168,28 +168,28 @@ namespace SharpDune.Gui
 			{
                 g_unitActive = g_unitSelected;
                 g_activeAction = (ushort)action;
-				Gui.GUI_ChangeSelectionType(ai.selectionType);
+                GUI_ChangeSelectionType(ai.selectionType);
 
 				return true;
 			}
 
-			CObject.Object_Script_Variable4_Clear(u.o);
+            Object_Script_Variable4_Clear(u.o);
 			u.targetAttack = 0;
 			u.targetMove = 0;
 			u.route[0] = 0xFF;
 
             Unit_SetAction(u, action);
 
-			if (ui.movementType == (ushort)MovementType.MOVEMENT_FOOT) Sound.Sound_StartSound(ai.soundID);
+			if (ui.movementType == (ushort)MovementType.MOVEMENT_FOOT) Sound_StartSound(ai.soundID);
 
 			if (unitAction == action) return true;
 
 			var index = Array.FindIndex(actions[..4], a => a == (ushort)unitAction);
 			if (index == -1) return true;
-			//found = memchr(actions, unitAction, 4);
-			//if (found == NULL) return true;
+            //found = memchr(actions, unitAction, 4);
+            //if (found == NULL) return true;
 
-			CWidget.GUI_Widget_MakeNormal(CWidget.GUI_Widget_Get_ByIndex(CWidget.g_widgetLinkedListHead, (ushort)(/*found - actions + 8*/index + 8)), false);
+            GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, (ushort)(/*found - actions + 8*/index + 8)), false);
 
 			return true;
 		}
@@ -206,22 +206,22 @@ namespace SharpDune.Gui
 			w = g_table_windowWidgets[8];
 			if (s_savegameIndexBase >= 5)
 			{
-				CWidget.GUI_Widget_MakeVisible(w);
+                GUI_Widget_MakeVisible(w);
 			}
 			else
 			{
-				CWidget.GUI_Widget_MakeInvisible(w);
+                GUI_Widget_MakeInvisible(w);
 				GUI_Widget_Undraw(w, 233);
 			}
 
 			w = g_table_windowWidgets[7];
 			if (s_savegameCountOnDisk - (save ? 0 : 1) > s_savegameIndexBase)
 			{
-				CWidget.GUI_Widget_MakeVisible(w);
+                GUI_Widget_MakeVisible(w);
 			}
 			else
 			{
-				CWidget.GUI_Widget_MakeInvisible(w);
+                GUI_Widget_MakeInvisible(w);
 				GUI_Widget_Undraw(w, 233);
 			}
 		}
@@ -251,17 +251,17 @@ namespace SharpDune.Gui
 				{
 					if (!save) continue;
 
-					/*desc*/g_savegameDesc[i] = CString.String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
+					/*desc*/g_savegameDesc[i] = String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
 					continue;
 				}
 
 				filename = GenerateSavegameFilename((ushort)(s_savegameIndexBase - i));
 
-				fileId = CFile.ChunkFile_Open_Personal(filename);
+				fileId = ChunkFile_Open_Personal(filename);
 				if (fileId == (byte)FileMode.FILE_INVALID) continue;
-				CFile.ChunkFile_Read(fileId, Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.NAME]), ref /*desc*/g_savegameDesc[i], 50);
+                ChunkFile_Read(fileId, HTOBE32((uint)CSharpDune.MultiChar[FourCC.NAME]), ref /*desc*/g_savegameDesc[i], 50);
 				g_savegameDesc[i] = g_savegameDesc[i][..^1];
-				CFile.ChunkFile_Close(fileId);
+                ChunkFile_Close(fileId);
 				continue;
 			}
 		}
@@ -275,40 +275,40 @@ namespace SharpDune.Gui
 
 			if (w == null) return;
 
-			offsetX = (ushort)(w.offsetX + (CWidget.g_widgetProperties[w.parentID].xBase << 3));
-			offsetY = (ushort)(w.offsetY + CWidget.g_widgetProperties[w.parentID].yBase);
+			offsetX = (ushort)(w.offsetX + (g_widgetProperties[w.parentID].xBase << 3));
+			offsetY = (ushort)(w.offsetY + g_widgetProperties[w.parentID].yBase);
 			width = w.width;
 			height = w.height;
 
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Hide_InRegion(offsetX, offsetY, (ushort)(offsetX + width), (ushort)(offsetY + height));
+                GUI_Mouse_Hide_InRegion(offsetX, offsetY, (ushort)(offsetX + width), (ushort)(offsetY + height));
 			}
 
-			Gui.GUI_DrawFilledRectangle((short)offsetX, (short)offsetY, (short)(offsetX + width), (short)(offsetY + height), colour);
+            GUI_DrawFilledRectangle((short)offsetX, (short)offsetY, (short)(offsetX + width), (short)(offsetY + height), colour);
 
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Show_InRegion();
+                GUI_Mouse_Show_InRegion();
 			}
 		}
 
 		static void GUI_Window_BackupScreen(WindowDesc desc)
 		{
-			CWidget.Widget_SetCurrentWidget(desc.index);
+            Widget_SetCurrentWidget(desc.index);
 
-			Gui.GUI_Mouse_Hide_Safe();
-			Gfx.GFX_CopyToBuffer((short)(CWidget.g_curWidgetXBase * 8), (short)CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth * 8), CWidget.g_curWidgetHeight, Gfx.GFX_Screen_Get_ByIndex(Screen.NO2));
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Hide_Safe();
+            GFX_CopyToBuffer((short)(g_curWidgetXBase * 8), (short)g_curWidgetYBase, (ushort)(g_curWidgetWidth * 8), g_curWidgetHeight, GFX_Screen_Get_ByIndex(Screen.NO2));
+            GUI_Mouse_Show_Safe();
 		}
 
 		static void GUI_Window_RestoreScreen(WindowDesc desc)
 		{
-			CWidget.Widget_SetCurrentWidget(desc.index);
+            Widget_SetCurrentWidget(desc.index);
 
-			Gui.GUI_Mouse_Hide_Safe();
-			Gfx.GFX_CopyFromBuffer((short)(CWidget.g_curWidgetXBase * 8), (short)CWidget.g_curWidgetYBase, (ushort)(CWidget.g_curWidgetWidth * 8), CWidget.g_curWidgetHeight, Gfx.GFX_Screen_Get_ByIndex(Screen.NO2));
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Hide_Safe();
+            GFX_CopyFromBuffer((short)(g_curWidgetXBase * 8), (short)g_curWidgetYBase, (ushort)(g_curWidgetWidth * 8), g_curWidgetHeight, GFX_Screen_Get_ByIndex(Screen.NO2));
+            GUI_Mouse_Show_Safe();
 		}
 
 		/*
@@ -326,14 +326,14 @@ namespace SharpDune.Gui
 
 				for (var i = 0; i < data.Length; i++) data[i] = new HallOfFameStruct(); //memset(data, 0, 128);
 
-				if (CFile.File_Exists_Personal("SAVEFAME.DAT")) CFile.File_Delete_Personal("SAVEFAME.DAT");
+				if (File_Exists_Personal("SAVEFAME.DAT")) File_Delete_Personal("SAVEFAME.DAT");
 
-				Gui.GUI_HallOfFame_DrawData(data, true);
+                GUI_HallOfFame_DrawData(data, true);
 
-				Gui.g_doQuitHOF = true;
+                g_doQuitHOF = true;
 			}
 
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeNormal(w, false);
 
 			return true;
 		}
@@ -345,7 +345,7 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Widget_HOF_Resume_Click(Widget w)
 		{
-			Gui.g_doQuitHOF = true;
+            g_doQuitHOF = true;
 
 			return true;
 		}
@@ -370,26 +370,26 @@ namespace SharpDune.Gui
 				}
 				else
 				{
-					PoolStructure.Structure_Free(s2);
+                    Structure_Free(s2);
 				}
 
                 g_structureActive = null;
                 g_structureActiveType = 0xFFFF;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+                GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 
-				Gui.g_selectionState = 0; /* Invalid. */
+                g_selectionState = 0; /* Invalid. */
 			}
 
 			if (g_unitActive == null) return true;
 
             g_unitActive = null;
             g_activeAction = 0xFFFF;
-			Gui.g_cursorSpriteID = 0;
+            g_cursorSpriteID = 0;
 
-			Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[0]);
+            Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-			Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
+            GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
 
 			return true;
 		}
@@ -404,9 +404,9 @@ namespace SharpDune.Gui
 		{
 			Structure s;
 
-			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(g_selectionPosition);
 
-			switch ((Text)Gui.g_productionStringID)
+			switch ((Text)g_productionStringID)
 			{
 				default: break;
 
@@ -415,14 +415,14 @@ namespace SharpDune.Gui
 					{
 						Structure ns;
 
-						ns = PoolStructure.Structure_Get_ByIndex(s.o.linkedID);
+						ns = Structure_Get_ByIndex(s.o.linkedID);
                         g_structureActive = ns;
                         g_structureActiveType = s.objectType;
-						Gui.g_selectionState = Structure_IsValidBuildLocation(Gui.g_selectionRectanglePosition, (StructureType)g_structureActiveType);
-                        g_structureActivePosition = Gui.g_selectionPosition;
+                        g_selectionState = Structure_IsValidBuildLocation(g_selectionRectanglePosition, (StructureType)g_structureActiveType);
+                        g_structureActivePosition = g_selectionPosition;
 						s.o.linkedID = (byte)StructureType.STRUCTURE_INVALID;
 
-						Gui.GUI_ChangeSelectionType((ushort)SelectionType.PLACE);
+                        GUI_ChangeSelectionType((ushort)SelectionType.PLACE);
 					}
 					break;
 
@@ -459,14 +459,14 @@ namespace SharpDune.Gui
 			Object o;
 			ushort packed;
 
-			o = CObject.Object_GetByPackedTile(Gui.g_selectionPosition);
+			o = Object_GetByPackedTile(g_selectionPosition);
 
 			if (o == null) return false;
 
-			packed = CTile.Tile_PackTile(o.position);
+			packed = Tile_PackTile(o.position);
 
-			Map.Map_SetViewportPosition(packed);
-			Map.Map_SetSelection(packed);
+            Map_SetViewportPosition(packed);
+            Map_SetSelection(packed);
 
 			return false;
 		}
@@ -487,7 +487,7 @@ namespace SharpDune.Gui
 				return false;
 			}
 
-			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 			if (s == null || !g_table_structureInfo[s.o.type].o.flags.factory) return false;
 
@@ -506,7 +506,7 @@ namespace SharpDune.Gui
 		{
 			Structure s;
 
-			s = Structure_Get_ByPackedTile(Gui.g_selectionPosition);
+			s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 			if (Structure_SetRepairingState(s, -1, w)) return false;
             Structure_SetUpgradingState(s, -1, w);
@@ -539,34 +539,34 @@ namespace SharpDune.Gui
 
 			if (/*saveDesc[0] == '['*/g_savegameDesc[index].StartsWith('[')) index = s_savegameCountOnDisk;
 
-			Gfx.GFX_Screen_SetActive(Screen.NO0);
+            GFX_Screen_SetActive(Screen.NO0);
 
-			CWidget.Widget_SetCurrentWidget(15);
+            Widget_SetCurrentWidget(15);
 
-			Gui.GUI_Mouse_Hide_Safe();
-			Gui.GUI_DrawBorder((ushort)((CWidget.g_curWidgetXBase << 3) - 1), (ushort)(CWidget.g_curWidgetYBase - 1), (ushort)((CWidget.g_curWidgetWidth << 3) + 2), (ushort)(CWidget.g_curWidgetHeight + 2), 4, false);
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Hide_Safe();
+            GUI_DrawBorder((ushort)((g_curWidgetXBase << 3) - 1), (ushort)(g_curWidgetYBase - 1), (ushort)((g_curWidgetWidth << 3) + 2), (ushort)(g_curWidgetHeight + 2), 4, false);
+            GUI_Mouse_Show_Safe();
 
-			for (loop = true; loop; Sleep.sleepIdle())
+			for (loop = true; loop; sleepIdle())
 			{
 				ushort eventKey;
-				var w = CWidget.g_widgetLinkedListTail;
+				var w = g_widgetLinkedListTail;
 
-				Gui.GUI_DrawText_Wrapper(null, 0, 0, 232, 235, 0x22);
+                GUI_DrawText_Wrapper(null, 0, 0, 232, 235, 0x22);
 
-				eventKey = EditBox.GUI_EditBox(ref /*saveDesc*/g_savegameDesc[index], 50, 15, CWidget.g_widgetLinkedListTail, null, widgetPaint);
+				eventKey = GUI_EditBox(ref /*saveDesc*/g_savegameDesc[index], 50, 15, g_widgetLinkedListTail, null, widgetPaint);
 				widgetPaint = false;
 
 				if ((eventKey & 0x8000) == 0) continue;
 
-				CWidget.GUI_Widget_MakeNormal(CWidget.GUI_Widget_Get_ByIndex(w, (ushort)(eventKey & 0x7FFF)), false);
+                GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(w, (ushort)(eventKey & 0x7FFF)), false);
 
 				switch (eventKey & 0x7FFF)
 				{
 					case 0x1E:  /* RETURN / Save Button */
 						if (/*saveDesc == 0*/g_savegameDesc[index] == string.Empty) break;
 
-						Save.SaveGame_SaveFile(GenerateSavegameFilename((ushort)(s_savegameIndexBase - index)), /*saveDesc*/g_savegameDesc[index]);
+                        SaveGame_SaveFile(GenerateSavegameFilename((ushort)(s_savegameIndexBase - index)), /*saveDesc*/g_savegameDesc[index]);
 						loop = false;
 						ret = true;
 						break;
@@ -598,9 +598,9 @@ namespace SharpDune.Gui
 
 			GUI_Window_Create(desc);
 
-			for (loop = true; loop; Sleep.sleepIdle())
+			for (loop = true; loop; sleepIdle())
 			{
-				var key = CWidget.GUI_Widget_HandleEvents(CWidget.g_widgetLinkedListTail);
+				var key = GUI_Widget_HandleEvents(g_widgetLinkedListTail);
 
 				if ((key & 0x8000) != 0)
 				{
@@ -613,7 +613,7 @@ namespace SharpDune.Gui
 					loop = false;
 				}
 
-				Gui.GUI_PaletteAnimate();
+                GUI_PaletteAnimate();
 			}
 
 			GUI_Window_RestoreScreen(desc);
@@ -627,7 +627,7 @@ namespace SharpDune.Gui
 
 			for (i = 0; ; i++)
 			{
-				if (!CFile.File_Exists_Personal(GenerateSavegameFilename(i))) return i;
+				if (!File_Exists_Personal(GenerateSavegameFilename(i))) return i;
 			}
 		}
 
@@ -637,29 +637,29 @@ namespace SharpDune.Gui
 
 			if (desc == null) return;
 
-			CWidget.g_widgetLinkedListTail = null;
+            g_widgetLinkedListTail = null;
 
-			Gfx.GFX_Screen_SetActive(Screen.NO1);
+            GFX_Screen_SetActive(Screen.NO1);
 
-			CWidget.Widget_SetCurrentWidget(desc.index);
+            Widget_SetCurrentWidget(desc.index);
 
-			WidgetDraw.GUI_Widget_DrawBorder(CWidget.g_curWidgetIndex, 2, true);
+            GUI_Widget_DrawBorder(g_curWidgetIndex, 2, true);
 
-			if (Gui.GUI_String_Get_ByIndex(desc.stringID) != null)
+			if (GUI_String_Get_ByIndex(desc.stringID) != null)
 			{
-				Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex(desc.stringID), (short)((CWidget.g_curWidgetXBase << 3) + (CWidget.g_curWidgetWidth << 2)), (short)(CWidget.g_curWidgetYBase + 6 + ((desc == g_yesNoWindowDesc) ? 2 : 0)), 238, 0, 0x122);
+                GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc.stringID), (short)((g_curWidgetXBase << 3) + (g_curWidgetWidth << 2)), (short)(g_curWidgetYBase + 6 + ((desc == g_yesNoWindowDesc) ? 2 : 0)), 238, 0, 0x122);
 			}
 
-			if (Gui.GUI_String_Get_ByIndex((short)desc.widgets[0].stringID) == null)
+			if (GUI_String_Get_ByIndex((short)desc.widgets[0].stringID) == null)
 			{
-				Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_THERE_ARE_NO_SAVED_GAMES_TO_LOAD), (short)((CWidget.g_curWidgetXBase + 2) << 3), (short)(CWidget.g_curWidgetYBase + 42), 232, 0, 0x22);
+                GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_THERE_ARE_NO_SAVED_GAMES_TO_LOAD), (short)((g_curWidgetXBase + 2) << 3), (short)(g_curWidgetYBase + 42), 232, 0, 0x22);
 			}
 
 			for (i = 0; i < desc.widgetCount; i++)
 			{
 				var w = g_table_windowWidgets[i];
 
-				if (Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].stringID) == null) continue;
+				if (GUI_String_Get_ByIndex((short)desc.widgets[i].stringID) == null) continue;
 
 				w.next = null;
 				w.offsetX = (short)desc.widgets[i].offsetX;
@@ -673,11 +673,11 @@ namespace SharpDune.Gui
 				{
 					if (desc.widgets[i].labelStringId != (ushort)Text.STR_NULL)
 					{
-						w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId)[0]);
+						w.shortcut = GUI_Widget_GetShortcut((byte)GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId)[0]);
 					}
 					else
 					{
-						w.shortcut = CWidget.GUI_Widget_GetShortcut((byte)Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].stringID)[0]);
+						w.shortcut = GUI_Widget_GetShortcut((byte)GUI_String_Get_ByIndex((short)desc.widgets[i].stringID)[0]);
 					}
 				}
 
@@ -691,27 +691,27 @@ namespace SharpDune.Gui
 				w.drawModeNormal = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
 				w.drawModeSelected = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
 				w.drawModeDown = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
-				w.drawParameterNormal.proc = WidgetDraw.GUI_Widget_TextButton_Draw;
-				w.drawParameterSelected.proc = WidgetDraw.GUI_Widget_TextButton_Draw;
-				w.drawParameterDown.proc = WidgetDraw.GUI_Widget_TextButton_Draw;
+				w.drawParameterNormal.proc = GUI_Widget_TextButton_Draw;
+				w.drawParameterSelected.proc = GUI_Widget_TextButton_Draw;
+				w.drawParameterDown.proc = GUI_Widget_TextButton_Draw;
 				w.parentID = desc.index;
-				//memset(&w.state, 0, sizeof(w.state));
+                //memset(&w.state, 0, sizeof(w.state));
 
-				CWidget.g_widgetLinkedListTail = CWidget.GUI_Widget_Link(CWidget.g_widgetLinkedListTail, w);
+                g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 
-				CWidget.GUI_Widget_MakeVisible(w);
-				CWidget.GUI_Widget_MakeNormal(w, false);
-				CWidget.GUI_Widget_Draw(w);
+                GUI_Widget_MakeVisible(w);
+                GUI_Widget_MakeNormal(w, false);
+                GUI_Widget_Draw(w);
 
 				if (desc.widgets[i].labelStringId == (ushort)Text.STR_NULL) continue;
 
-				if (Config.g_config.language == (byte)Language.FRENCH)
+				if (g_config.language == (byte)Language.FRENCH)
 				{
-					Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId), (short)((CWidget.g_widgetProperties[w.parentID].xBase << 3) + 40), (short)(w.offsetY + CWidget.g_widgetProperties[w.parentID].yBase + 3), 232, 0, 0x22);
+                    GUI_DrawText_Wrapper(GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId), (short)((g_widgetProperties[w.parentID].xBase << 3) + 40), (short)(w.offsetY + g_widgetProperties[w.parentID].yBase + 3), 232, 0, 0x22);
 				}
 				else
 				{
-					Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId), (short)(w.offsetX + (CWidget.g_widgetProperties[w.parentID].xBase << 3) - 10), (short)(w.offsetY + CWidget.g_widgetProperties[w.parentID].yBase + 3), 232, 0, 0x222);
+                    GUI_DrawText_Wrapper(GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId), (short)(w.offsetX + (g_widgetProperties[w.parentID].xBase << 3) - 10), (short)(w.offsetY + g_widgetProperties[w.parentID].yBase + 3), 232, 0, 0x222);
 				}
 			}
 
@@ -719,42 +719,42 @@ namespace SharpDune.Gui
 			{
 				var w = g_table_windowWidgets[7];
 
-				w.drawParameterNormal.sprite = Sprites.g_sprites[59];
-				w.drawParameterSelected.sprite = Sprites.g_sprites[60];
-				w.drawParameterDown.sprite = Sprites.g_sprites[60];
+				w.drawParameterNormal.sprite = g_sprites[59];
+				w.drawParameterSelected.sprite = g_sprites[60];
+				w.drawParameterDown.sprite = g_sprites[60];
 				w.next = null;
 				w.parentID = desc.index;
 
-				CWidget.GUI_Widget_MakeNormal(w, false);
-				CWidget.GUI_Widget_MakeInvisible(w);
+                GUI_Widget_MakeNormal(w, false);
+                GUI_Widget_MakeInvisible(w);
 				GUI_Widget_Undraw(w, 233);
 
-				CWidget.g_widgetLinkedListTail = CWidget.GUI_Widget_Link(CWidget.g_widgetLinkedListTail, w);
+                g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 
 				w = g_table_windowWidgets[8];
 
-				w.drawParameterNormal.sprite = Sprites.g_sprites[61];
-				w.drawParameterSelected.sprite = Sprites.g_sprites[62];
-				w.drawParameterDown.sprite = Sprites.g_sprites[62];
+				w.drawParameterNormal.sprite = g_sprites[61];
+				w.drawParameterSelected.sprite = g_sprites[62];
+				w.drawParameterDown.sprite = g_sprites[62];
 				w.next = null;
 				w.parentID = desc.index;
 
-				CWidget.GUI_Widget_MakeNormal(w, false);
-				CWidget.GUI_Widget_MakeInvisible(w);
+                GUI_Widget_MakeNormal(w, false);
+                GUI_Widget_MakeInvisible(w);
 				GUI_Widget_Undraw(w, 233);
 
-				CWidget.g_widgetLinkedListTail = CWidget.GUI_Widget_Link(CWidget.g_widgetLinkedListTail, w);
+                g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 			}
 
-			Gui.GUI_Mouse_Hide_Safe();
+            GUI_Mouse_Hide_Safe();
 
-			CWidget.Widget_SetCurrentWidget(desc.index);
+            Widget_SetCurrentWidget(desc.index);
 
-			Gui.GUI_Screen_Copy((short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetXBase, (short)CWidget.g_curWidgetYBase, (short)CWidget.g_curWidgetWidth, (short)CWidget.g_curWidgetHeight, Screen.NO1, Screen.NO0);
+            GUI_Screen_Copy((short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetWidth, (short)g_curWidgetHeight, Screen.NO1, Screen.NO0);
 
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Show_Safe();
 
-			Gfx.GFX_Screen_SetActive(Screen.NO0);
+            GFX_Screen_SetActive(Screen.NO0);
 		}
 
 		/*
@@ -801,9 +801,9 @@ namespace SharpDune.Gui
 
 			if ((short)scrollbar.scrollPosition <= 0) scrollbar.scrollPosition = 0;
 
-			CWidget.GUI_Widget_Scrollbar_CalculatePosition(scrollbar);
+            GUI_Widget_Scrollbar_CalculatePosition(scrollbar);
 
-			WidgetDraw.GUI_Widget_Scrollbar_Draw(scrollbar.parent);
+            GUI_Widget_Scrollbar_Draw(scrollbar.parent);
 		}
 
 		/*
@@ -820,17 +820,17 @@ namespace SharpDune.Gui
 			scrollbar = (WidgetScrollbar)w.data;
 
 			positionX = (ushort)w.offsetX;
-			if (w.offsetX < 0) positionX += (ushort)(CWidget.g_widgetProperties[w.parentID].width << 3);
-			positionX += (ushort)(CWidget.g_widgetProperties[w.parentID].xBase << 3);
+			if (w.offsetX < 0) positionX += (ushort)(g_widgetProperties[w.parentID].width << 3);
+			positionX += (ushort)(g_widgetProperties[w.parentID].xBase << 3);
 
 			positionY = (ushort)w.offsetY;
-			if (w.offsetY < 0) positionY += CWidget.g_widgetProperties[w.parentID].height;
-			positionY += CWidget.g_widgetProperties[w.parentID].yBase;
+			if (w.offsetY < 0) positionY += g_widgetProperties[w.parentID].height;
+			positionY += g_widgetProperties[w.parentID].yBase;
 
 			if ((w.state.buttonState & 0x44) != 0)
 			{
 				scrollbar.pressed = 0;
-				WidgetDraw.GUI_Widget_Scrollbar_Draw(w);
+                GUI_Widget_Scrollbar_Draw(w);
 			}
 
 			if ((w.state.buttonState & 0x11) != 0)
@@ -843,12 +843,12 @@ namespace SharpDune.Gui
 
 				if (w.width > w.height)
 				{
-					positionCurrent = (short)Mouse.g_mouseX;
+					positionCurrent = (short)g_mouseX;
 					positionBegin = (short)(positionX + scrollbar.position + 1);
 				}
 				else
 				{
-					positionCurrent = (short)Mouse.g_mouseY;
+					positionCurrent = (short)g_mouseY;
 					positionBegin = (short)(positionY + scrollbar.position + 1);
 				}
 
@@ -872,12 +872,12 @@ namespace SharpDune.Gui
 				if (w.width > w.height)
 				{
 					size = (short)(w.width - 2 - scrollbar.size);
-					position = (short)(Mouse.g_mouseX - scrollbar.pressedPosition - positionX - 1);
+					position = (short)(g_mouseX - scrollbar.pressedPosition - positionX - 1);
 				}
 				else
 				{
 					size = (short)(w.height - 2 - scrollbar.size);
-					position = (short)(Mouse.g_mouseY - scrollbar.pressedPosition - positionY - 1);
+					position = (short)(g_mouseY - scrollbar.pressedPosition - positionY - 1);
 				}
 
 				if (position < 0)
@@ -895,9 +895,9 @@ namespace SharpDune.Gui
 					scrollbar.dirty = 1;
 				}
 
-				CWidget.GUI_Widget_Scrollbar_CalculateScrollPosition(scrollbar);
+                GUI_Widget_Scrollbar_CalculateScrollPosition(scrollbar);
 
-				if (scrollbar.dirty != 0) WidgetDraw.GUI_Widget_Scrollbar_Draw(w);
+				if (scrollbar.dirty != 0) GUI_Widget_Scrollbar_Draw(w);
 			}
 
 			return false;
@@ -910,13 +910,13 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Production_List_Click(Widget w)
 		{
-			Gui.GUI_FactoryWindow_B495_0F30();
+            GUI_FactoryWindow_B495_0F30();
 
-			Gui.g_factoryWindowSelected = (ushort)(w.index - 46);
+            g_factoryWindowSelected = (ushort)(w.index - 46);
 
-			Gui.GUI_FactoryWindow_DrawDetails();
+            GUI_FactoryWindow_DrawDetails();
 
-			Gui.GUI_FactoryWindow_UpdateSelection(true);
+            GUI_FactoryWindow_UpdateSelection(true);
 
 			return true;
 		}
@@ -928,28 +928,28 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Production_ResumeGame_Click(Widget w)
 		{
-			Gui.g_factoryWindowResult = FactoryResult.FACTORY_RESUME;
+            g_factoryWindowResult = FactoryResult.FACTORY_RESUME;
 
-			if (Gui.g_factoryWindowStarport)
+			if (g_factoryWindowStarport)
 			{
 				byte i = 0;
 				var h = g_playerHouse;
-				while (Gui.g_factoryWindowOrdered != 0)
+				while (g_factoryWindowOrdered != 0)
 				{
-					if (Gui.g_factoryWindowItems[i].amount != 0)
+					if (g_factoryWindowItems[i].amount != 0)
 					{
-						h.credits += (ushort)(Gui.g_factoryWindowItems[i].amount * Gui.g_factoryWindowItems[i].credits);
-						Gui.g_factoryWindowOrdered -= (ushort)Gui.g_factoryWindowItems[i].amount;
-						Gui.g_factoryWindowItems[i].amount = 0;
+						h.credits += (ushort)(g_factoryWindowItems[i].amount * g_factoryWindowItems[i].credits);
+                        g_factoryWindowOrdered -= (ushort)g_factoryWindowItems[i].amount;
+                        g_factoryWindowItems[i].amount = 0;
 					}
 
 					i++;
 
-					Gui.GUI_DrawCredits((byte)g_playerHouseID, 0);
+                    GUI_DrawCredits((byte)g_playerHouseID, 0);
 				}
 			}
 
-			if (w != null) CWidget.GUI_Widget_MakeNormal(w, false);
+			if (w != null) GUI_Widget_MakeNormal(w, false);
 
 			return true;
 		}
@@ -961,17 +961,17 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Production_BuildThis_Click(Widget w)
 		{
-			if (Gui.g_factoryWindowStarport)
+			if (g_factoryWindowStarport)
 			{
-				if (Gui.g_factoryWindowOrdered == 0)
+				if (g_factoryWindowOrdered == 0)
 				{
-					CWidget.GUI_Widget_MakeInvisible(w);
+                    GUI_Widget_MakeInvisible(w);
 					GUI_Purchase_ShowInvoice();
-					CWidget.GUI_Widget_MakeVisible(w);
+                    GUI_Widget_MakeVisible(w);
 				}
 				else
 				{
-					Gui.g_factoryWindowResult = FactoryResult.FACTORY_BUY;
+                    g_factoryWindowResult = FactoryResult.FACTORY_BUY;
 				}
 			}
 			else
@@ -979,17 +979,17 @@ namespace SharpDune.Gui
 				FactoryWindowItem item;
 				ObjectInfo oi;
 
-				item = Gui.GUI_FactoryWindow_GetItem((short)Gui.g_factoryWindowSelected);
+				item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
 				oi = item.objectInfo;
 
 				if (oi.available > 0)
 				{
 					item.amount = 1;
-					Gui.g_factoryWindowResult = FactoryResult.FACTORY_BUY;
+                    g_factoryWindowResult = FactoryResult.FACTORY_BUY;
 				}
 			}
 
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeNormal(w, false);
 
 			return true;
 		}
@@ -1003,44 +1003,44 @@ namespace SharpDune.Gui
 		{
 			var drawDetails = false;
 
-			if (Gui.g_factoryWindowSelected < 3 && (Gui.g_factoryWindowSelected + 1) < Gui.g_factoryWindowTotal)
+			if (g_factoryWindowSelected < 3 && (g_factoryWindowSelected + 1) < g_factoryWindowTotal)
 			{
-				Timer.g_timerTimeout = 10;
-				Gui.GUI_FactoryWindow_B495_0F30();
-				Gui.g_factoryWindowSelected++;
+                g_timerTimeout = 10;
+                GUI_FactoryWindow_B495_0F30();
+                g_factoryWindowSelected++;
 
-				Gui.GUI_FactoryWindow_UpdateSelection(true);
+                GUI_FactoryWindow_UpdateSelection(true);
 
 				drawDetails = true;
 			}
 			else
 			{
-				if (Gui.g_factoryWindowBase + 4 < Gui.g_factoryWindowTotal)
+				if (g_factoryWindowBase + 4 < g_factoryWindowTotal)
 				{
-					Timer.g_timerTimeout = 10;
-					Gui.g_factoryWindowBase++;
+                    g_timerTimeout = 10;
+                    g_factoryWindowBase++;
 					drawDetails = true;
 
 					GUI_FactoryWindow_ScrollList(1);
 
-					Gui.GUI_FactoryWindow_UpdateSelection(true);
+                    GUI_FactoryWindow_UpdateSelection(true);
 				}
 				else
 				{
-					Gui.GUI_FactoryWindow_DrawDetails();
+                    GUI_FactoryWindow_DrawDetails();
 
 					GUI_FactoryWindow_FailScrollList(1);
 				}
 			}
 
-			for (; Timer.g_timerTimeout != 0; Sleep.sleepIdle())
+			for (; g_timerTimeout != 0; sleepIdle())
 			{
-				Gui.GUI_FactoryWindow_UpdateSelection(false);
+                GUI_FactoryWindow_UpdateSelection(false);
 			}
 
-			if (drawDetails) Gui.GUI_FactoryWindow_DrawDetails();
+			if (drawDetails) GUI_FactoryWindow_DrawDetails();
 
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeNormal(w, false);
 
 			return true;
 		}
@@ -1054,44 +1054,44 @@ namespace SharpDune.Gui
 		{
 			var drawDetails = false;
 
-			if (Gui.g_factoryWindowSelected != 0)
+			if (g_factoryWindowSelected != 0)
 			{
-				Timer.g_timerTimeout = 10;
-				Gui.GUI_FactoryWindow_B495_0F30();
-				Gui.g_factoryWindowSelected--;
+                g_timerTimeout = 10;
+                GUI_FactoryWindow_B495_0F30();
+                g_factoryWindowSelected--;
 
-				Gui.GUI_FactoryWindow_UpdateSelection(true);
+                GUI_FactoryWindow_UpdateSelection(true);
 
 				drawDetails = true;
 			}
 			else
 			{
-				if (Gui.g_factoryWindowBase != 0)
+				if (g_factoryWindowBase != 0)
 				{
-					Timer.g_timerTimeout = 10;
-					Gui.g_factoryWindowBase--;
+                    g_timerTimeout = 10;
+                    g_factoryWindowBase--;
 					drawDetails = true;
 
 					GUI_FactoryWindow_ScrollList(-1);
 
-					Gui.GUI_FactoryWindow_UpdateSelection(true);
+                    GUI_FactoryWindow_UpdateSelection(true);
 				}
 				else
 				{
-					Gui.GUI_FactoryWindow_DrawDetails();
+                    GUI_FactoryWindow_DrawDetails();
 
 					GUI_FactoryWindow_FailScrollList(-1);
 				}
 			}
 
-			for (; Timer.g_timerTimeout != 0; Sleep.sleepIdle())
+			for (; g_timerTimeout != 0; sleepIdle())
 			{
-				Gui.GUI_FactoryWindow_UpdateSelection(false);
+                GUI_FactoryWindow_UpdateSelection(false);
 			}
 
-			if (drawDetails) Gui.GUI_FactoryWindow_DrawDetails();
+			if (drawDetails) GUI_FactoryWindow_DrawDetails();
 
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeNormal(w, false);
 
 			return true;
 		}
@@ -1101,21 +1101,21 @@ namespace SharpDune.Gui
 			ushort i;
 			ushort y = 32;
 
-			Gui.GUI_FactoryWindow_B495_0F30();
+            GUI_FactoryWindow_B495_0F30();
 
-			Gui.GUI_Mouse_Hide_Safe();
+            GUI_Mouse_Hide_Safe();
 
 			for (i = 0; i < 32; i++)
 			{
 				y += (ushort)step;
-				Gfx.GFX_Screen_Copy2(72, (short)y, 72, 16, 32, 136, Screen.NO1, Screen.NO0, false);
+                GFX_Screen_Copy2(72, (short)y, 72, 16, 32, 136, Screen.NO1, Screen.NO0, false);
 			}
 
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Show_Safe();
 
-			Gui.GUI_FactoryWindow_PrepareScrollList();
+            GUI_FactoryWindow_PrepareScrollList();
 
-			Gui.GUI_FactoryWindow_UpdateSelection(true);
+            GUI_FactoryWindow_UpdateSelection(true);
 		}
 
 		static void GUI_FactoryWindow_FailScrollList(short step)
@@ -1123,27 +1123,27 @@ namespace SharpDune.Gui
 			ushort i;
 			ushort y = 32;
 
-			Gui.GUI_FactoryWindow_B495_0F30();
+            GUI_FactoryWindow_B495_0F30();
 
-			Gui.GUI_Mouse_Hide_Safe();
+            GUI_Mouse_Hide_Safe();
 
-			Gui.GUI_FactoryWindow_B495_0F30();
+            GUI_FactoryWindow_B495_0F30();
 
 			for (i = 0; i < 6; i++)
 			{
 				y += (ushort)step;
-				Gfx.GFX_Screen_Copy2(72, (short)y, 72, 16, 32, 136, Screen.NO1, Screen.NO0, false);
+                GFX_Screen_Copy2(72, (short)y, 72, 16, 32, 136, Screen.NO1, Screen.NO0, false);
 			}
 
 			for (i = 0; i < 6; i++)
 			{
 				y -= (ushort)step;
-				Gfx.GFX_Screen_Copy2(72, (short)y, 72, 16, 32, 136, Screen.NO1, Screen.NO0, false);
+                GFX_Screen_Copy2(72, (short)y, 72, 16, 32, 136, Screen.NO1, Screen.NO0, false);
 			}
 
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Show_Safe();
 
-			Gui.GUI_FactoryWindow_UpdateSelection(true);
+            GUI_FactoryWindow_UpdateSelection(true);
 		}
 
 		/*
@@ -1153,9 +1153,9 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Production_Upgrade_Click(Widget w)
 		{
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeNormal(w, false);
 
-			Gui.g_factoryWindowResult = FactoryResult.FACTORY_UPGRADE;
+            g_factoryWindowResult = FactoryResult.FACTORY_UPGRADE;
 
 			return true;
 		}
@@ -1167,13 +1167,13 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Purchase_Plus_Click(Widget w)
 		{
-			var item = Gui.GUI_FactoryWindow_GetItem((short)Gui.g_factoryWindowSelected);
+			var item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
 			var oi = item.objectInfo;
 			var h = g_playerHouse;
 			var canCreateMore = true;
 			var type = item.objectType;
 
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeNormal(w, false);
 
 			if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 			{
@@ -1184,13 +1184,13 @@ namespace SharpDune.Gui
 			{
 				item.amount++;
 
-				Gui.GUI_FactoryWindow_UpdateDetails(item);
+                GUI_FactoryWindow_UpdateDetails(item);
 
-				Gui.g_factoryWindowOrdered++;
+                g_factoryWindowOrdered++;
 
 				h.credits -= (ushort)item.credits;
 
-				Gui.GUI_FactoryWindow_DrawCaption(null);
+                GUI_FactoryWindow_DrawCaption(null);
 			}
 
 			return true;
@@ -1206,21 +1206,21 @@ namespace SharpDune.Gui
 			FactoryWindowItem item;
 			var h = g_playerHouse;
 
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeNormal(w, false);
 
-			item = Gui.GUI_FactoryWindow_GetItem((short)Gui.g_factoryWindowSelected);
+			item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
 
 			if (item.amount != 0)
 			{
 				item.amount--;
 
-				Gui.GUI_FactoryWindow_UpdateDetails(item);
+                GUI_FactoryWindow_UpdateDetails(item);
 
-				Gui.g_factoryWindowOrdered--;
+                g_factoryWindowOrdered--;
 
 				h.credits += (ushort)item.credits;
 
-				Gui.GUI_FactoryWindow_DrawCaption(null);
+                GUI_FactoryWindow_DrawCaption(null);
 			}
 
 			return true;
@@ -1233,104 +1233,104 @@ namespace SharpDune.Gui
 		 */
 		internal static bool GUI_Purchase_Invoice_Click(Widget w)
 		{
-			CWidget.GUI_Widget_MakeInvisible(w);
+            GUI_Widget_MakeInvisible(w);
 			GUI_Purchase_ShowInvoice();
-			CWidget.GUI_Widget_MakeVisible(w);
-			CWidget.GUI_Widget_MakeNormal(w, false);
+            GUI_Widget_MakeVisible(w);
+            GUI_Widget_MakeNormal(w, false);
 			return true;
 		}
 
 		static void GUI_Purchase_ShowInvoice()
 		{
-			var w = CWidget.g_widgetInvoiceTail;
+			var w = g_widgetInvoiceTail;
 			Screen oldScreenID;
 			ushort y = 48;
 			ushort total = 0;
 			ushort x;
 			string textBuffer; //char[12]
 
-			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+			oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
-			Gui.GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
+            GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
 
-			Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_ITEM_NAME_QTY_TOTAL), 128, (short)y, 12, 0, 0x11);
+            GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_ITEM_NAME_QTY_TOTAL), 128, (short)y, 12, 0, 0x11);
 
 			y += 7;
 
-			Gui.GUI_DrawLine(129, (short)y, 310, (short)y, 12);
+            GUI_DrawLine(129, (short)y, 310, (short)y, 12);
 
 			y += 2;
 
-			if (Gui.g_factoryWindowOrdered != 0)
+			if (g_factoryWindowOrdered != 0)
 			{
 				ushort i;
 
-				for (i = 0; i < Gui.g_factoryWindowTotal; i++)
+				for (i = 0; i < g_factoryWindowTotal; i++)
 				{
 					ObjectInfo oi;
 					ushort amount;
 
-					if (Gui.g_factoryWindowItems[i].amount == 0) continue;
+					if (g_factoryWindowItems[i].amount == 0) continue;
 
-					amount = (ushort)(Gui.g_factoryWindowItems[i].amount * Gui.g_factoryWindowItems[i].credits);
+					amount = (ushort)(g_factoryWindowItems[i].amount * g_factoryWindowItems[i].credits);
 					total += amount;
 
-					textBuffer = string.Format(Culture, "{0:D2} {1, 5}", Gui.g_factoryWindowItems[i].amount, amount); //snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
+					textBuffer = string.Format(Culture, "{0:D2} {1, 5}", g_factoryWindowItems[i].amount, amount); //snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
 
-					oi = Gui.g_factoryWindowItems[i].objectInfo;
-					Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(oi.stringID_full), 128, (short)y, 8, 0, 0x11);
+					oi = g_factoryWindowItems[i].objectInfo;
+                    GUI_DrawText_Wrapper(String_Get_ByIndex(oi.stringID_full), 128, (short)y, 8, 0, 0x11);
 
-					Gui.GUI_DrawText_Monospace(textBuffer, (ushort)(311 - (short)textBuffer.Length * 6), y, 15, 0, 6);
+                    GUI_DrawText_Monospace(textBuffer, (ushort)(311 - (short)textBuffer.Length * 6), y, 15, 0, 6);
 
 					y += 8;
 				}
 			}
 			else
 			{
-				Gui.GUI_DrawText_Wrapper(CString.String_Get_ByIndex(Text.STR_NO_UNITS_ON_ORDER), 220, 99, 6, 0, 0x112);
+                GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_NO_UNITS_ON_ORDER), 220, 99, 6, 0, 0x112);
 			}
 
-			Gui.GUI_DrawLine(129, 148, 310, 148, 12);
-			Gui.GUI_DrawLine(129, 150, 310, 150, 12);
+            GUI_DrawLine(129, 148, 310, 148, 12);
+            GUI_DrawLine(129, 150, 310, 150, 12);
 
 			textBuffer = total.ToString("D", Culture); //snprintf(textBuffer, sizeof(textBuffer), "%d", total);
 
 			x = (ushort)(311 - (short)textBuffer.Length * 6);
 
-			/* "Total Cost :" */
-			Gui.GUI_DrawText_Wrapper(Gui.GUI_String_Get_ByIndex((short)Text.STR_TOTAL_COST_), (short)(x - 3), 152, 11, 0, 0x211);
-			Gui.GUI_DrawText_Monospace(textBuffer, x, 152, 11, 0, 6);
+            /* "Total Cost :" */
+            GUI_DrawText_Wrapper(GUI_String_Get_ByIndex((short)Text.STR_TOTAL_COST_), (short)(x - 3), 152, 11, 0, 0x211);
+            GUI_DrawText_Monospace(textBuffer, x, 152, 11, 0, 6);
 
-			Gui.GUI_Mouse_Hide_Safe();
-			Gui.GUI_Screen_Copy(16, 48, 16, 48, 23, 112, Screen.NO1, Screen.NO0);
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Hide_Safe();
+            GUI_Screen_Copy(16, 48, 16, 48, 23, 112, Screen.NO1, Screen.NO0);
+            GUI_Mouse_Show_Safe();
 
-			Gfx.GFX_Screen_SetActive(Screen.NO0);
+            GFX_Screen_SetActive(Screen.NO0);
 
-			Gui.GUI_FactoryWindow_DrawCaption(CString.String_Get_ByIndex(Text.STR_INVOICE_OF_UNITS_ON_ORDER));
+            GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(Text.STR_INVOICE_OF_UNITS_ON_ORDER));
 
-			Input.Input.Input_History_Clear();
+            Input_History_Clear();
 
-			for (; CWidget.GUI_Widget_HandleEvents(w) == 0; Sleep.sleepIdle())
+			for (; GUI_Widget_HandleEvents(w) == 0; sleepIdle())
 			{
-				Gui.GUI_DrawCredits((byte)g_playerHouseID, 0);
+                GUI_DrawCredits((byte)g_playerHouseID, 0);
 
-				Gui.GUI_FactoryWindow_UpdateSelection(false);
+                GUI_FactoryWindow_UpdateSelection(false);
 
-				Gui.GUI_PaletteAnimate();
+                GUI_PaletteAnimate();
 			}
 
-			Gfx.GFX_Screen_SetActive(oldScreenID);
+            GFX_Screen_SetActive(oldScreenID);
 
-			w = CWidget.GUI_Widget_Get_ByIndex(w, 10);
+			w = GUI_Widget_Get_ByIndex(w, 10);
 
-			if (w != null && Mouse.Mouse_InsideRegion(w.offsetX, w.offsetY, (short)(w.offsetX + w.width), (short)(w.offsetY + w.height)) != 0)
+			if (w != null && Mouse_InsideRegion(w.offsetX, w.offsetY, (short)(w.offsetX + w.width), (short)(w.offsetY + w.height)) != 0)
 			{
-				while (Input.Input.Input_Test(0x41) != 0 || Input.Input.Input_Test(0x42) != 0) Sleep.sleepIdle();
-				Input.Input.Input_History_Clear();
+				while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) sleepIdle();
+                Input_History_Clear();
 			}
 
-			if (Gui.g_factoryWindowResult == FactoryResult.FACTORY_CONTINUE) Gui.GUI_FactoryWindow_DrawDetails();
+			if (g_factoryWindowResult == FactoryResult.FACTORY_CONTINUE) GUI_FactoryWindow_DrawDetails();
 		}
 
 		/*
@@ -1342,22 +1342,22 @@ namespace SharpDune.Gui
 		internal static bool GUI_Widget_Options_Click(Widget w)
 		{
 			var desc = g_optionsWindowDesc;
-			var cursor = Gui.g_cursorSpriteID;
+			var cursor = g_cursorSpriteID;
 			bool loop;
 
-			Gui.g_cursorSpriteID = 0;
+            g_cursorSpriteID = 0;
 
-			Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[0]);
+            Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-			Sprites.Sprites_UnloadTiles();
+            Sprites_UnloadTiles();
 
-			Buffer.BlockCopy(Gfx.g_paletteActive, 0, Gui.g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_paletteActive, 256 * 3);
+			Buffer.BlockCopy(g_paletteActive, 0, g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_paletteActive, 256 * 3);
 
-			CDriver.Driver_Voice_Play(null, 0xFF);
+            Driver_Voice_Play(null, 0xFF);
 
-			Timer.Timer_SetTimer(TimerType.TIMER_GAME, false);
+            Timer_SetTimer(TimerType.TIMER_GAME, false);
 
-			Gui.GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
+            GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
 
 			ShadeScreen();
 
@@ -1365,14 +1365,14 @@ namespace SharpDune.Gui
 
 			GUI_Window_Create(desc);
 
-			for (loop = true; loop; Sleep.sleepIdle())
+			for (loop = true; loop; sleepIdle())
 			{
-				var w2 = CWidget.g_widgetLinkedListTail;
-				var key = CWidget.GUI_Widget_HandleEvents(w2);
+				var w2 = g_widgetLinkedListTail;
+				var key = GUI_Widget_HandleEvents(w2);
 
 				if ((key & 0x8000) != 0)
 				{
-					w = CWidget.GUI_Widget_Get_ByIndex(w2, key);
+					w = GUI_Widget_Get_ByIndex(w2, key);
 
 					GUI_Window_RestoreScreen(desc);
 
@@ -1403,7 +1403,7 @@ namespace SharpDune.Gui
 							if (!GUI_YesNo((ushort)Text.STR_ARE_YOU_SURE_YOU_WISH_TO_PICK_A_NEW_HOUSE)) break;
 
 							loop = false;
-							CDriver.Driver_Music_FadeOut();
+                            Driver_Music_FadeOut();
                             g_gameMode = GameMode.GM_PICKHOUSE;
 							break;
 
@@ -1416,9 +1416,9 @@ namespace SharpDune.Gui
 							loop = !GUI_YesNo((ushort)Text.STR_ARE_YOU_SURE_YOU_WANT_TO_QUIT_PLAYING);
                             g_running = loop;
 
-							Sound.Sound_Output_Feedback(0xFFFE);
+                            Sound_Output_Feedback(0xFFFE);
 
-							while (CDriver.Driver_Voice_IsPlaying()) Sleep.sleepIdle();
+							while (Driver_Voice_IsPlaying()) sleepIdle();
 							break;
 
 						default: break;
@@ -1432,28 +1432,28 @@ namespace SharpDune.Gui
 					}
 				}
 
-				Gui.GUI_PaletteAnimate();
+                GUI_PaletteAnimate();
 			}
 
-			Gui.g_textDisplayNeedsUpdate = true;
+            g_textDisplayNeedsUpdate = true;
 
-			Sprites.Sprites_LoadTiles();
-			Gui.GUI_DrawInterfaceAndRadar(Screen.NO0);
+            Sprites_LoadTiles();
+            GUI_DrawInterfaceAndRadar(Screen.NO0);
 
 			UnshadeScreen();
 
-			CWidget.GUI_Widget_MakeSelected(w, false);
+            GUI_Widget_MakeSelected(w, false);
 
-			Timer.Timer_SetTimer(TimerType.TIMER_GAME, true);
+            Timer_SetTimer(TimerType.TIMER_GAME, true);
 
-			Config.GameOptions_Save();
+            GameOptions_Save();
 
-			PoolStructure.Structure_Recount();
-			PoolUnit.Unit_Recount();
+            Structure_Recount();
+            Unit_Recount();
 
-			Gui.g_cursorSpriteID = cursor;
+            g_cursorSpriteID = cursor;
 
-			Sprites.Sprites_SetMouseSprite(0, 0, Sprites.g_sprites[cursor]);
+            Sprites_SetMouseSprite(0, 0, g_sprites[cursor]);
 
 			return false;
 		}
@@ -1463,19 +1463,19 @@ namespace SharpDune.Gui
 		{
 			ushort i;
 
-			Buffer.BlockCopy(Gfx.g_palette1, 0, Gui.g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_palette1, 256 * 3);
+			Buffer.BlockCopy(g_palette1, 0, g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_palette1, 256 * 3);
 
-			for (i = 0; i < 231 * 3; i++) Gfx.g_palette1[i] = (byte)(Gfx.g_palette1[i] / 2);
-			for (i = 239 * 3; i < 256 * 3; i++) Gfx.g_palette1[i] = (byte)(Gfx.g_palette1[i] / 2);
+			for (i = 0; i < 231 * 3; i++) g_palette1[i] = (byte)(g_palette1[i] / 2);
+			for (i = 239 * 3; i < 256 * 3; i++) g_palette1[i] = (byte)(g_palette1[i] / 2);
 
-			Gfx.GFX_SetPalette(Gui.g_palette_998A);
+            GFX_SetPalette(g_palette_998A);
 		}
 
 		static void UnshadeScreen()
 		{
-			Buffer.BlockCopy(Gui.g_palette_998A, 0, Gfx.g_palette1, 0, 256 * 3); //memmove(g_palette1, g_palette_998A, 256 * 3);
+			Buffer.BlockCopy(g_palette_998A, 0, g_palette1, 0, 256 * 3); //memmove(g_palette1, g_palette_998A, 256 * 3);
 
-			Gfx.GFX_SetPalette(Gfx.g_palette1);
+            GFX_SetPalette(g_palette1);
 		}
 
 		/*
@@ -1492,37 +1492,37 @@ namespace SharpDune.Gui
 
 			GUI_Window_Create(desc);
 
-			for (loop = true; loop; Sleep.sleepIdle())
+			for (loop = true; loop; sleepIdle())
 			{
-				var w2 = CWidget.g_widgetLinkedListTail;
-				var key = CWidget.GUI_Widget_HandleEvents(w2);
+				var w2 = g_widgetLinkedListTail;
+				var key = GUI_Widget_HandleEvents(w2);
 
 				if ((key & 0x8000) != 0)
 				{
-					w = CWidget.GUI_Widget_Get_ByIndex(w2, (ushort)(key & 0x7FFF));
+					w = GUI_Widget_Get_ByIndex(w2, (ushort)(key & 0x7FFF));
 
 					switch ((key & 0x7FFF) - 0x1E)
 					{
 						case 0:
-							Config.g_gameConfig.music ^= 0x1;
-							if (Config.g_gameConfig.music == 0) CDriver.Driver_Music_Stop();
+                            g_gameConfig.music ^= 0x1;
+							if (g_gameConfig.music == 0) Driver_Music_Stop();
 							break;
 
 						case 1:
-							Config.g_gameConfig.sounds ^= 0x1;
-							if (Config.g_gameConfig.sounds == 0) CDriver.Driver_Sound_Stop();
+                            g_gameConfig.sounds ^= 0x1;
+							if (g_gameConfig.sounds == 0) Driver_Sound_Stop();
 							break;
 
 						case 2:
-							if (++Config.g_gameConfig.gameSpeed >= 5) Config.g_gameConfig.gameSpeed = 0;
+							if (++g_gameConfig.gameSpeed >= 5) g_gameConfig.gameSpeed = 0;
 							break;
 
 						case 3:
-							Config.g_gameConfig.hints ^= 0x1;
+                            g_gameConfig.hints ^= 0x1;
 							break;
 
 						case 4:
-							Config.g_gameConfig.autoScroll ^= 0x1;
+                            g_gameConfig.autoScroll ^= 0x1;
 							break;
 
 						case 5:
@@ -1532,12 +1532,12 @@ namespace SharpDune.Gui
 						default: break;
 					}
 
-					CWidget.GUI_Widget_MakeNormal(w, false);
+                    GUI_Widget_MakeNormal(w, false);
 
-					CWidget.GUI_Widget_Draw(w);
+                    GUI_Widget_Draw(w);
 				}
 
-				Gui.GUI_PaletteAnimate();
+                GUI_PaletteAnimate();
 			}
 
 			GUI_Window_RestoreScreen(desc);

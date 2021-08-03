@@ -245,7 +245,7 @@ namespace SharpDune.Video
 
 			if (s_showFPS)
 			{
-				VideoFps.Video_ShowFPS(Gfx.GFX_Screen_Get_ByIndex(Screen.NO0));
+                Video_ShowFPS(GFX_Screen_Get_ByIndex(Screen.NO0));
 			}
 
 			while (SDL.SDL_PollEvent(out evt) == 1)
@@ -387,15 +387,15 @@ namespace SharpDune.Video
 				return false;
 			}
 
-			if (IniFile.IniFile_GetInteger("fullscreen", 0) != 0)
+			if (IniFile_GetInteger("fullscreen", 0) != 0)
 			{
 				window_flags |= (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/;
 				s_full_screen = true;
 			}
 
 			err = SDL.SDL_CreateWindowAndRenderer(
-					Gfx.SCREEN_WIDTH * s_screen_magnification,
-					Gfx.SCREEN_HEIGHT * s_screen_magnification,
+                    SCREEN_WIDTH * s_screen_magnification,
+                    SCREEN_HEIGHT * s_screen_magnification,
 					(SDL.SDL_WindowFlags)window_flags,
 					out s_window,
 					out s_renderer);
@@ -422,20 +422,20 @@ namespace SharpDune.Video
 			{
 				case VideoScaleFilter.FILTER_NEAREST_NEIGHBOR:
 					/* SDL2 take care of Nearest neighbor rescaling */
-					render_width = Gfx.SCREEN_WIDTH;
-					render_height = Gfx.SCREEN_HEIGHT;
+					render_width = SCREEN_WIDTH;
+					render_height = SCREEN_HEIGHT;
 					break;
 				case VideoScaleFilter.FILTER_SCALE2X:
 				case VideoScaleFilter.FILTER_HQX:
 				default:
-					render_width = Gfx.SCREEN_WIDTH * s_screen_magnification;
-					render_height = Gfx.SCREEN_HEIGHT * s_screen_magnification;
+					render_width = SCREEN_WIDTH * s_screen_magnification;
+					render_height = SCREEN_HEIGHT * s_screen_magnification;
 					break;
 			}
-            s_framebuffer = new byte[Gfx.SCREEN_WIDTH * (Gfx.SCREEN_HEIGHT + 4)]; //calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
+            s_framebuffer = new byte[SCREEN_WIDTH * (SCREEN_HEIGHT + 4)]; //calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
             if (s_framebuffer == null)
             {
-				Trace.WriteLine($"ERROR: Could not allocate {Gfx.SCREEN_WIDTH * (Gfx.SCREEN_HEIGHT + 4)} bytes of memory");
+				Trace.WriteLine($"ERROR: Could not allocate {SCREEN_WIDTH * (SCREEN_HEIGHT + 4)} bytes of memory");
                 return false;
             }
             err = SDL.SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
@@ -462,7 +462,7 @@ namespace SharpDune.Video
 			/* Setup SDL_RenderClear */
 			SDL.SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255);
 
-			Video_Mouse_SetRegion(0, Gfx.SCREEN_WIDTH, 0, Gfx.SCREEN_HEIGHT);
+			Video_Mouse_SetRegion(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 
 			s_video_initialized = true;
 			return true;
@@ -475,11 +475,11 @@ namespace SharpDune.Video
 		{
 			if (s_scale_filter == VideoScaleFilter.FILTER_NEAREST_NEIGHBOR)
 			{
-				Mouse.Mouse_EventHandler(s_mousePosX, s_mousePosY, s_mouseButtonLeft, s_mouseButtonRight);
+                Mouse_EventHandler(s_mousePosX, s_mousePosY, s_mouseButtonLeft, s_mouseButtonRight);
 			}
 			else
 			{
-				Mouse.Mouse_EventHandler((ushort)(s_mousePosX / s_screen_magnification), (ushort)(s_mousePosY / s_screen_magnification), s_mouseButtonLeft, s_mouseButtonRight);
+                Mouse_EventHandler((ushort)(s_mousePosX / s_screen_magnification), (ushort)(s_mousePosY / s_screen_magnification), s_mouseButtonLeft, s_mouseButtonRight);
 			}
 		}
 
@@ -574,12 +574,12 @@ namespace SharpDune.Video
 		static void Video_Key_Callback(byte key)
 		{
 			s_keyBufferLatest = key;
-			Input.Input.Input_EventHandler(key);
+            Input_EventHandler(key);
 		}
 
 		static void Video_DrawScreen()
 		{
-			if (!Gfx.GFX_Screen_IsDirty(Screen.NO0) && !s_screen_needrepaint) return;
+			if (!GFX_Screen_IsDirty(Screen.NO0) && !s_screen_needrepaint) return;
 
 			if (s_screen_magnification == 1)
 			{
@@ -603,7 +603,7 @@ namespace SharpDune.Video
 						break;
 				}
 			SDL.SDL_RenderPresent(s_renderer);
-			Gfx.GFX_Screen_SetClean(Screen.NO0);
+            GFX_Screen_SetClean(Screen.NO0);
 			s_screen_needrepaint = false;
 		}
 
@@ -613,14 +613,14 @@ namespace SharpDune.Video
 		 */
 		static void Video_DrawScreen_Nearest_Neighbor()
 		{
-			var gfx_screen8 = Gfx.GFX_Screen_Get_ByIndex(Screen.NO0);
-			var area = Gfx.GFX_Screen_GetDirtyArea(Screen.NO0);
+			var gfx_screen8 = GFX_Screen_Get_ByIndex(Screen.NO0);
+			var area = GFX_Screen_GetDirtyArea(Screen.NO0);
 			IntPtr pixels;
 			int pitch;
 			int x, y;
 			uint[] p;
 			SDL.SDL_Rect rect;
-			var prect = new SDL.SDL_Rect { w = Gfx.SCREEN_WIDTH, h = Gfx.SCREEN_HEIGHT }; //SDL_Rect* prect = NULL;
+			var prect = new SDL.SDL_Rect { w = SCREEN_WIDTH, h = SCREEN_HEIGHT }; //SDL_Rect* prect = NULL;
 			var gfx_screen8Pointer = 0;
 			var pPointer = 0;
 
@@ -631,7 +631,7 @@ namespace SharpDune.Video
 				return;
 			}
 
-			if (!s_screen_needrepaint && area != null && (area.left > 0 || area.top > 0 || area.right < Gfx.SCREEN_WIDTH || area.bottom < Gfx.SCREEN_HEIGHT))
+			if (!s_screen_needrepaint && area != null && (area.left > 0 || area.top > 0 || area.right < SCREEN_WIDTH || area.bottom < SCREEN_HEIGHT))
 			{
 				rect.x = area.left;
 				rect.y = area.top;
@@ -639,7 +639,7 @@ namespace SharpDune.Video
 				rect.h = area.bottom - area.top;
 				prect = rect;
 				pixels = IntPtr.Add(pixels, pitch * area.top);
-				gfx_screen8Pointer += Gfx.SCREEN_WIDTH * area.top + area.left;
+				gfx_screen8Pointer += SCREEN_WIDTH * area.top + area.left;
 				p = new uint[area.right];
 				for (y = area.top; y < area.bottom; y++)
 				{
@@ -648,7 +648,7 @@ namespace SharpDune.Video
 					{
 						p[pPointer++] = s_palette[gfx_screen8[gfx_screen8Pointer++]];
 					}
-					gfx_screen8Pointer += Gfx.SCREEN_WIDTH - rect.w;
+					gfx_screen8Pointer += SCREEN_WIDTH - rect.w;
 
 					unsafe { fixed (uint* first = p) Unsafe.CopyBlock(pixels.ToPointer(), first, (uint)p.Length * 4); }
 
@@ -659,10 +659,10 @@ namespace SharpDune.Video
 			}
 			else
 			{
-				p = new uint[Gfx.SCREEN_WIDTH];
-				for (y = 0; y < Gfx.SCREEN_HEIGHT; y++)
+				p = new uint[SCREEN_WIDTH];
+				for (y = 0; y < SCREEN_HEIGHT; y++)
 				{
-					for (x = 0; x < Gfx.SCREEN_WIDTH; x++)
+					for (x = 0; x < SCREEN_WIDTH; x++)
 					{
 						p[pPointer++] = s_palette[gfx_screen8[gfx_screen8Pointer++]];
 					}

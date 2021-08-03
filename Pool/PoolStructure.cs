@@ -112,12 +112,12 @@
             ushort index;
             var find = new PoolFindStruct();
             unchecked { find.houseID = (byte)-1; find.type = (ushort)-1; find.index = (ushort)-1; }
-            var h = PoolHouse.House_Find(find);
+            var h = House_Find(find);
 
             while (h != null)
             {
                 h.unitCount = 0;
-                h = PoolHouse.House_Find(find);
+                h = House_Find(find);
             }
 
             g_structureFindCount = 0;

@@ -18,19 +18,19 @@ namespace SharpDune.Gui
 			var oldScreenID = Screen.NO1;
 			ushort i;
 
-			if (screenID == Screen.NO0) oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+			if (screenID == Screen.NO0) oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
 			for (i = 0; i < 4096; i++) GUI_Widget_Viewport_DrawTile(i);
 
-			Map.Map_UpdateMinimapPosition(Gui.g_minimapPosition, true);
+            Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 			if (screenID != Screen.NO0) return;
 
-			Gfx.GFX_Screen_SetActive(oldScreenID);
+            GFX_Screen_SetActive(oldScreenID);
 
-			Gui.GUI_Mouse_Hide_InWidget(3);
-			Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
-			Gui.GUI_Mouse_Show_InWidget();
+            GUI_Mouse_Hide_InWidget(3);
+            GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
+            GUI_Mouse_Show_InWidget();
 		}
 
 		/*
@@ -49,20 +49,20 @@ namespace SharpDune.Gui
 			colour = 12;
 			spriteID = 0xFFFF;
 
-			if (CTile.Tile_IsOutOfMap(packed) || !Map.Map_IsValidPosition(packed)) return false;
+			if (Tile_IsOutOfMap(packed) || !Map_IsValidPosition(packed)) return false;
 
-			mapScale = (ushort)(CScenario.g_scenario.mapScale + 1);
+			mapScale = (ushort)(g_scenario.mapScale + 1);
 
-			if (mapScale == 0 || Tools.BitArray_Test(Map.g_displayedMinimap, packed)) return false;
+			if (mapScale == 0 || BitArray_Test(g_displayedMinimap, packed)) return false;
 
-			if ((Map.g_map[packed].isUnveiled && g_playerHouse.flags.radarActivated) || g_debugScenario)
+			if ((g_map[packed].isUnveiled && g_playerHouse.flags.radarActivated) || g_debugScenario)
 			{
-				var type = Map.Map_GetLandscapeType(packed);
+				var type = Map_GetLandscapeType(packed);
 				Unit u;
 
 				if (mapScale > 1)
 				{
-					spriteID = (ushort)(CScenario.g_scenario.mapScale + g_table_landscapeInfo[type].spriteID - 1);
+					spriteID = (ushort)(g_scenario.mapScale + g_table_landscapeInfo[type].spriteID - 1);
 				}
 				else
 				{
@@ -73,11 +73,11 @@ namespace SharpDune.Gui
 				{
 					if (mapScale > 1)
 					{
-						spriteID = (ushort)(mapScale + Map.g_map[packed].houseID * 2 + 29);
+						spriteID = (ushort)(mapScale + g_map[packed].houseID * 2 + 29);
 					}
 					else
 					{
-						colour = g_table_houseInfo[Map.g_map[packed].houseID].minimapColor;
+						colour = g_table_houseInfo[g_map[packed].houseID].minimapColor;
 					}
 				}
 
@@ -130,7 +130,7 @@ namespace SharpDune.Gui
 				{
 					if (mapScale > 1)
 					{
-						spriteID = (ushort)(CScenario.g_scenario.mapScale + g_table_landscapeInfo[(int)LandscapeType.LST_ENTIRELY_MOUNTAIN].spriteID - 1);
+						spriteID = (ushort)(g_scenario.mapScale + g_table_landscapeInfo[(int)LandscapeType.LST_ENTIRELY_MOUNTAIN].spriteID - 1);
 					}
 					else
 					{
@@ -139,21 +139,21 @@ namespace SharpDune.Gui
 				}
 			}
 
-			x = CTile.Tile_GetPackedX(packed);
-			y = CTile.Tile_GetPackedY(packed);
+			x = Tile_GetPackedX(packed);
+			y = Tile_GetPackedY(packed);
 
-			x -= Map.g_mapInfos[CScenario.g_scenario.mapScale].minX;
-			y -= Map.g_mapInfos[CScenario.g_scenario.mapScale].minY;
+			x -= g_mapInfos[g_scenario.mapScale].minX;
+			y -= g_mapInfos[g_scenario.mapScale].minY;
 
 			if (spriteID != 0xFFFF)
 			{
-				x *= (ushort)(CScenario.g_scenario.mapScale + 1);
-				y *= (ushort)(CScenario.g_scenario.mapScale + 1);
-				Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)x, (short)y, 3, Gui.DRAWSPRITE_FLAG_WIDGETPOS);
+				x *= (ushort)(g_scenario.mapScale + 1);
+				y *= (ushort)(g_scenario.mapScale + 1);
+                GUI_DrawSprite(Screen.ACTIVE, g_sprites[spriteID], (short)x, (short)y, 3, DRAWSPRITE_FLAG_WIDGETPOS);
 			}
 			else
 			{
-				Gfx.GFX_PutPixel((ushort)(x + 256), (ushort)(y + 136), (byte)(colour & 0xFF));
+                GFX_PutPixel((ushort)(x + 256), (ushort)(y + 136), (byte)(colour & 0xFF));
 			}
 			return true;
 		}
@@ -218,11 +218,11 @@ namespace SharpDune.Gui
 			Array.Fill<short>(minX, 0xF, 0, minX.Length); //memset(minX, 0xF, sizeof(minX));
 			//Array.Fill<short>(maxX, 0,   0, minX.Length); //memset(maxX, 0,   sizeof(minX));
 
-			oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+			oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
-			oldWidgetID = CWidget.Widget_SetCurrentWidget(2);
+			oldWidgetID = Widget_SetCurrentWidget(2);
 
-			if (Map.g_dirtyViewportCount != 0 || forceRedraw)
+			if (g_dirtyViewportCount != 0 || forceRedraw)
 			{
 				for (y = 0; y < 10; y++)
 				{
@@ -232,18 +232,18 @@ namespace SharpDune.Gui
 						Tile t;
 						ushort left;
 
-						curPos = (ushort)(Gui.g_viewportPosition + CTile.Tile_PackXY(x, y));
+						curPos = (ushort)(g_viewportPosition + Tile_PackXY(x, y));
 
-						if (x < 15 && !forceRedraw && Tools.BitArray_Test(Map.g_dirtyViewport, curPos))
+						if (x < 15 && !forceRedraw && BitArray_Test(g_dirtyViewport, curPos))
 						{
 							if (maxX[y] < x) maxX[y] = (short)x;
 							if (minX[y] > x) minX[y] = (short)x;
 							updateDisplay = true;
 						}
 
-						if (!Tools.BitArray_Test(Map.g_dirtyMinimap, curPos) && !forceRedraw) continue;
+						if (!BitArray_Test(g_dirtyMinimap, curPos) && !forceRedraw) continue;
 
-						Tools.BitArray_Set(Map.g_dirtyViewport, curPos);
+                        BitArray_Set(g_dirtyViewport, curPos);
 
 						if (x < 15)
 						{
@@ -252,25 +252,25 @@ namespace SharpDune.Gui
 							if (minX[y] > x) minX[y] = (short)x;
 						}
 
-						t = Map.g_map[curPos];
+						t = g_map[curPos];
 						left = (ushort)(x << 4);
 
-						if (!g_debugScenario && Sprites.g_veiledTileID == t.overlayTileID)
+						if (!g_debugScenario && g_veiledTileID == t.overlayTileID)
 						{
-							/* draw a black rectangle */
-							Gui.GUI_DrawFilledRectangle((short)left, (short)top, (short)(left + 15), (short)(top + 15), 12);
+                            /* draw a black rectangle */
+                            GUI_DrawFilledRectangle((short)left, (short)top, (short)(left + 15), (short)(top + 15), 12);
 							continue;
 						}
 
-						Gfx.GFX_DrawTile(t.groundTileID, left, top, t.houseID);
+                        GFX_DrawTile(t.groundTileID, left, top, t.houseID);
 
 						if (t.overlayTileID != 0 && !g_debugScenario)
 						{
-							Gfx.GFX_DrawTile(t.overlayTileID, left, top, t.houseID);
+                            GFX_DrawTile(t.overlayTileID, left, top, t.houseID);
 						}
 					}
 				}
-				Map.g_dirtyViewportCount = 0;
+                g_dirtyViewportCount = 0;
 			}
 
 			/* Draw Sandworm */
@@ -283,55 +283,55 @@ namespace SharpDune.Gui
 				Unit u;
 				byte[] sprite;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 
 				if (u == null) break;
 
 				if (!u.o.flags.isDirty && !forceRedraw) continue;
 				u.o.flags.isDirty = false;
 
-				if (!Map.g_map[CTile.Tile_PackTile(u.o.position)].isUnveiled && !g_debugScenario) continue;
+				if (!g_map[Tile_PackTile(u.o.position)].isUnveiled && !g_debugScenario) continue;
 
-				sprite = Sprites.g_sprites[g_table_unitInfo[u.o.type].groundSpriteID];
+				sprite = g_sprites[g_table_unitInfo[u.o.type].groundSpriteID];
 				GUI_Widget_Viewport_GetSprite_HousePalette(sprite, Unit_GetHouseID(u), paletteHouse);
 
-				if (Map.Map_IsPositionInViewport(u.o.position, out x, out y))
+				if (Map_IsPositionInViewport(u.o.position, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+                    GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 				}
-				if (Map.Map_IsPositionInViewport(u.targetLast, out x, out y))
+				if (Map_IsPositionInViewport(u.targetLast, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+                    GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 				}
-				if (Map.Map_IsPositionInViewport(u.targetPreLast, out x, out y))
+				if (Map_IsPositionInViewport(u.targetPreLast, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_BLUR | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+                    GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 				}
-				if (u == g_unitSelected && Map.Map_IsPositionInViewport(u.o.position, out x, out y))
+				if (u == g_unitSelected && Map_IsPositionInViewport(u.o.position, out x, out y))
 				{
-					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[6], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+                    GUI_DrawSprite(Screen.ACTIVE, g_sprites[6], (short)x, (short)y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 				}
 			}
 
-			if (g_unitSelected == null && (Map.g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(Gui.g_selectionRectanglePosition) != null || g_selectionType == (ushort)SelectionType.PLACE || g_debugScenario))
+			if (g_unitSelected == null && (g_selectionRectangleNeedRepaint || hasScrolled) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != null || g_selectionType == (ushort)SelectionType.PLACE || g_debugScenario))
 			{
-				var x1 = (ushort)((CTile.Tile_GetPackedX(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedX(Gui.g_minimapPosition)) << 4);
-				var y1 = (ushort)(((CTile.Tile_GetPackedY(Gui.g_selectionRectanglePosition) - CTile.Tile_GetPackedY(Gui.g_minimapPosition)) << 4) + 0x28);
-				var x2 = (ushort)(x1 + (Gui.g_selectionWidth << 4) - 1);
-				var y2 = (ushort)(y1 + (Gui.g_selectionHeight << 4) - 1);
+				var x1 = (ushort)((Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4);
+				var y1 = (ushort)(((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28);
+				var x2 = (ushort)(x1 + (g_selectionWidth << 4) - 1);
+				var y2 = (ushort)(y1 + (g_selectionHeight << 4) - 1);
 
-				Gui.GUI_SetClippingArea(0, 40, 239, Gfx.SCREEN_HEIGHT - 1);
-				Gui.GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
+                GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
+                GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
-				if (Gui.g_selectionState == 0 && g_selectionType == (ushort)SelectionType.PLACE)
+				if (g_selectionState == 0 && g_selectionType == (ushort)SelectionType.PLACE)
 				{
-					Gui.GUI_DrawLine((short)x1, (short)y1, (short)x2, (short)y2, 0xFF);
-					Gui.GUI_DrawLine((short)x2, (short)y1, (short)x1, (short)y2, 0xFF);
+                    GUI_DrawLine((short)x1, (short)y1, (short)x2, (short)y2, 0xFF);
+                    GUI_DrawLine((short)x2, (short)y1, (short)x1, (short)y2, 0xFF);
 				}
 
-				Gui.GUI_SetClippingArea(0, 0, Gfx.SCREEN_WIDTH - 1, Gfx.SCREEN_HEIGHT - 1);
+                GUI_SetClippingArea(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-				Map.g_selectionRectangleNeedRepaint = false;
+                g_selectionRectangleNeedRepaint = false;
 			}
 
 			/* Draw ground units */
@@ -350,27 +350,27 @@ namespace SharpDune.Gui
 					ushort index;
 					ushort spriteFlags = 0;
 
-					u = PoolUnit.Unit_Find(find);
+					u = Unit_Find(find);
 
 					if (u == null) break;
 
 					if (u.o.index < 20 || u.o.index > 101) continue;
 
-					packed = CTile.Tile_PackTile(u.o.position);
+					packed = Tile_PackTile(u.o.position);
 
-					if ((!u.o.flags.isDirty || u.o.flags.isNotOnMap) && !forceRedraw && !Tools.BitArray_Test(Map.g_dirtyViewport, packed)) continue;
+					if ((!u.o.flags.isDirty || u.o.flags.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, packed)) continue;
 					u.o.flags.isDirty = false;
 
-					if (!Map.g_map[packed].isUnveiled && !g_debugScenario) continue;
+					if (!g_map[packed].isUnveiled && !g_debugScenario) continue;
 
 					ui = g_table_unitInfo[u.o.type];
 
-					if (!Map.Map_IsPositionInViewport(u.o.position, out x, out y)) continue;
+					if (!Map_IsPositionInViewport(u.o.position, out x, out y)) continue;
 
 					x += g_table_tilediff[0][u.wobbleIndex].x;
 					y += g_table_tilediff[0][u.wobbleIndex].y;
 
-					orientation = CTile.Orientation_Orientation256ToOrientation8((byte)u.orientation[0].current);
+					orientation = Orientation_Orientation256ToOrientation8((byte)u.orientation[0].current);
 
 					if (u.spriteOffset >= 0 || ui.destroyedSpriteID == 0)
 					{
@@ -410,31 +410,31 @@ namespace SharpDune.Gui
 						spriteFlags = 0;
 					}
 
-					if (u.o.type != (byte)UnitType.UNIT_SANDWORM && u.o.flags.isHighlighted) spriteFlags |= Gui.DRAWSPRITE_FLAG_REMAP;
-					if (ui.o.flags.blurTile) spriteFlags |= Gui.DRAWSPRITE_FLAG_BLUR;
+					if (u.o.type != (byte)UnitType.UNIT_SANDWORM && u.o.flags.isHighlighted) spriteFlags |= DRAWSPRITE_FLAG_REMAP;
+					if (ui.o.flags.blurTile) spriteFlags |= DRAWSPRITE_FLAG_BLUR;
 
-					spriteFlags |= Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER;
+					spriteFlags |= DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER;
 
-					if (GUI_Widget_Viewport_GetSprite_HousePalette(Sprites.g_sprites[index], (u.deviated != 0) ? u.deviatedHouse : Unit_GetHouseID(u), paletteHouse))
+					if (GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[index], (u.deviated != 0) ? u.deviatedHouse : Unit_GetHouseID(u), paletteHouse))
 					{
-						spriteFlags |= Gui.DRAWSPRITE_FLAG_PAL;
-						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[index], (short)x, (short)y, 2, spriteFlags, paletteHouse, Gfx.g_paletteMapping2, (short)1);
+						spriteFlags |= DRAWSPRITE_FLAG_PAL;
+                        GUI_DrawSprite(Screen.ACTIVE, g_sprites[index], (short)x, (short)y, 2, spriteFlags, paletteHouse, g_paletteMapping2, (short)1);
 					}
 					else
 					{
-						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[index], (short)x, (short)y, 2, spriteFlags, Gfx.g_paletteMapping2, 1);
+                        GUI_DrawSprite(Screen.ACTIVE, g_sprites[index], (short)x, (short)y, 2, spriteFlags, g_paletteMapping2, 1);
 					}
 
 					if (u.o.type == (byte)UnitType.UNIT_HARVESTER && u.actionID == (byte)ActionType.ACTION_HARVEST && u.spriteOffset >= 0 && (u.actionID == (byte)ActionType.ACTION_HARVEST || u.actionID == (byte)ActionType.ACTION_MOVE))
 					{
-						var type = Map.Map_GetLandscapeType(packed);
+						var type = Map_GetLandscapeType(packed);
 						if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE)
 						{
-							/*GUI_Widget_Viewport_GetSprite_HousePalette(..., Unit_GetHouseID(u), paletteHouse),*/
-							Gui.GUI_DrawSprite(Screen.ACTIVE,
-										   Sprites.g_sprites[(u.spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3)],
+                            /*GUI_Widget_Viewport_GetSprite_HousePalette(..., Unit_GetHouseID(u), paletteHouse),*/
+                            GUI_DrawSprite(Screen.ACTIVE,
+                                           g_sprites[(u.spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3)],
 										   (short)(x + values_334E[orientation][0]), (short)(y + values_334E[orientation][1]),
-										   2, values_32A4[orientation][1] | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+										   2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 						}
 					}
 
@@ -444,7 +444,7 @@ namespace SharpDune.Gui
 						short offsetY = 0;
 						var spriteID = ui.turretSpriteID;
 
-						orientation = CTile.Orientation_Orientation256ToOrientation8((byte)u.orientation[ui.o.flags.hasTurret ? 1 : 0].current);
+						orientation = Orientation_Orientation256ToOrientation8((byte)u.orientation[ui.o.flags.hasTurret ? 1 : 0].current);
 
 						switch (ui.turretSpriteID)
 						{
@@ -476,17 +476,17 @@ namespace SharpDune.Gui
 
 						spriteID += values_32A4[orientation][0];
 
-						if (GUI_Widget_Viewport_GetSprite_HousePalette(Sprites.g_sprites[spriteID], Unit_GetHouseID(u), paletteHouse))
+						if (GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[spriteID], Unit_GetHouseID(u), paletteHouse))
 						{
-							Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID],
+                            GUI_DrawSprite(Screen.ACTIVE, g_sprites[spriteID],
 										   (short)(x + offsetX), (short)(y + offsetY),
-										   2, values_32A4[orientation][1] | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER | Gui.DRAWSPRITE_FLAG_PAL, paletteHouse);
+										   2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER | DRAWSPRITE_FLAG_PAL, paletteHouse);
 						}
 						else
 						{
-							Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID],
+                            GUI_DrawSprite(Screen.ACTIVE, g_sprites[spriteID],
 										   (short)(x + offsetX), (short)(y + offsetY),
-										   2, values_32A4[orientation][1] | Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+										   2, values_32A4[orientation][1] | DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 						}
 					}
 
@@ -495,25 +495,25 @@ namespace SharpDune.Gui
 						var spriteID = (ushort)(180 + (u.spriteOffset & 3));
 						if (spriteID == 183) spriteID = 181;
 
-						Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[spriteID], (short)x, (short)(y - 14), 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+                        GUI_DrawSprite(Screen.ACTIVE, g_sprites[spriteID], (short)x, (short)(y - 14), 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 					}
 
 					if (u != g_unitSelected) continue;
 
-					Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[6], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER);
+                    GUI_DrawSprite(Screen.ACTIVE, g_sprites[6], (short)x, (short)y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER);
 				}
 
                 g_dirtyUnitCount = 0;
 			}
 
 			/* draw explosions */
-			for (i = 0; i < CExplosion.EXPLOSION_MAX; i++)
+			for (i = 0; i < EXPLOSION_MAX; i++)
 			{
-				var e = CExplosion.Explosion_Get_ByIndex(i);
+				var e = Explosion_Get_ByIndex(i);
 
-				curPos = CTile.Tile_PackTile(e.position);
+				curPos = Tile_PackTile(e.position);
 
-				if (Tools.BitArray_Test(Map.g_dirtyViewport, curPos)) e.isDirty = true;
+				if (BitArray_Test(g_dirtyViewport, curPos)) e.isDirty = true;
 
 				if (e.commands == null) continue;
 				if (!e.isDirty && !forceRedraw) continue;
@@ -521,11 +521,11 @@ namespace SharpDune.Gui
 
 				e.isDirty = false;
 
-				if (!Map.g_map[curPos].isUnveiled && !g_debugScenario) continue;
-				if (!Map.Map_IsPositionInViewport(e.position, out x, out y)) continue;
+				if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
+				if (!Map_IsPositionInViewport(e.position, out x, out y)) continue;
 
-				/*GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[e->spriteID], e->houseID, paletteHouse);*/
-				Gui.GUI_DrawSprite(Screen.ACTIVE, Sprites.g_sprites[e.spriteID], (short)x, (short)y, 2, Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER/*, paletteHouse*/);
+                /*GUI_Widget_Viewport_GetSprite_HousePalette(g_sprites[e->spriteID], e->houseID, paletteHouse);*/
+                GUI_DrawSprite(Screen.ACTIVE, g_sprites[e.spriteID], (short)x, (short)y, 2, DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER/*, paletteHouse*/);
 			}
 
 			/* draw air units */
@@ -544,26 +544,26 @@ namespace SharpDune.Gui
 					ushort index;
 					ushort spriteFlags;
 
-					u = PoolUnit.Unit_Find(find);
+					u = Unit_Find(find);
 
 					if (u == null) break;
 
 					if (u.o.index > 15) continue;
 
-					curPos = CTile.Tile_PackTile(u.o.position);
+					curPos = Tile_PackTile(u.o.position);
 
-					if ((!u.o.flags.isDirty || u.o.flags.isNotOnMap) && !forceRedraw && !Tools.BitArray_Test(Map.g_dirtyViewport, curPos)) continue;
+					if ((!u.o.flags.isDirty || u.o.flags.isNotOnMap) && !forceRedraw && !BitArray_Test(g_dirtyViewport, curPos)) continue;
 					u.o.flags.isDirty = false;
 
-					if (!Map.g_map[curPos].isUnveiled && !g_debugScenario) continue;
+					if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 
 					ui = g_table_unitInfo[u.o.type];
 
-					if (!Map.Map_IsPositionInViewport(u.o.position, out x, out y)) continue;
+					if (!Map_IsPositionInViewport(u.o.position, out x, out y)) continue;
 
 					index = ui.groundSpriteID;
 					orientation = (byte)u.orientation[0].current;
-					spriteFlags = Gui.DRAWSPRITE_FLAG_WIDGETPOS | Gui.DRAWSPRITE_FLAG_CENTER;
+					spriteFlags = DRAWSPRITE_FLAG_WIDGETPOS | DRAWSPRITE_FLAG_CENTER;
 
 					switch ((DisplayMode)ui.displayMode)
 					{
@@ -572,7 +572,7 @@ namespace SharpDune.Gui
 							break;
 
 						case DisplayMode.UNIT:
-							orientation = CTile.Orientation_Orientation256ToOrientation8(orientation);
+							orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 							index += values_32E4[orientation][0];
 							spriteFlags |= values_32E4[orientation][1];
@@ -580,7 +580,7 @@ namespace SharpDune.Gui
 
 						case DisplayMode.ROCKET:
 							{
-								orientation = CTile.Orientation_Orientation256ToOrientation16(orientation);
+								orientation = Orientation_Orientation256ToOrientation16(orientation);
 
 								index += values_3304[orientation][0];
 								spriteFlags |= values_3304[orientation][1];
@@ -589,7 +589,7 @@ namespace SharpDune.Gui
 
 						case DisplayMode.ORNITHOPTER:
 							{
-								orientation = CTile.Orientation_Orientation256ToOrientation8(orientation);
+								orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 								index += (ushort)((values_32E4[orientation][0] * 3) + values_33AE[u.spriteOffset & 3]);
 								spriteFlags |= values_32E4[orientation][1];
@@ -604,21 +604,21 @@ namespace SharpDune.Gui
 					if (ui.flags.hasAnimationSet && u.o.flags.animationFlip) index += 5;
 					if (u.o.type == (byte)UnitType.UNIT_CARRYALL && u.o.flags.inTransport) index += 3;
 
-					sprite = Sprites.g_sprites[index];
+					sprite = g_sprites[index];
 
 					if (ui.o.flags.hasShadow)
 					{
-						Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(x + 1), (short)(y + 3), 2, (spriteFlags & ~Gui.DRAWSPRITE_FLAG_PAL) | Gui.DRAWSPRITE_FLAG_REMAP | Gui.DRAWSPRITE_FLAG_BLUR, Gfx.g_paletteMapping1, (short)1);
+                        GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(x + 1), (short)(y + 3), 2, (spriteFlags & ~DRAWSPRITE_FLAG_PAL) | DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR, g_paletteMapping1, (short)1);
 					}
-					if (ui.o.flags.blurTile) spriteFlags |= Gui.DRAWSPRITE_FLAG_BLUR;
+					if (ui.o.flags.blurTile) spriteFlags |= DRAWSPRITE_FLAG_BLUR;
 
 					if (GUI_Widget_Viewport_GetSprite_HousePalette(sprite, Unit_GetHouseID(u), paletteHouse))
 					{
-						Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags | Gui.DRAWSPRITE_FLAG_PAL, paletteHouse);
+                        GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags | DRAWSPRITE_FLAG_PAL, paletteHouse);
 					}
 					else
 					{
-						Gui.GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags);
+                        GUI_DrawSprite(Screen.ACTIVE, sprite, (short)x, (short)y, 2, spriteFlags);
 					}
 				}
 
@@ -627,11 +627,11 @@ namespace SharpDune.Gui
 
 			if (updateDisplay)
 			{
-				Array.Fill<byte>(Map.g_dirtyMinimap, 0, 0, Map.g_dirtyMinimap.Length); //memset(g_dirtyMinimap, 0, sizeof(g_dirtyMinimap));
-				Array.Fill<byte>(Map.g_dirtyViewport, 0, 0, Map.g_dirtyViewport.Length); //memset(g_dirtyViewport, 0, sizeof(g_dirtyViewport));
+				Array.Fill<byte>(g_dirtyMinimap, 0, 0, g_dirtyMinimap.Length); //memset(g_dirtyMinimap, 0, sizeof(g_dirtyMinimap));
+				Array.Fill<byte>(g_dirtyViewport, 0, 0, g_dirtyViewport.Length); //memset(g_dirtyViewport, 0, sizeof(g_dirtyViewport));
 			}
 
-			if (Map.g_changedTilesCount != 0)
+			if (g_changedTilesCount != 0)
 			{
 				var init = false;
 				var update = false;
@@ -639,68 +639,68 @@ namespace SharpDune.Gui
 				ushort maxY = 0;
 				var oldScreenID2 = Screen.NO1;
 
-				for (i = 0; i < Map.g_changedTilesCount; i++)
+				for (i = 0; i < g_changedTilesCount; i++)
 				{
-					curPos = Map.g_changedTiles[i];
-					Tools.BitArray_Clear(Map.g_changedTilesMap, curPos);
+					curPos = g_changedTiles[i];
+                    BitArray_Clear(g_changedTilesMap, curPos);
 
 					if (!init)
 					{
 						init = true;
 
-						oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.NO1);
+						oldScreenID2 = GFX_Screen_SetActive(Screen.NO1);
 
-						Gui.GUI_Mouse_Hide_InWidget(3);
+                        GUI_Mouse_Hide_InWidget(3);
 					}
 
 					if (GUI_Widget_Viewport_DrawTile(curPos))
 					{
-						y = (ushort)(CTile.Tile_GetPackedY(curPos) - Map.g_mapInfos[CScenario.g_scenario.mapScale].minY); /* +136 */
-						y *= (ushort)(CScenario.g_scenario.mapScale + 1);
+						y = (ushort)(Tile_GetPackedY(curPos) - g_mapInfos[g_scenario.mapScale].minY); /* +136 */
+						y *= (ushort)(g_scenario.mapScale + 1);
 						if (y > maxY) maxY = y;
 						if (y < minY) minY = y;
 					}
 
-					if (!update && Tools.BitArray_Test(Map.g_displayedMinimap, curPos)) update = true;
+					if (!update && BitArray_Test(g_displayedMinimap, curPos)) update = true;
 				}
 
-				if (update) Map.Map_UpdateMinimapPosition(Gui.g_minimapPosition, true);
+				if (update) Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 				if (init)
 				{
 					if (hasScrolled)
 					{   /* force copy of the whole map (could be of the white rectangle) */
 						minY = 0;
-						maxY = (ushort)(63 - CScenario.g_scenario.mapScale);
+						maxY = (ushort)(63 - g_scenario.mapScale);
 					}
 					/* MiniMap : redraw only line that changed */
-					if (minY < maxY) Gui.GUI_Screen_Copy(32, (short)(136 + minY), 32, (short)(136 + minY), 8, (short)(maxY + 1 + CScenario.g_scenario.mapScale - minY), Screen.ACTIVE, Screen.NO0);
+					if (minY < maxY) GUI_Screen_Copy(32, (short)(136 + minY), 32, (short)(136 + minY), 8, (short)(maxY + 1 + g_scenario.mapScale - minY), Screen.ACTIVE, Screen.NO0);
 
-					Gfx.GFX_Screen_SetActive(oldScreenID2);
+                    GFX_Screen_SetActive(oldScreenID2);
 
-					Gui.GUI_Mouse_Show_InWidget();
+                    GUI_Mouse_Show_InWidget();
 				}
 
-				if (Map.g_changedTilesCount == Map.g_changedTiles.Length)
+				if (g_changedTilesCount == g_changedTiles.Length)
 				{
-					Map.g_changedTilesCount = 0;
+                    g_changedTilesCount = 0;
 
 					for (i = 0; i < 4096; i++)
 					{
-						if (!Tools.BitArray_Test(Map.g_changedTilesMap, i)) continue;
-						Map.g_changedTiles[Map.g_changedTilesCount++] = i;
-						if (Map.g_changedTilesCount == Map.g_changedTiles.Length) break;
+						if (!BitArray_Test(g_changedTilesMap, i)) continue;
+                        g_changedTiles[g_changedTilesCount++] = i;
+						if (g_changedTilesCount == g_changedTiles.Length) break;
 					}
 				}
 				else
 				{
-					Map.g_changedTilesCount = 0;
+                    g_changedTilesCount = 0;
 				}
 			}
 
-			if ((Gui.g_viewportMessageCounter & 1) != 0 && Gui.g_viewportMessageText != null && (minX[6] <= 14 || maxX[6] >= 0 || hasScrolled || forceRedraw))
+			if ((g_viewportMessageCounter & 1) != 0 && g_viewportMessageText != null && (minX[6] <= 14 || maxX[6] >= 0 || hasScrolled || forceRedraw))
 			{
-				Gui.GUI_DrawText_Wrapper(Gui.g_viewportMessageText, 112, 139, 15, 0, 0x132);
+                GUI_DrawText_Wrapper(g_viewportMessageText, 112, 139, 15, 0, 0x132);
 				minX[6] = -1;
 				maxX[6] = 14;
 			}
@@ -709,18 +709,18 @@ namespace SharpDune.Gui
 			{
 				if (g_viewport_fadein)
 				{
-					Gui.GUI_Mouse_Hide_InWidget(CWidget.g_curWidgetIndex);
+                    GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 
 					/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 					if (g_dune2_enhanced)
 					{
-						var oldScreenID2 = Gfx.GFX_Screen_SetActive(Screen.NO0);
-						Gui.GUI_DrawFilledRectangle((short)(CWidget.g_curWidgetXBase << 3), (short)CWidget.g_curWidgetYBase, (short)((CWidget.g_curWidgetXBase + CWidget.g_curWidgetWidth) << 3), (short)(CWidget.g_curWidgetYBase + CWidget.g_curWidgetHeight), 0);
-						Gfx.GFX_Screen_SetActive(oldScreenID2);
+						var oldScreenID2 = GFX_Screen_SetActive(Screen.NO0);
+                        GUI_DrawFilledRectangle((short)(g_curWidgetXBase << 3), (short)g_curWidgetYBase, (short)((g_curWidgetXBase + g_curWidgetWidth) << 3), (short)(g_curWidgetYBase + g_curWidgetHeight), 0);
+                        GFX_Screen_SetActive(oldScreenID2);
 					}
 
-					Gui.GUI_Screen_FadeIn(CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetXBase, CWidget.g_curWidgetYBase, CWidget.g_curWidgetWidth, CWidget.g_curWidgetHeight, Screen.ACTIVE, Screen.NO0);
-					Gui.GUI_Mouse_Show_InWidget();
+                    GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, Screen.ACTIVE, Screen.NO0);
+                    GUI_Mouse_Show_InWidget();
 
                     g_viewport_fadein = false;
 				}
@@ -748,21 +748,21 @@ namespace SharpDune.Gui
 
 						if (!init)
 						{
-							Gui.GUI_Mouse_Hide_InWidget(CWidget.g_curWidgetIndex);
+                            GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 
 							init = true;
 						}
 
-						Gui.GUI_Screen_Copy((short)x, (short)y, (short)x, (short)y, (short)width, (short)height, Screen.ACTIVE, Screen.NO0);
+                        GUI_Screen_Copy((short)x, (short)y, (short)x, (short)y, (short)width, (short)height, Screen.ACTIVE, Screen.NO0);
 					}
 
-					if (init) Gui.GUI_Mouse_Show_InWidget();
+					if (init) GUI_Mouse_Show_InWidget();
 				}
 			}
 
-			Gfx.GFX_Screen_SetActive(oldScreenID);
+            GFX_Screen_SetActive(oldScreenID);
 
-			CWidget.Widget_SetCurrentWidget(oldWidgetID);
+            Widget_SetCurrentWidget(oldWidgetID);
 		}
 
 		/*
@@ -820,7 +820,7 @@ namespace SharpDune.Gui
 			ushort packed;
 			bool click, drag;
 
-			spriteID = Gui.g_cursorSpriteID;
+			spriteID = g_cursorSpriteID;
 			switch (w.index)
 			{
 				default: break;
@@ -828,18 +828,18 @@ namespace SharpDune.Gui
 				case 40: spriteID = 2; break;
 				case 41: spriteID = 4; break;
 				case 42: spriteID = 3; break;
-				case 43: spriteID = Gui.g_cursorDefaultSpriteID; break;
-				case 44: spriteID = Gui.g_cursorDefaultSpriteID; break;
+				case 43: spriteID = g_cursorDefaultSpriteID; break;
+				case 44: spriteID = g_cursorDefaultSpriteID; break;
 				case 45: spriteID = 0; break;
 			}
 
-			if (spriteID != Gui.g_cursorSpriteID)
+			if (spriteID != g_cursorSpriteID)
 			{
-				s_tickCursor = Timer.g_timerGame;
+				s_tickCursor = g_timerGame;
 
-				Sprites.Sprites_SetMouseSprite(cursorHotSpots[spriteID].x, cursorHotSpots[spriteID].y, Sprites.g_sprites[spriteID]);
+                Sprites_SetMouseSprite(cursorHotSpots[spriteID].x, cursorHotSpots[spriteID].y, g_sprites[spriteID]);
 
-				Gui.g_cursorSpriteID = spriteID;
+                g_cursorSpriteID = spriteID;
 			}
 
 			if (w.index == 45) return true;
@@ -850,9 +850,9 @@ namespace SharpDune.Gui
 			if ((w.state.buttonState & 0x11) != 0)
 			{
 				click = true;
-				Gui.g_var_37B8 = false;
+                g_var_37B8 = false;
 			}
-			else if ((w.state.buttonState & 0x22) != 0 && !Gui.g_var_37B8)
+			else if ((w.state.buttonState & 0x22) != 0 && !g_var_37B8)
 			{
 				drag = true;
 			}
@@ -860,8 +860,8 @@ namespace SharpDune.Gui
 			/* ENHANCEMENT -- Dune2 depends on slow CPUs to limit the rate mouse clicks are handled. */
 			if (g_dune2_enhanced && (click || drag))
 			{
-				if (s_tickClick + 2 >= Timer.g_timerGame) return true;
-				s_tickClick = Timer.g_timerGame;
+				if (s_tickClick + 2 >= g_timerGame) return true;
+				s_tickClick = g_timerGame;
 			}
 
 			direction = 0xFFFF;
@@ -880,46 +880,46 @@ namespace SharpDune.Gui
 				if (!click && !drag)
 				{
 					/* Wait for either one of the timers */
-					if (s_tickMapScroll + 10 >= Timer.g_timerGame || s_tickCursor + 20 >= Timer.g_timerGame) return true;
+					if (s_tickMapScroll + 10 >= g_timerGame || s_tickCursor + 20 >= g_timerGame) return true;
 					/* Don't scroll if we have a structure/unit selected and don't want to autoscroll */
-					if (Config.g_gameConfig.autoScroll == 0 && (g_selectionType == (ushort)SelectionType.STRUCTURE || g_selectionType == (ushort)SelectionType.UNIT)) return true;
+					if (g_gameConfig.autoScroll == 0 && (g_selectionType == (ushort)SelectionType.STRUCTURE || g_selectionType == (ushort)SelectionType.UNIT)) return true;
 				}
 
-				s_tickMapScroll = Timer.g_timerGame;
+				s_tickMapScroll = g_timerGame;
 
-				Map.Map_MoveDirection(direction);
+                Map_MoveDirection(direction);
 				return true;
 			}
 
 			if (click)
 			{
-				x = Mouse.g_mouseClickX;
-				y = Mouse.g_mouseClickY;
+				x = g_mouseClickX;
+				y = g_mouseClickY;
 			}
 			else
 			{
-				x = Mouse.g_mouseX;
-				y = Mouse.g_mouseY;
+				x = g_mouseX;
+				y = g_mouseY;
 			}
 
 			if (w.index == 43)
 			{
-				x = (ushort)(x / 16 + CTile.Tile_GetPackedX(Gui.g_minimapPosition));
-				y = (ushort)((y - 40) / 16 + CTile.Tile_GetPackedY(Gui.g_minimapPosition));
+				x = (ushort)(x / 16 + Tile_GetPackedX(g_minimapPosition));
+				y = (ushort)((y - 40) / 16 + Tile_GetPackedY(g_minimapPosition));
 			}
 			else if (w.index == 44)
 			{
 				ushort mapScale;
 				MapInfo mapInfo;
 
-				mapScale = CScenario.g_scenario.mapScale;
-				mapInfo = Map.g_mapInfos[mapScale];
+				mapScale = g_scenario.mapScale;
+				mapInfo = g_mapInfos[mapScale];
 
-				x = (ushort)(Min((Max(x, (ushort)256) - 256) / (mapScale + 1), mapInfo.sizeX - 1) + mapInfo.minX);
-				y = (ushort)(Min((Max(y, (ushort)136) - 136) / (mapScale + 1), mapInfo.sizeY - 1) + mapInfo.minY);
+				x = (ushort)(Math.Min((Math.Max(x, (ushort)256) - 256) / (mapScale + 1), mapInfo.sizeX - 1) + mapInfo.minX);
+				y = (ushort)(Math.Min((Math.Max(y, (ushort)136) - 136) / (mapScale + 1), mapInfo.sizeY - 1) + mapInfo.minY);
 			}
 
-			packed = CTile.Tile_PackXY(x, y);
+			packed = Tile_PackXY(x, y);
 
 			if (click && g_selectionType == (ushort)SelectionType.TARGET)
 			{
@@ -927,7 +927,7 @@ namespace SharpDune.Gui
 				ActionType action;
 				ushort encoded;
 
-				Gui.GUI_DisplayText(null, -1);
+                GUI_DisplayText(null, -1);
 
 				if (g_unitHouseMissile != null)
 				{
@@ -939,18 +939,18 @@ namespace SharpDune.Gui
 
 				action = (ActionType)g_activeAction;
 
-				CObject.Object_Script_Variable4_Clear(u.o);
+                Object_Script_Variable4_Clear(u.o);
 				u.targetAttack = 0;
 				u.targetMove = 0;
 				u.route[0] = 0xFF;
 
 				if (action != ActionType.ACTION_MOVE && action != ActionType.ACTION_HARVEST)
 				{
-					encoded = Tools.Tools_Index_Encode(Unit_FindTargetAround(packed), IndexType.IT_TILE);
+					encoded = Tools_Index_Encode(Unit_FindTargetAround(packed), IndexType.IT_TILE);
 				}
 				else
 				{
-					encoded = Tools.Tools_Index_Encode(packed, IndexType.IT_TILE);
+					encoded = Tools_Index_Encode(packed, IndexType.IT_TILE);
 				}
 
                 Unit_SetAction(u, action);
@@ -968,27 +968,27 @@ namespace SharpDune.Gui
 					Unit target;
 
                     Unit_SetTarget(u, encoded);
-					target = Tools.Tools_Index_GetUnit(u.targetAttack);
+					target = Tools_Index_GetUnit(u.targetAttack);
 					if (target != null) target.blinkCounter = 8;
 				}
 
-				if (!Config.g_enableVoices)
+				if (!g_enableVoices)
 				{
-					CDriver.Driver_Sound_Play(36, 0xFF);
+                    Driver_Sound_Play(36, 0xFF);
 				}
 				else if (g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_FOOT)
 				{
-					Sound.Sound_StartSound(g_table_actionInfo[(int)action].soundID);
+                    Sound_StartSound(g_table_actionInfo[(int)action].soundID);
 				}
 				else
 				{
-					Sound.Sound_StartSound((ushort)(((Tools.Tools_Random_256() & 0x1) == 0) ? 20 : 17));
+                    Sound_StartSound((ushort)(((Tools_Random_256() & 0x1) == 0) ? 20 : 17));
 				}
 
                 g_unitActive = null;
                 g_activeAction = 0xFFFF;
 
-				Gui.GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
+                GUI_ChangeSelectionType((ushort)SelectionType.UNIT);
 				return true;
 			}
 
@@ -1002,18 +1002,18 @@ namespace SharpDune.Gui
 				si = g_table_structureInfo[g_structureActiveType];
 				h = g_playerHouse;
 
-				if (Structure_Place(s, Gui.g_selectionPosition))
+				if (Structure_Place(s, g_selectionPosition))
 				{
-					Sound.Voice_Play(20);
+                    Voice_Play(20);
 
-					if (s.o.type == (byte)StructureType.STRUCTURE_PALACE) PoolHouse.House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
+					if (s.o.type == (byte)StructureType.STRUCTURE_PALACE) House_Get_ByIndex(s.o.houseID).palacePosition = s.o.position;
 
 					if (g_structureActiveType == (ushort)StructureType.STRUCTURE_REFINERY && g_validateStrictIfZero == 0)
 					{
 						Unit u;
 
                         g_validateStrictIfZero++;
-						u = Unit_CreateWrapper((byte)g_playerHouseID, UnitType.UNIT_HARVESTER, Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
+						u = Unit_CreateWrapper((byte)g_playerHouseID, UnitType.UNIT_HARVESTER, Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
                         g_validateStrictIfZero--;
 
 						if (u == null)
@@ -1022,11 +1022,11 @@ namespace SharpDune.Gui
 						}
 						else
 						{
-							u.originEncoded = Tools.Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+							u.originEncoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 						}
 					}
 
-					Gui.GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+                    GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
 
 					s = Structure_Get_ByPackedTile(g_structureActivePosition);
 					if (s != null)
@@ -1036,9 +1036,9 @@ namespace SharpDune.Gui
 
                     g_structureActiveType = 0xFFFF;
                     g_structureActive = null;
-					Gui.g_selectionState = 0; /* Invalid. */
+                    g_selectionState = 0; /* Invalid. */
 
-					Gui.GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
+                    GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
 
                     House_UpdateRadarState(h);
 
@@ -1046,22 +1046,22 @@ namespace SharpDune.Gui
 					{
 						if ((h.structuresBuilt & (1 << (byte)StructureType.STRUCTURE_OUTPOST)) != 0)
 						{
-							Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_NOT_ENOUGH_POWER_FOR_RADAR_BUILD_WINDTRAPS), 3);
+                            GUI_DisplayText(String_Get_ByIndex(Text.STR_NOT_ENOUGH_POWER_FOR_RADAR_BUILD_WINDTRAPS), 3);
 						}
 					}
 					return true;
 				}
 
-				Sound.Voice_Play(47);
+                Voice_Play(47);
 
 				if (g_structureActiveType == (ushort)StructureType.STRUCTURE_SLAB_1x1 || g_structureActiveType == (ushort)StructureType.STRUCTURE_SLAB_2x2)
 				{
-					Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_FOUNDATION_HERE), 2);
+                    GUI_DisplayText(String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_FOUNDATION_HERE), 2);
 				}
 				else
 				{
-					Gui.GUI_DisplayHint((ushort)Text.STR_STRUCTURES_MUST_BE_PLACED_ON_CLEAR_ROCK_OR_CONCRETE_AND_ADJACENT_TO_ANOTHER_FRIENDLY_STRUCTURE, 0xFFFF);
-					Gui.GUI_DisplayText(CString.String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_S_HERE), 2, CString.String_Get_ByIndex(si.o.stringID_abbrev));
+                    GUI_DisplayHint((ushort)Text.STR_STRUCTURES_MUST_BE_PLACED_ON_CLEAR_ROCK_OR_CONCRETE_AND_ADJACENT_TO_ANOTHER_FRIENDLY_STRUCTURE, 0xFFFF);
+                    GUI_DisplayText(String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_S_HERE), 2, String_Get_ByIndex(si.o.stringID_abbrev));
 				}
 				return true;
 			}
@@ -1079,33 +1079,33 @@ namespace SharpDune.Gui
 					position = Unit_FindTargetAround(packed);
 				}
 
-				if (Map.g_map[position].overlayTileID != Sprites.g_veiledTileID || g_debugScenario)
+				if (g_map[position].overlayTileID != g_veiledTileID || g_debugScenario)
 				{
-					if (CObject.Object_GetByPackedTile(position) != null || g_debugScenario)
+					if (Object_GetByPackedTile(position) != null || g_debugScenario)
 					{
-						Map.Map_SetSelection(position);
+                        Map_SetSelection(position);
                         Unit_DisplayStatusText(g_unitSelected);
 					}
 				}
 
-				if ((w.state.buttonState & 0x10) != 0) Map.Map_SetViewportPosition(packed);
+				if ((w.state.buttonState & 0x10) != 0) Map_SetViewportPosition(packed);
 
 				return true;
 			}
 
 			if ((click || drag) && w.index == 44)
 			{
-				Map.Map_SetViewportPosition(packed);
+                Map_SetViewportPosition(packed);
 				return true;
 			}
 
 			if (g_selectionType == (ushort)SelectionType.TARGET)
 			{
-				Map.Map_SetSelection(Unit_FindTargetAround(packed));
+                Map_SetSelection(Unit_FindTargetAround(packed));
 			}
 			else if (g_selectionType == (ushort)SelectionType.PLACE)
 			{
-				Map.Map_SetSelection(packed);
+                Map_SetSelection(packed);
 			}
 
 			return true;

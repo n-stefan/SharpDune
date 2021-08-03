@@ -176,9 +176,9 @@ namespace SharpDune.Input
 
 			do
 			{
-				for (; ; Sleep.sleepIdle())
+				for (; ; sleepIdle())
 				{
-					if (Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) break;
+					if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) break;
 
 					index = s_historyHead;
 					if (index != s_historyTail) break;
@@ -206,32 +206,32 @@ namespace SharpDune.Input
 		{
 			ushort value;
 
-			if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) Mouse.g_mouseInputValue = s_history[index / 2];
-			value = Mouse.g_mouseInputValue;
+			if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) g_mouseInputValue = s_history[index / 2];
+			value = g_mouseInputValue;
 			index = (ushort)((index + 2) & 0xFF);
 
 			if ((value & 0xFF) >= 0x41)
 			{
 				if ((value & 0xFF) <= 0x42)
 				{
-					if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) Mouse.g_mouseRecordedX = s_history[index / 2];
-					Mouse.g_mouseClickX = Mouse.g_mouseRecordedX;
+					if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) g_mouseRecordedX = s_history[index / 2];
+                    g_mouseClickX = g_mouseRecordedX;
 					index = (ushort)((index + 2) & 0xFF);
 
-					if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) Mouse.g_mouseRecordedY = s_history[index / 2];
-					Mouse.g_mouseClickY = Mouse.g_mouseRecordedY;
+					if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) g_mouseRecordedY = s_history[index / 2];
+                    g_mouseClickY = g_mouseRecordedY;
 					index = (ushort)((index + 2) & 0xFF);
 				}
 				else if ((value & 0xFF) <= 0x44)
 				{
-					if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) Mouse.g_mouseRecordedX = s_history[index / 2];
+					if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) g_mouseRecordedX = s_history[index / 2];
 					index = (ushort)((index + 2) & 0xFF);
 
-					if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) Mouse.g_mouseRecordedY = s_history[index / 2];
+					if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) g_mouseRecordedY = s_history[index / 2];
 					index = (ushort)((index + 2) & 0xFF);
 				}
 			}
-			if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) s_historyHead = index;
+			if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) s_historyHead = index;
 			return value;
 		}
 
@@ -241,19 +241,19 @@ namespace SharpDune.Input
 			ushort value;
 			var mouseBuffer = new ushort[2];
 
-			if (Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL || Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) return;
+			if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL || g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) return;
 
 			var byteMouseBuffer = Array.ConvertAll(mouseBuffer, x => (byte)x);
 
-			if (CFile.File_Read(Mouse.g_mouseFileID, ref byteMouseBuffer, 4) != 4)
+			if (File_Read(g_mouseFileID, ref byteMouseBuffer, 4) != 4)
 			{
 				Trace.WriteLine("WARNING: Input_ReadInputFromFile(): File_Read() error.");
 				return;
 			}
 			Debug.WriteLine($"DEBUG:  time={mouseBuffer[1]} value={mouseBuffer[0]}");
 
-			Mouse.g_mouseRecordedTimer = mouseBuffer[1];
-			value = Mouse.g_mouseInputValue = mouseBuffer[0];
+            g_mouseRecordedTimer = mouseBuffer[1];
+			value = g_mouseInputValue = mouseBuffer[0];
 
 			if ((value & 0xFF) != 0x2D)
 			{
@@ -267,30 +267,30 @@ namespace SharpDune.Input
 
 				if ((value & 0xFF) < 0x41 || (value & 0xFF) > 0x44)
 				{
-					Timer.g_timerInput = 0;
+                    g_timerInput = 0;
 					return;
 				}
 
 				value -= 0x41;
 				if ((value & 0xFF) <= 0x2)
 				{
-					Mouse.g_prevButtonState &= (byte)~(1 << (value & 0xFF));
-					Mouse.g_prevButtonState |= (byte)((((value & 0x800) >> (3 + 8)) ^ 1) << (value & 0xFF));
+                    g_prevButtonState &= (byte)~(1 << (value & 0xFF));
+                    g_prevButtonState |= (byte)((((value & 0x800) >> (3 + 8)) ^ 1) << (value & 0xFF));
 				}
 			}
 
-			if (CFile.File_Read(Mouse.g_mouseFileID, ref byteMouseBuffer, 4) != 4)
+			if (File_Read(g_mouseFileID, ref byteMouseBuffer, 4) != 4)
 			{
 				Trace.WriteLine("WARNING: Input_ReadInputFromFile(): File_Read() error.");
 				return;
 			}
 			Debug.WriteLine($"DEBUG:  mouseX={mouseBuffer[0]} mouseY={mouseBuffer[1]}");
 
-			Mouse.g_mouseX = Mouse.g_mouseRecordedX = mouseBuffer[0];
-			value = Mouse.g_mouseY = Mouse.g_mouseRecordedY = mouseBuffer[1];
+            g_mouseX = g_mouseRecordedX = mouseBuffer[0];
+			value = g_mouseY = g_mouseRecordedY = mouseBuffer[1];
 
-			Mouse.Mouse_HandleMovementIfMoved(value);
-			Timer.g_timerInput = 0;
+            Mouse_HandleMovementIfMoved(value);
+            g_timerInput = 0;
 		}
 
 		/*
@@ -426,11 +426,11 @@ namespace SharpDune.Input
 			var tempBuffer = new ushort[4];
 			ushort flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
-			flags = Mouse.g_inputFlags;
-			inputMouseX = Mouse.g_mouseX;
-			inputMouseY = Mouse.g_mouseY;
+			flags = g_inputFlags;
+			inputMouseX = g_mouseX;
+			inputMouseY = g_mouseY;
 
-			if (Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD)
+			if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD)
 			{
 				saveSize = 4;
 			}
@@ -444,19 +444,19 @@ namespace SharpDune.Input
 				if (((flags & (ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63)
 				{
 					input = (ushort)(0x41 | (input & 0xFF00));
-					Mouse.g_prevButtonState |= 1;
+                    g_prevButtonState |= 1;
 					if ((input & 0x800) != 0)
 					{
-						Mouse.g_prevButtonState &= 0xFE; /* ~1 */
+                        g_prevButtonState &= 0xFE; /* ~1 */
 					}
 				}
 				else if (value == 0x68)
 				{
 					input = (ushort)(0x42 | (input & 0xFF00));
-					Mouse.g_prevButtonState |= 2;
+                    g_prevButtonState |= 2;
 					if ((input & 0x800) != 0)
 					{
-						Mouse.g_prevButtonState &= 0xFD; /* ~2 */
+                        g_prevButtonState &= 0xFD; /* ~2 */
 					}
 				}
 				else if ((input & 0x800) == 0 && (value == 0x61 || (value >= 0x5B && value <= 0x67 &&
@@ -486,17 +486,17 @@ namespace SharpDune.Input
 						inputMouseY += (ushort)change[dy];
 						if (inputMouseX >= 0x8000) inputMouseX = 0;
 						if (inputMouseY >= 0x8000) inputMouseY = 0;
-						if ((short)inputMouseX > Gfx.SCREEN_WIDTH - 1) inputMouseX = Gfx.SCREEN_WIDTH - 1;
-						if ((short)inputMouseY > Gfx.SCREEN_HEIGHT - 1) inputMouseY = Gfx.SCREEN_HEIGHT - 1;
+						if ((short)inputMouseX > SCREEN_WIDTH - 1) inputMouseX = SCREEN_WIDTH - 1;
+						if ((short)inputMouseY > SCREEN_HEIGHT - 1) inputMouseY = SCREEN_HEIGHT - 1;
 					}
 
-					Mouse.g_mouseX = inputMouseX;
-					Mouse.g_mouseY = inputMouseY;
-					if (Mouse.g_mouseLock == 0)
+                    g_mouseX = inputMouseX;
+                    g_mouseY = inputMouseY;
+					if (g_mouseLock == 0)
 					{
-						/* Move mouse pointer */
-						Gui.Gui.GUI_Mouse_Hide();
-						Gui.Gui.GUI_Mouse_Show();
+                        /* Move mouse pointer */
+                        GUI_Mouse_Hide();
+                        GUI_Mouse_Show();
 					}
 					input = 0x2D;
 				}
@@ -546,12 +546,12 @@ namespace SharpDune.Input
 			s_activeInputMap[index] &= (byte)((1 << (value & 7)) ^ 0xFF);   /* Clear bit */
 			s_activeInputMap[index] |= bit_value;                   /* set bit */
 
-			if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD || value == 0x7D) return;
+			if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD || value == 0x7D) return;
 
 			tempBuffer[0] = input;
-			tempBuffer[1] = (ushort)Timer.g_timerInput;
-			CFile.File_Write(Mouse.g_mouseFileID, Array.ConvertAll(tempBuffer, x => (byte)x), saveSize);
-			Timer.g_timerInput = 0;
+			tempBuffer[1] = (ushort)g_timerInput;
+            File_Write(g_mouseFileID, Array.ConvertAll(tempBuffer, x => (byte)x), saveSize);
+            g_timerInput = 0;
 		}
 
 		/*
@@ -578,24 +578,24 @@ namespace SharpDune.Input
 		 */
 		static ushort Input_AddHistory(ushort value)
 		{
-			if (Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL || Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD) return value;
+			if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL || g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD) return value;
 
-			if (Mouse.g_mouseNoRecordedValue)
+			if (g_mouseNoRecordedValue)
 			{
 				value = 0;
 			}
-			else if (Timer.g_timerInput < Mouse.g_mouseRecordedTimer)
+			else if (g_timerInput < g_mouseRecordedTimer)
 			{
 				value = 0;
 			}
-			else if (Mouse.g_mouseInputValue == 0x2D)
+			else if (g_mouseInputValue == 0x2D)
 			{   /* 0x2D == '-' */
 				Input_ReadInputFromFile();
 				value = 0;
 			}
 			else
 			{
-				value = Mouse.g_mouseInputValue;
+				value = g_mouseInputValue;
 			}
 
 			s_history[s_historyHead / 2] = value;
@@ -623,9 +623,9 @@ namespace SharpDune.Input
 		{
 			ushort value = 0;
 
-			for (; ; Sleep.sleepIdle())
+			for (; ; sleepIdle())
 			{
-				if (Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) break;
+				if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) break;
 
 				value = s_historyHead;
 				if (value != s_historyTail) break;
@@ -652,15 +652,15 @@ namespace SharpDune.Input
 		 */
 		internal static ushort Input_Flags_SetBits(ushort bits)
 		{
-			Mouse.g_inputFlags |= bits;
+            g_inputFlags |= bits;
 
-			if ((Mouse.g_inputFlags & (ushort)InputFlagsEnum.INPUT_FLAG_KEY_RELEASE) != 0)
+			if ((g_inputFlags & (ushort)InputFlagsEnum.INPUT_FLAG_KEY_RELEASE) != 0)
 			{
 				byte i;
 				for (i = 0; i < s_activeInputMap.Length; i++) s_activeInputMap[i] = 0;
 			}
 
-			return Mouse.g_inputFlags;
+			return g_inputFlags;
 		}
 
 		/*
@@ -671,8 +671,8 @@ namespace SharpDune.Input
 		 */
 		internal static ushort Input_Flags_ClearBits(ushort bits)
 		{
-			Mouse.g_inputFlags &= (ushort)~bits;
-			return Mouse.g_inputFlags;
+            g_inputFlags &= (ushort)~bits;
+			return g_inputFlags;
 		}
 
 		/*
@@ -686,19 +686,19 @@ namespace SharpDune.Input
 
 			Input_AddHistory(0);
 
-			for (; ; Sleep.sleepIdle())
+			for (; ; sleepIdle())
 			{
 				ushort index;
 
 				index = s_historyHead;
-				if (Mouse.g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY && index == s_historyTail)
+				if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY && index == s_historyTail)
 				{
 					value = 0;
 					break;
 				}
 
 				value = s_history[index / 2];
-				if (Mouse.g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY && value == 0) break;
+				if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY && value == 0) break;
 
 				for (i = 0; i < s_keymapIgnore.Length; i++)
 				{
@@ -729,7 +729,7 @@ namespace SharpDune.Input
 		{
 			ushort i;
 
-			if ((Mouse.g_inputFlags & (ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE) != 0) return keyValue;
+			if ((g_inputFlags & (ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE) != 0) return keyValue;
 
 			for (i = 0; i < s_translateMap.Length; i++)
 			{

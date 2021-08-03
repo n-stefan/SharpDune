@@ -61,11 +61,11 @@ namespace SharpDune.Audio
         internal uint timePerBeat;                                      /*!< time_per_beat */
         internal byte[][] forLoopPtrs = new byte[4][];                  /*!< FOR_loop_ptrs pointer to start of FOR loop */
         internal ushort[] forLoopCounters = new ushort[4];              /*!< FOR_loop_cnt */
-        internal byte[] chanMaps = new byte[Mt32Mpu.NUM_CHANS];         /*!< ?? Channel mapping. */
-        internal Controls[] controls = new Controls[Mt32Mpu.NUM_CHANS]; /*!< ?? */
-        internal byte[] noteOnChans = new byte[Mt32Mpu.MAX_NOTES];      /*!< ?? */
-        internal byte[] noteOnNotes = new byte[Mt32Mpu.MAX_NOTES];      /*!< ?? */
-        internal int[] noteOnDuration = new int[Mt32Mpu.MAX_NOTES];     /*!< ?? */
+        internal byte[] chanMaps = new byte[NUM_CHANS];         /*!< ?? Channel mapping. */
+        internal Controls[] controls = new Controls[NUM_CHANS]; /*!< ?? */
+        internal byte[] noteOnChans = new byte[MAX_NOTES];      /*!< ?? */
+        internal byte[] noteOnNotes = new byte[MAX_NOTES];      /*!< ?? */
+        internal int[] noteOnDuration = new int[MAX_NOTES];     /*!< ?? */
     }
 
     class Mt32Mpu
@@ -97,7 +97,7 @@ namespace SharpDune.Audio
         static void MPU_Send(byte status, byte data1, byte data2)
         {
             s_mpuIgnore = true;
-            Midi.midi_send((uint)(status | (data1 << 8) | (data2 << 16)));
+            midi_send((uint)(status | (data1 << 8) | (data2 << 16)));
             s_mpuIgnore = false;
         }
 
@@ -277,11 +277,11 @@ namespace SharpDune.Audio
 
             while (true)
             {
-                header = Endian.READ_BE_UINT32(file[pointer..]);
-                size = Endian.READ_BE_UINT32(file[(pointer + 4)..]);
+                header = READ_BE_UINT32(file[pointer..]);
+                size = READ_BE_UINT32(file[(pointer + 4)..]);
 
                 if (header != CSharpDune.MultiChar[FourCC.CAT] && header != CSharpDune.MultiChar[FourCC.FORM]) return null;
-                if (Endian.READ_BE_UINT32(file[(pointer + 8)..]) == CSharpDune.MultiChar[FourCC.XMID]) break;
+                if (READ_BE_UINT32(file[(pointer + 8)..]) == CSharpDune.MultiChar[FourCC.XMID]) break;
 
                 pointer += 8;
                 pointer += (int)size;
@@ -294,9 +294,9 @@ namespace SharpDune.Audio
 
             while (true)
             {
-                size = Endian.READ_BE_UINT32(file[(pointer + 4)..]);
+                size = READ_BE_UINT32(file[(pointer + 4)..]);
 
-                if ((Endian.READ_BE_UINT32(file[(pointer + 8)..]) == CSharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
+                if ((READ_BE_UINT32(file[(pointer + 8)..]) == CSharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
 
                 size += 8;
                 total -= size;
@@ -356,13 +356,13 @@ namespace SharpDune.Audio
             s_mpu_msdata[i] = data;
             data.EVNT = null;
 
-            header = Endian.READ_BE_UINT32(file[pointer..]);
+            header = READ_BE_UINT32(file[pointer..]);
             size = 12;
             while (header != CSharpDune.MultiChar[FourCC.EVNT])
             {
                 pointer += (int)size;
-                header = Endian.READ_BE_UINT32(file[pointer..]);
-                size = Endian.READ_BE_UINT32(file[(pointer + 4)..]) + 8;
+                header = READ_BE_UINT32(file[pointer..]);
+                size = READ_BE_UINT32(file[(pointer + 4)..]) + 8;
             }
 
             data.EVNT = file[pointer..];
@@ -409,7 +409,7 @@ namespace SharpDune.Audio
                 if (volume == 0xFF) continue;
 
                 /* get scaled volume value, maximum is 127 */
-                volume = (byte)Min((volume * data.globalVolume) / 100, 127);
+                volume = (byte)Math.Min((volume * data.globalVolume) / 100, 127);
 
                 s_mpu_controls[i].volume = volume;
 
@@ -447,7 +447,7 @@ namespace SharpDune.Audio
             diff = (short)(data.globalVolumeTarget - data.globalVolume);
             if (diff == 0) return;
 
-            data.globalVolumeIncr = 10 * (uint)time / (ushort)Abs(diff);   /* volume increment per 100us period */
+            data.globalVolumeIncr = 10 * (uint)time / (ushort)Math.Abs(diff);   /* volume increment per 100us period */
             if (data.globalVolumeIncr == 0) data.globalVolumeIncr = 1;
             data.globalVolumeAcc = 0;	/* vol_accum */
         }
@@ -474,7 +474,7 @@ namespace SharpDune.Audio
             while (!s_mpu_sem.Wait(0))
             //while (!Thread.Semaphore_TryLock(s_mpu_sem))
             {
-                Sleep.msleep((int)(s_mpu_usec / 1000));
+                msleep((int)(s_mpu_usec / 1000));
                 MPU_Interrupt();
             }
             s_mpu_sem.Release(1);
@@ -488,7 +488,7 @@ namespace SharpDune.Audio
         {
             byte i;
 
-            if (!Midi.midi_init()) return false;
+            if (!midi_init()) return false;
 
             //s_mpu_sem = Thread.Semaphore_Create(0);
             s_mpu_sem = new SemaphoreSlim(0, 1);
@@ -523,7 +523,7 @@ namespace SharpDune.Audio
             Array.Fill<byte>(s_mpu_lockStatus, 0, 0, s_mpu_lockStatus.Length); //memset(s_mpu_lockStatus, 0, sizeof(s_mpu_lockStatus));
 
             s_mpuIgnore = true;
-            Midi.midi_reset();
+            midi_reset();
             s_mpuIgnore = false;
 
             for (i = 0; i < 9; i++)
@@ -578,11 +578,11 @@ namespace SharpDune.Audio
             }
 
             s_mpuIgnore = true;
-            Midi.midi_reset();
+            midi_reset();
 
             s_mpu_initialized = false;
 
-            Midi.midi_uninit();
+            midi_uninit();
             s_mpuIgnore = false;
 
             s_mpu_sem.Dispose();
@@ -727,7 +727,7 @@ namespace SharpDune.Audio
                                         buffer[0] = status;
                                         Debug.Assert(nb < buffer.Length);
                                         Buffer.BlockCopy(data.sound.Arr, data.sound.Ptr + i, buffer, 1, nb); //memcpy(buffer + 1, data.sound + i, nb);
-                                        Midi.midi_send_string(buffer, (ushort)(nb + 1));
+                                        midi_send_string(buffer, (ushort)(nb + 1));
                                         nb += (ushort)i;
                                     }
                                     else
@@ -803,11 +803,11 @@ namespace SharpDune.Audio
                     {
                         if (data.tempoPercent >= data.tempoTarget)
                         {
-                            data.tempoPercent = (ushort)Max(data.tempoPercent - i, data.tempoTarget);
+                            data.tempoPercent = (ushort)Math.Max(data.tempoPercent - i, data.tempoTarget);
                         }
                         else
                         {
-                            data.tempoPercent = (ushort)Min(data.tempoPercent + i, data.tempoTarget);
+                            data.tempoPercent = (ushort)Math.Min(data.tempoPercent + i, data.tempoTarget);
                         }
                     }
                 }
@@ -832,11 +832,11 @@ namespace SharpDune.Audio
                     {
                         if (data.globalVolume >= data.globalVolumeTarget)
                         {
-                            data.globalVolume = (ushort)Max(data.globalVolume - i, data.globalVolumeTarget);
+                            data.globalVolume = (ushort)Math.Max(data.globalVolume - i, data.globalVolumeTarget);
                         }
                         else
                         {
-                            data.globalVolume = (ushort)Min(data.globalVolume + i, data.globalVolumeTarget);
+                            data.globalVolume = (ushort)Math.Min(data.globalVolume + i, data.globalVolumeTarget);
                         }
                         MPU_ApplyVolume(data);
                     }
@@ -905,7 +905,7 @@ namespace SharpDune.Audio
 
                 case 7: /* PART_VOLUME / Channel Volume */
                     if (data.globalVolume == 100) break;
-                    value = (byte)Min(data.globalVolume * value / 100, 127);
+                    value = (byte)Math.Min(data.globalVolume * value / 100, 127);
                     s_mpu_controls[chan].volume = value;
                     if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send((byte)(0xB0 | data.chanMaps[chan]), control, value);
                     break;

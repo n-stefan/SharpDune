@@ -397,9 +397,9 @@ namespace SharpDune.Gui
 			positionBottom = (ushort)(positionTop + w.height - 1);
 
 			Debug.Assert(drawMode < (ushort)DrawMode.DRAW_MODE_MAX);
-			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Hide_InRegion(positionLeft, positionTop, positionRight, positionBottom);
+                GUI_Mouse_Hide_InRegion(positionLeft, positionTop, positionRight, positionBottom);
 			}
 
 			switch (drawMode)
@@ -408,19 +408,19 @@ namespace SharpDune.Gui
 
 				case (ushort)DrawMode.DRAW_MODE_SPRITE:
 					{
-						Gui.GUI_DrawSprite(Screen.ACTIVE, drawParam.sprite, (short)offsetX, (short)offsetY, w.parentID, Gui.DRAWSPRITE_FLAG_REMAP | Gui.DRAWSPRITE_FLAG_WIDGETPOS, Gui.g_remap, (short)1);
+                        GUI_DrawSprite(Screen.ACTIVE, drawParam.sprite, (short)offsetX, (short)offsetY, w.parentID, DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_WIDGETPOS, g_remap, (short)1);
 					}
 					break;
 
 				case (ushort)DrawMode.DRAW_MODE_TEXT:
 					{
-						Gui.GUI_DrawText(drawParam.text, (short)positionLeft, (short)positionTop, fgColour, bgColour);
+                        GUI_DrawText(drawParam.text, (short)positionLeft, (short)positionTop, fgColour, bgColour);
 					}
 					break;
 
 				case (ushort)DrawMode.DRAW_MODE_UNKNOWN3:
 					{
-						Gfx.GFX_DrawTile(drawParam.spriteID, positionLeft, positionTop, (byte)HouseType.HOUSE_HARKONNEN);
+                        GFX_DrawTile(drawParam.spriteID, positionLeft, positionTop, (byte)HouseType.HOUSE_HARKONNEN);
 					}
 					break;
 
@@ -433,20 +433,20 @@ namespace SharpDune.Gui
 
 				case (ushort)DrawMode.DRAW_MODE_WIRED_RECTANGLE:
 					{
-						Gui.GUI_DrawWiredRectangle(positionLeft, positionTop, positionRight, positionBottom, fgColour);
+                        GUI_DrawWiredRectangle(positionLeft, positionTop, positionRight, positionBottom, fgColour);
 					}
 					break;
 
 				case (ushort)DrawMode.DRAW_MODE_XORFILLED_RECTANGLE:
 					{
-						Gui.GUI_DrawXorFilledRectangle((short)positionLeft, (short)positionTop, (short)positionRight, (short)positionBottom, fgColour);
+                        GUI_DrawXorFilledRectangle((short)positionLeft, (short)positionTop, (short)positionRight, (short)positionBottom, fgColour);
 					}
 					break;
 			}
 
-			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (drawMode != (ushort)DrawMode.DRAW_MODE_NONE && drawMode != (ushort)DrawMode.DRAW_MODE_CUSTOM_PROC && GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Show_InRegion();
+                GUI_Mouse_Show_InRegion();
 			}
 		}
 
@@ -458,18 +458,18 @@ namespace SharpDune.Gui
 		 */
 		static void GUI_Widget_DrawBlocked(Widget w, byte colour)
 		{
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Hide_InRegion((ushort)w.offsetX, (ushort)w.offsetY, (ushort)(w.offsetX + w.width), (ushort)(w.offsetY + w.height));
+                GUI_Mouse_Hide_InRegion((ushort)w.offsetX, (ushort)w.offsetY, (ushort)(w.offsetX + w.width), (ushort)(w.offsetY + w.height));
 			}
 
-			Gui.GUI_DrawSprite(Screen.ACTIVE, w.drawParameterNormal.sprite, w.offsetX, w.offsetY, w.parentID, 0);
+            GUI_DrawSprite(Screen.ACTIVE, w.drawParameterNormal.sprite, w.offsetX, w.offsetY, w.parentID, 0);
 
-			Gui.GUI_DrawBlockedRectangle(w.offsetX, w.offsetY, (short)w.width, (short)w.height, colour);
+            GUI_DrawBlockedRectangle(w.offsetX, w.offsetY, (short)w.width, (short)w.height, colour);
 
-			if (Gfx.GFX_Screen_IsActive(Screen.NO0))
+			if (GFX_Screen_IsActive(Screen.NO0))
 			{
-				Gui.GUI_Mouse_Show_InRegion();
+                GUI_Mouse_Show_InRegion();
 			}
 		}
 
@@ -578,25 +578,25 @@ namespace SharpDune.Gui
 			{
 				case 0:
 					drawMode = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
-					drawParam1.proc = WidgetDraw.GUI_Widget_SpriteButton_Draw;
-					drawParam2.proc = WidgetDraw.GUI_Widget_SpriteButton_Draw;
+					drawParam1.proc = GUI_Widget_SpriteButton_Draw;
+					drawParam2.proc = GUI_Widget_SpriteButton_Draw;
 					break;
 
 				case 1:
 					drawMode = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
-					drawParam1.proc = WidgetDraw.GUI_Widget_SpriteTextButton_Draw;
-					drawParam2.proc = WidgetDraw.GUI_Widget_SpriteTextButton_Draw;
+					drawParam1.proc = GUI_Widget_SpriteTextButton_Draw;
+					drawParam2.proc = GUI_Widget_SpriteTextButton_Draw;
 
 					if (stringID == (ushort)Text.STR_NULL) break;
 
-					if (CString.String_Get_ByIndex(stringID) != null) w.shortcut = GUI_Widget_GetShortcut((byte)CString.String_Get_ByIndex(stringID)[0]);
+					if (String_Get_ByIndex(stringID) != null) w.shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(stringID)[0]);
 					if (stringID == (ushort)Text.STR_CANCEL) w.shortcut2 = 'n';
 					break;
 
 				case 2:
 					drawMode = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
-					drawParam1.proc = WidgetDraw.GUI_Widget_TextButton2_Draw;
-					drawParam2.proc = WidgetDraw.GUI_Widget_TextButton2_Draw;
+					drawParam1.proc = GUI_Widget_TextButton2_Draw;
+					drawParam2.proc = GUI_Widget_TextButton2_Draw;
 					break;
 
 				case 3:
@@ -607,13 +607,13 @@ namespace SharpDune.Gui
 
 				default:
 					drawMode = (byte)DrawMode.DRAW_MODE_SPRITE;
-					drawParam1.sprite = Sprites.g_sprites[spriteID];
-					drawParam2.sprite = Sprites.g_sprites[spriteID + 1];
+					drawParam1.sprite = g_sprites[spriteID];
+					drawParam2.sprite = g_sprites[spriteID + 1];
 
 					if (drawParam1.sprite == null) break;
 
-					w.width = Sprites.Sprite_GetWidth(drawParam1.sprite);
-					w.height = Sprites.Sprite_GetHeight(drawParam1.sprite);
+					w.width = Sprite_GetWidth(drawParam1.sprite);
+					w.height = Sprite_GetHeight(drawParam1.sprite);
 					break;
 			}
 
@@ -693,9 +693,9 @@ namespace SharpDune.Gui
 
 			/* Get the key from the buffer, if there was any key pressed */
 			key = 0;
-			if (Input.Input.Input_IsInputAvailable() != 0)
+			if (Input_IsInputAvailable() != 0)
 			{
-				key = Input.Input.Input_Wait();
+				key = Input_Wait();
 			}
 
 			if (w == null) return (ushort)(key & 0x7FFF);
@@ -709,10 +709,10 @@ namespace SharpDune.Gui
 				s_widgetReset = false;
 
 				/* Check for left click */
-				if (Input.Input.Input_Test(0x41) != 0) l_widget_button_state |= 0x0200;
+				if (Input_Test(0x41) != 0) l_widget_button_state |= 0x0200;
 
 				/* Check for right click */
-				if (Input.Input.Input_Test(0x42) != 0) l_widget_button_state |= 0x2000;
+				if (Input_Test(0x42) != 0) l_widget_button_state |= 0x2000;
 
 				/* Draw all the widgets */
 				for (; w != null; w = GUI_Widget_GetNext(w))
@@ -721,11 +721,11 @@ namespace SharpDune.Gui
 				}
 			}
 
-			mouseX = Mouse.g_mouseX;
-			mouseY = Mouse.g_mouseY;
+			mouseX = g_mouseX;
+			mouseY = g_mouseY;
 
 			buttonState = 0;
-			if (Mouse.g_mouseDisabled == 0)
+			if (g_mouseDisabled == 0)
 			{
 				ushort buttonStateChange = 0;
 
@@ -749,8 +749,8 @@ namespace SharpDune.Gui
 
 				if (buttonStateChange != 0)
 				{
-					mouseX = Mouse.g_mouseClickX;
-					mouseY = Mouse.g_mouseClickY;
+					mouseX = g_mouseClickX;
+					mouseY = g_mouseClickY;
 				}
 
 				/* Disable when release, enable when click */
@@ -1012,7 +1012,7 @@ namespace SharpDune.Gui
 		 * Draw the exterior of the currently selected widget.
 		 */
 		internal static void Widget_PaintCurrentWidget() =>
-			Gui.GUI_DrawFilledRectangle((short)(g_curWidgetXBase << 3), (short)g_curWidgetYBase, (short)(((g_curWidgetXBase + g_curWidgetWidth) << 3) - 1), (short)(g_curWidgetYBase + g_curWidgetHeight - 1), g_curWidgetFGColourNormal);
+            GUI_DrawFilledRectangle((short)(g_curWidgetXBase << 3), (short)g_curWidgetYBase, (short)(((g_curWidgetXBase + g_curWidgetWidth) << 3) - 1), (short)(g_curWidgetYBase + g_curWidgetHeight - 1), g_curWidgetFGColourNormal);
 
 		/*
 		 * Select a widget as current widget and draw its exterior.
@@ -1047,8 +1047,8 @@ namespace SharpDune.Gui
                 drawModeDown = (byte)DrawMode.DRAW_MODE_SPRITE,
                 drawModeSelected = (byte)DrawMode.DRAW_MODE_SPRITE,
 
-                width = (ushort)(Sprites.Sprite_GetWidth(sprite1) * 8),
-                height = Sprites.Sprite_GetHeight(sprite1)
+                width = (ushort)(Sprite_GetWidth(sprite1) * 8),
+                height = Sprite_GetHeight(sprite1)
             }; //(Widget*)calloc(1, sizeof(Widget));
 
             w.flags.requiresClick = true;
@@ -1063,11 +1063,11 @@ namespace SharpDune.Gui
 
 			if (isDown)
 			{
-				w.clickProc = WidgetClick.GUI_Widget_Scrollbar_ArrowDown_Click;
+				w.clickProc = GUI_Widget_Scrollbar_ArrowDown_Click;
 			}
 			else
 			{
-				w.clickProc = WidgetClick.GUI_Widget_Scrollbar_ArrowUp_Click;
+				w.clickProc = GUI_Widget_Scrollbar_ArrowUp_Click;
 			}
 
 			w.data = widget2.data;
@@ -1114,9 +1114,9 @@ namespace SharpDune.Gui
 			w.drawModeNormal = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
 			w.drawModeSelected = (byte)DrawMode.DRAW_MODE_CUSTOM_PROC;
 
-			w.drawParameterNormal.proc = WidgetDraw.GUI_Widget_Scrollbar_Draw;
-			w.drawParameterSelected.proc = WidgetDraw.GUI_Widget_Scrollbar_Draw;
-			w.clickProc = WidgetClick.GUI_Widget_Scrollbar_Click;
+			w.drawParameterNormal.proc = GUI_Widget_Scrollbar_Draw;
+			w.drawParameterSelected.proc = GUI_Widget_Scrollbar_Draw;
+			w.clickProc = GUI_Widget_Scrollbar_Click;
 
 			ws = new WidgetScrollbar(); //(WidgetScrollbar*)calloc(1, sizeof(WidgetScrollbar));
 
@@ -1156,7 +1156,7 @@ namespace SharpDune.Gui
 
 			position = (ushort)(scrollbar.scrollMax - scrollbar.scrollPageSize);
 
-			if (position != 0) position = (ushort)(scrollbar.scrollPosition * (Max(w.width, w.height) - 2 - scrollbar.size) / position);
+			if (position != 0) position = (ushort)(scrollbar.scrollPosition * (Math.Max(w.width, w.height) - 2 - scrollbar.size) / position);
 
 			if (scrollbar.position != position)
 			{
@@ -1174,7 +1174,7 @@ namespace SharpDune.Gui
 			w = scrollbar.parent;
 			if (w == null) return 0xFFFF;
 
-			scrollbar.scrollPosition = (ushort)(scrollbar.position * (scrollbar.scrollMax - scrollbar.scrollPageSize) / (Max(w.width, w.height) - 2 - scrollbar.size));
+			scrollbar.scrollPosition = (ushort)(scrollbar.position * (scrollbar.scrollMax - scrollbar.scrollPageSize) / (Math.Max(w.width, w.height) - 2 - scrollbar.size));
 
 			return scrollbar.scrollPosition;
 		}
@@ -1188,7 +1188,7 @@ namespace SharpDune.Gui
 
 			if (w == null) return 0;
 
-			size = (ushort)(scrollbar.scrollPageSize * (Max(w.width, w.height) - 2) / scrollbar.scrollMax);
+			size = (ushort)(scrollbar.scrollPageSize * (Math.Max(w.width, w.height) - 2) / scrollbar.scrollMax);
 
 			if (scrollbar.size != size)
 			{
@@ -1225,12 +1225,12 @@ namespace SharpDune.Gui
 			scrollbar = (WidgetScrollbar)w.data;
 
 			if (scrollMax > 0) scrollbar.scrollMax = (ushort)scrollMax;
-			if (scrollPageSize >= 0) scrollbar.scrollPageSize = (ushort)Min(scrollPageSize, scrollbar.scrollMax);
-			if (scrollPosition >= 0) scrollbar.scrollPosition = (ushort)Min(scrollPosition, scrollbar.scrollMax - scrollbar.scrollPageSize);
+			if (scrollPageSize >= 0) scrollbar.scrollPageSize = (ushort)Math.Min(scrollPageSize, scrollbar.scrollMax);
+			if (scrollPosition >= 0) scrollbar.scrollPosition = (ushort)Math.Min(scrollPosition, scrollbar.scrollMax - scrollbar.scrollPageSize);
 
 			GUI_Widget_Scrollbar_CalculateSize(scrollbar);
 			GUI_Widget_Scrollbar_CalculatePosition(scrollbar);
-			WidgetDraw.GUI_Widget_Scrollbar_Draw(w);
+            GUI_Widget_Scrollbar_Draw(w);
 
             scrollbar.drawProc?.Invoke(w);
 

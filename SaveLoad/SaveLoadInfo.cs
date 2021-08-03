@@ -5,35 +5,35 @@ namespace SharpDune.SaveLoad
     class SaveLoadInfo
     {
         static readonly SaveLoadDesc[] s_saveInfo = {
-            SLD_GSLD(() => CScenario.g_scenario, SaveLoadScenario.g_saveScenario),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_playerCreditsNoSilo, (v, _) => g_playerCreditsNoSilo = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.Gui.g_minimapPosition, (v, _) => Gui.Gui.g_minimapPosition = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => Gui.Gui.g_selectionRectanglePosition, (v, _) => Gui.Gui.g_selectionRectanglePosition = (ushort)v),
-            SLD_GCALLB(SaveLoadType.SLDT_INT8, () => g_selectionType, SaveLoad_SelectionType),
-            SLD_GENTRY2(SaveLoadType.SLDT_INT8, SaveLoadType.SLDT_UINT16, () => g_structureActiveType, (v, _) => g_structureActiveType = (ushort)(sbyte)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_structureActivePosition, (v, _) => g_structureActivePosition = (ushort)v),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_structureActive, SaveLoad_StructureActive),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_unitSelected, SaveLoad_UnitSelected),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_unitActive, SaveLoad_UnitActive),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_activeAction, (v, _) => g_activeAction = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => Gui.Gui.g_strategicRegionBits, (v, _) => Gui.Gui.g_strategicRegionBits = (uint)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_scenarioID, (v, _) => g_scenarioID = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_campaignID, (v, _) => g_campaignID = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => g_hintsShown1, (v, _) => g_hintsShown1 = (uint)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT32, () => g_hintsShown2, (v, _) => g_hintsShown2 = (uint)v),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT32, () => g_tickScenarioStart, SaveLoad_TickScenarioStart),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_playerCreditsNoSilo, (v, _) => g_playerCreditsNoSilo = (ushort)v),
-            SLD_GARRAY(SaveLoadType.SLDT_INT16, () => g_starportAvailable, (v, i) => g_starportAvailable[i] = (short)v, (ushort)UnitType.UNIT_MAX),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_houseMissileCountdown, (v, _) => g_houseMissileCountdown = (ushort)v),
-            SLD_GCALLB(SaveLoadType.SLDT_UINT16, () => g_unitHouseMissile, SaveLoad_UnitHouseMissile),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_structureIndex, (v, _) => g_structureIndex = (ushort)v),
+            SLD_GSLD(() => g_scenario, g_saveScenario),
+            SLD_GENTRY(SLDT_UINT16, () => g_playerCreditsNoSilo, (v, _) => g_playerCreditsNoSilo = (ushort)v),
+            SLD_GENTRY(SLDT_UINT16, () => g_minimapPosition, (v, _) => g_minimapPosition = (ushort)v),
+            SLD_GENTRY(SLDT_UINT16, () => g_selectionRectanglePosition, (v, _) => g_selectionRectanglePosition = (ushort)v),
+            SLD_GCALLB(SLDT_INT8, () => g_selectionType, SaveLoad_SelectionType),
+            SLD_GENTRY2(SLDT_INT8, SLDT_UINT16, () => g_structureActiveType, (v, _) => g_structureActiveType = (ushort)(sbyte)v),
+            SLD_GENTRY(SLDT_UINT16, () => g_structureActivePosition, (v, _) => g_structureActivePosition = (ushort)v),
+            SLD_GCALLB(SLDT_UINT16, () => g_structureActive, SaveLoad_StructureActive),
+            SLD_GCALLB(SLDT_UINT16, () => g_unitSelected, SaveLoad_UnitSelected),
+            SLD_GCALLB(SLDT_UINT16, () => g_unitActive, SaveLoad_UnitActive),
+            SLD_GENTRY(SLDT_UINT16, () => g_activeAction, (v, _) => g_activeAction = (ushort)v),
+            SLD_GENTRY(SLDT_UINT32, () => g_strategicRegionBits, (v, _) => g_strategicRegionBits = (uint)v),
+            SLD_GENTRY(SLDT_UINT16, () => g_scenarioID, (v, _) => g_scenarioID = (ushort)v),
+            SLD_GENTRY(SLDT_UINT16, () => g_campaignID, (v, _) => g_campaignID = (ushort)v),
+            SLD_GENTRY(SLDT_UINT32, () => g_hintsShown1, (v, _) => g_hintsShown1 = (uint)v),
+            SLD_GENTRY(SLDT_UINT32, () => g_hintsShown2, (v, _) => g_hintsShown2 = (uint)v),
+            SLD_GCALLB(SLDT_UINT32, () => g_tickScenarioStart, SaveLoad_TickScenarioStart),
+            SLD_GENTRY(SLDT_UINT16, () => g_playerCreditsNoSilo, (v, _) => g_playerCreditsNoSilo = (ushort)v),
+            SLD_GARRAY(SLDT_INT16, () => g_starportAvailable, (v, i) => g_starportAvailable[i] = (short)v, (ushort)UnitType.UNIT_MAX),
+            SLD_GENTRY(SLDT_UINT16, () => g_houseMissileCountdown, (v, _) => g_houseMissileCountdown = (ushort)v),
+            SLD_GCALLB(SLDT_UINT16, () => g_unitHouseMissile, SaveLoad_UnitHouseMissile),
+            SLD_GENTRY(SLDT_UINT16, () => g_structureIndex, (v, _) => g_structureIndex = (ushort)v),
             SLD_END()
         };
 
         static readonly SaveLoadDesc[] s_saveInfoOld = {
-            SLD_EMPTY2(SaveLoadType.SLDT_UINT8, 250),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_scenarioID, (v, _) => g_scenarioID = (ushort)v),
-            SLD_GENTRY(SaveLoadType.SLDT_UINT16, () => g_campaignID, (v, _) => g_campaignID = (ushort)v),
+            SLD_EMPTY2(SLDT_UINT8, 250),
+            SLD_GENTRY(SLDT_UINT16, () => g_scenarioID, (v, _) => g_scenarioID = (ushort)v),
+            SLD_GENTRY(SLDT_UINT16, () => g_campaignID, (v, _) => g_campaignID = (ushort)v),
             SLD_END()
         };
 
@@ -54,7 +54,7 @@ namespace SharpDune.SaveLoad
             {
                 if ((ushort)value != 0xFFFF)
                 {
-                    g_structureActive = PoolStructure.Structure_Get_ByIndex((ushort)value);
+                    g_structureActive = Structure_Get_ByIndex((ushort)value);
                 }
                 else
                 {
@@ -77,9 +77,9 @@ namespace SharpDune.SaveLoad
         {
             if (loading)
             {
-                if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
+                if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
                 {
-                    g_unitSelected = PoolUnit.Unit_Get_ByIndex((ushort)value);
+                    g_unitSelected = Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
@@ -102,9 +102,9 @@ namespace SharpDune.SaveLoad
         {
             if (loading)
             {
-                if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
+                if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
                 {
-                    g_unitActive = PoolUnit.Unit_Get_ByIndex((ushort)value);
+                    g_unitActive = Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
@@ -127,20 +127,20 @@ namespace SharpDune.SaveLoad
         {
             if (loading)
             {
-                g_tickScenarioStart = Timer.g_timerGame - value;
+                g_tickScenarioStart = g_timerGame - value;
                 return 0;
             }
 
-            return Timer.g_timerGame - g_tickScenarioStart;
+            return g_timerGame - g_tickScenarioStart;
         }
 
         static uint SaveLoad_UnitHouseMissile(object obj, uint value, bool loading)
         {
             if (loading)
             {
-                if ((ushort)value != 0xFFFF && value < (uint)PoolUnit.UnitIndex.UNIT_INDEX_MAX)
+                if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
                 {
-                    g_unitHouseMissile = PoolUnit.Unit_Get_ByIndex((ushort)value);
+                    g_unitHouseMissile = Unit_Get_ByIndex((ushort)value);
                 }
                 else
                 {
@@ -170,12 +170,12 @@ namespace SharpDune.SaveLoad
             if (SaveLoad_GetLength(s_saveInfo) != length) return false;
             if (!SaveLoad_Load(s_saveInfo, fp, null)) return false;
 
-            Gui.Gui.g_viewportPosition = Gui.Gui.g_minimapPosition;
-            Gui.Gui.g_selectionPosition = Gui.Gui.g_selectionRectanglePosition;
+            g_viewportPosition = g_minimapPosition;
+            g_selectionPosition = g_selectionRectanglePosition;
 
-            Sprites.Sprites_LoadTiles();
+            Sprites_LoadTiles();
 
-            Map.Map_CreateLandscape(CScenario.g_scenario.mapSeed);
+            Map_CreateLandscape(g_scenario.mapSeed);
 
             return true;
         }
@@ -203,7 +203,7 @@ namespace SharpDune.SaveLoad
         {
             ushort savegameVersion = 0x0290;
 
-            if (!CFile.fwrite_le_uint16(savegameVersion, fp)) return false;
+            if (!fwrite_le_uint16(savegameVersion, fp)) return false;
 
             if (!SaveLoad_Save(s_saveInfo, fp, null)) return false;
 

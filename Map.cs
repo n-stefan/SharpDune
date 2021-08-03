@@ -159,17 +159,17 @@ namespace SharpDune
 
             t = g_map[packed];
 
-            if (t.groundTileID == Sprites.g_builtSlabTileID) return (ushort)LandscapeType.LST_CONCRETE_SLAB;
+            if (t.groundTileID == g_builtSlabTileID) return (ushort)LandscapeType.LST_CONCRETE_SLAB;
 
-            if (t.groundTileID == Sprites.g_bloomTileID || t.groundTileID == Sprites.g_bloomTileID + 1) return (ushort)LandscapeType.LST_BLOOM_FIELD;
+            if (t.groundTileID == g_bloomTileID || t.groundTileID == g_bloomTileID + 1) return (ushort)LandscapeType.LST_BLOOM_FIELD;
 
-            if (t.groundTileID > Sprites.g_wallTileID && t.groundTileID < Sprites.g_wallTileID + 75) return (ushort)LandscapeType.LST_WALL;
+            if (t.groundTileID > g_wallTileID && t.groundTileID < g_wallTileID + 75) return (ushort)LandscapeType.LST_WALL;
 
-            if (t.overlayTileID == Sprites.g_wallTileID) return (ushort)LandscapeType.LST_DESTROYED_WALL;
+            if (t.overlayTileID == g_wallTileID) return (ushort)LandscapeType.LST_DESTROYED_WALL;
 
             if (Structure_Get_ByPackedTile(packed) != null) return (ushort)LandscapeType.LST_STRUCTURE;
 
-            spriteOffset = (short)(t.groundTileID - Sprites.g_landscapeTileID); /* Offset in the landscape icon group. */
+            spriteOffset = (short)(t.groundTileID - g_landscapeTileID); /* Offset in the landscape icon group. */
             if (spriteOffset < 0 || spriteOffset > 80) return (ushort)LandscapeType.LST_ENTIRELY_ROCK;
 
             return _landscapeSpriteMap[spriteOffset];
@@ -186,12 +186,12 @@ namespace SharpDune
 
             if (g_selectionType == (ushort)SelectionType.PLACE)
             {
-                Gui.Gui.g_selectionState = Structure_IsValidBuildLocation(packed, (StructureType)g_structureActiveType);
-                Gui.Gui.g_selectionPosition = packed;
+                g_selectionState = Structure_IsValidBuildLocation(packed, (StructureType)g_structureActiveType);
+                g_selectionPosition = packed;
                 return;
             }
 
-            if ((packed != 0xFFFF && g_map[packed].overlayTileID != Sprites.g_veiledTileID) || g_debugScenario)
+            if ((packed != 0xFFFF && g_map[packed].overlayTileID != g_veiledTileID) || g_debugScenario)
             {
                 Structure s;
 
@@ -203,10 +203,10 @@ namespace SharpDune
                     si = g_table_structureInfo[s.o.type];
                     if (s.o.houseID == (byte)g_playerHouseID && g_selectionType != (ushort)SelectionType.MENTAT)
                     {
-                        Gui.Gui.GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
+                        GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
                     }
 
-                    packed = CTile.Tile_PackTile(s.o.position);
+                    packed = Tile_PackTile(s.o.position);
 
                     Map_SetSelectionSize(si.layout);
 
@@ -237,12 +237,12 @@ namespace SharpDune
                         }
                     }
                 }
-                Gui.Gui.g_selectionPosition = packed;
+                g_selectionPosition = packed;
                 return;
             }
 
             Map_SetSelectionSize((ushort)StructureLayout.STRUCTURE_LAYOUT_1x1);
-            Gui.Gui.g_selectionPosition = packed;
+            g_selectionPosition = packed;
             return;
         }
 
@@ -259,10 +259,10 @@ namespace SharpDune
 
             if ((position & 0xC000) != 0) return false;
 
-            x = CTile.Tile_GetPackedX(position);
-            y = CTile.Tile_GetPackedY(position);
+            x = Tile_GetPackedX(position);
+            y = Tile_GetPackedY(position);
 
-            mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
+            mapInfo = g_mapInfos[g_scenario.mapScale];
 
             return (mapInfo.minX <= x && x < (mapInfo.minX + mapInfo.sizeX) && mapInfo.minY <= y && y < (mapInfo.minY + mapInfo.sizeY));
         }
@@ -286,8 +286,8 @@ namespace SharpDune
             oldPosition = Map_SetSelectionObjectPosition(0xFFFF);
 
             selectionLayout = layout;
-            Gui.Gui.g_selectionWidth = g_table_structure_layoutSize[layout].width;
-            Gui.Gui.g_selectionHeight = g_table_structure_layoutSize[layout].height;
+            g_selectionWidth = g_table_structure_layoutSize[layout].width;
+            g_selectionHeight = g_table_structure_layoutSize[layout].height;
 
             Map_SetSelectionObjectPosition(oldPosition);
 
@@ -324,23 +324,23 @@ namespace SharpDune
 
             if (packed == 0xFFFF) return;
 
-            for (y = 0; y < Gui.Gui.g_selectionHeight; y++)
+            for (y = 0; y < g_selectionHeight; y++)
             {
-                for (x = 0; x < Gui.Gui.g_selectionWidth; x++)
+                for (x = 0; x < g_selectionWidth; x++)
                 {
                     ushort curPacked;
 
-                    curPacked = (ushort)(packed + CTile.Tile_PackXY(x, y));
+                    curPacked = (ushort)(packed + Tile_PackXY(x, y));
 
                     Map_Update(curPacked, 0, false);
 
                     if (enable)
                     {
-                        Tools.BitArray_Set(g_displayedViewport, curPacked);
+                        BitArray_Set(g_displayedViewport, curPacked);
                     }
                     else
                     {
-                        Tools.BitArray_Clear(g_displayedViewport, curPacked);
+                        BitArray_Clear(g_displayedViewport, curPacked);
                     }
                 }
             }
@@ -376,25 +376,25 @@ namespace SharpDune
                         byte i;
                         ushort curPacked = 0;
 
-                        if (Tools.BitArray_Test(g_dirtyMinimap, packed)) return;
+                        if (BitArray_Test(g_dirtyMinimap, packed)) return;
 
                         g_dirtyViewportCount++;
 
                         for (i = 0; i < 9; i++)
                         {
                             curPacked = (ushort)((packed + offsets[i]) & 0xFFF);
-                            Tools.BitArray_Set(g_dirtyViewport, curPacked);
-                            if (Tools.BitArray_Test(g_displayedViewport, curPacked)) g_selectionRectangleNeedRepaint = true;
+                            BitArray_Set(g_dirtyViewport, curPacked);
+                            if (BitArray_Test(g_displayedViewport, curPacked)) g_selectionRectangleNeedRepaint = true;
                         }
 
-                        Tools.BitArray_Set(g_dirtyMinimap, curPacked);
+                        BitArray_Set(g_dirtyMinimap, curPacked);
                         return;
                     }
 
                 case 1:
                 case 2:
                 case 3:
-                    Tools.BitArray_Set(g_dirtyViewport, packed);
+                    BitArray_Set(g_dirtyViewport, packed);
                     return;
             }
         }
@@ -414,7 +414,7 @@ namespace SharpDune
             t = g_map[position];
 
             if (!t.isUnveiled) return false;
-            if (!Sprites.Tile_IsUnveiled(t.overlayTileID)) return false;
+            if (!Tile_IsUnveiled(t.overlayTileID)) return false;
 
             return true;
         }
@@ -430,10 +430,10 @@ namespace SharpDune
             byte x, y;
             byte x2, y2;
 
-            x = (byte)CTile.Tile_GetPackedX(packed);
-            y = (byte)CTile.Tile_GetPackedY(packed);
-            x2 = (byte)CTile.Tile_GetPackedX(Gui.Gui.g_minimapPosition);
-            y2 = (byte)CTile.Tile_GetPackedY(Gui.Gui.g_minimapPosition);
+            x = (byte)Tile_GetPackedX(packed);
+            y = (byte)Tile_GetPackedY(packed);
+            x2 = (byte)Tile_GetPackedX(g_minimapPosition);
+            y2 = (byte)Tile_GetPackedY(g_minimapPosition);
 
             return x >= x2 && x < x2 + 15 && y >= y2 && y < y2 + 10;
         }
@@ -468,8 +468,8 @@ namespace SharpDune
             /* If radius is bigger or equal than 32, update all tiles in a 5x5 grid around the unit. */
             if (radius >= 32)
             {
-                ushort x = CTile.Tile_GetPosX(position);
-                ushort y = CTile.Tile_GetPosY(position);
+                ushort x = Tile_GetPosX(position);
+                ushort y = Tile_GetPosY(position);
 
                 for (i = -2; i <= 2; i++)
                 {
@@ -479,8 +479,8 @@ namespace SharpDune
 
                         if (x + i < 0 || x + i >= 64 || y + j < 0 || y + j >= 64) continue;
 
-                        curPacked = CTile.Tile_PackXY((ushort)(x + i), (ushort)(y + j));
-                        Tools.BitArray_Set(g_dirtyViewport, curPacked);
+                        curPacked = Tile_PackXY((ushort)(x + i), (ushort)(y + j));
+                        BitArray_Set(g_dirtyViewport, curPacked);
                         g_dirtyViewportCount++;
 
                         switch (function)
@@ -496,7 +496,7 @@ namespace SharpDune
                 return;
             }
 
-            radius = Max(radius, (ushort)15);
+            radius = Math.Max(radius, (ushort)15);
             position.x -= tileOffsets[radius - 15];
             position.y -= tileOffsets[radius - 15];
 
@@ -507,15 +507,15 @@ namespace SharpDune
             i = 0;
             do
             {
-                var curTile = CTile.Tile_AddTileDiff(position, diff);
+                var curTile = Tile_AddTileDiff(position, diff);
 
-                if (CTile.Tile_IsValid(curTile))
+                if (Tile_IsValid(curTile))
                 {
-                    var curPacked = CTile.Tile_PackTile(curTile);
+                    var curPacked = Tile_PackTile(curTile);
 
                     if (curPacked != lastPacked)
                     {
-                        Tools.BitArray_Set(g_dirtyViewport, curPacked);
+                        BitArray_Set(g_dirtyViewport, curPacked);
                         g_dirtyViewportCount++;
 
                         switch (function)
@@ -543,9 +543,9 @@ namespace SharpDune
          */
         internal static void Map_MarkTileDirty(ushort packed)
         {
-            if (Tools.BitArray_Test(g_displayedMinimap, packed) && CScenario.g_scenario.mapScale + 1 == 0) return;
+            if (BitArray_Test(g_displayedMinimap, packed) && g_scenario.mapScale + 1 == 0) return;
 
-            Tools.BitArray_Set(g_changedTilesMap, packed);
+            BitArray_Set(g_changedTilesMap, packed);
             if (g_changedTilesCount < g_changedTiles.Length /*Common.lengthof<ushort>(g_changedTiles)*/) g_changedTiles[g_changedTilesCount++] = packed;
         }
 
@@ -562,11 +562,11 @@ namespace SharpDune
             Tile t;
 
             if (houseID != (byte)g_playerHouseID) return false;
-            if (CTile.Tile_IsOutOfMap(packed)) return false;
+            if (Tile_IsOutOfMap(packed)) return false;
 
             t = g_map[packed];
 
-            if (t.isUnveiled && Sprites.Tile_IsUnveiled(t.overlayTileID)) return false;
+            if (t.isUnveiled && Tile_IsUnveiled(t.overlayTileID)) return false;
             t.isUnveiled = true;
 
             Map_MarkTileDirty(packed);
@@ -600,7 +600,7 @@ namespace SharpDune
             ushort tileID;
             Tile t;
 
-            if (CTile.Tile_IsOutOfMap(packed)) return;
+            if (Tile_IsOutOfMap(packed)) return;
 
             t = g_map[packed];
 
@@ -609,7 +609,7 @@ namespace SharpDune
             {
                 int i;
 
-                if (g_validateStrictIfZero == 0 && Sprites.Tile_IsUnveiled(t.overlayTileID)) return;
+                if (g_validateStrictIfZero == 0 && Tile_IsUnveiled(t.overlayTileID)) return;
 
                 tileID = 0;
 
@@ -617,7 +617,7 @@ namespace SharpDune
                 {
                     var neighbour = (ushort)(packed + g_table_mapDiff[i]);
 
-                    if (CTile.Tile_IsOutOfMap(neighbour) || !g_map[neighbour].isUnveiled)
+                    if (Tile_IsOutOfMap(neighbour) || !g_map[neighbour].isUnveiled)
                     {
                         tileID |= (ushort)(1 << i);
                     }
@@ -632,7 +632,7 @@ namespace SharpDune
                     if (u != null) Unit_HouseUnitCount_Add(u, (byte)g_playerHouseID);
                 }
 
-                tileID = Sprites.g_iconMap[Sprites.g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_FOG_OF_WAR] + tileID];
+                tileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_FOG_OF_WAR] + tileID];
             }
 
             t.overlayTileID = tileID;
@@ -669,7 +669,7 @@ namespace SharpDune
             if (packed != 0xFFFF && packed == minimapPreviousPosition && !forceUpdate) return;
             if (g_selectionType == (ushort)SelectionType.MENTAT) return;
 
-            oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO1);
+            oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
             cleared = false;
 
@@ -685,9 +685,9 @@ namespace SharpDune
                     ushort curPacked;
 
                     curPacked = (ushort)(minimapPreviousPosition + m[mPointer]);
-                    Tools.BitArray_Clear(g_displayedMinimap, curPacked);
+                    BitArray_Clear(g_displayedMinimap, curPacked);
 
-                    Viewport.GUI_Widget_Viewport_DrawTile(curPacked);
+                    GUI_Widget_Viewport_DrawTile(curPacked);
                 }
             }
 
@@ -699,33 +699,33 @@ namespace SharpDune
                 MapInfo mapInfo;
                 ushort left, top, right, bottom;
 
-                mapScale = CScenario.g_scenario.mapScale;
+                mapScale = g_scenario.mapScale;
                 mapInfo = g_mapInfos[mapScale];
 
-                left = (ushort)((CTile.Tile_GetPackedX(packed) - mapInfo.minX) * (mapScale + 1) + 256);
+                left = (ushort)((Tile_GetPackedX(packed) - mapInfo.minX) * (mapScale + 1) + 256);
                 right = (ushort)(left + mapScale * 15 + 14);
-                top = (ushort)((CTile.Tile_GetPackedY(packed) - mapInfo.minY) * (mapScale + 1) + 136);
+                top = (ushort)((Tile_GetPackedY(packed) - mapInfo.minY) * (mapScale + 1) + 136);
                 bottom = (ushort)(top + mapScale * 10 + 9);
 
-                Gui.Gui.GUI_DrawWiredRectangle(left, top, right, bottom, 15);
+                GUI_DrawWiredRectangle(left, top, right, bottom, 15);
 
                 for (mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
                 {
                     ushort curPacked;
 
                     curPacked = (ushort)(packed + m[mPointer]);
-                    Tools.BitArray_Set(g_displayedMinimap, curPacked);
+                    BitArray_Set(g_displayedMinimap, curPacked);
                 }
             }
 
             if (cleared && oldScreenID == Screen.NO0)
             {
-                Gui.Gui.GUI_Mouse_Hide_Safe();
-                Gui.Gui.GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
-                Gui.Gui.GUI_Mouse_Show_Safe();
+                GUI_Mouse_Hide_Safe();
+                GUI_Screen_Copy(32, 136, 32, 136, 8, 64, Screen.NO1, Screen.NO0);
+                GUI_Mouse_Show_Safe();
             }
 
-            Gfx.GFX_Screen_SetActive(oldScreenID);
+            GFX_Screen_SetActive(oldScreenID);
 
             minimapPreviousPosition = packed;
         }
@@ -742,10 +742,10 @@ namespace SharpDune
                 var u = Unit_Get_ByPackedTile(packed);
                 Unit_Remove(u);
                 g_map[packed].groundTileID = (ushort)(g_mapTileID[packed] & 0x1FF);
-                Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SPICE_BLOOM_TREMOR, CTile.Tile_UnpackTile(packed), 0, 0);
+                Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_SPICE_BLOOM_TREMOR, Tile_UnpackTile(packed), 0, 0);
             }
 
-            if (houseID == (byte)g_playerHouseID) Sound.Sound_Output_Feedback(36);
+            if (houseID == (byte)g_playerHouseID) Sound_Output_Feedback(36);
 
             Map_FillCircleWithSpice(packed, 5);
         }
@@ -781,7 +781,7 @@ namespace SharpDune
             if (type == (ushort)LandscapeType.LST_SPICE) spriteID = 49;
             if (type == (ushort)LandscapeType.LST_THICK_SPICE) spriteID = 65;
 
-            spriteID = (ushort)(Sprites.g_iconMap[Sprites.g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF);
+            spriteID = (ushort)(g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF);
             g_mapTileID[packed] = (ushort)(0x8000 | spriteID);
             g_map[packed].groundTileID = spriteID;
 
@@ -814,7 +814,7 @@ namespace SharpDune
                     var curPacked = (ushort)(packed + g_table_mapDiff[i]);
                     ushort curType;
 
-                    if (CTile.Tile_IsOutOfMap(curPacked))
+                    if (Tile_IsOutOfMap(curPacked))
                     {
                         if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE) spriteID |= (ushort)(1 << i);
                         continue;
@@ -833,7 +833,7 @@ namespace SharpDune
 
                 spriteID += (ushort)((type == (ushort)LandscapeType.LST_SPICE) ? 49 : 65);
 
-                spriteID = (ushort)(Sprites.g_iconMap[Sprites.g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF);
+                spriteID = (ushort)(g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF);
                 g_mapTileID[packed] = (ushort)(0x8000 | spriteID);
                 g_map[packed].groundTileID = spriteID;
             }
@@ -853,7 +853,7 @@ namespace SharpDune
         internal static void Map_MakeExplosion(ushort type, tile32 position, ushort hitpoints, ushort unitOriginEncoded)
         {
             var reactionDistance = (ushort)((type == (ushort)ExplosionType.EXPLOSION_DEATH_HAND) ? 32 : 16);
-            var positionPacked = CTile.Tile_PackTile(position);
+            var positionPacked = Tile_PackTile(position);
 
             if (!s_debugNoExplosionDamage && hitpoints != 0)
             {
@@ -873,12 +873,12 @@ namespace SharpDune
                     Unit us;
                     Unit attack;
 
-                    u = PoolUnit.Unit_Find(find);
+                    u = Unit_Find(find);
                     if (u == null) break;
 
                     ui = g_table_unitInfo[u.o.type];
 
-                    distance = (ushort)(CTile.Tile_GetDistance(position, u.o.position) >> 4);
+                    distance = (ushort)(Tile_GetDistance(position, u.o.position) >> 4);
                     if (distance >= reactionDistance) continue;
 
                     if (!(u.o.type == (byte)UnitType.UNIT_SANDWORM && type == (ushort)ExplosionType.EXPLOSION_SANDWORM_SWALLOW) && u.o.type != (byte)UnitType.UNIT_FRIGATE)
@@ -888,7 +888,7 @@ namespace SharpDune
 
                     if (u.o.houseID == (byte)g_playerHouseID) continue;
 
-                    us = Tools.Tools_Index_GetUnit(unitOriginEncoded);
+                    us = Tools_Index_GetUnit(unitOriginEncoded);
                     if (us == null) continue;
                     if (us == u) continue;
                     if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(us))) continue;
@@ -906,7 +906,7 @@ namespace SharpDune
                             continue;
                         }
 
-                        target = Tools.Tools_Index_GetUnit(t.target);
+                        target = Tools_Index_GetUnit(t.target);
                         if (target == null) continue;
 
                         targetInfo = g_table_unitInfo[target.o.type];
@@ -935,11 +935,11 @@ namespace SharpDune
 
                     if (u.targetAttack != 0 && u.actionID != (byte)ActionType.ACTION_HUNT) continue;
 
-                    attack = Tools.Tools_Index_GetUnit(u.targetAttack);
+                    attack = Tools_Index_GetUnit(u.targetAttack);
                     if (attack != null)
                     {
-                        var packed = CTile.Tile_PackTile(u.o.position);
-                        if (CTile.Tile_GetDistancePacked(Tools.Tools_Index_GetPackedTile(u.targetAttack), packed) <= ui.fireDistance) continue;
+                        var packed = Tile_PackTile(u.o.position);
+                        if (Tile_GetDistancePacked(Tools_Index_GetPackedTile(u.targetAttack), packed) <= ui.fireDistance) continue;
                     }
 
                     Unit_SetTarget(u, unitOriginEncoded);
@@ -970,13 +970,13 @@ namespace SharpDune
             if (Map_GetLandscapeType(positionPacked) == (ushort)LandscapeType.LST_WALL && hitpoints != 0)
             {
                 if ((g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints <= hitpoints) ||
-                    (Tools.Tools_Random_256() <= (hitpoints * 256 / g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints)))
+                    (Tools_Random_256() <= (hitpoints * 256 / g_table_structureInfo[(int)StructureType.STRUCTURE_WALL].o.hitpoints)))
                 {
                     Map_UpdateWall(positionPacked);
                 }
             }
 
-            CExplosion.Explosion_Start(type, position);
+            Explosion_Start(type, position);
         }
 
         /*
@@ -993,19 +993,19 @@ namespace SharpDune
 
             if (radius == 0) return;
 
-            x = CTile.Tile_GetPackedX(packed);
-            y = CTile.Tile_GetPackedY(packed);
+            x = Tile_GetPackedX(packed);
+            y = Tile_GetPackedY(packed);
 
             for (i = -radius; i <= radius; i++)
             {
                 for (j = -radius; j <= radius; j++)
                 {
-                    var curPacked = CTile.Tile_PackXY((ushort)(x + j), (ushort)(y + i));
-                    var distance = CTile.Tile_GetDistancePacked(packed, curPacked);
+                    var curPacked = Tile_PackXY((ushort)(x + j), (ushort)(y + i));
+                    var distance = Tile_GetDistancePacked(packed, curPacked);
 
                     if (distance > radius) continue;
 
-                    if (distance == radius && (Tools.Tools_Random_256() & 1) == 0) continue;
+                    if (distance == radius && (Tools_Random_256() & 1) == 0) continue;
 
                     if (Map_GetLandscapeType(curPacked) == (ushort)LandscapeType.LST_SPICE) continue;
 
@@ -1031,7 +1031,7 @@ namespace SharpDune
 
             t.groundTileID = (ushort)(g_mapTileID[packed] & 0x1FF);
 
-            if (Map_IsPositionUnveiled(packed)) t.overlayTileID = Sprites.g_wallTileID;
+            if (Map_IsPositionUnveiled(packed)) t.overlayTileID = g_wallTileID;
 
             Structure_ConnectWall(packed, true);
             Map_Update(packed, 0, false);
@@ -1051,8 +1051,8 @@ namespace SharpDune
         {
             short x, y;
 
-            x = (short)((position.x >> 4) - (CTile.Tile_GetPackedX(Gui.Gui.g_viewportPosition) << 4));
-            y = (short)((position.y >> 4) - (CTile.Tile_GetPackedY(Gui.Gui.g_viewportPosition) << 4));
+            x = (short)((position.x >> 4) - (Tile_GetPackedX(g_viewportPosition) << 4));
+            y = (short)((position.y >> 4) - (Tile_GetPackedY(g_viewportPosition) << 4));
 
             /*if (retX != null)*/ retX = (ushort)x;
             /*if (retY != null)*/ retY = (ushort)y;
@@ -1080,19 +1080,19 @@ namespace SharpDune
             ushort x, y;
             MapInfo mapInfo;
 
-            x = (ushort)(CTile.Tile_GetPackedX(Gui.Gui.g_minimapPosition) + mapScrollOffset[direction].x);
-            y = (ushort)(CTile.Tile_GetPackedY(Gui.Gui.g_minimapPosition) + mapScrollOffset[direction].y);
+            x = (ushort)(Tile_GetPackedX(g_minimapPosition) + mapScrollOffset[direction].x);
+            y = (ushort)(Tile_GetPackedY(g_minimapPosition) + mapScrollOffset[direction].y);
 
-            mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
+            mapInfo = g_mapInfos[g_scenario.mapScale];
 
-            x = Max(x, mapInfo.minX);
-            y = Max(y, mapInfo.minY);
+            x = Math.Max(x, mapInfo.minX);
+            y = Math.Max(y, mapInfo.minY);
 
-            x = (ushort)Min(x, mapInfo.minX + mapInfo.sizeX - 15);
-            y = (ushort)Min(y, mapInfo.minY + mapInfo.sizeY - 10);
+            x = (ushort)Math.Min(x, mapInfo.minX + mapInfo.sizeX - 15);
+            y = (ushort)Math.Min(y, mapInfo.minY + mapInfo.sizeY - 10);
 
-            Gui.Gui.g_viewportPosition = CTile.Tile_PackXY(x, y);
-            return Gui.Gui.g_viewportPosition;
+            g_viewportPosition = Tile_PackXY(x, y);
+            return g_viewportPosition;
         }
 
         internal static void Map_SelectNext(bool getNext)
@@ -1108,15 +1108,15 @@ namespace SharpDune
 
             if (g_unitSelected != null)
             {
-                if (Map_IsTileVisible(CTile.Tile_PackTile(g_unitSelected.o.position))) selected = g_unitSelected.o;
+                if (Map_IsTileVisible(Tile_PackTile(g_unitSelected.o.position))) selected = g_unitSelected.o;
             }
             else
             {
                 Structure s;
 
-                s = Structure_Get_ByPackedTile(Gui.Gui.g_selectionPosition);
+                s = Structure_Get_ByPackedTile(g_selectionPosition);
 
-                if (s != null && Map_IsTileVisible(CTile.Tile_PackTile(s.o.position))) selected = s.o;
+                if (s != null && Map_IsTileVisible(Tile_PackTile(s.o.position))) selected = s.o;
             }
 
             find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -1127,12 +1127,12 @@ namespace SharpDune
             {
                 Unit u;
 
-                u = PoolUnit.Unit_Find(find);
+                u = Unit_Find(find);
                 if (u == null) break;
 
                 if (!g_table_unitInfo[u.o.type].o.flags.tabSelectable) continue;
 
-                if (!Map_IsTileVisible(CTile.Tile_PackTile(u.o.position))) continue;
+                if (!Map_IsTileVisible(Tile_PackTile(u.o.position))) continue;
 
                 if ((u.o.seenByHouses & (1 << (byte)g_playerHouseID)) == 0) continue;
 
@@ -1167,12 +1167,12 @@ namespace SharpDune
             {
                 Structure s;
 
-                s = PoolStructure.Structure_Find(find);
+                s = Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
-                if (!Map_IsTileVisible(CTile.Tile_PackTile(s.o.position))) continue;
+                if (!Map_IsTileVisible(Tile_PackTile(s.o.position))) continue;
 
                 if ((s.o.seenByHouses & (1 << (byte)g_playerHouseID)) == 0) continue;
 
@@ -1208,7 +1208,7 @@ namespace SharpDune
 
             if (selected == null) return;
 
-            Map_SetSelection(CTile.Tile_PackTile(selected.position));
+            Map_SetSelection(Tile_PackTile(selected.position));
         }
 
         static readonly short[] mapBase = { 1, -2, -2 };
@@ -1221,8 +1221,8 @@ namespace SharpDune
          */
         internal static ushort Map_FindLocationTile(ushort locationID, byte houseID)
         {
-            var mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
-            var mapOffset = (ushort)mapBase[CScenario.g_scenario.mapScale];
+            var mapInfo = g_mapInfos[g_scenario.mapScale];
+            var mapOffset = (ushort)mapBase[g_scenario.mapScale];
 
             ushort ret = 0;
 
@@ -1240,7 +1240,7 @@ namespace SharpDune
                 {
                     Structure s;
 
-                    s = PoolStructure.Structure_Find(find);
+                    s = Structure_Find(find);
                     if (s == null) break;
                     if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -1256,28 +1256,28 @@ namespace SharpDune
                 switch (locationID)
                 {
                     case 0: /* North */
-                        ret = CTile.Tile_PackXY((ushort)(mapInfo.minX + Tools.Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeX - 2))), (ushort)(mapInfo.minY + mapOffset));
+                        ret = Tile_PackXY((ushort)(mapInfo.minX + Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeX - 2))), (ushort)(mapInfo.minY + mapOffset));
                         break;
 
                     case 1: /* East */
-                        ret = CTile.Tile_PackXY((ushort)(mapInfo.minX + mapInfo.sizeX - mapOffset), (ushort)(mapInfo.minY + Tools.Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeY - 2))));
+                        ret = Tile_PackXY((ushort)(mapInfo.minX + mapInfo.sizeX - mapOffset), (ushort)(mapInfo.minY + Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeY - 2))));
                         break;
 
                     case 2: /* South */
-                        ret = CTile.Tile_PackXY((ushort)(mapInfo.minX + Tools.Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeX - 2))), (ushort)(mapInfo.minY + mapInfo.sizeY - mapOffset));
+                        ret = Tile_PackXY((ushort)(mapInfo.minX + Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeX - 2))), (ushort)(mapInfo.minY + mapInfo.sizeY - mapOffset));
                         break;
 
                     case 3: /* West */
-                        ret = CTile.Tile_PackXY((ushort)(mapInfo.minX + mapOffset), (ushort)(mapInfo.minY + Tools.Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeY - 2))));
+                        ret = Tile_PackXY((ushort)(mapInfo.minX + mapOffset), (ushort)(mapInfo.minY + Tools_RandomLCG_Range(0, (ushort)(mapInfo.sizeY - 2))));
                         break;
 
                     case 4: /* Air */
-                        ret = CTile.Tile_PackXY((ushort)(mapInfo.minX + Tools.Tools_RandomLCG_Range(0, mapInfo.sizeX)), (ushort)(mapInfo.minY + Tools.Tools_RandomLCG_Range(0, mapInfo.sizeY)));
+                        ret = Tile_PackXY((ushort)(mapInfo.minX + Tools_RandomLCG_Range(0, mapInfo.sizeX)), (ushort)(mapInfo.minY + Tools_RandomLCG_Range(0, mapInfo.sizeY)));
                         if (houseID == (byte)g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
                         break;
 
                     case 5: /* Visible */
-                        ret = CTile.Tile_PackXY((ushort)(CTile.Tile_GetPackedX(Gui.Gui.g_minimapPosition) + Tools.Tools_RandomLCG_Range(0, 14)), (ushort)(CTile.Tile_GetPackedY(Gui.Gui.g_minimapPosition) + Tools.Tools_RandomLCG_Range(0, 9)));
+                        ret = Tile_PackXY((ushort)(Tile_GetPackedX(g_minimapPosition) + Tools_RandomLCG_Range(0, 14)), (ushort)(Tile_GetPackedY(g_minimapPosition) + Tools_RandomLCG_Range(0, 9)));
                         if (houseID == (byte)g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
                         break;
 
@@ -1291,11 +1291,11 @@ namespace SharpDune
                             find.index = 0xFFFF;
                             find.type = 0xFFFF;
 
-                            s = PoolStructure.Structure_Find(find);
+                            s = Structure_Find(find);
 
                             if (s != null)
                             {
-                                ret = CTile.Tile_PackTile(CTile.Tile_MoveByRandom(s.o.position, 120, true));
+                                ret = Tile_PackTile(Tile_MoveByRandom(s.o.position, 120, true));
                             }
                             else
                             {
@@ -1305,15 +1305,15 @@ namespace SharpDune
                                 find.index = 0xFFFF;
                                 find.type = 0xFFFF;
 
-                                u = PoolUnit.Unit_Find(find);
+                                u = Unit_Find(find);
 
                                 if (u != null)
                                 {
-                                    ret = CTile.Tile_PackTile(CTile.Tile_MoveByRandom(u.o.position, 120, true));
+                                    ret = Tile_PackTile(Tile_MoveByRandom(u.o.position, 120, true));
                                 }
                                 else
                                 {
-                                    ret = CTile.Tile_PackXY((ushort)(mapInfo.minX + Tools.Tools_RandomLCG_Range(0, mapInfo.sizeX)), (ushort)(mapInfo.minY + Tools.Tools_RandomLCG_Range(0, mapInfo.sizeY)));
+                                    ret = Tile_PackXY((ushort)(mapInfo.minX + Tools_RandomLCG_Range(0, mapInfo.sizeX)), (ushort)(mapInfo.minY + Tools_RandomLCG_Range(0, mapInfo.sizeY)));
                                 }
                             }
 
@@ -1325,7 +1325,7 @@ namespace SharpDune
                 }
 
                 ret &= 0xFFF;
-                if (ret != 0 && CObject.Object_GetByPackedTile(ret) != null) ret = 0;
+                if (ret != 0 && Object_GetByPackedTile(ret) != null) ret = 0;
             }
 
             return ret;
@@ -1359,18 +1359,18 @@ namespace SharpDune
 
             found = false;
 
-            mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
+            mapInfo = g_mapInfos[g_scenario.mapScale];
 
-            xmin = Max((ushort)(CTile.Tile_GetPackedX(packed) - radius), mapInfo.minX);
-            xmax = Min((ushort)(CTile.Tile_GetPackedX(packed) + radius), (ushort)(mapInfo.minX + mapInfo.sizeX - 1));
-            ymin = Max((ushort)(CTile.Tile_GetPackedY(packed) - radius), mapInfo.minY);
-            ymax = Min((ushort)(CTile.Tile_GetPackedY(packed) + radius), (ushort)(mapInfo.minY + mapInfo.sizeY - 1));
+            xmin = Math.Max((ushort)(Tile_GetPackedX(packed) - radius), mapInfo.minX);
+            xmax = Math.Min((ushort)(Tile_GetPackedX(packed) + radius), (ushort)(mapInfo.minX + mapInfo.sizeX - 1));
+            ymin = Math.Max((ushort)(Tile_GetPackedY(packed) - radius), mapInfo.minY);
+            ymax = Math.Min((ushort)(Tile_GetPackedY(packed) + radius), (ushort)(mapInfo.minY + mapInfo.sizeY - 1));
 
             for (y = ymin; y <= ymax; y++)
             {
                 for (x = xmin; x <= xmax; x++)
                 {
-                    var curPacked = CTile.Tile_PackXY(x, y);
+                    var curPacked = Tile_PackXY(x, y);
                     ushort type;
                     ushort distance;
 
@@ -1379,7 +1379,7 @@ namespace SharpDune
                     if (Unit_Get_ByPackedTile(curPacked) != null) continue;
 
                     type = Map_GetLandscapeType(curPacked);
-                    distance = CTile.Tile_GetDistancePacked(curPacked, packed);
+                    distance = Tile_GetDistancePacked(curPacked, packed);
 
                     if (type == (ushort)LandscapeType.LST_THICK_SPICE && distance < 4)
                     {
@@ -1422,10 +1422,10 @@ namespace SharpDune
             var find = new PoolFindStruct();
             byte enemyHouseID;
 
-            h = PoolHouse.House_Get_ByIndex(houseID);
+            h = House_Get_ByIndex(houseID);
 
-            g_map[packed].groundTileID = Sprites.g_landscapeTileID;
-            g_mapTileID[packed] = (ushort)(0x8000 | Sprites.g_landscapeTileID);
+            g_map[packed].groundTileID = g_landscapeTileID;
+            g_mapTileID[packed] = (ushort)(0x8000 | g_landscapeTileID);
 
             Map_Update(packed, 0, false);
 
@@ -1440,7 +1440,7 @@ namespace SharpDune
             {
                 Unit u;
 
-                u = PoolUnit.Unit_Find(find);
+                u = Unit_Find(find);
                 if (u == null) break;
 
                 if (u.o.houseID == houseID) continue;
@@ -1449,32 +1449,32 @@ namespace SharpDune
                 break;
             }
 
-            switch (Tools.Tools_Random_256() & 0x3)
+            switch (Tools_Random_256() & 0x3)
             {
                 case 0:
-                    h.credits += Tools.Tools_RandomLCG_Range(150, 400);
+                    h.credits += Tools_RandomLCG_Range(150, 400);
                     break;
 
                 case 1:
                     {
-                        var position = CTile.Tile_UnpackTile(packed);
+                        var position = Tile_UnpackTile(packed);
 
-                        position = CTile.Tile_MoveByRandom(position, 16, true);
+                        position = Tile_MoveByRandom(position, 16, true);
 
                         /* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-                        Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, houseID, position, (sbyte)Tools.Tools_Random_256());
+                        Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, houseID, position, (sbyte)Tools_Random_256());
                         break;
                     }
 
                 case 2:
                     {
-                        var position = CTile.Tile_UnpackTile(packed);
+                        var position = Tile_UnpackTile(packed);
                         Unit u;
 
-                        position = CTile.Tile_MoveByRandom(position, 16, true);
+                        position = Tile_MoveByRandom(position, 16, true);
 
                         /* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-                        u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, enemyHouseID, position, (sbyte)Tools.Tools_Random_256());
+                        u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_TRIKE, enemyHouseID, position, (sbyte)Tools_Random_256());
 
                         if (u != null) Unit_SetAction(u, ActionType.ACTION_HUNT);
                         break;
@@ -1482,13 +1482,13 @@ namespace SharpDune
 
                 case 3:
                     {
-                        var position = CTile.Tile_UnpackTile(packed);
+                        var position = Tile_UnpackTile(packed);
                         Unit u;
 
-                        position = CTile.Tile_MoveByRandom(position, 16, true);
+                        position = Tile_MoveByRandom(position, 16, true);
 
                         /* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-                        u = Unit_Create((ushort)PoolUnit.UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_INFANTRY, enemyHouseID, position, (sbyte)Tools.Tools_Random_256());
+                        u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_INFANTRY, enemyHouseID, position, (sbyte)Tools_Random_256());
 
                         if (u != null) Unit_SetAction(u, ActionType.ACTION_HUNT);
                         break;
@@ -1509,15 +1509,15 @@ namespace SharpDune
             short y;
             MapInfo mapInfo;
 
-            x = (short)(CTile.Tile_GetPackedX(packed) - 7);
-            y = (short)(CTile.Tile_GetPackedY(packed) - 5);
+            x = (short)(Tile_GetPackedX(packed) - 7);
+            y = (short)(Tile_GetPackedY(packed) - 5);
 
-            mapInfo = g_mapInfos[CScenario.g_scenario.mapScale];
+            mapInfo = g_mapInfos[g_scenario.mapScale];
 
-            x = (short)Max(mapInfo.minX, Min(mapInfo.minX + mapInfo.sizeX - 15, x));
-            y = (short)Max(mapInfo.minY, Min(mapInfo.minY + mapInfo.sizeY - 10, y));
+            x = (short)Math.Max(mapInfo.minX, Math.Min(mapInfo.minX + mapInfo.sizeX - 15, x));
+            y = (short)Math.Max(mapInfo.minY, Math.Min(mapInfo.minY + mapInfo.sizeY - 10, y));
 
-            Gui.Gui.g_viewportPosition = CTile.Tile_PackXY((ushort)x, (ushort)y);
+            g_viewportPosition = Tile_PackXY((ushort)x, (ushort)y);
         }
 
         static readonly sbyte[] around = { 0, -1, 1, -16, 16, -17, 17, -15, 15, -2, 2, -32, 32, -4, 4, -64, 64, -30, 30, -34, 34 };
@@ -1537,38 +1537,38 @@ namespace SharpDune
             ushort spriteID2;
             ushort[] iconMap;
 
-            Tools.Tools_Random_Seed(seed);
+            Tools_Random_Seed(seed);
 
             /* Place random data on a 4x4 grid. */
             for (i = 0; i < 272; i++)
             {
-                memory[i] = (byte)(Tools.Tools_Random_256() & 0xF);
+                memory[i] = (byte)(Tools_Random_256() & 0xF);
                 if (memory[i] > 0xA) memory[i] = 0xA;
             }
 
-            i = (ushort)((Tools.Tools_Random_256() & 0xF) + 1);
+            i = (ushort)((Tools_Random_256() & 0xF) + 1);
             while (i-- != 0)
             {
-                short baseline = Tools.Tools_Random_256();
+                short baseline = Tools_Random_256();
 
                 for (j = 0; j < around.Length; j++)
                 {
-                    var index = (short)Min(Max(0, baseline + around[j]), 272);
+                    var index = (short)Math.Min(Math.Max(0, baseline + around[j]), 272);
 
-                    memory[index] = (byte)((memory[index] + (Tools.Tools_Random_256() & 0xF)) & 0xF);
+                    memory[index] = (byte)((memory[index] + (Tools_Random_256() & 0xF)) & 0xF);
                 }
             }
 
-            i = (ushort)((Tools.Tools_Random_256() & 0x3) + 1);
+            i = (ushort)((Tools_Random_256() & 0x3) + 1);
             while (i-- != 0)
             {
-                short baseline = Tools.Tools_Random_256();
+                short baseline = Tools_Random_256();
 
                 for (j = 0; j < around.Length; j++)
                 {
-                    var index = (short)Min(Max(0, baseline + around[j]), 272);
+                    var index = (short)Math.Min(Math.Max(0, baseline + around[j]), 272);
 
-                    memory[index] = (byte)(Tools.Tools_Random_256() & 0x3);
+                    memory[index] = (byte)(Tools_Random_256() & 0x3);
                 }
             }
 
@@ -1576,7 +1576,7 @@ namespace SharpDune
             {
                 for (i = 0; i < 16; i++)
                 {
-                    g_map[CTile.Tile_PackXY((ushort)(i * 4), (ushort)(j * 4))].groundTileID = memory[j * 16 + i];
+                    g_map[Tile_PackXY((ushort)(i * 4), (ushort)(j * 4))].groundTileID = memory[j * 16 + i];
                 }
             }
 
@@ -1593,14 +1593,14 @@ namespace SharpDune
                         ushort packed;
                         ushort sprite2;
 
-                        packed1 = CTile.Tile_PackXY((ushort)(i * 4 + offsets[0]), (ushort)(j * 4 + offsets[1]));
-                        packed2 = CTile.Tile_PackXY((ushort)(i * 4 + offsets[2]), (ushort)(j * 4 + offsets[3]));
+                        packed1 = Tile_PackXY((ushort)(i * 4 + offsets[0]), (ushort)(j * 4 + offsets[1]));
+                        packed2 = Tile_PackXY((ushort)(i * 4 + offsets[2]), (ushort)(j * 4 + offsets[3]));
                         packed = (ushort)((packed1 + packed2) / 2);
 
-                        if (CTile.Tile_IsOutOfMap(packed)) continue;
+                        if (Tile_IsOutOfMap(packed)) continue;
 
-                        packed1 = CTile.Tile_PackXY((ushort)((i * 4 + offsets[0]) & 0x3F), (ushort)(j * 4 + offsets[1]));
-                        packed2 = CTile.Tile_PackXY((ushort)((i * 4 + offsets[2]) & 0x3F), (ushort)(j * 4 + offsets[3]));
+                        packed1 = Tile_PackXY((ushort)((i * 4 + offsets[0]) & 0x3F), (ushort)(j * 4 + offsets[1]));
+                        packed2 = Tile_PackXY((ushort)((i * 4 + offsets[2]) & 0x3F), (ushort)(j * 4 + offsets[3]));
                         Debug.Assert(packed1 < 64 * 64);
 
                         /* ENHANCEMENT -- use groundTileID=0 when out-of-bounds to generate the original maps. */
@@ -1651,11 +1651,11 @@ namespace SharpDune
             }
 
             /* Filter each tile to determine its final type. */
-            spriteID1 = (ushort)(Tools.Tools_Random_256() & 0xF);
+            spriteID1 = (ushort)(Tools_Random_256() & 0xF);
             if (spriteID1 < 0x8) spriteID1 = 0x8;
             if (spriteID1 > 0xC) spriteID1 = 0xC;
 
-            spriteID2 = (ushort)((Tools.Tools_Random_256() & 0x3) - 1);
+            spriteID2 = (ushort)((Tools_Random_256() & 0x3) - 1);
             if (spriteID2 > spriteID1 - 3) spriteID2 = (ushort)(spriteID1 - 3);
 
             for (i = 0; i < 4096; i++)
@@ -1683,7 +1683,7 @@ namespace SharpDune
             }
 
             /* Add some spice. */
-            i = (ushort)(Tools.Tools_Random_256() & 0x2F);
+            i = (ushort)(Tools_Random_256() & 0x2F);
             while (i-- != 0)
             {
                 tile32 tile;
@@ -1691,24 +1691,24 @@ namespace SharpDune
 
                 while (true)
                 {
-                    packed = (ushort)(Tools.Tools_Random_256() & 0x3F);
-                    packed = CTile.Tile_PackXY((ushort)(Tools.Tools_Random_256() & 0x3F), packed);
+                    packed = (ushort)(Tools_Random_256() & 0x3F);
+                    packed = Tile_PackXY((ushort)(Tools_Random_256() & 0x3F), packed);
 
                     if (g_table_landscapeInfo[g_map[packed].groundTileID].canBecomeSpice) break;
                 }
 
-                tile = CTile.Tile_UnpackTile(packed);
+                tile = Tile_UnpackTile(packed);
 
-                j = (ushort)(Tools.Tools_Random_256() & 0x1F);
+                j = (ushort)(Tools_Random_256() & 0x1F);
                 while (j-- != 0)
                 {
                     while (true)
                     {
                         //packed = CTile.Tile_PackTile(CTile.Tile_MoveByRandom(tile, (ushort)(Tools.Tools_Random_256() & 0x3F), true));
-                        var unpacked = CTile.Tile_MoveByRandom(tile, (ushort)(Tools.Tools_Random_256() & 0x3F), true);
-                        packed = CTile.Tile_PackTile(unpacked);
+                        var unpacked = Tile_MoveByRandom(tile, (ushort)(Tools_Random_256() & 0x3F), true);
+                        packed = Tile_PackTile(unpacked);
 
-                        if (!CTile.Tile_IsOutOfMap(packed)) break;
+                        if (!Tile_IsOutOfMap(packed)) break;
                     }
 
                     Map_AddSpiceOnTile(packed);
@@ -1775,14 +1775,14 @@ namespace SharpDune
             }
 
             /* Finalise the tiles with the real sprites. */
-            iconMap = Sprites.g_iconMap[Sprites.g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]..];
+            iconMap = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]..];
 
             for (i = 0; i < 4096; i++)
             {
                 var t = g_map[i];
 
                 t.groundTileID = iconMap[t.groundTileID];
-                t.overlayTileID = Sprites.g_veiledTileID;
+                t.overlayTileID = g_veiledTileID;
                 t.houseID = (byte)HouseType.HOUSE_HARKONNEN;
                 t.isUnveiled = false;
                 t.hasUnit = false;
@@ -1823,9 +1823,9 @@ namespace SharpDune
                             for (i = -1; i <= 1; i++)
                             {
                                 Tile t2;
-                                var packed2 = CTile.Tile_PackXY((ushort)(CTile.Tile_GetPackedX(packed) + i), (ushort)(CTile.Tile_GetPackedY(packed) + j));
+                                var packed2 = Tile_PackXY((ushort)(Tile_GetPackedX(packed) + i), (ushort)(Tile_GetPackedY(packed) + j));
 
-                                if (CTile.Tile_IsOutOfMap(packed2)) continue;
+                                if (Tile_IsOutOfMap(packed2)) continue;
 
                                 t2 = g_map[packed2];
 

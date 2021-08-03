@@ -3,54 +3,54 @@
     class SaveLoadUnit
     {
 		static readonly SaveLoadDesc[] s_saveUnitOrientation = {
-			SLD_ENTRY(/*dir24,*/ SaveLoadType.SLDT_INT8, nameof(dir24.speed)),
-			SLD_ENTRY(/*dir24,*/ SaveLoadType.SLDT_INT8, nameof(dir24.target)),
-			SLD_ENTRY(/*dir24,*/ SaveLoadType.SLDT_INT8, nameof(dir24.current)),
+			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(dir24.speed)),
+			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(dir24.target)),
+			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(dir24.current)),
 			SLD_END()
 		};
 
 		static readonly SaveLoadDesc[] s_saveUnit = {
-			SLD_SLD(/*unit,*/ nameof(Unit.o), SaveLoadObject.g_saveObject),
-			SLD_EMPTY(SaveLoadType.SLDT_UINT16),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Unit.currentDestination)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Unit.currentDestination)}.{nameof(tile32.y)}"),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, nameof(Unit.originEncoded)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.actionID)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.nextActionID)),
-			SLD_ENTRY2(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.fireDelay), SaveLoadType.SLDT_UINT16),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, nameof(Unit.distanceToDestination)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, nameof(Unit.targetAttack)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, nameof(Unit.targetMove)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.amount)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.deviated)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Unit.targetLast)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Unit.targetLast)}.{nameof(tile32.y)}"),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Unit.targetPreLast)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, $"{nameof(Unit.targetPreLast)}.{nameof(tile32.y)}"),
+			SLD_SLD(/*unit,*/ nameof(Unit.o), g_saveObject),
+			SLD_EMPTY(SLDT_UINT16),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(Unit.currentDestination)}.{nameof(tile32.x)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(Unit.currentDestination)}.{nameof(tile32.y)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(Unit.originEncoded)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.actionID)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.nextActionID)),
+			SLD_ENTRY2(/*unit,*/ SLDT_UINT8, nameof(Unit.fireDelay), SLDT_UINT16),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(Unit.distanceToDestination)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(Unit.targetAttack)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(Unit.targetMove)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.amount)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.deviated)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(Unit.targetLast)}.{nameof(tile32.x)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(Unit.targetLast)}.{nameof(tile32.y)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(Unit.targetPreLast)}.{nameof(tile32.x)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(Unit.targetPreLast)}.{nameof(tile32.y)}"),
 			SLD_SLD2(/*unit,*/ nameof(Unit.orientation), s_saveUnitOrientation, 2),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.speedPerTick)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.speedRemainder)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.speed)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.movingSpeed)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.wobbleIndex)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_INT8, nameof(Unit.spriteOffset)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.blinkCounter)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.team)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, nameof(Unit.timer)),
-			SLD_ARRAY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.route), 14),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.speedPerTick)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.speedRemainder)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.speed)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.movingSpeed)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.wobbleIndex)),
+			SLD_ENTRY(/*unit,*/ SLDT_INT8, nameof(Unit.spriteOffset)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.blinkCounter)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.team)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(Unit.timer)),
+			SLD_ARRAY(/*unit,*/ SLDT_UINT8, nameof(Unit.route), 14),
 			SLD_END()
 		};
 
 		static readonly SaveLoadDesc[] s_saveUnitNewIndex = {
-			SLD_ENTRY(/*obj,*/ SaveLoadType.SLDT_UINT16, nameof(Object.index)),
+			SLD_ENTRY(/*obj,*/ SLDT_UINT16, nameof(Object.index)),
 			SLD_END()
 		};
 
 		static readonly SaveLoadDesc[] s_saveUnitNew = {
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT16, nameof(Unit.fireDelay)),
-			SLD_ENTRY(/*unit,*/ SaveLoadType.SLDT_UINT8, nameof(Unit.deviatedHouse)),
-			SLD_EMPTY(SaveLoadType.SLDT_UINT8),
-			SLD_EMPTY2(SaveLoadType.SLDT_UINT16, 6),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(Unit.fireDelay)),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(Unit.deviatedHouse)),
+			SLD_EMPTY(SLDT_UINT8),
+			SLD_EMPTY2(SLDT_UINT16, 6),
 			SLD_END()
 		};
 
@@ -70,7 +70,7 @@
 				var index = fp.ReadUInt16();
 
 				/* Get the Unit from the pool */
-				ul = PoolUnit.Unit_Get_ByIndex(index);
+				ul = Unit_Get_ByIndex(index);
 				if (ul == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -95,7 +95,7 @@
 			}
 			if (length != 0) return false;
 
-			PoolUnit.Unit_Recount();
+            Unit_Recount();
 
 			return true;
 		}
@@ -118,7 +118,7 @@
 			{
 				Unit u;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 				if (u == null) break;
 
 				if (!SaveLoad_Save(s_saveUnit, fp, u)) return false;
@@ -146,7 +146,7 @@
 				length -= SaveLoad_GetLength(s_saveUnitNewIndex);
 
 				/* Get the Unit from the pool */
-				u = PoolUnit.Unit_Get_ByIndex(o.index);
+				u = Unit_Get_ByIndex(o.index);
 				if (u == null) return false;
 
 				/* Read the "new" information for this unit */
@@ -178,7 +178,7 @@
 			{
 				Unit u;
 
-				u = PoolUnit.Unit_Find(find);
+				u = Unit_Find(find);
 				if (u == null) break;
 
 				if (!SaveLoad_Save(s_saveUnitNewIndex, fp, u.o)) return false;

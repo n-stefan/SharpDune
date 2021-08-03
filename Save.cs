@@ -29,9 +29,9 @@ namespace SharpDune
 				/* Add fog of war for all tiles on the map */
 				for (i = 0; i < 0x1000; i++)
 				{
-					var tile = Map.g_map[i];
+					var tile = g_map[i];
 					tile.isUnveiled = false;
-					tile.overlayTileID = Sprites.g_veiledTileID;
+					tile.overlayTileID = g_veiledTileID;
 				}
 
 				find.houseID = (byte)HouseType.HOUSE_INVALID;
@@ -43,7 +43,7 @@ namespace SharpDune
 				{
 					Unit u;
 
-					u = PoolUnit.Unit_Find(find);
+					u = Unit_Find(find);
 					if (u == null) break;
 
                     Unit_RemoveFog(u);
@@ -58,7 +58,7 @@ namespace SharpDune
 				{
 					Structure s;
 
-					s = PoolStructure.Structure_Find(find);
+					s = Structure_Find(find);
 					if (s == null) break;
 					if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
@@ -66,7 +66,7 @@ namespace SharpDune
 				}
 			}
 
-			fp = CFile.fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
+			fp = fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
 			if (fp == null)
 			{
 				Trace.WriteLine($"ERROR: Failed to open file '{filename}' for writing.");
@@ -117,8 +117,8 @@ namespace SharpDune
 
 				/* Write the 'NAME' chunk. Keep ourself word-aligned. */
 				bw.Write("NAME".ToArray()); //if (fwrite("NAME", 4, 1, fp) != 1) return false;
-				length = Min(255, (uint)description.Length + 1);
-				lengthSwapped = Endian.HTOBE32(length);
+				length = Math.Min(255, (uint)description.Length + 1);
+				lengthSwapped = HTOBE32(length);
 				bw.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
 				bw.Write($"{description}\0".ToArray()); //if (fwrite(description, length, 1, fp) != 1) return false;
 				/* Ensure we are word aligned */
@@ -129,18 +129,18 @@ namespace SharpDune
 				}
 
 				/* Store all additional chunks */
-				if (!Save_Chunk(bw, "INFO", SaveLoadInfo.Info_Save)) return false;
-				if (!Save_Chunk(bw, "PLYR", SaveLoadHouse.House_Save)) return false;
-				if (!Save_Chunk(bw, "UNIT", SaveLoadUnit.Unit_Save)) return false;
-				if (!Save_Chunk(bw, "BLDG", SaveLoadStructure.Structure_Save)) return false;
-				if (!Save_Chunk(bw, "MAP ", SaveLoadMap.Map_Save)) return false;
-				if (!Save_Chunk(bw, "TEAM", SaveLoadTeam.Team_Save)) return false;
-				if (!Save_Chunk(bw, "ODUN", SaveLoadUnit.UnitNew_Save)) return false;
+				if (!Save_Chunk(bw, "INFO", Info_Save)) return false;
+				if (!Save_Chunk(bw, "PLYR", House_Save)) return false;
+				if (!Save_Chunk(bw, "UNIT", Unit_Save)) return false;
+				if (!Save_Chunk(bw, "BLDG", Structure_Save)) return false;
+				if (!Save_Chunk(bw, "MAP ", Map_Save)) return false;
+				if (!Save_Chunk(bw, "TEAM", Team_Save)) return false;
+				if (!Save_Chunk(bw, "ODUN", UnitNew_Save)) return false;
 
 				/* Write the total length of all data in the FORM chunk */
 				length = (uint)fp.Position - 8; //length = ftell(fp) - 8;
 				fp.Seek(4, SeekOrigin.Begin); //fseek(fp, 4, SEEK_SET);
-				lengthSwapped = Endian.HTOBE32(length);
+				lengthSwapped = HTOBE32(length);
 				bw.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
 
 				return true;
@@ -185,7 +185,7 @@ namespace SharpDune
 
 			/* Write back the chunk size */
 			fp.Seek((int)(position - 4), SeekOrigin.Begin); //fseek(fp, position - 4, SEEK_SET);
-			lengthSwapped = Endian.HTOBE32(length);
+			lengthSwapped = HTOBE32(length);
 			fp.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
 			fp.Seek(0, SeekOrigin.End); //fseek(fp, 0, SEEK_END);
 

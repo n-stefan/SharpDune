@@ -90,7 +90,7 @@ namespace SharpDune
 		{
 			byte i;
 
-			if (s_explosionTimer > Timer.g_timerGUI) return;
+			if (s_explosionTimer > g_timerGUI) return;
 			s_explosionTimer += 10000;
 
 			for (i = 0; i < EXPLOSION_MAX; i++)
@@ -101,7 +101,7 @@ namespace SharpDune
 
 				if (e.commands == null) continue;
 
-				if (e.timeOut <= Timer.g_timerGUI)
+				if (e.timeOut <= g_timerGUI)
 				{
 					var parameter = e.commands[e.current].parameter;
 					ushort command = e.commands[e.current].command;
@@ -144,7 +144,7 @@ namespace SharpDune
 
 			e.isDirty = type != 0;
 
-			Map.Map_UpdateAround(24, e.position, null, Map.g_functions[2][type]);
+            Map_UpdateAround(24, e.position, null, g_functions[2][type]);
 		}
 
 		/*
@@ -154,7 +154,7 @@ namespace SharpDune
 		 */
 		static void Explosion_Func_Stop(Explosion e)
 		{
-			Map.g_map[CTile.Tile_PackTile(e.position)].hasExplosion = false;
+            g_map[Tile_PackTile(e.position)].hasExplosion = false;
 
 			Explosion_Update(0, e);
 
@@ -179,7 +179,7 @@ namespace SharpDune
 		 * @param value The new timeout value.
 		 */
 		static void Explosion_Func_SetTimeout(Explosion e, ushort value) =>
-			e.timeOut = Timer.g_timerGUI + value;
+			e.timeOut = g_timerGUI + value;
 
 		/*
 		 * Set timeout for next the activity of \a e to a random value up to \a value.
@@ -187,7 +187,7 @@ namespace SharpDune
 		 * @param value The maximum amount of timeout.
 		 */
 		static void Explosion_Func_SetRandomTimeout(Explosion e, ushort value) =>
-			e.timeOut = Timer.g_timerGUI + Tools.Tools_RandomLCG_Range(0, value);
+			e.timeOut = g_timerGUI + Tools_RandomLCG_Range(0, value);
 
 		/*
 		 * Set position at the left of a row.
@@ -212,30 +212,30 @@ namespace SharpDune
 			ushort overlayTileID;
 			ushort[] iconMap;
 
-			packed = CTile.Tile_PackTile(e.position);
+			packed = Tile_PackTile(e.position);
 
-			if (!Map.Map_IsPositionUnveiled(packed)) return;
+			if (!Map_IsPositionUnveiled(packed)) return;
 
-			type = Map.Map_GetLandscapeType(packed);
+			type = Map_GetLandscapeType(packed);
 
 			if (type == (ushort)LandscapeType.LST_STRUCTURE || type == (ushort)LandscapeType.LST_DESTROYED_WALL) return;
 
-			t = Map.g_map[packed];
+			t = g_map[packed];
 
 			if (type == (ushort)LandscapeType.LST_CONCRETE_SLAB)
 			{
-				t.groundTileID = (ushort)(Map.g_mapTileID[packed] & 0x1FF);
-				Map.Map_Update(packed, 0, false);
+				t.groundTileID = (ushort)(g_mapTileID[packed] & 0x1FF);
+                Map_Update(packed, 0, false);
 			}
 
 			if (g_table_landscapeInfo[type].craterType == 0) return;
 
 			/* You cannot damage veiled tiles */
 			overlayTileID = t.overlayTileID;
-			if (!Sprites.Tile_IsUnveiled(overlayTileID)) return;
+			if (!Tile_IsUnveiled(overlayTileID)) return;
 
 			iconMapIndex = craterIconMapIndex[g_table_landscapeInfo[type].craterType];
-			iconMap = Sprites.g_iconMap[Sprites.g_iconMap[iconMapIndex]..];
+			iconMap = g_iconMap[g_iconMap[iconMapIndex]..];
 
 			if (iconMap[0] <= overlayTileID && overlayTileID <= iconMap[10])
 			{
@@ -246,22 +246,22 @@ namespace SharpDune
 			else
 			{
 				/* Randomly pick 1 of the 2 possible craters */
-				overlayTileID = (ushort)(Tools.Tools_Random_256() & 1);
+				overlayTileID = (ushort)(Tools_Random_256() & 1);
 			}
 
-			/* Reduce spice if there is any */
-			Map.Map_ChangeSpiceAmount(packed, -1);
+            /* Reduce spice if there is any */
+            Map_ChangeSpiceAmount(packed, -1);
 
 			/* Boom a bloom if there is one */
-			if (t.groundTileID == Sprites.g_bloomTileID)
+			if (t.groundTileID == g_bloomTileID)
 			{
-				Map.Map_Bloom_ExplodeSpice(packed, (byte)g_playerHouseID);
+                Map_Bloom_ExplodeSpice(packed, (byte)g_playerHouseID);
 				return;
 			}
 
 			/* Update the tile with the crater */
 			t.overlayTileID = (ushort)(overlayTileID + iconMap[0]);
-			Map.Map_Update(packed, 0, false);
+            Map_Update(packed, 0, false);
 		}
 
 		/*
@@ -270,7 +270,7 @@ namespace SharpDune
 		 * @param voiceID The voice to play.
 		 */
 		static void Explosion_Func_PlayVoice(Explosion e, ushort voiceID) =>
-			Sound.Voice_PlayAtTile((short)voiceID, e.position);
+            Voice_PlayAtTile((short)voiceID, e.position);
 
 		/*
 		 * Shake the screen.
@@ -285,10 +285,10 @@ namespace SharpDune
 
 			for (i = 0; i < 2; i++)
 			{
-				Sleep.msleep(30);
-				VideoSdl2.Video_SetOffset(320);
-				Sleep.msleep(30);
-				VideoSdl2.Video_SetOffset(0);
+                msleep(30);
+                Video_SetOffset(320);
+                msleep(30);
+                Video_SetOffset(0);
 			}
 		}
 
@@ -301,15 +301,15 @@ namespace SharpDune
 		{
 			ushort packed;
 
-			packed = CTile.Tile_PackTile(e.position);
+			packed = Tile_PackTile(e.position);
 
 			if (Structure_Get_ByPackedTile(packed) != null) return;
 
-			animationMapID += (ushort)(Tools.Tools_Random_256() & 0x1);
-			animationMapID += (ushort)(g_table_landscapeInfo[Map.Map_GetLandscapeType(packed)].isSand ? 0 : 2);
+			animationMapID += (ushort)(Tools_Random_256() & 0x1);
+			animationMapID += (ushort)(g_table_landscapeInfo[Map_GetLandscapeType(packed)].isSand ? 0 : 2);
 
 			Debug.Assert(animationMapID < 16);
-			CAnimation.Animation_Start(g_table_animation_map[animationMapID], e.position, 0, e.houseID, 3);
+            Animation_Start(g_table_animation_map[animationMapID], e.position, 0, e.houseID, 3);
 		}
 
 		/*
@@ -321,11 +321,11 @@ namespace SharpDune
 		{
 			ushort packed;
 
-			packed = CTile.Tile_PackTile(e.position);
+			packed = Tile_PackTile(e.position);
 
-			if (Map.g_map[packed].groundTileID != Sprites.g_bloomTileID) return;
+			if (g_map[packed].groundTileID != g_bloomTileID) return;
 
-			Map.Map_Bloom_ExplodeSpice(packed, (byte)g_playerHouseID);
+            Map_Bloom_ExplodeSpice(packed, (byte)g_playerHouseID);
 		}
 
 		/*
@@ -342,7 +342,7 @@ namespace SharpDune
 			if (explosionType > (ushort)ExplosionType.EXPLOSION_SPICE_BLOOM_TREMOR) return;
 			commands = g_table_explosion[explosionType];
 
-			packed = CTile.Tile_PackTile(position);
+			packed = Tile_PackTile(position);
 
 			Explosion_StopAtPosition(packed);
 
@@ -359,9 +359,9 @@ namespace SharpDune
 				e.spriteID = 0;
 				e.position = position;
 				e.isDirty = false;
-				e.timeOut = Timer.g_timerGUI;
+				e.timeOut = g_timerGUI;
 				s_explosionTimer = 0;
-				Map.g_map[packed].hasExplosion = true;
+                g_map[packed].hasExplosion = true;
 
 				break;
 			}
@@ -376,7 +376,7 @@ namespace SharpDune
 			Tile t;
 			byte i;
 
-			t = Map.g_map[packed];
+			t = g_map[packed];
 
 			if (!t.hasExplosion) return;
 
@@ -386,7 +386,7 @@ namespace SharpDune
 
 				e = g_explosions[i];
 
-				if (e.commands == null || CTile.Tile_PackTile(e.position) != packed) continue;
+				if (e.commands == null || Tile_PackTile(e.position) != packed) continue;
 
 				Explosion_Func_Stop(e);
 			}

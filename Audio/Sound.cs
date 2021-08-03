@@ -21,7 +21,7 @@ namespace SharpDune.Audio
 	 * of message if messageId == 1) */
 	class Feedback
 	{
-		internal ushort[] voiceId = new ushort[Sound.NUM_SPEECH_PARTS]; /*!< English spoken text. */
+		internal ushort[] voiceId = new ushort[NUM_SPEECH_PARTS]; /*!< English spoken text. */
 		internal ushort messageId;                                      /*!< Message to display in the viewport when audio is disabled. */
 		internal ushort soundId;                                        /*!< Sound. */
 	}
@@ -42,32 +42,32 @@ namespace SharpDune.Audio
 
         static void Driver_Music_Play(short index, ushort volume)
 		{
-			var music = CDriver.g_driverMusic;
-			var musicBuffer = CDriver.g_bufferMusic;
+			var music = g_driverMusic;
+			var musicBuffer = g_bufferMusic;
 
-			if (index < 0 || index > 120 || Config.g_gameConfig.music == 0) return;
+			if (index < 0 || index > 120 || g_gameConfig.music == 0) return;
 
 			if (music.index == 0xFFFF) return;
 
 			if (musicBuffer.index != 0xFFFF)
 			{
-				Mt32Mpu.MPU_Stop(musicBuffer.index);
-				Mt32Mpu.MPU_ClearData(musicBuffer.index);
+                MPU_Stop(musicBuffer.index);
+                MPU_ClearData(musicBuffer.index);
 				musicBuffer.index = 0xFFFF;
 			}
 
-			musicBuffer.index = Mt32Mpu.MPU_SetData(music.content, (ushort)index, musicBuffer.buffer[0]);
+			musicBuffer.index = MPU_SetData(music.content, (ushort)index, musicBuffer.buffer[0]);
 
-			Mt32Mpu.MPU_Play(musicBuffer.index);
-			Mt32Mpu.MPU_SetVolume(musicBuffer.index, (ushort)(((volume & 0xFF) * 90) / 256), 0);
+            MPU_Play(musicBuffer.index);
+            MPU_SetVolume(musicBuffer.index, (ushort)(((volume & 0xFF) * 90) / 256), 0);
 		}
 
 		static void Driver_Music_LoadFile(string musicName)
 		{
-			var music = CDriver.g_driverMusic;
-			var sound = CDriver.g_driverSound;
+			var music = g_driverMusic;
+			var sound = g_driverSound;
 
-			CDriver.Driver_Music_Stop();
+            Driver_Music_Stop();
 
 			if (music.index == 0xFFFF) return;
 
@@ -79,19 +79,19 @@ namespace SharpDune.Audio
 			}
 			else
 			{
-				CDriver.Driver_UnloadFile(music);
+                Driver_UnloadFile(music);
 			}
 
-			if (sound.filename != null /*"\0"*/ && musicName != null && string.Equals(CDriver.Drivers_GenerateFilename(musicName, music), sound.filename, StringComparison.OrdinalIgnoreCase))
+			if (sound.filename != null /*"\0"*/ && musicName != null && string.Equals(Drivers_GenerateFilename(musicName, music), sound.filename, StringComparison.OrdinalIgnoreCase))
 			{ //strcasecmp
-				CDriver.g_driverMusic.content = CDriver.g_driverSound.content;
-				CDriver.g_driverMusic.filename = CDriver.g_driverSound.filename; //memcpy(g_driverMusic->filename, g_driverSound->filename, sizeof(g_driverMusic->filename));
-				CDriver.g_driverMusic.contentMalloced = CDriver.g_driverSound.contentMalloced;
+                g_driverMusic.content = g_driverSound.content;
+                g_driverMusic.filename = g_driverSound.filename; //memcpy(g_driverMusic->filename, g_driverSound->filename, sizeof(g_driverMusic->filename));
+                g_driverMusic.contentMalloced = g_driverSound.contentMalloced;
 
 				return;
 			}
 
-			CDriver.Driver_LoadFile(musicName, music);
+            Driver_LoadFile(musicName, music);
 		}
 
 		static ushort currentMusicID;
@@ -109,12 +109,12 @@ namespace SharpDune.Audio
 			{
 				s_currentMusic = g_table_musics[musicID].name;
 
-				CDriver.Driver_Music_Stop();
-				CDriver.Driver_Voice_Play(null, 0xFF);
+                Driver_Music_Stop();
+                Driver_Voice_Play(null, 0xFF);
 				Driver_Music_LoadFile(null);
-				CDriver.Driver_Sound_LoadFile(null);
+                Driver_Sound_LoadFile(null);
 				Driver_Music_LoadFile(s_currentMusic);
-				CDriver.Driver_Sound_LoadFile(s_currentMusic);
+                Driver_Sound_LoadFile(s_currentMusic);
 			}
 
 			Driver_Music_Play((short)g_table_musics[musicID].index, 0xFF);
@@ -139,31 +139,31 @@ namespace SharpDune.Audio
 					s_spokenWords[i] = 0xFFFF;
 				}
 
-				CDriver.Driver_Voice_Stop();
+                Driver_Voice_Stop();
 
-				Gui.Gui.g_viewportMessageText = null;
-				if ((Gui.Gui.g_viewportMessageCounter & 1) != 0)
+                g_viewportMessageText = null;
+				if ((g_viewportMessageCounter & 1) != 0)
 				{
                     g_viewport_forceRedraw = true;
-					Gui.Gui.g_viewportMessageCounter = 0;
+                    g_viewportMessageCounter = 0;
 				}
 				s_currentVoicePriority = 0;
 
 				return;
 			}
 
-			if (!Config.g_enableVoices || Config.g_gameConfig.sounds == 0)
+			if (!g_enableVoices || g_gameConfig.sounds == 0)
 			{
-				CDriver.Driver_Sound_Play((short)g_feedback[index].soundId, 0xFF);
+                Driver_Sound_Play((short)g_feedback[index].soundId, 0xFF);
 
-				Gui.Gui.g_viewportMessageText = CString.String_Get_ByIndex(g_feedback[index].messageId);
+                g_viewportMessageText = String_Get_ByIndex(g_feedback[index].messageId);
 
-				if ((Gui.Gui.g_viewportMessageCounter & 1) != 0)
+				if ((g_viewportMessageCounter & 1) != 0)
 				{
                     g_viewport_forceRedraw = true;
 				}
 
-				Gui.Gui.g_viewportMessageCounter = 4;
+                g_viewportMessageCounter = 4;
 
 				return;
 			}
@@ -175,7 +175,7 @@ namespace SharpDune.Audio
 
 				for (i = 0; i < /*Common.lengthof<ushort>(s_spokenWords)*/s_spokenWords.Length; i++)
 				{
-					s_spokenWords[i] = (Config.g_config.language == (byte)Language.ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[i][index]; //[index][i];
+					s_spokenWords[i] = (g_config.language == (byte)Language.ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[i][index]; //[index][i];
 				}
 			}
 
@@ -189,9 +189,9 @@ namespace SharpDune.Audio
 		 */
 		internal static bool Sound_StartSpeech()
 		{
-			if (Config.g_gameConfig.sounds == 0) return false;
+			if (g_gameConfig.sounds == 0) return false;
 
-			if (CDriver.Driver_Voice_IsPlaying()) return true;
+			if (Driver_Voice_IsPlaying()) return true;
 
 			s_currentVoicePriority = 0;
 
@@ -211,13 +211,13 @@ namespace SharpDune.Audio
 		 */
 		internal static void Sound_StartSound(ushort index)
 		{
-			if (index == 0xFFFF || Config.g_gameConfig.sounds == 0 || (short)g_table_voices[index].priority < s_currentVoicePriority) return;
+			if (index == 0xFFFF || g_gameConfig.sounds == 0 || (short)g_table_voices[index].priority < s_currentVoicePriority) return;
 
 			s_currentVoicePriority = (short)g_table_voices[index].priority;
 
 			if (g_voiceData[index] != null)
 			{
-				CDriver.Driver_Voice_Play(g_voiceData[index], 0xFF);
+                Driver_Voice_Play(g_voiceData[index], 0xFF);
 			}
 			else
 			{
@@ -232,9 +232,9 @@ namespace SharpDune.Audio
 					if (g_readBuffer.Length < g_readBufferSize)
 						Array.Resize(ref g_readBuffer, (int)g_readBufferSize);
 
-					CDriver.Driver_Voice_LoadFile(filenameBuffer, g_readBuffer, g_readBufferSize);
+                    Driver_Voice_LoadFile(filenameBuffer, g_readBuffer, g_readBufferSize);
 
-					CDriver.Driver_Voice_Play(g_readBuffer, 0xFF);
+                    Driver_Voice_Play(g_readBuffer, 0xFF);
 				}
 			}
 		}
@@ -250,12 +250,12 @@ namespace SharpDune.Audio
 			ushort volume;
 
 			if (voiceID < 0 || voiceID >= 120) return;
-			if (Config.g_gameConfig.sounds == 0) return;
+			if (g_gameConfig.sounds == 0) return;
 
 			volume = 255;
 			if (position.x != 0 || position.y != 0)
 			{
-				volume = CTile.Tile_GetDistancePacked(Gui.Gui.g_minimapPosition, CTile.Tile_PackTile(position));
+				volume = Tile_GetDistancePacked(g_minimapPosition, Tile_PackTile(position));
 				if (volume > 64) volume = 64;
 
 				volume = (ushort)(255 - (volume * 255 / 80));
@@ -263,18 +263,18 @@ namespace SharpDune.Audio
 
 			index = g_table_voiceMapping[voiceID];
 
-			if (Config.g_enableVoices && index != 0xFFFF && g_voiceData[index] != null && g_table_voices[index].priority >= s_currentVoicePriority)
+			if (g_enableVoices && index != 0xFFFF && g_voiceData[index] != null && g_table_voices[index].priority >= s_currentVoicePriority)
 			{
 				s_currentVoicePriority = (short)g_table_voices[index].priority;
 
-				//CSharpDune.g_readBuffer = new byte[g_voiceDataSize[index]];
-				//Array.Copy(g_voiceData[index], CSharpDune.g_readBuffer, g_voiceDataSize[index]); //memmove(CSharpDune.g_readBuffer, g_voiceData[index], g_voiceDataSize[index]);
+                //g_readBuffer = new byte[g_voiceDataSize[index]];
+                //Array.Copy(g_voiceData[index], g_readBuffer, g_voiceDataSize[index]); //memmove(g_readBuffer, g_voiceData[index], g_voiceDataSize[index]);
 
-				CDriver.Driver_Voice_Play(/*CSharpDune.g_readBuffer*/g_voiceData[index], s_currentVoicePriority);
+                Driver_Voice_Play(/*g_readBuffer*/g_voiceData[index], s_currentVoicePriority);
 			}
 			else
 			{
-				CDriver.Driver_Sound_Play(voiceID, (short)volume);
+                Driver_Sound_Play(voiceID, (short)volume);
 			}
 		}
 
@@ -304,14 +304,14 @@ namespace SharpDune.Audio
 
 			Driver_Music_Play(0, 0xFF);
 
-			Gui.Gui.GUI_DrawText(CString.String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
+            GUI_DrawText(String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
 
-			while (CDriver.Driver_Music_IsPlaying())
+			while (Driver_Music_IsPlaying())
 			{
-				Timer.Timer_Sleep(60);
+                Timer_Sleep(60);
 
 				left += 6;
-				Gui.Gui.GUI_DrawText(".", (short)left, 10, 15, 12);
+                GUI_DrawText(".", (short)left, 10, 15, 12);
 			}
 		}
 
@@ -327,14 +327,14 @@ namespace SharpDune.Audio
 			int prefixChar = ' ';
 			ushort voice;
 
-			if (!Config.g_enableVoices/* == 0*/) return;
+			if (!g_enableVoices/* == 0*/) return;
 
 			for (voice = 0; voice < NUM_VOICES; voice++)
 			{
 				switch (g_table_voices[voice].str[0])
 				{
 					case '%':
-						if (Config.g_config.language != (byte)Language.ENGLISH || currentVoiceSet == voiceSet)
+						if (g_config.language != (byte)Language.ENGLISH || currentVoiceSet == voiceSet)
 						{
 							if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 						}
@@ -378,13 +378,13 @@ namespace SharpDune.Audio
 			{
 				string filename; //char[16]
 				var str = g_table_voices[voice].str;
-				Sleep.sleepIdle();  /* let a chance to update screen, etc. */
+                sleepIdle();  /* let a chance to update screen, etc. */
 				switch (str[0])
 				{
 					case '%':
 						if (g_voiceData[voice] != null || currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
-						switch ((Language)Config.g_config.language)
+						switch ((Language)g_config.language)
 						{
 							case Language.FRENCH: prefixChar = 'F'; break;
 							case Language.GERMAN: prefixChar = 'G'; break;
@@ -398,7 +398,7 @@ namespace SharpDune.Audio
 					case '+':
 						if (voiceSet == 0xFFFF || g_voiceData[voice] != null) break;
 
-						switch ((Language)Config.g_config.language)
+						switch ((Language)g_config.language)
 						{
 							case Language.FRENCH: prefixChar = 'F'; break;
 							case Language.GERMAN: prefixChar = 'G'; break;
@@ -418,7 +418,7 @@ namespace SharpDune.Audio
 						 *  easier, just check if the file exists, then remove the first
 						 *  letter and see if it works then.
 						 */
-						if (!CFile.File_Exists(filename))
+						if (!File_Exists(filename))
 						{
 							filename = filename.Remove(0, 1); //Array.Copy(filename, 1, filename, 0, filename.Length); //memmove(filename, filename + 1, strlen(filename));
 						}
@@ -477,14 +477,14 @@ namespace SharpDune.Audio
 			retFileSize = 0;
 
 			if (filename == null) return null;
-			if (!CFile.File_Exists_GetSize(filename, out var fileSize)) return null;
+			if (!File_Exists_GetSize(filename, out var fileSize)) return null;
 
 			fileSize += 1;
 			fileSize &= 0xFFFFFFFE;
 
 			retFileSize = fileSize;
 			res = new byte[fileSize]; //malloc(fileSize);
-			CDriver.Driver_Voice_LoadFile(filename, res, fileSize);
+            Driver_Voice_LoadFile(filename, res, fileSize);
 
 			return res;
 		}

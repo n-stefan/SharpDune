@@ -61,7 +61,7 @@ namespace SharpDune.Gui
 		internal static bool Font_Init()
 		{
 			g_fontIntro = Font_LoadFile("INTRO.FNT");
-			if ((Config.g_config.language == (byte)Language.GERMAN) && CFile.File_Exists("new6pg.fnt"))
+			if ((g_config.language == (byte)Language.GERMAN) && File_Exists("new6pg.fnt"))
 			{
 				g_fontNew6p = Font_LoadFile("new6pg.fnt");
 			}
@@ -97,9 +97,9 @@ namespace SharpDune.Gui
 			ushort widthList;
 			ushort lineList;
 
-			if (!CFile.File_Exists(filename)) return null;
+			if (!File_Exists(filename)) return null;
 
-			buf = CFile.File_ReadWholeFile(filename);
+			buf = File_ReadWholeFile(filename);
 
 			if (buf[2] != 0x00 || buf[3] != 0x05)
 			{
@@ -108,13 +108,13 @@ namespace SharpDune.Gui
 			}
 
 			f = new Font(); //(Font*) calloc(1, sizeof(Font));
-			start = Endian.READ_LE_UINT16(buf[4..]);
-			dataStart = Endian.READ_LE_UINT16(buf[6..]);
-			widthList = Endian.READ_LE_UINT16(buf[8..]);
-			lineList = Endian.READ_LE_UINT16(buf[12..]);
+			start = READ_LE_UINT16(buf[4..]);
+			dataStart = READ_LE_UINT16(buf[6..]);
+			widthList = READ_LE_UINT16(buf[8..]);
+			lineList = READ_LE_UINT16(buf[12..]);
 			f.height = buf[start + 4];
 			f.maxWidth = buf[start + 5];
-			f.count = (byte)(Endian.READ_LE_UINT16(buf[10..]) - widthList);
+			f.count = (byte)(READ_LE_UINT16(buf[10..]) - widthList);
 			f.chars = new FontChar[f.count]; //(FontChar*) calloc(f->count, sizeof(FontChar));
 			for (i = 0; i < f.chars.Length; i++) f.chars[i] = new FontChar();
 
@@ -129,7 +129,7 @@ namespace SharpDune.Gui
 				fc.unusedLines = buf[lineList + i * 2];
 				fc.usedLines = buf[lineList + i * 2 + 1];
 
-				dataOffset = Endian.READ_LE_UINT16(buf[(dataStart + i * 2)..]);
+				dataOffset = READ_LE_UINT16(buf[(dataStart + i * 2)..]);
 				if (dataOffset == 0) continue;
 
 				fc.data = new byte[fc.usedLines * fc.width]; //(uint8*) malloc(fc->usedLines* fc->width);

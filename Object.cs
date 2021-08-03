@@ -139,7 +139,7 @@ namespace SharpDune
 
             if (encoded == 0) return;
 
-            objectVariable = Tools.Tools_Index_GetObject(encoded);
+            objectVariable = Tools_Index_GetObject(encoded);
 
             Object_Script_Variable4_Set(obj, 0);
             Object_Script_Variable4_Set(objectVariable, 0);
@@ -164,7 +164,7 @@ namespace SharpDune
             si = g_table_structureInfo[o.type];
             if (!si.o.flags.busyStateIsIncoming) return;
 
-            s = PoolStructure.Structure_Get_ByIndex(o.index); //TODO: Check
+            s = Structure_Get_ByIndex(o.index); //TODO: Check
             if (Structure_GetLinkedUnit(s) != null) return;
 
             Structure_SetState(s, (short)((encoded == 0) ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_BUSY));
@@ -181,11 +181,11 @@ namespace SharpDune
             Object objectFrom;
             Object objectTo;
 
-            if (!Tools.Tools_Index_IsValid(encodedFrom)) return;
-            if (!Tools.Tools_Index_IsValid(encodedTo)) return;
+            if (!Tools_Index_IsValid(encodedFrom)) return;
+            if (!Tools_Index_IsValid(encodedTo)) return;
 
-            objectFrom = Tools.Tools_Index_GetObject(encodedFrom);
-            objectTo = Tools.Tools_Index_GetObject(encodedTo);
+            objectFrom = Tools_Index_GetObject(encodedFrom);
+            objectTo = Tools_Index_GetObject(encodedTo);
 
             if (objectFrom == null) return;
             if (objectTo == null) return;
@@ -212,11 +212,11 @@ namespace SharpDune
         {
             Tile t;
 
-            if (CTile.Tile_IsOutOfMap(packed)) return null;
+            if (Tile_IsOutOfMap(packed)) return null;
 
-            t = Map.g_map[packed];
-            if (t.hasUnit) return PoolUnit.Unit_Get_ByIndex((ushort)(t.index - 1)).o;
-            if (t.hasStructure) return PoolStructure.Structure_Get_ByIndex((ushort)(t.index - 1)).o;
+            t = g_map[packed];
+            if (t.hasUnit) return Unit_Get_ByIndex((ushort)(t.index - 1)).o;
+            if (t.hasStructure) return Structure_Get_ByIndex((ushort)(t.index - 1)).o;
             return null;
         }
 
@@ -231,26 +231,26 @@ namespace SharpDune
             Structure s;
             tile32 position;
 
-            s = Tools.Tools_Index_GetStructure(encoded);
+            s = Tools_Index_GetStructure(encoded);
 
             if (s != null)
             {
                 ushort packed;
 
                 position = s.o.position;
-                packed = CTile.Tile_PackTile(position);
+                packed = Tile_PackTile(position);
 
                 /* ENHANCEMENT -- Originally this was o->type, where 'o' refers to a unit. */
-                packed += g_table_structure_layoutEdgeTiles[g_table_structureInfo[s.o.type].layout][(CTile.Orientation_Orientation256ToOrientation8((byte)CTile.Tile_GetDirection(o.position, position)) + 4) & 7];
+                packed += g_table_structure_layoutEdgeTiles[g_table_structureInfo[s.o.type].layout][(Orientation_Orientation256ToOrientation8((byte)Tile_GetDirection(o.position, position)) + 4) & 7];
 
-                position = CTile.Tile_UnpackTile(packed);
+                position = Tile_UnpackTile(packed);
             }
             else
             {
-                position = Tools.Tools_Index_GetTile(encoded);
+                position = Tools_Index_GetTile(encoded);
             }
 
-            return CTile.Tile_GetDistance(o.position, position);
+            return Tile_GetDistance(o.position, position);
         }
     }
 }

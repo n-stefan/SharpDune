@@ -5,9 +5,9 @@ namespace SharpDune.Os
     class CMath
     {
         internal static short clamp(short a, short b, short c) =>
-            Min(Max(a, b), c);
+            Math.Min(Math.Max(a, b), c);
 
         internal static ushort clamp(ushort a, ushort b, ushort c) =>
-            Min(Max(a, b), c);
+            Math.Min(Math.Max(a, b), c);
     }
 }

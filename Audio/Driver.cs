@@ -56,7 +56,7 @@ namespace SharpDune.Audio
             //Debug.Assert(len <= driver.filename.Length);
             driver.filename = filename; //memcpy(driver->filename, filename, len);
 
-            driver.content = CFile.File_ReadWholeFile(filename);
+            driver.content = File_ReadWholeFile(filename);
             driver.contentMalloced = true;
             Debug.WriteLine($"DEBUG: Driver_LoadFile({musicName}, {driver}): {filename} loaded");
         }
@@ -81,15 +81,15 @@ namespace SharpDune.Audio
             if (music.index == 0xFFFF) return;
             if (musicBuffer.index == 0xFFFF) return;
 
-            Mt32Mpu.MPU_Stop(musicBuffer.index);
-            Mt32Mpu.MPU_ClearData(musicBuffer.index);
+            MPU_Stop(musicBuffer.index);
+            MPU_ClearData(musicBuffer.index);
             musicBuffer.index = 0xFFFF;
         }
 
         internal static bool Driver_Voice_IsPlaying()
         {
             if (g_driverVoice.index == 0xFFFF) return false;
-            return Dsp.DSP_GetStatus() == 2;
+            return DSP_GetStatus() == 2;
         }
 
         internal static bool Driver_Music_IsPlaying()
@@ -99,14 +99,14 @@ namespace SharpDune.Audio
             if (g_driverMusic.index == 0xFFFF) return false;
             if (buffer.index == 0xFFFF) return false;
 
-            return Mt32Mpu.MPU_IsPlaying(buffer.index) == 1;
+            return MPU_IsPlaying(buffer.index) == 1;
         }
 
         internal static void Driver_Voice_Stop()
         {
             var voice = g_driverVoice;
 
-            if (Driver_Voice_IsPlaying()) Dsp.DSP_Stop();
+            if (Driver_Voice_IsPlaying()) DSP_Stop();
 
             if (voice.contentMalloced)
             {
@@ -122,7 +122,7 @@ namespace SharpDune.Audio
         {
             var voice = g_driverVoice;
 
-            if (Config.g_gameConfig.sounds == 0 || voice.index == 0xFFFF) return;
+            if (g_gameConfig.sounds == 0 || voice.index == 0xFFFF) return;
 
             if (data == null)
             {
@@ -145,7 +145,7 @@ namespace SharpDune.Audio
 
             if (data == null) return;
 
-            Dsp.DSP_Play(data);
+            DSP_Play(data);
         }
 
         internal static void Driver_Voice_LoadFile(string filename, byte[] buffer, uint length)
@@ -155,7 +155,7 @@ namespace SharpDune.Audio
             if (filename == null) return;
             if (g_driverVoice.index == 0xFFFF) return;
 
-            CFile.File_ReadBlockFile(filename, buffer, length);
+            File_ReadBlockFile(filename, buffer, length);
         }
 
         static string filename; //= new char[14];
@@ -172,13 +172,13 @@ namespace SharpDune.Audio
 
             filename = $"{basefilename}.{driver.extension}"; //snprintf(filename, sizeof(filename), "%s.%s", basefilename, driver->extension);
 
-            if (CFile.File_Exists(filename)) return filename;
+            if (File_Exists(filename)) return filename;
 
             if (driver.index == 0xFFFF) return null;
 
             filename = $"{basefilename}.XMI"; //snprintf(filename, sizeof(filename), "%s.XMI", basefilename);
 
-            if (CFile.File_Exists(filename)) return filename;
+            if (File_Exists(filename)) return filename;
 
             return null;
         }
@@ -195,8 +195,8 @@ namespace SharpDune.Audio
                 var soundBuffer = g_bufferSound[i];
                 if (soundBuffer.index == 0xFFFF) continue;
 
-                Mt32Mpu.MPU_Stop(soundBuffer.index);
-                Mt32Mpu.MPU_ClearData(soundBuffer.index);
+                MPU_Stop(soundBuffer.index);
+                MPU_ClearData(soundBuffer.index);
                 soundBuffer.index = 0xFFFF;
             }
         }
@@ -246,21 +246,21 @@ namespace SharpDune.Audio
 
             if (index < 0 || index >= 120) return;
 
-            if (Config.g_gameConfig.sounds == 0 && index > 1) return;
+            if (g_gameConfig.sounds == 0 && index > 1) return;
 
             if (sound.index == 0xFFFF) return;
 
             if (soundBuffer.index != 0xFFFF)
             {
-                Mt32Mpu.MPU_Stop(soundBuffer.index);
-                Mt32Mpu.MPU_ClearData(soundBuffer.index);
+                MPU_Stop(soundBuffer.index);
+                MPU_ClearData(soundBuffer.index);
                 soundBuffer.index = 0xFFFF;
             }
 
-            soundBuffer.index = Mt32Mpu.MPU_SetData(sound.content, (ushort)index, soundBuffer.buffer[0]);
+            soundBuffer.index = MPU_SetData(sound.content, (ushort)index, soundBuffer.buffer[0]);
 
-            Mt32Mpu.MPU_Play(soundBuffer.index);
-            Mt32Mpu.MPU_SetVolume(soundBuffer.index, (ushort)(((volume & 0xFF) * 90) / 256), 0);
+            MPU_Play(soundBuffer.index);
+            MPU_SetVolume(soundBuffer.index, (ushort)(((volume & 0xFF) * 90) / 256), 0);
 
             s_bufferSoundIndex = (byte)((s_bufferSoundIndex + 1) % 4);
         }
@@ -269,8 +269,8 @@ namespace SharpDune.Audio
         {
             Drivers_Reset();
 
-            Config.g_enableSoundMusic = Drivers_SoundMusic_Init(Config.g_enableSoundMusic);
-            Config.g_enableVoices = Drivers_Voice_Init(Config.g_enableVoices);
+            g_enableSoundMusic = Drivers_SoundMusic_Init(g_enableSoundMusic);
+            g_enableVoices = Drivers_Voice_Init(g_enableVoices);
         }
 
         internal static void Drivers_All_Uninit()
@@ -287,7 +287,7 @@ namespace SharpDune.Audio
             if (music.index == 0xFFFF) return;
             if (musicBuffer.index == 0xFFFF) return;
 
-            Mt32Mpu.MPU_SetVolume(musicBuffer.index, 0, 2000);
+            MPU_SetVolume(musicBuffer.index, 0, 2000);
         }
 
         static void Drivers_Reset()
@@ -311,20 +311,20 @@ namespace SharpDune.Audio
 
             if (!enable) return false;
 
-            if (!Mt32Mpu.MPU_Init()) return false;
+            if (!MPU_Init()) return false;
 
-            if (!Drivers_Init(sound, (IniFile.IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
+            if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
 
             music = sound.Clone(); //music = sound; //memcpy(music, sound, sizeof(Driver));
             g_driverMusic = sound.Clone();
 
             //#if _WIN32
-            Mt32Mpu.MPU_StartThread(1000000 / 120);
+            MPU_StartThread(1000000 / 120);
             //#else
             //  Timer_Add(MPU_Interrupt, 1000000 / 120, false);
             //#endif
 
-            size = Mt32Mpu.MPU_GetDataSize();
+            size = MPU_GetDataSize();
 
             for (i = 0; i < 4; i++)
             {
@@ -351,7 +351,7 @@ namespace SharpDune.Audio
 
             if (!enable) return false;
 
-            if (!Dsp.DSP_Init()) return false;
+            if (!DSP_Init()) return false;
 
             if (!Drivers_Init(voice, "VOC")) return false;
 
@@ -363,7 +363,7 @@ namespace SharpDune.Audio
             var sound = g_driverSound;
             var music = g_driverMusic;
 
-            if (Config.g_enableSoundMusic)
+            if (g_enableSoundMusic)
             {
                 byte i;
                 MSBuffer buffer = null;
@@ -373,8 +373,8 @@ namespace SharpDune.Audio
                     buffer = g_bufferSound[i];
                     if (buffer.index != 0xFFFF)
                     {
-                        Mt32Mpu.MPU_Stop(buffer.index);
-                        Mt32Mpu.MPU_ClearData(buffer.index);
+                        MPU_Stop(buffer.index);
+                        MPU_ClearData(buffer.index);
                         buffer.index = 0xFFFF;
                     }
                 }
@@ -382,13 +382,13 @@ namespace SharpDune.Audio
                 buffer = g_bufferMusic;
                 if (buffer.index != 0xFFFF)
                 {
-                    Mt32Mpu.MPU_Stop(buffer.index);
-                    Mt32Mpu.MPU_ClearData(buffer.index);
+                    MPU_Stop(buffer.index);
+                    MPU_ClearData(buffer.index);
                     buffer.index = 0xFFFF;
                 }
 
                 //#if _WIN32
-                Mt32Mpu.MPU_StopThread();
+                MPU_StopThread();
                 //#else
                 //Timer_Remove(MPU_Interrupt);
                 //#endif
@@ -409,14 +409,14 @@ namespace SharpDune.Audio
             Drivers_Uninit(sound);
             music = sound; //memcpy(music, sound, sizeof(Driver));
 
-            Mt32Mpu.MPU_Uninit();
+            MPU_Uninit();
         }
 
         static void Drivers_Voice_Uninit()
         {
             Drivers_Uninit(g_driverVoice);
 
-            Dsp.DSP_Uninit();
+            DSP_Uninit();
         }
 
         static bool Drivers_Init(Driver driver, string extension)

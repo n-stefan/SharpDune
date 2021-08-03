@@ -3,29 +3,29 @@
     class SaveLoadHouse
     {
 		static readonly SaveLoadDesc[] s_saveHouse = {
-			SLD_ENTRY2(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.index), SaveLoadType.SLDT_UINT8),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.harvestersIncoming)),
-			SLD_ENTRY2(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.flags), SaveLoadType.SLDT_HOUSEFLAGS),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.unitCount)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.unitCountMax)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.unitCountEnemy)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.unitCountAllied)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT32, nameof(House.structuresBuilt)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.credits)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.creditsStorage)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.powerProduction)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.powerUsage)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.windtrapCount)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.creditsQuota)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, $"{nameof(House.palacePosition)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, $"{nameof(House.palacePosition)}.{nameof(tile32.y)}"),
-			SLD_EMPTY(SaveLoadType.SLDT_UINT16),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.timerUnitAttack)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.timerSandwormAttack)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.timerStructureAttack)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.starportTimeLeft)),
-			SLD_ENTRY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.starportLinkedID)),
-			SLD_ARRAY(/*house,*/ SaveLoadType.SLDT_UINT16, nameof(House.ai_structureRebuild), 10),
+			SLD_ENTRY2(/*house,*/ SLDT_UINT16, nameof(House.index), SLDT_UINT8),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.harvestersIncoming)),
+			SLD_ENTRY2(/*house,*/ SLDT_UINT16, nameof(House.flags), SLDT_HOUSEFLAGS),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCount)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCountMax)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCountEnemy)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCountAllied)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT32, nameof(House.structuresBuilt)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.credits)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.creditsStorage)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.powerProduction)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.powerUsage)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.windtrapCount)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.creditsQuota)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, $"{nameof(House.palacePosition)}.{nameof(tile32.x)}"),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, $"{nameof(House.palacePosition)}.{nameof(tile32.y)}"),
+			SLD_EMPTY(SLDT_UINT16),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.timerUnitAttack)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.timerSandwormAttack)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.timerStructureAttack)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.starportTimeLeft)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.starportLinkedID)),
+			SLD_ARRAY(/*house,*/ SLDT_UINT16, nameof(House.ai_structureRebuild), 10),
 			SLD_END()
 		};
 
@@ -45,7 +45,7 @@
 				var index = fp.ReadUInt16();
 
 				/* Create the House in the pool */
-				hl = PoolHouse.House_Allocate((byte)index);
+				hl = House_Allocate((byte)index);
 				if (hl == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -116,7 +116,7 @@
 			{
 				House h;
 
-				h = PoolHouse.House_Find(find);
+				h = House_Find(find);
 				if (h == null) break;
 
 				if (!SaveLoad_Save(s_saveHouse, fp, h)) return false;

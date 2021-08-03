@@ -148,7 +148,7 @@ namespace SharpDune
             /* TODO this code could be simplified */
             packed = Tile_PackTile(tile);
 
-            if (!Map.Map_IsValidPosition(packed)) return;
+            if (!Map_IsValidPosition(packed)) return;
 
             /* setting tile from its packed position equals removing the
 	         * non integer part */
@@ -173,7 +173,7 @@ namespace SharpDune
 
                     if (Tile_GetDistanceRoundedUp(tile, t) > radius) continue;
 
-                    Map.Map_UnveilTile(packed, (byte)g_playerHouseID);
+                    Map_UnveilTile(packed, (byte)g_playerHouseID);
                 }
             }
         }
@@ -211,8 +211,8 @@ namespace SharpDune
          */
         internal static ushort Tile_GetDistance(tile32 from, tile32 to)
         {
-            var distance_x = (ushort)Abs(from.x - to.x);
-            var distance_y = (ushort)Abs(from.y - to.y);
+            var distance_x = (ushort)Math.Abs(from.x - to.x);
+            var distance_y = (ushort)Math.Abs(from.y - to.y);
 
             if (distance_x > distance_y) return (ushort)(distance_x + (distance_y / 2));
             return (ushort)(distance_y + (distance_x / 2));
@@ -243,7 +243,7 @@ namespace SharpDune
             dx = to.x - from.x;
             dy = to.y - from.y;
 
-            if (Abs(dx) + Abs(dy) > 8000)
+            if (Math.Abs(dx) + Math.Abs(dy) > 8000)
             {
                 dx /= 2;
                 dy /= 2;
@@ -388,11 +388,11 @@ namespace SharpDune
             x = Tile_GetX(tile);
             y = Tile_GetY(tile);
 
-            newDistance = Tools.Tools_Random_256();
+            newDistance = Tools_Random_256();
             while (newDistance > distance) newDistance /= 2;
             distance = newDistance;
 
-            orientation = Tools.Tools_Random_256();
+            orientation = Tools_Random_256();
             x += (ushort)(((_stepX[orientation] * distance) / 128) * 16);
             y -= (ushort)(((_stepY[orientation] * distance) / 128) * 16);
 
@@ -417,7 +417,7 @@ namespace SharpDune
             int diffX, diffY;
             int roundingOffsetX, roundingOffsetY;
 
-            distance = Min(distance, (ushort)0xFF);
+            distance = Math.Min(distance, (ushort)0xFF);
 
             if (distance == 0) return tile;
 
@@ -459,15 +459,15 @@ namespace SharpDune
                 tile32 position;
                 ushort packed;
 
-                dir = (short)(31 + (Tools.Tools_Random_256() & 0x3F));
+                dir = (short)(31 + (Tools_Random_256() & 0x3F));
 
-                if ((Tools.Tools_Random_256() & 1) != 0) dir = (short)-dir;
+                if ((Tools_Random_256() & 1) != 0) dir = (short)-dir;
 
                 position = Tile_UnpackTile(packed_to);
-                position = Tile_MoveByDirection(position, (short)(direction + dir), (ushort)(Min(distance, (short)20) << 8));
+                position = Tile_MoveByDirection(position, (short)(direction + dir), (ushort)(Math.Min(distance, (short)20) << 8));
                 packed = Tile_PackTile(position);
 
-                if (Map.Map_IsValidPosition(packed)) return packed;
+                if (Map_IsValidPosition(packed)) return packed;
             }
 
             //return 0;

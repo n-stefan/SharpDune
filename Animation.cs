@@ -54,29 +54,29 @@ namespace SharpDune
 		{
 			var layout = g_table_structure_layoutTiles[animation.tileLayout];
 			var layoutTileCount = g_table_structure_layoutTileCount[animation.tileLayout];
-			var packed = CTile.Tile_PackTile(animation.tile);
+			var packed = Tile_PackTile(animation.tile);
 			int i;
 			var layoutPointer = 0;
 
-			Map.g_map[packed].hasAnimation = false;
+            g_map[packed].hasAnimation = false;
 			animation.commands = null;
 
 			for (i = 0; i < layoutTileCount; i++)
 			{
 				var position = (ushort)(packed + layout[layoutPointer++]);
-				var t = Map.g_map[position];
+				var t = g_map[position];
 
 				if (animation.tileLayout != 0)
 				{
-					t.groundTileID = Map.g_mapTileID[position];
+					t.groundTileID = g_mapTileID[position];
 				}
 
-				if (Map.Map_IsPositionUnveiled(position))
+				if (Map_IsPositionUnveiled(position))
 				{
 					t.overlayTileID = 0;
 				}
 
-				Map.Map_Update(position, 0, false);
+                Map_Update(position, 0, false);
 			}
 		}
 
@@ -87,12 +87,12 @@ namespace SharpDune
 		 */
 		static void Animation_Func_Abort(Animation animation, short parameter)
 		{
-			var packed = CTile.Tile_PackTile(animation.tile);
+			var packed = Tile_PackTile(animation.tile);
 
-			Map.g_map[packed].hasAnimation = false;
+            g_map[packed].hasAnimation = false;
 			animation.commands = null;
 
-			Map.Map_Update(packed, 0, false);
+            Map_Update(packed, 0, false);
 		}
 
 		/*
@@ -102,16 +102,16 @@ namespace SharpDune
 		 */
 		static void Animation_Func_SetOverlayTile(Animation animation, short parameter)
 		{
-			var packed = CTile.Tile_PackTile(animation.tile);
-			var t = Map.g_map[packed];
+			var packed = Tile_PackTile(animation.tile);
+			var t = g_map[packed];
 			Debug.Assert(parameter >= 0);
 
-			if (!Map.Map_IsPositionUnveiled(packed)) return;
+			if (!Map_IsPositionUnveiled(packed)) return;
 
-			t.overlayTileID = Sprites.g_iconMap[Sprites.g_iconMap[animation.iconGroup] + parameter];
+			t.overlayTileID = g_iconMap[g_iconMap[animation.iconGroup] + parameter];
 			t.houseID = animation.houseID;
 
-			Map.Map_Update(packed, 0, false);
+            Map_Update(packed, 0, false);
 		}
 
 		/*
@@ -124,7 +124,7 @@ namespace SharpDune
 		{
 			Debug.Assert(parameter >= 0);
 
-			animation.tickNext = (uint)(Timer.g_timerGUI + parameter + (Tools.Tools_Random_256() % 4));
+			animation.tickNext = (uint)(g_timerGUI + parameter + (Tools_Random_256() % 4));
 		}
 
         /*
@@ -141,7 +141,7 @@ namespace SharpDune
 		 * @param parameter The VoiceID to play.
 		 */
         static void Animation_Func_PlayVoice(Animation animation, short parameter) =>
-			Sound.Voice_PlayAtTile(parameter, animation.tile);
+            Voice_PlayAtTile(parameter, animation.tile);
 
 		/*
 		 * Set the ground sprite of the tile.
@@ -154,12 +154,12 @@ namespace SharpDune
 			ushort[] iconMap;
 			var layout = g_table_structure_layoutTiles[animation.tileLayout];
 			var layoutTileCount = g_table_structure_layoutTileCount[animation.tileLayout];
-			var packed = CTile.Tile_PackTile(animation.tile);
+			var packed = Tile_PackTile(animation.tile);
 			int i;
 			var layoutPointer = 0;
 			var iconMapPointer = 0;
 
-			iconMap = Sprites.g_iconMap[(Sprites.g_iconMap[animation.iconGroup] + layoutTileCount * parameter)..];
+			iconMap = g_iconMap[(g_iconMap[animation.iconGroup] + layoutTileCount * parameter)..];
 
 			/* Some special case for turrets */
 			if ((parameter > 1) && (animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET || animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET))
@@ -168,7 +168,7 @@ namespace SharpDune
 				Debug.Assert(s != null);
 				Debug.Assert(layoutTileCount == 1);
 
-				specialMap[0] = (ushort)(s.rotationSpriteDiff + Sprites.g_iconMap[Sprites.g_iconMap[animation.iconGroup]] + 2);
+				specialMap[0] = (ushort)(s.rotationSpriteDiff + g_iconMap[g_iconMap[animation.iconGroup]] + 2);
 				iconMap = specialMap;
 			}
 
@@ -176,20 +176,20 @@ namespace SharpDune
 			{
 				var position = (ushort)(packed + layout[layoutPointer++]);
 				var tileID = iconMap[iconMapPointer++];
-				var t = Map.g_map[position];
+				var t = g_map[position];
 
 				if (t.groundTileID == tileID) continue;
 				t.groundTileID = tileID;
 				t.houseID = animation.houseID;
 
-				if (Map.Map_IsPositionUnveiled(position))
+				if (Map_IsPositionUnveiled(position))
 				{
 					t.overlayTileID = 0;
 				}
 
-				Map.Map_Update(position, 0, false);
+                Map_Update(position, 0, false);
 
-				Map.Map_MarkTileDirty(position);
+                Map_MarkTileDirty(position);
 			}
 		}
 
@@ -221,7 +221,7 @@ namespace SharpDune
 		internal static void Animation_Stop_ByTile(ushort packed)
 		{
 			var animation = g_animations;
-			var t = Map.g_map[packed];
+			var t = g_map[packed];
 			int i;
 
 			if (!t.hasAnimation) return;
@@ -229,7 +229,7 @@ namespace SharpDune
 			for (i = 0; i < ANIMATION_MAX; i++)
 			{ //, animation++) {
 				if (animation[i].commands == null) continue;
-				if (CTile.Tile_PackTile(animation[i].tile) != packed) continue;
+				if (Tile_PackTile(animation[i].tile) != packed) continue;
 
 				Animation_Func_Stop(animation[i], 0);
 				return;
@@ -247,18 +247,18 @@ namespace SharpDune
 		internal static void Animation_Start(AnimationCommandStruct[] commands, tile32 tile, ushort tileLayout, byte houseID, byte iconGroup)
 		{
 			var animation = g_animations;
-			var packed = CTile.Tile_PackTile(tile);
+			var packed = Tile_PackTile(tile);
 			Tile t;
 			int i;
 
-			t = Map.g_map[packed];
+			t = g_map[packed];
 			Animation_Stop_ByTile(packed);
 
 			for (i = 0; i < ANIMATION_MAX; i++)
 			{ //, animation++) {
 				if (animation[i].commands != null) continue;
 
-				animation[i].tickNext = Timer.g_timerGUI;
+				animation[i].tickNext = g_timerGUI;
 				animation[i].tileLayout = tileLayout;
 				animation[i].houseID = houseID;
 				animation[i].current = 0;
@@ -282,14 +282,14 @@ namespace SharpDune
 			var animation = g_animations;
 			int i;
 
-			if (s_animationTimer > Timer.g_timerGUI) return;
+			if (s_animationTimer > g_timerGUI) return;
 			s_animationTimer += 10000;
 
 			for (i = 0; i < ANIMATION_MAX; i++)
 			{ //, animation++) {
 				if (animation[i].commands == null) continue;
 
-				if (animation[i].tickNext <= Timer.g_timerGUI)
+				if (animation[i].tickNext <= g_timerGUI)
 				{
 					var commands = animation[i].commands[animation[i].current];
 					var parameter = (short)commands.parameter;

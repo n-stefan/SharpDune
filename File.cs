@@ -462,7 +462,7 @@ namespace SharpDune
 				}
 				else
 				{
-					buffer = (T)(object)Common.FromByteArrayToUshortArray(bytes);
+					buffer = (T)(object)FromByteArrayToUshortArray(bytes);
 				}
 			}
 			else if (buffer is char[] bufferCharArray)
@@ -710,7 +710,7 @@ namespace SharpDune
 		{
 			var buffer = new byte[2];
 			File_Read(index, ref buffer, (uint)buffer.Length);
-			return Endian.READ_LE_UINT16(buffer);
+			return READ_LE_UINT16(buffer);
 		}
 
 		/*
@@ -723,7 +723,7 @@ namespace SharpDune
 		{
 			var buffer = new byte[4];
 			File_Read(index, ref buffer, (uint)buffer.Length);
-			return Endian.READ_LE_UINT32(buffer);
+			return READ_LE_UINT32(buffer);
 		}
 
 		/*
@@ -736,7 +736,7 @@ namespace SharpDune
 		internal static bool File_Write_LE16(byte index, ushort value)
 		{
 			var buffer = new byte[2];
-			Endian.WRITE_LE_UINT16(buffer, value);
+            WRITE_LE_UINT16(buffer, value);
 			return (File_Write(index, buffer, 2) == 2);
 		}
 
@@ -754,7 +754,7 @@ namespace SharpDune
 			var buffer = new byte[2];
 			//if (value == null) return false;
 			if (stream.Read(buffer, 0, 2) != 2) return false; //fread(buffer, 1, 2, stream) != 2)
-			value = Endian.READ_LE_UINT16(buffer);
+			value = READ_LE_UINT16(buffer);
 			return true;
 		}
 
@@ -772,7 +772,7 @@ namespace SharpDune
 			var buffer = new byte[4];
 			//if (value == null) return false;
 			if (stream.Read(buffer, 0, 4) != 4) return false; //fread(buffer, 1, 4, stream) != 4)
-			value = Endian.READ_LE_UINT32(buffer);
+			value = READ_LE_UINT32(buffer);
 			return true;
 		}
 
@@ -857,7 +857,7 @@ namespace SharpDune
 		{
 			var buf = string.Empty; //char[1024]
 
-			if ((buf = IniFile.IniFile_GetString("savedir", null)) != null)
+			if ((buf = IniFile_GetString("savedir", null)) != null)
 			{
 				/* savedir is defined in sharpdune.ini */
 				g_personal_data_dir = buf; //strncpy(g_personal_data_dir, buf, sizeof(g_personal_data_dir));
@@ -883,7 +883,7 @@ namespace SharpDune
 				return false;
 			}
 
-			if ((buf = IniFile.IniFile_GetString("datadir", null)) != null)
+			if ((buf = IniFile_GetString("datadir", null)) != null)
 			{
 				/* datadir is defined in sharpdune.ini */
 				g_dune_data_dir = buf; //strncpy(g_dune_data_dir, buf, sizeof(g_dune_data_dir));
@@ -992,7 +992,7 @@ namespace SharpDune
 
 				if (File_Read(index, ref length, 4) != 4 && !first) return 0;
 
-				length = Endian.HTOBE32(length);
+				length = HTOBE32(length);
 
 				if (value == chunk)
 				{
@@ -1036,11 +1036,11 @@ namespace SharpDune
 
 				if (File_Read(index, ref length, 4) != 4 && !first) return 0;
 
-				length = Endian.HTOBE32(length);
+				length = HTOBE32(length);
 
 				if (value == chunk)
 				{
-					buflen = Min(buflen, length);
+					buflen = Math.Min(buflen, length);
 
 					File_Read(index, ref buffer, buflen);
 
@@ -1082,7 +1082,7 @@ namespace SharpDune
 
 			File_Read(index, ref header, 4);
 
-			if (header != Endian.HTOBE32((uint)CSharpDune.MultiChar[FourCC.FORM]))
+			if (header != HTOBE32((uint)CSharpDune.MultiChar[FourCC.FORM]))
 			{
 				File_Close(index);
 				return (byte)FileMode.FILE_INVALID;

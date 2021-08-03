@@ -76,17 +76,17 @@ namespace SharpDune
 		{
 			byte index;
 
-			index = CFile.File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_READ);
+			index = File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_READ);
 
 			if (index == (byte)FileMode.FILE_INVALID) return false;
 
-			g_gameConfig.music = CFile.File_Read_LE16(index);
-			g_gameConfig.sounds = CFile.File_Read_LE16(index);
-			g_gameConfig.gameSpeed = CFile.File_Read_LE16(index);
-			g_gameConfig.hints = CFile.File_Read_LE16(index);
-			g_gameConfig.autoScroll = CFile.File_Read_LE16(index);
+			g_gameConfig.music = File_Read_LE16(index);
+			g_gameConfig.sounds = File_Read_LE16(index);
+			g_gameConfig.gameSpeed = File_Read_LE16(index);
+			g_gameConfig.hints = File_Read_LE16(index);
+			g_gameConfig.autoScroll = File_Read_LE16(index);
 
-			CFile.File_Close(index);
+            File_Close(index);
 
 			return true;
 		}
@@ -98,19 +98,19 @@ namespace SharpDune
 		{
 			byte index;
 
-			index = CFile.File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_WRITE);
+			index = File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_WRITE);
 
 			if (index == (byte)FileMode.FILE_INVALID) return;
 
-			CFile.File_Write_LE16(index, g_gameConfig.music);
-			CFile.File_Write_LE16(index, g_gameConfig.sounds);
-			CFile.File_Write_LE16(index, g_gameConfig.gameSpeed);
-			CFile.File_Write_LE16(index, g_gameConfig.hints);
-			CFile.File_Write_LE16(index, g_gameConfig.autoScroll);
+            File_Write_LE16(index, g_gameConfig.music);
+            File_Write_LE16(index, g_gameConfig.sounds);
+            File_Write_LE16(index, g_gameConfig.gameSpeed);
+            File_Write_LE16(index, g_gameConfig.hints);
+            File_Write_LE16(index, g_gameConfig.autoScroll);
 
-			CFile.File_Close(index);
+            File_Close(index);
 
-			if (g_gameConfig.music == 0) Sound.Music_Play(0);
+			if (g_gameConfig.music == 0) Music_Play(0);
 		}
 
 		/*
@@ -129,7 +129,7 @@ namespace SharpDune
 			int bufferPointer;
 			sbyte i;
 
-			f = CFile.fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
+			f = fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
 			if (f == null) return false;
 
 			buffer = new byte[10];
@@ -178,7 +178,7 @@ namespace SharpDune
 			int c1Pointer, c2Pointer;
 			sbyte i;
 
-			f = CFile.fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
+			f = fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
 			if (f == null) return false;
 
 			sum = 0;

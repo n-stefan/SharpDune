@@ -20,18 +20,18 @@ namespace SharpDune.Gui
 				editBoxShowCursor = true;
 			}
 
-			if (tickEditBox > Timer.g_timerGUI) return;
+			if (tickEditBox > g_timerGUI) return;
 			if (!resetBlink)
 			{
-				tickEditBox = Timer.g_timerGUI + 20;
+				tickEditBox = g_timerGUI + 20;
 			}
 
 			editBoxShowCursor = !editBoxShowCursor;
 
-			Gui.GUI_Mouse_Hide_Safe();
-			Gui.GUI_DrawFilledRectangle((short)positionX, (short)CWidget.g_curWidgetYBase, (short)(positionX + CFont.Font_GetCharWidth('W')),
-				(short)(CWidget.g_curWidgetYBase + CWidget.g_curWidgetHeight - 1), editBoxShowCursor ? CWidget.g_curWidgetFGColourBlink : CWidget.g_curWidgetFGColourNormal);
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Hide_Safe();
+            GUI_DrawFilledRectangle((short)positionX, (short)g_curWidgetYBase, (short)(positionX + Font_GetCharWidth('W')),
+				(short)(g_curWidgetYBase + g_curWidgetHeight - 1), editBoxShowCursor ? g_curWidgetFGColourBlink : g_curWidgetFGColourNormal);
+            GUI_Mouse_Show_Safe();
 		}
 
 		/*
@@ -57,44 +57,44 @@ namespace SharpDune.Gui
 
 			/* Initialize */
 			{
-				Input.Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
-				Input.Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
+                Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
+                Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
 
-				oldScreenID = Gfx.GFX_Screen_SetActive(Screen.NO0);
+				oldScreenID = GFX_Screen_SetActive(Screen.NO0);
 
-				oldWidgetID = CWidget.Widget_SetCurrentWidget(widgetID);
+				oldWidgetID = Widget_SetCurrentWidget(widgetID);
 
 				returnValue = 0x0;
 			}
 
-			positionX = (ushort)(CWidget.g_curWidgetXBase << 3);
+			positionX = (ushort)(g_curWidgetXBase << 3);
 
 			textWidth = 0;
 			textLength = 0;
-			maxWidth = (ushort)((CWidget.g_curWidgetWidth << 3) - CFont.Font_GetCharWidth('W') - 1);
+			maxWidth = (ushort)((g_curWidgetWidth << 3) - Font_GetCharWidth('W') - 1);
 			t.Append(text);
 
 			/* Calculate the length and width of the current string */
 			for (var i = 0; i < t.Length; i++)
 			{
-				textWidth += CFont.Font_GetCharWidth(t[i]);
+				textWidth += Font_GetCharWidth(t[i]);
 				textLength++;
 
 				if (textWidth >= maxWidth) break;
 			}
-			//*t = '\0';
+            //*t = '\0';
 
-			Gui.GUI_Mouse_Hide_Safe();
+            GUI_Mouse_Hide_Safe();
 
-			if (paint) CWidget.Widget_PaintCurrentWidget();
+			if (paint) Widget_PaintCurrentWidget();
 
-			Gui.GUI_DrawText_Wrapper(text, (short)positionX, (short)CWidget.g_curWidgetYBase, CWidget.g_curWidgetFGColourBlink, CWidget.g_curWidgetFGColourNormal, 0);
+            GUI_DrawText_Wrapper(text, (short)positionX, (short)g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal, 0);
 
 			GUI_EditBox_BlinkCursor((ushort)(positionX + textWidth), false);
 
-			Gui.GUI_Mouse_Show_Safe();
+            GUI_Mouse_Show_Safe();
 
-			for (; ; Sleep.sleepIdle())
+			for (; ; sleepIdle())
 			{
 				ushort keyWidth;
 				ushort key;
@@ -105,7 +105,7 @@ namespace SharpDune.Gui
 					if (returnValue != 0) break;
 				}
 
-				key = CWidget.GUI_Widget_HandleEvents(w);
+				key = GUI_Widget_HandleEvents(w);
 
 				GUI_EditBox_BlinkCursor((ushort)(positionX + textWidth), false);
 
@@ -135,7 +135,7 @@ namespace SharpDune.Gui
 
 					GUI_EditBox_BlinkCursor((ushort)(positionX + textWidth), true);
 
-					textWidth -= CFont.Font_GetCharWidth(t[^1]);
+					textWidth -= Font_GetCharWidth(t[^1]);
 					textLength--;
 					t.Remove(t.Length - 1, 1);
 					//*(--t) = '\0';
@@ -144,12 +144,12 @@ namespace SharpDune.Gui
 					continue;
 				}
 
-				key = (ushort)(Input.Input.Input_Keyboard_HandleKeys(key) & 0xFF);
+				key = (ushort)(Input_Keyboard_HandleKeys(key) & 0xFF);
 
 				/* Names can't start with a space, and should be alpha-numeric */
 				if ((key == 0x20 && textLength == 0) || key < 0x20 || key > 0x7E) continue;
 
-				keyWidth = CFont.Font_GetCharWidth((char)(key & 0xFF));
+				keyWidth = Font_GetCharWidth((char)(key & 0xFF));
 
 				if (textWidth + keyWidth >= maxWidth || textLength >= maxLength) continue;
 
@@ -159,14 +159,14 @@ namespace SharpDune.Gui
 
 				textLength++;
 
-				Gui.GUI_Mouse_Hide_Safe();
+                GUI_Mouse_Hide_Safe();
 
 				GUI_EditBox_BlinkCursor((ushort)(positionX + textWidth), true);
 
-				/* Draw new character */
-				Gui.GUI_DrawText_Wrapper(/*text + textLength - 1*/t[^1].ToString(), (short)(positionX + textWidth), (short)CWidget.g_curWidgetYBase, CWidget.g_curWidgetFGColourBlink, CWidget.g_curWidgetFGColourNormal, 0x020);
+                /* Draw new character */
+                GUI_DrawText_Wrapper(/*text + textLength - 1*/t[^1].ToString(), (short)(positionX + textWidth), (short)g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal, 0x020);
 
-				Gui.GUI_Mouse_Show_Safe();
+                GUI_Mouse_Show_Safe();
 
 				textWidth += keyWidth;
 
@@ -175,12 +175,12 @@ namespace SharpDune.Gui
 
 			/* Deinitialize */
 			{
-				Input.Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
-				Input.Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
+                Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_NO_TRANSLATE);
+                Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000);
 
-				CWidget.Widget_SetCurrentWidget(oldWidgetID);
+                Widget_SetCurrentWidget(oldWidgetID);
 
-				Gfx.GFX_Screen_SetActive(oldScreenID);
+                GFX_Screen_SetActive(oldScreenID);
 			}
 
 			text = t.ToString();

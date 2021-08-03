@@ -53,7 +53,7 @@ namespace SharpDune
 		internal static void Timer_Sleep(ushort ticks)
 		{
 			var tick = g_timerSleep + ticks;
-			while (tick >= g_timerSleep) Sleep.sleepIdle();
+			while (tick >= g_timerSleep) sleepIdle();
 		}
 
 		/*

@@ -78,12 +78,12 @@
 			ushort index;
 			var find = new PoolFindStruct();
 			unchecked { find.houseID = (byte)-1; find.type = (ushort)-1; find.index = (ushort)-1; }
-			var h = PoolHouse.House_Find(find);
+			var h = House_Find(find);
 
 			while (h != null)
 			{
 				h.unitCount = 0;
-				h = PoolHouse.House_Find(find);
+				h = House_Find(find);
 			}
 
 			g_unitFindCount = 0;
@@ -93,7 +93,7 @@
 				var u = Unit_Get_ByIndex(index);
 				if (!u.o.flags.used) continue;
 
-				h = PoolHouse.House_Get_ByIndex(u.o.houseID);
+				h = House_Get_ByIndex(u.o.houseID);
 				h.unitCount++;
 
 				g_unitFindArray[g_unitFindCount++] = u;
@@ -115,7 +115,7 @@
 
 			if (type == 0xFF || houseID == 0xFF) return null;
 
-			h = PoolHouse.House_Get_ByIndex(houseID);
+			h = House_Get_ByIndex(houseID);
 			if (h.unitCount >= h.unitCountMax)
 			{
 				if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
@@ -186,7 +186,7 @@
 			g_unitFindCount--;
 
 			{
-				var h = PoolHouse.House_Get_ByIndex(u.o.houseID);
+				var h = House_Get_ByIndex(u.o.houseID);
 				h.unitCount--;
 			}
 

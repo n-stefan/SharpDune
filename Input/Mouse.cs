@@ -42,8 +42,8 @@ namespace SharpDune.Input
          */
         internal static void Mouse_HandleMovementIfMoved(ushort newButtonState)
         {
-            if (Abs((short)g_mouseX - (short)g_mousePrevX) >= 1 ||
-                Abs((short)g_mouseY - (short)g_mousePrevY) >= 1)
+            if (Math.Abs((short)g_mouseX - (short)g_mousePrevX) >= 1 ||
+                Math.Abs((short)g_mouseY - (short)g_mousePrevY) >= 1)
             {
                 Mouse_HandleMovement(newButtonState, g_mouseX, g_mouseY);
             }
@@ -63,7 +63,7 @@ namespace SharpDune.Input
             g_mouseY = mouseY;
             if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY && g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & (ushort)InputFlagsEnum.INPUT_FLAG_NO_CLICK) == 0)
             {
-                Input.Input_HandleInput(Mouse_CheckButtons(newButtonState));
+                Input_HandleInput(Mouse_CheckButtons(newButtonState));
             }
 
             Mouse_CheckMovement(mouseX, mouseY);
@@ -121,11 +121,11 @@ namespace SharpDune.Input
 
                 if ((g_regionFlags & 0xC000) != 0xC000)
                 {
-                    Gui.Gui.GUI_Mouse_Hide();
+                    GUI_Mouse_Hide();
 
                     if ((g_regionFlags & 0x8000) == 0)
                     {
-                        Gui.Gui.GUI_Mouse_Show();
+                        GUI_Mouse_Show();
                         g_mousePrevX = mouseX;
                         g_mousePrevY = mouseY;
                         g_mouseLock = 0;
@@ -140,7 +140,7 @@ namespace SharpDune.Input
                 }
                 else
                 {
-                    Gui.Gui.GUI_Mouse_Show();
+                    GUI_Mouse_Show();
                 }
             }
 
@@ -154,17 +154,17 @@ namespace SharpDune.Input
          */
         internal static void Mouse_Init()
         {
-            g_mouseX = Gfx.SCREEN_WIDTH / 2;
-            g_mouseY = Gfx.SCREEN_HEIGHT / 2;
+            g_mouseX = SCREEN_WIDTH / 2;
+            g_mouseY = SCREEN_HEIGHT / 2;
             g_mouseHiddenDepth = 1;
             g_regionFlags = 0;
-            g_mouseRegionRight = Gfx.SCREEN_WIDTH - 1;
-            g_mouseRegionBottom = Gfx.SCREEN_HEIGHT - 1;
+            g_mouseRegionRight = SCREEN_WIDTH - 1;
+            g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
             g_mouseDisabled = 1;
             g_mouseFileID = (byte)FileMode.FILE_INVALID;
 
-            VideoSdl2.Video_Mouse_SetPosition(g_mouseX, g_mouseY);
+            Video_Mouse_SetPosition(g_mouseX, g_mouseY);
         }
 
         internal static void Mouse_SetMouseMode(byte mouseMode, string filename)
@@ -177,8 +177,8 @@ namespace SharpDune.Input
                     g_mouseMode = mouseMode;
                     if (g_mouseFileID != (byte)FileMode.FILE_INVALID)
                     {
-                        Input.Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_RELEASE);
-                        CFile.File_Close(g_mouseFileID);
+                        Input_Flags_ClearBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_RELEASE);
+                        File_Close(g_mouseFileID);
                         g_mouseFileID = (byte)FileMode.FILE_INVALID;
                     }
                     g_mouseNoRecordedValue = true;
@@ -187,45 +187,45 @@ namespace SharpDune.Input
                 case InputMouseMode.INPUT_MOUSE_MODE_RECORD:
                     if (g_mouseFileID != (byte)FileMode.FILE_INVALID) break;
 
-                    CFile.File_Delete_Personal(filename);
-                    CFile.File_Create_Personal(filename);
+                    File_Delete_Personal(filename);
+                    File_Create_Personal(filename);
 
-                    Tools.Tools_RandomLCG_Seed(0x1234);
-                    Tools.Tools_Random_Seed(0x12344321);
+                    Tools_RandomLCG_Seed(0x1234);
+                    Tools_Random_Seed(0x12344321);
 
-                    g_mouseFileID = CFile.File_Open_Personal(filename, FileMode.FILE_MODE_READ_WRITE);
+                    g_mouseFileID = File_Open_Personal(filename, FileMode.FILE_MODE_READ_WRITE);
 
                     g_mouseMode = mouseMode;
 
-                    Input.Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_RELEASE);
+                    Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_RELEASE);
 
-                    Input.Input_HandleInput(0x2D);
+                    Input_HandleInput(0x2D);
                     break;
 
                 case InputMouseMode.INPUT_MOUSE_MODE_PLAY:
                     if (g_mouseFileID == (byte)FileMode.FILE_INVALID)
                     {
-                        g_mouseFileID = CFile.File_Open_Personal(filename, FileMode.FILE_MODE_READ);
+                        g_mouseFileID = File_Open_Personal(filename, FileMode.FILE_MODE_READ);
                         if (g_mouseFileID == (byte)FileMode.FILE_INVALID)
                         {
                             Trace.WriteLine($"ERROR: Cannot open '{filename}', replay log is impossible.");
                             return;
                         }
 
-                        Tools.Tools_RandomLCG_Seed(0x1234);
-                        Tools.Tools_Random_Seed(0x12344321);
+                        Tools_RandomLCG_Seed(0x1234);
+                        Tools_Random_Seed(0x12344321);
                     }
 
                     g_mouseNoRecordedValue = true;
 
                     var buffer = new byte[2];
 
-                    CFile.File_Read(g_mouseFileID, ref buffer, 2);
-                    g_mouseInputValue = Endian.READ_LE_UINT16(buffer);
+                    File_Read(g_mouseFileID, ref buffer, 2);
+                    g_mouseInputValue = READ_LE_UINT16(buffer);
                     Array.Clear(buffer, 0, 2);
 
-                    var length = CFile.File_Read(g_mouseFileID, ref buffer, 2);
-                    g_mouseRecordedTimer = Endian.READ_LE_UINT16(buffer);
+                    var length = File_Read(g_mouseFileID, ref buffer, 2);
+                    g_mouseRecordedTimer = READ_LE_UINT16(buffer);
                     Array.Clear(buffer, 0, 2);
 
                     if (length != 2) break;
@@ -233,12 +233,12 @@ namespace SharpDune.Input
                     if ((g_mouseInputValue >= 0x41 && g_mouseInputValue <= 0x44) || g_mouseInputValue == 0x2D)
                     {
                         /* 0x2D == '-' 0x41 == 'A' [...] 0x44 == 'D' */
-                        CFile.File_Read(g_mouseFileID, ref buffer, 2);
-                        g_mouseRecordedX = Endian.READ_LE_UINT16(buffer);
+                        File_Read(g_mouseFileID, ref buffer, 2);
+                        g_mouseRecordedX = READ_LE_UINT16(buffer);
                         Array.Clear(buffer, 0, 2);
 
-                        length = CFile.File_Read(g_mouseFileID, ref buffer, 2);
-                        g_mouseRecordedY = Endian.READ_LE_UINT16(buffer);
+                        length = File_Read(g_mouseFileID, ref buffer, 2);
+                        g_mouseRecordedY = READ_LE_UINT16(buffer);
                         Array.Clear(buffer, 0, 2);
 
                         if (length == 2)
@@ -247,8 +247,8 @@ namespace SharpDune.Input
                             g_mouseY = g_mouseRecordedY;
                             g_prevButtonState = 0;
 
-                            Gui.Gui.GUI_Mouse_Hide_Safe();
-                            Gui.Gui.GUI_Mouse_Show_Safe();
+                            GUI_Mouse_Hide_Safe();
+                            GUI_Mouse_Show_Safe();
 
                             g_mouseNoRecordedValue = false;
                             break;
@@ -260,7 +260,7 @@ namespace SharpDune.Input
                     break;
             }
 
-            Timer.g_timerInput = 0;
+            g_timerInput = 0;
             g_mouseMode = mouseMode;
         }
 
@@ -288,17 +288,17 @@ namespace SharpDune.Input
                 bottom = temp;
             }
 
-            left = CMath.clamp(left, 0, Gfx.SCREEN_WIDTH - 1);
-            right = CMath.clamp(right, 0, Gfx.SCREEN_WIDTH - 1);
-            top = CMath.clamp(top, 0, Gfx.SCREEN_HEIGHT - 1);
-            bottom = CMath.clamp(bottom, 0, Gfx.SCREEN_HEIGHT - 1);
+            left = clamp(left, 0, SCREEN_WIDTH - 1);
+            right = clamp(right, 0, SCREEN_WIDTH - 1);
+            top = clamp(top, 0, SCREEN_HEIGHT - 1);
+            bottom = clamp(bottom, 0, SCREEN_HEIGHT - 1);
 
             g_mouseRegionLeft = left;
             g_mouseRegionRight = right;
             g_mouseRegionTop = top;
             g_mouseRegionBottom = bottom;
 
-            VideoSdl2.Video_Mouse_SetRegion(left, right, top, bottom);
+            Video_Mouse_SetRegion(left, right, top, bottom);
         }
 
         /*
@@ -312,7 +312,7 @@ namespace SharpDune.Input
             {
                 if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & (ushort)InputFlagsEnum.INPUT_FLAG_NO_CLICK) == 0)
                 {
-                    Input.Input_HandleInput(Mouse_CheckButtons(newButtonState));
+                    Input_HandleInput(Mouse_CheckButtons(newButtonState));
                 }
 
                 if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY && g_mouseLock == 0)
@@ -335,7 +335,7 @@ namespace SharpDune.Input
             short mx, my;
             ushort inside;
 
-            while (g_mouseLock != 0) Sleep.sleepIdle();
+            while (g_mouseLock != 0) sleepIdle();
             g_mouseLock++;
 
             mx = (short)g_mouseX;

@@ -3,17 +3,17 @@
     class SaveLoadStructure
     {
 		static readonly SaveLoadDesc[] s_saveStructure = {
-			SLD_SLD(/*structure,*/ nameof(Structure.o), SaveLoadObject.g_saveObject),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.creatorHouseID)),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.rotationSpriteDiff)),
-			SLD_EMPTY(SaveLoadType.SLDT_UINT8),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.objectType)),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT8, nameof(Structure.upgradeLevel)),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT8, nameof(Structure.upgradeTimeLeft)),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.countDown)),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.buildCostRemainder)),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_INT16, nameof(Structure.state)),
-			SLD_ENTRY(/*structure,*/ SaveLoadType.SLDT_UINT16, nameof(Structure.hitpointsMax)),
+			SLD_SLD(/*structure,*/ nameof(Structure.o), g_saveObject),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.creatorHouseID)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.rotationSpriteDiff)),
+			SLD_EMPTY(SLDT_UINT8),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.objectType)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(Structure.upgradeLevel)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(Structure.upgradeTimeLeft)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.countDown)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.buildCostRemainder)),
+			SLD_ENTRY(/*structure,*/ SLDT_INT16, nameof(Structure.state)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.hitpointsMax)),
 			SLD_END()
 		};
 
@@ -33,7 +33,7 @@
 				var index = fp.ReadUInt16();
 
 				/* Get the Structure from the pool */
-				sl = PoolStructure.Structure_Get_ByIndex(index);
+				sl = Structure_Get_ByIndex(index);
 				if (sl == null) return false;
 
 				fp.BaseStream.Seek(-2, SeekOrigin.Current);
@@ -48,7 +48,7 @@
 			}
 			if (length != 0) return false;
 
-			PoolStructure.Structure_Recount();
+            Structure_Recount();
 
 			return true;
 		}
@@ -71,7 +71,7 @@
 			{
 				Structure s;
 
-				s = PoolStructure.Structure_Find(find);
+				s = Structure_Find(find);
 				if (s == null) break;
 
 				if (!SaveLoad_Save(s_saveStructure, fp, s)) return false;

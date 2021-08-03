@@ -8,7 +8,7 @@ namespace SharpDune.Table
 		internal static WidgetInfo[] g_table_gameWidgetInfo = {
 			new() {
 				index = 1,
-				clickProc = Mentat.GUI_Widget_Mentat_Click,
+				clickProc = GUI_Widget_Mentat_Click,
 				shortcut = 112,
 				flags = 1237,
 				spriteID = 7,
@@ -20,7 +20,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 2,
-				clickProc = WidgetClick.GUI_Widget_Options_Click,
+				clickProc = GUI_Widget_Options_Click,
 				shortcut = 113,
 				flags = 1237,
 				spriteID = 9,
@@ -32,7 +32,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 3,
-				clickProc = WidgetClick.GUI_Widget_Name_Click,
+				clickProc = GUI_Widget_Name_Click,
 				shortcut = 0,
 				flags = 17605,
 				spriteID = -1,
@@ -44,7 +44,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 6,
-				clickProc = WidgetClick.GUI_Widget_Picture_Click,
+				clickProc = GUI_Widget_Picture_Click,
 				shortcut = 114,
 				flags = 17605,
 				spriteID = -4,
@@ -56,7 +56,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 4,
-				clickProc = WidgetClick.GUI_Widget_RepairUpgrade_Click,
+				clickProc = GUI_Widget_RepairUpgrade_Click,
 				shortcut = 0,
 				flags = 17605,
 				spriteID = -2,
@@ -68,7 +68,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 5,
-				clickProc = WidgetClick.GUI_Widget_SpriteTextButton_Click,
+				clickProc = GUI_Widget_SpriteTextButton_Click,
 				shortcut = 0,
 				flags = 17605,
 				spriteID = -3,
@@ -80,7 +80,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 7,
-				clickProc = WidgetClick.GUI_Widget_Cancel_Click,
+				clickProc = GUI_Widget_Cancel_Click,
 				shortcut = 110,
 				flags = 17605,
 				spriteID = -2,
@@ -92,7 +92,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 8,
-				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
+				clickProc = GUI_Widget_TextButton_Click,
 				shortcut = 0,
 				flags = 17605,
 				spriteID = -2,
@@ -104,7 +104,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 9,
-				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
+				clickProc = GUI_Widget_TextButton_Click,
 				shortcut = 0,
 				flags = 17605,
 				spriteID = -2,
@@ -116,7 +116,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 10,
-				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
+				clickProc = GUI_Widget_TextButton_Click,
 				shortcut = 0,
 				flags = 17605,
 				spriteID = -2,
@@ -128,7 +128,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 11,
-				clickProc = WidgetClick.GUI_Widget_TextButton_Click,
+				clickProc = GUI_Widget_TextButton_Click,
 				shortcut = 0,
 				flags = 17605,
 				spriteID = -2,
@@ -140,7 +140,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 39,
-				clickProc = Viewport.GUI_Widget_Viewport_Click,
+				clickProc = GUI_Widget_Viewport_Click,
 				shortcut = 0,
 				flags = 20224,
 				spriteID = -1,
@@ -152,7 +152,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 40,
-				clickProc = Viewport.GUI_Widget_Viewport_Click,
+				clickProc = GUI_Widget_Viewport_Click,
 				shortcut = 0,
 				flags = 20224,
 				spriteID = -1,
@@ -164,7 +164,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 41,
-				clickProc = Viewport.GUI_Widget_Viewport_Click,
+				clickProc = GUI_Widget_Viewport_Click,
 				shortcut = 0,
 				flags = 20224,
 				spriteID = -1,
@@ -176,7 +176,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 42,
-				clickProc = Viewport.GUI_Widget_Viewport_Click,
+				clickProc = GUI_Widget_Viewport_Click,
 				shortcut = 0,
 				flags = 20224,
 				spriteID = -1,
@@ -188,7 +188,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 43,
-				clickProc = Viewport.GUI_Widget_Viewport_Click,
+				clickProc = GUI_Widget_Viewport_Click,
 				shortcut = 0,
 				flags = 20224,
 				spriteID = -1,
@@ -200,7 +200,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 44,
-				clickProc = Viewport.GUI_Widget_Viewport_Click,
+				clickProc = GUI_Widget_Viewport_Click,
 				shortcut = 0,
 				flags = 20288,
 				spriteID = -1,
@@ -212,7 +212,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = 45,
-				clickProc = Viewport.GUI_Widget_Viewport_Click,
+				clickProc = GUI_Widget_Viewport_Click,
 				shortcut = 0,
 				flags = 20224,
 				spriteID = -1,
@@ -239,7 +239,7 @@ namespace SharpDune.Table
 		internal static WidgetInfo[] g_table_factoryWidgetInfo = {
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_List_Click,
+				clickProc = GUI_Production_List_Click,
 				shortcut = -2,
 				flags = 4544,
 				spriteID = -1,
@@ -251,7 +251,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_List_Click,
+				clickProc = GUI_Production_List_Click,
 				shortcut = -3,
 				flags = 4544,
 				spriteID = -1,
@@ -263,7 +263,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_List_Click,
+				clickProc = GUI_Production_List_Click,
 				shortcut = -4,
 				flags = 4544,
 				spriteID = -1,
@@ -275,7 +275,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_List_Click,
+				clickProc = GUI_Production_List_Click,
 				shortcut = -5,
 				flags = 4544,
 				spriteID = -1,
@@ -287,7 +287,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_Up_Click,
+				clickProc = GUI_Production_Up_Click,
 				shortcut = -1120,
 				flags = 4548,
 				spriteID = 355,
@@ -299,7 +299,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_Down_Click,
+				clickProc = GUI_Production_Down_Click,
 				shortcut = -1122,
 				flags = 4548,
 				spriteID = 357,
@@ -311,7 +311,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_ResumeGame_Click,
+				clickProc = GUI_Production_ResumeGame_Click,
 				shortcut = 188,
 				flags = 17607,
 				spriteID = 365,
@@ -323,7 +323,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_Upgrade_Click,
+				clickProc = GUI_Production_Upgrade_Click,
 				shortcut = 189,
 				flags = 17607,
 				spriteID = 359,
@@ -335,7 +335,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Purchase_Plus_Click,
+				clickProc = GUI_Purchase_Plus_Click,
 				shortcut = -13,
 				flags = 17607,
 				spriteID = 367,
@@ -347,7 +347,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Purchase_Minus_Click,
+				clickProc = GUI_Purchase_Minus_Click,
 				shortcut = -12,
 				flags = 17607,
 				spriteID = 369,
@@ -359,7 +359,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Purchase_Invoice_Click,
+				clickProc = GUI_Purchase_Invoice_Click,
 				shortcut = 192,
 				flags = 17607,
 				spriteID = 371,
@@ -371,7 +371,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_BuildThis_Click,
+				clickProc = GUI_Production_BuildThis_Click,
 				shortcut = 191,
 				flags = 17607,
 				spriteID = 363,
@@ -383,7 +383,7 @@ namespace SharpDune.Table
 			},
 			new() {
 				index = -1,
-				clickProc = WidgetClick.GUI_Production_BuildThis_Click,
+				clickProc = GUI_Production_BuildThis_Click,
 				shortcut = 190,
 				flags = 17607,
 				spriteID = 361,
