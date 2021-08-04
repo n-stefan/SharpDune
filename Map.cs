@@ -28,7 +28,7 @@ namespace SharpDune
 	 * A Tile as stored in the memory in the map.
 	 */
     [StructLayout(LayoutKind.Explicit)]
-    class Tile
+    class CTile
     {
         /* 0000 01FF PACK */
         [FieldOffset(0)] internal ushort groundTileID;  /*!< The "Icon" which is drawn on this Tile. */
@@ -79,7 +79,7 @@ namespace SharpDune
     {
         internal static ushort[] g_mapTileID = new ushort[64 * 64];
 
-        internal static Tile[] g_map = new Tile[64 * 64];                                        /*!< All map data. */
+        internal static CTile[] g_map = new CTile[64 * 64];                                        /*!< All map data. */
         
         internal static byte[][] g_functions = { //[3][3]
             new byte[] {0, 1, 0}, new byte[] {2, 3, 0}, new byte[] {0, 1, 0}
@@ -154,7 +154,7 @@ namespace SharpDune
 		 */
         internal static ushort Map_GetLandscapeType(ushort packed)
         {
-            Tile t;
+            CTile t;
             short spriteOffset;
 
             t = g_map[packed];
@@ -193,7 +193,7 @@ namespace SharpDune
 
             if ((packed != 0xFFFF && g_map[packed].overlayTileID != g_veiledTileID) || g_debugScenario)
             {
-                Structure s;
+                CStructure s;
 
                 s = Structure_Get_ByPackedTile(packed);
                 if (s != null)
@@ -219,7 +219,7 @@ namespace SharpDune
 
                 if (g_selectionType != (ushort)SelectionType.TARGET)
                 {
-                    Unit u;
+                    CUnit u;
 
                     u = Unit_Get_ByPackedTile(packed);
                     if (u != null)
@@ -407,7 +407,7 @@ namespace SharpDune
 		 */
         internal static bool Map_IsPositionUnveiled(ushort position)
         {
-            Tile t;
+            CTile t;
 
             if (g_debugScenario) return true;
 
@@ -455,7 +455,7 @@ namespace SharpDune
          * @param unit The unit to update for (can be NULL if function < 2).
          * @param function The function to call.
          */
-        internal static void Map_UpdateAround(ushort radius, tile32 position, Unit unit, byte function)
+        internal static void Map_UpdateAround(ushort radius, tile32 position, CUnit unit, byte function)
         {
             short i, j;
             var diff = new tile32();
@@ -557,9 +557,9 @@ namespace SharpDune
          */
         internal static bool Map_UnveilTile(ushort packed, byte houseID)
         {
-            Structure s;
-            Unit u;
-            Tile t;
+            CStructure s;
+            CUnit u;
+            CTile t;
 
             if (houseID != (byte)g_playerHouseID) return false;
             if (Tile_IsOutOfMap(packed)) return false;
@@ -598,7 +598,7 @@ namespace SharpDune
         static void Map_UnveilTile_Neighbour(ushort packed)
         {
             ushort tileID;
-            Tile t;
+            CTile t;
 
             if (Tile_IsOutOfMap(packed)) return;
 
@@ -868,10 +868,10 @@ namespace SharpDune
                 {
                     UnitInfo ui;
                     ushort distance;
-                    Team t;
-                    Unit u;
-                    Unit us;
-                    Unit attack;
+                    CTeam t;
+                    CUnit u;
+                    CUnit us;
+                    CUnit attack;
 
                     u = Unit_Find(find);
                     if (u == null) break;
@@ -897,7 +897,7 @@ namespace SharpDune
                     if (t != null)
                     {
                         UnitInfo targetInfo;
-                        Unit target;
+                        CUnit target;
 
                         if (t.action == (ushort)TeamActionType.TEAM_ACTION_STAGING)
                         {
@@ -1023,7 +1023,7 @@ namespace SharpDune
 
         static bool Map_UpdateWall(ushort packed)
         {
-            Tile t;
+            CTile t;
 
             if (Map_GetLandscapeType(packed) != (ushort)LandscapeType.LST_WALL) return false;
 
@@ -1098,11 +1098,11 @@ namespace SharpDune
         internal static void Map_SelectNext(bool getNext)
         {
             var find = new PoolFindStruct();
-            Object selected = null;
-            Object previous = null;
-            Object next = null;
-            Object first = null;
-            Object last = null;
+            CObject selected = null;
+            CObject previous = null;
+            CObject next = null;
+            CObject first = null;
+            CObject last = null;
             var hasPrevious = false;
             var hasNext = false;
 
@@ -1112,7 +1112,7 @@ namespace SharpDune
             }
             else
             {
-                Structure s;
+                CStructure s;
 
                 s = Structure_Get_ByPackedTile(g_selectionPosition);
 
@@ -1125,7 +1125,7 @@ namespace SharpDune
 
             while (true)
             {
-                Unit u;
+                CUnit u;
 
                 u = Unit_Find(find);
                 if (u == null) break;
@@ -1165,7 +1165,7 @@ namespace SharpDune
 
             while (true)
             {
-                Structure s;
+                CStructure s;
 
                 s = Structure_Find(find);
                 if (s == null) break;
@@ -1238,7 +1238,7 @@ namespace SharpDune
                 /* Find the house of an enemy */
                 while (true)
                 {
-                    Structure s;
+                    CStructure s;
 
                     s = Structure_Find(find);
                     if (s == null) break;
@@ -1285,7 +1285,7 @@ namespace SharpDune
                     case 7:
                         { /* Home Base */
                             var find = new PoolFindStruct();
-                            Structure s;
+                            CStructure s;
 
                             find.houseID = houseID;
                             find.index = 0xFFFF;
@@ -1299,7 +1299,7 @@ namespace SharpDune
                             }
                             else
                             {
-                                Unit u;
+                                CUnit u;
 
                                 find.houseID = houseID;
                                 find.index = 0xFFFF;
@@ -1418,7 +1418,7 @@ namespace SharpDune
          */
         internal static void Map_Bloom_ExplodeSpecial(ushort packed, byte houseID)
         {
-            House h;
+            CHouse h;
             var find = new PoolFindStruct();
             byte enemyHouseID;
 
@@ -1438,7 +1438,7 @@ namespace SharpDune
             /* Find a house that belongs to the enemy */
             while (true)
             {
-                Unit u;
+                CUnit u;
 
                 u = Unit_Find(find);
                 if (u == null) break;
@@ -1469,7 +1469,7 @@ namespace SharpDune
                 case 2:
                     {
                         var position = Tile_UnpackTile(packed);
-                        Unit u;
+                        CUnit u;
 
                         position = Tile_MoveByRandom(position, 16, true);
 
@@ -1483,7 +1483,7 @@ namespace SharpDune
                 case 3:
                     {
                         var position = Tile_UnpackTile(packed);
-                        Unit u;
+                        CUnit u;
 
                         position = Tile_MoveByRandom(position, 16, true);
 
@@ -1802,7 +1802,7 @@ namespace SharpDune
          */
         static void Map_AddSpiceOnTile(ushort packed)
         {
-            Tile t;
+            CTile t;
 
             t = g_map[packed];
 
@@ -1822,7 +1822,7 @@ namespace SharpDune
                         {
                             for (i = -1; i <= 1; i++)
                             {
-                                Tile t2;
+                                CTile t2;
                                 var packed2 = Tile_PackXY((ushort)(Tile_GetPackedX(packed) + i), (ushort)(Tile_GetPackedY(packed) + j));
 
                                 if (Tile_IsOutOfMap(packed2)) continue;

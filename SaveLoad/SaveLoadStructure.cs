@@ -3,17 +3,17 @@
     class SaveLoadStructure
     {
 		static readonly SaveLoadDesc[] s_saveStructure = {
-			SLD_SLD(/*structure,*/ nameof(Structure.o), g_saveObject),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.creatorHouseID)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.rotationSpriteDiff)),
+			SLD_SLD(/*structure,*/ nameof(CStructure.o), g_saveObject),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.creatorHouseID)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.rotationSpriteDiff)),
 			SLD_EMPTY(SLDT_UINT8),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.objectType)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(Structure.upgradeLevel)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(Structure.upgradeTimeLeft)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.countDown)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.buildCostRemainder)),
-			SLD_ENTRY(/*structure,*/ SLDT_INT16, nameof(Structure.state)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(Structure.hitpointsMax)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.objectType)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(CStructure.upgradeLevel)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(CStructure.upgradeTimeLeft)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.countDown)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.buildCostRemainder)),
+			SLD_ENTRY(/*structure,*/ SLDT_INT16, nameof(CStructure.state)),
+			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.hitpointsMax)),
 			SLD_END()
 		};
 
@@ -27,7 +27,7 @@
 		{
 			while (length > 0)
 			{
-				Structure sl;
+				CStructure sl;
 
 				/* Read the next index from disk */
 				var index = fp.ReadUInt16();
@@ -69,7 +69,7 @@
 
 			while (true)
 			{
-				Structure s;
+				CStructure s;
 
 				s = Structure_Find(find);
 				if (s == null) break;

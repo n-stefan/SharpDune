@@ -17,7 +17,7 @@ namespace SharpDune
 	/*
     * Information about the current loaded scenario.
     */
-	class Scenario
+	class CScenario
 	{
 		internal ushort score;                                          /*!< Base score. */
 		internal ushort winFlags;                                       /*!< BASIC/WinFlags. */
@@ -36,15 +36,15 @@ namespace SharpDune
 		internal ushort harvestedEnemy;                                 /*!< Total amount of spice harvested by "Enemy". */
 		internal Reinforcement[] reinforcement = new Reinforcement[16]; /*!< Reinforcement information. */
 
-		internal Scenario()
+		internal CScenario()
 		{
 			for (var i = 0; i < reinforcement.Length; i++) reinforcement[i] = new Reinforcement();
 		}
 	}
 
-	class CScenario
+	class Scenario
 	{
-		internal static Scenario g_scenario = new();
+		internal static CScenario g_scenario = new();
 
 		static /* void* */string s_scenarioBuffer = string.Empty;
 
@@ -86,7 +86,7 @@ namespace SharpDune
 			string houseType; //char*
 			string buf; //char[128]
 						//char[] b; //char*
-			House h;
+			CHouse h;
 
 			/* Get the type of the House (CPU / Human) */
 			buf = Ini_GetString(houseName, "Brain", "NONE", s_scenarioBuffer);
@@ -123,7 +123,7 @@ namespace SharpDune
 
 		static void Scenario_Load_Houses()
 		{
-			House h;
+			CHouse h;
 			byte houseID;
 
 			for (houseID = 0; houseID < (byte)HouseType.HOUSE_MAX; houseID++)
@@ -138,7 +138,7 @@ namespace SharpDune
 			{
 				var find = new PoolFindStruct();
 				byte max;
-				House h2;
+				CHouse h2;
 
 				find.houseID = (byte)HouseType.HOUSE_INVALID;
 				find.index = 0xFFFF;
@@ -162,7 +162,7 @@ namespace SharpDune
 			ushort timeBetween;
 			tile32 position;
 			bool repeat;
-			Unit u;
+			CUnit u;
 			string[] split;
 
 			key = key.Replace(";", "", Comparison);
@@ -271,7 +271,7 @@ namespace SharpDune
 			return true;
 		}
 
-		static void Scenario_Load_MapParts(string key, Action<ushort, Tile> ptr)
+		static void Scenario_Load_MapParts(string key, Action<ushort, CTile> ptr)
 		{
 			string[] s; //char*
 			string buf; //char[128]
@@ -283,7 +283,7 @@ namespace SharpDune
 			for (var i = 0; i < s.Length; i++) //while (s != NULL) {
 			{
 				ushort packed;
-				Tile t;
+				CTile t;
 
 				packed = ushort.Parse(s[i], Culture); //atoi(s);
 				t = g_map[packed];
@@ -311,7 +311,7 @@ namespace SharpDune
 
 		static void Scenario_Load_Map(string key, string settings)
 		{
-			Tile t;
+			CTile t;
 			ushort packed;
 			ushort value;
 			string[] s;
@@ -341,13 +341,13 @@ namespace SharpDune
 			if (!t.isUnveiled) t.overlayTileID = g_veiledTileID;
 		}
 
-		static void Scenario_Load_Map_Bloom(ushort packed, Tile t)
+		static void Scenario_Load_Map_Bloom(ushort packed, CTile t)
 		{
 			t.groundTileID = g_bloomTileID;
             g_mapTileID[packed] |= 0x8000;
 		}
 
-        static void Scenario_Load_Map_Field(ushort packed, Tile t)
+        static void Scenario_Load_Map_Field(ushort packed, CTile t)
 		{
             Map_Bloom_ExplodeSpice(packed, (byte)HouseType.HOUSE_INVALID);
 
@@ -358,7 +358,7 @@ namespace SharpDune
 			}
 		}
 
-		static void Scenario_Load_Map_Special(ushort packed, Tile t)
+		static void Scenario_Load_Map_Special(ushort packed, CTile t)
 		{
 			t.groundTileID = (ushort)(g_bloomTileID + 1);
             g_mapTileID[packed] |= 0x8000;
@@ -400,7 +400,7 @@ namespace SharpDune
 			sbyte orientation;
 			ushort hitpoints;
 			tile32 position;
-			Unit u;
+			CUnit u;
 			string[] split;
 
 			/* The value should have 6 values separated by a ',' */
@@ -561,7 +561,7 @@ namespace SharpDune
 			if (Structure_Get_ByPackedTile(position) != null) return;
 
 			{
-				Structure s;
+				CStructure s;
 
 				s = Structure_Create(index, structureType, houseType, position);
 				if (s == null) return;

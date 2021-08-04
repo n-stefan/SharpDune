@@ -58,7 +58,7 @@ namespace SharpDune.Gui
 			if ((g_map[packed].isUnveiled && g_playerHouse.flags.radarActivated) || g_debugScenario)
 			{
 				var type = Map_GetLandscapeType(packed);
-				Unit u;
+				CUnit u;
 
 				if (mapScale > 1)
 				{
@@ -111,7 +111,7 @@ namespace SharpDune.Gui
 			}
 			else
 			{
-				Structure s;
+				CStructure s;
 
 				s = Structure_Get_ByPackedTile(packed);
 
@@ -229,7 +229,7 @@ namespace SharpDune.Gui
 					var top = (ushort)((y << 4) + 0x28); /* 40 */
 					for (x = 0; x < (drawToMainScreen ? 15 : 16); x++)
 					{
-						Tile t;
+						CTile t;
 						ushort left;
 
 						curPos = (ushort)(g_viewportPosition + Tile_PackXY(x, y));
@@ -280,7 +280,7 @@ namespace SharpDune.Gui
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 				byte[] sprite;
 
 				u = Unit_Find(find);
@@ -343,7 +343,7 @@ namespace SharpDune.Gui
 
 				while (true)
 				{
-					Unit u;
+					CUnit u;
 					UnitInfo ui;
 					ushort packed;
 					byte orientation;
@@ -537,7 +537,7 @@ namespace SharpDune.Gui
 
 				while (true)
 				{
-					Unit u;
+					CUnit u;
 					UnitInfo ui;
 					byte orientation;
 					byte[] sprite;
@@ -812,7 +812,7 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget.
 		 */
-		internal static bool GUI_Widget_Viewport_Click(Widget w)
+		internal static bool GUI_Widget_Viewport_Click(CWidget w)
 		{
 			ushort direction;
 			ushort x, y;
@@ -923,7 +923,7 @@ namespace SharpDune.Gui
 
 			if (click && g_selectionType == (ushort)SelectionType.TARGET)
 			{
-				Unit u;
+				CUnit u;
 				ActionType action;
 				ushort encoded;
 
@@ -965,7 +965,7 @@ namespace SharpDune.Gui
 				}
 				else
 				{
-					Unit target;
+					CUnit target;
 
                     Unit_SetTarget(u, encoded);
 					target = Tools_Index_GetUnit(u.targetAttack);
@@ -995,8 +995,8 @@ namespace SharpDune.Gui
 			if (click && g_selectionType == (ushort)SelectionType.PLACE)
 			{
 				StructureInfo si;
-				Structure s;
-				House h;
+				CStructure s;
+				CHouse h;
 
 				s = g_structureActive;
 				si = g_table_structureInfo[g_structureActiveType];
@@ -1010,7 +1010,7 @@ namespace SharpDune.Gui
 
 					if (g_structureActiveType == (ushort)StructureType.STRUCTURE_REFINERY && g_validateStrictIfZero == 0)
 					{
-						Unit u;
+						CUnit u;
 
                         g_validateStrictIfZero++;
 						u = Unit_CreateWrapper((byte)g_playerHouseID, UnitType.UNIT_HARVESTER, Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));

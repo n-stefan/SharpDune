@@ -47,9 +47,9 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Team_AddClosestUnit(ScriptEngine script)
 		{
-			Team t;
-			Unit closest = null;
-			Unit closest2 = null;
+			CTeam t;
+			CUnit closest = null;
+			CUnit closest2 = null;
 			ushort minDistance = 0;
 			ushort minDistance2 = 0;
 			var find = new PoolFindStruct();
@@ -64,8 +64,8 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Unit u;
-				Team t2;
+				CUnit u;
+				CTeam t2;
 				ushort distance;
 
 				u = Unit_Find(find);
@@ -113,7 +113,7 @@ namespace SharpDune.Script
 			ushort averageY = 0;
 			ushort count = 0;
 			ushort distance = 0;
-			Team t;
+			CTeam t;
 			var find = new PoolFindStruct();
 
 			t = g_scriptCurrentTeam;
@@ -124,7 +124,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 				if (u == null) break;
@@ -146,7 +146,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 				if (u == null) break;
@@ -173,7 +173,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Team_Unknown0543(ScriptEngine script)
 		{
-			Team t;
+			CTeam t;
 			ushort count = 0;
 			ushort distance;
 			var find = new PoolFindStruct();
@@ -187,7 +187,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 				tile32 tile;
 				ushort distanceUnitDest;
 				ushort distanceUnitTeam;
@@ -238,7 +238,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Team_FindBestTarget(ScriptEngine script)
 		{
-			Team t;
+			CTeam t;
 			var find = new PoolFindStruct();
 
 			t = g_scriptCurrentTeam;
@@ -249,7 +249,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 				ushort target;
 
 				u = Unit_Find(find);
@@ -277,7 +277,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Team_Load(ScriptEngine script)
 		{
-			Team t;
+			CTeam t;
 			ushort type;
 
 			t = g_scriptCurrentTeam;
@@ -303,7 +303,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Team_Load2(ScriptEngine script)
 		{
-			Team t;
+			CTeam t;
 			ushort type;
 
 			t = g_scriptCurrentTeam;
@@ -329,7 +329,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Team_Unknown0788(ScriptEngine script)
 		{
-			Team t;
+			CTeam t;
 			tile32 tile;
 			var find = new PoolFindStruct();
 
@@ -344,7 +344,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 				ushort distance;
 				ushort packed;
 				short orientation;
@@ -398,7 +398,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Team_DisplayText(ScriptEngine script)
 		{
-			Team t;
+			CTeam t;
 			string text; //char *
 			ushort offset;
 

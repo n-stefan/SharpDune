@@ -61,7 +61,7 @@ namespace SharpDune
 	/*
 	 * The layout of a Explosion.
 	 */
-	class Explosion
+	class CExplosion
 	{
 		internal uint timeOut;                                /*!< Time out for the next command. */
 		internal byte houseID;                                /*!< A houseID. */
@@ -71,15 +71,15 @@ namespace SharpDune
 		internal ExplosionCommandStruct[] commands;           /*!< Commands being executed. */
 		internal tile32 position;                             /*!< Position where this explosion acts. */
 
-        internal Explosion() =>
+        internal CExplosion() =>
 			position = new tile32();
     }
 
-	class CExplosion
+	class Explosion
 	{
 		internal const byte EXPLOSION_MAX = 32;                         /*!< The maximum amount of active explosions we can have. */
 
-		static readonly Explosion[] g_explosions = new Explosion[EXPLOSION_MAX]; /*!< Explosions. */
+		static readonly CExplosion[] g_explosions = new CExplosion[EXPLOSION_MAX]; /*!< Explosions. */
 
 		static uint s_explosionTimer;                               /*!< Timeout value for next explosion activity. */
 
@@ -95,7 +95,7 @@ namespace SharpDune
 
 			for (i = 0; i < EXPLOSION_MAX; i++)
 			{
-				Explosion e;
+				CExplosion e;
 
 				e = g_explosions[i];
 
@@ -136,7 +136,7 @@ namespace SharpDune
 		 * @param type Are we introducing (0) or updating (2) the tile.
 		 * @param e The Explosion in question.
 		 */
-		static void Explosion_Update(ushort type, Explosion e)
+		static void Explosion_Update(ushort type, CExplosion e)
 		{
 			if (e == null) return;
 
@@ -152,7 +152,7 @@ namespace SharpDune
 		 * @param e The Explosion to end.
 		 * @param parameter Unused parameter.
 		 */
-		static void Explosion_Func_Stop(Explosion e)
+		static void Explosion_Func_Stop(CExplosion e)
 		{
             g_map[Tile_PackTile(e.position)].hasExplosion = false;
 
@@ -166,7 +166,7 @@ namespace SharpDune
 		 * @param e The Explosion to change.
 		 * @param spriteID The new SpriteID for the Explosion.
 		 */
-		static void Explosion_Func_SetSpriteID(Explosion e, ushort spriteID)
+		static void Explosion_Func_SetSpriteID(CExplosion e, ushort spriteID)
 		{
 			e.spriteID = spriteID;
 
@@ -178,7 +178,7 @@ namespace SharpDune
 		 * @param e The Explosion to change.
 		 * @param value The new timeout value.
 		 */
-		static void Explosion_Func_SetTimeout(Explosion e, ushort value) =>
+		static void Explosion_Func_SetTimeout(CExplosion e, ushort value) =>
 			e.timeOut = g_timerGUI + value;
 
 		/*
@@ -186,7 +186,7 @@ namespace SharpDune
 		 * @param e The Explosion to change.
 		 * @param value The maximum amount of timeout.
 		 */
-		static void Explosion_Func_SetRandomTimeout(Explosion e, ushort value) =>
+		static void Explosion_Func_SetRandomTimeout(CExplosion e, ushort value) =>
 			e.timeOut = g_timerGUI + Tools_RandomLCG_Range(0, value);
 
 		/*
@@ -194,7 +194,7 @@ namespace SharpDune
 		 * @param e The Explosion to change.
 		 * @param row Row number.
 		 */
-		static void Explosion_Func_MoveYPosition(Explosion e, ushort row) =>
+		static void Explosion_Func_MoveYPosition(CExplosion e, ushort row) =>
 			e.position.y += row;
 
 		static readonly short[] craterIconMapIndex = { -1, 2, 1 };
@@ -203,11 +203,11 @@ namespace SharpDune
 		 * @param e The Explosion to handle damage on.
 		 * @param parameter Unused parameter.
 		 */
-		static void Explosion_Func_TileDamage(Explosion e)
+		static void Explosion_Func_TileDamage(CExplosion e)
 		{
 			ushort packed;
 			ushort type;
-			Tile t;
+			CTile t;
 			short iconMapIndex;
 			ushort overlayTileID;
 			ushort[] iconMap;
@@ -269,7 +269,7 @@ namespace SharpDune
 		 * @param e The Explosion to play the voice on.
 		 * @param voiceID The voice to play.
 		 */
-		static void Explosion_Func_PlayVoice(Explosion e, ushort voiceID) =>
+		static void Explosion_Func_PlayVoice(CExplosion e, ushort voiceID) =>
             Voice_PlayAtTile((short)voiceID, e.position);
 
 		/*
@@ -277,7 +277,7 @@ namespace SharpDune
 		 * @param e The Explosion.
 		 * @param parameter Unused parameter.
 		 */
-		static void Explosion_Func_ScreenShake(Explosion e, ushort parameter)
+		static void Explosion_Func_ScreenShake(CExplosion e, ushort parameter)
 		{
 			int i;
 
@@ -297,7 +297,7 @@ namespace SharpDune
 		 * @param e The Explosion to change.
 		 * @param animationMapID The animation map to use.
 		 */
-		static void Explosion_Func_SetAnimation(Explosion e, ushort animationMapID)
+		static void Explosion_Func_SetAnimation(CExplosion e, ushort animationMapID)
 		{
 			ushort packed;
 
@@ -317,7 +317,7 @@ namespace SharpDune
 		 * @param e The Explosion to perform the explosion on.
 		 * @param parameter Unused parameter.
 		 */
-		static void Explosion_Func_BloomExplosion(Explosion e)
+		static void Explosion_Func_BloomExplosion(CExplosion e)
 		{
 			ushort packed;
 
@@ -348,7 +348,7 @@ namespace SharpDune
 
 			for (i = 0; i < EXPLOSION_MAX; i++)
 			{
-				Explosion e;
+				CExplosion e;
 
 				e = g_explosions[i];
 
@@ -373,7 +373,7 @@ namespace SharpDune
 		 */
 		static void Explosion_StopAtPosition(ushort packed)
 		{
-			Tile t;
+			CTile t;
 			byte i;
 
 			t = g_map[packed];
@@ -382,7 +382,7 @@ namespace SharpDune
 
 			for (i = 0; i < EXPLOSION_MAX; i++)
 			{
-				Explosion e;
+				CExplosion e;
 
 				e = g_explosions[i];
 
@@ -392,7 +392,7 @@ namespace SharpDune
 			}
 		}
 
-		internal static Explosion Explosion_Get_ByIndex(int i)
+		internal static CExplosion Explosion_Get_ByIndex(int i)
 		{
 			Debug.Assert(0 <= i && i < EXPLOSION_MAX);
 
@@ -401,7 +401,7 @@ namespace SharpDune
 
 		internal static void Explosion_Init()
 		{
-			for (var i = 0; i < g_explosions.Length; i++) g_explosions[i] = new Explosion(); //memset(g_explosions, 0, EXPLOSION_MAX * sizeof(Explosion));
+			for (var i = 0; i < g_explosions.Length; i++) g_explosions[i] = new CExplosion(); //memset(g_explosions, 0, EXPLOSION_MAX * sizeof(Explosion));
 		}
 	}
 }

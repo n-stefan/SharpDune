@@ -46,7 +46,7 @@ namespace SharpDune.Gui
 
 				if ((key & 0x8000) != 0)
 				{
-					Widget w2;
+					CWidget w2;
 
 					key &= 0x7FFF;
 					w2 = GUI_Widget_Get_ByIndex(w, key);
@@ -114,13 +114,13 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return True, always.
 		 */
-		internal static bool GUI_Widget_TextButton_Click(Widget w)
+		internal static bool GUI_Widget_TextButton_Click(CWidget w)
 		{
 			UnitInfo ui;
 			ActionInfo ai;
 			ushort[] actions;
 			ActionType action;
-			Unit u;
+			CUnit u;
 			//ushort found;
 			ActionType unitAction;
 
@@ -197,7 +197,7 @@ namespace SharpDune.Gui
 		static ushort previousIndex;
         static void UpdateArrows(bool save, bool force)
 		{
-			Widget w;
+			CWidget w;
 
 			if (!force && s_savegameIndexBase == previousIndex) return;
 
@@ -259,14 +259,14 @@ namespace SharpDune.Gui
 
 				fileId = ChunkFile_Open_Personal(filename);
 				if (fileId == (byte)FileMode.FILE_INVALID) continue;
-                ChunkFile_Read(fileId, HTOBE32((uint)CSharpDune.MultiChar[FourCC.NAME]), ref /*desc*/g_savegameDesc[i], 50);
+                ChunkFile_Read(fileId, HTOBE32((uint)SharpDune.MultiChar[FourCC.NAME]), ref /*desc*/g_savegameDesc[i], 50);
 				g_savegameDesc[i] = g_savegameDesc[i][..^1];
                 ChunkFile_Close(fileId);
 				continue;
 			}
 		}
 
-		static void GUI_Widget_Undraw(Widget w, byte colour)
+		static void GUI_Widget_Undraw(CWidget w, byte colour)
 		{
 			ushort offsetX;
 			ushort offsetY;
@@ -317,7 +317,7 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return True, always.
 		 */
-		internal static bool GUI_Widget_HOF_ClearList_Click(Widget w)
+		internal static bool GUI_Widget_HOF_ClearList_Click(CWidget w)
 		{
 			/* "Are you sure you want to clear the high scores?" */
 			if (GUI_YesNo((ushort)Text.STR_ARE_YOU_SURE_YOU_WANT_TO_CLEAR_THE_HIGH_SCORES))
@@ -343,7 +343,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Widget_HOF_Resume_Click(Widget w)
+		internal static bool GUI_Widget_HOF_Resume_Click(CWidget w)
 		{
             g_doQuitHOF = true;
 
@@ -355,7 +355,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Widget_Cancel_Click(Widget w)
+		internal static bool GUI_Widget_Cancel_Click(CWidget w)
 		{
 			if (g_structureActiveType != 0xFFFF)
 			{
@@ -400,9 +400,9 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_SpriteTextButton_Click(Widget w)
+		internal static bool GUI_Widget_SpriteTextButton_Click(CWidget w)
 		{
-			Structure s;
+			CStructure s;
 
 			s = Structure_Get_ByPackedTile(g_selectionPosition);
 
@@ -413,7 +413,7 @@ namespace SharpDune.Gui
 				case Text.STR_PLACE_IT:
 					if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
 					{
-						Structure ns;
+						CStructure ns;
 
 						ns = Structure_Get_ByIndex(s.o.linkedID);
                         g_structureActive = ns;
@@ -454,9 +454,9 @@ namespace SharpDune.Gui
 		 *
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_Name_Click(Widget w)
+		internal static bool GUI_Widget_Name_Click(CWidget w)
 		{
-			Object o;
+			CObject o;
 			ushort packed;
 
 			o = Object_GetByPackedTile(g_selectionPosition);
@@ -476,9 +476,9 @@ namespace SharpDune.Gui
 		 *
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_Picture_Click(Widget w)
+		internal static bool GUI_Widget_Picture_Click(CWidget w)
 		{
-			Structure s;
+			CStructure s;
 
 			if (g_unitSelected != null)
 			{
@@ -502,9 +502,9 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_RepairUpgrade_Click(Widget w)
+		internal static bool GUI_Widget_RepairUpgrade_Click(CWidget w)
 		{
-			Structure s;
+			CStructure s;
 
 			s = Structure_Get_ByPackedTile(g_selectionPosition);
 
@@ -763,7 +763,7 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget w)
+		internal static bool GUI_Widget_Scrollbar_ArrowUp_Click(CWidget w)
 		{
 			ushort temp;
 			unchecked { temp = (ushort)-1; }
@@ -777,7 +777,7 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget w)
+		internal static bool GUI_Widget_Scrollbar_ArrowDown_Click(CWidget w)
 		{
 			GUI_Widget_Scrollbar_Scroll((WidgetScrollbar)w.data, 1);
 
@@ -812,7 +812,7 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_Scrollbar_Click(Widget w)
+		internal static bool GUI_Widget_Scrollbar_Click(CWidget w)
 		{
 			WidgetScrollbar scrollbar;
 			ushort positionX, positionY;
@@ -908,7 +908,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Production_List_Click(Widget w)
+		internal static bool GUI_Production_List_Click(CWidget w)
 		{
             GUI_FactoryWindow_B495_0F30();
 
@@ -926,7 +926,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Production_ResumeGame_Click(Widget w)
+		internal static bool GUI_Production_ResumeGame_Click(CWidget w)
 		{
             g_factoryWindowResult = FactoryResult.FACTORY_RESUME;
 
@@ -959,7 +959,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Production_BuildThis_Click(Widget w)
+		internal static bool GUI_Production_BuildThis_Click(CWidget w)
 		{
 			if (g_factoryWindowStarport)
 			{
@@ -999,7 +999,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Production_Down_Click(Widget w)
+		internal static bool GUI_Production_Down_Click(CWidget w)
 		{
 			var drawDetails = false;
 
@@ -1050,7 +1050,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Production_Up_Click(Widget w)
+		internal static bool GUI_Production_Up_Click(CWidget w)
 		{
 			var drawDetails = false;
 
@@ -1151,7 +1151,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Production_Upgrade_Click(Widget w)
+		internal static bool GUI_Production_Upgrade_Click(CWidget w)
 		{
             GUI_Widget_MakeNormal(w, false);
 
@@ -1165,7 +1165,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Purchase_Plus_Click(Widget w)
+		internal static bool GUI_Purchase_Plus_Click(CWidget w)
 		{
 			var item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
 			var oi = item.objectInfo;
@@ -1201,7 +1201,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Purchase_Minus_Click(Widget w)
+		internal static bool GUI_Purchase_Minus_Click(CWidget w)
 		{
 			FactoryWindowItem item;
 			var h = g_playerHouse;
@@ -1231,7 +1231,7 @@ namespace SharpDune.Gui
 		 *
 		 * @return True, always.
 		 */
-		internal static bool GUI_Purchase_Invoice_Click(Widget w)
+		internal static bool GUI_Purchase_Invoice_Click(CWidget w)
 		{
             GUI_Widget_MakeInvisible(w);
 			GUI_Purchase_ShowInvoice();
@@ -1339,7 +1339,7 @@ namespace SharpDune.Gui
 		 * @param w The widget.
 		 * @return False, always.
 		 */
-		internal static bool GUI_Widget_Options_Click(Widget w)
+		internal static bool GUI_Widget_Options_Click(CWidget w)
 		{
 			var desc = g_optionsWindowDesc;
 			var cursor = g_cursorSpriteID;
@@ -1483,7 +1483,7 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget.
 		 */
-		static void GUI_Widget_GameControls_Click(Widget w)
+		static void GUI_Widget_GameControls_Click(CWidget w)
 		{
 			var desc = g_gameControlWindowDesc;
 			bool loop;

@@ -2,12 +2,12 @@
 
 namespace SharpDune.Os
 {
-    class CMath
+    class Math
     {
         internal static short clamp(short a, short b, short c) =>
-            Math.Min(Math.Max(a, b), c);
+            System.Math.Min(System.Math.Max(a, b), c);
 
         internal static ushort clamp(ushort a, ushort b, ushort c) =>
-            Math.Min(Math.Max(a, b), c);
+            System.Math.Min(System.Math.Max(a, b), c);
     }
 }

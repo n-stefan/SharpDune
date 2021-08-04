@@ -90,7 +90,7 @@ namespace SharpDune
          * @param id The encoded index to get the Structure of.
          * @return The Structure.
          */
-        internal static Structure Tools_Index_GetStructure(ushort encoded)
+        internal static CStructure Tools_Index_GetStructure(ushort encoded)
         {
             ushort index;
 
@@ -164,7 +164,7 @@ namespace SharpDune
          * @param id The encoded index to get the Object of.
          * @return The Object.
          */
-        internal static Object Tools_Index_GetObject(ushort encoded)
+        internal static CObject Tools_Index_GetObject(ushort encoded)
         {
             ushort index;
 
@@ -217,7 +217,7 @@ namespace SharpDune
          * @param id The encoded index to get the Unit of.
          * @return The Unit.
          */
-        internal static Unit Tools_Index_GetUnit(ushort encoded)
+        internal static CUnit Tools_Index_GetUnit(ushort encoded)
         {
             ushort index;
 
@@ -342,7 +342,7 @@ namespace SharpDune
                 case IndexType.IT_STRUCTURE:
                     {
                         StructureInfo si;
-                        Structure s;
+                        CStructure s;
 
                         if (index >= (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) return tile;
 

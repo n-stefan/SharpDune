@@ -35,7 +35,7 @@ namespace SharpDune
 	/*
 	 * Static information about opened files.
 	 */
-	class File
+	class CFile
 	{
 		internal FileStream/*FILE?*/ fp;
 		internal uint size;
@@ -80,7 +80,7 @@ namespace SharpDune
 		internal string filenamebuffer; //char[1]
 	}
 
-	class CFile
+	class File
 	{
 		//readonly string SEARCHDIR_GLOBAL_DATA_DIR = Path.Combine(Environment.CurrentDirectory, "data");
 		//readonly string SEARCHDIR_PERSONAL_DATA_DIR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -98,12 +98,12 @@ namespace SharpDune
         static FileInfoLinkedElem s_files_in_root;
         static PakFileInfoLinkedElem s_files_in_pak;
 
-        static readonly File[] s_file;
+        static readonly CFile[] s_file;
 
-		static CFile()
+		static File()
 		{
-			s_file = new File[8];
-			for (var i = 0; i < s_file.Length; i++) s_file[i] = new File();
+			s_file = new CFile[8];
+			for (var i = 0; i < s_file.Length; i++) s_file[i] = new CFile();
 		}
 
 		static FileAccess FileAccessFromString(string access) =>
@@ -1082,7 +1082,7 @@ namespace SharpDune
 
 			File_Read(index, ref header, 4);
 
-			if (header != HTOBE32((uint)CSharpDune.MultiChar[FourCC.FORM]))
+			if (header != HTOBE32((uint)SharpDune.MultiChar[FourCC.FORM]))
 			{
 				File_Close(index);
 				return (byte)FileMode.FILE_INVALID;

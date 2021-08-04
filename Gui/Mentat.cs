@@ -82,7 +82,7 @@ namespace SharpDune.Gui
 		 */
 		static void GUI_Mentat_ShowDialog(byte houseID, ushort stringID, string wsaFilename, ushort musicID)
 		{
-			Widget w1, w2;
+			CWidget w1, w2;
 
 			if (g_debugSkipDialogs)
 			{
@@ -107,7 +107,7 @@ namespace SharpDune.Gui
 			do
 			{
 				text = String_Get_ByIndex(stringID);
-                g_readBuffer = CSharpDune.Encoding.GetBytes(text); //strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
+                g_readBuffer = SharpDune.Encoding.GetBytes(text); //strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
                 sleepIdle();
 			} while (GUI_Mentat_Show(text, wsaFilename, w1) == 0x8002);
 
@@ -124,7 +124,7 @@ namespace SharpDune.Gui
 		 * @param w The widgets to handle. Can be NULL for no widgets.
 		 * @return Return value of GUI_Widget_HandleEvents() or f__B4DA_0AB8_002A_AAB2() (latter when no widgets).
 		 */
-		internal static ushort GUI_Mentat_Show(string stringBuffer, string wsaFilename, Widget w)
+		internal static ushort GUI_Mentat_Show(string stringBuffer, string wsaFilename, CWidget w)
 		{
 			ushort ret;
 
@@ -579,7 +579,7 @@ namespace SharpDune.Gui
 			}
 		}
 
-		internal static ushort GUI_Mentat_Loop(string wsaFilename, string pictureDetails, string text, bool loopAnimation, Widget w)
+		internal static ushort GUI_Mentat_Loop(string wsaFilename, string pictureDetails, string text, bool loopAnimation, CWidget w)
 		{
 			Screen oldScreenID;
 			ushort oldWidgetID;
@@ -887,7 +887,7 @@ namespace SharpDune.Gui
 		 * Handle clicks on the Mentat widget.
 		 * @return True, always.
 		 */
-		internal static bool GUI_Widget_Mentat_Click(Widget w)
+		internal static bool GUI_Widget_Mentat_Click(CWidget w)
 		{
             g_cursorSpriteID = 0;
 
@@ -1000,7 +1000,7 @@ namespace SharpDune.Gui
 		static void GUI_Mentat_Create_HelpScreen_Widgets()
 		{
 			ushort ypos;
-			Widget[] w;
+			CWidget[] w;
 			int i;
 
 			if (g_widgetMentatScrollbar != null)
@@ -1017,11 +1017,11 @@ namespace SharpDune.Gui
 
 			//w = (Widget[])Gfx.GFX_Screen_Get_ByIndex(Screen.NO2);
 
-			w = new Widget[13];
+			w = new CWidget[13];
 
 			for (i = 0; i < 13; i++)
 			{
-                w[i] = new Widget
+                w[i] = new CWidget
                 {
                     index = (ushort)(i + 2)
                 }; //memset(w, 0, 13 * sizeof(Widget));
@@ -1088,10 +1088,10 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget.
 		 */
-		static bool GUI_Mentat_List_Click(Widget w)
+		static bool GUI_Mentat_List_Click(CWidget w)
 		{
 			ushort index;
-			Widget w2;
+			CWidget w2;
 
 			index = (ushort)(s_selectedHelpSubject + 3);
 
@@ -1141,7 +1141,7 @@ namespace SharpDune.Gui
         static void GUI_Mentat_Draw(bool force)
 		{
 			Screen oldScreenID;
-			Widget line;
+			CWidget line;
 			var w = g_widgetMentatTail;
 			var helpSubjects = s_helpSubjects;
 			ushort i;
@@ -1164,7 +1164,7 @@ namespace SharpDune.Gui
 			line = GUI_Widget_Get_ByIndex(w, 3);
 			for (i = 0; i < 11; i++)
 			{
-				text = CSharpDune.Encoding.GetString(helpSubjects[(helpSubjectsPointer + 7)..]);
+				text = SharpDune.Encoding.GetString(helpSubjects[(helpSubjectsPointer + 7)..]);
 				text = text[..text.IndexOf('\0', Comparison)];
 				line.drawParameterDown.text = text;
 				line.drawParameterSelected.text = text;
@@ -1315,7 +1315,7 @@ namespace SharpDune.Gui
 			}
 
 			fileID = ChunkFile_Open(s_mentatFilename);
-			length = ChunkFile_Read(fileID, HTOBE32((uint)CSharpDune.MultiChar[FourCC.NAME]), ref helpDataList, GFX_Screen_GetSize_ByIndex(Screen.NO1));
+			length = ChunkFile_Read(fileID, HTOBE32((uint)SharpDune.MultiChar[FourCC.NAME]), ref helpDataList, GFX_Screen_GetSize_ByIndex(Screen.NO1));
             ChunkFile_Close(fileID);
 
 			s_numberHelpSubjects = 0;
@@ -1352,7 +1352,7 @@ namespace SharpDune.Gui
 			s_helpSubjectsPointer = helpSubjectsPointer;
 		}
 
-		static void GUI_Mentat_ScrollBar_Draw(Widget w)
+		static void GUI_Mentat_ScrollBar_Draw(CWidget w)
 		{
 			GUI_Mentat_SelectHelpSubject((short)(GUI_Get_Scrollbar_Position(w) - s_topHelpList));
 			GUI_Mentat_Draw(false);
@@ -1424,7 +1424,7 @@ namespace SharpDune.Gui
 			offset = HTOBE32(READ_LE_UINT32(subject[(subjectPointer + 1)..]));
 
 			fileID = ChunkFile_Open(s_mentatFilename);
-            ChunkFile_Read(fileID, HTOBE32((uint)CSharpDune.MultiChar[FourCC.INFO]), ref info, 12);
+            ChunkFile_Read(fileID, HTOBE32((uint)SharpDune.MultiChar[FourCC.INFO]), ref info, 12);
             ChunkFile_Close(fileID);
 
 			info.length = HTOBE32(info.length);
@@ -1435,7 +1435,7 @@ namespace SharpDune.Gui
 			fileID = File_Open(s_mentatFilename, FileMode.FILE_MODE_READ);
             File_Seek(fileID, (int)offset, 0);
             File_Read(fileID, ref compressedText, info.length);
-            String_Decompress(CSharpDune.Encoding.GetString(compressedText), ref text, (ushort)g_readBufferSize);
+            String_Decompress(SharpDune.Encoding.GetString(compressedText), ref text, (ushort)g_readBufferSize);
 			text = String_TranslateSpecial(text);
             File_Close(fileID);
 

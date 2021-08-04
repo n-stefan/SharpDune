@@ -29,7 +29,7 @@ namespace SharpDune
 	/*
 	 * An Team as stored in the memory.
 	 */
-	class Team
+	class CTeam
 	{
 		internal ushort index;                                  /*!< The index of the Team in the array. */
 		internal TeamFlags flags;                               /*!< General flags of the Team. */
@@ -45,14 +45,14 @@ namespace SharpDune
 		internal ushort target;                                 /*!< Current target of team (encoded index). */
 		internal ScriptEngine script;                           /*!< The script engine instance of this Team. */
 
-		internal Team()
+		internal CTeam()
 		{
 			flags = new TeamFlags();
 			script = new ScriptEngine();
 		}
 	}
 
-	class CTeam
+	class Team
 	{
 		static uint s_tickTeamGameLoop; /*!< Indicates next time the GameLoop function is executed. */
 
@@ -76,8 +76,8 @@ namespace SharpDune
 
 			while (true)
 			{
-				Team t;
-				House h;
+				CTeam t;
+				CHouse h;
 
 				t = Team_Find(find);
 				if (t == null) break;
@@ -133,9 +133,9 @@ namespace SharpDune
 		 * @param maxMembers The maximum amount of members in the new Team.
 		 * @return The new created Team, or NULL if something failed.
 		 */
-		internal static Team Team_Create(byte houseID, byte teamActionType, byte movementType, ushort minMembers, ushort maxMembers)
+		internal static CTeam Team_Create(byte houseID, byte teamActionType, byte movementType, ushort minMembers, ushort maxMembers)
 		{
-			Team t;
+			CTeam t;
 
 			t = Team_Allocate(0xFFFF);
 

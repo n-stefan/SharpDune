@@ -10,7 +10,7 @@ namespace SharpDune.Gui
 		internal byte[] data;
 	}
 
-	class Font
+	class CFont
 	{
 		internal byte height;
 		internal byte maxWidth;
@@ -18,22 +18,22 @@ namespace SharpDune.Gui
 		internal FontChar[] chars;
 	}
 
-	class CFont
+	class Font
 	{
-		internal static Font g_fontIntro;
-		internal static Font g_fontNew6p;
-		internal static Font g_fontNew8p;
+		internal static CFont g_fontIntro;
+		internal static CFont g_fontNew6p;
+		internal static CFont g_fontNew8p;
 
 		internal static sbyte g_fontCharOffset;
 
-		internal static Font g_fontCurrent;
+		internal static CFont g_fontCurrent;
 
 		/*
 		 * Select a font.
 		 *
 		 * @param font The pointer of the font to use.
 		 */
-		internal static void Font_Select(Font f)
+		internal static void Font_Select(CFont f)
 		{
 			if (f == null) return;
 
@@ -87,10 +87,10 @@ namespace SharpDune.Gui
 		 * @param filename The name of the font file.
 		 * @return The pointer of the allocated memory where the file has been read.
 		 */
-		static Font Font_LoadFile(string filename)
+		static CFont Font_LoadFile(string filename)
 		{
 			byte[] buf;
-			Font f;
+			CFont f;
 			byte i;
 			ushort start;
 			ushort dataStart;
@@ -107,7 +107,7 @@ namespace SharpDune.Gui
 				return null;
 			}
 
-			f = new Font(); //(Font*) calloc(1, sizeof(Font));
+			f = new CFont(); //(Font*) calloc(1, sizeof(Font));
 			start = READ_LE_UINT16(buf[4..]);
 			dataStart = READ_LE_UINT16(buf[6..]);
 			widthList = READ_LE_UINT16(buf[8..]);
@@ -150,7 +150,7 @@ namespace SharpDune.Gui
 			return f;
 		}
 
-		static void Font_Unload(Font f)
+		static void Font_Unload(CFont f)
 		{
 			byte i;
 

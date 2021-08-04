@@ -3,21 +3,21 @@
     class SaveLoadTeam
     {
 		static readonly SaveLoadDesc[] s_saveTeam = {
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.index)),
-			SLD_ENTRY2(/*team,*/ SLDT_UINT16, nameof(Team.flags), SLDT_TEAMFLAGS),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.members)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.minMembers)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.maxMembers)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.movementType)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.action)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.actionStart)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT8, nameof(Team.houseID)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.index)),
+			SLD_ENTRY2(/*team,*/ SLDT_UINT16, nameof(CTeam.flags), SLDT_TEAMFLAGS),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.members)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.minMembers)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.maxMembers)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.movementType)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.action)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.actionStart)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT8, nameof(CTeam.houseID)),
 			SLD_EMPTY2(SLDT_UINT8, 3),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(Team.position)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(Team.position)}.{nameof(tile32.y)}"),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.targetTile)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(Team.target)),
-			SLD_SLD(/*team,*/ nameof(Team.script), g_saveScriptEngine),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(CTeam.position)}.{nameof(tile32.x)}"),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(CTeam.position)}.{nameof(tile32.y)}"),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.targetTile)),
+			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.target)),
+			SLD_SLD(/*team,*/ nameof(CTeam.script), g_saveScriptEngine),
 			SLD_END()
 		};
 
@@ -31,7 +31,7 @@
 		{
 			while (length > 0)
 			{
-				Team tl;
+				CTeam tl;
 
 				/* Read the next index from disk */
 				var index = fp.ReadUInt16();
@@ -72,7 +72,7 @@
 
 			while (true)
 			{
-				Team t;
+				CTeam t;
 
 				t = Team_Find(find);
 				if (t == null) break;

@@ -142,9 +142,9 @@ namespace SharpDune
 	/*
 	 * A Unit as stored in the memory.
 	 */
-	class Unit
+	class CUnit
 	{
-		internal Object o;                                       /*!< Common to Unit and Structures. */
+		internal CObject o;                                      /*!< Common to Unit and Structures. */
 		internal tile32 currentDestination;                      /*!< Where the Unit is currently going to. */
 		internal ushort originEncoded;                           /*!< Encoded index, indicating the origin. */
 		internal byte actionID;                                  /*!< Current action. */
@@ -173,9 +173,9 @@ namespace SharpDune
 		internal ushort timer;                                   /*!< Timer used in animation, to count down when to do the next step. */
 		internal byte[] route = new byte[14];                    /*!< The current route the Unit is following. */
 
-		internal Unit()
+		internal CUnit()
 		{
-			o = new Object();
+			o = new CObject();
 			currentDestination = new tile32();
 			orientation = new dir24[] { new(), new() };
 		}
@@ -237,7 +237,7 @@ namespace SharpDune
 		internal ushort soundID;                                /*!< The sound played when unit is a Foot unit. */
 	}
 
-	class CUnit
+	class Unit
 	{
 		static uint s_tickUnitMovement; /*!< Indicates next time the Movement function is executed. */
         static uint s_tickUnitRotation; /*!< Indicates next time the Rotation function is executed. */
@@ -247,10 +247,10 @@ namespace SharpDune
         static uint s_tickUnitUnknown5; /*!< Indicates next time the Unknown5 function is executed. */
         static uint s_tickUnitDeviation; /*!< Indicates next time the Deviation function is executed. */
 
-        internal static Unit g_unitHouseMissile;
-		internal static Unit g_unitSelected;
+        internal static CUnit g_unitHouseMissile;
+		internal static CUnit g_unitSelected;
 
-		internal static Unit g_unitActive;
+		internal static CUnit g_unitActive;
 
         internal static ushort g_dirtyUnitCount;
 		internal static ushort g_dirtyAirUnitCount;
@@ -267,9 +267,9 @@ namespace SharpDune
 		 * @param packed The packed tile to get the unit from.
 		 * @return The unit.
 		 */
-		internal static Unit Unit_Get_ByPackedTile(ushort packed)
+		internal static CUnit Unit_Get_ByPackedTile(ushort packed)
 		{
-			Tile tile;
+			CTile tile;
 
 			if (Tile_IsOutOfMap(packed)) return null;
 
@@ -283,7 +283,7 @@ namespace SharpDune
 		 *
 		 * @param unit The Unit to select.
 		 */
-		internal static void Unit_Select(Unit unit)
+		internal static void Unit_Select(CUnit unit)
 		{
 			if (unit == g_unitSelected) return;
 
@@ -345,12 +345,12 @@ namespace SharpDune
 		 * @param type The type of action on the map.
 		 * @param unit The Unit doing the action.
 		 */
-		internal static void Unit_UpdateMap(ushort type, Unit unit)
+		internal static void Unit_UpdateMap(ushort type, CUnit unit)
 		{
 			UnitInfo ui;
 			tile32 position;
 			ushort packed;
-			Tile t;
+			CTile t;
 			ushort radius;
 
 			if (unit == null || unit.o.flags.isNotOnMap || !unit.o.flags.used) return;
@@ -422,7 +422,7 @@ namespace SharpDune
 		 * @param u Unit to get the HouseID of.
 		 * @return The HouseID of the unit, which might be deviated.
 		 */
-		internal static byte Unit_GetHouseID(Unit u)
+		internal static byte Unit_GetHouseID(CUnit u)
 		{
 			if (u.deviated != 0)
 			{
@@ -438,7 +438,7 @@ namespace SharpDune
 		 *
 		 * @param unit The Unit to display status text for.
 		 */
-		internal static void Unit_DisplayStatusText(Unit unit)
+		internal static void Unit_DisplayStatusText(CUnit unit)
 		{
 			UnitInfo ui;
 			string buffer; //char[81]
@@ -514,7 +514,7 @@ namespace SharpDune
 		 * @param unit The Unit to remove.
 		 * @param packed The packed tile.
 		 */
-		internal static void Unit_RemoveFromTile(Unit unit, ushort packed)
+		internal static void Unit_RemoveFromTile(CUnit unit, ushort packed)
 		{
 			var t = g_map[packed];
 
@@ -529,7 +529,7 @@ namespace SharpDune
             Map_Update(packed, 0, false);
 		}
 
-		internal static void Unit_AddToTile(Unit unit, ushort packed)
+		internal static void Unit_AddToTile(CUnit unit, ushort packed)
 		{
             Map_UnveilTile(packed, Unit_GetHouseID(unit));
             Map_MarkTileDirty(packed);
@@ -542,12 +542,12 @@ namespace SharpDune
 		 * @param unit The unit to add.
 		 * @param houseID The house registering the add.
 		 */
-		internal static void Unit_HouseUnitCount_Add(Unit unit, byte houseID)
+		internal static void Unit_HouseUnitCount_Add(CUnit unit, byte houseID)
 		{
 			UnitInfo ui;
 			ushort houseIDBit;
-			House hp;
-			House h;
+			CHouse hp;
+			CHouse h;
 
 			if (unit == null) return;
 
@@ -614,7 +614,7 @@ namespace SharpDune
 				}
 				else if (!House_AreAllied((byte)g_playerHouseID, Unit_GetHouseID(unit)))
 				{
-					Team t;
+					CTeam t;
 
 					if (hp.timerUnitAttack == 0)
 					{
@@ -629,7 +629,7 @@ namespace SharpDune
 							if (g_scenarioID < 3)
 							{
 								var find = new PoolFindStruct();
-								Structure s;
+								CStructure s;
 								ushort feedbackID;
 
 								find.houseID = (byte)g_playerHouseID;
@@ -679,7 +679,7 @@ namespace SharpDune
 		 *  statistics about allies/enemies.
 		 * @param unit The unit to remove.
 		 */
-		internal static void Unit_HouseUnitCount_Remove(Unit unit)
+		internal static void Unit_HouseUnitCount_Remove(CUnit unit)
 		{
 			var find = new PoolFindStruct();
 
@@ -693,7 +693,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				House h;
+				CHouse h;
 
 				h = House_Find(find);
 				if (h == null) break;
@@ -721,7 +721,7 @@ namespace SharpDune
 		 * @param u The Unit to set the action for.
 		 * @param action The action.
 		 */
-		internal static void Unit_SetAction(Unit u, ActionType action)
+		internal static void Unit_SetAction(CUnit u, ActionType action)
 		{
 			ActionInfo ai;
 
@@ -768,9 +768,9 @@ namespace SharpDune
 		 * @param unit The unit to search a target for.
 		 * @return A target Unit, or NULL if none is found.
 		 */
-		internal static Unit Unit_Sandworm_FindBestTarget(Unit unit)
+		internal static CUnit Unit_Sandworm_FindBestTarget(CUnit unit)
 		{
-			Unit best = null;
+			CUnit best = null;
 			var find = new PoolFindStruct();
 			ushort bestPriority = 0;
 
@@ -782,7 +782,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 				ushort priority;
 
 				u = Unit_Find(find);
@@ -813,7 +813,7 @@ namespace SharpDune
 		 * @param target The Unit that is being targeted.
 		 * @return The priority of the target.
 		 */
-		static ushort Unit_Sandworm_GetTargetPriority(Unit unit, Unit target)
+		static ushort Unit_Sandworm_GetTargetPriority(CUnit unit, CUnit target)
 		{
 			ushort res;
 			ushort distance;
@@ -847,7 +847,7 @@ namespace SharpDune
 		 * @param unit The Unit to operate on.
 		 * @return True if movement was initiated (not blocked etc).
 		 */
-		internal static bool Unit_StartMovement(Unit unit)
+		internal static bool Unit_StartMovement(CUnit unit)
 		{
 			UnitInfo ui;
 			sbyte orientation;
@@ -926,11 +926,11 @@ namespace SharpDune
 		 * @return 256 if tile is not accessable, -1 when it is an accessable structure,
 		 *   or a score to enter the tile otherwise.
 		 */
-		internal static short Unit_GetTileEnterScore(Unit unit, ushort packed, ushort orient8)
+		internal static short Unit_GetTileEnterScore(CUnit unit, ushort packed, ushort orient8)
 		{
 			UnitInfo ui;
-			Unit u;
-			Structure s;
+			CUnit u;
+			CStructure s;
 			ushort type;
 			ushort res;
 
@@ -992,7 +992,7 @@ namespace SharpDune
 		 */
 		internal static void Unit_Sort()
 		{
-			House h;
+			CHouse h;
 			ushort i;
 
 			h = g_playerHouse;
@@ -1001,8 +1001,8 @@ namespace SharpDune
 
 			for (i = 0; i < g_unitFindCount - 1; i++)
 			{
-				Unit u1;
-				Unit u2;
+				CUnit u1;
+				CUnit u2;
 				ushort y1;
 				ushort y2;
 
@@ -1022,7 +1022,7 @@ namespace SharpDune
 
 			for (i = 0; i < g_unitFindCount; i++)
 			{
-				Unit u;
+				CUnit u;
 
 				u = g_unitFindArray[i];
 				if ((u.o.seenByHouses & (1 << (byte)g_playerHouseID)) != 0 && !u.o.flags.isNotOnMap)
@@ -1045,7 +1045,7 @@ namespace SharpDune
 		 *
 		 * @param u The Unit to remove.
 		 */
-		internal static void Unit_Remove(Unit u)
+		internal static void Unit_Remove(CUnit u)
 		{
 			if (u == null) return;
 
@@ -1070,7 +1070,7 @@ namespace SharpDune
 		 * @param u The unit to get the team of.
 		 * @return The team.
 		 */
-		internal static Team Unit_GetTeam(Unit u)
+		internal static CTeam Unit_GetTeam(CUnit u)
 		{
 			if (u == null) return null;
 			if (u.team == 0) return null;
@@ -1082,7 +1082,7 @@ namespace SharpDune
 		 *
 		 * @param unit The Unit to untarget.
 		 */
-		static void Unit_UntargetMe(Unit unit)
+		static void Unit_UntargetMe(CUnit unit)
 		{
 			var find = new PoolFindStruct();
 			var encoded = Tools_Index_Encode(unit.o.index, IndexType.IT_UNIT);
@@ -1095,7 +1095,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 				if (u == null) break;
@@ -1111,7 +1111,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Structure s;
+				CStructure s;
 
 				s = Structure_Find(find);
 				if (s == null) break;
@@ -1128,7 +1128,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Team t;
+				CTeam t;
 
 				t = Team_Find(find);
 				if (t == null) break;
@@ -1143,9 +1143,9 @@ namespace SharpDune
 		 * @param u The unit to remove from the team it is in.
 		 * @return Amount of space left in the team.
 		 */
-		internal static ushort Unit_RemoveFromTeam(Unit u)
+		internal static ushort Unit_RemoveFromTeam(CUnit u)
 		{
-			Team t;
+			CTeam t;
 
 			if (u == null) return 0;
 			if (u.team == 0) return 0;
@@ -1166,7 +1166,7 @@ namespace SharpDune
 		 * @param range ??.
 		 * @return True if and only if the unit has no hitpoints left.
 		 */
-		internal static bool Unit_Damage(Unit unit, ushort damage, ushort range)
+		internal static bool Unit_Damage(CUnit unit, ushort damage, ushort range)
 		{
 			UnitInfo ui;
 			var alive = false;
@@ -1260,7 +1260,7 @@ namespace SharpDune
 		 *
 		 * @param unit The Unit to operate on.
 		 */
-		internal static void Unit_RemovePlayer(Unit unit)
+		internal static void Unit_RemovePlayer(CUnit unit)
 		{
 			if (unit == null) return;
 			if (Unit_GetHouseID(unit) != (byte)g_playerHouseID) return;
@@ -1289,7 +1289,7 @@ namespace SharpDune
 		 * @param amount The amount to decrease.
 		 * @return True if and only if the unit lost deviation.
 		 */
-		internal static bool Unit_Deviation_Decrease(Unit unit, ushort amount)
+		internal static bool Unit_Deviation_Decrease(CUnit unit, ushort amount)
 		{
 			UnitInfo ui;
 
@@ -1338,7 +1338,7 @@ namespace SharpDune
 		 * @param unit The Unit to set the target for.
 		 * @param encoded The encoded index of the target.
 		 */
-		internal static void Unit_SetTarget(Unit unit, ushort encoded)
+		internal static void Unit_SetTarget(CUnit unit, ushort encoded)
 		{
 			if (unit == null || !Tools_Index_IsValid(encoded)) return;
 			if (unit.targetAttack == encoded) return;
@@ -1346,7 +1346,7 @@ namespace SharpDune
 			if (Tools_Index_GetType(encoded) == IndexType.IT_TILE)
 			{
 				ushort packed;
-				Unit u;
+				CUnit u;
 
 				packed = Tools_Index_Decode(encoded);
 
@@ -1357,7 +1357,7 @@ namespace SharpDune
 				}
 				else
 				{
-					Structure s;
+					CStructure s;
 
 					s = Structure_Get_ByPackedTile(packed);
 					if (s != null)
@@ -1404,7 +1404,7 @@ namespace SharpDune
 		 *
 		 * @param unit The Unit to remove fog around.
 		 */
-		internal static void Unit_RemoveFog(Unit unit)
+		internal static void Unit_RemoveFog(CUnit unit)
 		{
 			ushort fogUncoverRadius;
 
@@ -1485,7 +1485,7 @@ namespace SharpDune
 			while (true)
 			{
 				UnitInfo ui;
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 				if (u == null) break;
@@ -1663,7 +1663,7 @@ namespace SharpDune
 		 * @param rotateInstantly If true, rotation is instant. Else the unit turns over the next few ticks slowly.
 		 * @param level 0 = base, 1 = top (turret etc).
 		 */
-		internal static void Unit_SetOrientation(Unit unit, sbyte orientation, bool rotateInstantly, ushort level)
+		internal static void Unit_SetOrientation(CUnit unit, sbyte orientation, bool rotateInstantly, ushort level)
 		{
 			short diff;
 
@@ -1699,7 +1699,7 @@ namespace SharpDune
 		 * @position The position.
 		 * @return True if and only if the position changed.
 		 */
-		internal static bool Unit_SetPosition(Unit u, tile32 position)
+		internal static bool Unit_SetPosition(CUnit u, tile32 position)
 		{
 			UnitInfo ui;
 
@@ -1758,10 +1758,10 @@ namespace SharpDune
 		 * @param createCarryall Create a carryall if none found.
 		 * @return The found Unit, or NULL if none found.
 		 */
-		internal static Unit Unit_CallUnitByType(UnitType type, byte houseID, ushort target, bool createCarryall)
+		internal static CUnit Unit_CallUnitByType(UnitType type, byte houseID, ushort target, bool createCarryall)
 		{
 			var find = new PoolFindStruct();
-			Unit unit = null;
+			CUnit unit = null;
 
 			find.houseID = houseID;
 			find.type = (ushort)type;
@@ -1769,7 +1769,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 				if (u == null) break;
@@ -1811,10 +1811,10 @@ namespace SharpDune
 		 * @param orientation Orientation of the Unit.
 		 * @return The new created Unit, or NULL if something failed.
 		 */
-		internal static Unit Unit_Create(ushort index, byte typeID, byte houseID, tile32 position, sbyte orientation)
+		internal static CUnit Unit_Create(ushort index, byte typeID, byte houseID, tile32 position, sbyte orientation)
 		{
 			UnitInfo ui;
-			Unit u;
+			CUnit u;
 
 			if (houseID >= (byte)HouseType.HOUSE_MAX) return null;
 			if (typeID >= (byte)UnitType.UNIT_MAX) return null;
@@ -1901,12 +1901,12 @@ namespace SharpDune
 		 * @param unit The unit to find the closest refinery for.
 		 * @return 1 if unit->originEncoded was not 0, else 0.
 		 */
-		internal static ushort Unit_FindClosestRefinery(Unit unit)
+		internal static ushort Unit_FindClosestRefinery(CUnit unit)
 		{
 			ushort res;
-			Structure s = null;
+			CStructure s = null;
 			ushort mind = 0;
-			Structure s2;
+			CStructure s2;
 			ushort d;
 			var find = new PoolFindStruct();
 
@@ -1961,11 +1961,11 @@ namespace SharpDune
 		 * @param unit The Unit to operate on.
 		 * @return True if and only if the position of the unit is already occupied.
 		 */
-		internal static bool Unit_IsTileOccupied(Unit unit)
+		internal static bool Unit_IsTileOccupied(CUnit unit)
 		{
 			UnitInfo ui;
 			ushort packed;
-			Unit unit2;
+			CUnit unit2;
 			ushort speed;
 
 			if (unit == null) return true;
@@ -1995,7 +1995,7 @@ namespace SharpDune
 		 * @param unit The Unit to operate on.
 		 * @param speed The new speed of the unit (a percent value between 0 and 255).
 		 */
-		internal static void Unit_SetSpeed(Unit unit, ushort speed)
+		internal static void Unit_SetSpeed(CUnit unit, ushort speed)
 		{
 			ushort speedPerTick;
 
@@ -2049,7 +2049,7 @@ namespace SharpDune
 		 * @param unit The Unit to operate on.
 		 * @param level 0 = base, 1 = top (turret etc).
 		 */
-		static void Unit_Rotate(Unit unit, ushort level)
+		static void Unit_Rotate(CUnit unit, ushort level)
 		{
 			sbyte target;
 			sbyte current;
@@ -2092,13 +2092,13 @@ namespace SharpDune
 		  * @param destination To where on the map this Unit should move.
 		  * @return The new created Unit, or NULL if something failed.
 		  */
-		internal static Unit Unit_CreateWrapper(byte houseID, UnitType typeID, ushort destination)
+		internal static CUnit Unit_CreateWrapper(byte houseID, UnitType typeID, ushort destination)
 		{
 			tile32 tile;
-			House h;
+			CHouse h;
 			sbyte orientation;
-			Unit unit;
-			Unit carryall;
+			CUnit unit;
+			CUnit carryall;
 
 			tile = Tile_UnpackTile(Map_FindLocationTile((ushort)(Tools_Random_256() & 3), houseID));
 
@@ -2178,9 +2178,9 @@ namespace SharpDune
 		 * @param u The unit to set the destination for.
 		 * @param destination The destination (encoded index).
 		 */
-		internal static void Unit_SetDestination(Unit u, ushort destination)
+		internal static void Unit_SetDestination(CUnit u, ushort destination)
 		{
-			Structure s;
+			CStructure s;
 
 			if (u == null) return;
 			if (!Tools_Index_IsValid(destination)) return;
@@ -2188,7 +2188,7 @@ namespace SharpDune
 
 			if (Tools_Index_GetType(destination) == IndexType.IT_TILE)
 			{
-				Unit u2;
+				CUnit u2;
 				ushort packed;
 
 				packed = Tools_Index_Decode(destination);
@@ -2231,7 +2231,7 @@ namespace SharpDune
 
 			for (i = 0; i < g_unitFindCount; i++)
 			{
-				Unit u;
+				CUnit u;
 
 				u = g_unitFindArray[i];
 				if (houseID != (byte)HouseType.HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
@@ -2257,7 +2257,7 @@ namespace SharpDune
 		 * 1 - valid movement, will try to get close to the structure
 		 * 2 - valid movement, will attempt to damage/conquer the structure
 		 */
-		internal static ushort Unit_IsValidMovementIntoStructure(Unit unit, Structure s)
+		internal static ushort Unit_IsValidMovementIntoStructure(CUnit unit, CStructure s)
 		{
 			StructureInfo si;
 			UnitInfo ui;
@@ -2293,7 +2293,7 @@ namespace SharpDune
 			return (ushort)(s.o.linkedID == 0xFF ? 1 : 0);
 		}
 
-		static void Unit_MovementTick(Unit unit)
+		static void Unit_MovementTick(CUnit unit)
 		{
 			ushort speed;
 
@@ -2329,7 +2329,7 @@ namespace SharpDune
 		 * @param target The target of the new bullet Unit.
 		 * @return The new created Unit, or NULL if something failed.
 		 */
-		internal static Unit Unit_CreateBullet(tile32 position, UnitType type, byte houseID, ushort damage, ushort target)
+		internal static CUnit Unit_CreateBullet(tile32 position, UnitType type, byte houseID, ushort damage, ushort target)
 		{
 			UnitInfo ui;
 			tile32 tile;
@@ -2348,8 +2348,8 @@ namespace SharpDune
 				case UnitType.UNIT_MISSILE_TROOPER:
 					{
 						sbyte orientation;
-						Unit bullet;
-						Unit u;
+						CUnit bullet;
+						CUnit u;
 
 						orientation = Tile_GetDirection(position, tile);
 
@@ -2387,7 +2387,7 @@ namespace SharpDune
 					{
 						sbyte orientation;
 						tile32 t;
-						Unit bullet;
+						CUnit bullet;
 
 						orientation = Tile_GetDirection(position, tile);
 
@@ -2424,7 +2424,7 @@ namespace SharpDune
 		 * @param t The team to add the unit to.
 		 * @return Amount of space left in the team.
 		 */
-		internal static ushort Unit_AddToTeam(Unit u, Team t)
+		internal static ushort Unit_AddToTeam(CUnit u, CTeam t)
 		{
 			if (t == null || u == null) return 0;
 
@@ -2438,7 +2438,7 @@ namespace SharpDune
 		{
 			tile32 tile;
 			bool isAI;
-			House h;
+			CHouse h;
 
 			if (g_unitHouseMissile == null) return;
 
@@ -2476,10 +2476,10 @@ namespace SharpDune
 		 * @param mode How to determine the best target.
 		 * @return The encoded index of the best target or 0 if none found.
 		 */
-		internal static ushort Unit_FindBestTargetEncoded(Unit unit, ushort mode)
+		internal static ushort Unit_FindBestTargetEncoded(CUnit unit, ushort mode)
 		{
-			Structure s;
-			Unit target;
+			CStructure s;
+			CUnit target;
 
 			if (unit == null) return 0;
 
@@ -2524,12 +2524,12 @@ namespace SharpDune
 		 * @param mode How to determine the best target.
 		 * @return The best target or NULL if none found.
 		 */
-		static Unit Unit_FindBestTargetUnit(Unit u, ushort mode)
+		static CUnit Unit_FindBestTargetUnit(CUnit u, ushort mode)
 		{
 			tile32 position;
 			ushort distance;
 			var find = new PoolFindStruct();
-			Unit best = null;
+			CUnit best = null;
 			ushort bestPriority = 0;
 
 			if (u == null) return null;
@@ -2553,7 +2553,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Unit target;
+				CUnit target;
 				ushort priority;
 
 				target = Unit_Find(find);
@@ -2593,9 +2593,9 @@ namespace SharpDune
 		 * @param mode How to determine the best target.
 		 * @return The best target or NULL if none found.
 		 */
-		static Structure Unit_FindBestTargetStructure(Unit unit, ushort mode)
+		static CStructure Unit_FindBestTargetStructure(CUnit unit, ushort mode)
 		{
-			Structure best = null;
+			CStructure best = null;
 			ushort bestPriority = 0;
 			tile32 position;
 			ushort distance;
@@ -2612,7 +2612,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Structure s;
+				CStructure s;
 				var curPosition = new tile32();
 				ushort priority;
 
@@ -2658,7 +2658,7 @@ namespace SharpDune
 		 * @param target The unit to look at.
 		 * @return The priority of the target.
 		 */
-		internal static ushort Unit_GetTargetUnitPriority(Unit unit, Unit target)
+		internal static ushort Unit_GetTargetUnitPriority(CUnit unit, CUnit target)
 		{
 			UnitInfo targetInfo;
 			UnitInfo unitInfo;
@@ -2708,7 +2708,7 @@ namespace SharpDune
 		 * @param target The structure to look at.
 		 * @return The priority of the target.
 		 */
-		internal static ushort Unit_GetTargetStructurePriority(Unit unit, Structure target)
+		internal static ushort Unit_GetTargetStructurePriority(CUnit unit, CStructure target)
 		{
 			StructureInfo si;
 			ushort priority;
@@ -2736,7 +2736,7 @@ namespace SharpDune
 		 * @param distance The maximum distance to pass through.
 		 * @return ??.
 		 */
-		static bool Unit_Move(Unit unit, ushort distance)
+		static bool Unit_Move(CUnit unit, ushort distance)
 		{
 			UnitInfo ui;
 			ushort d;
@@ -2784,7 +2784,7 @@ namespace SharpDune
 
 			if (ui.flags.isTracked && d < 48)
 			{
-				Unit u;
+				CUnit u;
 				u = Unit_Get_ByPackedTile(packed);
 
 				/* Driving over a foot unit */
@@ -2822,7 +2822,7 @@ namespace SharpDune
 
 			if (unit.o.type == (byte)UnitType.UNIT_SONIC_BLAST)
 			{
-				Unit u;
+				CUnit u;
 				ushort damage;
 
 				damage = (ushort)((unit.o.hitpoints / 4) + 1);
@@ -2839,7 +2839,7 @@ namespace SharpDune
 				}
 				else
 				{
-					Structure s;
+					CStructure s;
 
 					s = Structure_Get_ByPackedTile(packed);
 
@@ -2988,7 +2988,7 @@ namespace SharpDune
 						}
 
 						{
-							Structure s;
+							CStructure s;
 
 							s = Structure_Get_ByPackedTile(packed);
 							if (s != null)
@@ -3044,7 +3044,7 @@ namespace SharpDune
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 
@@ -3063,7 +3063,7 @@ namespace SharpDune
 		 * @param houseID House controlling the deviator.
 		 * @return True if and only if the unit beacame deviated.
 		 */
-		static bool Unit_Deviate(Unit unit, ushort probability, byte houseID)
+		static bool Unit_Deviate(CUnit unit, ushort probability, byte houseID)
 		{
 			UnitInfo ui;
 
@@ -3111,7 +3111,7 @@ namespace SharpDune
 		 * @param unit The Unit.
 		 * @param s The Structure.
 		 */
-		internal static void Unit_EnterStructure(Unit unit, Structure s)
+		internal static void Unit_EnterStructure(CUnit unit, CStructure s)
 		{
 			StructureInfo si;
 			UnitInfo ui;
@@ -3180,7 +3180,7 @@ namespace SharpDune
 			/* Take over the building when low on hitpoints */
 			if (s.o.hitpoints < si.o.hitpoints / 4)
 			{
-				House h;
+				CHouse h;
 
 				h = House_Get_ByIndex(s.o.houseID);
 				s.o.houseID = Unit_GetHouseID(unit);
@@ -3223,7 +3223,7 @@ namespace SharpDune
 		 *
 		 * @param unit The Unit to hide.
 		 */
-		internal static void Unit_Hide(Unit unit)
+		internal static void Unit_Hide(CUnit unit)
 		{
 			if (unit == null) return;
 
@@ -3257,7 +3257,7 @@ namespace SharpDune
 
 			for (i = 0; i < around.Length; i++)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Get_ByPackedTile((ushort)(packed + around[i]));
 				if (u == null) continue;

@@ -498,7 +498,7 @@ namespace SharpDune
 
 			filename = $"REGION{g_table_houseInfo[(int)g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
 			var length = (int)File_ReadFile(filename, buf, bufPointer);
-			g_fileRegionINI = CSharpDune.Encoding.GetString(buf[bufPointer..(bufPointer + length)]);
+			g_fileRegionINI = SharpDune.Encoding.GetString(buf[bufPointer..(bufPointer + length)]);
 			bufPointer += length;
 
 			g_regions = FromByteArrayToUshortArray(buf[bufPointer..]);
@@ -549,27 +549,27 @@ namespace SharpDune
 			fileIndex = ChunkFile_Open(filename);
 
 			/* Get the length of the chunks */
-			tilesDataLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.SSET]));
-			tableLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RTBL]));
-			paletteLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RPAL]));
+			tilesDataLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)SharpDune.MultiChar[FourCC.SSET]));
+			tableLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)SharpDune.MultiChar[FourCC.RTBL]));
+			paletteLength = ChunkFile_Seek(fileIndex, HTOBE32((uint)SharpDune.MultiChar[FourCC.RPAL]));
 
             /* Read the header information */
-            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.SINF]), ref info, 4);
+            ChunkFile_Read(fileIndex, HTOBE32((uint)SharpDune.MultiChar[FourCC.SINF]), ref info, 4);
             GFX_Init_TilesInfo((ushort)info[0], (ushort)info[1]);
 
 			/* Get the SpritePixels chunk */
 			g_tilesPixels = new byte[tilesDataLength]; //calloc(1, tilesDataLength);
-            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.SSET]), ref g_tilesPixels, tilesDataLength);
+            ChunkFile_Read(fileIndex, HTOBE32((uint)SharpDune.MultiChar[FourCC.SSET]), ref g_tilesPixels, tilesDataLength);
 			tilesDataLength = Sprites_Decode(g_tilesPixels, g_tilesPixels);
 			/*g_tilesPixels = realloc(g_tilesPixels, tilesDataLength);*/
 
 			/* Get the Table chunk */
 			g_iconRTBL = new byte[tableLength]; //calloc(1, tableLength);
-            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RTBL]), ref g_iconRTBL, tableLength);
+            ChunkFile_Read(fileIndex, HTOBE32((uint)SharpDune.MultiChar[FourCC.RTBL]), ref g_iconRTBL, tableLength);
 
 			/* Get the Palette chunk */
 			g_iconRPAL = new byte[paletteLength]; //calloc(1, paletteLength);
-            ChunkFile_Read(fileIndex, HTOBE32((uint)CSharpDune.MultiChar[FourCC.RPAL]), ref g_iconRPAL, paletteLength);
+            ChunkFile_Read(fileIndex, HTOBE32((uint)SharpDune.MultiChar[FourCC.RPAL]), ref g_iconRPAL, paletteLength);
 
             ChunkFile_Close(fileIndex);
 		}

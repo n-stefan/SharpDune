@@ -280,15 +280,15 @@ namespace SharpDune.Audio
                 header = READ_BE_UINT32(file[pointer..]);
                 size = READ_BE_UINT32(file[(pointer + 4)..]);
 
-                if (header != CSharpDune.MultiChar[FourCC.CAT] && header != CSharpDune.MultiChar[FourCC.FORM]) return null;
-                if (READ_BE_UINT32(file[(pointer + 8)..]) == CSharpDune.MultiChar[FourCC.XMID]) break;
+                if (header != SharpDune.MultiChar[FourCC.CAT] && header != SharpDune.MultiChar[FourCC.FORM]) return null;
+                if (READ_BE_UINT32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) break;
 
                 pointer += 8;
                 pointer += (int)size;
             }
             total = size - 5;
 
-            if (header == CSharpDune.MultiChar[FourCC.FORM]) return (index == 1) ? file[pointer..] : null;
+            if (header == SharpDune.MultiChar[FourCC.FORM]) return (index == 1) ? file[pointer..] : null;
 
             pointer += 12;
 
@@ -296,7 +296,7 @@ namespace SharpDune.Audio
             {
                 size = READ_BE_UINT32(file[(pointer + 4)..]);
 
-                if ((READ_BE_UINT32(file[(pointer + 8)..]) == CSharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
+                if ((READ_BE_UINT32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
 
                 size += 8;
                 total -= size;
@@ -358,7 +358,7 @@ namespace SharpDune.Audio
 
             header = READ_BE_UINT32(file[pointer..]);
             size = 12;
-            while (header != CSharpDune.MultiChar[FourCC.EVNT])
+            while (header != SharpDune.MultiChar[FourCC.EVNT])
             {
                 pointer += (int)size;
                 header = READ_BE_UINT32(file[pointer..]);
@@ -1126,7 +1126,7 @@ namespace SharpDune.Audio
                     break;
 
                 case 0x06:  /* Marker (text) */
-                    Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING Marker '{CSharpDune.Encoding.GetString(data.sound.Arr[(data.sound.Ptr + len)..(data.sound.Ptr + len + data_len)])}'");
+                    Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING Marker '{SharpDune.Encoding.GetString(data.sound.Arr[(data.sound.Ptr + len)..(data.sound.Ptr + len + data_len)])}'");
                     break;
 
                 default:

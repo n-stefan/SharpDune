@@ -9,7 +9,7 @@
 		 * @param fp The stream
 		 * @return True if the tile was loaded successfully
 		 */
-		static bool fread_tile(Tile t, FileStream fp)
+		static bool fread_tile(CTile t, FileStream fp)
 		{
 			var buffer = new byte[4];
 
@@ -34,7 +34,7 @@
 		 * @param fp The stream
 		 * @return True if the tile was saved successfully
 		 */
-		static bool fwrite_tile(Tile t, BinaryWriter fp)
+		static bool fwrite_tile(CTile t, BinaryWriter fp)
 		{
 			var value = t.houseID;
 			if (t.isUnveiled) value |= 1 << 3;
@@ -84,7 +84,7 @@
 
 			while (length >= SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/)
 			{
-				Tile t;
+				CTile t;
 
 				length -= (uint)(SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/);
 

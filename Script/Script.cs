@@ -70,10 +70,10 @@ namespace SharpDune.Script
         internal static ScriptInfo g_scriptTeam = s_scriptTeam;
         internal static ScriptInfo g_scriptUnit = s_scriptUnit;
 
-        internal static Object g_scriptCurrentObject;
-        internal static Structure g_scriptCurrentStructure;
-        internal static Unit g_scriptCurrentUnit;
-        internal static Team g_scriptCurrentTeam;
+        internal static CObject g_scriptCurrentObject;
+        internal static CStructure g_scriptCurrentStructure;
+        internal static CUnit g_scriptCurrentUnit;
+        internal static CTeam g_scriptCurrentTeam;
 
         const int SCRIPT_FUNCTIONS_COUNT = 64;                            /*!< There are never more than 64 functions for a script category. */
         internal const int SCRIPT_UNIT_OPCODES_PER_TICK = 50;             /*!< The amount of opcodes a unit can execute per tick. */
@@ -447,7 +447,7 @@ namespace SharpDune.Script
 
             index = ChunkFile_Open(filename);
 
-            length = ChunkFile_Seek(index, HTOBE32((uint)CSharpDune.MultiChar[FourCC.TEXT]));
+            length = ChunkFile_Seek(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.TEXT]));
             total += length;
 
             if (length != 0)
@@ -462,10 +462,10 @@ namespace SharpDune.Script
                     scriptInfo.text = new ushort[length / 2]; //calloc(1, length);
                 }
 
-                ChunkFile_Read(index, HTOBE32((uint)CSharpDune.MultiChar[FourCC.TEXT]), ref scriptInfo.text, length);
+                ChunkFile_Read(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.TEXT]), ref scriptInfo.text, length);
             }
 
-            length = ChunkFile_Seek(index, HTOBE32((uint)CSharpDune.MultiChar[FourCC.ORDR]));
+            length = ChunkFile_Seek(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.ORDR]));
             total += length;
 
             if (length == 0)
@@ -486,14 +486,14 @@ namespace SharpDune.Script
             }
 
             scriptInfo.offsetsCount = (ushort)((length >> 1) & 0xFFFF);
-            ChunkFile_Read(index, HTOBE32((uint)CSharpDune.MultiChar[FourCC.ORDR]), ref scriptInfo.offsets, length);
+            ChunkFile_Read(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.ORDR]), ref scriptInfo.offsets, length);
 
             for (i = 0; i < (short)((length >> 1) & 0xFFFF); i++)
             {
                 scriptInfo.offsets[i] = BETOH16(scriptInfo.offsets[i]);
             }
 
-            length = ChunkFile_Seek(index, HTOBE32((uint)CSharpDune.MultiChar[FourCC.DATA]));
+            length = ChunkFile_Seek(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.DATA]));
             total += length;
 
             if (length == 0)
@@ -515,7 +515,7 @@ namespace SharpDune.Script
 
             scriptInfo.startCount = (ushort)((length >> 1) & 0xFFFF);
 
-            ChunkFile_Read(index, HTOBE32((uint)CSharpDune.MultiChar[FourCC.DATA]), ref scriptInfo.start, length);
+            ChunkFile_Read(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.DATA]), ref scriptInfo.start, length);
 
             ChunkFile_Close(index);
 

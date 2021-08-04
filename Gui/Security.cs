@@ -38,7 +38,7 @@ namespace SharpDune.Gui
 
 			//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_TEXT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 			question = String_Get_ByIndex((ushort)(Text.STR_SECURITY_TEXT_HARKONNEN + (byte)g_playerHouseID * 3));
-            g_readBuffer = CSharpDune.Encoding.GetBytes(question);
+            g_readBuffer = SharpDune.Encoding.GetBytes(question);
             GUI_Mentat_Loop(wsaHouseFilename, null, question/*CSharpDune.Encoding.GetString(g_readBuffer)*/, true, null);
 
 			questionsCount = ushort.Parse(String_Get_ByIndex(Text.STR_SECURITY_COUNT), Culture);
@@ -70,7 +70,7 @@ namespace SharpDune.Gui
                 GUI_Mouse_Show_InWidget();
 
 				question = String_Get_ByIndex(questionIndex);
-                g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
+                g_readBuffer = SharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex), g_readBufferSize);
 				GUI_Security_DrawText(question/*CSharpDune.Encoding.GetString(g_readBuffer)*/);
 
                 g_interrogationTimer = g_timerGUI + (uint)question.Length * 4; //(uint32)strlen(g_readBuffer) * 4
@@ -110,25 +110,25 @@ namespace SharpDune.Gui
 				GUI_Security_NormaliseText(ref buffer);
 
 				question = String_Get_ByIndex((ushort)(questionIndex + 2));
-                g_readBuffer = CSharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex + 2), g_readBufferSize);
+                g_readBuffer = SharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex + 2), g_readBufferSize);
 				GUI_Security_NormaliseText(ref question);
 
 				if (!string.Equals(question/*CSharpDune.Encoding.GetString(g_readBuffer)*/, buffer, StringComparison.OrdinalIgnoreCase))
 				{ //if (strcasecmp(g_readBuffer, buffer) != 0) {
-                    g_readBuffer = CSharpDune.Encoding.GetBytes(String_Get_ByIndex(Text.STR_SECURITY_WRONG_HARKONNEN + (byte)g_playerHouseID * 3));
+                    g_readBuffer = SharpDune.Encoding.GetBytes(String_Get_ByIndex(Text.STR_SECURITY_WRONG_HARKONNEN + (byte)g_playerHouseID * 3));
 					//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_WRONG_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 				}
 				else
 				{
-                    g_readBuffer = CSharpDune.Encoding.GetBytes(String_Get_ByIndex(Text.STR_SECURITY_CORRECT_HARKONNEN + (byte)g_playerHouseID * 3));
+                    g_readBuffer = SharpDune.Encoding.GetBytes(String_Get_ByIndex(Text.STR_SECURITY_CORRECT_HARKONNEN + (byte)g_playerHouseID * 3));
 					//strncpy(g_readBuffer, String_Get_ByIndex(STR_SECURITY_CORRECT_HARKONNEN + g_playerHouseID * 3), g_readBufferSize);
 
 					valid = true;
 				}
 
-				GUI_Security_DrawText(CSharpDune.Encoding.GetString(g_readBuffer));
+				GUI_Security_DrawText(SharpDune.Encoding.GetString(g_readBuffer));
 
-				tickWaitTill = g_timerGUI + (uint)CSharpDune.Encoding.GetString(g_readBuffer).Length * 4; //(uint32)strlen(g_readBuffer) * 4;
+				tickWaitTill = g_timerGUI + (uint)SharpDune.Encoding.GetString(g_readBuffer).Length * 4; //(uint32)strlen(g_readBuffer) * 4;
 
                 Input_History_Clear();
 

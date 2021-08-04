@@ -17,7 +17,7 @@ namespace SharpDune
 		INVALID = 0xFF
 	}
 
-	class CString
+	class String
 	{
 		static string[] s_strings;
 
@@ -78,7 +78,7 @@ namespace SharpDune
 				prev = to;
 				range = from == to ? from..to : from..(to - 1);
 
-				var src = CSharpDune.Encoding.GetString(buf[range]);
+				var src = SharpDune.Encoding.GetString(buf[range]);
 				string dst;
 
 				if (compressed)

@@ -88,9 +88,9 @@ namespace SharpDune
     /*
     * A Structure as stored in the memory.
     */
-    class Structure
+    class CStructure
     {
-        internal Object o;                                      /*!< Common to Unit and Structures. */
+        internal CObject o;                                     /*!< Common to Unit and Structures. */
         internal ushort creatorHouseID;                         /*!< The Index of the House who created this Structure. Required in case of take-overs. */
         internal ushort rotationSpriteDiff;                     /*!< Which sprite to show for the current rotation of Turrets etc. */
         internal ushort objectType;                             /*!< Type of Unit/Structure we are building. */
@@ -101,8 +101,8 @@ namespace SharpDune
         internal short state;                                   /*!< The state of the structure. @see StructureState. */
         internal ushort hitpointsMax;                           /*!< Max amount of hitpoints. */
 
-        internal Structure() =>
-            o = new Object();
+        internal CStructure() =>
+            o = new CObject();
     }
 
     /*
@@ -128,12 +128,12 @@ namespace SharpDune
         internal ushort height; /*!< Vertical length. */
     }
 
-    class CStructure
+    class Structure
     {
         internal static ushort g_structureActivePosition;
         internal static ushort g_structureActiveType;
 
-        internal static Structure g_structureActive;
+        internal static CStructure g_structureActive;
 
         static readonly bool s_debugInstantBuild; /*!< When non-zero, constructions are almost instant. */
         static uint s_tickStructureDegrade; /*!< Indicates next time Degrade function is executed. */
@@ -220,7 +220,7 @@ namespace SharpDune
                 for (i = 0; i < 16; i++)
                 {
                     ushort offset, lst;
-                    Structure s;
+                    CStructure s;
 
                     offset = (ushort)g_table_structure_layoutTilesAround[si.layout][i];
                     if (offset == 0) break;
@@ -254,9 +254,9 @@ namespace SharpDune
          * @param packed The packed tile to get the structure from.
          * @return The structure.
          */
-        internal static Structure Structure_Get_ByPackedTile(ushort packed)
+        internal static CStructure Structure_Get_ByPackedTile(ushort packed)
         {
-            Tile tile;
+            CTile tile;
 
             if (Tile_IsOutOfMap(packed)) return null;
 
@@ -269,7 +269,7 @@ namespace SharpDune
          * Update the map with the right data for this structure.
          * @param s The structure to update on the map.
          */
-        internal static void Structure_UpdateMap(Structure s)
+        internal static void Structure_UpdateMap(CStructure s)
         {
             StructureInfo si;
             ushort layoutSize;
@@ -291,7 +291,7 @@ namespace SharpDune
             for (i = 0; i < layoutSize; i++)
             {
                 ushort position;
-                Tile t;
+                CTile t;
 
                 position = (ushort)(Tile_PackTile(s.o.position) + layout[i]);
 
@@ -337,7 +337,7 @@ namespace SharpDune
          * @param s The Structure to check.
          * @return True if and only if the structure is upgradable.
          */
-        internal static bool Structure_IsUpgradable(Structure s)
+        internal static bool Structure_IsUpgradable(CStructure s)
         {
             StructureInfo si;
 
@@ -350,7 +350,7 @@ namespace SharpDune
 
             if (s.upgradeLevel < si.upgradeCampaign.Length && si.upgradeCampaign[s.upgradeLevel] != 0 && si.upgradeCampaign[s.upgradeLevel] <= g_campaignID + 1)
             {
-                House h;
+                CHouse h;
 
                 if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) return true;
                 if (s.upgradeLevel != 1) return true;
@@ -370,7 +370,7 @@ namespace SharpDune
          * @param s The structure to get the linked unit from.
          * @return The linked unit, or NULL if there was none.
          */
-        internal static Unit Structure_GetLinkedUnit(Structure s)
+        internal static CUnit Structure_GetLinkedUnit(CStructure s)
         {
             if (s.o.linkedID == 0xFF) return null;
             return Unit_Get_ByIndex(s.o.linkedID);
@@ -382,7 +382,7 @@ namespace SharpDune
          * @param s The structure to set the state of.
          * @param state The new sate value.
          */
-        internal static void Structure_SetState(Structure s, short state)
+        internal static void Structure_SetState(CStructure s, short state)
         {
             if (s == null) return;
             s.state = state;
@@ -397,7 +397,7 @@ namespace SharpDune
         internal static void Structure_HouseUnderAttack(byte houseID)
         {
             var find = new PoolFindStruct();
-            House h;
+            CHouse h;
 
             h = House_Get_ByIndex(houseID);
 
@@ -424,7 +424,7 @@ namespace SharpDune
             while (true)
             {
                 UnitInfo ui;
-                Unit u;
+                CUnit u;
 
                 u = Unit_Find(find);
                 if (u == null) break;
@@ -446,7 +446,7 @@ namespace SharpDune
          * @param range The range in which an explosion should be possible.
          * @return True if and only if the structure is now destroyed.
          */
-        internal static bool Structure_Damage(Structure s, ushort damage, ushort range)
+        internal static bool Structure_Damage(CStructure s, ushort damage, ushort range)
         {
             StructureInfo si;
 
@@ -519,7 +519,7 @@ namespace SharpDune
          *
          * @param unit The Structure to untarget.
          */
-        internal static void Structure_UntargetMe(Structure s)
+        internal static void Structure_UntargetMe(CStructure s)
         {
             var find = new PoolFindStruct();
             var encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
@@ -532,7 +532,7 @@ namespace SharpDune
 
             while (true)
             {
-                Unit u;
+                CUnit u;
 
                 u = Unit_Find(find);
                 if (u == null) break;
@@ -548,7 +548,7 @@ namespace SharpDune
 
             while (true)
             {
-                Team t;
+                CTeam t;
 
                 t = Team_Find(find);
                 if (t == null) break;
@@ -562,11 +562,11 @@ namespace SharpDune
          *
          * @param s The Structure.
          */
-        static void Structure_Destroy(Structure s)
+        static void Structure_Destroy(CStructure s)
         {
             StructureInfo si;
             byte linkedID;
-            House h;
+            CHouse h;
 
             if (s == null) return;
 
@@ -624,12 +624,12 @@ namespace SharpDune
          * Remove the structure from the map, free it, and clean up after it.
          * @param s The structure to remove.
          */
-        internal static void Structure_Remove(Structure s)
+        internal static void Structure_Remove(CStructure s)
         {
             StructureInfo si;
             ushort packed;
             ushort i;
-            House h;
+            CHouse h;
 
             if (s == null) return;
 
@@ -638,7 +638,7 @@ namespace SharpDune
 
             for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
             {
-                Tile t;
+                CTile t;
                 var curPacked = (ushort)(packed + g_table_structure_layoutTiles[si.layout][i]);
 
                 Animation_Stop_ByTile(curPacked);
@@ -697,7 +697,7 @@ namespace SharpDune
          * @param h The house to get built structures for.
          * @return The bitmask.
          */
-        internal static uint Structure_GetStructuresBuilt(House h)
+        internal static uint Structure_GetStructuresBuilt(CHouse h)
         {
             var find = new PoolFindStruct();
             uint result;
@@ -714,7 +714,7 @@ namespace SharpDune
 
             while (true)
             {
-                Structure s;
+                CStructure s;
 
                 s = Structure_Find(find);
                 if (s == null) break;
@@ -759,7 +759,7 @@ namespace SharpDune
             ushort tileID;
             bool isDestroyedWall;
             byte i;
-            Tile tile;
+            CTile tile;
 
             isDestroyedWall = Map_GetLandscapeType(position) == (ushort)LandscapeType.LST_DESTROYED_WALL;
 
@@ -823,7 +823,7 @@ namespace SharpDune
          *
          * @param s The Structure.
          */
-        internal static void Structure_RemoveFog(Structure s)
+        internal static void Structure_RemoveFog(CStructure s)
         {
             StructureInfo si;
             tile32 position;
@@ -889,8 +889,8 @@ namespace SharpDune
             {
                 StructureInfo si;
                 HouseInfo hi;
-                Structure s;
-                House h;
+                CStructure s;
+                CHouse h;
 
                 s = Structure_Find(find);
                 if (s == null) break;
@@ -1078,7 +1078,7 @@ namespace SharpDune
                                     else if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
                                     {
                                         /* An AI immediately places the structure when it is done building */
-                                        Structure ns;
+                                        CStructure ns;
                                         byte i;
 
                                         ns = Structure_Get_ByIndex(s.o.linkedID);
@@ -1222,7 +1222,7 @@ namespace SharpDune
          *
          * @param h The house to calculate the numbers for.
          */
-        internal static void Structure_CalculateHitpointsMax(House h)
+        internal static void Structure_CalculateHitpointsMax(CHouse h)
         {
             var find = new PoolFindStruct();
             ushort power = 0;
@@ -1247,7 +1247,7 @@ namespace SharpDune
             while (true)
             {
                 StructureInfo si;
-                Structure s;
+                CStructure s;
 
                 s = Structure_Find(find);
                 if (s == null) return;
@@ -1269,7 +1269,7 @@ namespace SharpDune
          * @param checkForSpice Spot should be as close to spice as possible.
          * @return Position of the free spot, or \c 0 if no free spot available.
          */
-        internal static ushort Structure_FindFreePosition(Structure s, bool checkForSpice)
+        internal static ushort Structure_FindFreePosition(CStructure s, bool checkForSpice)
         {
             StructureInfo si;
             ushort packed;
@@ -1293,7 +1293,7 @@ namespace SharpDune
                 ushort offset;
                 ushort curPacked;
                 ushort type;
-                Tile t;
+                CTile t;
 
                 offset = (ushort)g_table_structure_layoutTilesAround[si.layout][i];
                 if (offset == 0) continue;
@@ -1327,7 +1327,7 @@ namespace SharpDune
          * @param w The widget.
          * @return True if and only if the state changed.
          */
-        internal static bool Structure_SetRepairingState(Structure s, sbyte state, Widget w)
+        internal static bool Structure_SetRepairingState(CStructure s, sbyte state, CWidget w)
         {
             var ret = false;
 
@@ -1375,13 +1375,13 @@ namespace SharpDune
          * @param s The structure in which we can build something.
          * @return The type (either UnitType or StructureType) of what we should build next.
          */
-        static ushort Structure_AI_PickNextToBuild(Structure s)
+        static ushort Structure_AI_PickNextToBuild(CStructure s)
         {
             var find = new PoolFindStruct();
             /*ushort*/
             int buildable;
             ushort type;
-            House h;
+            CHouse h;
             int i;
 
             if (s == null) return 0xFFFF;
@@ -1412,7 +1412,7 @@ namespace SharpDune
 
                 while (true)
                 {
-                    Unit u;
+                    CUnit u;
 
                     u = Unit_Find(find);
                     if (u == null) break;
@@ -1450,9 +1450,9 @@ namespace SharpDune
          *
          * @param s The structure which launches the weapon. Has to be the Palace.
          */
-        internal static void Structure_ActivateSpecial(Structure s)
+        internal static void Structure_ActivateSpecial(CStructure s)
         {
-            House h;
+            CHouse h;
 
             if (s == null) return;
             if (s.o.type != (byte)StructureType.STRUCTURE_PALACE) return;
@@ -1464,7 +1464,7 @@ namespace SharpDune
             {
                 case HouseWeapon.HOUSE_WEAPON_MISSILE:
                     {
-                        Unit u;
+                        CUnit u;
                         var position = new tile32
                         {
                             x = 0xFFFF,
@@ -1492,7 +1492,7 @@ namespace SharpDune
                             /* For the AI, try to find the first structure which is not ours, and launch missile to there */
                             while (true)
                             {
-                                Structure sf;
+                                CStructure sf;
 
                                 sf = Structure_Find(find);
                                 if (sf == null) break;
@@ -1529,7 +1529,7 @@ namespace SharpDune
 
                         for (i = 0; i < 5; i++)
                         {
-                            Unit u;
+                            CUnit u;
                             tile32 position;
                             ushort orientation;
                             ushort unitType;
@@ -1557,7 +1557,7 @@ namespace SharpDune
 
                 case HouseWeapon.HOUSE_WEAPON_SABOTEUR:
                     {
-                        Unit u;
+                        CUnit u;
                         ushort position;
 
                         /* Find a spot next to the structure */
@@ -1591,7 +1591,7 @@ namespace SharpDune
             }
         }
 
-        internal static uint Structure_GetBuildable(Structure s)
+        internal static uint Structure_GetBuildable(CStructure s)
         {
             StructureInfo si;
             uint structuresBuilt;
@@ -1706,11 +1706,11 @@ namespace SharpDune
          * @param objectType The type of the object to build or a special value (0xFFFD, 0xFFFE, 0xFFFF).
          * @return ??.
          */
-        internal static bool Structure_BuildObject(Structure s, ushort objectType)
+        internal static bool Structure_BuildObject(CStructure s, ushort objectType)
         {
             StructureInfo si;
             string str;
-            Object o;
+            CObject o;
             ObjectInfo oi;
 
             if (s == null) return false;
@@ -1771,7 +1771,7 @@ namespace SharpDune
                     {
                         byte linkedID = 0xFF;
                         var availableUnits = new short[(int)UnitType.UNIT_MAX];
-                        Unit u;
+                        CUnit u;
                         bool loop;
 
                         //memset(availableUnits, 0, sizeof(availableUnits));
@@ -1867,14 +1867,14 @@ namespace SharpDune
 
                     if (res == FactoryResult.FACTORY_BUY)
                     {
-                        House h;
+                        CHouse h;
                         byte i;
 
                         h = House_Get_ByIndex(s.o.houseID);
 
                         for (i = 0; i < 25; i++)
                         {
-                            Unit u;
+                            CUnit u;
 
                             if (g_factoryWindowItems[i].amount == 0) continue;
                             objectType = g_factoryWindowItems[i].objectType;
@@ -1985,7 +1985,7 @@ namespace SharpDune
          * @param w The widget.
          * @return True if and only if the state changed.
          */
-        internal static bool Structure_SetUpgradingState(Structure s, sbyte state, Widget w)
+        internal static bool Structure_SetUpgradingState(CStructure s, sbyte state, CWidget w)
         {
             var ret = false;
 
@@ -2029,7 +2029,7 @@ namespace SharpDune
          *
          * @param s The Structure.
          */
-        static void Structure_CancelBuild(Structure s)
+        static void Structure_CancelBuild(CStructure s)
         {
             ObjectInfo oi;
 
@@ -2104,7 +2104,7 @@ namespace SharpDune
          * @param position The (packed) tile to place the struction on.
          * @return True if and only if the structure is placed on the map.
          */
-        internal static bool Structure_Place(Structure s, ushort position)
+        internal static bool Structure_Place(CStructure s, ushort position)
         {
             StructureInfo si;
             short validBuildLocation;
@@ -2118,7 +2118,7 @@ namespace SharpDune
             {
                 case StructureType.STRUCTURE_WALL:
                     {
-                        Tile t;
+                        CTile t;
 
                         if (Structure_IsValidBuildLocation(position, StructureType.STRUCTURE_WALL) == 0) return false;
 
@@ -2258,7 +2258,7 @@ namespace SharpDune
                 for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
                 {
                     var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
-                    Unit u;
+                    CUnit u;
 
                     u = Unit_Get_ByPackedTile(curPos);
 
@@ -2271,7 +2271,7 @@ namespace SharpDune
 
             if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP)
             {
-                House h;
+                CHouse h;
 
                 h = House_Get_ByIndex(s.o.houseID);
                 h.windtrapCount += 1;
@@ -2279,7 +2279,7 @@ namespace SharpDune
 
             if (g_validateStrictIfZero == 0)
             {
-                House h;
+                CHouse h;
 
                 h = House_Get_ByIndex(s.o.houseID);
                 House_CalculatePowerAndCredit(h);
@@ -2288,7 +2288,7 @@ namespace SharpDune
             Structure_UpdateMap(s);
 
             {
-                House h;
+                CHouse h;
                 h = House_Get_ByIndex(s.o.houseID);
                 h.structuresBuilt = Structure_GetStructuresBuilt(h);
             }
@@ -2305,10 +2305,10 @@ namespace SharpDune
          * @param position The packed position where to place the Structure. If 0xFFFF, the Structure is not placed.
          * @return The new created Structure, or NULL if something failed.
          */
-        internal static Structure Structure_Create(ushort index, byte typeID, byte houseID, ushort position)
+        internal static CStructure Structure_Create(ushort index, byte typeID, byte houseID, ushort position)
         {
             StructureInfo si;
-            Structure s;
+            CStructure s;
 
             if (houseID >= (byte)HouseType.HOUSE_MAX) return null;
             if (typeID >= (byte)StructureType.STRUCTURE_MAX) return null;

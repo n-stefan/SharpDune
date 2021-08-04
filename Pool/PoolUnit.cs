@@ -9,8 +9,8 @@
 			UNIT_INDEX_INVALID = 0xFFFF
 		}
 
-		static readonly Unit[] g_unitArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
-		internal static readonly Unit[] g_unitFindArray = new Unit[(int)UnitIndex.UNIT_INDEX_MAX];
+		static readonly CUnit[] g_unitArray = new CUnit[(int)UnitIndex.UNIT_INDEX_MAX];
+		internal static readonly CUnit[] g_unitFindArray = new CUnit[(int)UnitIndex.UNIT_INDEX_MAX];
 		internal static ushort g_unitFindCount;
 
 		/*
@@ -19,7 +19,7 @@
 		 * @param index The index of the Unit to get.
 		 * @return The Unit.
 		 */
-		internal static Unit Unit_Get_ByIndex(ushort index)
+		internal static CUnit Unit_Get_ByIndex(ushort index)
 		{
 			Debug.Assert(index < (ushort)UnitIndex.UNIT_INDEX_MAX);
 			return g_unitArray[index];
@@ -39,7 +39,7 @@
 		 * same 'find' parameter walks over all possible values matching the filter.
 		 * @return The Unit, or NULL if nothing matches (anymore).
 		 */
-		internal static Unit Unit_Find(PoolFindStruct find)
+		internal static CUnit Unit_Find(PoolFindStruct find)
 		{
 			if (find.index >= g_unitFindCount && find.index != 0xFFFF) return null;
 			find.index++; /* First, we always go to the next index */
@@ -64,7 +64,7 @@
 		 */
 		internal static void Unit_Init()
 		{
-			for (var i = 0; i < g_unitArray.Length; i++) g_unitArray[i] = new Unit(); //memset(g_unitArray, 0, sizeof(g_unitArray));
+			for (var i = 0; i < g_unitArray.Length; i++) g_unitArray[i] = new CUnit(); //memset(g_unitArray, 0, sizeof(g_unitArray));
 			Array.Fill(g_unitFindArray, null, 0, g_unitFindArray.Length); //memset(g_unitFindArray, 0, sizeof(g_unitFindArray));
 			g_unitFindCount = 0;
 		}
@@ -108,10 +108,10 @@
 		 * @param houseID The House of the new Unit.
 		 * @return The Unit allocated, or NULL on failure.
 		 */
-		internal static Unit Unit_Allocate(ushort index, byte type, byte houseID)
+		internal static CUnit Unit_Allocate(ushort index, byte type, byte houseID)
 		{
-			House h;
-			Unit u = null;
+			CHouse h;
+			CUnit u = null;
 
 			if (type == 0xFF || houseID == 0xFF) return null;
 
@@ -168,7 +168,7 @@
 		 *
 		 * @param address The address of the Unit to free.
 		 */
-		internal static void Unit_Free(Unit u)
+		internal static void Unit_Free(CUnit u)
 		{
 			int i;
 

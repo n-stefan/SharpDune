@@ -41,7 +41,7 @@ namespace SharpDune
 				/* Remove the fog of war for all units */
 				while (true)
 				{
-					Unit u;
+					CUnit u;
 
 					u = Unit_Find(find);
 					if (u == null) break;
@@ -56,7 +56,7 @@ namespace SharpDune
 				/* Remove the fog of war for all structures */
 				while (true)
 				{
-					Structure s;
+					CStructure s;
 
 					s = Structure_Find(find);
 					if (s == null) break;

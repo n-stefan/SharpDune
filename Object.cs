@@ -61,7 +61,7 @@ namespace SharpDune
     /*
     * Data common to Structure and Unit.
     */
-    class Object
+    class CObject
     {
         internal ushort index;                      /*!< The index of the Structure/Unit in the array. */
         internal byte type;                         /*!< Type of Structure/Unit. */
@@ -73,7 +73,7 @@ namespace SharpDune
         internal ushort hitpoints;                  /*!< Current hitpoints left. */
         internal ScriptEngine script;               /*!< The script engine instance of this Structure. */
 
-        internal Object()
+        internal CObject()
         {
             flags = new ObjectFlags();
             script = new ScriptEngine();
@@ -126,15 +126,15 @@ namespace SharpDune
         internal byte availableHouse;                    /*!< To which house this Structure / Unit is available. */
     }
 
-    class CObject
+    class Object
     {
         /*
          * Clear variable4 in a safe (and recursive) way from an object.
          * @param object The Oject to clear variable4 of.
          */
-        internal static void Object_Script_Variable4_Clear(Object obj)
+        internal static void Object_Script_Variable4_Clear(CObject obj)
         {
-            Object objectVariable;
+            CObject objectVariable;
             var encoded = obj.script.variables[4];
 
             if (encoded == 0) return;
@@ -150,10 +150,10 @@ namespace SharpDune
          * @param o The Object to set variable4 for.
          * @param index The encoded index to set it to.
          */
-        internal static void Object_Script_Variable4_Set(Object o, ushort encoded)
+        internal static void Object_Script_Variable4_Set(CObject o, ushort encoded)
         {
             StructureInfo si;
-            Structure s;
+            CStructure s;
 
             if (o == null) return;
 
@@ -178,8 +178,8 @@ namespace SharpDune
          */
         internal static void Object_Script_Variable4_Link(ushort encodedFrom, ushort encodedTo)
         {
-            Object objectFrom;
-            Object objectTo;
+            CObject objectFrom;
+            CObject objectTo;
 
             if (!Tools_Index_IsValid(encodedFrom)) return;
             if (!Tools_Index_IsValid(encodedTo)) return;
@@ -208,9 +208,9 @@ namespace SharpDune
          * @param packed The packed tile to get the object from.
          * @return The object.
          */
-        internal static Object Object_GetByPackedTile(ushort packed)
+        internal static CObject Object_GetByPackedTile(ushort packed)
         {
-            Tile t;
+            CTile t;
 
             if (Tile_IsOutOfMap(packed)) return null;
 
@@ -226,9 +226,9 @@ namespace SharpDune
          * @param encoded The encoded index.
          * @return The distance.
          */
-        internal static ushort Object_GetDistanceToEncoded(Object o, ushort encoded)
+        internal static ushort Object_GetDistanceToEncoded(CObject o, ushort encoded)
         {
-            Structure s;
+            CStructure s;
             tile32 position;
 
             s = Tools_Index_GetStructure(encoded);

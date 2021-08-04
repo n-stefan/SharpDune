@@ -9,8 +9,8 @@
             HOUSE_INDEX_INVALID = 0xFFFF
         }
 
-        static readonly House[] g_houseArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];
-        static readonly House[] g_houseFindArray = new House[(int)HouseIndex.HOUSE_INDEX_MAX];
+        static readonly CHouse[] g_houseArray = new CHouse[(int)HouseIndex.HOUSE_INDEX_MAX];
+        static readonly CHouse[] g_houseFindArray = new CHouse[(int)HouseIndex.HOUSE_INDEX_MAX];
         static ushort g_houseFindCount;
 
         /*
@@ -19,7 +19,7 @@
          * @param index The index of the House to get.
          * @return The House.
          */
-        internal static House House_Get_ByIndex(byte index)
+        internal static CHouse House_Get_ByIndex(byte index)
         {
             Debug.Assert(index < (byte)HouseIndex.HOUSE_INDEX_MAX);
             return g_houseArray[index];
@@ -39,7 +39,7 @@
          *   same 'find' parameter walks over all possible values matching the filter.
          * @return The House, or NULL if nothing matches (anymore).
          */
-        internal static House House_Find(PoolFindStruct find)
+        internal static CHouse House_Find(PoolFindStruct find)
         {
             if (find.index >= g_houseFindCount && find.index != 0xFFFF) return null;
             find.index++; /* First, we always go to the next index */
@@ -60,7 +60,7 @@
          */
         internal static void House_Init()
         {
-            for (var i = 0; i < g_houseArray.Length; i++) g_houseArray[i] = new House(); //memset(g_houseArray, 0, sizeof(g_houseArray));
+            for (var i = 0; i < g_houseArray.Length; i++) g_houseArray[i] = new CHouse(); //memset(g_houseArray, 0, sizeof(g_houseArray));
             Array.Fill(g_houseFindArray, null, 0, g_houseFindArray.Length); //memset(g_houseFindArray, 0, sizeof(g_houseFindArray));
             g_houseFindCount = 0;
         }
@@ -71,9 +71,9 @@
          * @param index The index to use.
          * @return The House allocated, or NULL on failure.
          */
-        internal static House House_Allocate(byte index)
+        internal static CHouse House_Allocate(byte index)
         {
-            House h;
+            CHouse h;
 
             if (index >= (byte)HouseIndex.HOUSE_INDEX_MAX) return null;
 

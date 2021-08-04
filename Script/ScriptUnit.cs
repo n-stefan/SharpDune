@@ -24,8 +24,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_RandomSoldier(ScriptEngine script)
 		{
-			Unit u;
-			Unit nu;
+			CUnit u;
+			CUnit nu;
 			tile32 position;
 
 			u = g_scriptCurrentUnit;
@@ -55,7 +55,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_FindBestTarget(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -72,9 +72,9 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_GetTargetPriority(ScriptEngine script)
 		{
-			Unit u;
-			Unit target;
-			Structure s;
+			CUnit u;
+			CUnit target;
+			CStructure s;
 			ushort encoded;
 
 			u = g_scriptCurrentUnit;
@@ -99,8 +99,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_TransportDeliver(ScriptEngine script)
 		{
-			Unit u;
-			Unit u2;
+			CUnit u;
+			CUnit u2;
 
 			u = g_scriptCurrentUnit;
 
@@ -110,7 +110,7 @@ namespace SharpDune.Script
 			if (Tools_Index_GetType(u.targetMove) == IndexType.IT_STRUCTURE)
 			{
 				StructureInfo si;
-				Structure s;
+				CStructure s;
 
 				s = Tools_Index_GetStructure(u.targetMove);
 				si = g_table_structureInfo[s.o.type];
@@ -204,7 +204,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_Pickup(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -214,8 +214,8 @@ namespace SharpDune.Script
 			{
 				case IndexType.IT_STRUCTURE:
 					{
-						Structure s;
-						Unit u2;
+						CStructure s;
+						CUnit u2;
 
 						s = Tools_Index_GetStructure(u.targetMove);
 
@@ -258,8 +258,8 @@ namespace SharpDune.Script
 
 				case IndexType.IT_UNIT:
 					{
-						Unit u2;
-						Structure s = null;
+						CUnit u2;
+						CStructure s = null;
 						var find = new PoolFindStruct();
 						short minDistance = 0;
 
@@ -274,7 +274,7 @@ namespace SharpDune.Script
 						/* Find closest refinery / repair station */
 						while (true)
 						{
-							Structure s2;
+							CStructure s2;
 							short distance;
 
 							s2 = Structure_Find(find);
@@ -345,7 +345,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_Stop(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -366,7 +366,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetSpeed(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort speed;
 
 			u = g_scriptCurrentUnit;
@@ -389,7 +389,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetSprite(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -412,7 +412,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_MoveToTarget(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort delay;
 			tile32 tile;
 			ushort distance;
@@ -478,7 +478,7 @@ namespace SharpDune.Script
 		internal static ushort Script_Unit_Die(ScriptEngine script)
 		{
 			UnitInfo ui;
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
@@ -522,7 +522,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_ExplosionSingle(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -542,7 +542,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_ExplosionMultiple(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			byte i;
 
 			u = g_scriptCurrentUnit;
@@ -568,7 +568,7 @@ namespace SharpDune.Script
 		internal static ushort Script_Unit_Fire(ScriptEngine script)
 		{
 			UnitInfo ui;
-			Unit u;
+			CUnit u;
 			ushort target;
 			UnitType typeID;
 			ushort distance;
@@ -624,7 +624,7 @@ namespace SharpDune.Script
 			{
 				case UnitType.UNIT_SANDWORM:
 					{
-						Unit u2;
+						CUnit u2;
 
 						Unit_UpdateMap(0, u);
 
@@ -662,7 +662,7 @@ namespace SharpDune.Script
 						if (typeID == UnitType.UNIT_MISSILE_TROOPER)
 							damage -= (ushort)(damage / 4);
 
-						Unit bullet;
+						CUnit bullet;
 
 						bullet = Unit_CreateBullet(u.o.position, typeID, Unit_GetHouseID(u), damage, target);
 
@@ -708,7 +708,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetOrientation(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -728,7 +728,7 @@ namespace SharpDune.Script
 		internal static ushort Script_Unit_Rotate(ScriptEngine script)
 		{
 			UnitInfo ui;
-			Unit u;
+			CUnit u;
 			ushort index;
 			sbyte current;
 			tile32 tile;
@@ -768,7 +768,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_GetOrientation(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort encoded;
 
 			u = g_scriptCurrentUnit;
@@ -796,7 +796,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetDestination(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort encoded;
 
 			u = g_scriptCurrentUnit;
@@ -810,7 +810,7 @@ namespace SharpDune.Script
 
 			if (u.o.type == (byte)UnitType.UNIT_HARVESTER)
 			{
-				Structure s;
+				CStructure s;
 
 				s = Tools_Index_GetStructure(encoded);
 				if (s == null)
@@ -837,7 +837,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetTarget(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort target;
 			tile32 tile;
 			sbyte orientation;
@@ -877,7 +877,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetAction(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ActionType action;
 
 			u = g_scriptCurrentUnit;
@@ -901,7 +901,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetActionDefault(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -921,7 +921,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_SetDestinationDirect(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort encoded;
 
 			encoded = STACK_PEEK(script, 1);
@@ -951,7 +951,7 @@ namespace SharpDune.Script
 		internal static ushort Script_Unit_GetInfo(ScriptEngine script)
 		{
 			UnitInfo ui;
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
@@ -994,7 +994,7 @@ namespace SharpDune.Script
 		static short Script_Unit_Pathfind_GetScore(ushort packed, byte orient8)
 		{
 			short res;
-			Unit u;
+			CUnit u;
 
 			if (g_scriptCurrentUnit == null) return 0;
 
@@ -1345,7 +1345,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_CalculateRoute(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort encoded;
 			ushort packedSrc;
 			ushort packedDst;
@@ -1421,14 +1421,14 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_MoveToStructure(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			var find = new PoolFindStruct();
 
 			u = g_scriptCurrentUnit;
 
 			if (u.o.linkedID != 0xFF)
 			{
-				Structure s;
+				CStructure s;
 
 				s = Tools_Index_GetStructure(Unit_Get_ByIndex(u.o.linkedID).originEncoded);
 
@@ -1452,7 +1452,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Structure s;
+				CStructure s;
 				ushort encoded;
 
 				s = Structure_Find(find);
@@ -1483,7 +1483,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_GetAmount(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -1502,7 +1502,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_IsInTransport(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -1519,7 +1519,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_StartAnimation(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort animationUnitID;
 			ushort position;
 
@@ -1557,8 +1557,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_CallUnitByType(ScriptEngine script)
 		{
-			Unit u;
-			Unit u2;
+			CUnit u;
+			CUnit u2;
 			ushort encoded;
 			ushort encoded2;
 
@@ -1590,8 +1590,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_Unknown2552(ScriptEngine script)
 		{
-			Unit u;
-			Unit u2;
+			CUnit u;
+			CUnit u2;
 
 			u = g_scriptCurrentUnit;
 			if (u.o.script.variables[4] == 0) return 0;
@@ -1615,7 +1615,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_FindStructure(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			var find = new PoolFindStruct();
 
 			u = g_scriptCurrentUnit;
@@ -1626,7 +1626,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Structure s;
+				CStructure s;
 
 				s = Structure_Find(find);
 				if (s == null) break;
@@ -1651,7 +1651,7 @@ namespace SharpDune.Script
 		internal static ushort Script_Unit_DisplayDestroyedText(ScriptEngine script)
 		{
 			UnitInfo ui;
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 			ui = g_table_unitInfo[u.o.type];
@@ -1678,7 +1678,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_RemoveFog(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 			Unit_RemoveFog(u);
@@ -1695,7 +1695,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_Harvest(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort packed;
 			ushort type;
 
@@ -1735,8 +1735,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_IsValidDestination(ScriptEngine script)
 		{
-			Unit u;
-			Unit u2;
+			CUnit u;
+			CUnit u2;
 			ushort encoded;
 			ushort index;
 
@@ -1758,7 +1758,7 @@ namespace SharpDune.Script
 
 				case IndexType.IT_STRUCTURE:
 					{
-						Structure s;
+						CStructure s;
 
 						s = Structure_Get_ByIndex(index);
 						if (s.o.houseID == Unit_GetHouseID(u)) return 0;
@@ -1781,7 +1781,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_GetRandomTile(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			tile32 tile;
 
 			u = g_scriptCurrentUnit;
@@ -1803,7 +1803,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_IdleAction(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 			ushort random;
 			ushort movementType;
 			ushort i;
@@ -1840,8 +1840,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_GoToClosestStructure(ScriptEngine script)
 		{
-			Unit u;
-			Structure s = null;
+			CUnit u;
+			CStructure s = null;
 			var find = new PoolFindStruct();
 			ushort distanceMin = 0;
 
@@ -1853,7 +1853,7 @@ namespace SharpDune.Script
 
 			while (true)
 			{
-				Structure s2;
+				CStructure s2;
 				ushort distance;
 
 				s2 = Structure_Find(find);
@@ -1890,8 +1890,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_MCVDeploy(ScriptEngine script)
 		{
-			Unit u;
-			Structure s;
+			CUnit u;
+			CStructure s;
 			ushort i;
 
 			u = g_scriptCurrentUnit;
@@ -1929,8 +1929,8 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_Sandworm_GetBestTarget(ScriptEngine script)
 		{
-			Unit u;
-			Unit u2;
+			CUnit u;
+			CUnit u2;
 
 			u = g_scriptCurrentUnit;
 
@@ -1950,7 +1950,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_Unknown2BD5(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 
@@ -1958,7 +1958,7 @@ namespace SharpDune.Script
 			{
 				case IndexType.IT_UNIT:
 					{
-						Unit u2;
+						CUnit u2;
 
 						u2 = Tools_Index_GetUnit(u.o.script.variables[4]);
 
@@ -1970,7 +1970,7 @@ namespace SharpDune.Script
 
 				case IndexType.IT_STRUCTURE:
 					{
-						Structure s;
+						CStructure s;
 
 						s = Tools_Index_GetStructure(u.o.script.variables[4]);
 						if (Tools_Index_Encode(u.o.index, IndexType.IT_UNIT) == s.o.script.variables[4] && s.o.houseID == u.o.houseID) return 1;
@@ -1994,7 +1994,7 @@ namespace SharpDune.Script
 		 */
 		internal static ushort Script_Unit_Blink(ScriptEngine script)
 		{
-			Unit u;
+			CUnit u;
 
 			u = g_scriptCurrentUnit;
 			u.blinkCounter = 32;

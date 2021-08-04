@@ -19,12 +19,12 @@ namespace SharpDune.Gui
 			Screen oldScreenID;
 			ushort oldWidgetID;
 			bool isNotPlayerOwned;
-			Object o;
-			Unit u;
-			Structure s;
-			House h;
-			var buttons = new Widget[4];
-			Widget widget24 = null, widget28 = null, widget2C = null, widget30 = null, widget34 = null;
+			CObject o;
+			CUnit u;
+			CStructure s;
+			CHouse h;
+			var buttons = new CWidget[4];
+			CWidget widget24 = null, widget28 = null, widget2C = null, widget30 = null, widget34 = null;
 
 			o = null;
 			u = null;
@@ -323,7 +323,7 @@ namespace SharpDune.Gui
 										{
 											ushort percent;
 											ushort steps;
-											Unit u2;
+											CUnit u2;
 
 											u2 = Structure_GetLinkedUnit(s);
 											if (u2 == null) break;
@@ -494,8 +494,8 @@ namespace SharpDune.Gui
 		static ushort GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 		{
 			ushort actionType = 0;
-			Structure s = null;
-			Unit u = null;
+			CStructure s = null;
+			CUnit u = null;
 
 			if (g_selectionType == (ushort)SelectionType.PLACE)
 			{
@@ -620,7 +620,7 @@ namespace SharpDune.Gui
 		 * Draw all widgets, starting with the one given by the parameters.
 		 * @param w First widget of the chain to draw.
 		 */
-		internal static void GUI_Widget_DrawAll(Widget w)
+		internal static void GUI_Widget_DrawAll(CWidget w)
 		{
 			while (w != null)
 			{
@@ -634,7 +634,7 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget (which is a button) to draw.
 		 */
-		internal static void GUI_Widget_SpriteButton_Draw(Widget w)
+		internal static void GUI_Widget_SpriteButton_Draw(CWidget w)
 		{
 			Screen oldScreenID;
 			ushort positionX, positionY;
@@ -656,7 +656,7 @@ namespace SharpDune.Gui
 			else
 			{
 				StructureInfo si;
-				Structure s;
+				CStructure s;
 
 				s = Structure_Get_ByPackedTile(g_selectionPosition);
 				if (s == null) return;
@@ -698,7 +698,7 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget (which is a button) to draw.
 		 */
-		internal static void GUI_Widget_TextButton2_Draw(Widget w)
+		internal static void GUI_Widget_TextButton2_Draw(CWidget w)
 		{
 			Screen oldScreenID;
 			ushort stringID;
@@ -762,10 +762,10 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget (which is a button) to draw.
 		 */
-		internal static void GUI_Widget_SpriteTextButton_Draw(Widget w)
+		internal static void GUI_Widget_SpriteTextButton_Draw(CWidget w)
 		{
 			Screen oldScreenID;
-			Structure s;
+			CStructure s;
 			ushort positionX, positionY;
 			ushort width, height;
 			ushort spriteID;
@@ -941,7 +941,7 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget (which is a button) to draw.
 		 */
-		internal static void GUI_Widget_TextButton_Draw(Widget w)
+		internal static void GUI_Widget_TextButton_Draw(CWidget w)
 		{
 			Screen oldScreenID;
 			ushort positionX, positionY;
@@ -992,7 +992,7 @@ namespace SharpDune.Gui
 		 *
 		 * @param w The widget (which is a scrollbar) to draw.
 		 */
-		internal static void GUI_Widget_Scrollbar_Draw(Widget w)
+		internal static void GUI_Widget_Scrollbar_Draw(CWidget w)
 		{
 			WidgetScrollbar scrollbar;
 			ushort positionX, positionY;

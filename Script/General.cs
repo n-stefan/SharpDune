@@ -57,7 +57,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_General_GetDistanceToTile(ScriptEngine script)
         {
-            Object o;
+            CObject o;
             ushort encoded;
 
             encoded = STACK_PEEK(script, 1);
@@ -163,7 +163,7 @@ namespace SharpDune.Script
         internal static ushort Script_General_Unknown0288(ScriptEngine script)
         {
             ushort index;
-            Structure s;
+            CStructure s;
 
             index = STACK_PEEK(script, 1);
             s = Tools_Index_GetStructure(index);
@@ -183,7 +183,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_General_GetOrientation(ScriptEngine script)
         {
-            Unit u;
+            CUnit u;
 
             u = Tools_Index_GetUnit(STACK_PEEK(script, 1));
 
@@ -328,7 +328,7 @@ namespace SharpDune.Script
         internal static ushort Script_General_IsFriendly(ScriptEngine script)
         {
             ushort index;
-            Object o;
+            CObject o;
             ushort res;
 
             index = STACK_PEEK(script, 1);
@@ -384,7 +384,7 @@ namespace SharpDune.Script
         {
             byte houseID;
             ushort index;
-            Structure s;
+            CStructure s;
             var find = new PoolFindStruct();
 
             index = STACK_PEEK(script, 1);

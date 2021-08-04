@@ -14,7 +14,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_GetState(ScriptEngine script)
         {
-            Structure s;
+            CStructure s;
 
             s = g_scriptCurrentStructure;
             return (ushort)s.state;
@@ -30,7 +30,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_SetState(ScriptEngine script)
         {
-            Structure s;
+            CStructure s;
             short state;
 
             s = g_scriptCurrentStructure;
@@ -87,9 +87,9 @@ namespace SharpDune.Script
         internal static ushort Script_Structure_RefineSpice(ScriptEngine script)
         {
             StructureInfo si;
-            Structure s;
-            Unit u;
-            House h;
+            CStructure s;
+            CUnit u;
+            CHouse h;
             ushort harvesterStep, creditsStep;
 
             s = g_scriptCurrentStructure;
@@ -148,8 +148,8 @@ namespace SharpDune.Script
         internal static ushort Script_Structure_Unknown0A81(ScriptEngine script)
         {
             ushort structureIndex;
-            Structure s;
-            Unit u;
+            CStructure s;
+            CUnit u;
 
             s = g_scriptCurrentStructure;
 
@@ -178,9 +178,9 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_FindUnitByType(ScriptEngine script)
         {
-            Structure s;
-            Unit u;
-            Unit carryall;
+            CStructure s;
+            CUnit u;
+            CUnit carryall;
             ushort type;
             ushort position;
             ushort carryallIndex;
@@ -222,8 +222,8 @@ namespace SharpDune.Script
         internal static ushort Script_Structure_Unknown0C5A(ScriptEngine script)
         {
             tile32 tile;
-            Structure s;
-            Unit u;
+            CStructure s;
+            CUnit u;
             ushort position;
 
             s = g_scriptCurrentStructure;
@@ -288,8 +288,8 @@ namespace SharpDune.Script
         internal static ushort Script_Structure_FindTargetUnit(ScriptEngine script)
         {
             var find = new PoolFindStruct();
-            Structure s;
-            Unit u;
+            CStructure s;
+            CUnit u;
             uint distanceCurrent;
             uint targetRange;
             tile32 position;
@@ -316,7 +316,7 @@ namespace SharpDune.Script
             while (true)
             {
                 ushort distance;
-                Unit uf;
+                CUnit uf;
 
                 uf = Unit_Find(find);
                 if (uf == null) break;
@@ -373,9 +373,9 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_RotateTurret(ScriptEngine script)
         {
-            Structure s;
+            CStructure s;
             tile32 lookAt;
-            Tile tile;
+            CTile tile;
             ushort baseTileID;
             ushort encoded;
             short rotation;
@@ -444,7 +444,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_GetDirection(ScriptEngine script)
         {
-            Structure s;
+            CStructure s;
             tile32 tile;
             ushort encoded;
 
@@ -469,7 +469,7 @@ namespace SharpDune.Script
         internal static ushort Script_Structure_Unknown11B9(ScriptEngine script)
         {
             ushort encoded;
-            Unit u;
+            CUnit u;
 
             encoded = STACK_PEEK(script, 1);
 
@@ -495,7 +495,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_VoicePlay(ScriptEngine script)
         {
-            Structure s;
+            CStructure s;
 
             s = g_scriptCurrentStructure;
 
@@ -517,8 +517,8 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_Fire(ScriptEngine script)
         {
-            Structure s;
-            Unit u;
+            CStructure s;
+            CUnit u;
             var position = new tile32();
             ushort target;
             ushort damage;
@@ -564,7 +564,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_Explode(ScriptEngine script)
         {
-            Structure s;
+            CStructure s;
             ushort position;
             ushort layout;
             ushort i;
@@ -595,7 +595,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_Destroy(ScriptEngine script)
         {
-            Structure s;
+            CStructure s;
             ushort position;
             ushort layout;
             ushort i;
@@ -609,7 +609,7 @@ namespace SharpDune.Script
             for (i = 0; i < g_table_structure_layoutTileCount[layout]; i++)
             {
                 tile32 tile;
-                Unit u;
+                CUnit u;
 
                 tile = Tile_UnpackTile((ushort)(position + g_table_structure_layoutTiles[layout][i]));
 

@@ -27,7 +27,7 @@ namespace SharpDune
 		internal ushort parameter;                      /*!< The parameter for this command. */
 	}
 
-	class Animation
+	class CAnimation
 	{
 		internal uint tickNext;                         /*!< Which tick this Animation should be called again. */
 		internal ushort tileLayout;                     /*!< Tile layout of the Animation. */
@@ -38,11 +38,11 @@ namespace SharpDune
 		internal tile32 tile;                           /*!< Top-left tile of Animation. */
 	}
 
-	class CAnimation
+	class Animation
 	{
 		const byte ANIMATION_MAX = 112;
 
-		static readonly Animation[] g_animations = new Animation[ANIMATION_MAX];
+		static readonly CAnimation[] g_animations = new CAnimation[ANIMATION_MAX];
 		static uint s_animationTimer; /*!< Timer for animations. */
 
 		/*
@@ -50,7 +50,7 @@ namespace SharpDune
 		 * @param animation The Animation to stop.
 		 * @param parameter Not used.
 		 */
-		static void Animation_Func_Stop(Animation animation, short parameter)
+		static void Animation_Func_Stop(CAnimation animation, short parameter)
 		{
 			var layout = g_table_structure_layoutTiles[animation.tileLayout];
 			var layoutTileCount = g_table_structure_layoutTileCount[animation.tileLayout];
@@ -85,7 +85,7 @@ namespace SharpDune
 		 * @param animation The Animation to abort.
 		 * @param parameter Not used.
 		 */
-		static void Animation_Func_Abort(Animation animation, short parameter)
+		static void Animation_Func_Abort(CAnimation animation, short parameter)
 		{
 			var packed = Tile_PackTile(animation.tile);
 
@@ -100,7 +100,7 @@ namespace SharpDune
 		 * @param animation The Animation for which we change the overlay sprite.
 		 * @param parameter The TileID to which the overlay sprite is set.
 		 */
-		static void Animation_Func_SetOverlayTile(Animation animation, short parameter)
+		static void Animation_Func_SetOverlayTile(CAnimation animation, short parameter)
 		{
 			var packed = Tile_PackTile(animation.tile);
 			var t = g_map[packed];
@@ -120,7 +120,7 @@ namespace SharpDune
 		 * @param parameter How many ticks it should pause.
 		 * @note Delays are randomly delayed with [0..3] ticks.
 		 */
-		static void Animation_Func_Pause(Animation animation, short parameter)
+		static void Animation_Func_Pause(CAnimation animation, short parameter)
 		{
 			Debug.Assert(parameter >= 0);
 
@@ -132,7 +132,7 @@ namespace SharpDune
 		 * @param animation The Animation to rewind.
 		 * @param parameter Not used.
 		 */
-        static void Animation_Func_Rewind(Animation animation, short parameter) =>
+        static void Animation_Func_Rewind(CAnimation animation, short parameter) =>
 			animation.current = 0;
 
         /*
@@ -140,7 +140,7 @@ namespace SharpDune
 		 * @param animation The Animation which gives the position the voice plays at.
 		 * @param parameter The VoiceID to play.
 		 */
-        static void Animation_Func_PlayVoice(Animation animation, short parameter) =>
+        static void Animation_Func_PlayVoice(CAnimation animation, short parameter) =>
             Voice_PlayAtTile(parameter, animation.tile);
 
 		/*
@@ -148,7 +148,7 @@ namespace SharpDune
 		 * @param animation The Animation for which we change the ground sprite.
 		 * @param parameter The offset in the iconGroup to which the ground sprite is set.
 		 */
-		static void Animation_Func_SetGroundTile(Animation animation, short parameter)
+		static void Animation_Func_SetGroundTile(CAnimation animation, short parameter)
 		{
 			var specialMap = new ushort[1];
 			ushort[] iconMap;
@@ -199,7 +199,7 @@ namespace SharpDune
 		 * @param parameter With what value you want to forward the Animation.
 		 * @note Forwarding with 1 is just the next instruction, making this command a NOP.
 		 */
-		static void Animation_Func_Forward(Animation animation, short parameter) =>
+		static void Animation_Func_Forward(CAnimation animation, short parameter) =>
 			animation.current += (byte)(parameter - 1);
 
 		/*
@@ -207,7 +207,7 @@ namespace SharpDune
 		 * @param animation The Animation to change.
 		 * @param parameter To what value IconGroup should change.
 		 */
-		static void Animation_Func_SetIconGroup(Animation animation, short parameter)
+		static void Animation_Func_SetIconGroup(CAnimation animation, short parameter)
 		{
 			Debug.Assert(parameter >= 0);
 
@@ -248,7 +248,7 @@ namespace SharpDune
 		{
 			var animation = g_animations;
 			var packed = Tile_PackTile(tile);
-			Tile t;
+			CTile t;
 			int i;
 
 			t = g_map[packed];
@@ -321,7 +321,7 @@ namespace SharpDune
 
 		internal static void Animation_Init()
         {
-			for (var i = 0; i < g_animations.Length; i++) g_animations[i] = new Animation(); //memset(g_animations, 0, ANIMATION_MAX * sizeof(Animation));
+			for (var i = 0; i < g_animations.Length; i++) g_animations[i] = new CAnimation(); //memset(g_animations, 0, ANIMATION_MAX * sizeof(Animation));
 		}	
 	}
 }

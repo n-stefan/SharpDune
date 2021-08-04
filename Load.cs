@@ -62,7 +62,7 @@ namespace SharpDune
 				using var br = new BinaryReader(fp);
 				/* All SharpDUNE / Dune2 savegames should start with 'FORM' */
 				header = br.ReadUInt32(); //if (fread(&header, sizeof(uint32), 1, fp) != 1) return false;
-				if (BETOH32(header) != (uint)CSharpDune.MultiChar[FourCC.FORM])
+				if (BETOH32(header) != (uint)SharpDune.MultiChar[FourCC.FORM])
 				{
 					Trace.WriteLine("ERROR: Invalid magic header in savegame. Not a SharpDUNE / Dune2 savegame.");
 					return false;
@@ -73,13 +73,13 @@ namespace SharpDune
 
 				/* The next 'chunk' is fake, and has no length field */
 				header = br.ReadUInt32(); //if (fread(&header, sizeof(uint32), 1, fp) != 1) return false;
-				if (BETOH32(header) != (uint)CSharpDune.MultiChar[FourCC.SCEN]) return false;
+				if (BETOH32(header) != (uint)SharpDune.MultiChar[FourCC.SCEN]) return false;
 
 				position = (uint)fp.Position; //ftell(fp);
 
 				/* Find the 'INFO' chunk, as it contains the savegame version */
 				version = 0;
-				length = Load_FindChunk(br, (uint)CSharpDune.MultiChar[FourCC.INFO]);
+				length = Load_FindChunk(br, (uint)SharpDune.MultiChar[FourCC.INFO]);
 				if (length == 0) return false;
 
 				/* Read the savegame version */
@@ -96,7 +96,7 @@ namespace SharpDune
 
 					/* Find the 'PLYR' chunk */
 					fp.Seek(position, SeekOrigin.Begin); //fseek(fp, position, SEEK_SET);
-					length = Load_FindChunk(br, (uint)CSharpDune.MultiChar[FourCC.PLYR]);
+					length = Load_FindChunk(br, (uint)SharpDune.MultiChar[FourCC.PLYR]);
 					if (length == 0) return false;
 
 					/* Find the human player */
@@ -120,35 +120,35 @@ namespace SharpDune
 					length = BETOH32(length);
 
 					var headerValue = BETOH32(header);
-					if (headerValue == CSharpDune.MultiChar[FourCC.NAME])
+					if (headerValue == SharpDune.MultiChar[FourCC.NAME])
 					{
 						/* 'NAME' chunk is of no interest to us */
 					}
-					else if (headerValue == CSharpDune.MultiChar[FourCC.INFO])
+					else if (headerValue == SharpDune.MultiChar[FourCC.INFO])
 					{
 						/* 'INFO' chunk is already read */
 					}
-					else if (headerValue == CSharpDune.MultiChar[FourCC.MAP])
+					else if (headerValue == SharpDune.MultiChar[FourCC.MAP])
                     {
 						if (!Map_Load(fp, length)) return false;
 					}
-					else if (headerValue == CSharpDune.MultiChar[FourCC.PLYR])
+					else if (headerValue == SharpDune.MultiChar[FourCC.PLYR])
                     {
 						if (!House_Load(br, length)) return false;
 					}
-					else if (headerValue == CSharpDune.MultiChar[FourCC.UNIT])
+					else if (headerValue == SharpDune.MultiChar[FourCC.UNIT])
                     {
 						if (!Unit_Load(br, length)) return false;
 					}
-					else if (headerValue == CSharpDune.MultiChar[FourCC.BLDG])
+					else if (headerValue == SharpDune.MultiChar[FourCC.BLDG])
                     {
 						if (!Structure_Load(br, length)) return false;
 					}
-					else if (headerValue == CSharpDune.MultiChar[FourCC.TEAM])
+					else if (headerValue == SharpDune.MultiChar[FourCC.TEAM])
                     {
 						if (!Team_Load(br, length)) return false;
 					}
-					else if (headerValue == CSharpDune.MultiChar[FourCC.ODUN])
+					else if (headerValue == SharpDune.MultiChar[FourCC.ODUN])
                     {
 						if (!UnitNew_Load(br, length)) return false;
 					}

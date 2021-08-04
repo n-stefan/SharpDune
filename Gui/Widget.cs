@@ -2,8 +2,8 @@
 
 namespace SharpDune.Gui
 {
-    delegate bool ClickProc(Widget widget);
-	delegate void ScrollbarDrawProc(Widget widget);
+    delegate bool ClickProc(CWidget widget);
+	delegate void ScrollbarDrawProc(CWidget widget);
 
 	/*
 	 * Types of DrawMode available in the game.
@@ -70,7 +70,7 @@ namespace SharpDune.Gui
 		internal ushort spriteID;                               /*!< Parameter for DRAW_MODE_UNKNOWN3. */
 		internal /*void*/byte[] sprite;                         /*!< Parameter for DRAW_MODE_SPRITE. */
 		internal string text;                                   /*!< Parameter for DRAW_MODE_TEXT. */
-		internal Action<Widget> proc;                           /*!< Parameter for DRAW_MODE_CUSTOM_PROC. */
+		internal Action<CWidget> proc;                          /*!< Parameter for DRAW_MODE_CUSTOM_PROC. */
 	}
 
 	/* Widget properties. */
@@ -91,9 +91,9 @@ namespace SharpDune.Gui
 	/*
     * A Widget as stored in the memory.
     */
-	class Widget
+	class CWidget
 	{
-		internal Widget next;									/*!< Next widget in the list. */
+		internal CWidget next;									/*!< Next widget in the list. */
 		internal ushort index;                                  /*!< Index of the widget. */
 		internal ushort shortcut;                               /*!< What key triggers this widget. */
 		internal ushort shortcut2;                              /*!< What key (also) triggers this widget. */
@@ -121,7 +121,7 @@ namespace SharpDune.Gui
 		internal object data;									/*!< If non-NULL, it points to WidgetScrollbar or HallOfFameData belonging to this widget. */
 		internal ushort stringID;                               /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
 
-        internal Widget()
+        internal CWidget()
         {
 			flags = new WidgetFlags();
 			state = new WidgetState();
@@ -176,7 +176,7 @@ namespace SharpDune.Gui
 	 */
 	class WidgetScrollbar
 	{
-		internal Widget parent;                               /*!< Parent widget we belong to. */
+		internal CWidget parent;                              /*!< Parent widget we belong to. */
 		internal ushort size;                                 /*!< Size (in pixels) of the scrollbar. */
 		internal ushort position;                             /*!< Current position of the scrollbar. */
 		internal ushort scrollMax;                            /*!< Maximum position of the scrollbar cursor. */
@@ -188,7 +188,7 @@ namespace SharpDune.Gui
 		internal ScrollbarDrawProc drawProc;                  /*!< Draw proc (called on every draw). Can be null. */
 	}
 
-	class CWidget
+	class Widget
 	{
 		/* Layout and other properties of the widgets. */
 		internal static WidgetProperties[] g_widgetProperties = { //[22]
@@ -225,17 +225,17 @@ namespace SharpDune.Gui
 		internal static byte g_curWidgetFGColourBlink;    /*!< Blinking colour of the currently selected widget. */
 		internal static byte g_curWidgetFGColourNormal;   /*!< Normal colour of the currently selected widget. */
 
-		internal static Widget g_widgetLinkedListHead;
-		internal static Widget g_widgetLinkedListTail;
-		internal static Widget g_widgetInvoiceTail;
+		internal static CWidget g_widgetLinkedListHead;
+		internal static CWidget g_widgetLinkedListTail;
+		internal static CWidget g_widgetInvoiceTail;
 
 		static bool s_widgetReset; /*!< If true, the widgets will be redrawn. */
 
-		internal static Widget g_widgetMentatFirst;
-		internal static Widget g_widgetMentatTail;
-		internal static Widget g_widgetMentatScrollUp;
-		internal static Widget g_widgetMentatScrollDown;
-		internal static Widget g_widgetMentatScrollbar;
+		internal static CWidget g_widgetMentatFirst;
+		internal static CWidget g_widgetMentatTail;
+		internal static CWidget g_widgetMentatScrollUp;
+		internal static CWidget g_widgetMentatScrollDown;
+		internal static CWidget g_widgetMentatScrollbar;
 
 		/*
          * Select a widget as current widget.
@@ -264,7 +264,7 @@ namespace SharpDune.Gui
          * @param index The index of the widget you are looking for.
          * @return The widget, or NULL if not found.
          */
-		internal static Widget GUI_Widget_Get_ByIndex(Widget w, ushort index)
+		internal static CWidget GUI_Widget_Get_ByIndex(CWidget w, ushort index)
 		{
 			if (index == 0) return w;
 
@@ -277,7 +277,7 @@ namespace SharpDune.Gui
 			return null;
 		}
 
-		internal static Widget GUI_Widget_GetNext(Widget w)
+		internal static CWidget GUI_Widget_GetNext(CWidget w)
 		{
 			if (w.next == null) return null;
 			return w.next;
@@ -287,7 +287,7 @@ namespace SharpDune.Gui
          * Make the widget invisible.
          * @param w The widget to make invisible.
          */
-		internal static void GUI_Widget_MakeInvisible(Widget w)
+		internal static void GUI_Widget_MakeInvisible(CWidget w)
 		{
 			if (w == null || w.flags.invisible) return;
 			w.flags.invisible = true;
@@ -299,7 +299,7 @@ namespace SharpDune.Gui
          * Make the widget visible.
          * @param w The widget to make visible.
          */
-		internal static void GUI_Widget_MakeVisible(Widget w)
+		internal static void GUI_Widget_MakeVisible(CWidget w)
 		{
 			if (w == null || !w.flags.invisible) return;
 			w.flags.invisible = false;
@@ -313,7 +313,7 @@ namespace SharpDune.Gui
          * @param w The widget to reset.
          * @param clickProc Wether to execute the widget clickProc.
          */
-		internal static void GUI_Widget_MakeNormal(Widget w, bool clickProc)
+		internal static void GUI_Widget_MakeNormal(CWidget w, bool clickProc)
 		{
 			if (w == null || w.flags.invisible) return;
 
@@ -336,7 +336,7 @@ namespace SharpDune.Gui
          *
          * @param w The widget to draw.
          */
-		internal static void GUI_Widget_Draw(Widget w)
+		internal static void GUI_Widget_Draw(CWidget w)
 		{
 			ushort positionLeft, positionRight;
 			ushort positionTop, positionBottom;
@@ -456,7 +456,7 @@ namespace SharpDune.Gui
 		 * @param w The widget to draw.
 		 * @param colour The colour of the chess pattern.
 		 */
-		static void GUI_Widget_DrawBlocked(Widget w, byte colour)
+		static void GUI_Widget_DrawBlocked(CWidget w, byte colour)
 		{
 			if (GFX_Screen_IsActive(Screen.NO0))
 			{
@@ -479,7 +479,7 @@ namespace SharpDune.Gui
 		 * @param w The widget to make selected.
 		 * @param clickProc Wether to execute the widget clickProc.
 		 */
-		internal static void GUI_Widget_MakeSelected(Widget w, bool clickProc)
+		internal static void GUI_Widget_MakeSelected(CWidget w, bool clickProc)
 		{
 			if (w == null || w.flags.invisible) return;
 
@@ -546,14 +546,14 @@ namespace SharpDune.Gui
 		 * @param stringID The string to print on the allocated widget.
 		 * @return The allocated widget.
 		 */
-		internal static Widget GUI_Widget_Allocate(ushort index, ushort shortcut, ushort offsetX, ushort offsetY, ushort spriteID, ushort stringID)
+		internal static CWidget GUI_Widget_Allocate(ushort index, ushort shortcut, ushort offsetX, ushort offsetY, ushort spriteID, ushort stringID)
 		{
-			Widget w;
+			CWidget w;
 			byte drawMode;
 			var drawParam1 = new WidgetDrawParameter();
 			var drawParam2 = new WidgetDrawParameter();
 
-            w = new Widget
+            w = new CWidget
             {
                 index = index,
                 shortcut = shortcut,
@@ -633,10 +633,10 @@ namespace SharpDune.Gui
 		 * @param w2 Widget which is added to the first widget (ordered by index).
 		 * @return The first widget of the chain.
 		 */
-		internal static Widget GUI_Widget_Insert(Widget w1, Widget w2)
+		internal static CWidget GUI_Widget_Insert(CWidget w1, CWidget w2)
 		{
-			Widget first;
-			Widget prev;
+			CWidget first;
+			CWidget prev;
 
 			if (w1 == null) return w2;
 			if (w2 == null) return w1;
@@ -671,8 +671,8 @@ namespace SharpDune.Gui
 			return first;
 		}
 
-		static Widget l_widget_selected;
-        static Widget l_widget_last;
+		static CWidget l_widget_selected;
+        static CWidget l_widget_last;
         static ushort l_widget_button_state;
         /*
 		 * Check a widget for events like 'hover' or 'click'. Also check the keyboard
@@ -683,7 +683,7 @@ namespace SharpDune.Gui
 		  * @return The last key pressed, or 0 if the key pressed was handled (or if
 		 *   there was no key press).
 		 */
-        internal static ushort GUI_Widget_HandleEvents(Widget w)
+        internal static ushort GUI_Widget_HandleEvents(CWidget w)
 		{
 			ushort mouseX, mouseY;
 			ushort buttonState;
@@ -992,7 +992,7 @@ namespace SharpDune.Gui
 		 * @param w2 Widget which is added to the first widget (at the end of his chain).
 		 * @return The first widget of the chain.
 		 */
-		internal static Widget GUI_Widget_Link(Widget w1, Widget w2)
+		internal static CWidget GUI_Widget_Link(CWidget w1, CWidget w2)
 		{
 			var first = w1;
 
@@ -1032,11 +1032,11 @@ namespace SharpDune.Gui
 		 * Allocate a scroll button for the Mentat screen scroll bar.
 		 * @return Allocated widget.
 		 */
-		internal static Widget GUI_Widget_AllocateScrollBtn(ushort index, ushort parentID, ushort offsetX, ushort offsetY, byte[] sprite1, byte[] sprite2, Widget widget2, bool isDown)
+		internal static CWidget GUI_Widget_AllocateScrollBtn(ushort index, ushort parentID, ushort offsetX, ushort offsetY, byte[] sprite1, byte[] sprite2, CWidget widget2, bool isDown)
 		{
-			Widget w;
+			CWidget w;
 
-            w = new Widget
+            w = new CWidget
             {
                 index = index,
                 parentID = parentID,
@@ -1085,12 +1085,12 @@ namespace SharpDune.Gui
 		 * @param drawProc Procedure for drawing.
 		 * @return Address of the new widget.
 		 */
-		internal static Widget GUI_Widget_Allocate_WithScrollbar(ushort index, ushort parentID, ushort offsetX, ushort offsetY, short width, short height, ScrollbarDrawProc drawProc)
+		internal static CWidget GUI_Widget_Allocate_WithScrollbar(ushort index, ushort parentID, ushort offsetX, ushort offsetY, short width, short height, ScrollbarDrawProc drawProc)
 		{
-			Widget w;
+			CWidget w;
 			WidgetScrollbar ws;
 
-            w = new Widget
+            w = new CWidget
             {
                 index = index,
                 parentID = parentID,
@@ -1138,7 +1138,7 @@ namespace SharpDune.Gui
 			return w;
 		}
 
-		internal static void GUI_Widget_Free_WithScrollbar(Widget w)
+		internal static void GUI_Widget_Free_WithScrollbar(CWidget w)
 		{
 			if (w == null) return;
 
@@ -1148,7 +1148,7 @@ namespace SharpDune.Gui
 
 		internal static ushort GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar scrollbar)
 		{
-			Widget w;
+			CWidget w;
 			ushort position;
 
 			w = scrollbar.parent;
@@ -1169,7 +1169,7 @@ namespace SharpDune.Gui
 
 		internal static ushort GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar scrollbar)
 		{
-			Widget w;
+			CWidget w;
 
 			w = scrollbar.parent;
 			if (w == null) return 0xFFFF;
@@ -1181,7 +1181,7 @@ namespace SharpDune.Gui
 
 		static ushort GUI_Widget_Scrollbar_CalculateSize(WidgetScrollbar scrollbar)
 		{
-			Widget w;
+			CWidget w;
 			ushort size;
 
 			w = scrollbar.parent;
@@ -1204,7 +1204,7 @@ namespace SharpDune.Gui
 		 * @param w Widget.
 		 * @return Scrollbar position, or \c 0xFFFF if no widget supplied.
 		 */
-		internal static ushort GUI_Get_Scrollbar_Position(Widget w)
+		internal static ushort GUI_Get_Scrollbar_Position(CWidget w)
 		{
 			WidgetScrollbar ws;
 
@@ -1214,7 +1214,7 @@ namespace SharpDune.Gui
 			return ws.scrollPosition;
 		}
 
-		internal static ushort GUI_Widget_Scrollbar_Init(Widget w, short scrollMax, short scrollPageSize, short scrollPosition)
+		internal static ushort GUI_Widget_Scrollbar_Init(CWidget w, short scrollMax, short scrollPageSize, short scrollPosition)
 		{
 			ushort position;
 			WidgetScrollbar scrollbar;

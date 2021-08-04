@@ -9,8 +9,8 @@
 			TEAM_INDEX_INVALID = 0xFFFF
 		}
 
-		static readonly Team[] g_teamArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
-		static readonly Team[] g_teamFindArray = new Team[(int)TeamIndex.TEAM_INDEX_MAX];
+		static readonly CTeam[] g_teamArray = new CTeam[(int)TeamIndex.TEAM_INDEX_MAX];
+		static readonly CTeam[] g_teamFindArray = new CTeam[(int)TeamIndex.TEAM_INDEX_MAX];
 		static ushort g_teamFindCount;
 
 		/*
@@ -19,7 +19,7 @@
 		 * @param index The index of the Team to get.
 		 * @return The Team.
 		 */
-		internal static Team Team_Get_ByIndex(ushort index)
+		internal static CTeam Team_Get_ByIndex(ushort index)
 		{
 			Debug.Assert(index < (ushort)TeamIndex.TEAM_INDEX_MAX);
 			return g_teamArray[index];
@@ -39,7 +39,7 @@
 		 *   same 'find' parameter walks over all possible values matching the filter.
 		 * @return The Team, or NULL if nothing matches (anymore).
 		 */
-		internal static Team Team_Find(PoolFindStruct find)
+		internal static CTeam Team_Find(PoolFindStruct find)
 		{
 			if (find.index >= g_teamFindCount && find.index != 0xFFFF) return null;
 			find.index++; /* First, we always go to the next index */
@@ -62,7 +62,7 @@
 		 */
 		internal static void Team_Init()
 		{
-			for (var i = 0; i < g_teamArray.Length; i++) g_teamArray[i] = new Team(); //memset(g_teamArray, 0, sizeof(g_teamArray));
+			for (var i = 0; i < g_teamArray.Length; i++) g_teamArray[i] = new CTeam(); //memset(g_teamArray, 0, sizeof(g_teamArray));
 			Array.Fill(g_teamFindArray, null, 0, g_teamFindArray.Length); //memset(g_teamFindArray, 0, sizeof(g_teamFindArray));
 			g_teamFindCount = 0;
 		}
@@ -89,9 +89,9 @@
 		 * @param index The index to use, or TEAM_INDEX_INVALID to find an unused index.
 		 * @return The Team allocated, or NULL on failure.
 		 */
-		internal static Team Team_Allocate(ushort index)
+		internal static CTeam Team_Allocate(ushort index)
 		{
-			Team t = null;
+			CTeam t = null;
 
 			if (index == (ushort)TeamIndex.TEAM_INDEX_INVALID)
 			{

@@ -933,7 +933,7 @@ namespace SharpDune
 						y = g_curWidgetHeight;
 					}
 
-					text = CSharpDune.Encoding.GetString(data[dataPointer..(dataPointer + 50)]);
+					text = SharpDune.Encoding.GetString(data[dataPointer..(dataPointer + 50)]);
 
 					var index = text.IndexOfAny(new[] { '\x05', '\r' });
 					if (index != -1)

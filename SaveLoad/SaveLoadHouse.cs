@@ -3,29 +3,29 @@
     class SaveLoadHouse
     {
 		static readonly SaveLoadDesc[] s_saveHouse = {
-			SLD_ENTRY2(/*house,*/ SLDT_UINT16, nameof(House.index), SLDT_UINT8),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.harvestersIncoming)),
-			SLD_ENTRY2(/*house,*/ SLDT_UINT16, nameof(House.flags), SLDT_HOUSEFLAGS),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCount)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCountMax)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCountEnemy)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.unitCountAllied)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT32, nameof(House.structuresBuilt)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.credits)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.creditsStorage)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.powerProduction)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.powerUsage)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.windtrapCount)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.creditsQuota)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, $"{nameof(House.palacePosition)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, $"{nameof(House.palacePosition)}.{nameof(tile32.y)}"),
+			SLD_ENTRY2(/*house,*/ SLDT_UINT16, nameof(CHouse.index), SLDT_UINT8),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.harvestersIncoming)),
+			SLD_ENTRY2(/*house,*/ SLDT_UINT16, nameof(CHouse.flags), SLDT_HOUSEFLAGS),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.unitCount)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.unitCountMax)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.unitCountEnemy)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.unitCountAllied)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT32, nameof(CHouse.structuresBuilt)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.credits)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.creditsStorage)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.powerProduction)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.powerUsage)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.windtrapCount)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.creditsQuota)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, $"{nameof(CHouse.palacePosition)}.{nameof(tile32.x)}"),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, $"{nameof(CHouse.palacePosition)}.{nameof(tile32.y)}"),
 			SLD_EMPTY(SLDT_UINT16),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.timerUnitAttack)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.timerSandwormAttack)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.timerStructureAttack)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.starportTimeLeft)),
-			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(House.starportLinkedID)),
-			SLD_ARRAY(/*house,*/ SLDT_UINT16, nameof(House.ai_structureRebuild), 10),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.timerUnitAttack)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.timerSandwormAttack)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.timerStructureAttack)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.starportTimeLeft)),
+			SLD_ENTRY(/*house,*/ SLDT_UINT16, nameof(CHouse.starportLinkedID)),
+			SLD_ARRAY(/*house,*/ SLDT_UINT16, nameof(CHouse.ai_structureRebuild), 10),
 			SLD_END()
 		};
 
@@ -39,7 +39,7 @@
 		{
 			while (length > 0)
 			{
-				House hl;
+				CHouse hl;
 
 				/* Read the next index from disk */
 				var index = fp.ReadUInt16();
@@ -79,7 +79,7 @@
 		{
 			while (length > 0)
 			{
-				House hl = null;
+				CHouse hl = null;
 
 				/* Read the next House from disk */
 				if (!SaveLoad_Load(s_saveHouse, fp, hl)) return false;
@@ -114,7 +114,7 @@
 
 			while (true)
 			{
-				House h;
+				CHouse h;
 
 				h = House_Find(find);
 				if (h == null) break;

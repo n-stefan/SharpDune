@@ -2,7 +2,7 @@
 
 namespace SharpDune.Audio
 {
-    class Driver
+    class CDriver
     {
         internal ushort index;                                  /*!< Index of the loaded driver. */
         internal /*char[4]*/string extension;                   /*!< Extension used for music file names. */
@@ -10,8 +10,8 @@ namespace SharpDune.Audio
         internal /*char[14]*/string filename;                   /*!< Name of file to play. */
         internal bool contentMalloced;                          /*!< Wether content pointer is the result of a malloc. */
 
-        internal Driver Clone() =>
-            (Driver)MemberwiseClone();
+        internal CDriver Clone() =>
+            (CDriver)MemberwiseClone();
     }
 
     class MSBuffer
@@ -20,18 +20,18 @@ namespace SharpDune.Audio
         internal MSData[] buffer;                               /*!< ?? */
     }
 
-    class CDriver
+    class Driver
     {
         static readonly bool[] s_driverInstalled = new bool[16];
         static readonly bool[] s_driverLoaded = new bool[16];
 
-        static readonly Driver s_driverMusic = new();
-        static readonly Driver s_driverSound = new();
-        static readonly Driver s_driverVoice = new();
+        static readonly CDriver s_driverMusic = new();
+        static readonly CDriver s_driverSound = new();
+        static readonly CDriver s_driverVoice = new();
 
-        internal static Driver g_driverMusic = s_driverMusic;
-        internal static Driver g_driverSound = s_driverSound;
-        static readonly Driver g_driverVoice = s_driverVoice;
+        internal static CDriver g_driverMusic = s_driverMusic;
+        internal static CDriver g_driverSound = s_driverSound;
+        static readonly CDriver g_driverVoice = s_driverVoice;
 
         static readonly MSBuffer s_bufferMusic = new();
         internal static MSBuffer g_bufferMusic = s_bufferMusic;
@@ -41,7 +41,7 @@ namespace SharpDune.Audio
 
         static byte s_bufferSoundIndex;
 
-        internal static void Driver_LoadFile(string musicName, Driver driver)
+        internal static void Driver_LoadFile(string musicName, CDriver driver)
         {
             string filename;
             //int len;
@@ -61,7 +61,7 @@ namespace SharpDune.Audio
             Debug.WriteLine($"DEBUG: Driver_LoadFile({musicName}, {driver}): {filename} loaded");
         }
 
-        internal static void Driver_UnloadFile(Driver driver)
+        internal static void Driver_UnloadFile(CDriver driver)
         {
             if (driver.contentMalloced)
             {
@@ -159,7 +159,7 @@ namespace SharpDune.Audio
         }
 
         static string filename; //= new char[14];
-        internal static string Drivers_GenerateFilename(string name, Driver driver)
+        internal static string Drivers_GenerateFilename(string name, CDriver driver)
         {
             string basefilename; //= new char[14];
 
@@ -298,8 +298,8 @@ namespace SharpDune.Audio
 
         static bool Drivers_SoundMusic_Init(bool enable)
         {
-            Driver sound;
-            Driver music;
+            CDriver sound;
+            CDriver music;
             uint size;
             byte i;
 
@@ -343,7 +343,7 @@ namespace SharpDune.Audio
 
         static bool Drivers_Voice_Init(bool enable)
         {
-            Driver voice;
+            CDriver voice;
 
             voice = g_driverVoice;
 
@@ -419,7 +419,7 @@ namespace SharpDune.Audio
             DSP_Uninit();
         }
 
-        static bool Drivers_Init(Driver driver, string extension)
+        static bool Drivers_Init(CDriver driver, string extension)
         {
             driver.index = Driver_Install();
             if (driver.index == 0xFFFF) return false;
@@ -431,7 +431,7 @@ namespace SharpDune.Audio
             return true;
         }
 
-        static void Drivers_Uninit(Driver driver)
+        static void Drivers_Uninit(CDriver driver)
         {
             if (driver == null) return;
 

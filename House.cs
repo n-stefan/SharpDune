@@ -130,7 +130,7 @@ namespace SharpDune
     /*
     * A House as stored in the memory.
     */
-    class House
+    class CHouse
     {
         internal byte index;                                       /*!< The index of the House in the array. */
         internal ushort harvestersIncoming;                        /*!< How many harvesters are waiting to be delivered. Only happens when we run out of Units to do it immediately. */
@@ -154,7 +154,7 @@ namespace SharpDune
         internal ushort starportLinkedID;                          /*!< If there is a starport delivery, this indicates the first unit of the linked list. Otherwise it is 0xFFFF. */
         internal ushort[][] ai_structureRebuild; //[5][2]          /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
          
-        internal House()
+        internal CHouse()
         {
             flags = new HouseFlags();
             palacePosition = new tile32();
@@ -182,7 +182,7 @@ namespace SharpDune
         internal string voiceFilename;                          /*!< Pointer to filename with the voices of the house. */
     }
 
-    class CHouse
+    class House
     {
         /*
          * HouseAnimation flags
@@ -200,7 +200,7 @@ namespace SharpDune
         internal const ushort HOUSEANIM_FLAGS_FADEIN2 = 0x80;	    /*  */
         internal const ushort HOUSEANIM_FLAGS_FADEIN = 0x400;	    /*  */
 
-        internal static House g_playerHouse;
+        internal static CHouse g_playerHouse;
         internal static HouseType g_playerHouseID = HouseType.HOUSE_INVALID;
         internal static ushort g_houseMissileCountdown;
         internal static ushort g_playerCreditsNoSilo;
@@ -255,7 +255,7 @@ namespace SharpDune
             while (true)
             {
                 StructureInfo si;
-                Structure s;
+                CStructure s;
 
                 s = Structure_Find(find);
                 if (s == null) break;
@@ -276,7 +276,7 @@ namespace SharpDune
          *
          * @param h The house to calculate the numbers for.
          */
-        internal static void House_CalculatePowerAndCredit(House h)
+        internal static void House_CalculatePowerAndCredit(CHouse h)
         {
             var find = new PoolFindStruct();
 
@@ -293,7 +293,7 @@ namespace SharpDune
             while (true)
             {
                 StructureInfo si;
-                Structure s;
+                CStructure s;
 
                 s = Structure_Find(find);
                 if (s == null) break;
@@ -346,7 +346,7 @@ namespace SharpDune
          * @param h The house.
          * @return True if and only if the radar has been activated.
          */
-        internal static bool House_UpdateRadarState(House h)
+        internal static bool House_UpdateRadarState(CHouse h)
         {
             /*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa;
             ushort frame;
@@ -414,7 +414,7 @@ namespace SharpDune
         internal static void GameLoop_House()
         {
             var find = new PoolFindStruct();
-            House h; // = NULL;
+            CHouse h; // = NULL;
             var tickHouse = false;
             var tickPowerMaintenance = false;
             var tickStarport = false;
@@ -491,14 +491,14 @@ namespace SharpDune
 
             if (tickReinforcement)
             {
-                Unit nu = null;
+                CUnit nu = null;
                 int i;
 
                 for (i = 0; i < 16; i++)
                 {
                     ushort locationID;
                     bool deployed;
-                    Unit u;
+                    CUnit u;
 
                     if (g_scenario.reinforcement[i].unitID == (ushort)UnitIndex.UNIT_INDEX_INVALID) continue;
                     if (g_scenario.reinforcement[i].timeLeft == 0) continue;
@@ -619,14 +619,14 @@ namespace SharpDune
 
                 if (tickStarport && h.starportLinkedID != (ushort)UnitIndex.UNIT_INDEX_INVALID)
                 {
-                    Unit u = null;
+                    CUnit u = null;
 
                     h.starportTimeLeft--;
                     if ((short)h.starportTimeLeft < 0) h.starportTimeLeft = 0;
 
                     if (h.starportTimeLeft == 0)
                     {
-                        Structure s;
+                        CStructure s;
 
                         s = Structure_Get_ByIndex(g_structureIndex);
                         if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT && s.o.houseID == h.index)
@@ -700,7 +700,7 @@ namespace SharpDune
         static void House_EnsureHarvesterAvailable(byte houseID)
         {
             var find = new PoolFindStruct();
-            Structure s;
+            CStructure s;
 
             find.houseID = houseID;
             find.type = 0xFFFF;
@@ -723,7 +723,7 @@ namespace SharpDune
 
             while (true)
             {
-                Unit u;
+                CUnit u;
 
                 u = Unit_Find(find);
                 if (u == null) break;

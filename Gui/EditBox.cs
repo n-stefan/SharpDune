@@ -44,7 +44,7 @@ namespace SharpDune.Gui
 		 * @param paint Flag indicating if the widget need to be repainted.
 		 * @return Key code / Button press code.
 		 */
-		internal static ushort GUI_EditBox(ref string text, ushort maxLength, ushort widgetID, Widget w, Func<ushort> tickProc, bool paint)
+		internal static ushort GUI_EditBox(ref string text, ushort maxLength, ushort widgetID, CWidget w, Func<ushort> tickProc, bool paint)
 		{
 			Screen oldScreenID;
 			ushort oldWidgetID;

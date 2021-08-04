@@ -280,7 +280,7 @@ namespace SharpDune.Gui
 		internal static bool g_factoryWindowConstructionYard;
         internal static FactoryWindowItem[] g_factoryWindowItems = new FactoryWindowItem[25];
 
-		static readonly Widget[] s_factoryWindowWidgets = new Widget[13];
+		static readonly CWidget[] s_factoryWindowWidgets = new CWidget[13];
 		static byte[] s_factoryWindowGraymapTbl = new byte[256];
 		static readonly byte[] s_factoryWindowWsaBuffer = new byte[64000];
 		internal static bool g_factoryWindowStarport;
@@ -2293,7 +2293,7 @@ namespace SharpDune.Gui
 		{
 			var find = new PoolFindStruct();
 			Screen oldScreenID;
-			Widget w;
+			CWidget w;
 
 			oldScreenID = GFX_Screen_SetActive((screenID == Screen.NO0) ? Screen.NO1 : screenID);
 
@@ -2324,7 +2324,7 @@ namespace SharpDune.Gui
 
 			while (true)
 			{
-				Structure s;
+				CStructure s;
 
 				s = Structure_Find(find);
 				if (s == null) break;
@@ -2339,7 +2339,7 @@ namespace SharpDune.Gui
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 				if (u == null) break;
@@ -2629,7 +2629,7 @@ namespace SharpDune.Gui
 		{
 			Screen oldScreenID;
 			ushort oldWidgetId;
-			House h;
+			CHouse h;
 			string charCreditsOld; //char[7];
 			string charCreditsNew; //char[7];
 			int i;
@@ -3278,7 +3278,7 @@ namespace SharpDune.Gui
 		internal static byte GUI_PickHouse()
 		{
 			Screen oldScreenID;
-			Widget w = null;
+			CWidget w = null;
 			var palette = new byte[3 * 256];
 			ushort i;
 			HouseType houseID;
@@ -3297,7 +3297,7 @@ namespace SharpDune.Gui
 
 				for (i = 0; i < 3; i++)
 				{
-					Widget w2;
+					CWidget w2;
 
 					w2 = GUI_Widget_Allocate((ushort)(i + 1), l_houses[i][2], l_houses[i][0], l_houses[i][1], 0xFFFF, 0);
 
@@ -3372,7 +3372,7 @@ namespace SharpDune.Gui
 
 				//strncpy(g_readBuffer, String_Get_ByIndex(STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40), g_readBufferSize);
 				var text = String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)houseID * 40));
-                g_readBuffer = CSharpDune.Encoding.GetBytes(text);
+                g_readBuffer = SharpDune.Encoding.GetBytes(text);
                 GUI_Mentat_Show(text, House_GetWSAHouseFilename((byte)houseID), null);
 
                 Sprites_LoadImage(String_GenerateFilename("MISC"), Screen.NO1, g_palette1);
@@ -3607,7 +3607,7 @@ namespace SharpDune.Gui
 		{
 			ushort width;
 			ushort editLine;
-			Widget w;
+			CWidget w;
 			byte fileID;
 			var data = new HallOfFameStruct[8];
 			byte[] encodedBytes;
@@ -4425,7 +4425,7 @@ namespace SharpDune.Gui
 
 			while (true)
 			{
-				Structure s;
+				CStructure s;
 
 				s = Structure_Find(find);
 				if (s == null) break;
@@ -4442,7 +4442,7 @@ namespace SharpDune.Gui
 
 			while (true)
 			{
-				Unit u;
+				CUnit u;
 
 				u = Unit_Find(find);
 				if (u == null) break;
@@ -4479,12 +4479,12 @@ namespace SharpDune.Gui
 			return (ushort)score;
 		}
 
-		static Widget GUI_HallOfFame_CreateButtons(HallOfFameStruct[] data)
+		static CWidget GUI_HallOfFame_CreateButtons(HallOfFameStruct[] data)
 		{
 			string resumeString;
 			string clearString;
-			Widget wClear;
-			Widget wResume;
+			CWidget wClear;
+			CWidget wResume;
 			ushort width;
 
 			s_temporaryColourBorderSchema = s_colourBorderSchema; //memcpy(s_temporaryColourBorderSchema, s_colourBorderSchema, sizeof(s_colourBorderSchema));
@@ -4526,7 +4526,7 @@ namespace SharpDune.Gui
 			return GUI_Widget_Insert(wClear, wResume);
 		}
 
-		static void GUI_HallOfFame_DeleteButtons(Widget w)
+		static void GUI_HallOfFame_DeleteButtons(CWidget w)
 		{
 			while (w != null)
 			{
@@ -4864,7 +4864,7 @@ namespace SharpDune.Gui
 
 			for (i = 0; i < 13; i++/*, wi++*/)
 			{
-				w[i] = new Widget(); //memset(w, 0, 13 * sizeof(Widget));
+				w[i] = new CWidget(); //memset(w, 0, 13 * sizeof(Widget));
 
 				if ((i == 8 || i == 9 || i == 10 || i == 12) && !g_factoryWindowStarport) continue;
 				if (i == 11 && g_factoryWindowStarport) continue;

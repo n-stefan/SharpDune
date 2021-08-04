@@ -14,8 +14,8 @@
             STRUCTURE_INDEX_INVALID = 0xFFFF
         }
 
-        static readonly Structure[] g_structureArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_HARD];
-        static readonly Structure[] g_structureFindArray = new Structure[(int)StructureIndex.STRUCTURE_INDEX_MAX_SOFT];
+        static readonly CStructure[] g_structureArray = new CStructure[(int)StructureIndex.STRUCTURE_INDEX_MAX_HARD];
+        static readonly CStructure[] g_structureFindArray = new CStructure[(int)StructureIndex.STRUCTURE_INDEX_MAX_SOFT];
         static ushort g_structureFindCount;
 
         /*
@@ -23,7 +23,7 @@
         * @param index The index of the Structure to get.
         * @return The Structure.
         */
-        internal static Structure Structure_Get_ByIndex(ushort index)
+        internal static CStructure Structure_Get_ByIndex(ushort index)
         {
             Debug.Assert(index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD);
             return g_structureArray[index];
@@ -43,7 +43,7 @@
         *   same 'find' parameter walks over all possible values matching the filter.
         * @return The Structure, or NULL if nothing matches (anymore).
         */
-        internal static Structure Structure_Find(PoolFindStruct find)
+        internal static CStructure Structure_Find(PoolFindStruct find)
         {
             if (find.index >= g_structureFindCount + 3 && find.index != 0xFFFF) return null;
             find.index++; /* First, we always go to the next index */
@@ -51,7 +51,7 @@
             Debug.Assert(g_structureFindCount <= (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT);
             for (; find.index < g_structureFindCount + 3; find.index++)
             {
-                Structure s = null;
+                CStructure s = null;
 
                 if (find.index < g_structureFindCount)
                 {
@@ -98,7 +98,7 @@
          */
         internal static void Structure_Init()
         {
-            for (var i = 0; i < g_structureArray.Length; i++) g_structureArray[i] = new Structure(); //memset(g_structureArray, 0, sizeof(g_structureArray));
+            for (var i = 0; i < g_structureArray.Length; i++) g_structureArray[i] = new CStructure(); //memset(g_structureArray, 0, sizeof(g_structureArray));
             Array.Fill(g_structureFindArray, null, 0, g_structureFindArray.Length); //memset(g_structureFindArray, 0, sizeof(g_structureFindArray));
             g_structureFindCount = 0;
         }
@@ -136,9 +136,9 @@
          * @param typeID The type of the new Structure.
          * @return The Structure allocated, or NULL on failure.
          */
-        internal static Structure Structure_Allocate(ushort index, byte type)
+        internal static CStructure Structure_Allocate(ushort index, byte type)
         {
-            Structure s = null;
+            CStructure s = null;
 
             switch ((StructureType)type)
             {
@@ -196,7 +196,7 @@
          *
          * @param address The address of the Structure to free.
          */
-        internal static void Structure_Free(Structure s)
+        internal static void Structure_Free(CStructure s)
         {
             int i;
 
