@@ -145,7 +145,7 @@ namespace SharpDune.Gui
 					{
                         GUI_Mentat_Animation(0);
 					}
-                    sleepIdle();
+                    SleepIdle();
 				}
 
 				GUI_Security_UndrawText();

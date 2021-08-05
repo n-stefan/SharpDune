@@ -9,7 +9,7 @@
 		 * @param fp The stream
 		 * @return True if the tile was loaded successfully
 		 */
-		static bool fread_tile(CTile t, FileStream fp)
+		static bool FRead_Tile(CTile t, FileStream fp)
 		{
 			var buffer = new byte[4];
 
@@ -34,7 +34,7 @@
 		 * @param fp The stream
 		 * @return True if the tile was saved successfully
 		 */
-		static bool fwrite_tile(CTile t, BinaryWriter fp)
+		static bool FWrite_Tile(CTile t, BinaryWriter fp)
 		{
 			var value = t.houseID;
 			if (t.isUnveiled) value |= 1 << 3;
@@ -88,11 +88,11 @@
 
 				length -= (uint)(SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/);
 
-				if (!fread_le_uint16(ref i, fp)) return false;
+				if (!FRead_LE_UInt16(ref i, fp)) return false;
 				if (i >= 0x1000) return false;
 
 				t = g_map[i];
-				if (!fread_tile(t, fp)) return false;
+				if (!FRead_Tile(t, fp)) return false;
 
                 if (g_mapTileID[i] != t.groundTileID)
                 {
@@ -121,8 +121,8 @@
 				if (!tile.isUnveiled && !tile.hasStructure && !tile.hasUnit && !tile.hasAnimation && !tile.hasExplosion && (g_mapTileID[i] & 0x8000) == 0 && g_mapTileID[i] == tile.groundTileID) continue;
 
 				/* Store the index, then the tile itself */
-				if (!fwrite_le_uint16(i, fp)) return false;
-				if (!fwrite_tile(tile, fp)) return false;
+				if (!FWrite_LE_UInt16(i, fp)) return false;
+				if (!FWrite_Tile(tile, fp)) return false;
 			}
 
 			return true;

@@ -439,7 +439,7 @@ namespace SharpDune
 					do
 					{
 						GameLoop_PalettePart_Update(false);
-                        sleepIdle();
+                        SleepIdle();
 					} while (g_timerTimeout != 0 && timeout > g_timerGUI);
 				}
 
@@ -450,7 +450,7 @@ namespace SharpDune
 					{
 						GameLoop_PlaySubtitle(animationStep);
 						displayed = WSA_DisplayFrame(wsa, frame++, posX, posY, Screen.NO0);
-                        sleepIdle();
+                        SleepIdle();
 					} while (displayed);
 				}
 
@@ -479,7 +479,7 @@ namespace SharpDune
 				animationStep++;
 				pointer++;
 
-				while (timeout2 > g_timerGUI) sleepIdle();
+				while (timeout2 > g_timerGUI) SleepIdle();
 			}
 		}
 
@@ -701,14 +701,14 @@ namespace SharpDune
 
             Voice_LoadVoices(0xFFFF);
 
-			for (; g_timerTimeout != 0; sleepIdle())
+			for (; g_timerTimeout != 0; SleepIdle())
 			{
 				if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
 
             GUI_SetPaletteAnimated(g_palette2, 60);
 
-			while (Driver_Music_IsPlaying()) sleepIdle();
+			while (Driver_Music_IsPlaying()) SleepIdle();
 
             GUI_SetPaletteAnimated(g_palette2, 60);
 
@@ -720,7 +720,7 @@ namespace SharpDune
 
             GUI_SetPaletteAnimated(g_palette_998A, 30);
 
-			for (g_timerTimeout = 60; g_timerTimeout != 0; sleepIdle())
+			for (g_timerTimeout = 60; g_timerTimeout != 0; SleepIdle())
 			{
 				if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
@@ -735,7 +735,7 @@ namespace SharpDune
 
             GUI_SetPaletteAnimated(g_palette_998A, 30);
 
-			for (g_timerTimeout = 180; g_timerTimeout != 0; sleepIdle())
+			for (g_timerTimeout = 180; g_timerTimeout != 0; SleepIdle())
 			{
 				if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
 			}
@@ -817,7 +817,7 @@ namespace SharpDune
 
             GFX_SetPalette(g_palette1);
 
-			for (; ; sleepIdle())
+			for (; ; SleepIdle())
 			{
                 File_ReadBlockFile(String_GenerateFilename("CREDITS"), credits_buffer, GFX_Screen_GetSize_ByIndex(Screen.NO3), credits_bufferPointer);
 
@@ -910,7 +910,7 @@ namespace SharpDune
 
 			while ((!textEnd || stage != 0) && (Input_Keyboard_NextKey() == 0))
 			{
-				while (timetoWait > g_timerSleep) sleepIdle();
+				while (timetoWait > g_timerSleep) SleepIdle();
 
 				timetoWait = g_timerSleep + delay;
 

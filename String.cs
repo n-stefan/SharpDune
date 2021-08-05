@@ -60,21 +60,21 @@ namespace SharpDune
 			Range range;
 
 			buf = File_ReadWholeFile(String_GenerateFilename(filename));
-			count = (ushort)(READ_LE_UINT16(buf) / 2);
+			count = (ushort)(Read_LE_UInt16(buf) / 2);
 
 			if (end < 0) end = start + count - 1;
 
 			Array.Resize(ref s_strings, end + 1); //(char**)realloc(s_strings, (end + 1) * sizeof(char*));
 			s_strings[s_stringsCount] = null;
 
-			prev = READ_LE_UINT16(buf);
+			prev = Read_LE_UInt16(buf);
 			for (i = 0; i <= count && s_stringsCount <= end; i++)
 			{
 				//from = Endian.READ_LE_UINT16(buf[(i * 2)..]);
 				//to = (ushort)Min(Endian.READ_LE_UINT16(buf[((i + 1) * 2)..]), buf.Length - 1);
 				//range = from == to ? from..to : from..(to - 1);
 				from = prev;
-				to = (ushort)Math.Min(READ_LE_UINT16(buf[(i * 2)..]), buf.Length - 1);
+				to = (ushort)Math.Min(Read_LE_UInt16(buf[(i * 2)..]), buf.Length - 1);
 				prev = to;
 				range = from == to ? from..to : from..(to - 1);
 

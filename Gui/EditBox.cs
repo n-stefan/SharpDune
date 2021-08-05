@@ -94,7 +94,7 @@ namespace SharpDune.Gui
 
             GUI_Mouse_Show_Safe();
 
-			for (; ; sleepIdle())
+			for (; ; SleepIdle())
 			{
 				ushort keyWidth;
 				ushort key;

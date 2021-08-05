@@ -94,7 +94,7 @@ namespace SharpDune.Script
             string text; //char *
             ushort offset;
 
-            offset = BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+            offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
             text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
             GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
@@ -127,7 +127,7 @@ namespace SharpDune.Script
             string text; //char *
             ushort offset;
 
-            offset = BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+            offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
             text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
             return GUI_DisplayModalMessage(text, 0xFFFF);

@@ -459,11 +459,11 @@ namespace SharpDune.Audio
 
             DSP_Stop();
 
-            dataPointer += READ_LE_UINT16(data[20..]);
+            dataPointer += Read_LE_UInt16(data[20..]);
 
             if (data[dataPointer] != 1) return;
 
-            len = (READ_LE_UINT32(data[dataPointer..]) >> 8) - 2;
+            len = (Read_LE_UInt32(data[dataPointer..]) >> 8) - 2;
 
             if (s_dataLen < len)
             {

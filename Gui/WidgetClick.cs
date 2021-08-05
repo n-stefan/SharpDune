@@ -37,7 +37,7 @@ namespace SharpDune.Gui
 
 			UpdateArrows(save, true);
 
-			for (loop = true; loop; sleepIdle())
+			for (loop = true; loop; SleepIdle())
 			{
 				var w = g_widgetLinkedListTail;
 				var key = GUI_Widget_HandleEvents(w);
@@ -259,7 +259,7 @@ namespace SharpDune.Gui
 
 				fileId = ChunkFile_Open_Personal(filename);
 				if (fileId == (byte)FileMode.FILE_INVALID) continue;
-                ChunkFile_Read(fileId, HTOBE32((uint)SharpDune.MultiChar[FourCC.NAME]), ref /*desc*/g_savegameDesc[i], 50);
+                ChunkFile_Read(fileId, HToBE32((uint)SharpDune.MultiChar[FourCC.NAME]), ref /*desc*/g_savegameDesc[i], 50);
 				g_savegameDesc[i] = g_savegameDesc[i][..^1];
                 ChunkFile_Close(fileId);
 				continue;
@@ -547,7 +547,7 @@ namespace SharpDune.Gui
             GUI_DrawBorder((ushort)((g_curWidgetXBase << 3) - 1), (ushort)(g_curWidgetYBase - 1), (ushort)((g_curWidgetWidth << 3) + 2), (ushort)(g_curWidgetHeight + 2), 4, false);
             GUI_Mouse_Show_Safe();
 
-			for (loop = true; loop; sleepIdle())
+			for (loop = true; loop; SleepIdle())
 			{
 				ushort eventKey;
 				var w = g_widgetLinkedListTail;
@@ -598,7 +598,7 @@ namespace SharpDune.Gui
 
 			GUI_Window_Create(desc);
 
-			for (loop = true; loop; sleepIdle())
+			for (loop = true; loop; SleepIdle())
 			{
 				var key = GUI_Widget_HandleEvents(g_widgetLinkedListTail);
 
@@ -1033,7 +1033,7 @@ namespace SharpDune.Gui
 				}
 			}
 
-			for (; g_timerTimeout != 0; sleepIdle())
+			for (; g_timerTimeout != 0; SleepIdle())
 			{
                 GUI_FactoryWindow_UpdateSelection(false);
 			}
@@ -1084,7 +1084,7 @@ namespace SharpDune.Gui
 				}
 			}
 
-			for (; g_timerTimeout != 0; sleepIdle())
+			for (; g_timerTimeout != 0; SleepIdle())
 			{
                 GUI_FactoryWindow_UpdateSelection(false);
 			}
@@ -1311,7 +1311,7 @@ namespace SharpDune.Gui
 
             Input_History_Clear();
 
-			for (; GUI_Widget_HandleEvents(w) == 0; sleepIdle())
+			for (; GUI_Widget_HandleEvents(w) == 0; SleepIdle())
 			{
                 GUI_DrawCredits((byte)g_playerHouseID, 0);
 
@@ -1326,7 +1326,7 @@ namespace SharpDune.Gui
 
 			if (w != null && Mouse_InsideRegion(w.offsetX, w.offsetY, (short)(w.offsetX + w.width), (short)(w.offsetY + w.height)) != 0)
 			{
-				while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) sleepIdle();
+				while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) SleepIdle();
                 Input_History_Clear();
 			}
 
@@ -1365,7 +1365,7 @@ namespace SharpDune.Gui
 
 			GUI_Window_Create(desc);
 
-			for (loop = true; loop; sleepIdle())
+			for (loop = true; loop; SleepIdle())
 			{
 				var w2 = g_widgetLinkedListTail;
 				var key = GUI_Widget_HandleEvents(w2);
@@ -1418,7 +1418,7 @@ namespace SharpDune.Gui
 
                             Sound_Output_Feedback(0xFFFE);
 
-							while (Driver_Voice_IsPlaying()) sleepIdle();
+							while (Driver_Voice_IsPlaying()) SleepIdle();
 							break;
 
 						default: break;
@@ -1492,7 +1492,7 @@ namespace SharpDune.Gui
 
 			GUI_Window_Create(desc);
 
-			for (loop = true; loop; sleepIdle())
+			for (loop = true; loop; SleepIdle())
 			{
 				var w2 = g_widgetLinkedListTail;
 				var key = GUI_Widget_HandleEvents(w2);

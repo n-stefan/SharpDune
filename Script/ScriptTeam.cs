@@ -405,7 +405,7 @@ namespace SharpDune.Script
 			t = g_scriptCurrentTeam;
 			if (t.houseID == (byte)g_playerHouseID) return 0;
 
-			offset = BETOH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+			offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
 			text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
             GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));

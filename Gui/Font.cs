@@ -108,13 +108,13 @@ namespace SharpDune.Gui
 			}
 
 			f = new CFont(); //(Font*) calloc(1, sizeof(Font));
-			start = READ_LE_UINT16(buf[4..]);
-			dataStart = READ_LE_UINT16(buf[6..]);
-			widthList = READ_LE_UINT16(buf[8..]);
-			lineList = READ_LE_UINT16(buf[12..]);
+			start = Read_LE_UInt16(buf[4..]);
+			dataStart = Read_LE_UInt16(buf[6..]);
+			widthList = Read_LE_UInt16(buf[8..]);
+			lineList = Read_LE_UInt16(buf[12..]);
 			f.height = buf[start + 4];
 			f.maxWidth = buf[start + 5];
-			f.count = (byte)(READ_LE_UINT16(buf[10..]) - widthList);
+			f.count = (byte)(Read_LE_UInt16(buf[10..]) - widthList);
 			f.chars = new FontChar[f.count]; //(FontChar*) calloc(f->count, sizeof(FontChar));
 			for (i = 0; i < f.chars.Length; i++) f.chars[i] = new FontChar();
 
@@ -129,7 +129,7 @@ namespace SharpDune.Gui
 				fc.unusedLines = buf[lineList + i * 2];
 				fc.usedLines = buf[lineList + i * 2 + 1];
 
-				dataOffset = READ_LE_UINT16(buf[(dataStart + i * 2)..]);
+				dataOffset = Read_LE_UInt16(buf[(dataStart + i * 2)..]);
 				if (dataOffset == 0) continue;
 
 				fc.data = new byte[fc.usedLines * fc.width]; //(uint8*) malloc(fc->usedLines* fc->width);

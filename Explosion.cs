@@ -285,9 +285,9 @@ namespace SharpDune
 
 			for (i = 0; i < 2; i++)
 			{
-                msleep(30);
+                MSleep(30);
                 Video_SetOffset(320);
-                msleep(30);
+                MSleep(30);
                 Video_SetOffset(0);
 			}
 		}

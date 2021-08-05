@@ -379,7 +379,7 @@ namespace SharpDune
 
             GUI_Mouse_Hide_Safe();
 
-            while (Driver_Voice_IsPlaying()) sleepIdle();
+            while (Driver_Voice_IsPlaying()) SleepIdle();
 
             Voice_Play(62);
 

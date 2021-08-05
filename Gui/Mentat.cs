@@ -108,7 +108,7 @@ namespace SharpDune.Gui
 			{
 				text = String_Get_ByIndex(stringID);
                 g_readBuffer = SharpDune.Encoding.GetBytes(text); //strncpy(g_readBuffer, String_Get_ByIndex(stringID), g_readBufferSize);
-                sleepIdle();
+                SleepIdle();
 			} while (GUI_Mentat_Show(text, wsaFilename, w1) == 0x8002);
 
 			w2 = null; //free(w2);
@@ -167,7 +167,7 @@ namespace SharpDune.Gui
                     GUI_PaletteAnimate();
 					GUI_Mentat_Animation(0);
 
-                    sleepIdle();
+                    SleepIdle();
 				} while ((ret & 0x8000) == 0);
 			}
 
@@ -639,7 +639,7 @@ namespace SharpDune.Gui
 
 			textDone = false;
 			result = 0;
-			for (done = false; !done; sleepIdle())
+			for (done = false; !done; SleepIdle())
 			{
 				ushort key;
 
@@ -1210,7 +1210,7 @@ namespace SharpDune.Gui
 		{
 			ushort key;
 
-			for (key = 0; key != 0x8001; sleepIdle())
+			for (key = 0; key != 0x8001; SleepIdle())
 			{
 				var w = g_widgetMentatTail;
 
@@ -1315,7 +1315,7 @@ namespace SharpDune.Gui
 			}
 
 			fileID = ChunkFile_Open(s_mentatFilename);
-			length = ChunkFile_Read(fileID, HTOBE32((uint)SharpDune.MultiChar[FourCC.NAME]), ref helpDataList, GFX_Screen_GetSize_ByIndex(Screen.NO1));
+			length = ChunkFile_Read(fileID, HToBE32((uint)SharpDune.MultiChar[FourCC.NAME]), ref helpDataList, GFX_Screen_GetSize_ByIndex(Screen.NO1));
             ChunkFile_Close(fileID);
 
 			s_numberHelpSubjects = 0;
@@ -1421,13 +1421,13 @@ namespace SharpDune.Gui
 			for (i = 0; i < s_selectedHelpSubject; i++) subjectPointer = String_NextString(subject, subjectPointer);
 
 			noDesc = (subject[subjectPointer + 5] == '0');  /* or no WSA file ? */
-			offset = HTOBE32(READ_LE_UINT32(subject[(subjectPointer + 1)..]));
+			offset = HToBE32(Read_LE_UInt32(subject[(subjectPointer + 1)..]));
 
 			fileID = ChunkFile_Open(s_mentatFilename);
-            ChunkFile_Read(fileID, HTOBE32((uint)SharpDune.MultiChar[FourCC.INFO]), ref info, 12);
+            ChunkFile_Read(fileID, HToBE32((uint)SharpDune.MultiChar[FourCC.INFO]), ref info, 12);
             ChunkFile_Close(fileID);
 
-			info.length = HTOBE32(info.length);
+			info.length = HToBE32(info.length);
 
 			text = null; //CSharpDune.Encoding.GetString(g_readBuffer);
 			compressedText = new byte[info.length]; //Gfx.GFX_Screen_Get_ByIndex(Screen.NO1);

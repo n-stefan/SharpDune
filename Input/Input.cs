@@ -176,7 +176,7 @@ namespace SharpDune.Input
 
 			do
 			{
-				for (; ; sleepIdle())
+				for (; ; SleepIdle())
 				{
 					if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) break;
 
@@ -623,7 +623,7 @@ namespace SharpDune.Input
 		{
 			ushort value = 0;
 
-			for (; ; sleepIdle())
+			for (; ; SleepIdle())
 			{
 				if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) break;
 
@@ -686,7 +686,7 @@ namespace SharpDune.Input
 
 			Input_AddHistory(0);
 
-			for (; ; sleepIdle())
+			for (; ; SleepIdle())
 			{
 				ushort index;
 

@@ -66,7 +66,7 @@ namespace SharpDune
 				}
 			}
 
-			fp = fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
+			fp = FOpenDataDir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
 			if (fp == null)
 			{
 				Trace.WriteLine($"ERROR: Failed to open file '{filename}' for writing.");
@@ -118,7 +118,7 @@ namespace SharpDune
 				/* Write the 'NAME' chunk. Keep ourself word-aligned. */
 				bw.Write("NAME".ToArray()); //if (fwrite("NAME", 4, 1, fp) != 1) return false;
 				length = Math.Min(255, (uint)description.Length + 1);
-				lengthSwapped = HTOBE32(length);
+				lengthSwapped = HToBE32(length);
 				bw.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
 				bw.Write($"{description}\0".ToArray()); //if (fwrite(description, length, 1, fp) != 1) return false;
 				/* Ensure we are word aligned */
@@ -140,7 +140,7 @@ namespace SharpDune
 				/* Write the total length of all data in the FORM chunk */
 				length = (uint)fp.Position - 8; //length = ftell(fp) - 8;
 				fp.Seek(4, SeekOrigin.Begin); //fseek(fp, 4, SEEK_SET);
-				lengthSwapped = HTOBE32(length);
+				lengthSwapped = HToBE32(length);
 				bw.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
 
 				return true;
@@ -185,7 +185,7 @@ namespace SharpDune
 
 			/* Write back the chunk size */
 			fp.Seek((int)(position - 4), SeekOrigin.Begin); //fseek(fp, position - 4, SEEK_SET);
-			lengthSwapped = HTOBE32(length);
+			lengthSwapped = HToBE32(length);
 			fp.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
 			fp.Seek(0, SeekOrigin.End); //fseek(fp, 0, SEEK_END);
 

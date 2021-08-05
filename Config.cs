@@ -129,7 +129,7 @@ namespace SharpDune
 			int bufferPointer;
 			sbyte i;
 
-			f = fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
+			f = FOpenDataDir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
 			if (f == null) return false;
 
 			buffer = new byte[10];
@@ -178,7 +178,7 @@ namespace SharpDune
 			int c1Pointer, c2Pointer;
 			sbyte i;
 
-			f = fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
+			f = FOpenDataDir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
 			if (f == null) return false;
 
 			sum = 0;

@@ -370,7 +370,7 @@ namespace SharpDune.Script
 			ushort speed;
 
 			u = g_scriptCurrentUnit;
-			speed = clamp(STACK_PEEK(script, 1), 0, 255);
+			speed = Clamp(STACK_PEEK(script, 1), 0, 255);
 
 			if (!u.o.flags.byScenario) speed = (ushort)(speed * 192 / 256);
 
@@ -431,8 +431,8 @@ namespace SharpDune.Script
 			{
 				Unit_SetSpeed(u, 0);
 
-				u.o.position.x += (ushort)clamp((short)(tile.x - u.o.position.x), -16, 16);
-				u.o.position.y += (ushort)clamp((short)(tile.y - u.o.position.y), -16, 16);
+				u.o.position.x += (ushort)Clamp((short)(tile.x - u.o.position.x), -16, 16);
+				u.o.position.y += (ushort)Clamp((short)(tile.y - u.o.position.y), -16, 16);
 
 				Unit_UpdateMap(2, u);
 

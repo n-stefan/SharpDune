@@ -101,7 +101,7 @@ namespace SharpDune.Audio
 		[DllImport(LibraryName)]
 		static extern int midiOutUnprepareHeader(IntPtr handle, IntPtr headerPtr, int sizeOfMidiHeader);
 
-		internal static bool midi_init()
+		internal static bool Midi_Init()
 		{
 			uint devID = 0;
 			uint i;
@@ -131,7 +131,7 @@ namespace SharpDune.Audio
 			return true;
 		}
 
-		internal static void midi_uninit()
+		internal static void Midi_Uninit()
 		{
 			if (s_midi == IntPtr.Zero) return;
 
@@ -141,21 +141,21 @@ namespace SharpDune.Audio
 			s_midi = IntPtr.Zero;
 		}
 
-		internal static void midi_send(uint data)
+		internal static void Midi_Send(uint data)
 		{
 			if (s_midi == IntPtr.Zero) return;
 
 			midiOutShortMsg(s_midi, data);
 		}
 
-		internal static void midi_reset()
+		internal static void Midi_Reset()
 		{
 			if (s_midi == IntPtr.Zero) return;
 
 			midiOutReset(s_midi);
 		}
 
-		internal static ushort midi_send_string(byte[] data, ushort len)
+		internal static ushort Midi_Send_String(byte[] data, ushort len)
 		{
 			if (s_midi == IntPtr.Zero) return len;
 

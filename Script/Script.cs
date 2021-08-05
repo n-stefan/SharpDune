@@ -447,7 +447,7 @@ namespace SharpDune.Script
 
             index = ChunkFile_Open(filename);
 
-            length = ChunkFile_Seek(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.TEXT]));
+            length = ChunkFile_Seek(index, HToBE32((uint)SharpDune.MultiChar[FourCC.TEXT]));
             total += length;
 
             if (length != 0)
@@ -462,10 +462,10 @@ namespace SharpDune.Script
                     scriptInfo.text = new ushort[length / 2]; //calloc(1, length);
                 }
 
-                ChunkFile_Read(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.TEXT]), ref scriptInfo.text, length);
+                ChunkFile_Read(index, HToBE32((uint)SharpDune.MultiChar[FourCC.TEXT]), ref scriptInfo.text, length);
             }
 
-            length = ChunkFile_Seek(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.ORDR]));
+            length = ChunkFile_Seek(index, HToBE32((uint)SharpDune.MultiChar[FourCC.ORDR]));
             total += length;
 
             if (length == 0)
@@ -486,14 +486,14 @@ namespace SharpDune.Script
             }
 
             scriptInfo.offsetsCount = (ushort)((length >> 1) & 0xFFFF);
-            ChunkFile_Read(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.ORDR]), ref scriptInfo.offsets, length);
+            ChunkFile_Read(index, HToBE32((uint)SharpDune.MultiChar[FourCC.ORDR]), ref scriptInfo.offsets, length);
 
             for (i = 0; i < (short)((length >> 1) & 0xFFFF); i++)
             {
-                scriptInfo.offsets[i] = BETOH16(scriptInfo.offsets[i]);
+                scriptInfo.offsets[i] = BEToH16(scriptInfo.offsets[i]);
             }
 
-            length = ChunkFile_Seek(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.DATA]));
+            length = ChunkFile_Seek(index, HToBE32((uint)SharpDune.MultiChar[FourCC.DATA]));
             total += length;
 
             if (length == 0)
@@ -515,7 +515,7 @@ namespace SharpDune.Script
 
             scriptInfo.startCount = (ushort)((length >> 1) & 0xFFFF);
 
-            ChunkFile_Read(index, HTOBE32((uint)SharpDune.MultiChar[FourCC.DATA]), ref scriptInfo.start, length);
+            ChunkFile_Read(index, HToBE32((uint)SharpDune.MultiChar[FourCC.DATA]), ref scriptInfo.start, length);
 
             ChunkFile_Close(index);
 
@@ -538,7 +538,7 @@ namespace SharpDune.Script
             if (!Script_IsLoaded(script)) return false;
             scriptInfo = script.scriptInfo;
 
-            current = BETOH16(scriptInfo.start[script.script.Value]);
+            current = BEToH16(scriptInfo.start[script.script.Value]);
             script.script++;
 
             opcode = (byte)((current >> 8) & 0x1F);
@@ -558,7 +558,7 @@ namespace SharpDune.Script
             else if ((current & 0x2000) != 0)
             {
                 /* When this flag is set, the parameter is in the next opcode */
-                parameter = BETOH16(scriptInfo.start[script.script.Value]);
+                parameter = BEToH16(scriptInfo.start[script.script.Value]);
                 script.script++;
             }
 

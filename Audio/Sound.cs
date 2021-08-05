@@ -378,7 +378,7 @@ namespace SharpDune.Audio
 			{
 				string filename; //char[16]
 				var str = g_table_voices[voice].str;
-                sleepIdle();  /* let a chance to update screen, etc. */
+                SleepIdle();  /* let a chance to update screen, etc. */
 				switch (str[0])
 				{
 					case '%':

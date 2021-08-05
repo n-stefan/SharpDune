@@ -24,7 +24,7 @@ namespace SharpDune
 
             Game_Init();
 
-			fp = fopendatadir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
+			fp = FOpenDataDir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
 			if (fp == null)
 			{
 				Trace.WriteLine($"ERROR: Failed to open file '{filename}' for reading.");
@@ -62,7 +62,7 @@ namespace SharpDune
 				using var br = new BinaryReader(fp);
 				/* All SharpDUNE / Dune2 savegames should start with 'FORM' */
 				header = br.ReadUInt32(); //if (fread(&header, sizeof(uint32), 1, fp) != 1) return false;
-				if (BETOH32(header) != (uint)SharpDune.MultiChar[FourCC.FORM])
+				if (BEToH32(header) != (uint)SharpDune.MultiChar[FourCC.FORM])
 				{
 					Trace.WriteLine("ERROR: Invalid magic header in savegame. Not a SharpDUNE / Dune2 savegame.");
 					return false;
@@ -73,7 +73,7 @@ namespace SharpDune
 
 				/* The next 'chunk' is fake, and has no length field */
 				header = br.ReadUInt32(); //if (fread(&header, sizeof(uint32), 1, fp) != 1) return false;
-				if (BETOH32(header) != (uint)SharpDune.MultiChar[FourCC.SCEN]) return false;
+				if (BEToH32(header) != (uint)SharpDune.MultiChar[FourCC.SCEN]) return false;
 
 				position = (uint)fp.Position; //ftell(fp);
 
@@ -83,7 +83,7 @@ namespace SharpDune
 				if (length == 0) return false;
 
 				/* Read the savegame version */
-				if (!fread_le_uint16(ref version, fp)) return false;
+				if (!FRead_LE_UInt16(ref version, fp)) return false;
 				length -= 2;
 				if (version == 0) return false;
 
@@ -117,9 +117,9 @@ namespace SharpDune
 				{
 					header = br.ReadUInt32();
 					length = br.ReadUInt32(); //(fread(&length, sizeof(uint32), 1, fp) != 1)
-					length = BETOH32(length);
+					length = BEToH32(length);
 
-					var headerValue = BETOH32(header);
+					var headerValue = BEToH32(header);
 					if (headerValue == SharpDune.MultiChar[FourCC.NAME])
 					{
 						/* 'NAME' chunk is of no interest to us */
@@ -184,8 +184,8 @@ namespace SharpDune
 				{
 					header = br.ReadUInt32();
 					length = br.ReadUInt32(); //(fread(&length, sizeof(uint32), 1, fp) != 1)
-					length = BETOH32(length);
-					if (BETOH32(header) != chunk)
+					length = BEToH32(length);
+					if (BEToH32(header) != chunk)
 					{
 						br.BaseStream.Seek(length + (length & 1), SeekOrigin.Current); //fseek(fp, length + (length & 1), SEEK_CUR);
 						continue;

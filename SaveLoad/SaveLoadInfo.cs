@@ -203,7 +203,7 @@ namespace SharpDune.SaveLoad
         {
             ushort savegameVersion = 0x0290;
 
-            if (!fwrite_le_uint16(savegameVersion, fp)) return false;
+            if (!FWrite_LE_UInt16(savegameVersion, fp)) return false;
 
             if (!SaveLoad_Save(s_saveInfo, fp, null)) return false;
 

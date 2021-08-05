@@ -412,15 +412,15 @@ namespace SharpDune.Gui
 				posX -= (short)(g_widgetProperties[windowID].xBase << 3);
 			}
 
-			spriteFlags = READ_LE_UINT16(sprite[spritePointer..]);
+			spriteFlags = Read_LE_UInt16(sprite[spritePointer..]);
 			spritePointer += 2;
 
 			if ((spriteFlags & 0x1) != 0) flags |= DRAWSPRITE_FLAG_SPRITEPAL;
 
 			spriteHeight = sprite[spritePointer++];
-			spriteWidth = (short)READ_LE_UINT16(sprite[spritePointer..]);
+			spriteWidth = (short)Read_LE_UInt16(sprite[spritePointer..]);
 			spritePointer += 5;
-			spriteDecodedLength = READ_LE_UINT16(sprite[spritePointer..]);
+			spriteDecodedLength = Read_LE_UInt16(sprite[spritePointer..]);
 			spritePointer += 2;
 
 			spriteWidthZoomed = spriteWidth;
@@ -1183,7 +1183,7 @@ namespace SharpDune.Gui
 
 			GUI_Mouse_Show_Safe();
 
-			for (g_timerTimeout = 30; g_timerTimeout != 0; sleepIdle())
+			for (g_timerTimeout = 30; g_timerTimeout != 0; SleepIdle())
 			{
 				GUI_PaletteAnimate();
 			}
@@ -1195,7 +1195,7 @@ namespace SharpDune.Gui
 				GUI_PaletteAnimate();
 
 				ret = Input_WaitForValidInput();
-                sleepIdle();
+                SleepIdle();
 			} while (ret == 0 || (ret & 0x800) != 0);
 
             Input_HandleInput(0x841);
@@ -1584,7 +1584,7 @@ namespace SharpDune.Gui
 		{
 			byte counter;
 
-			while (g_mouseLock != 0) sleepIdle();
+			while (g_mouseLock != 0) SleepIdle();
             g_mouseLock++;
 
 			counter = (byte)(g_regionFlags & 0xFF);
@@ -1626,7 +1626,7 @@ namespace SharpDune.Gui
 			maxy = bottom + g_mouseSpriteHotspotY;
 			if (maxy > SCREEN_HEIGHT - 1) maxy = SCREEN_HEIGHT - 1;
 
-			while (g_mouseLock != 0) sleepIdle();
+			while (g_mouseLock != 0) SleepIdle();
             g_mouseLock++;
 
 			if (g_regionFlags == 0)
@@ -2251,7 +2251,7 @@ namespace SharpDune.Gui
 		 */
 		internal static void GUI_Mouse_Hide_Safe()
 		{
-			while (g_mouseLock != 0) sleepIdle();
+			while (g_mouseLock != 0) SleepIdle();
 			if (g_mouseDisabled == 1) return;
             g_mouseLock++;
 
@@ -2266,7 +2266,7 @@ namespace SharpDune.Gui
 		 */
 		internal static void GUI_Mouse_Show_Safe()
 		{
-			while (g_mouseLock != 0) sleepIdle();
+			while (g_mouseLock != 0) SleepIdle();
 			if (g_mouseDisabled == 1) return;
             g_mouseLock++;
 
@@ -2929,7 +2929,7 @@ namespace SharpDune.Gui
 
                 GFX_SetPalette(data);
 
-				while (g_timerSleep < timerCurrent) sleepIdle();
+				while (g_timerSleep < timerCurrent) SleepIdle();
 			}
 		}
 
@@ -3190,7 +3190,7 @@ namespace SharpDune.Gui
 
                 Sprites_CPS_LoadRegionClick();
 
-				for (g_timerTimeout = 120; g_timerTimeout != 0; sleepIdle())
+				for (g_timerTimeout = 120; g_timerTimeout != 0; SleepIdle())
 				{
 					if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 				}
@@ -3201,7 +3201,7 @@ namespace SharpDune.Gui
 
 				GUI_Screen_FadeIn2(8, 24, 304, 120, Screen.NO1, Screen.NO0, (ushort)(GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1), false);
 
-				for (g_timerTimeout = 60; g_timerTimeout != 0; sleepIdle())
+				for (g_timerTimeout = 60; g_timerTimeout != 0; SleepIdle())
 				{
 					if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 				}
@@ -3291,7 +3291,7 @@ namespace SharpDune.Gui
 
             Voice_LoadVoices(5);
 
-			for (; ; sleepIdle())
+			for (; ; SleepIdle())
 			{
 				ushort yes_no;
 
@@ -3318,7 +3318,7 @@ namespace SharpDune.Gui
 				GUI_SetPaletteAnimated(g_palette1, 15);
 				GUI_Mouse_Show_Safe();
 
-				for (houseID = HouseType.HOUSE_INVALID; houseID == HouseType.HOUSE_INVALID; sleepIdle())
+				for (houseID = HouseType.HOUSE_INVALID; houseID == HouseType.HOUSE_INVALID; SleepIdle())
 				{
 					var key = GUI_Widget_HandleEvents(w);
 
@@ -3341,7 +3341,7 @@ namespace SharpDune.Gui
 				{ // != 0) {
                     Sound_Output_Feedback((ushort)(houseID + 62));
 
-					while (Sound_StartSpeech()) sleepIdle();
+					while (Sound_StartSpeech()) SleepIdle();
 				}
 
 				while (w != null)
@@ -3387,7 +3387,7 @@ namespace SharpDune.Gui
 
 				GUI_Mouse_Show_Safe();
 
-				for (; ; sleepIdle())
+				for (; ; SleepIdle())
 				{
 					yes_no = GUI_Mentat_Loop(House_GetWSAHouseFilename((byte)houseID), null, null, true, w);
 
@@ -3417,7 +3417,7 @@ namespace SharpDune.Gui
 
                 GFX_Screen_SetActive(oldScreenID);
 
-				while (Driver_Voice_IsPlaying()) sleepIdle();
+				while (Driver_Voice_IsPlaying()) SleepIdle();
 
 				if (yes_no == 0x8001) break;
 			}
@@ -3586,7 +3586,7 @@ namespace SharpDune.Gui
 
             Input_History_Clear();
 
-			for (; ; sleepIdle())
+			for (; ; SleepIdle())
 			{
 				GUI_HallOfFame_Tick();
 				if (Input_Keyboard_NextKey() != 0) break;
@@ -3713,7 +3713,7 @@ namespace SharpDune.Gui
 
             GFX_Screen_SetActive(Screen.NO0);
 
-			for (g_doQuitHOF = false; !g_doQuitHOF; sleepIdle())
+			for (g_doQuitHOF = false; !g_doQuitHOF; SleepIdle())
 			{
                 GUI_Widget_HandleEvents(w);
 			}
@@ -3754,7 +3754,7 @@ namespace SharpDune.Gui
 
 		static void GUI_EndStats_Sleep(ushort delay)
 		{
-			for (g_timerTimeout = delay; g_timerTimeout != 0; sleepIdle())
+			for (g_timerTimeout = delay; g_timerTimeout != 0; SleepIdle())
 			{
 				GUI_HallOfFame_Tick();
 			}
@@ -3787,13 +3787,13 @@ namespace SharpDune.Gui
 
 			GUI_DrawText_Wrapper(str, 64, 175, 12, 0, 0x12);
 
-			while (g_timerGUI + 90 < l_timerNext) sleepIdle();
+			while (g_timerGUI + 90 < l_timerNext) SleepIdle();
 
 			for (y = 185; y > 172; y--)
 			{
 				GUI_Screen_Copy(8, (short)y, 8, 165, 24, 14, Screen.NO1, Screen.NO0);
 
-				for (g_timerTimeout = 3; g_timerTimeout != 0; sleepIdle())
+				for (g_timerTimeout = 3; g_timerTimeout != 0; SleepIdle())
 				{
 					if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 				}
@@ -3829,7 +3829,7 @@ namespace SharpDune.Gui
 		 */
 		static void GUI_Mouse_SetPosition(ushort x, ushort y)
 		{
-			while (g_mouseLock != 0) sleepIdle();
+			while (g_mouseLock != 0) SleepIdle();
             g_mouseLock++;
 
 			if (x < g_mouseRegionLeft) x = g_mouseRegionLeft;
@@ -4274,7 +4274,7 @@ namespace SharpDune.Gui
 			GUI_Mouse_Show_Safe();
             Input_History_Clear();
 
-			for (loop = true; loop; sleepIdle())
+			for (loop = true; loop; SleepIdle())
 			{
 				region = (ushort)GUI_StrategicMap_ClickedRegion();
 
@@ -4657,7 +4657,7 @@ namespace SharpDune.Gui
 
 			GUI_FactoryWindow_UpdateSelection(true);
 
-			for (g_factoryWindowResult = FactoryResult.FACTORY_CONTINUE; g_factoryWindowResult == FactoryResult.FACTORY_CONTINUE; sleepIdle())
+			for (g_factoryWindowResult = FactoryResult.FACTORY_CONTINUE; g_factoryWindowResult == FactoryResult.FACTORY_CONTINUE; SleepIdle())
 			{
 				ushort evt;
 
@@ -5190,7 +5190,7 @@ namespace SharpDune.Gui
                 GFX_Screen_Copy2((short)((i % 2 == 0) ? 16 : 176), 16, x, y, (short)width, (short)height, Screen.NO1, Screen.NO0, false);
 				GUI_Mouse_Show_Safe();
 
-				for (g_timerTimeout = 20; g_timerTimeout != 0; sleepIdle())
+				for (g_timerTimeout = 20; g_timerTimeout != 0; SleepIdle())
 				{
 					GUI_StrategicMap_AnimateArrows();
 				}

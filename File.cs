@@ -194,7 +194,7 @@ namespace SharpDune
 		/*
 		 * Open a file from the data/ directory
 		 */
-		internal static FileStream fopendatadir(SearchDirectory dir, string name, string mode)
+		internal static FileStream FOpenDataDir(SearchDirectory dir, string name, string mode)
 		{
 			string filenameComplete; //char[1024]
 			FileInfo fileInfo;
@@ -202,7 +202,7 @@ namespace SharpDune
 			FileInfo pakInfo = null;
 
 			var fileAccess = FileAccessFromString(mode);
-			Debug.WriteLine($"DEBUG: fopendatadir({dir}, {name}, {mode})");
+			Debug.WriteLine($"DEBUG: FOpenDataDir({dir}, {name}, {mode})");
 			if (dir != SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
 			{
 				fileInfo = FileInfo_Find_ByName(name, ref pakInfo);
@@ -247,7 +247,7 @@ namespace SharpDune
 		 * @param mode The mode to open the file in. Bit 1 means reading, bit 2 means writing.
 		 * @return An index value refering to the opened file, or FILE_INVALID.
 		 */
-		static byte _File_Open(SearchDirectory dir, string filename, byte mode)
+		static byte File_Open(SearchDirectory dir, string filename, byte mode)
 		{
 			byte fileIndex;
 			FileInfo fileInfo;
@@ -274,7 +274,7 @@ namespace SharpDune
 				if (pakInfo == null)
 				{
 					/* Check if we can find the file outside any PAK file */
-					s_file[fileIndex].fp = fopendatadir(dir, filename, "rb");
+					s_file[fileIndex].fp = FOpenDataDir(dir, filename, "rb");
 					if (s_file[fileIndex].fp == null) return (byte)FileMode.FILE_INVALID;
 
 					s_file[fileIndex].start = 0;
@@ -289,7 +289,7 @@ namespace SharpDune
 					if (pakInfo != s_currentPakInfo)
 					{
 						if (s_currentPakFp != null) s_currentPakFp.Close();
-						s_currentPakFp = fopendatadir(dir, pakInfo.filename, "rb");
+						s_currentPakFp = FOpenDataDir(dir, pakInfo.filename, "rb");
 						s_currentPakInfo = pakInfo;
 					}
 					s_file[fileIndex].fp = s_currentPakFp;
@@ -307,7 +307,7 @@ namespace SharpDune
 			}
 
 			/* Check if we can find the file outside any PAK file */
-			s_file[fileIndex].fp = fopendatadir(dir, filename, (mode == (byte)FileMode.FILE_MODE_WRITE) ? "wb" : ((mode == (byte)FileMode.FILE_MODE_READ_WRITE) ? "wb+" : "rb"));
+			s_file[fileIndex].fp = FOpenDataDir(dir, filename, (mode == (byte)FileMode.FILE_MODE_WRITE) ? "wb" : ((mode == (byte)FileMode.FILE_MODE_READ_WRITE) ? "wb+" : "rb"));
 			if (s_file[fileIndex].fp != null)
 			{
 				s_file[fileIndex].start = 0;
@@ -339,7 +339,7 @@ namespace SharpDune
 		{
 			byte res;
 
-			res = _File_Open(dir, filename, mode);
+			res = File_Open(dir, filename, mode);
 
 			if (res == (byte)FileMode.FILE_INVALID)
 			{
@@ -385,7 +385,7 @@ namespace SharpDune
 			else
 			{
 				byte index;
-				index = _File_Open(dir, filename, (byte)FileMode.FILE_MODE_READ);
+				index = File_Open(dir, filename, (byte)FileMode.FILE_MODE_READ);
 				if (index != (byte)FileMode.FILE_INVALID)
 				{
 					exists = true;
@@ -710,7 +710,7 @@ namespace SharpDune
 		{
 			var buffer = new byte[2];
 			File_Read(index, ref buffer, (uint)buffer.Length);
-			return READ_LE_UINT16(buffer);
+			return Read_LE_UInt16(buffer);
 		}
 
 		/*
@@ -723,7 +723,7 @@ namespace SharpDune
 		{
 			var buffer = new byte[4];
 			File_Read(index, ref buffer, (uint)buffer.Length);
-			return READ_LE_UINT32(buffer);
+			return Read_LE_UInt32(buffer);
 		}
 
 		/*
@@ -736,7 +736,7 @@ namespace SharpDune
 		internal static bool File_Write_LE16(byte index, ushort value)
 		{
 			var buffer = new byte[2];
-            WRITE_LE_UINT16(buffer, value);
+            Write_LE_UInt16(buffer, value);
 			return (File_Write(index, buffer, 2) == 2);
 		}
 
@@ -749,12 +749,12 @@ namespace SharpDune
 		/*
 		 * Read a uint16 value from a little endian file.
 		 */
-		internal static bool fread_le_uint16(ref ushort value, FileStream stream)
+		internal static bool FRead_LE_UInt16(ref ushort value, FileStream stream)
 		{
 			var buffer = new byte[2];
 			//if (value == null) return false;
 			if (stream.Read(buffer, 0, 2) != 2) return false; //fread(buffer, 1, 2, stream) != 2)
-			value = READ_LE_UINT16(buffer);
+			value = Read_LE_UInt16(buffer);
 			return true;
 		}
 
@@ -767,12 +767,12 @@ namespace SharpDune
 		/*
 		 * Read a uint32 value from a little endian file.
 		 */
-		internal static bool fread_le_uint32(ref uint value, FileStream stream)
+		internal static bool FRead_LE_UInt32(ref uint value, FileStream stream)
 		{
 			var buffer = new byte[4];
 			//if (value == null) return false;
 			if (stream.Read(buffer, 0, 4) != 4) return false; //fread(buffer, 1, 4, stream) != 4)
-			value = READ_LE_UINT32(buffer);
+			value = Read_LE_UInt32(buffer);
 			return true;
 		}
 
@@ -783,7 +783,7 @@ namespace SharpDune
 		/*
 		 * Write a uint16 value from a little endian file.
 		 */
-		internal static bool fwrite_le_uint16(ushort value, BinaryWriter stream)
+		internal static bool FWrite_LE_UInt16(ushort value, BinaryWriter stream)
 		{
 			stream.Write(value);
 			//stream.Write((/*char*/sbyte)(value & 0xff)); //if (putc(value & 0xff, stream) == EOF) return false;
@@ -801,7 +801,7 @@ namespace SharpDune
 		/*
 		 * Write a uint32 value from a little endian file.
 		 */
-		internal static bool fwrite_le_uint32(uint value, BinaryWriter stream)
+		internal static bool FWrite_LE_UInt32(uint value, BinaryWriter stream)
 		{
 			stream.Write(value);
 			//TODO: Use Endian.WRITE_LE_UINT32?
@@ -821,7 +821,7 @@ namespace SharpDune
 		{
 			byte index;
 
-			index = _File_Open(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, (byte)FileMode.FILE_MODE_WRITE);
+			index = File_Open(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, (byte)FileMode.FILE_MODE_WRITE);
 			if (index != (byte)FileMode.FILE_INVALID) File_Close(index);
 		}
 
@@ -891,7 +891,7 @@ namespace SharpDune
 
 			g_dune_data_dir = File_MakeCompleteFilename(g_dune_data_dir.Length, SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, string.Empty, ConvertCase.NO_CONVERT);
 
-			if (!ReadDir_ProcessAllFiles(g_dune_data_dir, _File_Init_Callback))
+			if (!ReadDir_ProcessAllFiles(g_dune_data_dir, File_Init_Callback))
 			{
 				Trace.WriteLine($"ERROR: Cannot initialize files. Does the directory {g_dune_data_dir} exist?");
 				return false;
@@ -992,7 +992,7 @@ namespace SharpDune
 
 				if (File_Read(index, ref length, 4) != 4 && !first) return 0;
 
-				length = HTOBE32(length);
+				length = HToBE32(length);
 
 				if (value == chunk)
 				{
@@ -1036,7 +1036,7 @@ namespace SharpDune
 
 				if (File_Read(index, ref length, 4) != 4 && !first) return 0;
 
-				length = HTOBE32(length);
+				length = HToBE32(length);
 
 				if (value == chunk)
 				{
@@ -1082,7 +1082,7 @@ namespace SharpDune
 
 			File_Read(index, ref header, 4);
 
-			if (header != HTOBE32((uint)SharpDune.MultiChar[FourCC.FORM]))
+			if (header != HToBE32((uint)SharpDune.MultiChar[FourCC.FORM]))
 			{
 				File_Close(index);
 				return (byte)FileMode.FILE_INVALID;
@@ -1173,19 +1173,19 @@ namespace SharpDune
 		 * @param size The file size (bytes).
 		 * @return True if the processing went OK.
 		 */
-		static bool _File_Init_Callback(string name, string path, uint size)
+		static bool File_Init_Callback(string name, string path, uint size)
 		{
 			string ext;
 			FileInfo fileInfo;
 
-			fileInfo = _File_Init_AddFileInRootDir(name, size);
+			fileInfo = File_Init_AddFileInRootDir(name, size);
 			if (fileInfo == null) return false;
 			ext = Path.GetExtension(path);
 			//ext = strrchr(path, '.');
 			//if (ext != null) {
 			if (string.Equals(ext, ".pak", StringComparison.OrdinalIgnoreCase))
 			{ //(strcasecmp(ext, ".pak") == 0)
-				if (!_File_Init_ProcessPak(path, size, fileInfo))
+				if (!File_Init_ProcessPak(path, size, fileInfo))
 				{
 					Trace.WriteLine($"WARNING: Failed to process PAK file {path}");
 					return false;
@@ -1202,7 +1202,7 @@ namespace SharpDune
 		 * @param filesize The size of the file.
 		 * @return A pointer to the newly created FileInfo.
 		 */
-		static FileInfo _File_Init_AddFileInRootDir(string filename, uint filesize)
+		static FileInfo File_Init_AddFileInRootDir(string filename, uint filesize)
 		{
 			FileInfoLinkedElem elem;
             //size_t size;
@@ -1235,7 +1235,7 @@ namespace SharpDune
 		 * @param pakInfo pointer to the FileInfo for PAK file.
 		 * @return True if PAK processing was ok.
 		 */
-		static bool _File_Init_ProcessPak(string pakpath, uint paksize, FileInfo pakInfo)
+		static bool File_Init_ProcessPak(string pakpath, uint paksize, FileInfo pakInfo)
 		{
 			FileStream f;
 			uint position;
@@ -1250,7 +1250,7 @@ namespace SharpDune
 				Trace.WriteLine($"ERROR: Failed to open {pakpath}");
 				return false;
 			}
-			if (!fread_le_uint32(ref nextposition, f))
+			if (!FRead_LE_UInt32(ref nextposition, f))
 			{
 				f.Close();
 				return false;
@@ -1272,13 +1272,13 @@ namespace SharpDune
 					f.Close();
 					return false;
 				}
-				if (!fread_le_uint32(ref nextposition, f))
+				if (!FRead_LE_UInt32(ref nextposition, f))
 				{
 					f.Close();
 					return false;
 				}
 				size = (nextposition != 0) ? nextposition - position : paksize - position;
-				if (_File_Init_AddFileInPak(new string(filename, 0, (int)i), size, position, pakInfo) == null)
+				if (File_Init_AddFileInPak(new string(filename, 0, (int)i), size, position, pakInfo) == null)
 				{
 					f.Close();
 					return false;
@@ -1297,7 +1297,7 @@ namespace SharpDune
 		 * @param pakInfo FileInfo pointer for the PAK file.
 		 * @return A pointer to the newly created FileInfo.
 		 */
-		static FileInfo _File_Init_AddFileInPak(string filename, uint filesize, uint position, FileInfo pakInfo)
+		static FileInfo File_Init_AddFileInPak(string filename, uint filesize, uint position, FileInfo pakInfo)
 		{
 			PakFileInfoLinkedElem elem;
             //size_t size;

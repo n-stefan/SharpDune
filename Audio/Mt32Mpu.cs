@@ -97,7 +97,7 @@ namespace SharpDune.Audio
         static void MPU_Send(byte status, byte data1, byte data2)
         {
             s_mpuIgnore = true;
-            midi_send((uint)(status | (data1 << 8) | (data2 << 16)));
+            Midi_Send((uint)(status | (data1 << 8) | (data2 << 16)));
             s_mpuIgnore = false;
         }
 
@@ -277,11 +277,11 @@ namespace SharpDune.Audio
 
             while (true)
             {
-                header = READ_BE_UINT32(file[pointer..]);
-                size = READ_BE_UINT32(file[(pointer + 4)..]);
+                header = Read_BE_UInt32(file[pointer..]);
+                size = Read_BE_UInt32(file[(pointer + 4)..]);
 
                 if (header != SharpDune.MultiChar[FourCC.CAT] && header != SharpDune.MultiChar[FourCC.FORM]) return null;
-                if (READ_BE_UINT32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) break;
+                if (Read_BE_UInt32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) break;
 
                 pointer += 8;
                 pointer += (int)size;
@@ -294,9 +294,9 @@ namespace SharpDune.Audio
 
             while (true)
             {
-                size = READ_BE_UINT32(file[(pointer + 4)..]);
+                size = Read_BE_UInt32(file[(pointer + 4)..]);
 
-                if ((READ_BE_UINT32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
+                if ((Read_BE_UInt32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
 
                 size += 8;
                 total -= size;
@@ -356,13 +356,13 @@ namespace SharpDune.Audio
             s_mpu_msdata[i] = data;
             data.EVNT = null;
 
-            header = READ_BE_UINT32(file[pointer..]);
+            header = Read_BE_UInt32(file[pointer..]);
             size = 12;
             while (header != SharpDune.MultiChar[FourCC.EVNT])
             {
                 pointer += (int)size;
-                header = READ_BE_UINT32(file[pointer..]);
-                size = READ_BE_UINT32(file[(pointer + 4)..]) + 8;
+                header = Read_BE_UInt32(file[pointer..]);
+                size = Read_BE_UInt32(file[(pointer + 4)..]) + 8;
             }
 
             data.EVNT = file[pointer..];
@@ -474,7 +474,7 @@ namespace SharpDune.Audio
             while (!s_mpu_sem.Wait(0))
             //while (!Thread.Semaphore_TryLock(s_mpu_sem))
             {
-                msleep((int)(s_mpu_usec / 1000));
+                MSleep((int)(s_mpu_usec / 1000));
                 MPU_Interrupt();
             }
             s_mpu_sem.Release(1);
@@ -488,7 +488,7 @@ namespace SharpDune.Audio
         {
             byte i;
 
-            if (!midi_init()) return false;
+            if (!Midi_Init()) return false;
 
             //s_mpu_sem = Thread.Semaphore_Create(0);
             s_mpu_sem = new SemaphoreSlim(0, 1);
@@ -523,7 +523,7 @@ namespace SharpDune.Audio
             Array.Fill<byte>(s_mpu_lockStatus, 0, 0, s_mpu_lockStatus.Length); //memset(s_mpu_lockStatus, 0, sizeof(s_mpu_lockStatus));
 
             s_mpuIgnore = true;
-            midi_reset();
+            Midi_Reset();
             s_mpuIgnore = false;
 
             for (i = 0; i < 9; i++)
@@ -578,11 +578,11 @@ namespace SharpDune.Audio
             }
 
             s_mpuIgnore = true;
-            midi_reset();
+            Midi_Reset();
 
             s_mpu_initialized = false;
 
-            midi_uninit();
+            Midi_Uninit();
             s_mpuIgnore = false;
 
             s_mpu_sem.Dispose();
@@ -727,7 +727,7 @@ namespace SharpDune.Audio
                                         buffer[0] = status;
                                         Debug.Assert(nb < buffer.Length);
                                         Buffer.BlockCopy(data.sound.Arr, data.sound.Ptr + i, buffer, 1, nb); //memcpy(buffer + 1, data.sound + i, nb);
-                                        midi_send_string(buffer, (ushort)(nb + 1));
+                                        Midi_Send_String(buffer, (ushort)(nb + 1));
                                         nb += (ushort)i;
                                     }
                                     else

@@ -221,11 +221,11 @@ namespace SharpDune.Input
                     var buffer = new byte[2];
 
                     File_Read(g_mouseFileID, ref buffer, 2);
-                    g_mouseInputValue = READ_LE_UINT16(buffer);
+                    g_mouseInputValue = Read_LE_UInt16(buffer);
                     Array.Clear(buffer, 0, 2);
 
                     var length = File_Read(g_mouseFileID, ref buffer, 2);
-                    g_mouseRecordedTimer = READ_LE_UINT16(buffer);
+                    g_mouseRecordedTimer = Read_LE_UInt16(buffer);
                     Array.Clear(buffer, 0, 2);
 
                     if (length != 2) break;
@@ -234,11 +234,11 @@ namespace SharpDune.Input
                     {
                         /* 0x2D == '-' 0x41 == 'A' [...] 0x44 == 'D' */
                         File_Read(g_mouseFileID, ref buffer, 2);
-                        g_mouseRecordedX = READ_LE_UINT16(buffer);
+                        g_mouseRecordedX = Read_LE_UInt16(buffer);
                         Array.Clear(buffer, 0, 2);
 
                         length = File_Read(g_mouseFileID, ref buffer, 2);
-                        g_mouseRecordedY = READ_LE_UINT16(buffer);
+                        g_mouseRecordedY = Read_LE_UInt16(buffer);
                         Array.Clear(buffer, 0, 2);
 
                         if (length == 2)
@@ -288,10 +288,10 @@ namespace SharpDune.Input
                 bottom = temp;
             }
 
-            left = clamp(left, 0, SCREEN_WIDTH - 1);
-            right = clamp(right, 0, SCREEN_WIDTH - 1);
-            top = clamp(top, 0, SCREEN_HEIGHT - 1);
-            bottom = clamp(bottom, 0, SCREEN_HEIGHT - 1);
+            left = Clamp(left, 0, SCREEN_WIDTH - 1);
+            right = Clamp(right, 0, SCREEN_WIDTH - 1);
+            top = Clamp(top, 0, SCREEN_HEIGHT - 1);
+            bottom = Clamp(bottom, 0, SCREEN_HEIGHT - 1);
 
             g_mouseRegionLeft = left;
             g_mouseRegionRight = right;
@@ -335,7 +335,7 @@ namespace SharpDune.Input
             short mx, my;
             ushort inside;
 
-            while (g_mouseLock != 0) sleepIdle();
+            while (g_mouseLock != 0) SleepIdle();
             g_mouseLock++;
 
             mx = (short)g_mouseX;

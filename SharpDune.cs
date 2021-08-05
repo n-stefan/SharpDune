@@ -5,7 +5,6 @@
 // - speed up array operations: Array.Copy => Buffer.BlockCopy(faster?), ...
 // - clean up
 // - use CArray where appropriate
-// - prefix all top level class names with "C"?
 
 //INT - BOOL: zero is false and all other values are true
 
@@ -1033,7 +1032,7 @@ namespace SharpDune
 
             g_canSkipIntro = File_Exists_Personal("ONETIME.DAT");
 
-            for (; ; sleepIdle())
+            for (; ; SleepIdle())
             {
                 if (g_gameMode == GameMode.GM_MENU)
                 {
@@ -1535,7 +1534,7 @@ namespace SharpDune
 
             GUI_DisplayText(null, -1);
 
-            sleepIdle();  /* let the game a chance to update screen, etc. */
+            SleepIdle();  /* let the game a chance to update screen, etc. */
         }
 
         /*

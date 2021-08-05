@@ -527,14 +527,14 @@ namespace SharpDune
 			uint animationFrame;
 			uint animation0;
 
-			animationFrame = READ_LE_UINT32(header.fileContent[(frame * 4)..]);
+			animationFrame = Read_LE_UInt32(header.fileContent[(frame * 4)..]);
 
 			if (animationFrame == 0) return 0;
 
-			animation0 = READ_LE_UINT32(header.fileContent);
+			animation0 = Read_LE_UInt32(header.fileContent);
 			if (animation0 != 0)
 			{
-				lengthAnimation = (ushort)(READ_LE_UINT32(header.fileContent[4..]) - animation0);
+				lengthAnimation = (ushort)(Read_LE_UInt32(header.fileContent[4..]) - animation0);
 			}
 
 			return animationFrame - lengthAnimation - 10;
