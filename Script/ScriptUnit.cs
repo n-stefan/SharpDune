@@ -26,7 +26,7 @@ namespace SharpDune.Script
 		{
 			CUnit u;
 			CUnit nu;
-			tile32 position;
+			Tile32 position;
 
 			u = g_scriptCurrentUnit;
 
@@ -414,7 +414,7 @@ namespace SharpDune.Script
 		{
 			CUnit u;
 			ushort delay;
-			tile32 tile;
+			Tile32 tile;
 			ushort distance;
 			sbyte orientation;
 			short diff;
@@ -731,7 +731,7 @@ namespace SharpDune.Script
 			CUnit u;
 			ushort index;
 			sbyte current;
-			tile32 tile;
+			Tile32 tile;
 			sbyte orientation;
 
 			u = g_scriptCurrentUnit;
@@ -776,7 +776,7 @@ namespace SharpDune.Script
 
 			if (Tools_Index_IsValid(encoded))
 			{
-				tile32 tile;
+				Tile32 tile;
 
 				tile = Tools_Index_GetTile(encoded);
 
@@ -839,7 +839,7 @@ namespace SharpDune.Script
 		{
 			CUnit u;
 			ushort target;
-			tile32 tile;
+			Tile32 tile;
 			sbyte orientation;
 
 			u = g_scriptCurrentUnit;
@@ -1782,7 +1782,7 @@ namespace SharpDune.Script
 		internal static ushort Script_Unit_GetRandomTile(ScriptEngine script)
 		{
 			CUnit u;
-			tile32 tile;
+			Tile32 tile;
 
 			u = g_scriptCurrentUnit;
 

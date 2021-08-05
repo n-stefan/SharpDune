@@ -3,17 +3,17 @@
     class SaveLoadUnit
     {
 		static readonly SaveLoadDesc[] s_saveUnitOrientation = {
-			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(dir24.speed)),
-			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(dir24.target)),
-			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(dir24.current)),
+			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(Dir24.speed)),
+			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(Dir24.target)),
+			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(Dir24.current)),
 			SLD_END()
 		};
 
 		static readonly SaveLoadDesc[] s_saveUnit = {
 			SLD_SLD(/*unit,*/ nameof(CUnit.o), g_saveObject),
 			SLD_EMPTY(SLDT_UINT16),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(tile32.y)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(Tile32.x)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(Tile32.y)}"),
 			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.originEncoded)),
 			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.actionID)),
 			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.nextActionID)),
@@ -23,10 +23,10 @@
 			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.targetMove)),
 			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.amount)),
 			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.deviated)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(tile32.y)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(tile32.y)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(Tile32.x)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(Tile32.y)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(Tile32.x)}"),
+			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(Tile32.y)}"),
 			SLD_SLD2(/*unit,*/ nameof(CUnit.orientation), s_saveUnitOrientation, 2),
 			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.speedPerTick)),
 			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.speedRemainder)),

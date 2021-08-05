@@ -75,7 +75,7 @@ namespace SharpDune
          * @return The X-position of the tile.
          */
         /*extern uint8 Tile_GetPosX(tile32 tile);*/
-        internal static byte Tile_GetPosX(tile32 tile) => (byte)((tile.x >> 8) & 0x3f);
+        internal static byte Tile_GetPosX(Tile32 tile) => (byte)((tile.x >> 8) & 0x3f);
 
         /*
          * Returns the Y-position of the tile.
@@ -84,7 +84,7 @@ namespace SharpDune
          * @return The Y-position of the tile.
          */
         /*extern uint8 Tile_GetPosY(tile32 tile);*/
-        internal static byte Tile_GetPosY(tile32 tile) => (byte)((tile.y >> 8) & 0x3f);
+        internal static byte Tile_GetPosY(Tile32 tile) => (byte)((tile.y >> 8) & 0x3f);
 
         /*
          * Packs a 32 bits tile class into a 12 bits packed tile.
@@ -93,7 +93,7 @@ namespace SharpDune
          * @return The tile packed into 12 bits.
          */
         /*extern uint16 Tile_PackTile(tile32 tile);*/
-        internal static ushort Tile_PackTile(tile32 tile) => (ushort)((Tile_GetPosY(tile) << 6) | Tile_GetPosX(tile));
+        internal static ushort Tile_PackTile(Tile32 tile) => (ushort)((Tile_GetPosY(tile) << 6) | Tile_GetPosX(tile));
 
         /*
          * Packs an x and y coordinate into a 12 bits packed tile.
@@ -113,7 +113,7 @@ namespace SharpDune
          */
         /*extern bool Tile_IsValid(tile32 tile);*/
         /*#define Tile_IsValid(tile) (((tile).x & 0xc000) == 0 && ((tile).y & 0xc000) == 0)*/
-        internal static bool Tile_IsValid(tile32 tile) => ((tile.x | tile.y) & 0xc000) == 0;
+        internal static bool Tile_IsValid(Tile32 tile) => ((tile.x | tile.y) & 0xc000) == 0;
 
         /*
          * Adds two tiles together.
@@ -122,9 +122,9 @@ namespace SharpDune
          * @param diff The difference.
          * @return The new coordinates.
          */
-        internal static tile32 Tile_AddTileDiff(tile32 from, tile32 diff)
+        internal static Tile32 Tile_AddTileDiff(Tile32 from, Tile32 diff)
         {
-            var result = new tile32
+            var result = new Tile32
             {
                 x = (ushort)(from.x + diff.x),
                 y = (ushort)(from.y + diff.y)
@@ -139,7 +139,7 @@ namespace SharpDune
          * @param tile The tile to remove fog around.
          * @param radius The radius to remove fog around.
          */
-        internal static void Tile_RemoveFogInRadius(tile32 tile, ushort radius)
+        internal static void Tile_RemoveFogInRadius(Tile32 tile, ushort radius)
         {
             ushort packed;
             ushort x, y;
@@ -160,7 +160,7 @@ namespace SharpDune
             {
                 for (j = (short)-radius; j <= radius; j++)
                 {
-                    var t = new tile32();
+                    var t = new Tile32();
 
                     if ((x + i) < 0 || (x + i) >= 64) continue;
                     if ((y + j) < 0 || (y + j) >= 64) continue;
@@ -186,7 +186,7 @@ namespace SharpDune
          * @return A tile32 at the top-left corner of the X- and Y-position.
          */
         /*extern tile32 Tile_MakeXY(uint16 x, uint16 y);*/
-        internal static void/*tile32*/ Tile_MakeXY(ref tile32 tile, ushort X, ushort Y)
+        internal static void/*tile32*/ Tile_MakeXY(ref Tile32 tile, ushort X, ushort Y)
         {
             tile.x = (ushort)(X << 8);
             tile.y = (ushort)(Y << 8);
@@ -200,7 +200,7 @@ namespace SharpDune
          * @param to The destination.
          * @return The longest distance between the X or Y coordinates, plus half the shortest.
          */
-        internal static ushort Tile_GetDistanceRoundedUp(tile32 from, tile32 to) => (ushort)((Tile_GetDistance(from, to) + 0x80) >> 8);
+        internal static ushort Tile_GetDistanceRoundedUp(Tile32 from, Tile32 to) => (ushort)((Tile_GetDistance(from, to) + 0x80) >> 8);
 
         /*
          * Calculates the distance between the two given tiles.
@@ -209,7 +209,7 @@ namespace SharpDune
          * @param to The destination.
          * @return The longest distance between the X or Y coordinates, plus half the shortest.
          */
-        internal static ushort Tile_GetDistance(tile32 from, tile32 to)
+        internal static ushort Tile_GetDistance(Tile32 from, Tile32 to)
         {
             var distance_x = (ushort)Math.Abs(from.x - to.x);
             var distance_y = (ushort)Math.Abs(from.y - to.y);
@@ -230,7 +230,7 @@ namespace SharpDune
          * @param to The destination.
          * @return The direction.
          */
-        internal static sbyte Tile_GetDirection(tile32 from, tile32 to)
+        internal static sbyte Tile_GetDirection(Tile32 from, Tile32 to)
         {
             int dx;
             int dy;
@@ -307,9 +307,9 @@ namespace SharpDune
          * @param packed The uint16 containing the 12 bits packed tile information.
          * @return The unpacked tile.
          */
-        internal static tile32 Tile_UnpackTile(ushort packed)
+        internal static Tile32 Tile_UnpackTile(ushort packed)
         {
-            var tile = new tile32
+            var tile = new Tile32
             {
                 x = (ushort)((((packed >> 0) & 0x3F) << 8) | 0x80),
                 y = (ushort)((((packed >> 6) & 0x3F) << 8) | 0x80)
@@ -340,7 +340,7 @@ namespace SharpDune
          * @return The X-position of the tile.
          */
         /*extern uint16 Tile_GetX(tile32 tile);*/
-        internal static ushort Tile_GetX(tile32 tile) => tile.x;
+        internal static ushort Tile_GetX(Tile32 tile) => tile.x;
 
         /*
          * Returns the Y-position of the tile.
@@ -349,16 +349,16 @@ namespace SharpDune
          * @return The Y-position of the tile.
          */
         /*extern uint16 Tile_GetY(tile32 tile);*/
-        internal static ushort Tile_GetY(tile32 tile) => tile.y;
+        internal static ushort Tile_GetY(Tile32 tile) => tile.y;
 
         /*
          * Centers the offset of the tile.
          *
          * @param tile The tile to center.
          */
-        internal static tile32 Tile_Center(tile32 tile)
+        internal static Tile32 Tile_Center(Tile32 tile)
         {
-            tile32 result;
+            Tile32 result;
 
             result = tile;
             result.x = (ushort)((result.x & 0xff00) | 0x80);
@@ -375,11 +375,11 @@ namespace SharpDune
          * @param center Wether to center the offset of the tile.
          * @return The tile.
          */
-        internal static tile32 Tile_MoveByRandom(tile32 tile, ushort distance, bool center)
+        internal static Tile32 Tile_MoveByRandom(Tile32 tile, ushort distance, bool center)
         {
             ushort x;
             ushort y;
-            var ret = new tile32();
+            var ret = new Tile32();
             byte orientation;
             ushort newDistance;
 
@@ -412,7 +412,7 @@ namespace SharpDune
          * @param distance The distance.
          * @return The tile.
          */
-        internal static tile32 Tile_MoveByDirection(tile32 tile, short orientation, ushort distance)
+        internal static Tile32 Tile_MoveByDirection(Tile32 tile, short orientation, ushort distance)
         {
             int diffX, diffY;
             int roundingOffsetX, roundingOffsetY;
@@ -456,7 +456,7 @@ namespace SharpDune
             while (true)
             {
                 short dir;
-                tile32 position;
+                Tile32 position;
                 ushort packed;
 
                 dir = (short)(31 + (Tools_Random_256() & 0x3F));
@@ -528,7 +528,7 @@ namespace SharpDune
          * @param orientation The orientation to move in.
          * @return The new position, or the old in case of out-of-bounds.
          */
-        internal static tile32 Tile_MoveByOrientation(tile32 position, byte orientation)
+        internal static Tile32 Tile_MoveByOrientation(Tile32 position, byte orientation)
         {
             short[] xOffsets = { 0, 256, 256, 256, 0, -256, -256, -256 }; //[8]
             short[] yOffsets = { -256, -256, 0, 256, 256, 256, 0, -256 }; //[8]

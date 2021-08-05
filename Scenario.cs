@@ -160,7 +160,7 @@ namespace SharpDune
 		{
 			byte index, houseType, unitType, locationID;
 			ushort timeBetween;
-			tile32 position;
+			Tile32 position;
 			bool repeat;
 			CUnit u;
 			string[] split;
@@ -212,7 +212,7 @@ namespace SharpDune
 			/* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
 			if (!g_dune2_enhanced) repeat = false;
 
-            position = new tile32
+            position = new Tile32
             {
                 x = 0xFFFF,
                 y = 0xFFFF
@@ -399,7 +399,7 @@ namespace SharpDune
 			byte houseType, unitType, actionType;
 			sbyte orientation;
 			ushort hitpoints;
-			tile32 position;
+			Tile32 position;
 			CUnit u;
 			string[] split;
 

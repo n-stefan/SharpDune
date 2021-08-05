@@ -188,7 +188,7 @@ namespace SharpDune.Script
 			while (true)
 			{
 				CUnit u;
-				tile32 tile;
+				Tile32 tile;
 				ushort distanceUnitDest;
 				ushort distanceUnitTeam;
 				ushort distanceTeamDest;
@@ -330,7 +330,7 @@ namespace SharpDune.Script
 		internal static ushort Script_Team_Unknown0788(ScriptEngine script)
 		{
 			CTeam t;
-			tile32 tile;
+			Tile32 tile;
 			var find = new PoolFindStruct();
 
 			t = g_scriptCurrentTeam;

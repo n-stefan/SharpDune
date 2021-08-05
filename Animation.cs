@@ -35,7 +35,7 @@ namespace SharpDune
 		internal byte current;                          /*!< At which command we currently are in the Animation. */
 		internal byte iconGroup;                        /*!< Which iconGroup the sprites of the Animation belongs. */
 		internal AnimationCommandStruct[] commands;     /*!< List of commands for this Animation. */
-		internal tile32 tile;                           /*!< Top-left tile of Animation. */
+		internal Tile32 tile;                           /*!< Top-left tile of Animation. */
 	}
 
 	class Animation
@@ -244,7 +244,7 @@ namespace SharpDune
 		 * @param houseID The house of the item being Animation.
 		 * @param iconGroup In which IconGroup the sprites of the Animation belongs.
 		 */
-		internal static void Animation_Start(AnimationCommandStruct[] commands, tile32 tile, ushort tileLayout, byte houseID, byte iconGroup)
+		internal static void Animation_Start(AnimationCommandStruct[] commands, Tile32 tile, ushort tileLayout, byte houseID, byte iconGroup)
 		{
 			var animation = g_animations;
 			var packed = Tile_PackTile(tile);

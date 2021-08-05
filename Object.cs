@@ -27,7 +27,7 @@ namespace SharpDune
         internal bool upgrading;                    /*!< Structure is being upgraded. */
         internal bool notused_6_0004;
         internal bool notused_6_0100;
-        internal uint all
+        internal uint All
         {
             get
             {
@@ -69,7 +69,7 @@ namespace SharpDune
         internal ObjectFlags flags;                 /*!< General flags of the Structure/Unit. */
         internal byte houseID;                      /*!< House of Structure. */
         internal byte seenByHouses;                 /*!< Bitmask of which houses have seen this object. */
-        internal tile32 position;                   /*!< Position on the map. */
+        internal Tile32 position;                   /*!< Position on the map. */
         internal ushort hitpoints;                  /*!< Current hitpoints left. */
         internal ScriptEngine script;               /*!< The script engine instance of this Structure. */
 
@@ -77,7 +77,7 @@ namespace SharpDune
         {
             flags = new ObjectFlags();
             script = new ScriptEngine();
-            position = new tile32();
+            position = new Tile32();
         }
     }
 
@@ -229,7 +229,7 @@ namespace SharpDune
         internal static ushort Object_GetDistanceToEncoded(CObject o, ushort encoded)
         {
             CStructure s;
-            tile32 position;
+            Tile32 position;
 
             s = Tools_Index_GetStructure(encoded);
 

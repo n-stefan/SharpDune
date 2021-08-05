@@ -826,7 +826,7 @@ namespace SharpDune
         internal static void Structure_RemoveFog(CStructure s)
         {
             StructureInfo si;
-            tile32 position;
+            Tile32 position;
 
             if (s == null || s.o.houseID != (byte)g_playerHouseID) return;
 
@@ -1465,7 +1465,7 @@ namespace SharpDune
                 case HouseWeapon.HOUSE_WEAPON_MISSILE:
                     {
                         CUnit u;
-                        var position = new tile32
+                        var position = new Tile32
                         {
                             x = 0xFFFF,
                             y = 0xFFFF
@@ -1530,7 +1530,7 @@ namespace SharpDune
                         for (i = 0; i < 5; i++)
                         {
                             CUnit u;
-                            tile32 position;
+                            Tile32 position;
                             ushort orientation;
                             ushort unitType;
 
@@ -1898,7 +1898,7 @@ namespace SharpDune
 
                             g_validateStrictIfZero++;
                             {
-                                var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
+                                var tile = new Tile32 { x = 0xFFFF, y = 0xFFFF };
                                 u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
                             }
                             g_validateStrictIfZero--;
@@ -1940,7 +1940,7 @@ namespace SharpDune
 
             if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
             {
-                var tile = new tile32 { x = 0xFFFF, y = 0xFFFF };
+                var tile = new Tile32 { x = 0xFFFF, y = 0xFFFF };
 
                 oi = g_table_unitInfo[objectType].o;
                 o = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;

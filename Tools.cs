@@ -326,10 +326,10 @@ namespace SharpDune
          * @param id The encoded index to get the tile of.
          * @return The tile.
          */
-        internal static tile32 Tools_Index_GetTile(ushort encoded)
+        internal static Tile32 Tools_Index_GetTile(ushort encoded)
         {
             ushort index;
-            var tile = new tile32();
+            var tile = new Tile32();
 
             index = Tools_Index_Decode(encoded);
             tile.x = 0;

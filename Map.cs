@@ -455,10 +455,10 @@ namespace SharpDune
          * @param unit The unit to update for (can be NULL if function < 2).
          * @param function The function to call.
          */
-        internal static void Map_UpdateAround(ushort radius, tile32 position, CUnit unit, byte function)
+        internal static void Map_UpdateAround(ushort radius, Tile32 position, CUnit unit, byte function)
         {
             short i, j;
-            var diff = new tile32();
+            var diff = new Tile32();
             ushort lastPacked;
 
             if (radius == 0 || (position.x == 0 && position.y == 0)) return;
@@ -850,7 +850,7 @@ namespace SharpDune
          * @param hitpoints The amount of hitpoints to give people in the neighbourhoud.
          * @param unitOriginEncoded The unit that fired the bullet.
          */
-        internal static void Map_MakeExplosion(ushort type, tile32 position, ushort hitpoints, ushort unitOriginEncoded)
+        internal static void Map_MakeExplosion(ushort type, Tile32 position, ushort hitpoints, ushort unitOriginEncoded)
         {
             var reactionDistance = (ushort)((type == (ushort)ExplosionType.EXPLOSION_DEATH_HAND) ? 32 : 16);
             var positionPacked = Tile_PackTile(position);
@@ -1047,7 +1047,7 @@ namespace SharpDune
          * @param retY Pointer to Y inside the viewport.
          * @return True if and only if the position is in the viewport.
          */
-        internal static bool Map_IsPositionInViewport(tile32 position, out ushort retX, out ushort retY)
+        internal static bool Map_IsPositionInViewport(Tile32 position, out ushort retX, out ushort retY)
         {
             short x, y;
 
@@ -1686,7 +1686,7 @@ namespace SharpDune
             i = (ushort)(Tools_Random_256() & 0x2F);
             while (i-- != 0)
             {
-                tile32 tile;
+                Tile32 tile;
                 ushort packed;
 
                 while (true)

@@ -7,7 +7,7 @@ namespace SharpDune.Include
     * bits 8 to 13 are the position on the map.
     * bits 14 and 15 are never used (or should never be used).
     */
-    struct tile32
+    struct Tile32
     {
         internal ushort x;
         internal ushort y;

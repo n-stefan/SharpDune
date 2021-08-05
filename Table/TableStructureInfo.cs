@@ -1283,7 +1283,7 @@ namespace SharpDune.Table
         };
 
         /* Array with TileDiff of a layout. */
-        internal static tile32[] g_table_structure_layoutTileDiff = { //[STRUCTURE_LAYOUT_MAX]
+        internal static Tile32[] g_table_structure_layoutTileDiff = { //[STRUCTURE_LAYOUT_MAX]
             new() { x = 0x0080, y = 0x0080 }, /* STRUCTURE_LAYOUT_1x1 */
 	        new() { x = 0x0100, y = 0x0080 }, /* STRUCTURE_LAYOUT_2x1 */
 	        new() { x = 0x0080, y = 0x0100 }, /* STRUCTURE_LAYOUT_1x2 */

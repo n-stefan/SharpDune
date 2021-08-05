@@ -552,7 +552,7 @@ namespace SharpDune.Gui
 						|| s.objectType != displayedObjectType
 						|| s.o.houseID != displayedHouseID
 						|| House_Get_ByIndex(s.o.houseID).starportTimeLeft != displayedStarportTime
-						|| s.o.flags.all != displayedStructureFlags)
+						|| s.o.flags.All != displayedStructureFlags)
 					{
                         g_structureHighHealth = (s.o.hitpoints > (g_table_structureInfo[s.o.type].o.hitpoints / 2));
 						actionType = 3; /* Structure */
@@ -600,7 +600,7 @@ namespace SharpDune.Gui
 					displayedCountdown = s.countDown;
 					displayedUpgradeTime = s.upgradeTimeLeft;
 					displayedLinkedID = s.o.linkedID;
-					displayedStructureFlags = (ushort)s.o.flags.all;
+					displayedStructureFlags = (ushort)s.o.flags.All;
 					displayedHouseID = s.o.houseID;
 					displayedMissileCountdown = 0xFFFF;
 					displayedStarportTime = House_Get_ByIndex(s.o.houseID).starportTimeLeft;

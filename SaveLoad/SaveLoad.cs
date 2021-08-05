@@ -528,14 +528,14 @@ namespace SharpDune.SaveLoad
 
 						case SLDT_HOUSEFLAGS:
 							//{
-								values[i] = ((HouseFlags)values[i]).all; //ptr;
+								values[i] = ((HouseFlags)values[i]).All; //ptr;
 								//value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.human) << 1) | (Convert.ToByte(f.doneFullScaleAttack) << 2) | (Convert.ToByte(f.isAIActive) << 3) | (Convert.ToByte(f.radarActivated) << 4));
 							//}
 							break;
 
 						case SLDT_OBJECTFLAGS:
 							//{
-								values[i] = ((ObjectFlags)values[i]).all; //ptr;
+								values[i] = ((ObjectFlags)values[i]).All; //ptr;
 								//value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.allocated) << 1) | (Convert.ToByte(f.isNotOnMap) << 2) | (Convert.ToByte(f.isSmoking) << 3) | (Convert.ToByte(f.fireTwiceFlip) << 4) | (Convert.ToByte(f.animationFlip) << 5) | (Convert.ToByte(f.bulletIsBig) << 6) | (Convert.ToByte(f.isWobbling) << 7) | (Convert.ToByte(f.inTransport) << 8) | (Convert.ToByte(f.byScenario) << 9) | (Convert.ToByte(f.degrades) << 10) | (Convert.ToByte(f.isHighlighted) << 11) | (Convert.ToByte(f.isDirty) << 12) | (Convert.ToByte(f.repairing) << 13) | (Convert.ToByte(f.onHold) << 14) | (Convert.ToByte(f.isUnit) << 16) | (Convert.ToByte(f.upgrading) << 17));
 							//}
 							break;

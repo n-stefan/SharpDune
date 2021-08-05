@@ -112,7 +112,7 @@ namespace SharpDune
         internal bool isAIActive;                       /*!< The House has been seen by the human, and everything now becomes active (Team attack, house missiles, rebuilding, ..). */
         internal bool radarActivated;                   /*!< The radar is activated. */
         internal bool unused_0020;                      /*!< Unused */
-        internal uint all
+        internal uint All
         {
             get
             {
@@ -146,7 +146,7 @@ namespace SharpDune
         internal ushort powerUsage;                                /*!< Amount of power the House requires. */
         internal ushort windtrapCount;                             /*!< Amount of windtraps the House currently has. */
         internal ushort creditsQuota;                              /*!< Quota house has to reach to win the mission. */
-        internal tile32 palacePosition;                            /*!< Position of the Palace. */
+        internal Tile32 palacePosition;                            /*!< Position of the Palace. */
         internal ushort timerUnitAttack;                           /*!< Timer to count down when next 'unit approaching' message can be showed again. */
         internal ushort timerSandwormAttack;                       /*!< Timer to count down when next 'sandworm approaching' message can be showed again. */
         internal ushort timerStructureAttack;                      /*!< Timer to count down when next 'base is under attack' message can be showed again. */
@@ -157,7 +157,7 @@ namespace SharpDune
         internal CHouse()
         {
             flags = new HouseFlags();
-            palacePosition = new tile32();
+            palacePosition = new Tile32();
             ai_structureRebuild = new ushort[][] { new ushort[2], new ushort[2], new ushort[2], new ushort[2], new ushort[2] };
         }
     }
@@ -543,7 +543,7 @@ namespace SharpDune
 
                     if (deployed && g_scenario.reinforcement[i].repeat != 0)
                     {
-                        var tile = new tile32
+                        var tile = new Tile32
                         {
                             x = 0xFFFF,
                             y = 0xFFFF

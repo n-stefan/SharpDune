@@ -69,10 +69,10 @@ namespace SharpDune
 		internal byte current;                                /*!< Index in #commands pointing to the next command. */
 		internal ushort spriteID;                             /*!< SpriteID. */
 		internal ExplosionCommandStruct[] commands;           /*!< Commands being executed. */
-		internal tile32 position;                             /*!< Position where this explosion acts. */
+		internal Tile32 position;                             /*!< Position where this explosion acts. */
 
         internal CExplosion() =>
-			position = new tile32();
+			position = new Tile32();
     }
 
 	class Explosion
@@ -333,7 +333,7 @@ namespace SharpDune
 		 * @param explosionType Type of Explosion.
 		 * @param position The position to use for init.
 		 */
-		internal static void Explosion_Start(ushort explosionType, tile32 position)
+		internal static void Explosion_Start(ushort explosionType, Tile32 position)
 		{
 			ExplosionCommandStruct[] commands;
 			ushort packed;

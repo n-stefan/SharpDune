@@ -132,7 +132,7 @@ namespace SharpDune
 	/*
 	 * Directional information
 	 */
-	class dir24
+	class Dir24
 	{
 		internal sbyte speed;                                    /*!< Speed of direction change. */
 		internal sbyte target;                                   /*!< Target direction. */
@@ -145,7 +145,7 @@ namespace SharpDune
 	class CUnit
 	{
 		internal CObject o;                                      /*!< Common to Unit and Structures. */
-		internal tile32 currentDestination;                      /*!< Where the Unit is currently going to. */
+		internal Tile32 currentDestination;                      /*!< Where the Unit is currently going to. */
 		internal ushort originEncoded;                           /*!< Encoded index, indicating the origin. */
 		internal byte actionID;                                  /*!< Current action. */
 		internal byte nextActionID;                              /*!< Next action. */
@@ -159,9 +159,9 @@ namespace SharpDune
 																 */
 		internal byte deviated;                                  /*!< Strength of deviation. Zero if unit is not deviated. */
 		internal byte deviatedHouse;                             /*!< Which house it is deviated to. Only valid if 'deviated' is non-zero. */
-		internal tile32 targetLast;                              /*!< The last position of the Unit. Carry-alls will return the Unit here. */
-		internal tile32 targetPreLast;                           /*!< The position before the last position of the Unit. */
-		internal dir24[] orientation;                            /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
+		internal Tile32 targetLast;                              /*!< The last position of the Unit. Carry-alls will return the Unit here. */
+		internal Tile32 targetPreLast;                           /*!< The position before the last position of the Unit. */
+		internal Dir24[] orientation;                            /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
 		internal byte speedPerTick;                              /*!< Every tick this amount is added; if over 255 Unit is moved. */
 		internal byte speedRemainder;                            /*!< Remainder of speedPerTick. */
 		internal byte speed;                                     /*!< The amount to move when speedPerTick goes over 255. */
@@ -176,8 +176,8 @@ namespace SharpDune
 		internal CUnit()
 		{
 			o = new CObject();
-			currentDestination = new tile32();
-			orientation = new dir24[] { new(), new() };
+			currentDestination = new Tile32();
+			orientation = new Dir24[] { new(), new() };
 		}
 	}
 
@@ -348,7 +348,7 @@ namespace SharpDune
 		internal static void Unit_UpdateMap(ushort type, CUnit unit)
 		{
 			UnitInfo ui;
-			tile32 position;
+			Tile32 position;
 			ushort packed;
 			CTile t;
 			ushort radius;
@@ -853,7 +853,7 @@ namespace SharpDune
 			sbyte orientation;
 			ushort packed;
 			ushort type;
-			tile32 position;
+			Tile32 position;
 			ushort speed;
 			short score;
 
@@ -900,7 +900,7 @@ namespace SharpDune
 
 			if (ui.movementType != (ushort)MovementType.MOVEMENT_SLITHER)
 			{
-				tile32 positionOld;
+				Tile32 positionOld;
 
 				positionOld = unit.o.position;
 				unit.o.position = position;
@@ -1501,7 +1501,7 @@ namespace SharpDune
 
 				if (tickUnknown4 && u.targetAttack != 0 && ui.o.flags.hasTurret)
 				{
-					tile32 tile;
+					Tile32 tile;
 
 					tile = Tools_Index_GetTile(u.targetAttack);
 
@@ -1516,7 +1516,7 @@ namespace SharpDune
 					{
 						if (ui.movementType == (ushort)MovementType.MOVEMENT_WINGER && !ui.flags.isNormalUnit)
 						{
-							tile32 tile;
+							Tile32 tile;
 
 							tile = u.currentDestination;
 
@@ -1699,7 +1699,7 @@ namespace SharpDune
 		 * @position The position.
 		 * @return True if and only if the position changed.
 		 */
-		internal static bool Unit_SetPosition(CUnit u, tile32 position)
+		internal static bool Unit_SetPosition(CUnit u, Tile32 position)
 		{
 			UnitInfo ui;
 
@@ -1780,7 +1780,7 @@ namespace SharpDune
 
 			if (createCarryall && unit == null && type == UnitType.UNIT_CARRYALL)
 			{
-				var position = new tile32();
+				var position = new Tile32();
 
                 g_validateStrictIfZero++;
 				position.x = 0;
@@ -1811,7 +1811,7 @@ namespace SharpDune
 		 * @param orientation Orientation of the Unit.
 		 * @return The new created Unit, or NULL if something failed.
 		 */
-		internal static CUnit Unit_Create(ushort index, byte typeID, byte houseID, tile32 position, sbyte orientation)
+		internal static CUnit Unit_Create(ushort index, byte typeID, byte houseID, Tile32 position, sbyte orientation)
 		{
 			UnitInfo ui;
 			CUnit u;
@@ -2094,7 +2094,7 @@ namespace SharpDune
 		  */
 		internal static CUnit Unit_CreateWrapper(byte houseID, UnitType typeID, ushort destination)
 		{
-			tile32 tile;
+			Tile32 tile;
 			CHouse h;
 			sbyte orientation;
 			CUnit unit;
@@ -2105,7 +2105,7 @@ namespace SharpDune
 			h = House_Get_ByIndex(houseID);
 
 			{
-                var t = new tile32
+                var t = new Tile32
                 {
                     x = 0x2000,
                     y = 0x2000
@@ -2329,10 +2329,10 @@ namespace SharpDune
 		 * @param target The target of the new bullet Unit.
 		 * @return The new created Unit, or NULL if something failed.
 		 */
-		internal static CUnit Unit_CreateBullet(tile32 position, UnitType type, byte houseID, ushort damage, ushort target)
+		internal static CUnit Unit_CreateBullet(Tile32 position, UnitType type, byte houseID, ushort damage, ushort target)
 		{
 			UnitInfo ui;
-			tile32 tile;
+			Tile32 tile;
 
 			if (!Tools_Index_IsValid(target)) return null;
 
@@ -2386,7 +2386,7 @@ namespace SharpDune
 				case UnitType.UNIT_SONIC_BLAST:
 					{
 						sbyte orientation;
-						tile32 t;
+						Tile32 t;
 						CUnit bullet;
 
 						orientation = Tile_GetDirection(position, tile);
@@ -2436,7 +2436,7 @@ namespace SharpDune
 
 		internal static void Unit_LaunchHouseMissile(ushort packed)
 		{
-			tile32 tile;
+			Tile32 tile;
 			bool isAI;
 			CHouse h;
 
@@ -2526,7 +2526,7 @@ namespace SharpDune
 		 */
 		static CUnit Unit_FindBestTargetUnit(CUnit u, ushort mode)
 		{
-			tile32 position;
+			Tile32 position;
 			ushort distance;
 			var find = new PoolFindStruct();
 			CUnit best = null;
@@ -2597,7 +2597,7 @@ namespace SharpDune
 		{
 			CStructure best = null;
 			ushort bestPriority = 0;
-			tile32 position;
+			Tile32 position;
 			ushort distance;
 			var find = new PoolFindStruct();
 
@@ -2613,7 +2613,7 @@ namespace SharpDune
 			while (true)
 			{
 				CStructure s;
-				var curPosition = new tile32();
+				var curPosition = new Tile32();
 				ushort priority;
 
 				s = Structure_Find(find);
@@ -2741,9 +2741,9 @@ namespace SharpDune
 			UnitInfo ui;
 			ushort d;
 			ushort packed;
-			tile32 newPosition;
+			Tile32 newPosition;
 			bool ret;
-			tile32 currentDestination;
+			Tile32 currentDestination;
 			var isSpiceBloom = false;
 			var isSpecialBloom = false;
 
@@ -3032,7 +3032,7 @@ namespace SharpDune
 		 * @param radius The radius.
 		 * @param houseID House controlling the deviator.
 		 */
-		static void Map_DeviateArea(ushort type, tile32 position, ushort radius, byte houseID)
+		static void Map_DeviateArea(ushort type, Tile32 position, ushort radius, byte houseID)
 		{
 			var find = new PoolFindStruct();
 

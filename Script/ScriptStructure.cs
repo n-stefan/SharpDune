@@ -221,7 +221,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_Structure_Unknown0C5A(ScriptEngine script)
         {
-            tile32 tile;
+            Tile32 tile;
             CStructure s;
             CUnit u;
             ushort position;
@@ -292,7 +292,7 @@ namespace SharpDune.Script
             CUnit u;
             uint distanceCurrent;
             uint targetRange;
-            tile32 position;
+            Tile32 position;
 
             s = g_scriptCurrentStructure;
             targetRange = STACK_PEEK(script, 1);
@@ -374,7 +374,7 @@ namespace SharpDune.Script
         internal static ushort Script_Structure_RotateTurret(ScriptEngine script)
         {
             CStructure s;
-            tile32 lookAt;
+            Tile32 lookAt;
             CTile tile;
             ushort baseTileID;
             ushort encoded;
@@ -445,7 +445,7 @@ namespace SharpDune.Script
         internal static ushort Script_Structure_GetDirection(ScriptEngine script)
         {
             CStructure s;
-            tile32 tile;
+            Tile32 tile;
             ushort encoded;
 
             s = g_scriptCurrentStructure;
@@ -519,7 +519,7 @@ namespace SharpDune.Script
         {
             CStructure s;
             CUnit u;
-            var position = new tile32();
+            var position = new Tile32();
             ushort target;
             ushort damage;
             ushort fireDelay;
@@ -575,7 +575,7 @@ namespace SharpDune.Script
 
             for (i = 0; i < g_table_structure_layoutTileCount[layout]; i++)
             {
-                tile32 tile;
+                Tile32 tile;
 
                 tile = Tile_UnpackTile((ushort)(position + g_table_structure_layoutTiles[layout][i]));
 
@@ -608,7 +608,7 @@ namespace SharpDune.Script
 
             for (i = 0; i < g_table_structure_layoutTileCount[layout]; i++)
             {
-                tile32 tile;
+                Tile32 tile;
                 CUnit u;
 
                 tile = Tile_UnpackTile((ushort)(position + g_table_structure_layoutTiles[layout][i]));

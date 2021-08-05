@@ -40,7 +40,7 @@ namespace SharpDune
 		internal ushort action;                                 /*!< Current TeamActionType of Team. */
 		internal ushort actionStart;                            /*!< The TeamActionType Team starts with. */
 		internal byte houseID;                                  /*!< House of Team. */
-		internal tile32 position;                               /*!< Position on the map. */
+		internal Tile32 position;                               /*!< Position on the map. */
 		internal ushort targetTile;                             /*!< Current target tile around the target. Only used as a bool, so either set or not. */
 		internal ushort target;                                 /*!< Current target of team (encoded index). */
 		internal ScriptEngine script;                           /*!< The script engine instance of this Team. */

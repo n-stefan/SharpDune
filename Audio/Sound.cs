@@ -244,7 +244,7 @@ namespace SharpDune.Audio
 		 * @param voiceID Which voice to play.
 		 * @param position Which position to play it on.
 		 */
-		internal static void Voice_PlayAtTile(short voiceID, tile32 position)
+		internal static void Voice_PlayAtTile(short voiceID, Tile32 position)
 		{
 			ushort index;
 			ushort volume;
@@ -284,7 +284,7 @@ namespace SharpDune.Audio
 		 */
 		internal static void Voice_Play(short voiceID)
 		{
-            var tile = new tile32
+            var tile = new Tile32
             {
                 x = 0,
                 y = 0

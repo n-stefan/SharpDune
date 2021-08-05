@@ -287,7 +287,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_General_VoicePlay(ScriptEngine script)
         {
-            tile32 position;
+            Tile32 position;
 
             position = g_scriptCurrentObject.position;
 
@@ -306,7 +306,7 @@ namespace SharpDune.Script
          */
         internal static ushort Script_General_SearchSpice(ScriptEngine script)
         {
-            tile32 position;
+            Tile32 position;
             ushort packedSpicePos;
 
             position = g_scriptCurrentObject.position;
