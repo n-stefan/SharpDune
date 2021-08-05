@@ -63,13 +63,13 @@ namespace SharpDune
          */
         internal static IndexType Tools_Index_GetType(ushort encoded)
         {
-            switch (encoded & 0xC000)
+            return (encoded & 0xC000) switch
             {
-                case 0x4000: return IndexType.IT_UNIT;
-                case 0x8000: return IndexType.IT_STRUCTURE;
-                case 0xC000: return IndexType.IT_TILE;
-                default: return IndexType.IT_NONE;
-            }
+                0x4000 => IndexType.IT_UNIT,
+                0x8000 => IndexType.IT_STRUCTURE,
+                0xC000 => IndexType.IT_TILE,
+                _ => IndexType.IT_NONE,
+            };
         }
 
         /*
@@ -239,13 +239,13 @@ namespace SharpDune
 
             index = Tools_Index_Decode(encoded);
 
-            switch (Tools_Index_GetType(encoded))
+            return Tools_Index_GetType(encoded) switch
             {
-                case IndexType.IT_TILE: return index;
-                case IndexType.IT_UNIT: return (ushort)((index < (ushort)UnitIndex.UNIT_INDEX_MAX) ? Tile_PackTile(Unit_Get_ByIndex(index).o.position) : 0);
-                case IndexType.IT_STRUCTURE: return (ushort)((index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? Tile_PackTile(Structure_Get_ByIndex(index).o.position) : 0);
-                default: return 0;
-            }
+                IndexType.IT_TILE => index,
+                IndexType.IT_UNIT => (ushort)((index < (ushort)UnitIndex.UNIT_INDEX_MAX) ? Tile_PackTile(Unit_Get_ByIndex(index).o.position) : 0),
+                IndexType.IT_STRUCTURE => (ushort)((index < (ushort)StructureIndex.STRUCTURE_INDEX_MAX_HARD) ? Tile_PackTile(Structure_Get_ByIndex(index).o.position) : 0),
+                _ => 0,
+            };
         }
 
         /*
@@ -308,16 +308,16 @@ namespace SharpDune
 
             if (inverseSpeed) gameSpeed = (ushort)(4 - gameSpeed);
 
-            switch (gameSpeed)
+            return gameSpeed switch
             {
-                case 0: return minimum;
-                case 1: return (ushort)(normal - (normal - minimum) / 2);
-                case 3: return (ushort)(normal + (maximum - normal) / 2);
-                case 4: return maximum;
-            }
+                0 => minimum,
+                1 => (ushort)(normal - (normal - minimum) / 2),
+                3 => (ushort)(normal + (maximum - normal) / 2),
+                4 => maximum,
 
-            /* Never reached, but avoids compiler errors */
-            return normal;
+                /* Never reached, but avoids compiler errors */
+                _ => normal,
+            };
         }
 
         /*

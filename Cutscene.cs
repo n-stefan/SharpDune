@@ -973,22 +973,17 @@ namespace SharpDune
 
 					strings[stringCount].charHeight = g_fontCurrent.height;
 
-					switch (strings[stringCount].type)
-					{
-						case 3:     /* "xxx by:" text : on the left */
-							strings[stringCount].x = (ushort)(157 - Font_GetStringWidth(text));
-							break;
+                    strings[stringCount].x = strings[stringCount].type switch
+                    {
+                        /* "xxx by:" text : on the left */
+                        3 => (ushort)(157 - Font_GetStringWidth(text)),
+                        /* names on the right */
+                        4 => 161,
+                        /* centered strings */
+                        _ => (ushort)(1 + (SCREEN_WIDTH - Font_GetStringWidth(text)) / 2),
+                    };
 
-						case 4:     /* names on the right */
-							strings[stringCount].x = 161;
-							break;
-
-						default:    /* centered strings */
-							strings[stringCount].x = (ushort)(1 + (SCREEN_WIDTH - Font_GetStringWidth(text)) / 2);
-							break;
-					}
-
-					strings[stringCount].y = (short)y;
+                    strings[stringCount].y = (short)y;
 					strings[stringCount].text = text;
 
 					stringCount++;

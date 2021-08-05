@@ -487,15 +487,13 @@ namespace SharpDune
 
                 if ((byte)g_playerHouseID == s.o.houseID)
                 {
-                    ushort index;
-
-                    switch ((HouseType)s.o.houseID)
+                    ushort index = (HouseType)s.o.houseID switch
                     {
-                        case HouseType.HOUSE_HARKONNEN: index = 22; break;
-                        case HouseType.HOUSE_ATREIDES: index = 23; break;
-                        case HouseType.HOUSE_ORDOS: index = 24; break;
-                        default: index = 0xFFFF; break;
-                    }
+                        HouseType.HOUSE_HARKONNEN => 22,
+                        HouseType.HOUSE_ATREIDES => 23,
+                        HouseType.HOUSE_ORDOS => 24,
+                        _ => 0xFFFF,
+                    };
 
                     Sound_Output_Feedback(index);
                 }

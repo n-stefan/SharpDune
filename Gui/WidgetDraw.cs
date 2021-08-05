@@ -513,13 +513,13 @@ namespace SharpDune.Gui
 
 					if (activeAction != displayedActiveAction || forceDraw)
 					{
-						switch (activeAction)
-						{
-							case (ushort)ActionType.ACTION_ATTACK: actionType = 4; break; /* Attack */
-							case (ushort)ActionType.ACTION_MOVE: actionType = 5; break; /* Movement */
-							default: actionType = 6; break; /* Harvest */
-						}
-					}
+                        actionType = activeAction switch
+                        {
+                            (ushort)ActionType.ACTION_ATTACK => 4, /* Attack */
+							(ushort)ActionType.ACTION_MOVE => 5, /* Movement */
+							_ => 6, /* Harvest */
+						};
+                    }
 
 					if (actionType == displayedActionType && !forceDraw) actionType = 0;
 				}

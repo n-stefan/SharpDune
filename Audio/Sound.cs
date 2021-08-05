@@ -384,13 +384,13 @@ namespace SharpDune.Audio
 					case '%':
 						if (g_voiceData[voice] != null || currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
-						switch ((Language)g_config.language)
-						{
-							case Language.FRENCH: prefixChar = 'F'; break;
-							case Language.GERMAN: prefixChar = 'G'; break;
-							default: prefixChar = g_table_houseInfo[voiceSet].prefixChar; break;
-						}
-						filename = str.Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str, prefixChar);
+                        prefixChar = (Language)g_config.language switch
+                        {
+                            Language.FRENCH => 'F',
+                            Language.GERMAN => 'G',
+                            _ => g_table_houseInfo[voiceSet].prefixChar,
+                        };
+                        filename = str.Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str, prefixChar);
 
 						g_voiceData[voice] = Sound_LoadVoc(filename, out g_voiceDataSize[voice]);
 						break;
@@ -398,13 +398,13 @@ namespace SharpDune.Audio
 					case '+':
 						if (voiceSet == 0xFFFF || g_voiceData[voice] != null) break;
 
-						switch ((Language)g_config.language)
-						{
-							case Language.FRENCH: prefixChar = 'F'; break;
-							case Language.GERMAN: prefixChar = 'G'; break;
-							default: prefixChar = 'Z'; break;
-						}
-						filename = str[1..].Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
+                        prefixChar = (Language)g_config.language switch
+                        {
+                            Language.FRENCH => 'F',
+                            Language.GERMAN => 'G',
+                            _ => 'Z',
+                        };
+                        filename = str[1..].Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
 
 						/* XXX - In the 1.07us datafiles, a few files are named differently:
 						 *

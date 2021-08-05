@@ -195,20 +195,20 @@ namespace SharpDune.SaveLoad
 
 			while (sld[i].type_disk != SLDT_NULL)
 			{
-				switch (sld[i].type_disk)
-				{
-					case SLDT_NULL: length += 0; break;
-					case SLDT_CALLBACK: length += 0; break;
-					case SLDT_UINT8: length += (uint)SizeOf(typeof(byte)) * sld[i].count; break;
-					case SLDT_UINT16: length += (uint)SizeOf(typeof(ushort)) * sld[i].count; break;
-					case SLDT_UINT32: length += (uint)SizeOf(typeof(uint)) * sld[i].count; break;
-					case SLDT_INT8: length += (uint)SizeOf(typeof(sbyte)) * sld[i].count; break;
-					case SLDT_INT16: length += (uint)SizeOf(typeof(short)) * sld[i].count; break;
-					case SLDT_INT32: length += (uint)SizeOf(typeof(int)) * sld[i].count; break;
-					case SLDT_SLD: length += SaveLoad_GetLength(sld[i].sld) * sld[i].count; break;
-					default: length += 0; break;
-				}
-				i++;
+                length += sld[i].type_disk switch
+                {
+                    SLDT_NULL => 0,
+                    SLDT_CALLBACK => 0,
+                    SLDT_UINT8 => (uint)SizeOf(typeof(byte)) * sld[i].count,
+                    SLDT_UINT16 => (uint)SizeOf(typeof(ushort)) * sld[i].count,
+                    SLDT_UINT32 => (uint)SizeOf(typeof(uint)) * sld[i].count,
+                    SLDT_INT8 => (uint)SizeOf(typeof(sbyte)) * sld[i].count,
+                    SLDT_INT16 => (uint)SizeOf(typeof(short)) * sld[i].count,
+                    SLDT_INT32 => (uint)SizeOf(typeof(int)) * sld[i].count,
+                    SLDT_SLD => SaveLoad_GetLength(sld[i].sld) * sld[i].count,
+                    _ => 0,
+                };
+                i++;
 			}
 
 			return length;

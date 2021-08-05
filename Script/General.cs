@@ -361,12 +361,12 @@ namespace SharpDune.Script
 
             houseID = (g_scriptCurrentUnit != null) ? Unit_GetHouseID(g_scriptCurrentUnit) : g_scriptCurrentObject.houseID;
 
-            switch (Tools_Index_GetType(index))
+            return Tools_Index_GetType(index) switch
             {
-                case IndexType.IT_UNIT: return (ushort)((Unit_GetHouseID(Tools_Index_GetUnit(index)) != houseID) ? 1 : 0);
-                case IndexType.IT_STRUCTURE: return (ushort)((Tools_Index_GetStructure(index).o.houseID != houseID) ? 1 : 0);
-                default: return 0;
-            }
+                IndexType.IT_UNIT => (ushort)((Unit_GetHouseID(Tools_Index_GetUnit(index)) != houseID) ? 1 : 0),
+                IndexType.IT_STRUCTURE => (ushort)((Tools_Index_GetStructure(index).o.houseID != houseID) ? 1 : 0),
+                _ => 0,
+            };
         }
 
         /*

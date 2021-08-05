@@ -816,22 +816,22 @@ namespace SharpDune
 		static ushort Unit_Sandworm_GetTargetPriority(CUnit unit, CUnit target)
 		{
 			ushort res;
-			ushort distance;
+            ushort distance;
 
 			if (unit == null || target == null) return 0;
 			if (!Map_IsPositionUnveiled(Tile_PackTile(target.o.position))) return 0;
 			if (!g_table_landscapeInfo[Map_GetLandscapeType(Tile_PackTile(target.o.position))].isSand) return 0;
 
-			switch ((MovementType)g_table_unitInfo[target.o.type].movementType)
-			{
-				case MovementType.MOVEMENT_FOOT: res = 0x64; break;
-				case MovementType.MOVEMENT_TRACKED: res = 0x3E8; break;
-				case MovementType.MOVEMENT_HARVESTER: res = 0x3E8; break;
-				case MovementType.MOVEMENT_WHEELED: res = 0x1388; break;
-				default: res = 0; break;
-			}
+            res = (MovementType)g_table_unitInfo[target.o.type].movementType switch
+            {
+                MovementType.MOVEMENT_FOOT => 0x64,
+                MovementType.MOVEMENT_TRACKED => 0x3E8,
+                MovementType.MOVEMENT_HARVESTER => 0x3E8,
+                MovementType.MOVEMENT_WHEELED => 0x1388,
+                _ => 0,
+            };
 
-			if (target.speed != 0 || target.fireDelay != 0) res *= 4;
+            if (target.speed != 0 || target.fireDelay != 0) res *= 4;
 
 			distance = Tile_GetDistanceRoundedUp(unit.o.position, target.o.position);
 
