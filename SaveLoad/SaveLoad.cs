@@ -50,16 +50,6 @@ namespace SharpDune.SaveLoad
 
 	class SaveLoad
 	{
-		//static readonly Type obj = typeof(Object);
-		//static readonly Type house = typeof(House);
-		//static readonly Type structure = typeof(Structure);
-		//static readonly Type unit = typeof(Unit);
-		//static readonly Type team = typeof(Team);
-		//static readonly Type scenario = typeof(Scenario);
-		//static readonly Type reinforcement = typeof(Reinforcement);
-		//static readonly Type scriptEngine = typeof(ScriptEngine);
-		//static readonly Type dir24 = typeof(dir24);
-
 		//static int offset(Type c, string m) //(((size_t)&((c *)8)->m) - 8)
 		//{
 		//	var index = m.IndexOf('.');

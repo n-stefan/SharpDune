@@ -3,52 +3,52 @@
     class SaveLoadUnit
     {
 		static readonly SaveLoadDesc[] s_saveUnitOrientation = {
-			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(Dir24.speed)),
-			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(Dir24.target)),
-			SLD_ENTRY(/*dir24,*/ SLDT_INT8, nameof(Dir24.current)),
+			SLD_ENTRY(SLDT_INT8, nameof(Dir24.speed)),
+			SLD_ENTRY(SLDT_INT8, nameof(Dir24.target)),
+			SLD_ENTRY(SLDT_INT8, nameof(Dir24.current)),
 			SLD_END()
 		};
 
 		static readonly SaveLoadDesc[] s_saveUnit = {
-			SLD_SLD(/*unit,*/ nameof(CUnit.o), g_saveObject),
+			SLD_SLD(nameof(CUnit.o), g_saveObject),
 			SLD_EMPTY(SLDT_UINT16),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(Tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(Tile32.y)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.originEncoded)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.actionID)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.nextActionID)),
-			SLD_ENTRY2(/*unit,*/ SLDT_UINT8, nameof(CUnit.fireDelay), SLDT_UINT16),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.distanceToDestination)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.targetAttack)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.targetMove)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.amount)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.deviated)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(Tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(Tile32.y)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(Tile32.x)}"),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(Tile32.y)}"),
-			SLD_SLD2(/*unit,*/ nameof(CUnit.orientation), s_saveUnitOrientation, 2),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.speedPerTick)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.speedRemainder)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.speed)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.movingSpeed)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.wobbleIndex)),
-			SLD_ENTRY(/*unit,*/ SLDT_INT8, nameof(CUnit.spriteOffset)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.blinkCounter)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.team)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.timer)),
-			SLD_ARRAY(/*unit,*/ SLDT_UINT8, nameof(CUnit.route), 14),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(Tile32.x)}"),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(Tile32.y)}"),
+			SLD_ENTRY(SLDT_UINT16, nameof(CUnit.originEncoded)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.actionID)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.nextActionID)),
+			SLD_ENTRY2(SLDT_UINT8, nameof(CUnit.fireDelay), SLDT_UINT16),
+			SLD_ENTRY(SLDT_UINT16, nameof(CUnit.distanceToDestination)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CUnit.targetAttack)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CUnit.targetMove)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.amount)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.deviated)),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(Tile32.x)}"),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CUnit.targetLast)}.{nameof(Tile32.y)}"),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(Tile32.x)}"),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CUnit.targetPreLast)}.{nameof(Tile32.y)}"),
+			SLD_SLD2(nameof(CUnit.orientation), s_saveUnitOrientation, 2),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.speedPerTick)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.speedRemainder)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.speed)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.movingSpeed)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.wobbleIndex)),
+			SLD_ENTRY(SLDT_INT8, nameof(CUnit.spriteOffset)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.blinkCounter)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.team)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CUnit.timer)),
+			SLD_ARRAY(SLDT_UINT8, nameof(CUnit.route), 14),
 			SLD_END()
 		};
 
 		static readonly SaveLoadDesc[] s_saveUnitNewIndex = {
-			SLD_ENTRY(/*obj,*/ SLDT_UINT16, nameof(CObject.index)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CObject.index)),
 			SLD_END()
 		};
 
 		static readonly SaveLoadDesc[] s_saveUnitNew = {
-			SLD_ENTRY(/*unit,*/ SLDT_UINT16, nameof(CUnit.fireDelay)),
-			SLD_ENTRY(/*unit,*/ SLDT_UINT8, nameof(CUnit.deviatedHouse)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CUnit.fireDelay)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CUnit.deviatedHouse)),
 			SLD_EMPTY(SLDT_UINT8),
 			SLD_EMPTY2(SLDT_UINT16, 6),
 			SLD_END()

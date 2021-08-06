@@ -3,17 +3,17 @@
     class SaveLoadStructure
     {
 		static readonly SaveLoadDesc[] s_saveStructure = {
-			SLD_SLD(/*structure,*/ nameof(CStructure.o), g_saveObject),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.creatorHouseID)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.rotationSpriteDiff)),
+			SLD_SLD(nameof(CStructure.o), g_saveObject),
+			SLD_ENTRY(SLDT_UINT16, nameof(CStructure.creatorHouseID)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CStructure.rotationSpriteDiff)),
 			SLD_EMPTY(SLDT_UINT8),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.objectType)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(CStructure.upgradeLevel)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT8, nameof(CStructure.upgradeTimeLeft)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.countDown)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.buildCostRemainder)),
-			SLD_ENTRY(/*structure,*/ SLDT_INT16, nameof(CStructure.state)),
-			SLD_ENTRY(/*structure,*/ SLDT_UINT16, nameof(CStructure.hitpointsMax)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CStructure.objectType)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CStructure.upgradeLevel)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CStructure.upgradeTimeLeft)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CStructure.countDown)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CStructure.buildCostRemainder)),
+			SLD_ENTRY(SLDT_INT16, nameof(CStructure.state)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CStructure.hitpointsMax)),
 			SLD_END()
 		};
 

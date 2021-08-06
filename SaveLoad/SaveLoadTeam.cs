@@ -3,21 +3,21 @@
     class SaveLoadTeam
     {
 		static readonly SaveLoadDesc[] s_saveTeam = {
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.index)),
-			SLD_ENTRY2(/*team,*/ SLDT_UINT16, nameof(CTeam.flags), SLDT_TEAMFLAGS),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.members)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.minMembers)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.maxMembers)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.movementType)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.action)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.actionStart)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT8, nameof(CTeam.houseID)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.index)),
+			SLD_ENTRY2(SLDT_UINT16, nameof(CTeam.flags), SLDT_TEAMFLAGS),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.members)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.minMembers)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.maxMembers)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.movementType)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.action)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.actionStart)),
+			SLD_ENTRY(SLDT_UINT8, nameof(CTeam.houseID)),
 			SLD_EMPTY2(SLDT_UINT8, 3),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(CTeam.position)}.{nameof(Tile32.x)}"),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, $"{nameof(CTeam.position)}.{nameof(Tile32.y)}"),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.targetTile)),
-			SLD_ENTRY(/*team,*/ SLDT_UINT16, nameof(CTeam.target)),
-			SLD_SLD(/*team,*/ nameof(CTeam.script), g_saveScriptEngine),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CTeam.position)}.{nameof(Tile32.x)}"),
+			SLD_ENTRY(SLDT_UINT16, $"{nameof(CTeam.position)}.{nameof(Tile32.y)}"),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.targetTile)),
+			SLD_ENTRY(SLDT_UINT16, nameof(CTeam.target)),
+			SLD_SLD(nameof(CTeam.script), g_saveScriptEngine),
 			SLD_END()
 		};
 
