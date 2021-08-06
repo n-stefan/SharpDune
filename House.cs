@@ -348,7 +348,7 @@ namespace SharpDune
          */
         internal static bool House_UpdateRadarState(CHouse h)
         {
-            /*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa;
+            /*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa;
             ushort frame;
             ushort frameCount;
             bool activate;

@@ -1,7 +1,6 @@
-﻿
-namespace SharpDune
+﻿namespace SharpDune.Include
 {
-    class CArray<T>
+    class Array<T>
     {
         internal T[] Arr { get; set; }
 
@@ -19,27 +18,27 @@ namespace SharpDune
         //    //set => Arr[Ptr++] = value;
         //}
 
-        internal CArray() {}
+        internal Array() {}
 
-        internal CArray(CArray<T> old)
+        internal Array(Array<T> old)
         {
             Arr = old.Arr;
             Ptr = old.Ptr;
         }
 
-        internal CArray(T[] array, int pointer)
+        internal Array(T[] array, int pointer)
         {
             Arr = array;
             Ptr = pointer;
         }
 
-        public static CArray<T> operator +(CArray<T> array, int amount)
+        public static Array<T> operator +(Array<T> array, int amount)
         {
             array.Ptr += amount;
             return array;
         }
 
-        public static CArray<T> operator ++(CArray<T> array)
+        public static Array<T> operator ++(Array<T> array)
         {
             array.Ptr++;
             return array;

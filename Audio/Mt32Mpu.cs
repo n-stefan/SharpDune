@@ -38,7 +38,7 @@ namespace SharpDune.Audio
         }
 
         internal byte[] EVNT;                                           /*!< Pointer to EVNT position in sound file. */
-        internal /*byte[]*/CArray<byte> sound;                          /*!< Pointer to current position in sound file. */
+        internal /*byte[]*/Array<byte> sound;                           /*!< Pointer to current position in sound file. */
         internal ushort playing;                                        /*!< status : 0 = SEQ_STOPPED, 1 = SEQ_PLAYING or 2 = SEQ_DONE. */
         internal bool delayedClear;                                     /*!< post_release */
         internal short delay;                                           /*!< Delay before reading next command. interval_cnt */
@@ -388,7 +388,7 @@ namespace SharpDune.Audio
 
             MPU_InitData(data);
 
-            data.sound = new CArray<byte> { Arr = data.EVNT[8..] };
+            data.sound = new Array<byte> { Arr = data.EVNT[8..] };
 
             data.playing = 1;
         }

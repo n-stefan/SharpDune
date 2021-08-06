@@ -50,7 +50,7 @@ namespace SharpDune.Gui
 			for (i = 0, valid = false; i < 3 && !valid; i++)
 			{
 				/* void * *//*WSAObject*/
-				(WSAHeader header, CArray<byte> buffer) wsa;
+				(WSAHeader header, Array<byte> buffer) wsa;
 				ushort questionIndex;
 				uint tickWaitTill;
 				string buffer; //char[81];

@@ -139,7 +139,7 @@ namespace SharpDune.Gui
 			if (wsaFilename != null)
 			{
 				/*WSAObject*/
-				(WSAHeader header, CArray<byte> buffer) wsa;
+				(WSAHeader header, Array<byte> buffer) wsa;
 
 				wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(Screen.NO2), GFX_Screen_GetSize_ByIndex(Screen.NO2), false);
                 WSA_DisplayFrame(wsa, 0, (ushort)(g_curWidgetXBase * 8), g_curWidgetYBase, Screen.NO1);
@@ -247,7 +247,7 @@ namespace SharpDune.Gui
 			if (wsaFilename != null)
 			{
 				/*WSAObject*/
-				(WSAHeader header, CArray<byte> buffer) wsa;
+				(WSAHeader header, Array<byte> buffer) wsa;
 
 				wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(Screen.NO2), GFX_Screen_GetSize_ByIndex(Screen.NO2), false);
                 WSA_DisplayFrame(wsa, 0, (ushort)(g_curWidgetXBase * 8), g_curWidgetYBase, Screen.NO1);
@@ -584,7 +584,7 @@ namespace SharpDune.Gui
 			Screen oldScreenID;
 			ushort oldWidgetID;
 			/*WSAObject*/
-			(WSAHeader header, CArray<byte> buffer) wsa;
+			(WSAHeader header, Array<byte> buffer) wsa;
 			ushort descLines;
 			bool dirty;
 			bool done;

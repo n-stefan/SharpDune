@@ -9,7 +9,7 @@ namespace SharpDune.Codec
 		 * @param dst The place the decoded fragment will be loaded.
 		 * @param src The encoded fragment.
 		 */
-		internal static void Format40_Decode(CArray<byte> dst, CArray<byte> src)
+		internal static void Format40_Decode(Array<byte> dst, Array<byte> src)
 		{
 			ushort cmd;
 			ushort count;

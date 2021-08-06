@@ -27,7 +27,7 @@ namespace SharpDune
 		internal ushort width;                                  /*!< Width of WSA. */
 		internal ushort height;                                 /*!< Height of WSA. */
 		internal ushort bufferLength;                           /*!< Length of the buffer. */
-		internal CArray<byte> buffer;                           /*!< The buffer. */
+		internal Array<byte> buffer;                            /*!< The buffer. */
 		internal byte[] fileContent;                            /*!< The content of the file. */
 		internal string filename; //char[13]                    /*!< Filename of WSA. */
 		internal WSAFlags flags;                                /*!< Flags of WSA. */
@@ -57,7 +57,7 @@ namespace SharpDune
 	class WSAObject
 	{
 		internal WSAHeader header;
-		internal CArray<byte> data;
+		internal Array<byte> data;
 	}
 
 	class Wsa
@@ -67,7 +67,7 @@ namespace SharpDune
 		/*
          * Get the amount of frames a WSA has.
          */
-		internal static ushort WSA_GetFrameCount(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa)
+		internal static ushort WSA_GetFrameCount(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa)
 		{
 			var header = wsa.header;
 
@@ -79,7 +79,7 @@ namespace SharpDune
 		 * Unload the WSA.
 		 * @param wsa The pointer to the WSA.
 		 */
-		internal static void WSA_Unload(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa)
+		internal static void WSA_Unload(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa)
 		{
 			var header = wsa.header;
 
@@ -98,10 +98,10 @@ namespace SharpDune
          * @param screenID The screenID to draw on.
          * @return False on failure, true on success.
          */
-		internal static bool WSA_DisplayFrame(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa, ushort frameNext, ushort posX, ushort posY, Screen screenID)
+		internal static bool WSA_DisplayFrame(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa, ushort frameNext, ushort posX, ushort posY, Screen screenID)
 		{
 			var header = wsa.header;
-			CArray<byte> dst;
+			Array<byte> dst;
 
 			ushort i;
 			ushort frame;
@@ -114,11 +114,11 @@ namespace SharpDune
 
 			if (header.flags.displayInBuffer)
 			{
-				dst = new CArray<byte> { Arr = wsa.buffer.Arr, Ptr = wsa.buffer.Ptr + WSAHeaderSize };
+				dst = new Array<byte> { Arr = wsa.buffer.Arr, Ptr = wsa.buffer.Ptr + WSAHeaderSize };
 			}
 			else
 			{
-				dst = new CArray<byte> { Arr = GFX_Screen_Get_ByIndex(screenID) };
+				dst = new Array<byte> { Arr = GFX_Screen_Get_ByIndex(screenID) };
 				dst += (ushort)(posX + posY * SCREEN_WIDTH); //dst.Ptr += (ushort)(posX + posY * Gfx.SCREEN_WIDTH);
 			}
 
@@ -132,7 +132,7 @@ namespace SharpDune
 					}
 					else
 					{
-                        Format40_Decode(new CArray<byte>(dst), new CArray<byte>(header.buffer));
+                        Format40_Decode(new Array<byte>(dst), new Array<byte>(header.buffer));
 					}
 				}
 
@@ -211,7 +211,7 @@ namespace SharpDune
 		 * @param dst Destination buffer to write the animation to.
 		 * @return 1 on success, 0 on failure.
 		 */
-		static ushort WSA_GotoNextFrame(/*WSAObject*/(WSAHeader header, CArray<byte> buffer) wsa, ushort frame, CArray<byte> dst)
+		static ushort WSA_GotoNextFrame(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa, ushort frame, Array<byte> dst)
 		{
 			var header = wsa.header;
 			ushort lengthPalette;
@@ -271,7 +271,7 @@ namespace SharpDune
 
 			if (header.flags.displayInBuffer)
 			{
-                Format40_Decode(new CArray<byte>(dst), new CArray<byte>(header.buffer));
+                Format40_Decode(new Array<byte>(dst), new Array<byte>(header.buffer));
 			}
 			else
 			{
@@ -289,7 +289,7 @@ namespace SharpDune
 		 * @param reserveDisplayFrame True if we need to reserve the display frame.
 		 * @return Address of loaded WSA file, or NULL.
 		 */
-		internal static /*WSAObject*/(WSAHeader, CArray<byte>) WSA_LoadFile(string filename, /*WSAObject*/byte[] wsa, uint wsaSize, bool reserveDisplayFrame)
+		internal static /*WSAObject*/(WSAHeader, Array<byte>) WSA_LoadFile(string filename, /*WSAObject*/byte[] wsa, uint wsaSize, bool reserveDisplayFrame)
 		{
 			var flags = new WSAFlags();
 			var fileheader = new WSAFileHeader();
@@ -408,7 +408,7 @@ namespace SharpDune
 			header.width = fileheader.width;
 			header.height = fileheader.height;
 			header.bufferLength = (ushort)(fileheader.requiredBufferSize + 33 - WSAHeaderSize);
-			header.buffer = new CArray<byte> { Arr = wsa, Ptr = wsaPointer };
+			header.buffer = new Array<byte> { Arr = wsa, Ptr = wsaPointer };
 			header.filename = filename; //strncpy(header->filename, filename, sizeof(header->filename));
 
 			lengthHeader = (ushort)((fileheader.frames + 2) * 4);
@@ -441,7 +441,7 @@ namespace SharpDune
 
 			//result.data = new CArray<byte> { Array = wsa, Pointer = wsaPointer };
 
-			return (header, new CArray<byte> { Arr = wsa });
+			return (header, new Array<byte> { Arr = wsa });
 		}
 
 		/*
@@ -454,7 +454,7 @@ namespace SharpDune
 		 * @param screenID the screen to write to
 		 * @param src The source for the frame.
 		 */
-		static void WSA_DrawFrame(short x, short y, short width, short height, ushort windowID, /*byte[]*/CArray<byte> src, Screen screenID)
+		static void WSA_DrawFrame(short x, short y, short width, short height, ushort windowID, /*byte[]*/Array<byte> src, Screen screenID)
 		{
 			short left;
 			short right;

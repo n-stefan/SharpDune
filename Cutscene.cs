@@ -278,7 +278,7 @@ namespace SharpDune
 				ushort addFrameCount;   /* additional frame count */
 				ushort frame;
 				/*WSAObject*/
-				(WSAHeader, CArray<byte>) wsa;
+				(WSAHeader, Array<byte>) wsa;
 
 				if ((animation[pointer].flags & HOUSEANIM_FLAGS_POS0_0) != 0)
 				{
@@ -673,7 +673,7 @@ namespace SharpDune
 		{
 			Screen oldScreenID;
 			/* void* *//*WSAObject*/
-			(WSAHeader, CArray<byte>) wsa;
+			(WSAHeader, Array<byte>) wsa;
 			ushort frame;
 
 			oldScreenID = GFX_Screen_SetActive(Screen.NO0);

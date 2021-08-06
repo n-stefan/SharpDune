@@ -1023,9 +1023,9 @@ namespace SharpDune.Script
 		{
 			ushort packed;
 			/*byte[]*/
-			var bufferFrom = new CArray<byte> { Arr = data.buffer };
+			var bufferFrom = new Array<byte> { Arr = data.buffer };
 			/*byte[]*/
-			var bufferTo = new CArray<byte> { Arr = data.buffer };
+			var bufferTo = new Array<byte> { Arr = data.buffer };
 			//int bufferFromPointer = 0;
 			//int bufferToPointer = 0;
 

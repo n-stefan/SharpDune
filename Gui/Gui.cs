@@ -172,7 +172,7 @@ namespace SharpDune.Gui
 		static readonly byte[] g_colours = new byte[16];                 /*!< Colors used for drawing chars */
 		static readonly ClippingArea g_clipping = new() { left = 0, top = 0, right = SCREEN_WIDTH - 1, bottom = SCREEN_HEIGHT - 1 };
 
-		static /*byte[]*/CArray<byte> s_palette1_houseColour;
+		static /*byte[]*/Array<byte> s_palette1_houseColour;
 
 		static uint s_tickCreditsAnimation;                 /*!< Next tick when credits animation needs an update. */
         static uint s_arrowAnimationTimeout;                /*!< Timeout value for the next palette change in the animation of the arrows. */
@@ -4071,7 +4071,7 @@ namespace SharpDune.Gui
 					break;
 			}
 
-			s_palette1_houseColour = new CArray<byte> { Arr = g_palette1[(colour * 3)..(colour * 3 + 3)] };
+			s_palette1_houseColour = new Array<byte> { Arr = g_palette1[(colour * 3)..(colour * 3 + 3)] };
 			Buffer.BlockCopy(s_palette1_houseColour.Arr, 0, g_palette1, 255 * 3, 3);
 			s_palette1_houseColour += offset;
 
@@ -4772,7 +4772,7 @@ namespace SharpDune.Gui
 		{
 			Screen oldScreenID;
 			/* void* *//*WSAObject*/
-			(WSAHeader header, CArray<byte> buffer) wsa;
+			(WSAHeader header, Array<byte> buffer) wsa;
 			short i;
 			ObjectInfo oi;
 
@@ -4921,7 +4921,7 @@ namespace SharpDune.Gui
 			var item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
 			var oi = item.objectInfo;
 			/* void* *//*WSAObject*/
-			(WSAHeader header, CArray<byte> buffer) wsa;
+			(WSAHeader header, Array<byte> buffer) wsa;
 
 			oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
