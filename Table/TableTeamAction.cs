@@ -1,16 +1,15 @@
 ﻿/* TeamAction file table */
 
-namespace SharpDune.Table
+namespace SharpDune.Table;
+
+class TableTeamAction
 {
-    class TableTeamAction
+    internal static string[] g_table_teamActionName =
     {
-        internal static string[] g_table_teamActionName =
-        {
-            "Normal",
-            "Staging",
-            "Flee",
-            "Kamikaze",
-            "Guard"
-        };
-    }
+        "Normal",
+        "Staging",
+        "Flee",
+        "Kamikaze",
+        "Guard"
+    };
 }

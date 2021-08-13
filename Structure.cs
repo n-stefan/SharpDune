@@ -1,732 +1,732 @@
 ﻿/* Structure handling */
 
-namespace SharpDune
+namespace SharpDune;
+
+/*
+* Types of Structures available in the game.
+*/
+enum StructureType
 {
+    STRUCTURE_SLAB_1x1 = 0,
+    STRUCTURE_SLAB_2x2 = 1,
+    STRUCTURE_PALACE = 2,
+    STRUCTURE_LIGHT_VEHICLE = 3,
+    STRUCTURE_HEAVY_VEHICLE = 4,
+    STRUCTURE_HIGH_TECH = 5,
+    STRUCTURE_HOUSE_OF_IX = 6,
+    STRUCTURE_WOR_TROOPER = 7,
+    STRUCTURE_CONSTRUCTION_YARD = 8,
+    STRUCTURE_WINDTRAP = 9,
+    STRUCTURE_BARRACKS = 10,
+    STRUCTURE_STARPORT = 11,
+    STRUCTURE_REFINERY = 12,
+    STRUCTURE_REPAIR = 13,
+    STRUCTURE_WALL = 14,
+    STRUCTURE_TURRET = 15,
+    STRUCTURE_ROCKET_TURRET = 16,
+    STRUCTURE_SILO = 17,
+    STRUCTURE_OUTPOST = 18,
+
+    STRUCTURE_MAX = 19,
+    STRUCTURE_INVALID = 0xFF
+}
+
+/* Available structure layouts. */
+enum StructureLayout
+{
+    STRUCTURE_LAYOUT_1x1 = 0,
+    STRUCTURE_LAYOUT_2x1 = 1,
+    STRUCTURE_LAYOUT_1x2 = 2,
+    STRUCTURE_LAYOUT_2x2 = 3,
+    STRUCTURE_LAYOUT_2x3 = 4,
+    STRUCTURE_LAYOUT_3x2 = 5,
+    STRUCTURE_LAYOUT_3x3 = 6,
+
+    STRUCTURE_LAYOUT_MAX = 7
+}
+
+/* States a structure can be in */
+enum StructureState
+{
+    STRUCTURE_STATE_DETECT = -2,                            /*!< Used when setting state, meaning to detect which state it has by looking at other properties. */
+    STRUCTURE_STATE_JUSTBUILT = -1,                         /*!< This shows you the building animation etc. */
+    STRUCTURE_STATE_IDLE = 0,                               /*!< Structure is doing nothing. */
+    STRUCTURE_STATE_BUSY = 1,                               /*!< Structure is busy (harvester in refinery, unit in repair, .. */
+    STRUCTURE_STATE_READY = 2                               /*!< Structure is ready and unit will be deployed soon. */
+}
+
+/*
+ * Flags used to indicate structures in a bitmask.
+ */
+[Flags]
+enum StructureFlag
+{
+    FLAG_STRUCTURE_SLAB_1x1 = 1 << StructureType.STRUCTURE_SLAB_1x1,          /* 0x____01 */
+    FLAG_STRUCTURE_SLAB_2x2 = 1 << StructureType.STRUCTURE_SLAB_2x2,          /* 0x____02 */
+    FLAG_STRUCTURE_PALACE = 1 << StructureType.STRUCTURE_PALACE,            /* 0x____04 */
+    FLAG_STRUCTURE_LIGHT_VEHICLE = 1 << StructureType.STRUCTURE_LIGHT_VEHICLE,     /* 0x____08 */
+    FLAG_STRUCTURE_HEAVY_VEHICLE = 1 << StructureType.STRUCTURE_HEAVY_VEHICLE,     /* 0x____10 */
+    FLAG_STRUCTURE_HIGH_TECH = 1 << StructureType.STRUCTURE_HIGH_TECH,         /* 0x____20 */
+    FLAG_STRUCTURE_HOUSE_OF_IX = 1 << StructureType.STRUCTURE_HOUSE_OF_IX,       /* 0x____40 */
+    FLAG_STRUCTURE_WOR_TROOPER = 1 << StructureType.STRUCTURE_WOR_TROOPER,       /* 0x____80 */
+    FLAG_STRUCTURE_CONSTRUCTION_YARD = 1 << StructureType.STRUCTURE_CONSTRUCTION_YARD, /* 0x__01__ */
+    FLAG_STRUCTURE_WINDTRAP = 1 << StructureType.STRUCTURE_WINDTRAP,          /* 0x__02__ */
+    FLAG_STRUCTURE_BARRACKS = 1 << StructureType.STRUCTURE_BARRACKS,          /* 0x__04__ */
+    FLAG_STRUCTURE_STARPORT = 1 << StructureType.STRUCTURE_STARPORT,          /* 0x__08__ */
+    FLAG_STRUCTURE_REFINERY = 1 << StructureType.STRUCTURE_REFINERY,          /* 0x__10__ */
+    FLAG_STRUCTURE_REPAIR = 1 << StructureType.STRUCTURE_REPAIR,            /* 0x__20__ */
+    FLAG_STRUCTURE_WALL = 1 << StructureType.STRUCTURE_WALL,              /* 0x__40__ */
+    FLAG_STRUCTURE_TURRET = 1 << StructureType.STRUCTURE_TURRET,            /* 0x__80__ */
+    FLAG_STRUCTURE_ROCKET_TURRET = 1 << StructureType.STRUCTURE_ROCKET_TURRET,     /* 0x01____ */
+    FLAG_STRUCTURE_SILO = 1 << StructureType.STRUCTURE_SILO,              /* 0x02____ */
+    FLAG_STRUCTURE_OUTPOST = 1 << StructureType.STRUCTURE_OUTPOST,           /* 0x04____ */
+
+    FLAG_STRUCTURE_NONE = 0,
+    FLAG_STRUCTURE_NEVER = -1                                /*!< Special flag to mark that certain buildings can never be built on a Construction Yard. */
+}
+
+/*
+* A Structure as stored in the memory.
+*/
+class CStructure
+{
+    internal CObject o;                                     /*!< Common to Unit and Structures. */
+    internal ushort creatorHouseID;                         /*!< The Index of the House who created this Structure. Required in case of take-overs. */
+    internal ushort rotationSpriteDiff;                     /*!< Which sprite to show for the current rotation of Turrets etc. */
+    internal ushort objectType;                             /*!< Type of Unit/Structure we are building. */
+    internal byte upgradeLevel;                             /*!< The current level of upgrade of the Structure. */
+    internal byte upgradeTimeLeft;                          /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
+    internal ushort countDown;                              /*!< General countdown for various of functions. */
+    internal ushort buildCostRemainder;                     /*!< The remainder of the buildCost for next tick. */
+    internal short state;                                   /*!< The state of the structure. @see StructureState. */
+    internal ushort hitpointsMax;                           /*!< Max amount of hitpoints. */
+
+    internal CStructure() =>
+        o = new CObject();
+}
+
+/*
+ * Static information per Structure type.
+ */
+class StructureInfo
+{
+    internal ObjectInfo o;                                  /*!< Common to UnitInfo and StructureInfo. */
+    internal uint enterFilter;                              /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
+    internal ushort creditsStorage;                         /*!< How many credits this Structure can store. */
+    internal short powerUsage;                              /*!< How much power this Structure uses (positive value) or produces (negative value). */
+    internal ushort layout;                                 /*!< Layout type of Structure. */
+    internal ushort iconGroup;                              /*!< In which IconGroup the sprites of the Structure belongs. */
+    internal byte[] animationIndex = new byte[3];           /*!< The index inside g_table_animation_structure for the Animation of the Structure. */
+    internal byte[] buildableUnits = new byte[8];           /*!< Which units this structure can produce. */
+    internal ushort[] upgradeCampaign = new ushort[3];      /*!< Minimum campaign for upgrades. */
+}
+
+/* X/Y pair defining a 2D size. */
+class XYSize
+{
+    internal ushort width;  /*!< Horizontal length. */
+    internal ushort height; /*!< Vertical length. */
+}
+
+class Structure
+{
+    internal static ushort g_structureActivePosition;
+    internal static ushort g_structureActiveType;
+
+    internal static CStructure g_structureActive;
+
+    static readonly bool s_debugInstantBuild; /*!< When non-zero, constructions are almost instant. */
+    static uint s_tickStructureDegrade; /*!< Indicates next time Degrade function is executed. */
+    static uint s_tickStructureStructure; /*!< Indicates next time Structures function is executed. */
+    static uint s_tickStructureScript; /*!< Indicates next time Script function is executed. */
+    static uint s_tickStructurePalace; /*!< Indicates next time Palace function is executed. */
+
+    internal static ushort g_structureIndex;
+
     /*
-    * Types of Structures available in the game.
-    */
-    enum StructureType
-    {
-        STRUCTURE_SLAB_1x1 = 0,
-        STRUCTURE_SLAB_2x2 = 1,
-        STRUCTURE_PALACE = 2,
-        STRUCTURE_LIGHT_VEHICLE = 3,
-        STRUCTURE_HEAVY_VEHICLE = 4,
-        STRUCTURE_HIGH_TECH = 5,
-        STRUCTURE_HOUSE_OF_IX = 6,
-        STRUCTURE_WOR_TROOPER = 7,
-        STRUCTURE_CONSTRUCTION_YARD = 8,
-        STRUCTURE_WINDTRAP = 9,
-        STRUCTURE_BARRACKS = 10,
-        STRUCTURE_STARPORT = 11,
-        STRUCTURE_REFINERY = 12,
-        STRUCTURE_REPAIR = 13,
-        STRUCTURE_WALL = 14,
-        STRUCTURE_TURRET = 15,
-        STRUCTURE_ROCKET_TURRET = 16,
-        STRUCTURE_SILO = 17,
-        STRUCTURE_OUTPOST = 18,
-
-        STRUCTURE_MAX = 19,
-        STRUCTURE_INVALID = 0xFF
-    }
-
-    /* Available structure layouts. */
-    enum StructureLayout
-    {
-        STRUCTURE_LAYOUT_1x1 = 0,
-        STRUCTURE_LAYOUT_2x1 = 1,
-        STRUCTURE_LAYOUT_1x2 = 2,
-        STRUCTURE_LAYOUT_2x2 = 3,
-        STRUCTURE_LAYOUT_2x3 = 4,
-        STRUCTURE_LAYOUT_3x2 = 5,
-        STRUCTURE_LAYOUT_3x3 = 6,
-
-        STRUCTURE_LAYOUT_MAX = 7
-    }
-
-    /* States a structure can be in */
-    enum StructureState
-    {
-        STRUCTURE_STATE_DETECT = -2,                            /*!< Used when setting state, meaning to detect which state it has by looking at other properties. */
-        STRUCTURE_STATE_JUSTBUILT = -1,                         /*!< This shows you the building animation etc. */
-        STRUCTURE_STATE_IDLE = 0,                               /*!< Structure is doing nothing. */
-        STRUCTURE_STATE_BUSY = 1,                               /*!< Structure is busy (harvester in refinery, unit in repair, .. */
-        STRUCTURE_STATE_READY = 2                               /*!< Structure is ready and unit will be deployed soon. */
-    }
-
-    /*
-     * Flags used to indicate structures in a bitmask.
+     * Checks if the given position is a valid location for the given structure type.
+     *
+     * @param position The (packed) tile to check.
+     * @param type The structure type to check the position for.
+     * @return 0 if the position is not valid, 1 if the position is valid and have enough slabs, <0 if the position is valid but miss some slabs.
      */
-    [Flags]
-    enum StructureFlag
+    internal static short Structure_IsValidBuildLocation(ushort position, StructureType type)
     {
-        FLAG_STRUCTURE_SLAB_1x1 = 1 << StructureType.STRUCTURE_SLAB_1x1,          /* 0x____01 */
-        FLAG_STRUCTURE_SLAB_2x2 = 1 << StructureType.STRUCTURE_SLAB_2x2,          /* 0x____02 */
-        FLAG_STRUCTURE_PALACE = 1 << StructureType.STRUCTURE_PALACE,            /* 0x____04 */
-        FLAG_STRUCTURE_LIGHT_VEHICLE = 1 << StructureType.STRUCTURE_LIGHT_VEHICLE,     /* 0x____08 */
-        FLAG_STRUCTURE_HEAVY_VEHICLE = 1 << StructureType.STRUCTURE_HEAVY_VEHICLE,     /* 0x____10 */
-        FLAG_STRUCTURE_HIGH_TECH = 1 << StructureType.STRUCTURE_HIGH_TECH,         /* 0x____20 */
-        FLAG_STRUCTURE_HOUSE_OF_IX = 1 << StructureType.STRUCTURE_HOUSE_OF_IX,       /* 0x____40 */
-        FLAG_STRUCTURE_WOR_TROOPER = 1 << StructureType.STRUCTURE_WOR_TROOPER,       /* 0x____80 */
-        FLAG_STRUCTURE_CONSTRUCTION_YARD = 1 << StructureType.STRUCTURE_CONSTRUCTION_YARD, /* 0x__01__ */
-        FLAG_STRUCTURE_WINDTRAP = 1 << StructureType.STRUCTURE_WINDTRAP,          /* 0x__02__ */
-        FLAG_STRUCTURE_BARRACKS = 1 << StructureType.STRUCTURE_BARRACKS,          /* 0x__04__ */
-        FLAG_STRUCTURE_STARPORT = 1 << StructureType.STRUCTURE_STARPORT,          /* 0x__08__ */
-        FLAG_STRUCTURE_REFINERY = 1 << StructureType.STRUCTURE_REFINERY,          /* 0x__10__ */
-        FLAG_STRUCTURE_REPAIR = 1 << StructureType.STRUCTURE_REPAIR,            /* 0x__20__ */
-        FLAG_STRUCTURE_WALL = 1 << StructureType.STRUCTURE_WALL,              /* 0x__40__ */
-        FLAG_STRUCTURE_TURRET = 1 << StructureType.STRUCTURE_TURRET,            /* 0x__80__ */
-        FLAG_STRUCTURE_ROCKET_TURRET = 1 << StructureType.STRUCTURE_ROCKET_TURRET,     /* 0x01____ */
-        FLAG_STRUCTURE_SILO = 1 << StructureType.STRUCTURE_SILO,              /* 0x02____ */
-        FLAG_STRUCTURE_OUTPOST = 1 << StructureType.STRUCTURE_OUTPOST,           /* 0x04____ */
+        StructureInfo si;
+        ushort[] layoutTile;
+        byte i;
+        ushort neededSlabs;
+        bool isValid;
+        ushort curPos;
 
-        FLAG_STRUCTURE_NONE = 0,
-        FLAG_STRUCTURE_NEVER = -1                                /*!< Special flag to mark that certain buildings can never be built on a Construction Yard. */
-    }
+        si = g_table_structureInfo[(int)type];
+        layoutTile = g_table_structure_layoutTiles[si.layout];
 
-    /*
-    * A Structure as stored in the memory.
-    */
-    class CStructure
-    {
-        internal CObject o;                                     /*!< Common to Unit and Structures. */
-        internal ushort creatorHouseID;                         /*!< The Index of the House who created this Structure. Required in case of take-overs. */
-        internal ushort rotationSpriteDiff;                     /*!< Which sprite to show for the current rotation of Turrets etc. */
-        internal ushort objectType;                             /*!< Type of Unit/Structure we are building. */
-        internal byte upgradeLevel;                             /*!< The current level of upgrade of the Structure. */
-        internal byte upgradeTimeLeft;                          /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
-        internal ushort countDown;                              /*!< General countdown for various of functions. */
-        internal ushort buildCostRemainder;                     /*!< The remainder of the buildCost for next tick. */
-        internal short state;                                   /*!< The state of the structure. @see StructureState. */
-        internal ushort hitpointsMax;                           /*!< Max amount of hitpoints. */
-
-        internal CStructure() =>
-            o = new CObject();
-    }
-
-    /*
-     * Static information per Structure type.
-     */
-    class StructureInfo
-    {
-        internal ObjectInfo o;                                  /*!< Common to UnitInfo and StructureInfo. */
-        internal uint enterFilter;                              /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
-        internal ushort creditsStorage;                         /*!< How many credits this Structure can store. */
-        internal short powerUsage;                              /*!< How much power this Structure uses (positive value) or produces (negative value). */
-        internal ushort layout;                                 /*!< Layout type of Structure. */
-        internal ushort iconGroup;                              /*!< In which IconGroup the sprites of the Structure belongs. */
-        internal byte[] animationIndex = new byte[3];           /*!< The index inside g_table_animation_structure for the Animation of the Structure. */
-        internal byte[] buildableUnits = new byte[8];           /*!< Which units this structure can produce. */
-        internal ushort[] upgradeCampaign = new ushort[3];      /*!< Minimum campaign for upgrades. */
-    }
-
-    /* X/Y pair defining a 2D size. */
-    class XYSize
-    {
-        internal ushort width;  /*!< Horizontal length. */
-        internal ushort height; /*!< Vertical length. */
-    }
-
-    class Structure
-    {
-        internal static ushort g_structureActivePosition;
-        internal static ushort g_structureActiveType;
-
-        internal static CStructure g_structureActive;
-
-        static readonly bool s_debugInstantBuild; /*!< When non-zero, constructions are almost instant. */
-        static uint s_tickStructureDegrade; /*!< Indicates next time Degrade function is executed. */
-        static uint s_tickStructureStructure; /*!< Indicates next time Structures function is executed. */
-        static uint s_tickStructureScript; /*!< Indicates next time Script function is executed. */
-        static uint s_tickStructurePalace; /*!< Indicates next time Palace function is executed. */
-
-        internal static ushort g_structureIndex;
-
-        /*
-         * Checks if the given position is a valid location for the given structure type.
-         *
-         * @param position The (packed) tile to check.
-         * @param type The structure type to check the position for.
-         * @return 0 if the position is not valid, 1 if the position is valid and have enough slabs, <0 if the position is valid but miss some slabs.
-         */
-        internal static short Structure_IsValidBuildLocation(ushort position, StructureType type)
+        isValid = true;
+        neededSlabs = 0;
+        for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
         {
-            StructureInfo si;
-            ushort[] layoutTile;
-            byte i;
-            ushort neededSlabs;
-            bool isValid;
-            ushort curPos;
+            ushort lst;
 
-            si = g_table_structureInfo[(int)type];
-            layoutTile = g_table_structure_layoutTiles[si.layout];
+            curPos = (ushort)(position + layoutTile[i]);
 
-            isValid = true;
-            neededSlabs = 0;
-            for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
+            lst = Map_GetLandscapeType(curPos);
+
+            if (g_debugScenario)
             {
-                ushort lst;
-
-                curPos = (ushort)(position + layoutTile[i]);
-
-                lst = Map_GetLandscapeType(curPos);
-
-                if (g_debugScenario)
-                {
-                    if (!g_table_landscapeInfo[lst].isValidForStructure2)
-                    {
-                        isValid = false;
-                        break;
-                    }
-                }
-                else
-                {
-                    if (!Map_IsValidPosition(curPos))
-                    {
-                        isValid = false;
-                        break;
-                    }
-
-                    if (si.o.flags.notOnConcrete)
-                    {
-                        if (!g_table_landscapeInfo[lst].isValidForStructure2 && g_validateStrictIfZero == 0)
-                        {
-                            isValid = false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (!g_table_landscapeInfo[lst].isValidForStructure && g_validateStrictIfZero == 0)
-                        {
-                            isValid = false;
-                            break;
-                        }
-                        if (lst != (ushort)LandscapeType.LST_CONCRETE_SLAB) neededSlabs++;
-                    }
-                }
-
-                if (Object_GetByPackedTile(curPos) != null)
+                if (!g_table_landscapeInfo[lst].isValidForStructure2)
                 {
                     isValid = false;
                     break;
                 }
             }
-
-            if (g_validateStrictIfZero == 0 && isValid && type != StructureType.STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario)
+            else
             {
-                isValid = false;
-                for (i = 0; i < 16; i++)
+                if (!Map_IsValidPosition(curPos))
                 {
-                    ushort offset, lst;
-                    CStructure s;
+                    isValid = false;
+                    break;
+                }
 
-                    offset = (ushort)g_table_structure_layoutTilesAround[si.layout][i];
-                    if (offset == 0) break;
-
-                    curPos = (ushort)(position + offset);
-                    s = Structure_Get_ByPackedTile(curPos);
-                    if (s != null)
+                if (si.o.flags.notOnConcrete)
+                {
+                    if (!g_table_landscapeInfo[lst].isValidForStructure2 && g_validateStrictIfZero == 0)
                     {
-                        if (s.o.houseID != (byte)g_playerHouseID) continue;
-                        isValid = true;
+                        isValid = false;
                         break;
                     }
+                }
+                else
+                {
+                    if (!g_table_landscapeInfo[lst].isValidForStructure && g_validateStrictIfZero == 0)
+                    {
+                        isValid = false;
+                        break;
+                    }
+                    if (lst != (ushort)LandscapeType.LST_CONCRETE_SLAB) neededSlabs++;
+                }
+            }
 
-                    lst = Map_GetLandscapeType(curPos);
-                    if (lst != (ushort)LandscapeType.LST_CONCRETE_SLAB && lst != (ushort)LandscapeType.LST_WALL) continue;
-                    if (g_map[curPos].houseID != (byte)g_playerHouseID) continue;
+            if (Object_GetByPackedTile(curPos) != null)
+            {
+                isValid = false;
+                break;
+            }
+        }
 
+        if (g_validateStrictIfZero == 0 && isValid && type != StructureType.STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario)
+        {
+            isValid = false;
+            for (i = 0; i < 16; i++)
+            {
+                ushort offset, lst;
+                CStructure s;
+
+                offset = (ushort)g_table_structure_layoutTilesAround[si.layout][i];
+                if (offset == 0) break;
+
+                curPos = (ushort)(position + offset);
+                s = Structure_Get_ByPackedTile(curPos);
+                if (s != null)
+                {
+                    if (s.o.houseID != (byte)g_playerHouseID) continue;
                     isValid = true;
                     break;
                 }
-            }
 
-            if (!isValid) return 0;
-            if (neededSlabs == 0) return 1;
-            return (short)-neededSlabs;
+                lst = Map_GetLandscapeType(curPos);
+                if (lst != (ushort)LandscapeType.LST_CONCRETE_SLAB && lst != (ushort)LandscapeType.LST_WALL) continue;
+                if (g_map[curPos].houseID != (byte)g_playerHouseID) continue;
+
+                isValid = true;
+                break;
+            }
         }
 
-        /*
-         * Get the structure on the given packed tile.
-         *
-         * @param packed The packed tile to get the structure from.
-         * @return The structure.
-         */
-        internal static CStructure Structure_Get_ByPackedTile(ushort packed)
+        if (!isValid) return 0;
+        if (neededSlabs == 0) return 1;
+        return (short)-neededSlabs;
+    }
+
+    /*
+     * Get the structure on the given packed tile.
+     *
+     * @param packed The packed tile to get the structure from.
+     * @return The structure.
+     */
+    internal static CStructure Structure_Get_ByPackedTile(ushort packed)
+    {
+        CTile tile;
+
+        if (Tile_IsOutOfMap(packed)) return null;
+
+        tile = g_map[packed];
+        if (!tile.hasStructure) return null;
+        return Structure_Get_ByIndex((ushort)(tile.index - 1));
+    }
+
+    /*
+     * Update the map with the right data for this structure.
+     * @param s The structure to update on the map.
+     */
+    internal static void Structure_UpdateMap(CStructure s)
+    {
+        StructureInfo si;
+        ushort layoutSize;
+        ushort[] layout;
+        ushort[] iconMap;
+        int i;
+
+        if (s == null) return;
+        if (!s.o.flags.used) return;
+        if (s.o.flags.isNotOnMap) return;
+
+        si = g_table_structureInfo[s.o.type];
+
+        layout = g_table_structure_layoutTiles[si.layout];
+        layoutSize = g_table_structure_layoutTileCount[si.layout];
+
+        iconMap = g_iconMap[(g_iconMap[si.iconGroup] + layoutSize + layoutSize)..];
+
+        for (i = 0; i < layoutSize; i++)
         {
-            CTile tile;
+            ushort position;
+            CTile t;
 
-            if (Tile_IsOutOfMap(packed)) return null;
+            position = (ushort)(Tile_PackTile(s.o.position) + layout[i]);
 
-            tile = g_map[packed];
-            if (!tile.hasStructure) return null;
-            return Structure_Get_ByIndex((ushort)(tile.index - 1));
+            t = g_map[position];
+            t.houseID = s.o.houseID;
+            t.hasStructure = true;
+            t.index = (ushort)(s.o.index + 1);
+
+            t.groundTileID = (ushort)(iconMap[i] + s.rotationSpriteDiff);
+
+            if (Tile_IsUnveiled(t.overlayTileID)) t.overlayTileID = 0;
+
+            Map_Update(position, 0, false);
         }
 
-        /*
-         * Update the map with the right data for this structure.
-         * @param s The structure to update on the map.
-         */
-        internal static void Structure_UpdateMap(CStructure s)
+        s.o.flags.isDirty = true;
+
+        if (s.state >= (short)StructureState.STRUCTURE_STATE_IDLE)
         {
-            StructureInfo si;
-            ushort layoutSize;
-            ushort[] layout;
-            ushort[] iconMap;
-            int i;
+            var animationIndex = (ushort)((s.state > (short)StructureState.STRUCTURE_STATE_READY) ? (short)StructureState.STRUCTURE_STATE_READY : s.state);
 
-            if (s == null) return;
-            if (!s.o.flags.used) return;
-            if (s.o.flags.isNotOnMap) return;
-
-            si = g_table_structureInfo[s.o.type];
-
-            layout = g_table_structure_layoutTiles[si.layout];
-            layoutSize = g_table_structure_layoutTileCount[si.layout];
-
-            iconMap = g_iconMap[(g_iconMap[si.iconGroup] + layoutSize + layoutSize)..];
-
-            for (i = 0; i < layoutSize; i++)
+            if (si.animationIndex[animationIndex] == 0xFF)
             {
-                ushort position;
-                CTile t;
-
-                position = (ushort)(Tile_PackTile(s.o.position) + layout[i]);
-
-                t = g_map[position];
-                t.houseID = s.o.houseID;
-                t.hasStructure = true;
-                t.index = (ushort)(s.o.index + 1);
-
-                t.groundTileID = (ushort)(iconMap[i] + s.rotationSpriteDiff);
-
-                if (Tile_IsUnveiled(t.overlayTileID)) t.overlayTileID = 0;
-
-                Map_Update(position, 0, false);
-            }
-
-            s.o.flags.isDirty = true;
-
-            if (s.state >= (short)StructureState.STRUCTURE_STATE_IDLE)
-            {
-                var animationIndex = (ushort)((s.state > (short)StructureState.STRUCTURE_STATE_READY) ? (short)StructureState.STRUCTURE_STATE_READY : s.state);
-
-                if (si.animationIndex[animationIndex] == 0xFF)
-                {
-                    Animation_Start(null, s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
-                }
-                else
-                {
-                    var animationID = si.animationIndex[animationIndex];
-
-                    Debug.Assert(animationID < 29);
-                    Animation_Start(g_table_animation_structure[animationID], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
-                }
+                Animation_Start(null, s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
             }
             else
             {
-                Animation_Start(g_table_animation_structure[1], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
+                var animationID = si.animationIndex[animationIndex];
+
+                Debug.Assert(animationID < 29);
+                Animation_Start(g_table_animation_structure[animationID], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
             }
         }
-
-        /*
-         * Check wether the given structure is upgradable.
-         *
-         * @param s The Structure to check.
-         * @return True if and only if the structure is upgradable.
-         */
-        internal static bool Structure_IsUpgradable(CStructure s)
+        else
         {
-            StructureInfo si;
+            Animation_Start(g_table_animation_structure[1], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
+        }
+    }
 
-            if (s == null) return false;
+    /*
+     * Check wether the given structure is upgradable.
+     *
+     * @param s The Structure to check.
+     * @return True if and only if the structure is upgradable.
+     */
+    internal static bool Structure_IsUpgradable(CStructure s)
+    {
+        StructureInfo si;
 
-            si = g_table_structureInfo[s.o.type];
+        if (s == null) return false;
 
-            if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) return false;
-            if (s.o.houseID == (byte)HouseType.HOUSE_ORDOS && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE && s.upgradeLevel == 1 && si.upgradeCampaign[2] > g_campaignID) return false;
+        si = g_table_structureInfo[s.o.type];
 
-            if (s.upgradeLevel < si.upgradeCampaign.Length && si.upgradeCampaign[s.upgradeLevel] != 0 && si.upgradeCampaign[s.upgradeLevel] <= g_campaignID + 1)
-            {
-                CHouse h;
+        if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) return false;
+        if (s.o.houseID == (byte)HouseType.HOUSE_ORDOS && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE && s.upgradeLevel == 1 && si.upgradeCampaign[2] > g_campaignID) return false;
 
-                if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) return true;
-                if (s.upgradeLevel != 1) return true;
+        if (s.upgradeLevel < si.upgradeCampaign.Length && si.upgradeCampaign[s.upgradeLevel] != 0 && si.upgradeCampaign[s.upgradeLevel] <= g_campaignID + 1)
+        {
+            CHouse h;
 
-                h = House_Get_ByIndex(s.o.houseID);
-                if ((h.structuresBuilt & g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) return true;
+            if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) return true;
+            if (s.upgradeLevel != 1) return true;
 
-                return false;
-            }
+            h = House_Get_ByIndex(s.o.houseID);
+            if ((h.structuresBuilt & g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) return true;
 
-            if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_WOR_TROOPER && s.upgradeLevel == 0 && g_campaignID > 3) return true;
             return false;
         }
 
-        /*
-         * Get the unit linked to this structure, or NULL if there is no.
-         * @param s The structure to get the linked unit from.
-         * @return The linked unit, or NULL if there was none.
-         */
-        internal static CUnit Structure_GetLinkedUnit(CStructure s)
+        if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_WOR_TROOPER && s.upgradeLevel == 0 && g_campaignID > 3) return true;
+        return false;
+    }
+
+    /*
+     * Get the unit linked to this structure, or NULL if there is no.
+     * @param s The structure to get the linked unit from.
+     * @return The linked unit, or NULL if there was none.
+     */
+    internal static CUnit Structure_GetLinkedUnit(CStructure s)
+    {
+        if (s.o.linkedID == 0xFF) return null;
+        return Unit_Get_ByIndex(s.o.linkedID);
+    }
+
+    /*
+     * Set the state for the given structure.
+     *
+     * @param s The structure to set the state of.
+     * @param state The new sate value.
+     */
+    internal static void Structure_SetState(CStructure s, short state)
+    {
+        if (s == null) return;
+        s.state = state;
+
+        Structure_UpdateMap(s);
+    }
+
+    /*
+     * The house is under attack in the form of a structure being hit.
+     * @param houseID The house who is being attacked.
+     */
+    internal static void Structure_HouseUnderAttack(byte houseID)
+    {
+        var find = new PoolFindStruct();
+        CHouse h;
+
+        h = House_Get_ByIndex(houseID);
+
+        if (houseID != (byte)g_playerHouseID && h.flags.doneFullScaleAttack) return;
+        h.flags.doneFullScaleAttack = true;
+
+        if (h.flags.human)
         {
-            if (s.o.linkedID == 0xFF) return null;
-            return Unit_Get_ByIndex(s.o.linkedID);
+            if (h.timerStructureAttack != 0) return;
+
+            Sound_Output_Feedback(48);
+
+            h.timerStructureAttack = 8;
+            return;
         }
 
-        /*
-         * Set the state for the given structure.
-         *
-         * @param s The structure to set the state of.
-         * @param state The new sate value.
-         */
-        internal static void Structure_SetState(CStructure s, short state)
-        {
-            if (s == null) return;
-            s.state = state;
+        /* ENHANCEMENT -- Dune2 originally only searches for units with type 0 (Carry-all). In result, the rest of this function does nothing. */
+        if (!g_dune2_enhanced) return;
 
-            Structure_UpdateMap(s);
+        find.houseID = houseID;
+        find.index = 0xFFFF;
+        find.type = 0xFFFF;
+
+        while (true)
+        {
+            UnitInfo ui;
+            CUnit u;
+
+            u = Unit_Find(find);
+            if (u == null) break;
+
+            ui = g_table_unitInfo[u.o.type];
+
+            if (ui.bulletType == (byte)UnitType.UNIT_INVALID) continue;
+
+            /* XXX -- Dune2 does something odd here. What was their intention? */
+            if ((u.actionID == (byte)ActionType.ACTION_GUARD && u.actionID == (byte)ActionType.ACTION_AMBUSH) || u.actionID == (byte)ActionType.ACTION_AREA_GUARD) Unit_SetAction(u, ActionType.ACTION_HUNT);
+        }
+    }
+
+    /*
+     * Damage the structure, and bring the surrounding to an explosion if needed.
+     *
+     * @param s The structure to damage.
+     * @param damage The damage to deal to the structure.
+     * @param range The range in which an explosion should be possible.
+     * @return True if and only if the structure is now destroyed.
+     */
+    internal static bool Structure_Damage(CStructure s, ushort damage, ushort range)
+    {
+        StructureInfo si;
+
+        if (s == null) return false;
+        if (damage == 0) return false;
+        if (s.o.script.variables[0] == 1) return false;
+
+        si = g_table_structureInfo[s.o.type];
+
+        if (s.o.hitpoints >= damage)
+        {
+            s.o.hitpoints -= damage;
+        }
+        else
+        {
+            s.o.hitpoints = 0;
         }
 
-        /*
-         * The house is under attack in the form of a structure being hit.
-         * @param houseID The house who is being attacked.
-         */
-        internal static void Structure_HouseUnderAttack(byte houseID)
+        if (s.o.hitpoints == 0)
         {
-            var find = new PoolFindStruct();
-            CHouse h;
+            ushort score;
 
-            h = House_Get_ByIndex(houseID);
+            score = (ushort)(si.o.buildCredits / 100);
+            if (score < 1) score = 1;
 
-            if (houseID != (byte)g_playerHouseID && h.flags.doneFullScaleAttack) return;
-            h.flags.doneFullScaleAttack = true;
-
-            if (h.flags.human)
+            if (House_AreAllied((byte)g_playerHouseID, s.o.houseID))
             {
-                if (h.timerStructureAttack != 0) return;
-
-                Sound_Output_Feedback(48);
-
-                h.timerStructureAttack = 8;
-                return;
-            }
-
-            /* ENHANCEMENT -- Dune2 originally only searches for units with type 0 (Carry-all). In result, the rest of this function does nothing. */
-            if (!g_dune2_enhanced) return;
-
-            find.houseID = houseID;
-            find.index = 0xFFFF;
-            find.type = 0xFFFF;
-
-            while (true)
-            {
-                UnitInfo ui;
-                CUnit u;
-
-                u = Unit_Find(find);
-                if (u == null) break;
-
-                ui = g_table_unitInfo[u.o.type];
-
-                if (ui.bulletType == (byte)UnitType.UNIT_INVALID) continue;
-
-                /* XXX -- Dune2 does something odd here. What was their intention? */
-                if ((u.actionID == (byte)ActionType.ACTION_GUARD && u.actionID == (byte)ActionType.ACTION_AMBUSH) || u.actionID == (byte)ActionType.ACTION_AREA_GUARD) Unit_SetAction(u, ActionType.ACTION_HUNT);
-            }
-        }
-
-        /*
-         * Damage the structure, and bring the surrounding to an explosion if needed.
-         *
-         * @param s The structure to damage.
-         * @param damage The damage to deal to the structure.
-         * @param range The range in which an explosion should be possible.
-         * @return True if and only if the structure is now destroyed.
-         */
-        internal static bool Structure_Damage(CStructure s, ushort damage, ushort range)
-        {
-            StructureInfo si;
-
-            if (s == null) return false;
-            if (damage == 0) return false;
-            if (s.o.script.variables[0] == 1) return false;
-
-            si = g_table_structureInfo[s.o.type];
-
-            if (s.o.hitpoints >= damage)
-            {
-                s.o.hitpoints -= damage;
+                g_scenario.destroyedAllied++;
+                g_scenario.score -= score;
             }
             else
             {
-                s.o.hitpoints = 0;
+                g_scenario.destroyedEnemy++;
+                g_scenario.score += score;
             }
 
-            if (s.o.hitpoints == 0)
+            Structure_Destroy(s);
+
+            if ((byte)g_playerHouseID == s.o.houseID)
             {
-                ushort score;
-
-                score = (ushort)(si.o.buildCredits / 100);
-                if (score < 1) score = 1;
-
-                if (House_AreAllied((byte)g_playerHouseID, s.o.houseID))
+                ushort index = (HouseType)s.o.houseID switch
                 {
-                    g_scenario.destroyedAllied++;
-                    g_scenario.score -= score;
-                }
-                else
-                {
-                    g_scenario.destroyedEnemy++;
-                    g_scenario.score += score;
-                }
+                    HouseType.HOUSE_HARKONNEN => 22,
+                    HouseType.HOUSE_ATREIDES => 23,
+                    HouseType.HOUSE_ORDOS => 24,
+                    _ => 0xFFFF,
+                };
 
-                Structure_Destroy(s);
-
-                if ((byte)g_playerHouseID == s.o.houseID)
-                {
-                    ushort index = (HouseType)s.o.houseID switch
-                    {
-                        HouseType.HOUSE_HARKONNEN => 22,
-                        HouseType.HOUSE_ATREIDES => 23,
-                        HouseType.HOUSE_ORDOS => 24,
-                        _ => 0xFFFF,
-                    };
-
-                    Sound_Output_Feedback(index);
-                }
-                else
-                {
-                    Sound_Output_Feedback(21);
-                }
-
-                Structure_UntargetMe(s);
-                return true;
+                Sound_Output_Feedback(index);
+            }
+            else
+            {
+                Sound_Output_Feedback(21);
             }
 
-            if (range == 0) return false;
-
-            Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_IMPACT_LARGE, Tile_AddTileDiff(s.o.position, g_table_structure_layoutTileDiff[si.layout]), 0, 0);
-            return false;
+            Structure_UntargetMe(s);
+            return true;
         }
 
-        /*
-         * Untarget the given Structure.
-         *
-         * @param unit The Structure to untarget.
-         */
-        internal static void Structure_UntargetMe(CStructure s)
+        if (range == 0) return false;
+
+        Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_IMPACT_LARGE, Tile_AddTileDiff(s.o.position, g_table_structure_layoutTileDiff[si.layout]), 0, 0);
+        return false;
+    }
+
+    /*
+     * Untarget the given Structure.
+     *
+     * @param unit The Structure to untarget.
+     */
+    internal static void Structure_UntargetMe(CStructure s)
+    {
+        var find = new PoolFindStruct();
+        var encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+
+        Object_Script_Variable4_Clear(s.o);
+
+        find.houseID = (byte)HouseType.HOUSE_INVALID;
+        find.index = 0xFFFF;
+        find.type = 0xFFFF;
+
+        while (true)
         {
-            var find = new PoolFindStruct();
-            var encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+            CUnit u;
 
-            Object_Script_Variable4_Clear(s.o);
+            u = Unit_Find(find);
+            if (u == null) break;
 
-            find.houseID = (byte)HouseType.HOUSE_INVALID;
-            find.index = 0xFFFF;
-            find.type = 0xFFFF;
+            if (u.targetMove == encoded) u.targetMove = 0;
+            if (u.targetAttack == encoded) u.targetAttack = 0;
+            if (u.o.script.variables[4] == encoded) Object_Script_Variable4_Clear(u.o);
+        }
 
-            while (true)
+        find.houseID = (byte)HouseType.HOUSE_INVALID;
+        find.index = 0xFFFF;
+        find.type = 0xFFFF;
+
+        while (true)
+        {
+            CTeam t;
+
+            t = Team_Find(find);
+            if (t == null) break;
+
+            if (t.target == encoded) t.target = 0;
+        }
+    }
+
+    /*
+     * Handles destroying of a structure.
+     *
+     * @param s The Structure.
+     */
+    static void Structure_Destroy(CStructure s)
+    {
+        StructureInfo si;
+        byte linkedID;
+        CHouse h;
+
+        if (s == null) return;
+
+        if (g_debugScenario)
+        {
+            Structure_Remove(s);
+            return;
+        }
+
+        s.o.script.variables[0] = 1;
+        s.o.flags.allocated = false;
+        s.o.flags.repairing = false;
+        s.o.script.delay = 0;
+
+        Script_Reset(s.o.script, g_scriptStructure);
+        Script_Load(s.o.script, s.o.type);
+
+        Voice_PlayAtTile(44, s.o.position);
+
+        linkedID = s.o.linkedID;
+
+        if (linkedID != 0xFF)
+        {
+            if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
             {
-                CUnit u;
-
-                u = Unit_Find(find);
-                if (u == null) break;
-
-                if (u.targetMove == encoded) u.targetMove = 0;
-                if (u.targetAttack == encoded) u.targetAttack = 0;
-                if (u.o.script.variables[4] == encoded) Object_Script_Variable4_Clear(u.o);
+                Structure_Destroy(Structure_Get_ByIndex(linkedID));
+                s.o.linkedID = 0xFF;
             }
-
-            find.houseID = (byte)HouseType.HOUSE_INVALID;
-            find.index = 0xFFFF;
-            find.type = 0xFFFF;
-
-            while (true)
+            else
             {
-                CTeam t;
+                while (linkedID != 0xFF)
+                {
+                    var u = Unit_Get_ByIndex(linkedID);
 
-                t = Team_Find(find);
-                if (t == null) break;
+                    linkedID = u.o.linkedID;
 
-                if (t.target == encoded) t.target = 0;
+                    Unit_Remove(u);
+                }
             }
         }
 
-        /*
-         * Handles destroying of a structure.
-         *
-         * @param s The Structure.
-         */
-        static void Structure_Destroy(CStructure s)
-        {
-            StructureInfo si;
-            byte linkedID;
-            CHouse h;
+        h = House_Get_ByIndex(s.o.houseID);
+        si = g_table_structureInfo[s.o.type];
 
-            if (s == null) return;
+        h.credits -= (ushort)((h.creditsStorage == 0) ? h.credits : Math.Min(h.credits, (h.credits * 256 / h.creditsStorage) * si.creditsStorage / 256));
+
+        if (s.o.houseID != (byte)g_playerHouseID) h.credits += (ushort)(si.o.buildCredits + (g_campaignID > 7 ? si.o.buildCredits / 2 : 0));
+
+        if (s.o.type != (byte)StructureType.STRUCTURE_WINDTRAP) return;
+
+        h.windtrapCount--;
+    }
+
+    /*
+     * Remove the structure from the map, free it, and clean up after it.
+     * @param s The structure to remove.
+     */
+    internal static void Structure_Remove(CStructure s)
+    {
+        StructureInfo si;
+        ushort packed;
+        ushort i;
+        CHouse h;
+
+        if (s == null) return;
+
+        si = g_table_structureInfo[s.o.type];
+        packed = Tile_PackTile(s.o.position);
+
+        for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
+        {
+            CTile t;
+            var curPacked = (ushort)(packed + g_table_structure_layoutTiles[si.layout][i]);
+
+            Animation_Stop_ByTile(curPacked);
+
+            t = g_map[curPacked];
+            t.hasStructure = false;
 
             if (g_debugScenario)
             {
-                Structure_Remove(s);
-                return;
+                t.groundTileID = (ushort)(g_mapTileID[curPacked] & 0x1FF);
+                t.overlayTileID = 0;
             }
-
-            s.o.script.variables[0] = 1;
-            s.o.flags.allocated = false;
-            s.o.flags.repairing = false;
-            s.o.script.delay = 0;
-
-            Script_Reset(s.o.script, g_scriptStructure);
-            Script_Load(s.o.script, s.o.type);
-
-            Voice_PlayAtTile(44, s.o.position);
-
-            linkedID = s.o.linkedID;
-
-            if (linkedID != 0xFF)
-            {
-                if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
-                {
-                    Structure_Destroy(Structure_Get_ByIndex(linkedID));
-                    s.o.linkedID = 0xFF;
-                }
-                else
-                {
-                    while (linkedID != 0xFF)
-                    {
-                        var u = Unit_Get_ByIndex(linkedID);
-
-                        linkedID = u.o.linkedID;
-
-                        Unit_Remove(u);
-                    }
-                }
-            }
-
-            h = House_Get_ByIndex(s.o.houseID);
-            si = g_table_structureInfo[s.o.type];
-
-            h.credits -= (ushort)((h.creditsStorage == 0) ? h.credits : Math.Min(h.credits, (h.credits * 256 / h.creditsStorage) * si.creditsStorage / 256));
-
-            if (s.o.houseID != (byte)g_playerHouseID) h.credits += (ushort)(si.o.buildCredits + (g_campaignID > 7 ? si.o.buildCredits / 2 : 0));
-
-            if (s.o.type != (byte)StructureType.STRUCTURE_WINDTRAP) return;
-
-            h.windtrapCount--;
         }
 
-        /*
-         * Remove the structure from the map, free it, and clean up after it.
-         * @param s The structure to remove.
-         */
-        internal static void Structure_Remove(CStructure s)
+        if (!g_debugScenario)
         {
-            StructureInfo si;
-            ushort packed;
-            ushort i;
-            CHouse h;
+            Animation_Start(g_table_animation_structure[0], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
+        }
 
-            if (s == null) return;
+        h = House_Get_ByIndex(s.o.houseID);
 
-            si = g_table_structureInfo[s.o.type];
-            packed = Tile_PackTile(s.o.position);
+        for (i = 0; i < 5; i++)
+        {
+            if (h.ai_structureRebuild[i][0] != 0) continue;
+            h.ai_structureRebuild[i][0] = s.o.type;
+            h.ai_structureRebuild[i][1] = packed;
+            break;
+        }
 
-            for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
-            {
-                CTile t;
-                var curPacked = (ushort)(packed + g_table_structure_layoutTiles[si.layout][i]);
+        Structure_Free(s);
+        Structure_UntargetMe(s);
 
-                Animation_Stop_ByTile(curPacked);
+        h.structuresBuilt = Structure_GetStructuresBuilt(h);
 
-                t = g_map[curPacked];
-                t.hasStructure = false;
+        House_UpdateCreditsStorage(s.o.houseID);
 
-                if (g_debugScenario)
-                {
-                    t.groundTileID = (ushort)(g_mapTileID[curPacked] & 0x1FF);
-                    t.overlayTileID = 0;
-                }
-            }
+        if (g_debugScenario) return;
 
-            if (!g_debugScenario)
-            {
-                Animation_Start(g_table_animation_structure[0], s.o.position, si.layout, s.o.houseID, (byte)si.iconGroup);
-            }
-
-            h = House_Get_ByIndex(s.o.houseID);
-
-            for (i = 0; i < 5; i++)
-            {
-                if (h.ai_structureRebuild[i][0] != 0) continue;
-                h.ai_structureRebuild[i][0] = s.o.type;
-                h.ai_structureRebuild[i][1] = packed;
+        switch ((StructureType)s.o.type)
+        {
+            case StructureType.STRUCTURE_WINDTRAP:
+                House_CalculatePowerAndCredit(h);
                 break;
-            }
 
-            Structure_Free(s);
-            Structure_UntargetMe(s);
+            case StructureType.STRUCTURE_OUTPOST:
+                House_UpdateRadarState(h);
+                break;
 
-            h.structuresBuilt = Structure_GetStructuresBuilt(h);
-
-            House_UpdateCreditsStorage(s.o.houseID);
-
-            if (g_debugScenario) return;
-
-            switch ((StructureType)s.o.type)
-            {
-                case StructureType.STRUCTURE_WINDTRAP:
-                    House_CalculatePowerAndCredit(h);
-                    break;
-
-                case StructureType.STRUCTURE_OUTPOST:
-                    House_UpdateRadarState(h);
-                    break;
-
-                default: break;
-            }
+            default: break;
         }
+    }
 
-        /*
-         * Get a bitmask of all built structure types for the given House.
-         *
-         * @param h The house to get built structures for.
-         * @return The bitmask.
-         */
-        internal static uint Structure_GetStructuresBuilt(CHouse h)
+    /*
+     * Get a bitmask of all built structure types for the given House.
+     *
+     * @param h The house to get built structures for.
+     * @return The bitmask.
+     */
+    internal static uint Structure_GetStructuresBuilt(CHouse h)
+    {
+        var find = new PoolFindStruct();
+        uint result;
+
+        if (h == null) return 0;
+
+        result = 0;
+        find.houseID = h.index;
+        find.index = 0xFFFF;
+        find.type = 0xFFFF;
+
+        /* Recount windtraps after capture or loading old saved games. */
+        h.windtrapCount = 0;
+
+        while (true)
         {
-            var find = new PoolFindStruct();
-            uint result;
+            CStructure s;
 
-            if (h == null) return 0;
+            s = Structure_Find(find);
+            if (s == null) break;
+            if (s.o.flags.isNotOnMap) continue;
+            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            result |= (uint)(1 << s.o.type);
 
-            result = 0;
-            find.houseID = h.index;
-            find.index = 0xFFFF;
-            find.type = 0xFFFF;
-
-            /* Recount windtraps after capture or loading old saved games. */
-            h.windtrapCount = 0;
-
-            while (true)
-            {
-                CStructure s;
-
-                s = Structure_Find(find);
-                if (s == null) break;
-                if (s.o.flags.isNotOnMap) continue;
-                if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
-                result |= (uint)(1 << s.o.type);
-
-                if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP) h.windtrapCount++;
-            }
-
-            return result;
+            if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP) h.windtrapCount++;
         }
 
-        static readonly byte[] wall = {
+        return result;
+    }
+
+    static readonly byte[] wall = {
              0,  3,  1,  2,  3,  3,  4,  5,  1,  6,  1,  7,  8,  9, 10, 11,
              1, 12,  1, 19,  1, 16,  1, 31,  1, 28,  1, 52,  1, 45,  1, 59,
              3,  3, 13, 20,  3,  3, 22, 32,  3,  3, 13, 53,  3,  3, 38, 60,
@@ -744,1406 +744,1430 @@ namespace SharpDune
             57, 57, 58, 58, 59, 59, 60, 60, 61, 61, 62, 62, 63, 63, 44, 72,
             65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 73
         };
-        /*
-         * Connect walls around the given position.
-         *
-         * @param position The packed position.
-         * @param recurse Wether to recurse.
-         * @return True if and only if a change happened.
-         */
-        internal static bool Structure_ConnectWall(ushort position, bool recurse)
+    /*
+     * Connect walls around the given position.
+     *
+     * @param position The packed position.
+     * @param recurse Wether to recurse.
+     * @return True if and only if a change happened.
+     */
+    internal static bool Structure_ConnectWall(ushort position, bool recurse)
+    {
+        ushort bits = 0;
+        ushort tileID;
+        bool isDestroyedWall;
+        byte i;
+        CTile tile;
+
+        isDestroyedWall = Map_GetLandscapeType(position) == (ushort)LandscapeType.LST_DESTROYED_WALL;
+
+        for (i = 0; i < 4; i++)
         {
-            ushort bits = 0;
-            ushort tileID;
-            bool isDestroyedWall;
-            byte i;
-            CTile tile;
+            var curPos = (ushort)(position + g_table_mapDiff[i]);
 
-            isDestroyedWall = Map_GetLandscapeType(position) == (ushort)LandscapeType.LST_DESTROYED_WALL;
+            if (recurse && Map_GetLandscapeType(curPos) == (ushort)LandscapeType.LST_WALL) Structure_ConnectWall(curPos, false);
 
-            for (i = 0; i < 4; i++)
-            {
-                var curPos = (ushort)(position + g_table_mapDiff[i]);
+            if (isDestroyedWall) continue;
 
-                if (recurse && Map_GetLandscapeType(curPos) == (ushort)LandscapeType.LST_WALL) Structure_ConnectWall(curPos, false);
+            var landscapeType = (LandscapeType)Map_GetLandscapeType(curPos);
+            if (landscapeType == LandscapeType.LST_DESTROYED_WALL)
+                bits |= (ushort)(1 << (i + 4));
+            if (landscapeType == LandscapeType.LST_WALL)
+                bits |= (ushort)(1 << i);
 
-                if (isDestroyedWall) continue;
-
-                var landscapeType = (LandscapeType)Map_GetLandscapeType(curPos);
-                if (landscapeType == LandscapeType.LST_DESTROYED_WALL)
-                    bits |= (ushort)(1 << (i + 4));
-                if (landscapeType == LandscapeType.LST_WALL)
-                    bits |= (ushort)(1 << i);
-
-                //switch (Map_GetLandscapeType(curPos)) {
-                //    case LST_DESTROYED_WALL: bits |= (1 << (i + 4));
-                //        /* FALL-THROUGH */
-                //    case LST_WALL: bits |= (1 << i);
-                //        /* FALL-THROUGH */
-                //    default:  break;
-                //}
-            }
-
-            if (isDestroyedWall) return false;
-
-            tileID = (ushort)(g_wallTileID + wall[bits] + 1);
-
-            tile = g_map[position];
-            if (tile.groundTileID == tileID) return false;
-
-            tile.groundTileID = tileID;
-            g_mapTileID[position] |= 0x8000;
-            Map_Update(position, 0, false);
-
-            return true;
+            //switch (Map_GetLandscapeType(curPos)) {
+            //    case LST_DESTROYED_WALL: bits |= (1 << (i + 4));
+            //        /* FALL-THROUGH */
+            //    case LST_WALL: bits |= (1 << i);
+            //        /* FALL-THROUGH */
+            //    default:  break;
+            //}
         }
 
-        /*
-         * Convert the name of a structure to the type value of that structure, or
-         *  STRUCTURE_INVALID if not found.
-         */
-        internal static byte Structure_StringToType(string name)
+        if (isDestroyedWall) return false;
+
+        tileID = (ushort)(g_wallTileID + wall[bits] + 1);
+
+        tile = g_map[position];
+        if (tile.groundTileID == tileID) return false;
+
+        tile.groundTileID = tileID;
+        g_mapTileID[position] |= 0x8000;
+        Map_Update(position, 0, false);
+
+        return true;
+    }
+
+    /*
+     * Convert the name of a structure to the type value of that structure, or
+     *  STRUCTURE_INVALID if not found.
+     */
+    internal static byte Structure_StringToType(string name)
+    {
+        byte type;
+        if (name == null) return (byte)StructureType.STRUCTURE_INVALID;
+
+        for (type = 0; type < (byte)StructureType.STRUCTURE_MAX; type++)
         {
-            byte type;
-            if (name == null) return (byte)StructureType.STRUCTURE_INVALID;
-
-            for (type = 0; type < (byte)StructureType.STRUCTURE_MAX; type++)
-            {
-                if (string.Equals(g_table_structureInfo[type].o.name, name, StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(g_table_structureInfo[type].o.name, name) == 0)
-                    return type;
-            }
-
-            return (byte)StructureType.STRUCTURE_INVALID;
+            if (string.Equals(g_table_structureInfo[type].o.name, name, StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(g_table_structureInfo[type].o.name, name) == 0)
+                return type;
         }
 
-        /*
-         * Remove the fog around a structure.
-         *
-         * @param s The Structure.
-         */
-        internal static void Structure_RemoveFog(CStructure s)
+        return (byte)StructureType.STRUCTURE_INVALID;
+    }
+
+    /*
+     * Remove the fog around a structure.
+     *
+     * @param s The Structure.
+     */
+    internal static void Structure_RemoveFog(CStructure s)
+    {
+        StructureInfo si;
+        Tile32 position;
+
+        if (s == null || s.o.houseID != (byte)g_playerHouseID) return;
+
+        si = g_table_structureInfo[s.o.type];
+
+        position = s.o.position;
+
+        /* ENHANCEMENT -- Fog is removed around the top left corner instead of the center of a structure. */
+        if (g_dune2_enhanced)
+        {
+            position.x += (ushort)(256 * (g_table_structure_layoutSize[si.layout].width - 1) / 2);
+            position.y += (ushort)(256 * (g_table_structure_layoutSize[si.layout].height - 1) / 2);
+        }
+
+        Tile_RemoveFogInRadius(position, si.o.fogUncoverRadius);
+    }
+
+    /*
+     * Loop over all structures, preforming various of tasks.
+     */
+    internal static void GameLoop_Structure()
+    {
+        var find = new PoolFindStruct();
+        var tickDegrade = false;
+        var tickStructure = false;
+        var tickScript = false;
+        var tickPalace = false;
+
+        if (s_tickStructureDegrade <= g_timerGame && g_campaignID > 1)
+        {
+            tickDegrade = true;
+            s_tickStructureDegrade = g_timerGame + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
+        }
+
+        if (s_tickStructureStructure <= g_timerGame || s_debugInstantBuild)
+        {
+            tickStructure = true;
+            s_tickStructureStructure = g_timerGame + Tools_AdjustToGameSpeed(30, 15, 60, true);
+        }
+
+        if (s_tickStructureScript <= g_timerGame)
+        {
+            tickScript = true;
+            s_tickStructureScript = g_timerGame + 5;
+        }
+
+        if (s_tickStructurePalace <= g_timerGame)
+        {
+            tickPalace = true;
+            s_tickStructurePalace = g_timerGame + 60;
+        }
+
+        find.houseID = (byte)HouseType.HOUSE_INVALID;
+        find.index = 0xFFFF;
+        find.type = 0xFFFF;
+
+        if (g_debugScenario) return;
+
+        while (true)
         {
             StructureInfo si;
-            Tile32 position;
+            HouseInfo hi;
+            CStructure s;
+            CHouse h;
 
-            if (s == null || s.o.houseID != (byte)g_playerHouseID) return;
+            s = Structure_Find(find);
+            if (s == null) break;
+            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
             si = g_table_structureInfo[s.o.type];
+            h = House_Get_ByIndex(s.o.houseID);
+            hi = g_table_houseInfo[h.index];
 
-            position = s.o.position;
+            g_scriptCurrentObject = s.o;
+            g_scriptCurrentStructure = s;
+            g_scriptCurrentUnit = null;
+            g_scriptCurrentTeam = null;
 
-            /* ENHANCEMENT -- Fog is removed around the top left corner instead of the center of a structure. */
-            if (g_dune2_enhanced)
+            if (tickPalace && s.o.type == (byte)StructureType.STRUCTURE_PALACE)
             {
-                position.x += (ushort)(256 * (g_table_structure_layoutSize[si.layout].width - 1) / 2);
-                position.y += (ushort)(256 * (g_table_structure_layoutSize[si.layout].height - 1) / 2);
-            }
-
-            Tile_RemoveFogInRadius(position, si.o.fogUncoverRadius);
-        }
-
-        /*
-         * Loop over all structures, preforming various of tasks.
-         */
-        internal static void GameLoop_Structure()
-        {
-            var find = new PoolFindStruct();
-            var tickDegrade = false;
-            var tickStructure = false;
-            var tickScript = false;
-            var tickPalace = false;
-
-            if (s_tickStructureDegrade <= g_timerGame && g_campaignID > 1)
-            {
-                tickDegrade = true;
-                s_tickStructureDegrade = g_timerGame + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
-            }
-
-            if (s_tickStructureStructure <= g_timerGame || s_debugInstantBuild)
-            {
-                tickStructure = true;
-                s_tickStructureStructure = g_timerGame + Tools_AdjustToGameSpeed(30, 15, 60, true);
-            }
-
-            if (s_tickStructureScript <= g_timerGame)
-            {
-                tickScript = true;
-                s_tickStructureScript = g_timerGame + 5;
-            }
-
-            if (s_tickStructurePalace <= g_timerGame)
-            {
-                tickPalace = true;
-                s_tickStructurePalace = g_timerGame + 60;
-            }
-
-            find.houseID = (byte)HouseType.HOUSE_INVALID;
-            find.index = 0xFFFF;
-            find.type = 0xFFFF;
-
-            if (g_debugScenario) return;
-
-            while (true)
-            {
-                StructureInfo si;
-                HouseInfo hi;
-                CStructure s;
-                CHouse h;
-
-                s = Structure_Find(find);
-                if (s == null) break;
-                if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
-
-                si = g_table_structureInfo[s.o.type];
-                h = House_Get_ByIndex(s.o.houseID);
-                hi = g_table_houseInfo[h.index];
-
-                g_scriptCurrentObject = s.o;
-                g_scriptCurrentStructure = s;
-                g_scriptCurrentUnit = null;
-                g_scriptCurrentTeam = null;
-
-                if (tickPalace && s.o.type == (byte)StructureType.STRUCTURE_PALACE)
+                if (s.countDown != 0)
                 {
-                    if (s.countDown != 0)
-                    {
-                        s.countDown--;
+                    s.countDown--;
 
-                        if (s.o.houseID == (byte)g_playerHouseID)
-                        {
-                            GUI_Widget_ActionPanel_Draw(true);
-                        }
-                    }
-
-                    /* Check if we have to fire the weapon for the AI immediately */
-                    if (s.countDown == 0 && !h.flags.human && h.flags.isAIActive)
+                    if (s.o.houseID == (byte)g_playerHouseID)
                     {
-                        Structure_ActivateSpecial(s);
+                        GUI_Widget_ActionPanel_Draw(true);
                     }
                 }
 
-                if (tickDegrade && s.o.flags.degrades && s.o.hitpoints > si.o.hitpoints / 2)
+                /* Check if we have to fire the weapon for the AI immediately */
+                if (s.countDown == 0 && !h.flags.human && h.flags.isAIActive)
                 {
-                    Structure_Damage(s, hi.degradingAmount, 0);
+                    Structure_ActivateSpecial(s);
                 }
+            }
 
-                if (tickStructure)
+            if (tickDegrade && s.o.flags.degrades && s.o.hitpoints > si.o.hitpoints / 2)
+            {
+                Structure_Damage(s, hi.degradingAmount, 0);
+            }
+
+            if (tickStructure)
+            {
+                if (s.o.flags.upgrading)
                 {
-                    if (s.o.flags.upgrading)
+                    var upgradeCost = (ushort)(si.o.buildCredits / 40);
+
+                    if (upgradeCost <= h.credits)
                     {
-                        var upgradeCost = (ushort)(si.o.buildCredits / 40);
+                        h.credits -= upgradeCost;
 
-                        if (upgradeCost <= h.credits)
+                        if (s.upgradeTimeLeft > 5)
                         {
-                            h.credits -= upgradeCost;
-
-                            if (s.upgradeTimeLeft > 5)
-                            {
-                                s.upgradeTimeLeft -= 5;
-                            }
-                            else
-                            {
-                                s.upgradeLevel++;
-                                s.o.flags.upgrading = false;
-
-                                /* Ordos Heavy Vehicle gets the last upgrade for free */
-                                if (s.o.houseID == (byte)HouseType.HOUSE_ORDOS && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE && s.upgradeLevel == 2) s.upgradeLevel = 3;
-
-                                s.upgradeTimeLeft = (byte)(Structure_IsUpgradable(s) ? 100 : 0);
-                            }
+                            s.upgradeTimeLeft -= 5;
                         }
                         else
                         {
+                            s.upgradeLevel++;
                             s.o.flags.upgrading = false;
-                        }
-                    }
-                    else if (s.o.flags.repairing)
-                    {
-                        ushort repairCost;
 
-                        /* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
-                        if (g_dune2_enhanced)
-                        {
-                            repairCost = (ushort)(si.o.buildCredits * 2 / si.o.hitpoints);
-                        }
-                        else
-                        {
-                            repairCost = (ushort)(((2 * 256 / si.o.hitpoints) * si.o.buildCredits + 128) / 256);
-                        }
+                            /* Ordos Heavy Vehicle gets the last upgrade for free */
+                            if (s.o.houseID == (byte)HouseType.HOUSE_ORDOS && s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE && s.upgradeLevel == 2) s.upgradeLevel = 3;
 
-                        if (repairCost <= h.credits)
-                        {
-                            h.credits -= repairCost;
-
-                            /* AIs repair in early games slower than in later games */
-                            if (s.o.houseID == (byte)g_playerHouseID || g_campaignID >= 3)
-                            {
-                                s.o.hitpoints += 5;
-                            }
-                            else
-                            {
-                                s.o.hitpoints += 3;
-                            }
-
-                            if (s.o.hitpoints > si.o.hitpoints)
-                            {
-                                s.o.hitpoints = si.o.hitpoints;
-                                s.o.flags.repairing = false;
-                                s.o.flags.onHold = false;
-                            }
-                        }
-                        else
-                        {
-                            s.o.flags.repairing = false;
+                            s.upgradeTimeLeft = (byte)(Structure_IsUpgradable(s) ? 100 : 0);
                         }
                     }
                     else
                     {
-                        if (!s.o.flags.onHold && s.countDown != 0 && s.o.linkedID != 0xFF && s.state == (short)StructureState.STRUCTURE_STATE_BUSY && si.o.flags.factory)
-                        {
-                            ObjectInfo oi;
-                            ushort buildSpeed;
-                            ushort buildCost;
+                        s.o.flags.upgrading = false;
+                    }
+                }
+                else if (s.o.flags.repairing)
+                {
+                    ushort repairCost;
 
-                            if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+                    /* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
+                    if (g_dune2_enhanced)
+                    {
+                        repairCost = (ushort)(si.o.buildCredits * 2 / si.o.hitpoints);
+                    }
+                    else
+                    {
+                        repairCost = (ushort)(((2 * 256 / si.o.hitpoints) * si.o.buildCredits + 128) / 256);
+                    }
+
+                    if (repairCost <= h.credits)
+                    {
+                        h.credits -= repairCost;
+
+                        /* AIs repair in early games slower than in later games */
+                        if (s.o.houseID == (byte)g_playerHouseID || g_campaignID >= 3)
+                        {
+                            s.o.hitpoints += 5;
+                        }
+                        else
+                        {
+                            s.o.hitpoints += 3;
+                        }
+
+                        if (s.o.hitpoints > si.o.hitpoints)
+                        {
+                            s.o.hitpoints = si.o.hitpoints;
+                            s.o.flags.repairing = false;
+                            s.o.flags.onHold = false;
+                        }
+                    }
+                    else
+                    {
+                        s.o.flags.repairing = false;
+                    }
+                }
+                else
+                {
+                    if (!s.o.flags.onHold && s.countDown != 0 && s.o.linkedID != 0xFF && s.state == (short)StructureState.STRUCTURE_STATE_BUSY && si.o.flags.factory)
+                    {
+                        ObjectInfo oi;
+                        ushort buildSpeed;
+                        ushort buildCost;
+
+                        if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+                        {
+                            oi = g_table_structureInfo[s.objectType].o;
+                        }
+                        else if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
+                        {
+                            oi = g_table_unitInfo[Unit_Get_ByIndex(s.o.linkedID).o.type].o;
+                        }
+                        else
+                        {
+                            oi = g_table_unitInfo[s.objectType].o;
+                        }
+
+                        buildSpeed = 256;
+                        if (s.o.hitpoints < si.o.hitpoints)
+                        {
+                            buildSpeed = (ushort)(s.o.hitpoints * 256 / si.o.hitpoints);
+                        }
+
+                        /* For AIs, we slow down building speed in all but the last campaign */
+                        if ((byte)g_playerHouseID != s.o.houseID)
+                        {
+                            if (buildSpeed > g_campaignID * 20 + 95) buildSpeed = (ushort)(g_campaignID * 20 + 95);
+                        }
+
+                        buildCost = (ushort)(oi.buildCredits * 256 / oi.buildTime);
+
+                        if (buildSpeed < 256)
+                        {
+                            buildCost = (ushort)(buildSpeed * buildCost / 256);
+                        }
+
+                        if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR && buildCost > 4)
+                        {
+                            buildCost /= 4;
+                        }
+
+                        buildCost += s.buildCostRemainder;
+
+                        if (buildCost / 256 <= h.credits)
+                        {
+                            s.buildCostRemainder = (ushort)(buildCost & 0xFF);
+                            h.credits -= (ushort)(buildCost / 256);
+
+                            if (buildSpeed < s.countDown)
                             {
-                                oi = g_table_structureInfo[s.objectType].o;
-                            }
-                            else if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
-                            {
-                                oi = g_table_unitInfo[Unit_Get_ByIndex(s.o.linkedID).o.type].o;
+                                s.countDown -= buildSpeed;
                             }
                             else
                             {
-                                oi = g_table_unitInfo[s.objectType].o;
-                            }
+                                s.countDown = 0;
+                                s.buildCostRemainder = 0;
 
-                            buildSpeed = 256;
+                                Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
+
+                                if (s.o.houseID == (byte)g_playerHouseID)
+                                {
+                                    if (s.o.type != (byte)StructureType.STRUCTURE_BARRACKS && s.o.type != (byte)StructureType.STRUCTURE_WOR_TROOPER)
+                                    {
+                                        var stringID = (ushort)Text.STR_IS_COMPLETED_AND_AWAITING_ORDERS;
+                                        if (s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) stringID = (ushort)Text.STR_IS_COMPLETE;
+                                        if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) stringID = (ushort)Text.STR_IS_COMPLETED_AND_READY_TO_PLACE;
+
+                                        GUI_DisplayText("{0} {1}", 0, String_Get_ByIndex(oi.stringID_full), String_Get_ByIndex(stringID));
+
+                                        Sound_Output_Feedback(0);
+                                    }
+                                }
+                                else if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+                                {
+                                    /* An AI immediately places the structure when it is done building */
+                                    CStructure ns;
+                                    byte i;
+
+                                    ns = Structure_Get_ByIndex(s.o.linkedID);
+                                    s.o.linkedID = 0xFF;
+
+                                    /* The AI places structures which are operational immediately */
+                                    Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_IDLE);
+
+                                    /* Find the position to place the structure */
+                                    for (i = 0; i < 5; i++)
+                                    {
+                                        if (ns.o.type != h.ai_structureRebuild[i][0]) continue;
+
+                                        if (!Structure_Place(ns, h.ai_structureRebuild[i][1])) continue;
+
+                                        h.ai_structureRebuild[i][0] = 0;
+                                        h.ai_structureRebuild[i][1] = 0;
+                                        break;
+                                    }
+
+                                    /* If the AI no longer had in memory where to store the structure, free it and forget about it */
+                                    if (i == 5)
+                                    {
+                                        var nsi = g_table_structureInfo[ns.o.type];
+
+                                        h.credits += nsi.o.buildCredits;
+
+                                        Structure_Free(ns);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            /* Out of money means the building gets put on hold */
+                            if (s.o.houseID == (byte)g_playerHouseID)
+                            {
+                                s.o.flags.onHold = true;
+                                GUI_DisplayText(String_Get_ByIndex(Text.STR_INSUFFICIENT_FUNDS_CONSTRUCTION_IS_HALTED), 0);
+                            }
+                        }
+                    }
+
+                    if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
+                    {
+                        if (!s.o.flags.onHold && s.countDown != 0 && s.o.linkedID != 0xFF)
+                        {
+                            UnitInfo ui;
+                            ushort repairSpeed;
+                            ushort repairCost;
+
+                            ui = g_table_unitInfo[Unit_Get_ByIndex(s.o.linkedID).o.type];
+
+                            repairSpeed = 256;
                             if (s.o.hitpoints < si.o.hitpoints)
                             {
-                                buildSpeed = (ushort)(s.o.hitpoints * 256 / si.o.hitpoints);
+                                repairSpeed = (ushort)(s.o.hitpoints * 256 / si.o.hitpoints);
                             }
 
-                            /* For AIs, we slow down building speed in all but the last campaign */
-                            if ((byte)g_playerHouseID != s.o.houseID)
+                            /* XXX -- This is highly unfair. Repairing becomes more expensive if your structure is more damaged */
+                            repairCost = (ushort)(2 * ui.o.buildCredits / 256);
+
+                            if (repairCost < h.credits)
                             {
-                                if (buildSpeed > g_campaignID * 20 + 95) buildSpeed = (ushort)(g_campaignID * 20 + 95);
-                            }
+                                h.credits -= repairCost;
 
-                            buildCost = (ushort)(oi.buildCredits * 256 / oi.buildTime);
-
-                            if (buildSpeed < 256)
-                            {
-                                buildCost = (ushort)(buildSpeed * buildCost / 256);
-                            }
-
-                            if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR && buildCost > 4)
-                            {
-                                buildCost /= 4;
-                            }
-
-                            buildCost += s.buildCostRemainder;
-
-                            if (buildCost / 256 <= h.credits)
-                            {
-                                s.buildCostRemainder = (ushort)(buildCost & 0xFF);
-                                h.credits -= (ushort)(buildCost / 256);
-
-                                if (buildSpeed < s.countDown)
+                                if (repairSpeed < s.countDown)
                                 {
-                                    s.countDown -= buildSpeed;
+                                    s.countDown -= repairSpeed;
                                 }
                                 else
                                 {
                                     s.countDown = 0;
-                                    s.buildCostRemainder = 0;
 
                                     Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
 
-                                    if (s.o.houseID == (byte)g_playerHouseID)
-                                    {
-                                        if (s.o.type != (byte)StructureType.STRUCTURE_BARRACKS && s.o.type != (byte)StructureType.STRUCTURE_WOR_TROOPER)
-                                        {
-                                            var stringID = (ushort)Text.STR_IS_COMPLETED_AND_AWAITING_ORDERS;
-                                            if (s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) stringID = (ushort)Text.STR_IS_COMPLETE;
-                                            if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD) stringID = (ushort)Text.STR_IS_COMPLETED_AND_READY_TO_PLACE;
-
-                                            GUI_DisplayText("{0} {1}", 0, String_Get_ByIndex(oi.stringID_full), String_Get_ByIndex(stringID));
-
-                                            Sound_Output_Feedback(0);
-                                        }
-                                    }
-                                    else if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
-                                    {
-                                        /* An AI immediately places the structure when it is done building */
-                                        CStructure ns;
-                                        byte i;
-
-                                        ns = Structure_Get_ByIndex(s.o.linkedID);
-                                        s.o.linkedID = 0xFF;
-
-                                        /* The AI places structures which are operational immediately */
-                                        Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_IDLE);
-
-                                        /* Find the position to place the structure */
-                                        for (i = 0; i < 5; i++)
-                                        {
-                                            if (ns.o.type != h.ai_structureRebuild[i][0]) continue;
-
-                                            if (!Structure_Place(ns, h.ai_structureRebuild[i][1])) continue;
-
-                                            h.ai_structureRebuild[i][0] = 0;
-                                            h.ai_structureRebuild[i][1] = 0;
-                                            break;
-                                        }
-
-                                        /* If the AI no longer had in memory where to store the structure, free it and forget about it */
-                                        if (i == 5)
-                                        {
-                                            var nsi = g_table_structureInfo[ns.o.type];
-
-                                            h.credits += nsi.o.buildCredits;
-
-                                            Structure_Free(ns);
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                /* Out of money means the building gets put on hold */
-                                if (s.o.houseID == (byte)g_playerHouseID)
-                                {
-                                    s.o.flags.onHold = true;
-                                    GUI_DisplayText(String_Get_ByIndex(Text.STR_INSUFFICIENT_FUNDS_CONSTRUCTION_IS_HALTED), 0);
+                                    if (s.o.houseID == (byte)g_playerHouseID) Sound_Output_Feedback((ushort)(g_playerHouseID + 55));
                                 }
                             }
                         }
-
-                        if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
+                        else if (h.credits != 0)
                         {
-                            if (!s.o.flags.onHold && s.countDown != 0 && s.o.linkedID != 0xFF)
-                            {
-                                UnitInfo ui;
-                                ushort repairSpeed;
-                                ushort repairCost;
+                            /* Automaticly resume repairing when there is money again */
+                            s.o.flags.onHold = false;
+                        }
+                    }
 
-                                ui = g_table_unitInfo[Unit_Get_ByIndex(s.o.linkedID).o.type];
-
-                                repairSpeed = 256;
-                                if (s.o.hitpoints < si.o.hitpoints)
-                                {
-                                    repairSpeed = (ushort)(s.o.hitpoints * 256 / si.o.hitpoints);
-                                }
-
-                                /* XXX -- This is highly unfair. Repairing becomes more expensive if your structure is more damaged */
-                                repairCost = (ushort)(2 * ui.o.buildCredits / 256);
-
-                                if (repairCost < h.credits)
-                                {
-                                    h.credits -= repairCost;
-
-                                    if (repairSpeed < s.countDown)
-                                    {
-                                        s.countDown -= repairSpeed;
-                                    }
-                                    else
-                                    {
-                                        s.countDown = 0;
-
-                                        Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_READY);
-
-                                        if (s.o.houseID == (byte)g_playerHouseID) Sound_Output_Feedback((ushort)(g_playerHouseID + 55));
-                                    }
-                                }
-                            }
-                            else if (h.credits != 0)
-                            {
-                                /* Automaticly resume repairing when there is money again */
-                                s.o.flags.onHold = false;
-                            }
+                    /* AI maintenance on structures */
+                    if (h.flags.isAIActive && s.o.flags.allocated && s.o.houseID != (byte)g_playerHouseID && h.credits != 0)
+                    {
+                        /* When structure is below 50% hitpoints, start repairing */
+                        if (s.o.hitpoints < si.o.hitpoints / 2)
+                        {
+                            Structure_SetRepairingState(s, 1, null);
                         }
 
-                        /* AI maintenance on structures */
-                        if (h.flags.isAIActive && s.o.flags.allocated && s.o.houseID != (byte)g_playerHouseID && h.credits != 0)
+                        /* If the structure is not doing something, but can build stuff, see if there is stuff to build */
+                        if (si.o.flags.factory && s.countDown == 0 && s.o.linkedID == 0xFF)
                         {
-                            /* When structure is below 50% hitpoints, start repairing */
-                            if (s.o.hitpoints < si.o.hitpoints / 2)
-                            {
-                                Structure_SetRepairingState(s, 1, null);
-                            }
+                            var type = Structure_AI_PickNextToBuild(s);
 
-                            /* If the structure is not doing something, but can build stuff, see if there is stuff to build */
-                            if (si.o.flags.factory && s.countDown == 0 && s.o.linkedID == 0xFF)
-                            {
-                                var type = Structure_AI_PickNextToBuild(s);
-
-                                if (type != 0xFFFF) Structure_BuildObject(s, type);
-                            }
+                            if (type != 0xFFFF) Structure_BuildObject(s, type);
                         }
                     }
                 }
+            }
 
-                if (tickScript)
+            if (tickScript)
+            {
+                if (s.o.script.delay != 0)
                 {
-                    if (s.o.script.delay != 0)
+                    s.o.script.delay--;
+                }
+                else
+                {
+                    if (Script_IsLoaded(s.o.script))
                     {
-                        s.o.script.delay--;
+                        byte i;
+
+                        /* Run the script 3 times in a row */
+                        for (i = 0; i < 3; i++)
+                        {
+                            if (!Script_Run(s.o.script)) break;
+                        }
+
+                        /* ENHANCEMENT -- Dune2 aborts all other structures if one gives a script error. This doesn't seem correct */
+                        if (!g_dune2_enhanced && i != 3) return;
                     }
                     else
                     {
-                        if (Script_IsLoaded(s.o.script))
-                        {
-                            byte i;
-
-                            /* Run the script 3 times in a row */
-                            for (i = 0; i < 3; i++)
-                            {
-                                if (!Script_Run(s.o.script)) break;
-                            }
-
-                            /* ENHANCEMENT -- Dune2 aborts all other structures if one gives a script error. This doesn't seem correct */
-                            if (!g_dune2_enhanced && i != 3) return;
-                        }
-                        else
-                        {
-                            Script_Reset(s.o.script, s.o.script.scriptInfo);
-                            Script_Load(s.o.script, s.o.type);
-                        }
+                        Script_Reset(s.o.script, s.o.script.scriptInfo);
+                        Script_Load(s.o.script, s.o.type);
                     }
                 }
             }
         }
+    }
 
-        /*
-         * Calculate the power usage and production, and the credits storage.
-         *
-         * @param h The house to calculate the numbers for.
-         */
-        internal static void Structure_CalculateHitpointsMax(CHouse h)
+    /*
+     * Calculate the power usage and production, and the credits storage.
+     *
+     * @param h The house to calculate the numbers for.
+     */
+    internal static void Structure_CalculateHitpointsMax(CHouse h)
+    {
+        var find = new PoolFindStruct();
+        ushort power = 0;
+
+        if (h == null) return;
+
+        if (h.index == (byte)g_playerHouseID) House_UpdateRadarState(h);
+
+        if (h.powerUsage == 0)
         {
-            var find = new PoolFindStruct();
-            ushort power = 0;
+            power = 256;
+        }
+        else
+        {
+            power = (ushort)Math.Min(h.powerProduction * 256 / h.powerUsage, 256);
+        }
 
-            if (h == null) return;
+        find.houseID = h.index;
+        find.index = 0xFFFF;
+        find.type = 0xFFFF;
 
-            if (h.index == (byte)g_playerHouseID) House_UpdateRadarState(h);
+        while (true)
+        {
+            StructureInfo si;
+            CStructure s;
 
-            if (h.powerUsage == 0)
+            s = Structure_Find(find);
+            if (s == null) return;
+            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+
+            si = g_table_structureInfo[s.o.type];
+
+            s.hitpointsMax = (ushort)(si.o.hitpoints * power / 256);
+            s.hitpointsMax = (ushort)Math.Max(s.hitpointsMax, si.o.hitpoints / 2);
+
+            if (s.hitpointsMax >= s.o.hitpoints) continue;
+            Structure_Damage(s, 1, 0);
+        }
+    }
+
+    /*
+     * Find a free spot for units next to a structure.
+     * @param s Structure that needs a free spot.
+     * @param checkForSpice Spot should be as close to spice as possible.
+     * @return Position of the free spot, or \c 0 if no free spot available.
+     */
+    internal static ushort Structure_FindFreePosition(CStructure s, bool checkForSpice)
+    {
+        StructureInfo si;
+        ushort packed;
+        ushort spicePacked;  /* Position of the spice, or 0 if not used or if no spice. */
+        ushort bestPacked;
+        ushort bestDistance; /* If > 0, distance to the spice from bestPacked. */
+        ushort i, j;
+
+        if (s == null) return 0;
+
+        si = g_table_structureInfo[s.o.type];
+        packed = Tile_PackTile(Tile_Center(s.o.position));
+
+        spicePacked = (ushort)(checkForSpice ? Map_SearchSpice(packed, 10) : 0);
+        bestPacked = 0;
+        bestDistance = 0;
+
+        i = (ushort)(Tools_Random_256() & 0xF);
+        for (j = 0; j < 16; j++, i = (ushort)((i + 1) & 0xF))
+        {
+            ushort offset;
+            ushort curPacked;
+            ushort type;
+            CTile t;
+
+            offset = (ushort)g_table_structure_layoutTilesAround[si.layout][i];
+            if (offset == 0) continue;
+
+            curPacked = (ushort)(packed + offset);
+            if (!Map_IsValidPosition(curPacked)) continue;
+
+            type = Map_GetLandscapeType(curPacked);
+            if (type == (ushort)LandscapeType.LST_WALL || type == (ushort)LandscapeType.LST_ENTIRELY_MOUNTAIN || type == (ushort)LandscapeType.LST_PARTIAL_MOUNTAIN) continue;
+
+            t = g_map[curPacked];
+            if (t.hasUnit || t.hasStructure) continue;
+
+            if (!checkForSpice) return curPacked;
+
+            if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, spicePacked) < bestDistance)
             {
-                power = 256;
+                bestPacked = curPacked;
+                bestDistance = Tile_GetDistancePacked(curPacked, spicePacked);
             }
-            else
+        }
+
+        return bestPacked;
+    }
+
+    /*
+     * Sets or toggle the repairing state of the given Structure.
+     *
+     * @param s The Structure.
+     * @param value The repairing state, -1 to toggle.
+     * @param w The widget.
+     * @return True if and only if the state changed.
+     */
+    internal static bool Structure_SetRepairingState(CStructure s, sbyte state, CWidget w)
+    {
+        var ret = false;
+
+        if (s == null) return false;
+
+        /* ENHANCEMENT -- If a structure gets damaged during upgrading, pressing the "Upgrading" button silently starts the repair of the structure, and doesn't cancel upgrading. */
+        if (g_dune2_enhanced && s.o.flags.upgrading) return false;
+
+        if (!s.o.flags.allocated) state = 0;
+
+        if (state == -1) state = (sbyte)(s.o.flags.repairing ? 0 : 1);
+
+        if (state == 0 && s.o.flags.repairing)
+        {
+            if (s.o.houseID == (byte)g_playerHouseID)
             {
-                power = (ushort)Math.Min(h.powerProduction * 256 / h.powerUsage, 256);
+                GUI_DisplayText(String_Get_ByIndex(Text.STR_REPAIRING_STOPS), 2);
             }
 
-            find.houseID = h.index;
+            s.o.flags.repairing = false;
+            s.o.flags.onHold = false;
+
+            GUI_Widget_MakeNormal(w, false);
+
+            ret = true;
+        }
+
+        if (state == 0 || s.o.flags.repairing || s.o.hitpoints == g_table_structureInfo[s.o.type].o.hitpoints) return ret;
+
+        if (s.o.houseID == (byte)g_playerHouseID)
+        {
+            GUI_DisplayText(String_Get_ByIndex(Text.STR_REPAIRING_STARTS), 2);
+        }
+
+        s.o.flags.onHold = true;
+        s.o.flags.repairing = true;
+
+        GUI_Widget_MakeSelected(w, false);
+
+        return true;
+    }
+
+    /*
+     * Find the next object to build.
+     * @param s The structure in which we can build something.
+     * @return The type (either UnitType or StructureType) of what we should build next.
+     */
+    static ushort Structure_AI_PickNextToBuild(CStructure s)
+    {
+        var find = new PoolFindStruct();
+        /*ushort*/
+        int buildable;
+        ushort type;
+        CHouse h;
+        int i;
+
+        if (s == null) return 0xFFFF;
+
+        h = House_Get_ByIndex(s.o.houseID);
+        buildable = (int)Structure_GetBuildable(s);
+
+        if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+        {
+            for (i = 0; i < 5; i++)
+            {
+                type = h.ai_structureRebuild[i][0];
+
+                if (type == 0) continue;
+                if ((buildable & (1 << type)) == 0) continue;
+
+                return type;
+            }
+
+            return 0xFFFF;
+        }
+
+        if (s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH)
+        {
+            find.houseID = s.o.houseID;
             find.index = 0xFFFF;
-            find.type = 0xFFFF;
+            find.type = (ushort)UnitType.UNIT_CARRYALL;
 
             while (true)
             {
-                StructureInfo si;
-                CStructure s;
+                CUnit u;
 
-                s = Structure_Find(find);
-                if (s == null) return;
-                if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+                u = Unit_Find(find);
+                if (u == null) break;
 
-                si = g_table_structureInfo[s.o.type];
-
-                s.hitpointsMax = (ushort)(si.o.hitpoints * power / 256);
-                s.hitpointsMax = (ushort)Math.Max(s.hitpointsMax, si.o.hitpoints / 2);
-
-                if (s.hitpointsMax >= s.o.hitpoints) continue;
-                Structure_Damage(s, 1, 0);
+                buildable &= (int)~UnitFlag.FLAG_UNIT_CARRYALL;
             }
         }
 
-        /*
-         * Find a free spot for units next to a structure.
-         * @param s Structure that needs a free spot.
-         * @param checkForSpice Spot should be as close to spice as possible.
-         * @return Position of the free spot, or \c 0 if no free spot available.
-         */
-        internal static ushort Structure_FindFreePosition(CStructure s, bool checkForSpice)
+        if (s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE)
         {
-            StructureInfo si;
-            ushort packed;
-            ushort spicePacked;  /* Position of the spice, or 0 if not used or if no spice. */
-            ushort bestPacked;
-            ushort bestDistance; /* If > 0, distance to the spice from bestPacked. */
-            ushort i, j;
-
-            if (s == null) return 0;
-
-            si = g_table_structureInfo[s.o.type];
-            packed = Tile_PackTile(Tile_Center(s.o.position));
-
-            spicePacked = (ushort)(checkForSpice ? Map_SearchSpice(packed, 10) : 0);
-            bestPacked = 0;
-            bestDistance = 0;
-
-            i = (ushort)(Tools_Random_256() & 0xF);
-            for (j = 0; j < 16; j++, i = (ushort)((i + 1) & 0xF))
-            {
-                ushort offset;
-                ushort curPacked;
-                ushort type;
-                CTile t;
-
-                offset = (ushort)g_table_structure_layoutTilesAround[si.layout][i];
-                if (offset == 0) continue;
-
-                curPacked = (ushort)(packed + offset);
-                if (!Map_IsValidPosition(curPacked)) continue;
-
-                type = Map_GetLandscapeType(curPacked);
-                if (type == (ushort)LandscapeType.LST_WALL || type == (ushort)LandscapeType.LST_ENTIRELY_MOUNTAIN || type == (ushort)LandscapeType.LST_PARTIAL_MOUNTAIN) continue;
-
-                t = g_map[curPacked];
-                if (t.hasUnit || t.hasStructure) continue;
-
-                if (!checkForSpice) return curPacked;
-
-                if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, spicePacked) < bestDistance)
-                {
-                    bestPacked = curPacked;
-                    bestDistance = Tile_GetDistancePacked(curPacked, spicePacked);
-                }
-            }
-
-            return bestPacked;
+            buildable &= (int)~UnitFlag.FLAG_UNIT_HARVESTER;
+            buildable &= (int)~UnitFlag.FLAG_UNIT_MCV;
         }
 
-        /*
-         * Sets or toggle the repairing state of the given Structure.
-         *
-         * @param s The Structure.
-         * @param value The repairing state, -1 to toggle.
-         * @param w The widget.
-         * @return True if and only if the state changed.
-         */
-        internal static bool Structure_SetRepairingState(CStructure s, sbyte state, CWidget w)
+        type = 0xFFFF;
+        for (i = 0; i < (int)UnitType.UNIT_MAX; i++)
         {
-            var ret = false;
+            if ((buildable & (1 << i)) == 0) continue;
 
-            if (s == null) return false;
+            if ((Tools_Random_256() % 4) == 0) type = (ushort)i;
 
-            /* ENHANCEMENT -- If a structure gets damaged during upgrading, pressing the "Upgrading" button silently starts the repair of the structure, and doesn't cancel upgrading. */
-            if (g_dune2_enhanced && s.o.flags.upgrading) return false;
-
-            if (!s.o.flags.allocated) state = 0;
-
-            if (state == -1) state = (sbyte)(s.o.flags.repairing ? 0 : 1);
-
-            if (state == 0 && s.o.flags.repairing)
+            if (type != 0xFFFF)
             {
-                if (s.o.houseID == (byte)g_playerHouseID)
-                {
-                    GUI_DisplayText(String_Get_ByIndex(Text.STR_REPAIRING_STOPS), 2);
-                }
-
-                s.o.flags.repairing = false;
-                s.o.flags.onHold = false;
-
-                GUI_Widget_MakeNormal(w, false);
-
-                ret = true;
+                if (g_table_unitInfo[i].o.priorityBuild <= g_table_unitInfo[type].o.priorityBuild) continue;
             }
 
-            if (state == 0 || s.o.flags.repairing || s.o.hitpoints == g_table_structureInfo[s.o.type].o.hitpoints) return ret;
-
-            if (s.o.houseID == (byte)g_playerHouseID)
-            {
-                GUI_DisplayText(String_Get_ByIndex(Text.STR_REPAIRING_STARTS), 2);
-            }
-
-            s.o.flags.onHold = true;
-            s.o.flags.repairing = true;
-
-            GUI_Widget_MakeSelected(w, false);
-
-            return true;
+            type = (ushort)i;
         }
 
-        /*
-         * Find the next object to build.
-         * @param s The structure in which we can build something.
-         * @return The type (either UnitType or StructureType) of what we should build next.
-         */
-        static ushort Structure_AI_PickNextToBuild(CStructure s)
+        return type;
+    }
+
+    /*
+     * Activate the special weapon of a house.
+     *
+     * @param s The structure which launches the weapon. Has to be the Palace.
+     */
+    internal static void Structure_ActivateSpecial(CStructure s)
+    {
+        CHouse h;
+
+        if (s == null) return;
+        if (s.o.type != (byte)StructureType.STRUCTURE_PALACE) return;
+
+        h = House_Get_ByIndex(s.o.houseID);
+        if (!h.flags.used) return;
+
+        switch ((HouseWeapon)g_table_houseInfo[s.o.houseID].specialWeapon)
         {
-            var find = new PoolFindStruct();
-            /*ushort*/
-            int buildable;
-            ushort type;
-            CHouse h;
-            int i;
-
-            if (s == null) return 0xFFFF;
-
-            h = House_Get_ByIndex(s.o.houseID);
-            buildable = (int)Structure_GetBuildable(s);
-
-            if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
-            {
-                for (i = 0; i < 5; i++)
-                {
-                    type = h.ai_structureRebuild[i][0];
-
-                    if (type == 0) continue;
-                    if ((buildable & (1 << type)) == 0) continue;
-
-                    return type;
-                }
-
-                return 0xFFFF;
-            }
-
-            if (s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH)
-            {
-                find.houseID = s.o.houseID;
-                find.index = 0xFFFF;
-                find.type = (ushort)UnitType.UNIT_CARRYALL;
-
-                while (true)
+            case HouseWeapon.HOUSE_WEAPON_MISSILE:
                 {
                     CUnit u;
+                    var position = new Tile32
+                    {
+                        x = 0xFFFF,
+                        y = 0xFFFF
+                    };
 
-                    u = Unit_Find(find);
+                    g_validateStrictIfZero++;
+                    u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_MISSILE_HOUSE, s.o.houseID, position, (sbyte)Tools_Random_256());
+                    g_validateStrictIfZero--;
+
+                    g_unitHouseMissile = u;
                     if (u == null) break;
 
-                    buildable &= (int)~UnitFlag.FLAG_UNIT_CARRYALL;
-                }
-            }
+                    s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
 
-            if (s.o.type == (byte)StructureType.STRUCTURE_HEAVY_VEHICLE)
-            {
-                buildable &= (int)~UnitFlag.FLAG_UNIT_HARVESTER;
-                buildable &= (int)~UnitFlag.FLAG_UNIT_MCV;
-            }
-
-            type = 0xFFFF;
-            for (i = 0; i < (int)UnitType.UNIT_MAX; i++)
-            {
-                if ((buildable & (1 << i)) == 0) continue;
-
-                if ((Tools_Random_256() % 4) == 0) type = (ushort)i;
-
-                if (type != 0xFFFF)
-                {
-                    if (g_table_unitInfo[i].o.priorityBuild <= g_table_unitInfo[type].o.priorityBuild) continue;
-                }
-
-                type = (ushort)i;
-            }
-
-            return type;
-        }
-
-        /*
-         * Activate the special weapon of a house.
-         *
-         * @param s The structure which launches the weapon. Has to be the Palace.
-         */
-        internal static void Structure_ActivateSpecial(CStructure s)
-        {
-            CHouse h;
-
-            if (s == null) return;
-            if (s.o.type != (byte)StructureType.STRUCTURE_PALACE) return;
-
-            h = House_Get_ByIndex(s.o.houseID);
-            if (!h.flags.used) return;
-
-            switch ((HouseWeapon)g_table_houseInfo[s.o.houseID].specialWeapon)
-            {
-                case HouseWeapon.HOUSE_WEAPON_MISSILE:
+                    if (!h.flags.human)
                     {
-                        CUnit u;
-                        var position = new Tile32
+                        var find = new PoolFindStruct
                         {
-                            x = 0xFFFF,
-                            y = 0xFFFF
+                            houseID = (byte)HouseType.HOUSE_INVALID,
+                            type = 0xFFFF,
+                            index = 0xFFFF
                         };
 
-                        g_validateStrictIfZero++;
-                        u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_MISSILE_HOUSE, s.o.houseID, position, (sbyte)Tools_Random_256());
-                        g_validateStrictIfZero--;
-
-                        g_unitHouseMissile = u;
-                        if (u == null) break;
-
-                        s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
-
-                        if (!h.flags.human)
+                        /* For the AI, try to find the first structure which is not ours, and launch missile to there */
+                        while (true)
                         {
-                            var find = new PoolFindStruct
-                            {
-                                houseID = (byte)HouseType.HOUSE_INVALID,
-                                type = 0xFFFF,
-                                index = 0xFFFF
-                            };
+                            CStructure sf;
 
-                            /* For the AI, try to find the first structure which is not ours, and launch missile to there */
-                            while (true)
-                            {
-                                CStructure sf;
+                            sf = Structure_Find(find);
+                            if (sf == null) break;
+                            if (sf.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || sf.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || sf.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
 
-                                sf = Structure_Find(find);
-                                if (sf == null) break;
-                                if (sf.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || sf.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || sf.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+                            if (House_AreAllied(s.o.houseID, sf.o.houseID)) continue;
 
-                                if (House_AreAllied(s.o.houseID, sf.o.houseID)) continue;
-
-                                Unit_LaunchHouseMissile(Tile_PackTile(sf.o.position));
-
-                                return;
-                            }
-
-                            /* We failed to find a target, so remove the missile */
-                            Unit_Free(u);
-                            g_unitHouseMissile = null;
+                            Unit_LaunchHouseMissile(Tile_PackTile(sf.o.position));
 
                             return;
                         }
 
-                        /* Give the user 7 seconds to select their target */
-                        g_houseMissileCountdown = 7;
+                        /* We failed to find a target, so remove the missile */
+                        Unit_Free(u);
+                        g_unitHouseMissile = null;
 
-                        GUI_ChangeSelectionType((ushort)SelectionType.TARGET);
+                        return;
                     }
-                    break;
 
-                case HouseWeapon.HOUSE_WEAPON_FREMEN:
-                    {
-                        ushort location;
-                        ushort i;
+                    /* Give the user 7 seconds to select their target */
+                    g_houseMissileCountdown = 7;
 
-                        /* Find a random location to appear */
-                        location = Map_FindLocationTile(4, (byte)HouseType.HOUSE_INVALID);
+                    GUI_ChangeSelectionType((ushort)SelectionType.TARGET);
+                }
+                break;
 
-                        for (i = 0; i < 5; i++)
-                        {
-                            CUnit u;
-                            Tile32 position;
-                            ushort orientation;
-                            ushort unitType;
+            case HouseWeapon.HOUSE_WEAPON_FREMEN:
+                {
+                    ushort location;
+                    ushort i;
 
-                            Tools_Random_256();
+                    /* Find a random location to appear */
+                    location = Map_FindLocationTile(4, (byte)HouseType.HOUSE_INVALID);
 
-                            position = Tile_UnpackTile(location);
-                            position = Tile_MoveByRandom(position, 32, true);
-
-                            orientation = Tools_RandomLCG_Range(0, 3);
-                            unitType = (ushort)((orientation == 1) ? UnitType.UNIT_TROOPER : UnitType.UNIT_TROOPERS);
-
-                            g_validateStrictIfZero++;
-                            u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)unitType, (byte)HouseType.HOUSE_FREMEN, position, (sbyte)orientation);
-                            g_validateStrictIfZero--;
-
-                            if (u == null) continue;
-
-                            Unit_SetAction(u, ActionType.ACTION_HUNT);
-                        }
-
-                        s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
-                    }
-                    break;
-
-                case HouseWeapon.HOUSE_WEAPON_SABOTEUR:
+                    for (i = 0; i < 5; i++)
                     {
                         CUnit u;
-                        ushort position;
+                        Tile32 position;
+                        ushort orientation;
+                        ushort unitType;
 
-                        /* Find a spot next to the structure */
-                        position = Structure_FindFreePosition(s, false);
+                        Tools_Random_256();
 
-                        /* If there is no spot, reset countdown */
-                        if (position == 0)
-                        {
-                            s.countDown = 1;
-                            return;
-                        }
+                        position = Tile_UnpackTile(location);
+                        position = Tile_MoveByRandom(position, 32, true);
+
+                        orientation = Tools_RandomLCG_Range(0, 3);
+                        unitType = (ushort)((orientation == 1) ? UnitType.UNIT_TROOPER : UnitType.UNIT_TROOPERS);
 
                         g_validateStrictIfZero++;
-                        u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SABOTEUR, s.o.houseID, Tile_UnpackTile(position), (sbyte)Tools_Random_256());
+                        u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)unitType, (byte)HouseType.HOUSE_FREMEN, position, (sbyte)orientation);
                         g_validateStrictIfZero--;
 
-                        if (u == null) return;
+                        if (u == null) continue;
 
-                        Unit_SetAction(u, ActionType.ACTION_SABOTAGE);
-
-                        s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
+                        Unit_SetAction(u, ActionType.ACTION_HUNT);
                     }
-                    break;
 
-                default: break;
-            }
+                    s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
+                }
+                break;
 
-            if (s.o.houseID == (byte)g_playerHouseID)
-            {
-                GUI_Widget_ActionPanel_Draw(true);
-            }
+            case HouseWeapon.HOUSE_WEAPON_SABOTEUR:
+                {
+                    CUnit u;
+                    ushort position;
+
+                    /* Find a spot next to the structure */
+                    position = Structure_FindFreePosition(s, false);
+
+                    /* If there is no spot, reset countdown */
+                    if (position == 0)
+                    {
+                        s.countDown = 1;
+                        return;
+                    }
+
+                    g_validateStrictIfZero++;
+                    u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)UnitType.UNIT_SABOTEUR, s.o.houseID, Tile_UnpackTile(position), (sbyte)Tools_Random_256());
+                    g_validateStrictIfZero--;
+
+                    if (u == null) return;
+
+                    Unit_SetAction(u, ActionType.ACTION_SABOTAGE);
+
+                    s.countDown = g_table_houseInfo[s.o.houseID].specialCountDown;
+                }
+                break;
+
+            default: break;
         }
 
-        internal static uint Structure_GetBuildable(CStructure s)
+        if (s.o.houseID == (byte)g_playerHouseID)
         {
-            StructureInfo si;
-            uint structuresBuilt;
-            uint ret = 0;
-            int i;
+            GUI_Widget_ActionPanel_Draw(true);
+        }
+    }
 
-            if (s == null) return 0;
+    internal static uint Structure_GetBuildable(CStructure s)
+    {
+        StructureInfo si;
+        uint structuresBuilt;
+        uint ret = 0;
+        int i;
 
-            si = g_table_structureInfo[s.o.type];
+        if (s == null) return 0;
 
-            structuresBuilt = House_Get_ByIndex(s.o.houseID).structuresBuilt;
+        si = g_table_structureInfo[s.o.type];
 
-            switch ((StructureType)s.o.type)
-            {
-                case StructureType.STRUCTURE_LIGHT_VEHICLE:
-                case StructureType.STRUCTURE_HEAVY_VEHICLE:
-                case StructureType.STRUCTURE_HIGH_TECH:
-                case StructureType.STRUCTURE_WOR_TROOPER:
-                case StructureType.STRUCTURE_BARRACKS:
-                    for (i = 0; i < (int)UnitType.UNIT_MAX; i++)
+        structuresBuilt = House_Get_ByIndex(s.o.houseID).structuresBuilt;
+
+        switch ((StructureType)s.o.type)
+        {
+            case StructureType.STRUCTURE_LIGHT_VEHICLE:
+            case StructureType.STRUCTURE_HEAVY_VEHICLE:
+            case StructureType.STRUCTURE_HIGH_TECH:
+            case StructureType.STRUCTURE_WOR_TROOPER:
+            case StructureType.STRUCTURE_BARRACKS:
+                for (i = 0; i < (int)UnitType.UNIT_MAX; i++)
+                {
+                    g_table_unitInfo[i].o.available = 0;
+                }
+
+                for (i = 0; i < 8; i++)
+                {
+                    UnitInfo ui;
+                    ushort upgradeLevelRequired;
+                    var unitType = si.buildableUnits[i];
+
+                    if (unitType == (byte)UnitType.UNIT_INVALID) continue;
+
+                    if (unitType == (byte)UnitType.UNIT_TRIKE && s.creatorHouseID == (ushort)HouseType.HOUSE_ORDOS) unitType = (byte)UnitType.UNIT_RAIDER_TRIKE;
+
+                    ui = g_table_unitInfo[unitType];
+                    upgradeLevelRequired = ui.o.upgradeLevelRequired;
+
+                    if (unitType == (byte)UnitType.UNIT_SIEGE_TANK && s.creatorHouseID == (ushort)HouseType.HOUSE_ORDOS) upgradeLevelRequired--;
+
+                    if ((structuresBuilt & ui.o.structuresRequired) != ui.o.structuresRequired) continue;
+                    if ((ui.o.availableHouse & (1 << s.creatorHouseID)) == 0) continue;
+
+                    if (s.upgradeLevel >= upgradeLevelRequired)
                     {
-                        g_table_unitInfo[i].o.available = 0;
+                        ui.o.available = 1;
+
+                        ret |= (uint)(1 << unitType);
+                        continue;
                     }
 
-                    for (i = 0; i < 8; i++)
+                    if (s.upgradeTimeLeft != 0 && s.upgradeLevel + 1 >= upgradeLevelRequired)
                     {
-                        UnitInfo ui;
-                        ushort upgradeLevelRequired;
-                        var unitType = si.buildableUnits[i];
-
-                        if (unitType == (byte)UnitType.UNIT_INVALID) continue;
-
-                        if (unitType == (byte)UnitType.UNIT_TRIKE && s.creatorHouseID == (ushort)HouseType.HOUSE_ORDOS) unitType = (byte)UnitType.UNIT_RAIDER_TRIKE;
-
-                        ui = g_table_unitInfo[unitType];
-                        upgradeLevelRequired = ui.o.upgradeLevelRequired;
-
-                        if (unitType == (byte)UnitType.UNIT_SIEGE_TANK && s.creatorHouseID == (ushort)HouseType.HOUSE_ORDOS) upgradeLevelRequired--;
-
-                        if ((structuresBuilt & ui.o.structuresRequired) != ui.o.structuresRequired) continue;
-                        if ((ui.o.availableHouse & (1 << s.creatorHouseID)) == 0) continue;
-
-                        if (s.upgradeLevel >= upgradeLevelRequired)
-                        {
-                            ui.o.available = 1;
-
-                            ret |= (uint)(1 << unitType);
-                            continue;
-                        }
-
-                        if (s.upgradeTimeLeft != 0 && s.upgradeLevel + 1 >= upgradeLevelRequired)
-                        {
-                            ui.o.available = -1;
-                        }
+                        ui.o.available = -1;
                     }
-                    return ret;
+                }
+                return ret;
 
-                case StructureType.STRUCTURE_CONSTRUCTION_YARD:
-                    for (i = 0; i < (int)StructureType.STRUCTURE_MAX; i++)
+            case StructureType.STRUCTURE_CONSTRUCTION_YARD:
+                for (i = 0; i < (int)StructureType.STRUCTURE_MAX; i++)
+                {
+                    var localsi = g_table_structureInfo[i];
+                    ushort availableCampaign;
+                    uint structuresRequired;
+
+                    localsi.o.available = 0;
+
+                    availableCampaign = localsi.o.availableCampaign;
+                    structuresRequired = localsi.o.structuresRequired;
+
+                    if (i == (int)StructureType.STRUCTURE_WOR_TROOPER && s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && g_campaignID >= 1)
                     {
-                        var localsi = g_table_structureInfo[i];
-                        ushort availableCampaign;
-                        uint structuresRequired;
+                        structuresRequired &= ~((uint)1 << (byte)StructureType.STRUCTURE_BARRACKS); //TODO: Check
+                        availableCampaign = 2;
+                    }
 
-                        localsi.o.available = 0;
-
-                        availableCampaign = localsi.o.availableCampaign;
-                        structuresRequired = localsi.o.structuresRequired;
-
-                        if (i == (int)StructureType.STRUCTURE_WOR_TROOPER && s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && g_campaignID >= 1)
+                    if ((structuresBuilt & structuresRequired) == structuresRequired || s.o.houseID != (byte)g_playerHouseID)
+                    {
+                        if (s.o.houseID != (byte)HouseType.HOUSE_HARKONNEN && i == (int)StructureType.STRUCTURE_LIGHT_VEHICLE)
                         {
-                            structuresRequired &= ~((uint)1 << (byte)StructureType.STRUCTURE_BARRACKS); //TODO: Check
                             availableCampaign = 2;
                         }
 
-                        if ((structuresBuilt & structuresRequired) == structuresRequired || s.o.houseID != (byte)g_playerHouseID)
+                        if (g_campaignID >= availableCampaign - 1 && (localsi.o.availableHouse & (1 << s.o.houseID)) != 0)
                         {
-                            if (s.o.houseID != (byte)HouseType.HOUSE_HARKONNEN && i == (int)StructureType.STRUCTURE_LIGHT_VEHICLE)
+                            if (s.upgradeLevel >= localsi.o.upgradeLevelRequired || s.o.houseID != (byte)g_playerHouseID)
                             {
-                                availableCampaign = 2;
+                                localsi.o.available = 1;
+
+                                ret |= (uint)(1 << i);
                             }
-
-                            if (g_campaignID >= availableCampaign - 1 && (localsi.o.availableHouse & (1 << s.o.houseID)) != 0)
+                            else if (s.upgradeTimeLeft != 0 && s.upgradeLevel + 1 >= localsi.o.upgradeLevelRequired)
                             {
-                                if (s.upgradeLevel >= localsi.o.upgradeLevelRequired || s.o.houseID != (byte)g_playerHouseID)
-                                {
-                                    localsi.o.available = 1;
-
-                                    ret |= (uint)(1 << i);
-                                }
-                                else if (s.upgradeTimeLeft != 0 && s.upgradeLevel + 1 >= localsi.o.upgradeLevelRequired)
-                                {
-                                    localsi.o.available = -1;
-                                }
+                                localsi.o.available = -1;
                             }
                         }
                     }
-                    return ret;
+                }
+                return ret;
 
-                case StructureType.STRUCTURE_STARPORT:
-                    unchecked { return (uint)-1; }
+            case StructureType.STRUCTURE_STARPORT:
+                unchecked { return (uint)-1; }
 
-                default:
-                    return 0;
-            }
+            default:
+                return 0;
+        }
+    }
+
+    /*
+     * Make the given Structure build an object.
+     *
+     * @param s The Structure.
+     * @param objectType The type of the object to build or a special value (0xFFFD, 0xFFFE, 0xFFFF).
+     * @return ??.
+     */
+    internal static bool Structure_BuildObject(CStructure s, ushort objectType)
+    {
+        StructureInfo si;
+        string str;
+        CObject o;
+        ObjectInfo oi;
+
+        if (s == null) return false;
+
+        si = g_table_structureInfo[s.o.type];
+
+        if (!si.o.flags.factory) return false;
+
+        Structure_SetRepairingState(s, 0, null);
+
+        if (objectType == 0xFFFD)
+        {
+            Structure_SetUpgradingState(s, 1, null);
+            return false;
         }
 
-        /*
-         * Make the given Structure build an object.
-         *
-         * @param s The Structure.
-         * @param objectType The type of the object to build or a special value (0xFFFD, 0xFFFE, 0xFFFF).
-         * @return ??.
-         */
-        internal static bool Structure_BuildObject(CStructure s, ushort objectType)
+        if (objectType == 0xFFFF || objectType == 0xFFFE)
         {
-            StructureInfo si;
-            string str;
-            CObject o;
-            ObjectInfo oi;
+            ushort upgradeCost = 0;
+            uint buildable;
 
-            if (s == null) return false;
-
-            si = g_table_structureInfo[s.o.type];
-
-            if (!si.o.flags.factory) return false;
-
-            Structure_SetRepairingState(s, 0, null);
-
-            if (objectType == 0xFFFD)
+            if (Structure_IsUpgradable(s) && si.o.hitpoints == s.o.hitpoints)
             {
-                Structure_SetUpgradingState(s, 1, null);
+                upgradeCost = (ushort)((si.o.buildCredits + (si.o.buildCredits >> 15)) / 2);
+            }
+
+            if (upgradeCost != 0 && s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH && s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN) upgradeCost = 0;
+            if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT) upgradeCost = 0;
+
+            buildable = Structure_GetBuildable(s);
+
+            if (buildable == 0)
+            {
+                s.objectType = 0;
                 return false;
             }
 
-            if (objectType == 0xFFFF || objectType == 0xFFFE)
+            if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
             {
-                ushort upgradeCost = 0;
-                uint buildable;
+                byte i;
 
-                if (Structure_IsUpgradable(s) && si.o.hitpoints == s.o.hitpoints)
+                g_factoryWindowConstructionYard = true;
+
+                for (i = 0; i < (byte)StructureType.STRUCTURE_MAX; i++)
                 {
-                    upgradeCost = (ushort)((si.o.buildCredits + (si.o.buildCredits >> 15)) / 2);
-                }
-
-                if (upgradeCost != 0 && s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH && s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN) upgradeCost = 0;
-                if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT) upgradeCost = 0;
-
-                buildable = Structure_GetBuildable(s);
-
-                if (buildable == 0)
-                {
-                    s.objectType = 0;
+                    if ((buildable & (1 << i)) == 0) continue;
+                    g_table_structureInfo[i].o.available = 1;
+                    if (objectType != 0xFFFE) continue;
+                    s.objectType = i;
                     return false;
                 }
+            }
+            else
+            {
+                g_factoryWindowConstructionYard = false;
 
-                if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+                if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT)
+                {
+                    byte linkedID = 0xFF;
+                    var availableUnits = new short[(int)UnitType.UNIT_MAX];
+                    CUnit u;
+                    bool loop;
+
+                    //memset(availableUnits, 0, sizeof(availableUnits));
+
+                    do
+                    {
+                        byte i;
+
+                        loop = false;
+
+                        for (i = 0; i < (byte)UnitType.UNIT_MAX; i++)
+                        {
+                            var unitsAtStarport = g_starportAvailable[i];
+
+                            if (unitsAtStarport == 0)
+                            {
+                                g_table_unitInfo[i].o.available = 0;
+                            }
+                            else if (unitsAtStarport < 0)
+                            {
+                                g_table_unitInfo[i].o.available = -1;
+                            }
+                            else if (unitsAtStarport > availableUnits[i])
+                            {
+                                g_validateStrictIfZero++;
+                                u = Unit_Allocate((ushort)UnitIndex.UNIT_INDEX_INVALID, i, s.o.houseID);
+                                g_validateStrictIfZero--;
+
+                                if (u != null)
+                                {
+                                    loop = true;
+                                    u.o.linkedID = linkedID;
+                                    linkedID = (byte)(u.o.index & 0xFF);
+                                    availableUnits[i]++;
+                                    g_table_unitInfo[i].o.available = (sbyte)availableUnits[i];
+                                }
+                                else if (availableUnits[i] == 0) g_table_unitInfo[i].o.available = -1;
+                            }
+                        }
+                    } while (loop);
+
+                    while (linkedID != 0xFF)
+                    {
+                        u = Unit_Get_ByIndex(linkedID);
+                        linkedID = u.o.linkedID;
+                        Unit_Free(u);
+                    }
+                }
+                else
                 {
                     byte i;
 
-                    g_factoryWindowConstructionYard = true;
-
-                    for (i = 0; i < (byte)StructureType.STRUCTURE_MAX; i++)
+                    for (i = 0; i < (byte)UnitType.UNIT_MAX; i++)
                     {
                         if ((buildable & (1 << i)) == 0) continue;
-                        g_table_structureInfo[i].o.available = 1;
+                        g_table_unitInfo[i].o.available = 1;
                         if (objectType != 0xFFFE) continue;
                         s.objectType = i;
                         return false;
                     }
                 }
-                else
-                {
-                    g_factoryWindowConstructionYard = false;
-
-                    if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT)
-                    {
-                        byte linkedID = 0xFF;
-                        var availableUnits = new short[(int)UnitType.UNIT_MAX];
-                        CUnit u;
-                        bool loop;
-
-                        //memset(availableUnits, 0, sizeof(availableUnits));
-
-                        do
-                        {
-                            byte i;
-
-                            loop = false;
-
-                            for (i = 0; i < (byte)UnitType.UNIT_MAX; i++)
-                            {
-                                var unitsAtStarport = g_starportAvailable[i];
-
-                                if (unitsAtStarport == 0)
-                                {
-                                    g_table_unitInfo[i].o.available = 0;
-                                }
-                                else if (unitsAtStarport < 0)
-                                {
-                                    g_table_unitInfo[i].o.available = -1;
-                                }
-                                else if (unitsAtStarport > availableUnits[i])
-                                {
-                                    g_validateStrictIfZero++;
-                                    u = Unit_Allocate((ushort)UnitIndex.UNIT_INDEX_INVALID, i, s.o.houseID);
-                                    g_validateStrictIfZero--;
-
-                                    if (u != null)
-                                    {
-                                        loop = true;
-                                        u.o.linkedID = linkedID;
-                                        linkedID = (byte)(u.o.index & 0xFF);
-                                        availableUnits[i]++;
-                                        g_table_unitInfo[i].o.available = (sbyte)availableUnits[i];
-                                    }
-                                    else if (availableUnits[i] == 0) g_table_unitInfo[i].o.available = -1;
-                                }
-                            }
-                        } while (loop);
-
-                        while (linkedID != 0xFF)
-                        {
-                            u = Unit_Get_ByIndex(linkedID);
-                            linkedID = u.o.linkedID;
-                            Unit_Free(u);
-                        }
-                    }
-                    else
-                    {
-                        byte i;
-
-                        for (i = 0; i < (byte)UnitType.UNIT_MAX; i++)
-                        {
-                            if ((buildable & (1 << i)) == 0) continue;
-                            g_table_unitInfo[i].o.available = 1;
-                            if (objectType != 0xFFFE) continue;
-                            s.objectType = i;
-                            return false;
-                        }
-                    }
-                }
-
-                if (objectType == 0xFFFF)
-                {
-                    FactoryResult res;
-
-                    Sprites_UnloadTiles();
-
-                    Buffer.BlockCopy(g_paletteActive, 0, g_palette1, 0, 256 * 3); //memmove(g_palette1, g_paletteActive, 256 * 3);
-
-                    GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
-
-                    Timer_SetTimer(TimerType.TIMER_GAME, false);
-
-                    res = GUI_DisplayFactoryWindow(g_factoryWindowConstructionYard, s.o.type == (byte)StructureType.STRUCTURE_STARPORT, upgradeCost);
-
-                    Timer_SetTimer(TimerType.TIMER_GAME, true);
-
-                    Sprites_LoadTiles();
-
-                    GFX_SetPalette(g_palette1);
-
-                    GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
-
-                    if (res == FactoryResult.FACTORY_RESUME) return false;
-
-                    if (res == FactoryResult.FACTORY_UPGRADE)
-                    {
-                        Structure_SetUpgradingState(s, 1, null);
-                        return false;
-                    }
-
-                    if (res == FactoryResult.FACTORY_BUY)
-                    {
-                        CHouse h;
-                        byte i;
-
-                        h = House_Get_ByIndex(s.o.houseID);
-
-                        for (i = 0; i < 25; i++)
-                        {
-                            CUnit u;
-
-                            if (g_factoryWindowItems[i].amount == 0) continue;
-                            objectType = g_factoryWindowItems[i].objectType;
-
-                            if (s.o.type != (byte)StructureType.STRUCTURE_STARPORT)
-                            {
-                                Structure_CancelBuild(s);
-
-                                s.objectType = objectType;
-
-                                if (!g_factoryWindowConstructionYard) continue;
-
-                                if (Structure_CheckAvailableConcrete(objectType, s.o.houseID)) continue;
-
-                                if (GUI_DisplayHint((ushort)Text.STR_THERE_ISNT_ENOUGH_OPEN_CONCRETE_TO_PLACE_THIS_STRUCTURE_YOU_MAY_PROCEED_BUT_WITHOUT_ENOUGH_CONCRETE_THE_BUILDING_WILL_NEED_REPAIRS, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
-
-                                s.objectType = objectType;
-
-                                return false;
-                            }
-
-                            g_validateStrictIfZero++;
-                            {
-                                var tile = new Tile32 { x = 0xFFFF, y = 0xFFFF };
-                                u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
-                            }
-                            g_validateStrictIfZero--;
-
-                            if (u == null)
-                            {
-                                h.credits += g_table_unitInfo[(int)UnitType.UNIT_CARRYALL].o.buildCredits;
-                                if (s.o.houseID != (byte)g_playerHouseID) continue;
-                                GUI_DisplayText(String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
-                                continue;
-                            }
-
-                            g_structureIndex = s.o.index;
-
-                            if (h.starportTimeLeft == 0) h.starportTimeLeft = g_table_houseInfo[h.index].starportDeliveryTime;
-
-                            u.o.linkedID = (byte)(h.starportLinkedID & 0xFF);
-                            h.starportLinkedID = u.o.index;
-
-                            g_starportAvailable[objectType]--;
-                            if (g_starportAvailable[objectType] <= 0) g_starportAvailable[objectType] = -1;
-
-                            g_factoryWindowItems[i].amount--;
-                            if (g_factoryWindowItems[i].amount != 0) i--;
-                        }
-                    }
-                }
-                else
-                {
-                    s.objectType = objectType;
-                }
             }
 
-            if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT) return true;
-
-            if (s.objectType != objectType) Structure_CancelBuild(s);
-
-            if (s.o.linkedID != 0xFF || objectType == 0xFFFF) return false;
-
-            if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+            if (objectType == 0xFFFF)
             {
-                var tile = new Tile32 { x = 0xFFFF, y = 0xFFFF };
+                FactoryResult res;
 
-                oi = g_table_unitInfo[objectType].o;
-                o = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
-                str = String_Get_ByIndex(g_table_unitInfo[objectType].o.stringID_full);
+                Sprites_UnloadTiles();
+
+                Buffer.BlockCopy(g_paletteActive, 0, g_palette1, 0, 256 * 3); //memmove(g_palette1, g_paletteActive, 256 * 3);
+
+                GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
+
+                Timer_SetTimer(TimerType.TIMER_GAME, false);
+
+                res = GUI_DisplayFactoryWindow(g_factoryWindowConstructionYard, s.o.type == (byte)StructureType.STRUCTURE_STARPORT, upgradeCost);
+
+                Timer_SetTimer(TimerType.TIMER_GAME, true);
+
+                Sprites_LoadTiles();
+
+                GFX_SetPalette(g_palette1);
+
+                GUI_ChangeSelectionType((ushort)SelectionType.STRUCTURE);
+
+                if (res == FactoryResult.FACTORY_RESUME) return false;
+
+                if (res == FactoryResult.FACTORY_UPGRADE)
+                {
+                    Structure_SetUpgradingState(s, 1, null);
+                    return false;
+                }
+
+                if (res == FactoryResult.FACTORY_BUY)
+                {
+                    CHouse h;
+                    byte i;
+
+                    h = House_Get_ByIndex(s.o.houseID);
+
+                    for (i = 0; i < 25; i++)
+                    {
+                        CUnit u;
+
+                        if (g_factoryWindowItems[i].amount == 0) continue;
+                        objectType = g_factoryWindowItems[i].objectType;
+
+                        if (s.o.type != (byte)StructureType.STRUCTURE_STARPORT)
+                        {
+                            Structure_CancelBuild(s);
+
+                            s.objectType = objectType;
+
+                            if (!g_factoryWindowConstructionYard) continue;
+
+                            if (Structure_CheckAvailableConcrete(objectType, s.o.houseID)) continue;
+
+                            if (GUI_DisplayHint((ushort)Text.STR_THERE_ISNT_ENOUGH_OPEN_CONCRETE_TO_PLACE_THIS_STRUCTURE_YOU_MAY_PROCEED_BUT_WITHOUT_ENOUGH_CONCRETE_THE_BUILDING_WILL_NEED_REPAIRS, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
+
+                            s.objectType = objectType;
+
+                            return false;
+                        }
+
+                        g_validateStrictIfZero++;
+                        {
+                            var tile = new Tile32 { x = 0xFFFF, y = 0xFFFF };
+                            u = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0);
+                        }
+                        g_validateStrictIfZero--;
+
+                        if (u == null)
+                        {
+                            h.credits += g_table_unitInfo[(int)UnitType.UNIT_CARRYALL].o.buildCredits;
+                            if (s.o.houseID != (byte)g_playerHouseID) continue;
+                            GUI_DisplayText(String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
+                            continue;
+                        }
+
+                        g_structureIndex = s.o.index;
+
+                        if (h.starportTimeLeft == 0) h.starportTimeLeft = g_table_houseInfo[h.index].starportDeliveryTime;
+
+                        u.o.linkedID = (byte)(h.starportLinkedID & 0xFF);
+                        h.starportLinkedID = u.o.index;
+
+                        g_starportAvailable[objectType]--;
+                        if (g_starportAvailable[objectType] <= 0) g_starportAvailable[objectType] = -1;
+
+                        g_factoryWindowItems[i].amount--;
+                        if (g_factoryWindowItems[i].amount != 0) i--;
+                    }
+                }
             }
             else
             {
-                oi = g_table_structureInfo[objectType].o;
-                o = Structure_Create((ushort)StructureIndex.STRUCTURE_INDEX_INVALID, (byte)objectType, s.o.houseID, 0xFFFF).o;
-                str = String_Get_ByIndex(g_table_structureInfo[objectType].o.stringID_full);
-            }
-
-            s.o.flags.onHold = false;
-
-            if (o != null)
-            {
-                s.o.linkedID = (byte)(o.index & 0xFF);
                 s.objectType = objectType;
-                s.countDown = (ushort)(oi.buildTime << 8);
-
-                Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_BUSY);
-
-                if (s.o.houseID != (byte)g_playerHouseID) return true;
-
-                GUI_DisplayText(String_Get_ByIndex(Text.STR_PRODUCTION_OF_S_HAS_STARTED), 2, str);
-
-                return true;
             }
-
-            if (s.o.houseID != (byte)g_playerHouseID) return false;
-
-            GUI_DisplayText(String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
-
-            return false;
         }
 
-        /*
-         * Sets or toggle the upgrading state of the given Structure.
-         *
-         * @param s The Structure.
-         * @param value The upgrading state, -1 to toggle.
-         * @param w The widget.
-         * @return True if and only if the state changed.
-         */
-        internal static bool Structure_SetUpgradingState(CStructure s, sbyte state, CWidget w)
+        if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT) return true;
+
+        if (s.objectType != objectType) Structure_CancelBuild(s);
+
+        if (s.o.linkedID != 0xFF || objectType == 0xFFFF) return false;
+
+        if (s.o.type != (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
         {
-            var ret = false;
+            var tile = new Tile32 { x = 0xFFFF, y = 0xFFFF };
 
-            if (s == null) return false;
+            oi = g_table_unitInfo[objectType].o;
+            o = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)objectType, s.o.houseID, tile, 0)?.o;
+            str = String_Get_ByIndex(g_table_unitInfo[objectType].o.stringID_full);
+        }
+        else
+        {
+            oi = g_table_structureInfo[objectType].o;
+            o = Structure_Create((ushort)StructureIndex.STRUCTURE_INDEX_INVALID, (byte)objectType, s.o.houseID, 0xFFFF).o;
+            str = String_Get_ByIndex(g_table_structureInfo[objectType].o.stringID_full);
+        }
 
-            if (state == -1) state = (sbyte)(s.o.flags.upgrading ? 0 : 1);
+        s.o.flags.onHold = false;
 
-            if (state == 0 && s.o.flags.upgrading)
-            {
-                if (s.o.houseID == (byte)g_playerHouseID)
-                {
-                    GUI_DisplayText(String_Get_ByIndex(Text.STR_UPGRADING_STOPS), 2);
-                }
+        if (o != null)
+        {
+            s.o.linkedID = (byte)(o.index & 0xFF);
+            s.objectType = objectType;
+            s.countDown = (ushort)(oi.buildTime << 8);
 
-                s.o.flags.upgrading = false;
-                s.o.flags.onHold = false;
+            Structure_SetState(s, (short)StructureState.STRUCTURE_STATE_BUSY);
 
-                GUI_Widget_MakeNormal(w, false);
+            if (s.o.houseID != (byte)g_playerHouseID) return true;
 
-                ret = true;
-            }
-
-            if (state == 0 || s.o.flags.upgrading || s.upgradeTimeLeft == 0) return ret;
-
-            if (s.o.houseID == (byte)g_playerHouseID)
-            {
-                GUI_DisplayText(String_Get_ByIndex(Text.STR_UPGRADING_STARTS), 2);
-            }
-
-            s.o.flags.onHold = true;
-            s.o.flags.repairing = false;
-            s.o.flags.upgrading = true;
-
-            GUI_Widget_MakeSelected(w, false);
+            GUI_DisplayText(String_Get_ByIndex(Text.STR_PRODUCTION_OF_S_HAS_STARTED), 2, str);
 
             return true;
         }
 
-        /*
-         * Cancel the building of object for given structure.
-         *
-         * @param s The Structure.
-         */
-        static void Structure_CancelBuild(CStructure s)
+        if (s.o.houseID != (byte)g_playerHouseID) return false;
+
+        GUI_DisplayText(String_Get_ByIndex(Text.STR_UNABLE_TO_CREATE_MORE), 2);
+
+        return false;
+    }
+
+    /*
+     * Sets or toggle the upgrading state of the given Structure.
+     *
+     * @param s The Structure.
+     * @param value The upgrading state, -1 to toggle.
+     * @param w The widget.
+     * @return True if and only if the state changed.
+     */
+    internal static bool Structure_SetUpgradingState(CStructure s, sbyte state, CWidget w)
+    {
+        var ret = false;
+
+        if (s == null) return false;
+
+        if (state == -1) state = (sbyte)(s.o.flags.upgrading ? 0 : 1);
+
+        if (state == 0 && s.o.flags.upgrading)
         {
-            ObjectInfo oi;
-
-            if (s == null || s.o.linkedID == 0xFF) return;
-
-            if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+            if (s.o.houseID == (byte)g_playerHouseID)
             {
-                var s2 = Structure_Get_ByIndex(s.o.linkedID);
-                oi = g_table_structureInfo[s2.o.type].o;
-                Structure_Free(s2);
-            }
-            else
-            {
-                var u = Unit_Get_ByIndex(s.o.linkedID);
-                oi = g_table_unitInfo[u.o.type].o;
-                Unit_Free(u);
+                GUI_DisplayText(String_Get_ByIndex(Text.STR_UPGRADING_STOPS), 2);
             }
 
-            House_Get_ByIndex(s.o.houseID).credits += (ushort)(((oi.buildTime - (s.countDown >> 8)) * 256 / oi.buildTime) * oi.buildCredits / 256);
-
+            s.o.flags.upgrading = false;
             s.o.flags.onHold = false;
-            s.countDown = 0;
-            s.o.linkedID = 0xFF;
+
+            GUI_Widget_MakeNormal(w, false);
+
+            ret = true;
         }
 
-        /*
-         * Check if requested structureType can be build on the map with concrete below.
-         *
-         * @param structureType The type of structure to check for.
-         * @param houseID The house to check for.
-         * @return True if and only if there are enough slabs available on the map to
-         *  build requested structure.
-         */
-        static bool Structure_CheckAvailableConcrete(ushort structureType, byte houseID)
+        if (state == 0 || s.o.flags.upgrading || s.upgradeTimeLeft == 0) return ret;
+
+        if (s.o.houseID == (byte)g_playerHouseID)
         {
-            StructureInfo si;
-            short tileCount;
-            short i;
+            GUI_DisplayText(String_Get_ByIndex(Text.STR_UPGRADING_STARTS), 2);
+        }
 
-            si = g_table_structureInfo[structureType];
+        s.o.flags.onHold = true;
+        s.o.flags.repairing = false;
+        s.o.flags.upgrading = true;
 
-            tileCount = (short)g_table_structure_layoutTileCount[si.layout];
+        GUI_Widget_MakeSelected(w, false);
 
-            if (structureType == (ushort)StructureType.STRUCTURE_SLAB_1x1 || structureType == (ushort)StructureType.STRUCTURE_SLAB_2x2) return true;
+        return true;
+    }
 
-            for (i = 0; i < 4096; i++)
+    /*
+     * Cancel the building of object for given structure.
+     *
+     * @param s The Structure.
+     */
+    static void Structure_CancelBuild(CStructure s)
+    {
+        ObjectInfo oi;
+
+        if (s == null || s.o.linkedID == 0xFF) return;
+
+        if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
+        {
+            var s2 = Structure_Get_ByIndex(s.o.linkedID);
+            oi = g_table_structureInfo[s2.o.type].o;
+            Structure_Free(s2);
+        }
+        else
+        {
+            var u = Unit_Get_ByIndex(s.o.linkedID);
+            oi = g_table_unitInfo[u.o.type].o;
+            Unit_Free(u);
+        }
+
+        House_Get_ByIndex(s.o.houseID).credits += (ushort)(((oi.buildTime - (s.countDown >> 8)) * 256 / oi.buildTime) * oi.buildCredits / 256);
+
+        s.o.flags.onHold = false;
+        s.countDown = 0;
+        s.o.linkedID = 0xFF;
+    }
+
+    /*
+     * Check if requested structureType can be build on the map with concrete below.
+     *
+     * @param structureType The type of structure to check for.
+     * @param houseID The house to check for.
+     * @return True if and only if there are enough slabs available on the map to
+     *  build requested structure.
+     */
+    static bool Structure_CheckAvailableConcrete(ushort structureType, byte houseID)
+    {
+        StructureInfo si;
+        short tileCount;
+        short i;
+
+        si = g_table_structureInfo[structureType];
+
+        tileCount = (short)g_table_structure_layoutTileCount[si.layout];
+
+        if (structureType == (ushort)StructureType.STRUCTURE_SLAB_1x1 || structureType == (ushort)StructureType.STRUCTURE_SLAB_2x2) return true;
+
+        for (i = 0; i < 4096; i++)
+        {
+            var stop = true;
+            ushort j;
+
+            for (j = 0; j < tileCount; j++)
             {
-                var stop = true;
-                ushort j;
+                var packed = (ushort)(i + g_table_structure_layoutTiles[si.layout][j]);
+                /* XXX -- This can overflow, and we should check for that */
 
-                for (j = 0; j < tileCount; j++)
-                {
-                    var packed = (ushort)(i + g_table_structure_layoutTiles[si.layout][j]);
-                    /* XXX -- This can overflow, and we should check for that */
+                if (Map_GetLandscapeType(packed) == (ushort)LandscapeType.LST_CONCRETE_SLAB && g_map[packed].houseID == houseID) continue;
 
-                    if (Map_GetLandscapeType(packed) == (ushort)LandscapeType.LST_CONCRETE_SLAB && g_map[packed].houseID == houseID) continue;
-
-                    stop = false;
-                    break;
-                }
-
-                if (stop) return true;
+                stop = false;
+                break;
             }
 
-            return false;
+            if (stop) return true;
         }
 
-        /*
-         * Place a structure on the map.
-         *
-         * @param structure The structure to place on the map.
-         * @param position The (packed) tile to place the struction on.
-         * @return True if and only if the structure is placed on the map.
-         */
-        internal static bool Structure_Place(CStructure s, ushort position)
+        return false;
+    }
+
+    /*
+     * Place a structure on the map.
+     *
+     * @param structure The structure to place on the map.
+     * @param position The (packed) tile to place the struction on.
+     * @return True if and only if the structure is placed on the map.
+     */
+    internal static bool Structure_Place(CStructure s, ushort position)
+    {
+        StructureInfo si;
+        short validBuildLocation;
+
+        if (s == null) return false;
+        if (position == 0xFFFF) return false;
+
+        si = g_table_structureInfo[s.o.type];
+
+        switch ((StructureType)s.o.type)
         {
-            StructureInfo si;
-            short validBuildLocation;
+            case StructureType.STRUCTURE_WALL:
+                {
+                    CTile t;
 
-            if (s == null) return false;
-            if (position == 0xFFFF) return false;
+                    if (Structure_IsValidBuildLocation(position, StructureType.STRUCTURE_WALL) == 0) return false;
 
-            si = g_table_structureInfo[s.o.type];
+                    t = g_map[position];
+                    t.groundTileID = (ushort)(g_wallTileID + 1);
+                    /* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
+                    t.houseID = s.o.houseID;
 
-            switch ((StructureType)s.o.type)
-            {
-                case StructureType.STRUCTURE_WALL:
+                    g_mapTileID[position] |= 0x8000;
+
+                    if (s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 1);
+
+                    if (Map_IsPositionUnveiled(position)) t.overlayTileID = 0;
+
+                    Structure_ConnectWall(position, true);
+                    Structure_Free(s);
+
+                }
+                return true;
+
+            case StructureType.STRUCTURE_SLAB_1x1:
+            case StructureType.STRUCTURE_SLAB_2x2:
+                {
+                    ushort i, result;
+
+                    result = 0;
+
+                    for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
                     {
-                        CTile t;
+                        var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
+                        var t = g_map[curPos];
 
-                        if (Structure_IsValidBuildLocation(position, StructureType.STRUCTURE_WALL) == 0) return false;
+                        if (Structure_IsValidBuildLocation(curPos, StructureType.STRUCTURE_SLAB_1x1) == 0) continue;
 
-                        t = g_map[position];
-                        t.groundTileID = (ushort)(g_wallTileID + 1);
-                        /* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
+                        t.groundTileID = g_builtSlabTileID;
                         t.houseID = s.o.houseID;
 
-                        g_mapTileID[position] |= 0x8000;
+                        g_mapTileID[curPos] |= 0x8000;
 
-                        if (s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 1);
+                        if (s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
 
-                        if (Map_IsPositionUnveiled(position)) t.overlayTileID = 0;
+                        if (Map_IsPositionUnveiled(curPos)) t.overlayTileID = 0;
 
-                        Structure_ConnectWall(position, true);
-                        Structure_Free(s);
+                        Map_Update(curPos, 0, false);
 
+                        result = 1;
                     }
-                    return true;
 
-                case StructureType.STRUCTURE_SLAB_1x1:
-                case StructureType.STRUCTURE_SLAB_2x2:
+                    /* XXX -- Dirt hack -- Parts of the 2x2 slab can be outside the building area, so by doing the same loop twice it will build for sure */
+                    if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2)
                     {
-                        ushort i, result;
-
-                        result = 0;
-
                         for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
                         {
                             var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
@@ -2156,220 +2180,195 @@ namespace SharpDune
 
                             g_mapTileID[curPos] |= 0x8000;
 
-                            if (s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
-
-                            if (Map_IsPositionUnveiled(curPos)) t.overlayTileID = 0;
+                            if (s.o.houseID == (byte)g_playerHouseID)
+                            {
+                                Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
+                                t.overlayTileID = 0;
+                            }
 
                             Map_Update(curPos, 0, false);
 
                             result = 1;
                         }
-
-                        /* XXX -- Dirt hack -- Parts of the 2x2 slab can be outside the building area, so by doing the same loop twice it will build for sure */
-                        if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2)
-                        {
-                            for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
-                            {
-                                var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
-                                var t = g_map[curPos];
-
-                                if (Structure_IsValidBuildLocation(curPos, StructureType.STRUCTURE_SLAB_1x1) == 0) continue;
-
-                                t.groundTileID = g_builtSlabTileID;
-                                t.houseID = s.o.houseID;
-
-                                g_mapTileID[curPos] |= 0x8000;
-
-                                if (s.o.houseID == (byte)g_playerHouseID)
-                                {
-                                    Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
-                                    t.overlayTileID = 0;
-                                }
-
-                                Map_Update(curPos, 0, false);
-
-                                result = 1;
-                            }
-                        }
-
-                        if (result == 0) return false;
-
-                        Structure_Free(s);
                     }
-                    return true;
-            }
 
-            validBuildLocation = Structure_IsValidBuildLocation(position, (StructureType)s.o.type);
-            if (validBuildLocation == 0 && s.o.houseID == (byte)g_playerHouseID && !g_debugScenario && g_validateStrictIfZero == 0) return false;
+                    if (result == 0) return false;
 
-            /* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-            if (!g_dune2_enhanced && s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
+                    Structure_Free(s);
+                }
+                return true;
+        }
 
-            s.o.seenByHouses |= (byte)(1 << s.o.houseID);
-            if (s.o.houseID == (byte)g_playerHouseID) s.o.seenByHouses |= 0xFF;
+        validBuildLocation = Structure_IsValidBuildLocation(position, (StructureType)s.o.type);
+        if (validBuildLocation == 0 && s.o.houseID == (byte)g_playerHouseID && !g_debugScenario && g_validateStrictIfZero == 0) return false;
 
-            s.o.flags.isNotOnMap = false;
+        /* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
+        if (!g_dune2_enhanced && s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
 
-            s.o.position = Tile_UnpackTile(position);
-            s.o.position.x &= 0xFF00;
-            s.o.position.y &= 0xFF00;
+        s.o.seenByHouses |= (byte)(1 << s.o.houseID);
+        if (s.o.houseID == (byte)g_playerHouseID) s.o.seenByHouses |= 0xFF;
 
-            s.rotationSpriteDiff = 0;
-            s.o.hitpoints = si.o.hitpoints;
-            s.hitpointsMax = si.o.hitpoints;
+        s.o.flags.isNotOnMap = false;
 
-            /* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
-            if (validBuildLocation < 0)
+        s.o.position = Tile_UnpackTile(position);
+        s.o.position.x &= 0xFF00;
+        s.o.position.y &= 0xFF00;
+
+        s.rotationSpriteDiff = 0;
+        s.o.hitpoints = si.o.hitpoints;
+        s.hitpointsMax = si.o.hitpoints;
+
+        /* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
+        if (validBuildLocation < 0)
+        {
+            var tilesWithoutSlab = (ushort)-validBuildLocation;
+            var structureTileCount = g_table_structure_layoutTileCount[si.layout];
+
+            s.o.hitpoints -= (ushort)((si.o.hitpoints / 2) * tilesWithoutSlab / structureTileCount);
+
+            s.o.flags.degrades = true;
+        }
+        else
+        {
+            /* ENHANCEMENT -- When you build a structure completely on slabs, it should not degrade */
+            if (!g_dune2_enhanced)
             {
-                var tilesWithoutSlab = (ushort)-validBuildLocation;
-                var structureTileCount = g_table_structure_layoutTileCount[si.layout];
-
-                s.o.hitpoints -= (ushort)((si.o.hitpoints / 2) * tilesWithoutSlab / structureTileCount);
-
                 s.o.flags.degrades = true;
             }
-            else
-            {
-                /* ENHANCEMENT -- When you build a structure completely on slabs, it should not degrade */
-                if (!g_dune2_enhanced)
-                {
-                    s.o.flags.degrades = true;
-                }
-            }
-
-            Script_Reset(s.o.script, g_scriptStructure);
-
-            s.o.script.variables[0] = 0;
-            s.o.script.variables[4] = 0;
-
-            /* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediately .. how can this ever NOT happen? */
-            if (position != 0xFFFF)
-            {
-                s.o.script.delay = 0;
-                Script_Reset(s.o.script, s.o.script.scriptInfo);
-                Script_Load(s.o.script, s.o.type);
-            }
-
-            {
-                ushort i;
-
-                for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
-                {
-                    var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
-                    CUnit u;
-
-                    u = Unit_Get_ByPackedTile(curPos);
-
-                    Unit_Remove(u);
-
-                    /* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-                    if (g_dune2_enhanced && s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 2);
-                }
-            }
-
-            if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP)
-            {
-                CHouse h;
-
-                h = House_Get_ByIndex(s.o.houseID);
-                h.windtrapCount += 1;
-            }
-
-            if (g_validateStrictIfZero == 0)
-            {
-                CHouse h;
-
-                h = House_Get_ByIndex(s.o.houseID);
-                House_CalculatePowerAndCredit(h);
-            }
-
-            Structure_UpdateMap(s);
-
-            {
-                CHouse h;
-                h = House_Get_ByIndex(s.o.houseID);
-                h.structuresBuilt = Structure_GetStructuresBuilt(h);
-            }
-
-            return true;
         }
 
-        /*
-         * Create a new Structure.
-         *
-         * @param index The new index of the Structure, or STRUCTURE_INDEX_INVALID to assign one.
-         * @param typeID The type of the new Structure.
-         * @param houseID The House of the new Structure.
-         * @param position The packed position where to place the Structure. If 0xFFFF, the Structure is not placed.
-         * @return The new created Structure, or NULL if something failed.
-         */
-        internal static CStructure Structure_Create(ushort index, byte typeID, byte houseID, ushort position)
+        Script_Reset(s.o.script, g_scriptStructure);
+
+        s.o.script.variables[0] = 0;
+        s.o.script.variables[4] = 0;
+
+        /* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediately .. how can this ever NOT happen? */
+        if (position != 0xFFFF)
         {
-            StructureInfo si;
-            CStructure s;
-
-            if (houseID >= (byte)HouseType.HOUSE_MAX) return null;
-            if (typeID >= (byte)StructureType.STRUCTURE_MAX) return null;
-
-            si = g_table_structureInfo[typeID];
-            s = Structure_Allocate(index, typeID);
-            if (s == null) return null;
-
-            s.o.houseID = houseID;
-            s.creatorHouseID = houseID;
-            s.o.flags.isNotOnMap = true;
-            s.o.position.x = 0;
-            s.o.position.y = 0;
-            s.o.linkedID = 0xFF;
-            s.state = (short)(g_debugScenario ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_JUSTBUILT);
-
-            if (typeID == (byte)StructureType.STRUCTURE_TURRET)
-            {
-                s.rotationSpriteDiff = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
-            }
-            if (typeID == (byte)StructureType.STRUCTURE_ROCKET_TURRET)
-            {
-                s.rotationSpriteDiff = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET] + 1];
-            }
-
-            s.o.hitpoints = si.o.hitpoints;
-            s.hitpointsMax = si.o.hitpoints;
-
-            if (houseID == (byte)HouseType.HOUSE_HARKONNEN && typeID == (byte)StructureType.STRUCTURE_LIGHT_VEHICLE)
-            {
-                s.upgradeLevel = 1;
-            }
-
-            /* Check if there is an upgrade available */
-            if (si.o.flags.factory)
-            {
-                s.upgradeTimeLeft = (byte)(Structure_IsUpgradable(s) ? 100 : 0);
-            }
-
-            s.objectType = 0xFFFF;
-
-            Structure_BuildObject(s, 0xFFFE);
-
-            s.countDown = 0;
-
-            /* AIs get the full upgrade immediately */
-            if (houseID != (byte)g_playerHouseID)
-            {
-                while (true)
-                {
-                    if (!Structure_IsUpgradable(s)) break;
-                    s.upgradeLevel++;
-                }
-                s.upgradeTimeLeft = 0;
-            }
-
-            if (position != 0xFFFF && !Structure_Place(s, position))
-            {
-                Structure_Free(s);
-                return null;
-            }
-
-            return s;
+            s.o.script.delay = 0;
+            Script_Reset(s.o.script, s.o.script.scriptInfo);
+            Script_Load(s.o.script, s.o.type);
         }
+
+        {
+            ushort i;
+
+            for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
+            {
+                var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
+                CUnit u;
+
+                u = Unit_Get_ByPackedTile(curPos);
+
+                Unit_Remove(u);
+
+                /* ENHANCEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
+                if (g_dune2_enhanced && s.o.houseID == (byte)g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 2);
+            }
+        }
+
+        if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP)
+        {
+            CHouse h;
+
+            h = House_Get_ByIndex(s.o.houseID);
+            h.windtrapCount += 1;
+        }
+
+        if (g_validateStrictIfZero == 0)
+        {
+            CHouse h;
+
+            h = House_Get_ByIndex(s.o.houseID);
+            House_CalculatePowerAndCredit(h);
+        }
+
+        Structure_UpdateMap(s);
+
+        {
+            CHouse h;
+            h = House_Get_ByIndex(s.o.houseID);
+            h.structuresBuilt = Structure_GetStructuresBuilt(h);
+        }
+
+        return true;
+    }
+
+    /*
+     * Create a new Structure.
+     *
+     * @param index The new index of the Structure, or STRUCTURE_INDEX_INVALID to assign one.
+     * @param typeID The type of the new Structure.
+     * @param houseID The House of the new Structure.
+     * @param position The packed position where to place the Structure. If 0xFFFF, the Structure is not placed.
+     * @return The new created Structure, or NULL if something failed.
+     */
+    internal static CStructure Structure_Create(ushort index, byte typeID, byte houseID, ushort position)
+    {
+        StructureInfo si;
+        CStructure s;
+
+        if (houseID >= (byte)HouseType.HOUSE_MAX) return null;
+        if (typeID >= (byte)StructureType.STRUCTURE_MAX) return null;
+
+        si = g_table_structureInfo[typeID];
+        s = Structure_Allocate(index, typeID);
+        if (s == null) return null;
+
+        s.o.houseID = houseID;
+        s.creatorHouseID = houseID;
+        s.o.flags.isNotOnMap = true;
+        s.o.position.x = 0;
+        s.o.position.y = 0;
+        s.o.linkedID = 0xFF;
+        s.state = (short)(g_debugScenario ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_JUSTBUILT);
+
+        if (typeID == (byte)StructureType.STRUCTURE_TURRET)
+        {
+            s.rotationSpriteDiff = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
+        }
+        if (typeID == (byte)StructureType.STRUCTURE_ROCKET_TURRET)
+        {
+            s.rotationSpriteDiff = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET] + 1];
+        }
+
+        s.o.hitpoints = si.o.hitpoints;
+        s.hitpointsMax = si.o.hitpoints;
+
+        if (houseID == (byte)HouseType.HOUSE_HARKONNEN && typeID == (byte)StructureType.STRUCTURE_LIGHT_VEHICLE)
+        {
+            s.upgradeLevel = 1;
+        }
+
+        /* Check if there is an upgrade available */
+        if (si.o.flags.factory)
+        {
+            s.upgradeTimeLeft = (byte)(Structure_IsUpgradable(s) ? 100 : 0);
+        }
+
+        s.objectType = 0xFFFF;
+
+        Structure_BuildObject(s, 0xFFFE);
+
+        s.countDown = 0;
+
+        /* AIs get the full upgrade immediately */
+        if (houseID != (byte)g_playerHouseID)
+        {
+            while (true)
+            {
+                if (!Structure_IsUpgradable(s)) break;
+                s.upgradeLevel++;
+            }
+            s.upgradeTimeLeft = 0;
+        }
+
+        if (position != 0xFFFF && !Structure_Place(s, position))
+        {
+            Structure_Free(s);
+            return null;
+        }
+
+        return s;
     }
 }

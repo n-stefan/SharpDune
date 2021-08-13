@@ -23,90 +23,89 @@
  * http://www.scale2x.it/
  */
 
-namespace SharpDune.Video
+namespace SharpDune.Video;
+
+class Scale2x
 {
-	class Scale2x
-	{
-		/*
-         * Scale by a factor of 2 a row of pixels of 8 bits.
-         * The function is implemented in C.
-         * The pixels over the left and right borders are assumed of the same color of
-         * the pixels on the border.
-         * Note that the implementation is optimized to write data sequentially to
-         * maximize the bandwidth on video memory.
-         * \param src0 Pointer at the first pixel of the previous row.
-         * \param src1 Pointer at the first pixel of the current row.
-         * \param src2 Pointer at the first pixel of the next row.
-         * \param count Length in pixels of the src0, src1 and src2 rows.
-         * It must be at least 2.
-         * \param dst0 First destination row, double length in pixels.
-         * \param dst1 Second destination row, double length in pixels.
-         */
-		void scale2x_8_def(byte[] dst0, byte[] dst1, byte[] src0, byte[] src1, byte[] src2, ushort count)
-		{
+    /*
+     * Scale by a factor of 2 a row of pixels of 8 bits.
+     * The function is implemented in C.
+     * The pixels over the left and right borders are assumed of the same color of
+     * the pixels on the border.
+     * Note that the implementation is optimized to write data sequentially to
+     * maximize the bandwidth on video memory.
+     * \param src0 Pointer at the first pixel of the previous row.
+     * \param src1 Pointer at the first pixel of the current row.
+     * \param src2 Pointer at the first pixel of the next row.
+     * \param count Length in pixels of the src0, src1 and src2 rows.
+     * It must be at least 2.
+     * \param dst0 First destination row, double length in pixels.
+     * \param dst1 Second destination row, double length in pixels.
+     */
+    void scale2x_8_def(byte[] dst0, byte[] dst1, byte[] src0, byte[] src1, byte[] src2, ushort count)
+    {
 #if USE_SCALE_RANDOMWRITE
 	        scale2x_8_def_whole(dst0, dst1, src0, src1, src2, count);
 #else
-			scale2x_8_def_border(dst0, src0, src1, src2, count);
-			scale2x_8_def_border(dst1, src2, src1, src0, count);
+        scale2x_8_def_border(dst0, src0, src1, src2, count);
+        scale2x_8_def_border(dst1, src2, src1, src0, count);
 #endif
-		}
+    }
 
 #if !USE_SCALE_RANDOMWRITE
-		static void scale2x_8_def_border(byte[] dst, byte[] src0, byte[] src1, byte[] src2, ushort count)
-		{
-			Debug.Assert(count >= 2);
+    static void scale2x_8_def_border(byte[] dst, byte[] src0, byte[] src1, byte[] src2, ushort count)
+    {
+        Debug.Assert(count >= 2);
 
-			/* first pixel */
-			if (src0[0] != src2[0] && src1[0] != src1[1])
-			{
-				dst[0] = src1[0] == src0[0] ? src0[0] : src1[0];
-				dst[1] = src1[1] == src0[0] ? src0[0] : src1[0];
-			}
-			else
-			{
-				dst[0] = src1[0];
-				dst[1] = src1[0];
-			}
-			++src0;
-			++src1;
-			++src2;
-			dst += 2;
+        /* first pixel */
+        if (src0[0] != src2[0] && src1[0] != src1[1])
+        {
+            dst[0] = src1[0] == src0[0] ? src0[0] : src1[0];
+            dst[1] = src1[1] == src0[0] ? src0[0] : src1[0];
+        }
+        else
+        {
+            dst[0] = src1[0];
+            dst[1] = src1[0];
+        }
+        ++src0;
+        ++src1;
+        ++src2;
+        dst += 2;
 
-			/* central pixels */
-			count -= 2;
-			while (count)
-			{
-				if (src0[0] != src2[0] && src1[-1] != src1[1])
-				{
-					dst[0] = src1[-1] == src0[0] ? src0[0] : src1[0];
-					dst[1] = src1[1] == src0[0] ? src0[0] : src1[0];
-				}
-				else
-				{
-					dst[0] = src1[0];
-					dst[1] = src1[0];
-				}
+        /* central pixels */
+        count -= 2;
+        while (count)
+        {
+            if (src0[0] != src2[0] && src1[-1] != src1[1])
+            {
+                dst[0] = src1[-1] == src0[0] ? src0[0] : src1[0];
+                dst[1] = src1[1] == src0[0] ? src0[0] : src1[0];
+            }
+            else
+            {
+                dst[0] = src1[0];
+                dst[1] = src1[0];
+            }
 
-				++src0;
-				++src1;
-				++src2;
-				dst += 2;
-				--count;
-			}
+            ++src0;
+            ++src1;
+            ++src2;
+            dst += 2;
+            --count;
+        }
 
-			/* last pixel */
-			if (src0[0] != src2[0] && src1[-1] != src1[0])
-			{
-				dst[0] = src1[-1] == src0[0] ? src0[0] : src1[0];
-				dst[1] = src1[0] == src0[0] ? src0[0] : src1[0];
-			}
-			else
-			{
-				dst[0] = src1[0];
-				dst[1] = src1[0];
-			}
-		}
+        /* last pixel */
+        if (src0[0] != src2[0] && src1[-1] != src1[0])
+        {
+            dst[0] = src1[-1] == src0[0] ? src0[0] : src1[0];
+            dst[1] = src1[0] == src0[0] ? src0[0] : src1[0];
+        }
+        else
+        {
+            dst[0] = src1[0];
+            dst[1] = src1[0];
+        }
+    }
 #endif
-	}
 }

@@ -1,17 +1,16 @@
 ﻿/* MovementType file table */
 
-namespace SharpDune.Table
+namespace SharpDune.Table;
+
+class TableMovementType
 {
-    class TableMovementType
+    internal static string[] g_table_movementTypeName =
     {
-		internal static string[] g_table_movementTypeName =
-		{
-			"Foot",
-			"Tracked",
-			"Harvester",
-			"Wheeled",
-			"Winged",
-			"Slither"
-		};
-	}
+        "Foot",
+        "Tracked",
+        "Harvester",
+        "Wheeled",
+        "Winged",
+        "Slither"
+    };
 }

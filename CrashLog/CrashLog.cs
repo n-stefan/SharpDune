@@ -1,11 +1,10 @@
 ﻿/* Windows implementation of the crashlog */
 
-namespace SharpDune.CrashLog
+namespace SharpDune.CrashLog;
+
+class CrashLog
 {
-    class CrashLog
+    internal static void CrashLog_Init()
     {
-        internal static void CrashLog_Init()
-        {
-        }
     }
 }

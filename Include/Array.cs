@@ -1,47 +1,46 @@
-﻿namespace SharpDune.Include
+﻿namespace SharpDune.Include;
+
+class Array<T>
 {
-    class Array<T>
+    internal T[] Arr { get; set; }
+
+    internal int Ptr { get; set; }
+
+    internal T Curr
     {
-        internal T[] Arr { get; set; }
+        get => Arr[Ptr];
+        set => Arr[Ptr] = value;
+    }
 
-        internal int Ptr { get; set; }
+    //internal T CurrInc
+    //{
+    //    get => Arr[Ptr++];
+    //    //set => Arr[Ptr++] = value;
+    //}
 
-        internal T Curr
-        {
-            get => Arr[Ptr];
-            set => Arr[Ptr] = value;
-        }
+    internal Array() { }
 
-        //internal T CurrInc
-        //{
-        //    get => Arr[Ptr++];
-        //    //set => Arr[Ptr++] = value;
-        //}
+    internal Array(Array<T> old)
+    {
+        Arr = old.Arr;
+        Ptr = old.Ptr;
+    }
 
-        internal Array() {}
+    internal Array(T[] array, int pointer)
+    {
+        Arr = array;
+        Ptr = pointer;
+    }
 
-        internal Array(Array<T> old)
-        {
-            Arr = old.Arr;
-            Ptr = old.Ptr;
-        }
+    public static Array<T> operator +(Array<T> array, int amount)
+    {
+        array.Ptr += amount;
+        return array;
+    }
 
-        internal Array(T[] array, int pointer)
-        {
-            Arr = array;
-            Ptr = pointer;
-        }
-
-        public static Array<T> operator +(Array<T> array, int amount)
-        {
-            array.Ptr += amount;
-            return array;
-        }
-
-        public static Array<T> operator ++(Array<T> array)
-        {
-            array.Ptr++;
-            return array;
-        }
+    public static Array<T> operator ++(Array<T> array)
+    {
+        array.Ptr++;
+        return array;
     }
 }

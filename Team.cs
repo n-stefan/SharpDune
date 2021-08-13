@@ -1,159 +1,158 @@
 ﻿/* Team */
 
-namespace SharpDune
+namespace SharpDune;
+
+/*
+ * Types of TeamActions available in the game.
+ */
+enum TeamActionType
 {
+    TEAM_ACTION_NORMAL = 0,
+    TEAM_ACTION_STAGING = 1,
+    TEAM_ACTION_FLEE = 2,
+    TEAM_ACTION_KAMIKAZE = 3,
+    TEAM_ACTION_GUARD = 4,
+
+    TEAM_ACTION_MAX = 5,
+    TEAM_ACTION_INVALID = 0xFF
+}
+
+/*
+ * flags for Team structure
+ */
+class TeamFlags
+{
+    internal bool used;                                   /*!< The Team is in use (no longer free in the pool). */
+    internal bool notused_0002;                           /*!< Never used - remaining bits. */
+}
+
+/*
+ * An Team as stored in the memory.
+ */
+class CTeam
+{
+    internal ushort index;                                  /*!< The index of the Team in the array. */
+    internal TeamFlags flags;                               /*!< General flags of the Team. */
+    internal ushort members;                                /*!< Amount of members in Team. */
+    internal ushort minMembers;                             /*!< Minimum amount of members in Team. */
+    internal ushort maxMembers;                             /*!< Maximum amount of members in Team. */
+    internal ushort movementType;                           /*!< MovementType of Team. */
+    internal ushort action;                                 /*!< Current TeamActionType of Team. */
+    internal ushort actionStart;                            /*!< The TeamActionType Team starts with. */
+    internal byte houseID;                                  /*!< House of Team. */
+    internal Tile32 position;                               /*!< Position on the map. */
+    internal ushort targetTile;                             /*!< Current target tile around the target. Only used as a bool, so either set or not. */
+    internal ushort target;                                 /*!< Current target of team (encoded index). */
+    internal ScriptEngine script;                           /*!< The script engine instance of this Team. */
+
+    internal CTeam()
+    {
+        flags = new TeamFlags();
+        script = new ScriptEngine();
+    }
+}
+
+class Team
+{
+    static uint s_tickTeamGameLoop; /*!< Indicates next time the GameLoop function is executed. */
+
     /*
-	 * Types of TeamActions available in the game.
-	 */
-    enum TeamActionType
-	{
-		TEAM_ACTION_NORMAL = 0,
-		TEAM_ACTION_STAGING = 1,
-		TEAM_ACTION_FLEE = 2,
-		TEAM_ACTION_KAMIKAZE = 3,
-		TEAM_ACTION_GUARD = 4,
+     * Loop over all teams, performing various of tasks.
+     */
+    internal static void GameLoop_Team()
+    {
+        var find = new PoolFindStruct();
 
-		TEAM_ACTION_MAX = 5,
-		TEAM_ACTION_INVALID = 0xFF
-	}
+        if (s_tickTeamGameLoop > g_timerGame) return;
+        s_tickTeamGameLoop = (uint)(g_timerGame + (Tools_Random_256() & 7) + 5);
 
-	/*
-	 * flags for Team structure
-	 */
-	class TeamFlags
-	{
-		internal bool used;                                   /*!< The Team is in use (no longer free in the pool). */
-		internal bool notused_0002;                           /*!< Never used - remaining bits. */
-	}
+        find.houseID = (byte)HouseType.HOUSE_INVALID;
+        find.index = 0xFFFF;
+        find.type = 0xFFFF;
 
-	/*
-	 * An Team as stored in the memory.
-	 */
-	class CTeam
-	{
-		internal ushort index;                                  /*!< The index of the Team in the array. */
-		internal TeamFlags flags;                               /*!< General flags of the Team. */
-		internal ushort members;                                /*!< Amount of members in Team. */
-		internal ushort minMembers;                             /*!< Minimum amount of members in Team. */
-		internal ushort maxMembers;                             /*!< Maximum amount of members in Team. */
-		internal ushort movementType;                           /*!< MovementType of Team. */
-		internal ushort action;                                 /*!< Current TeamActionType of Team. */
-		internal ushort actionStart;                            /*!< The TeamActionType Team starts with. */
-		internal byte houseID;                                  /*!< House of Team. */
-		internal Tile32 position;                               /*!< Position on the map. */
-		internal ushort targetTile;                             /*!< Current target tile around the target. Only used as a bool, so either set or not. */
-		internal ushort target;                                 /*!< Current target of team (encoded index). */
-		internal ScriptEngine script;                           /*!< The script engine instance of this Team. */
+        g_scriptCurrentObject = null;
+        g_scriptCurrentUnit = null;
+        g_scriptCurrentStructure = null;
 
-		internal CTeam()
-		{
-			flags = new TeamFlags();
-			script = new ScriptEngine();
-		}
-	}
+        while (true)
+        {
+            CTeam t;
+            CHouse h;
 
-	class Team
-	{
-		static uint s_tickTeamGameLoop; /*!< Indicates next time the GameLoop function is executed. */
+            t = Team_Find(find);
+            if (t == null) break;
 
-		/*
-		 * Loop over all teams, performing various of tasks.
-		 */
-		internal static void GameLoop_Team()
-		{
-			var find = new PoolFindStruct();
+            h = House_Get_ByIndex(t.houseID);
 
-			if (s_tickTeamGameLoop > g_timerGame) return;
-			s_tickTeamGameLoop = (uint)(g_timerGame + (Tools_Random_256() & 7) + 5);
+            g_scriptCurrentTeam = t;
 
-			find.houseID = (byte)HouseType.HOUSE_INVALID;
-			find.index = 0xFFFF;
-			find.type = 0xFFFF;
+            if (!h.flags.isAIActive) continue;
 
-            g_scriptCurrentObject = null;
-            g_scriptCurrentUnit = null;
-            g_scriptCurrentStructure = null;
+            if (t.script.delay != 0)
+            {
+                t.script.delay--;
+                continue;
+            }
 
-			while (true)
-			{
-				CTeam t;
-				CHouse h;
+            if (!Script_IsLoaded(t.script)) continue;
 
-				t = Team_Find(find);
-				if (t == null) break;
+            if (!Script_Run(t.script))
+            {
+                /* ENHANCEMENT -- Dune2 aborts all other teams if one gives a script error. This doesn't seem correct */
+                if (g_dune2_enhanced) continue;
+                break;
+            }
+        }
+    }
 
-				h = House_Get_ByIndex(t.houseID);
+    /*
+     * Convert the name of a team action to the type value of that team action, or
+     *  TEAM_ACTION_INVALID if not found.
+     */
+    internal static byte Team_ActionStringToType(string name)
+    {
+        byte type;
+        if (name == null) return (byte)TeamActionType.TEAM_ACTION_INVALID;
 
-                g_scriptCurrentTeam = t;
+        for (type = 0; type < (byte)TeamActionType.TEAM_ACTION_MAX; type++)
+        {
+            if (string.Equals(g_table_teamActionName[type], name, StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(g_table_teamActionName[type], name) == 0)
+                return type;
+        }
 
-				if (!h.flags.isAIActive) continue;
+        return (byte)TeamActionType.TEAM_ACTION_INVALID;
+    }
 
-				if (t.script.delay != 0)
-				{
-					t.script.delay--;
-					continue;
-				}
+    /*
+     * Create a new Team.
+     *
+     * @param houseID The House of the new Team.
+     * @param teamActionType The teamActionType of the new Team.
+     * @param movementType The movementType of the new Team.
+     * @param minMembers The minimum amount of members in the new Team.
+     * @param maxMembers The maximum amount of members in the new Team.
+     * @return The new created Team, or NULL if something failed.
+     */
+    internal static CTeam Team_Create(byte houseID, byte teamActionType, byte movementType, ushort minMembers, ushort maxMembers)
+    {
+        CTeam t;
 
-				if (!Script_IsLoaded(t.script)) continue;
+        t = Team_Allocate(0xFFFF);
 
-				if (!Script_Run(t.script))
-				{
-					/* ENHANCEMENT -- Dune2 aborts all other teams if one gives a script error. This doesn't seem correct */
-					if (g_dune2_enhanced) continue;
-					break;
-				}
-			}
-		}
+        if (t == null) return null;
+        t.flags.used = true;
+        t.houseID = houseID;
+        t.action = teamActionType;
+        t.actionStart = teamActionType;
+        t.movementType = movementType;
+        t.minMembers = minMembers;
+        t.maxMembers = maxMembers;
 
-		/*
-		 * Convert the name of a team action to the type value of that team action, or
-		 *  TEAM_ACTION_INVALID if not found.
-		 */
-		internal static byte Team_ActionStringToType(string name)
-		{
-			byte type;
-			if (name == null) return (byte)TeamActionType.TEAM_ACTION_INVALID;
+        Script_Reset(t.script, g_scriptTeam);
+        Script_Load(t.script, teamActionType);
 
-			for (type = 0; type < (byte)TeamActionType.TEAM_ACTION_MAX; type++)
-			{
-				if (string.Equals(g_table_teamActionName[type], name, StringComparison.OrdinalIgnoreCase)) //if (strcasecmp(g_table_teamActionName[type], name) == 0)
-					return type;
-			}
+        t.script.delay = 0;
 
-			return (byte)TeamActionType.TEAM_ACTION_INVALID;
-		}
-
-		/*
-		 * Create a new Team.
-		 *
-		 * @param houseID The House of the new Team.
-		 * @param teamActionType The teamActionType of the new Team.
-		 * @param movementType The movementType of the new Team.
-		 * @param minMembers The minimum amount of members in the new Team.
-		 * @param maxMembers The maximum amount of members in the new Team.
-		 * @return The new created Team, or NULL if something failed.
-		 */
-		internal static CTeam Team_Create(byte houseID, byte teamActionType, byte movementType, ushort minMembers, ushort maxMembers)
-		{
-			CTeam t;
-
-			t = Team_Allocate(0xFFFF);
-
-			if (t == null) return null;
-			t.flags.used = true;
-			t.houseID = houseID;
-			t.action = teamActionType;
-			t.actionStart = teamActionType;
-			t.movementType = movementType;
-			t.minMembers = minMembers;
-			t.maxMembers = maxMembers;
-
-            Script_Reset(t.script, g_scriptTeam);
-            Script_Load(t.script, teamActionType);
-
-			t.script.delay = 0;
-
-			return t;
-		}
-	}
+        return t;
+    }
 }
