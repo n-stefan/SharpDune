@@ -11,7 +11,7 @@ enum Screen
     ACTIVE = -1
 }
 
-class dirty_area
+class DirtyArea
 {
     internal ushort left;
     internal ushort top;
@@ -22,7 +22,7 @@ class dirty_area
 class Gfx
 {
     static bool s_screen0_is_dirty;
-    static readonly dirty_area s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
+    static readonly DirtyArea s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };
     static readonly uint[] g_dirty_blocks = new uint[200];
 
     static Screen s_screenActiveID = Screen.NO0;
@@ -69,19 +69,14 @@ class Gfx
         if (screenID == Screen.ACTIVE)
             screenID = s_screenActiveID;
         Debug.Assert(screenID >= 0 && (byte)screenID < GFX_SCREEN_BUFFER_COUNT);
-        switch (screenID)
+        return screenID switch
         {
-            case Screen.NO0:
-                return Video_GetFrameBuffer();
-            case Screen.NO1:
-                return s_screen1;
-            case Screen.NO2:
-                return s_screen2;
-            case Screen.NO3:
-                return s_screen3;
-            default:
-                throw new Exception($"ERROR: GFX_Screen_Get_ByIndex() parameter value '{screenID}' is invalid.");
-        }
+            Screen.NO0 => Video_GetFrameBuffer(),
+            Screen.NO1 => s_screen1,
+            Screen.NO2 => s_screen2,
+            Screen.NO3 => s_screen3,
+            _ => throw new Exception($"ERROR: GFX_Screen_Get_ByIndex() parameter value '{screenID}' is invalid."),
+        };
     }
 
     internal static void GFX_Screen_SetDirty(Screen screenID, ushort left, ushort top, ushort right, ushort bottom)
@@ -591,7 +586,7 @@ class Gfx
         return s_screen0_is_dirty;
     }
 
-    internal static dirty_area GFX_Screen_GetDirtyArea(Screen screenID)
+    internal static DirtyArea GFX_Screen_GetDirtyArea(Screen screenID)
     {
         if (screenID == Screen.ACTIVE) screenID = s_screenActiveID;
         if (screenID != Screen.NO0) return null;

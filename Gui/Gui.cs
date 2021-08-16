@@ -119,12 +119,12 @@ class HallOfFameStruct
     internal void FromBytes(byte[] bytes)
     {
         for (var i = 0; i < 6; i++) name[i] = (char)bytes[i];
-        score = BitConverter.ToUInt16(bytes[6..8]);
-        rank = BitConverter.ToUInt16(bytes[8..10]);
-        campaignID = BitConverter.ToUInt16(bytes[10..12]);
+        score = BitConverter.ToUInt16(bytes.AsSpan(6..8));
+        rank = BitConverter.ToUInt16(bytes.AsSpan(8..10));
+        campaignID = BitConverter.ToUInt16(bytes.AsSpan(10..12));
         houseID = bytes[12];
         padding1 = bytes[13];
-        padding2 = BitConverter.ToUInt16(bytes[14..16]);
+        padding2 = BitConverter.ToUInt16(bytes.AsSpan(14..16));
     }
 
     internal static byte[] AllToBytes(HallOfFameStruct[] data)
@@ -1220,7 +1220,7 @@ class Gui
 
         if (screenBackup != null)
         {
-            screenBackup = null; //free(screenBackup);
+            //screenBackup = null; //free(screenBackup);
         }
         else
         {
@@ -3128,9 +3128,6 @@ class Gui
 
         GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Screen.NO2, g_remap);
 
-        x = 0;
-        y = 0;
-
         switch (g_playerHouseID)
         {
             case HouseType.HOUSE_HARKONNEN:
@@ -3283,7 +3280,7 @@ class Gui
         ushort i;
         HouseType houseID;
 
-        houseID = HouseType.HOUSE_MERCENARY;
+        //houseID = HouseType.HOUSE_MERCENARY;
 
         //memset(palette, 0, 256 * 3);
 
@@ -3348,7 +3345,7 @@ class Gui
             {
                 var next = w.next;
 
-                w = null; //free(w);
+                //w = null; //free(w);
 
                 w = next;
             }
@@ -3407,7 +3404,7 @@ class Gui
             {
                 var next = w.next;
 
-                w = null; //free(w);
+                //w = null; //free(w);
 
                 w = next;
             }
@@ -3470,7 +3467,7 @@ class Gui
         //harvestedEnemy = 0;
         //score = 68;
 
-        score = (short)Update_Score(score, harvestedAllied, harvestedEnemy, houseID);
+        score = (short)Update_Score(score, ref harvestedAllied, ref harvestedEnemy, houseID);
 
         /* 1st scenario doesn't have the "Building destroyed" stats */
         statsBoxCount = (ushort)((g_scenarioID == 1) ? 2 : 3);
@@ -4409,7 +4406,7 @@ class Gui
      * @param harvestedEnemy Pointer to the total amount of spice harvested by enemies.
      * @param houseID The houseID of the player.
      */
-    static ushort Update_Score(short score, ushort harvestedAllied, ushort harvestedEnemy, byte houseID)
+    static ushort Update_Score(short score, ref ushort harvestedAllied, ref ushort harvestedEnemy, byte houseID)
     {
         var find = new PoolFindStruct();
         ushort targetTime;
@@ -4531,7 +4528,7 @@ class Gui
         while (w != null)
         {
             var next = w.next;
-            w = null; //free(w);
+            //w = null; //free(w);
             w = next;
         }
 

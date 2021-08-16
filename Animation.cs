@@ -50,7 +50,7 @@ class Animation
      * @param animation The Animation to stop.
      * @param parameter Not used.
      */
-    static void Animation_Func_Stop(CAnimation animation, short parameter)
+    static void Animation_Func_Stop(CAnimation animation)
     {
         var layout = g_table_structure_layoutTiles[animation.tileLayout];
         var layoutTileCount = g_table_structure_layoutTileCount[animation.tileLayout];
@@ -85,7 +85,7 @@ class Animation
      * @param animation The Animation to abort.
      * @param parameter Not used.
      */
-    static void Animation_Func_Abort(CAnimation animation, short parameter)
+    static void Animation_Func_Abort(CAnimation animation)
     {
         var packed = Tile_PackTile(animation.tile);
 
@@ -132,7 +132,7 @@ class Animation
      * @param animation The Animation to rewind.
      * @param parameter Not used.
      */
-    static void Animation_Func_Rewind(CAnimation animation, short parameter) =>
+    static void Animation_Func_Rewind(CAnimation animation) =>
         animation.current = 0;
 
     /*
@@ -231,7 +231,7 @@ class Animation
             if (animation[i].commands == null) continue;
             if (Tile_PackTile(animation[i].tile) != packed) continue;
 
-            Animation_Func_Stop(animation[i], 0);
+            Animation_Func_Stop(animation[i]);
             return;
         }
     }
@@ -300,12 +300,12 @@ class Animation
                 switch ((AnimationCommand)commands.command)
                 {
                     case AnimationCommand.ANIMATION_STOP:
-                    default: Animation_Func_Stop(animation[i], parameter); break;
+                    default: Animation_Func_Stop(animation[i]); break;
 
-                    case AnimationCommand.ANIMATION_ABORT: Animation_Func_Abort(animation[i], parameter); break;
+                    case AnimationCommand.ANIMATION_ABORT: Animation_Func_Abort(animation[i]); break;
                     case AnimationCommand.ANIMATION_SET_OVERLAY_TILE: Animation_Func_SetOverlayTile(animation[i], parameter); break;
                     case AnimationCommand.ANIMATION_PAUSE: Animation_Func_Pause(animation[i], parameter); break;
-                    case AnimationCommand.ANIMATION_REWIND: Animation_Func_Rewind(animation[i], parameter); break;
+                    case AnimationCommand.ANIMATION_REWIND: Animation_Func_Rewind(animation[i]); break;
                     case AnimationCommand.ANIMATION_PLAY_VOICE: Animation_Func_PlayVoice(animation[i], parameter); break;
                     case AnimationCommand.ANIMATION_SET_GROUND_TILE: Animation_Func_SetGroundTile(animation[i], parameter); break;
                     case AnimationCommand.ANIMATION_FORWARD: Animation_Func_Forward(animation[i], parameter); break;

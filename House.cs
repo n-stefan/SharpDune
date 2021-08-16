@@ -356,8 +356,6 @@ class House
 
         if (h == null || h.index != (byte)g_playerHouseID) return false;
 
-        wsa = (null, null);
-
         activate = h.flags.radarActivated;
 
         if (h.flags.radarActivated)
@@ -374,7 +372,7 @@ class House
         if (h.flags.radarActivated == activate) return false;
 
         wsa = WSA_LoadFile("STATIC.WSA", GFX_Screen_Get_ByIndex(Screen.NO1), GFX_Screen_GetSize_ByIndex(Screen.NO1), true);
-        frameCount = WSA_GetFrameCount(wsa);
+        //frameCount = WSA_GetFrameCount(wsa);
 
         g_textDisplayNeedsUpdate = true;
 

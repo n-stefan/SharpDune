@@ -837,14 +837,14 @@ class File
         {
             var e = s_files_in_root;
             s_files_in_root = e.next;
-            e = null; //free(e);
+            //e = null; //free(e);
         }
 
         while (s_files_in_pak != null)
         {
             var e = s_files_in_pak;
             s_files_in_pak = e.next;
-            e = null; //free(e);
+            //e = null; //free(e);
         }
     }
 

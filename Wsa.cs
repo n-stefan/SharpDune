@@ -54,11 +54,11 @@ class WSAFileHeader
     internal uint secondFrameOffset;    /*!< Offset where animation ends. */
 }
 
-class WSAObject
-{
-    internal WSAHeader header;
-    internal Array<byte> data;
-}
+//class WSAObject
+//{
+//    internal WSAHeader header;
+//    internal Array<byte> data;
+//}
 
 class Wsa
 {
@@ -86,7 +86,7 @@ class Wsa
         if (wsa == (null, null)) return;
         if (!header.flags.malloced) return;
 
-        wsa = (null, null); //free(wsa);
+        //wsa = (null, null); //free(wsa);
     }
 
     /*

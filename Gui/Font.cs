@@ -103,7 +103,7 @@ class Font
 
         if (buf[2] != 0x00 || buf[3] != 0x05)
         {
-            buf = null; //free(buf);
+            //buf = null; //free(buf);
             return null;
         }
 
@@ -145,7 +145,7 @@ class Font
             }
         }
 
-        buf = null; //free(buf);
+        //buf = null; //free(buf);
 
         return f;
     }
@@ -156,6 +156,6 @@ class Font
 
         for (i = 0; i < f.count; i++) f.chars[i].data = null; //free(f->chars[i].data);
         f.chars = null; //free(f->chars);
-        f = null; //free(f);
+        //f = null; //free(f);
     }
 }

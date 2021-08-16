@@ -26,11 +26,11 @@ class Array<T>
         Ptr = old.Ptr;
     }
 
-    internal Array(T[] array, int pointer)
-    {
-        Arr = array;
-        Ptr = pointer;
-    }
+    //internal Array(T[] array, int pointer)
+    //{
+    //    Arr = array;
+    //    Ptr = pointer;
+    //}
 
     public static Array<T> operator +(Array<T> array, int amount)
     {

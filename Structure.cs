@@ -1223,7 +1223,7 @@ class Structure
     internal static void Structure_CalculateHitpointsMax(CHouse h)
     {
         var find = new PoolFindStruct();
-        ushort power = 0;
+        ushort power;
 
         if (h == null) return;
 

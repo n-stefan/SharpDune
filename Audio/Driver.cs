@@ -315,7 +315,7 @@ class Driver
 
         if (!Drivers_Init(sound, (IniFile_GetInteger("mt32midi", 0) != 0) ? "XMI" : "C55")) return false;
 
-        music = sound.Clone(); //music = sound; //memcpy(music, sound, sizeof(Driver));
+        //music = sound.Clone(); //music = sound; //memcpy(music, sound, sizeof(Driver));
         g_driverMusic = sound.Clone();
 
         //#if _WIN32
@@ -366,7 +366,7 @@ class Driver
         if (g_enableSoundMusic)
         {
             byte i;
-            MSBuffer buffer = null;
+            MSBuffer buffer;
 
             for (i = 0; i < 4; i++)
             {
@@ -407,7 +407,7 @@ class Driver
 
         /* Only Uninit() sound, as music is a copy of sound. */
         Drivers_Uninit(sound);
-        music = sound; //memcpy(music, sound, sizeof(Driver));
+        //music = sound; //memcpy(music, sound, sizeof(Driver));
 
         MPU_Uninit();
     }

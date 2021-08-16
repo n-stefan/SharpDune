@@ -32,7 +32,6 @@ class WidgetDraw
         h = null;
 
         oi = null;
-        ui = null;
         si = null;
         isNotPlayerOwned = false;
 
@@ -644,7 +643,6 @@ class WidgetDraw
 
         if (w == null) return;
 
-        spriteID = 0;
         if (g_unitSelected != null)
         {
             UnitInfo ui;
@@ -774,7 +772,6 @@ class WidgetDraw
 
         if (w == null) return;
 
-        spriteID = 0;
         percentDone = 0;
 
         s = Structure_Get_ByPackedTile(g_selectionPosition);

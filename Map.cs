@@ -676,11 +676,10 @@ class Map
         if (minimapPreviousPosition != 0xFFFF && minimapPreviousPosition != packed)
         {
             var m = viewportBorder;
-            var mPointer = 0;
 
             cleared = true;
 
-            for (mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
+            for (var mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
             {
                 ushort curPacked;
 
@@ -694,7 +693,6 @@ class Map
         if (packed != 0xFFFF && (packed != minimapPreviousPosition || forceUpdate))
         {
             var m = viewportBorder;
-            var mPointer = 0;
             ushort mapScale;
             MapInfo mapInfo;
             ushort left, top, right, bottom;
@@ -709,7 +707,7 @@ class Map
 
             GUI_DrawWiredRectangle(left, top, right, bottom, 15);
 
-            for (mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
+            for (var mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
             {
                 ushort curPacked;
 

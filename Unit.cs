@@ -2001,8 +2001,6 @@ class Unit
 
         Debug.Assert(unit != null);
 
-        speedPerTick = 0;
-
         unit.speed = 0;
         unit.speedRemainder = 0;
         unit.speedPerTick = 0;

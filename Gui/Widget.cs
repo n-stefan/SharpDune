@@ -1143,7 +1143,7 @@ class Widget
         if (w == null) return;
 
         w.data = null; //free(w->data);
-        w = null; //free(w);
+        //w = null; //free(w);
     }
 
     internal static ushort GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar scrollbar)

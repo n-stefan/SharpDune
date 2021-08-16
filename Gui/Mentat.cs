@@ -111,8 +111,8 @@ class Mentat
             SleepIdle();
         } while (GUI_Mentat_Show(text, wsaFilename, w1) == 0x8002);
 
-        w2 = null; //free(w2);
-        w1 = null; //free(w1);
+        //w2 = null; //free(w2);
+        //w1 = null; //free(w1);
 
         if (musicID != 0xFFFF) Driver_Music_FadeOut();
     }

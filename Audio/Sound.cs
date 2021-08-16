@@ -200,7 +200,7 @@ class Sound
         Sound_StartSound(s_spokenWords[0]);
         /* Move speech parts one place. */
         Array.Copy(s_spokenWords, 1, s_spokenWords, 0, s_spokenWords.Length - 1); //(s_spokenWords.Length - s_spokenWords[0]) * 2); //memmove(&s_spokenWords[0], &s_spokenWords[1], sizeof(s_spokenWords) - sizeof(s_spokenWords[0]));
-        s_spokenWords[/*Common.lengthof<ushort>(s_spokenWords)*/s_spokenWords.Length - 1] = 0xFFFF;
+        s_spokenWords[/*Common.lengthof<ushort>(s_spokenWords)*/^1] = 0xFFFF;
 
         return true;
     }

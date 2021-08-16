@@ -227,7 +227,7 @@ class SharpDune
             var w = g_widgetLinkedListHead;
             g_widgetLinkedListHead = w.next;
 
-            w = null;
+            //w = null;
         }
 
         Script_ClearInfo(g_scriptStructure);
@@ -1247,13 +1247,13 @@ class SharpDune
         return true;
     }
 
-    static int Main(string[] args) //int main(int argc, char **argv)
+    static int Main() //int main(int argc, char **argv)
     {
         var commit_dune_cfg = false;
         var scale_filter = VideoScaleFilter.FILTER_NEAREST_NEIGHBOR;
-        var scaling_factor = 2;
-        var frame_rate = 60;
-        string filter_text = null; //char[64]
+        int scaling_factor; // = 2;
+        int frame_rate; // = 60;
+        string filter_text; //char[64]
 
         Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
