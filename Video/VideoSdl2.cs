@@ -153,8 +153,6 @@ class VideoSdl2
      */
     internal static void Video_Mouse_SetPosition(ushort x, ushort y)
     {
-        SDL.SDL_Rect rect;
-        int w, h;
         float scale;
 
         /*
@@ -163,9 +161,9 @@ class VideoSdl2
          * exactly. Note that the values from SDL_GetRendererOutputSize are in
          * physical units while SDL_RenderGetViewport are in logical units.
          */
-        SDL.SDL_RenderGetViewport(s_renderer, out rect);
+        SDL.SDL_RenderGetViewport(s_renderer, out SDL.SDL_Rect rect);
 
-        if (SDL.SDL_GetRendererOutputSize(s_renderer, out w, out h) != 0)
+        if (SDL.SDL_GetRendererOutputSize(s_renderer, out int w, out int h) != 0)
         {
             Trace.WriteLine($"ERROR: SDL_GetRendererOutputSize failed: {SDL.SDL_GetError()}");
             return;
@@ -235,7 +233,6 @@ class VideoSdl2
      */
     internal static void Video_Tick()
     {
-        SDL.SDL_Event evt;
         var draw = true;
 
         if (!s_video_initialized) return;
@@ -248,7 +245,7 @@ class VideoSdl2
             Video_ShowFPS(GFX_Screen_Get_ByIndex(Screen.NO0));
         }
 
-        while (SDL.SDL_PollEvent(out evt) == 1)
+        while (SDL.SDL_PollEvent(out SDL.SDL_Event evt) == 1)
         {
             byte keyup = 1;
 
@@ -615,8 +612,6 @@ class VideoSdl2
     {
         var gfx_screen8 = GFX_Screen_Get_ByIndex(Screen.NO0);
         var area = GFX_Screen_GetDirtyArea(Screen.NO0);
-        IntPtr pixels;
-        int pitch;
         int x, y;
         uint[] p;
         SDL.SDL_Rect rect;
@@ -625,7 +620,7 @@ class VideoSdl2
         var pPointer = 0;
 
         gfx_screen8Pointer += s_screenOffset << 2;
-        if (SDL.SDL_LockTexture(s_texture, IntPtr.Zero, out pixels, out pitch) != 0)
+        if (SDL.SDL_LockTexture(s_texture, IntPtr.Zero, out IntPtr pixels, out int pitch) != 0)
         {
             Trace.WriteLine($"ERROR: Could not set lock texture: {SDL.SDL_GetError()}");
             return;

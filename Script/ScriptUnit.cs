@@ -286,7 +286,7 @@ class ScriptUnit
                         {
                             if (s2.o.type != (byte)StructureType.STRUCTURE_REFINERY || s2.state != (short)StructureState.STRUCTURE_STATE_IDLE || s2.o.script.variables[4] != 0) continue;
                             if (minDistance != 0 && distance >= minDistance) break;
-                            minDistance = distance;
+                            //minDistance = distance;
                             s = s2;
                             break;
                         }
@@ -602,7 +602,7 @@ class ScriptUnit
 
         if (u.o.type != (byte)UnitType.UNIT_SANDWORM && (Tools_Index_GetType(target) != IndexType.IT_UNIT || g_table_unitInfo[Tools_Index_GetUnit(target).o.type].movementType != (ushort)MovementType.MOVEMENT_WINGER))
         {
-            short diff = 0;
+            short diff;
             sbyte orientation;
 
             orientation = Tile_GetDirection(u.o.position, Tools_Index_GetTile(target));

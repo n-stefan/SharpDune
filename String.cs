@@ -83,21 +83,21 @@ class String
 
             if (compressed)
             {
-                ushort len;
-                len = String_Decompress(src, ref decomp_buffer, 1024);
+                //ushort len;
+                /*len = */ String_Decompress(src, ref decomp_buffer, 1024);
                 decomp_buffer = String_TranslateSpecial(decomp_buffer);
-                decomp_buffer.Trim(); //String_Trim(decomp_buffer);
+                decomp_buffer = decomp_buffer.Trim(); //String_Trim(decomp_buffer);
                 dst = decomp_buffer; //strdup(decomp_buffer);
             }
             else
             {
                 dst = src; //strdup(src);
-                dst.Trim(); //String_Trim(dst);
+                dst = dst.Trim(); //String_Trim(dst);
             }
 
             if (dst.Length == 0 && s_strings[0] != null)
             {
-                dst = null; //free(dst);
+                //dst = null; //free(dst);
             }
             else
             {
@@ -113,7 +113,7 @@ class String
             s_strings[s_stringsCount++] = null;
         }
 
-        buf = null; //free(buf);
+        //buf = null; //free(buf);
     }
 
     static void String_Sanitize()
@@ -126,11 +126,11 @@ class String
             s_strings[Array.FindIndex(s_strings, s => s == "Time: %dh %dm")] = "Time: {0}h {1}m";
             s_strings[Array.FindIndex(s_strings, s => s == "%d%% done")] = "{0}% done";
             s_strings[Array.FindIndex(s_strings, s => s == "Pick Target\rT-Minus: %d")] = "Pick Target\rT-Minus: {0}";
-            s_strings[Array.FindIndex(s_strings, s => s == "   Spice\rholds: %4d\rmax: %4d")] = "   Spice\rholds: {0, 4}\rmax: {1, 4}";
-            s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full")] = " is {0} percent full";
-            s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and harvesting")] = " is {0} percent full and harvesting";
-            s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and heading back")] = " is {0} percent full and heading back";
-            s_strings[Array.FindIndex(s_strings, s => s == " is %d percent full and awaiting pickup")] = " is {0} percent full and awaiting pickup";
+            s_strings[Array.FindIndex(s_strings, s => s == "Spice\rholds: %4d\rmax: %4d")] = "Spice\rholds: {0, 4}\rmax: {1, 4}";
+            s_strings[Array.FindIndex(s_strings, s => s == "is %d percent full")] = "is {0} percent full";
+            s_strings[Array.FindIndex(s_strings, s => s == "is %d percent full and harvesting")] = "is {0} percent full and harvesting";
+            s_strings[Array.FindIndex(s_strings, s => s == "is %d percent full and heading back")] = "is {0} percent full and heading back";
+            s_strings[Array.FindIndex(s_strings, s => s == "is %d percent full and awaiting pickup")] = "is {0} percent full and awaiting pickup";
             s_strings[Array.FindIndex(s_strings, s => s == "Can not place %s here.")] = "Can not place {0} here.";
             s_strings[Array.FindIndex(s_strings, s => s == "Production of %s has started.")] = "Production of {0} has started.";
             s_strings[Array.FindIndex(s_strings, s => s == "Upgrading\r%d%% done")] = "Upgrading\r{0}% done";

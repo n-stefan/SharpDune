@@ -479,7 +479,7 @@ class Mentat
             }
             else
             {
-                i = 0;
+                //i = 0;
                 switch (speakingMode)
                 {
                     case 0:

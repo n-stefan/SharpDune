@@ -506,7 +506,7 @@ class Script
         if (data != null)
         {
             scriptInfo.start = FromByteArrayToUshortArray(data[dataPointer..(dataPointer + (int)length)]);
-            dataPointer += (int)length;
+            //dataPointer += (int)length;
         }
         else
         {
