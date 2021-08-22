@@ -116,11 +116,13 @@ class String
         //buf = null; //free(buf);
     }
 
-    private static void String_Replace(int i, string pattern, int position)
+    private static void String_Replace(int i, string term, int position)
     {
-        var index = s_strings[i].IndexOf(pattern);
-        if (index != -1)
-            s_strings[i] = s_strings[i].Remove(index, pattern.Length).Insert(index, $"{{{position}}}");
+        var index = s_strings[i].IndexOf(term);
+        if (index == -1) return;
+        s_strings[i] = char.IsDigit(term[1]) ?
+            s_strings[i].Remove(index, term.Length).Insert(index, $"{{{position}, {term[1]}}}") :
+            s_strings[i].Remove(index, term.Length).Insert(index, $"{{{position}}}");
     }
 
     static void String_Sanitize()
@@ -139,8 +141,7 @@ class String
             String_Replace(i, "%s", 0);
             String_Replace(i, "%s", 1);
             index = s_strings[i].IndexOf("%%");
-            if (index != -1)
-                s_strings[i] = s_strings[i].Remove(index, 1);
+            if (index != -1) s_strings[i] = s_strings[i].Remove(index, 1);
         }
     }
 
