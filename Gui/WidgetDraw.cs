@@ -915,14 +915,9 @@ class WidgetDraw
             );
         }
 
-        if (g_productionStringID == (ushort)Text.STR_D_DONE || g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE)
-        {
-            w.shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(Text.STR_ON_HOLD)[0]);
-        }
-        else
-        {
-            w.shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(g_productionStringID)[0]);
-        }
+        w.shortcut = g_productionStringID == (ushort)Text.STR_D_DONE || g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE
+            ? GUI_Widget_GetShortcut((byte)String_Get_ByIndex(Text.STR_ON_HOLD)[0])
+            : GUI_Widget_GetShortcut((byte)String_Get_ByIndex(g_productionStringID)[0]);
 
         if (oldScreenID != Screen.NO0) return;
 

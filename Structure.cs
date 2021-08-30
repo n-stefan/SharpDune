@@ -959,17 +959,10 @@ class Structure
                 }
                 else if (s.o.flags.repairing)
                 {
-                    ushort repairCost;
-
                     /* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
-                    if (g_dune2_enhanced)
-                    {
-                        repairCost = (ushort)(si.o.buildCredits * 2 / si.o.hitpoints);
-                    }
-                    else
-                    {
-                        repairCost = (ushort)(((2 * 256 / si.o.hitpoints) * si.o.buildCredits + 128) / 256);
-                    }
+                    var repairCost = g_dune2_enhanced
+                        ? (ushort)(si.o.buildCredits * 2 / si.o.hitpoints)
+                        : (ushort)(((2 * 256 / si.o.hitpoints) * si.o.buildCredits + 128) / 256);
 
                     if (repairCost <= h.credits)
                     {
@@ -1229,14 +1222,7 @@ class Structure
 
         if (h.index == (byte)g_playerHouseID) House_UpdateRadarState(h);
 
-        if (h.powerUsage == 0)
-        {
-            power = 256;
-        }
-        else
-        {
-            power = (ushort)Math.Min(h.powerProduction * 256 / h.powerUsage, 256);
-        }
+        power = h.powerUsage == 0 ? (ushort)256 : (ushort)Math.Min(h.powerProduction * 256 / h.powerUsage, 256);
 
         find.houseID = h.index;
         find.index = 0xFFFF;

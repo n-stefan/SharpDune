@@ -61,14 +61,9 @@ class Font
     internal static bool Font_Init()
     {
         g_fontIntro = Font_LoadFile("INTRO.FNT");
-        if ((g_config.language == (byte)Language.GERMAN) && File_Exists("new6pg.fnt"))
-        {
-            g_fontNew6p = Font_LoadFile("new6pg.fnt");
-        }
-        else
-        {
-            g_fontNew6p = Font_LoadFile("new6p.fnt");
-        }
+        g_fontNew6p = (g_config.language == (byte)Language.GERMAN) && File_Exists("new6pg.fnt")
+            ? Font_LoadFile("new6pg.fnt")
+            : Font_LoadFile("new6p.fnt");
         g_fontNew8p = Font_LoadFile("new8p.fnt");
 
         return g_fontNew8p != null;

@@ -28,7 +28,6 @@ class Format80
             {
                 /* Exit */
                 break;
-
             }
             else if ((cmd & 0x80) == 0)
             {
@@ -40,7 +39,6 @@ class Format80
 
                 /* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
                 for (; size > 0; size--) { dest[destPointer] = dest[destPointer - offset]; destPointer++; }
-
             }
             else if (cmd == 0xFE)
             {
@@ -51,7 +49,6 @@ class Format80
 
                 Array.Fill(dest, source[sourcePointer++], destPointer, size); //memset(dest, (*source++), size);
                 destPointer += size;
-
             }
             else if (cmd == 0xFF)
             {
@@ -65,7 +62,6 @@ class Format80
 
                 /* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
                 for (; size > 0; size--) dest[destPointer++] = dest[start + offset++]; //start[offset++];
-
             }
             else if ((cmd & 0x40) != 0)
             {
@@ -78,7 +74,6 @@ class Format80
 
                 /* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
                 for (; size > 0; size--) dest[destPointer++] = dest[start + offset++]; //start[offset++];
-
             }
             else
             {

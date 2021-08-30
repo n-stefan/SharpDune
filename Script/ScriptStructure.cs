@@ -44,14 +44,9 @@ class ScriptStructure
             }
             else
             {
-                if (s.countDown == 0)
-                {
-                    state = (short)StructureState.STRUCTURE_STATE_READY;
-                }
-                else
-                {
-                    state = (short)StructureState.STRUCTURE_STATE_BUSY;
-                }
+                state = s.countDown == 0
+                    ? (short)StructureState.STRUCTURE_STATE_READY
+                    : (short)StructureState.STRUCTURE_STATE_BUSY;
             }
         }
 
@@ -304,14 +299,7 @@ class ScriptStructure
         find.type = 0xFFFF;
 
         /* ENHANCEMENT -- The original code calculated distances from the top-left corner of the structure. */
-        if (g_dune2_enhanced)
-        {
-            position = Tile_Center(s.o.position);
-        }
-        else
-        {
-            position = s.o.position;
-        }
+        position = g_dune2_enhanced ? Tile_Center(s.o.position) : s.o.position;
 
         while (true)
         {
@@ -391,14 +379,9 @@ class ScriptStructure
         tile = g_map[Tile_PackTile(s.o.position)];
 
         /* Find the base sprite of the structure */
-        if (s.o.type == (byte)StructureType.STRUCTURE_ROCKET_TURRET)
-        {
-            baseTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET] + 2];
-        }
-        else
-        {
-            baseTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
-        }
+        baseTileID = s.o.type == (byte)StructureType.STRUCTURE_ROCKET_TURRET
+            ? g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET] + 2]
+            : g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
 
         rotation = (short)(tile.groundTileID - baseTileID);
         if (rotation < 0 || rotation > 7) return 1;

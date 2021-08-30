@@ -314,14 +314,7 @@ class Mentat
                     movingOtherTimer = (uint)(g_timerGUI + 60 * Tools_RandomLCG_Range(1, 3));
                     break;
                 case HouseType.HOUSE_ORDOS:
-                    if (otherSprite != 0)
-                    {
-                        movingOtherTimer = g_timerGUI + 6;
-                    }
-                    else
-                    {
-                        movingOtherTimer = (uint)(g_timerGUI + 60 * Tools_RandomLCG_Range(10, 19));
-                    }
+                    movingOtherTimer = otherSprite != 0 ? g_timerGUI + 6 : (uint)(g_timerGUI + 60 * Tools_RandomLCG_Range(10, 19));
                     break;
                 default:
                     break;
@@ -440,14 +433,9 @@ class Mentat
             }
             else
             {
-                if (Mouse_InsideRegion(s_eyesRight, (short)(s_eyesTop - 8), (short)(s_eyesRight + 16), (short)(s_eyesBottom + 8)) != 0)
-                {
-                    i = 2;
-                }
-                else
-                {
-                    i = (ushort)((Mouse_InsideRegion((short)(s_eyesLeft - 16), (short)(s_eyesTop - 8), s_eyesLeft, (short)(s_eyesBottom + 8)) == 0) ? 0 : 1);
-                }
+                i = Mouse_InsideRegion(s_eyesRight, (short)(s_eyesTop - 8), (short)(s_eyesRight + 16), (short)(s_eyesBottom + 8)) != 0
+                    ? (ushort)2
+                    : (ushort)((Mouse_InsideRegion((short)(s_eyesLeft - 16), (short)(s_eyesTop - 8), s_eyesLeft, (short)(s_eyesBottom + 8)) == 0) ? 0 : 1);
             }
 
             if (i != movingEyesSprite)
@@ -468,14 +456,7 @@ class Mentat
                 movingEyesSprite = movingEyesNextSprite;
                 movingEyesNextSprite = 0;
 
-                if (movingEyesSprite != 4)
-                {
-                    movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(20, 180);
-                }
-                else
-                {
-                    movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(12, 30);
-                }
+                movingEyesTimer = movingEyesSprite != 4 ? g_timerGUI + Tools_RandomLCG_Range(20, 180) : g_timerGUI + Tools_RandomLCG_Range(12, 30);
             }
             else
             {
@@ -552,14 +533,7 @@ class Mentat
                     else
                     {
                         movingEyesSprite = i;
-                        if (i != 4)
-                        {
-                            movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(15, 180);
-                        }
-                        else
-                        {
-                            movingEyesTimer = g_timerGUI + Tools_RandomLCG_Range(6, 60);
-                        }
+                        movingEyesTimer = i != 4 ? g_timerGUI + Tools_RandomLCG_Range(15, 180) : g_timerGUI + Tools_RandomLCG_Range(6, 60);
                     }
                 }
 
@@ -1046,14 +1020,7 @@ class Mentat
             w[i].height = 8;
             w[i].parentID = 8;
 
-            if (g_widgetMentatTail != null)
-            {
-                g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, w[i]);
-            }
-            else
-            {
-                g_widgetMentatTail = w[i];
-            }
+            g_widgetMentatTail = g_widgetMentatTail != null ? GUI_Widget_Link(g_widgetMentatTail, w[i]) : w[i];
 
             ypos += 8;
             //w++;

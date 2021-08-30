@@ -518,14 +518,9 @@ class Cutscene
 
             for (i = 0; i < 18; i++)
             {
-                if (s_palettePartDirection == PalettePartDirection.PPD_TO_NEW_PALETTE)
-                {
-                    s_palettePartCurrent[i] = (byte)Math.Min(s_palettePartCurrent[i] + s_palettePartChange[i], s_palettePartTarget[i]);
-                }
-                else
-                {
-                    s_palettePartCurrent[i] = (byte)Math.Max(s_palettePartCurrent[i] - s_palettePartChange[i], 0);
-                }
+                s_palettePartCurrent[i] = s_palettePartDirection == PalettePartDirection.PPD_TO_NEW_PALETTE
+                    ? (byte)Math.Min(s_palettePartCurrent[i] + s_palettePartChange[i], s_palettePartTarget[i])
+                    : (byte)Math.Max(s_palettePartCurrent[i] - s_palettePartChange[i], 0);
             }
         }
 

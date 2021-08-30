@@ -320,16 +320,8 @@ class Input
         if (value < 0x3E)
         {   /* Printables Chars */
             var keySave = (byte)(value & 0x3F);
-            ushort asciiValue;
 
-            if ((keyFlags & 0x100) != 0)
-            {
-                asciiValue = s_keymapShift[keySave];
-            }
-            else
-            {
-                asciiValue = s_keymapNormal[keySave];
-            }
+            var asciiValue = (keyFlags & 0x100) != 0 ? s_keymapShift[keySave] : (ushort)s_keymapNormal[keySave];
 
             if ((keyFlags & 0x200) != 0)
             {   /* ALT */

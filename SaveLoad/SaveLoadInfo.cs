@@ -52,75 +52,33 @@ class SaveLoadInfo
     {
         if (loading)
         {
-            if ((ushort)value != 0xFFFF)
-            {
-                g_structureActive = Structure_Get_ByIndex((ushort)value);
-            }
-            else
-            {
-                g_structureActive = null;
-            }
+            g_structureActive = (ushort)value != 0xFFFF ? Structure_Get_ByIndex((ushort)value) : null;
             return 0;
         }
 
-        if (g_structureActiveType != 0xFFFF)
-        {
-            return g_structureActive.o.index;
-        }
-        else
-        {
-            return 0xFFFF;
-        }
+        return g_structureActiveType != 0xFFFF ? g_structureActive.o.index : (uint)0xFFFF;
     }
 
     static uint SaveLoad_UnitSelected(object obj, uint value, bool loading)
     {
         if (loading)
         {
-            if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
-            {
-                g_unitSelected = Unit_Get_ByIndex((ushort)value);
-            }
-            else
-            {
-                g_unitSelected = null;
-            }
+            g_unitSelected = (ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX ? Unit_Get_ByIndex((ushort)value) : null;
             return 0;
         }
 
-        if (g_unitSelected != null)
-        {
-            return g_unitSelected.o.index;
-        }
-        else
-        {
-            return 0xFFFF;
-        }
+        return g_unitSelected != null ? g_unitSelected.o.index : (uint)0xFFFF;
     }
 
     static uint SaveLoad_UnitActive(object obj, uint value, bool loading)
     {
         if (loading)
         {
-            if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
-            {
-                g_unitActive = Unit_Get_ByIndex((ushort)value);
-            }
-            else
-            {
-                g_unitActive = null;
-            }
+            g_unitActive = (ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX ? Unit_Get_ByIndex((ushort)value) : null;
             return 0;
         }
 
-        if (g_unitActive != null)
-        {
-            return g_unitActive.o.index;
-        }
-        else
-        {
-            return 0xFFFF;
-        }
+        return g_unitActive != null ? g_unitActive.o.index : (uint)0xFFFF;
     }
 
     static uint SaveLoad_TickScenarioStart(object obj, uint value, bool loading)
@@ -138,25 +96,11 @@ class SaveLoadInfo
     {
         if (loading)
         {
-            if ((ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX)
-            {
-                g_unitHouseMissile = Unit_Get_ByIndex((ushort)value);
-            }
-            else
-            {
-                g_unitHouseMissile = null;
-            }
+            g_unitHouseMissile = (ushort)value != 0xFFFF && value < (uint)UnitIndex.UNIT_INDEX_MAX ? Unit_Get_ByIndex((ushort)value) : null;
             return 0;
         }
 
-        if (g_unitHouseMissile != null)
-        {
-            return g_unitHouseMissile.o.index;
-        }
-        else
-        {
-            return 0xFFFF;
-        }
+        return g_unitHouseMissile != null ? g_unitHouseMissile.o.index : (uint)0xFFFF;
     }
 
     /*

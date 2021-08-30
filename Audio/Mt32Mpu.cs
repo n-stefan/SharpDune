@@ -801,14 +801,9 @@ class Mt32Mpu
 
                 if (i != 0)
                 {
-                    if (data.tempoPercent >= data.tempoTarget)
-                    {
-                        data.tempoPercent = (ushort)Math.Max(data.tempoPercent - i, data.tempoTarget);
-                    }
-                    else
-                    {
-                        data.tempoPercent = (ushort)Math.Min(data.tempoPercent + i, data.tempoTarget);
-                    }
+                    data.tempoPercent = data.tempoPercent >= data.tempoTarget
+                        ? (ushort)Math.Max(data.tempoPercent - i, data.tempoTarget)
+                        : (ushort)Math.Min(data.tempoPercent + i, data.tempoTarget);
                 }
             }
 
@@ -830,14 +825,9 @@ class Mt32Mpu
 
                 if (i != 0)
                 {
-                    if (data.globalVolume >= data.globalVolumeTarget)
-                    {
-                        data.globalVolume = (ushort)Math.Max(data.globalVolume - i, data.globalVolumeTarget);
-                    }
-                    else
-                    {
-                        data.globalVolume = (ushort)Math.Min(data.globalVolume + i, data.globalVolumeTarget);
-                    }
+                    data.globalVolume = data.globalVolume >= data.globalVolumeTarget
+                        ? (ushort)Math.Max(data.globalVolume - i, data.globalVolumeTarget)
+                        : (ushort)Math.Min(data.globalVolume + i, data.globalVolumeTarget);
                     MPU_ApplyVolume(data);
                 }
             }
@@ -1096,14 +1086,7 @@ class Mt32Mpu
                     data.timeNumerator = data.sound.Arr[data.sound.Ptr + len];
                     mul = (sbyte)(data.sound.Arr[data.sound.Ptr + len + 1] - 2);
 
-                    if (mul < 0)
-                    {
-                        data.timeFraction = (uint)(133333 >> -mul);
-                    }
-                    else
-                    {
-                        data.timeFraction = (uint)(133333 << mul);
-                    }
+                    data.timeFraction = mul < 0 ? (uint)(133333 >> -mul) : (uint)(133333 << mul);
 
                     data.beatFraction = data.timeFraction;
                 }

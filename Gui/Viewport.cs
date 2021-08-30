@@ -87,25 +87,11 @@ class Viewport
             {
                 if (mapScale > 1)
                 {
-                    if (u.o.type == (byte)UnitType.UNIT_SANDWORM)
-                    {
-                        spriteID = (ushort)(mapScale + 53);
-                    }
-                    else
-                    {
-                        spriteID = (ushort)(mapScale + Unit_GetHouseID(u) * 2 + 29);
-                    }
+                    spriteID = u.o.type == (byte)UnitType.UNIT_SANDWORM ? (ushort)(mapScale + 53) : (ushort)(mapScale + Unit_GetHouseID(u) * 2 + 29);
                 }
                 else
                 {
-                    if (u.o.type == (byte)UnitType.UNIT_SANDWORM)
-                    {
-                        colour = 255;
-                    }
-                    else
-                    {
-                        colour = g_table_houseInfo[Unit_GetHouseID(u)].minimapColor;
-                    }
+                    colour = u.o.type == (byte)UnitType.UNIT_SANDWORM ? (ushort)255 : g_table_houseInfo[Unit_GetHouseID(u)].minimapColor;
                 }
             }
         }
@@ -944,14 +930,9 @@ class Viewport
             u.targetMove = 0;
             u.route[0] = 0xFF;
 
-            if (action != ActionType.ACTION_MOVE && action != ActionType.ACTION_HARVEST)
-            {
-                encoded = Tools_Index_Encode(Unit_FindTargetAround(packed), IndexType.IT_TILE);
-            }
-            else
-            {
-                encoded = Tools_Index_Encode(packed, IndexType.IT_TILE);
-            }
+            encoded = action != ActionType.ACTION_MOVE && action != ActionType.ACTION_HARVEST
+                ? Tools_Index_Encode(Unit_FindTargetAround(packed), IndexType.IT_TILE)
+                : Tools_Index_Encode(packed, IndexType.IT_TILE);
 
             Unit_SetAction(u, action);
 
@@ -1068,17 +1049,8 @@ class Viewport
 
         if (click && w.index == 43)
         {
-            ushort position;
-
-            if (g_debugScenario)
-            {
-                position = packed;
-            }
-            else
-            {
-                position = Unit_FindTargetAround(packed);
-            }
-
+            var position = g_debugScenario ? packed : Unit_FindTargetAround(packed);
+            
             if (g_map[position].overlayTileID != g_veiledTileID || g_debugScenario)
             {
                 if (Object_GetByPackedTile(position) != null || g_debugScenario)

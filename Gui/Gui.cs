@@ -1323,14 +1323,7 @@ class Gui
 
             GUI_Mouse_Hide_InWidget(7);
 
-            if (textOffset + g_curWidgetHeight > 24)
-            {
-                height = (ushort)(24 - textOffset);
-            }
-            else
-            {
-                height = g_curWidgetHeight;
-            }
+            height = textOffset + g_curWidgetHeight > 24 ? (ushort)(24 - textOffset) : g_curWidgetHeight;
 
             GUI_Screen_Copy((short)g_curWidgetXBase, (short)textOffset, (short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetWidth, (short)height, Screen.NO1, Screen.NO0);
             GUI_Mouse_Show_InWidget();
@@ -2448,14 +2441,7 @@ class Gui
 
                     if (g_selectionType == (ushort)SelectionType.PLACE)
                     {
-                        if (g_selectionState != 0)
-                        {
-                            selectionStateColour = (ushort)((g_selectionState < 0) ? 5 : 15);
-                        }
-                        else
-                        {
-                            selectionStateColour = 6;
-                        }
+                        selectionStateColour = g_selectionState != 0 ? (ushort)((g_selectionState < 0) ? 5 : 15) : (ushort)6;
                     }
                 }
                 else
@@ -3645,14 +3631,7 @@ class Gui
 
         GUI_HallOfFame_DrawBackground(score, true);
 
-        if (score == 0xFFFF)
-        {
-            editLine = 0;
-        }
-        else
-        {
-            editLine = GUI_HallOfFame_InsertScore(data, score);
-        }
+        editLine = score == 0xFFFF ? (ushort)0 : GUI_HallOfFame_InsertScore(data, score);
 
         width = GUI_HallOfFame_DrawData(data, false);
 
@@ -4895,14 +4874,7 @@ class Gui
                 w[i].drawParameterDown.sprite = g_sprites[wi[i].spriteID + 1];
             }
 
-            if (i != 0)
-            {
-                g_widgetInvoiceTail = GUI_Widget_Link(g_widgetInvoiceTail, w[i]);
-            }
-            else
-            {
-                g_widgetInvoiceTail = w[i];
-            }
+            g_widgetInvoiceTail = i != 0 ? GUI_Widget_Link(g_widgetInvoiceTail, w[i]) : w[i];
 
             //w++;
         }
@@ -5224,14 +5196,7 @@ class Gui
                 g_factoryWindowItems[g_factoryWindowTotal].objectInfo = oi;
                 g_factoryWindowItems[g_factoryWindowTotal].objectType = i;
 
-                if (g_factoryWindowStarport)
-                {
-                    g_factoryWindowItems[g_factoryWindowTotal].credits = (short)GUI_FactoryWindow_CalculateStarportPrice(oi.buildCredits);
-                }
-                else
-                {
-                    g_factoryWindowItems[g_factoryWindowTotal].credits = (short)oi.buildCredits;
-                }
+                g_factoryWindowItems[g_factoryWindowTotal].credits = g_factoryWindowStarport ? (short)GUI_FactoryWindow_CalculateStarportPrice(oi.buildCredits) : (short)oi.buildCredits;
 
                 g_factoryWindowItems[g_factoryWindowTotal].sortPriority = oi.sortPriority;
 

@@ -637,14 +637,9 @@ class Unit
                             find.type = (ushort)StructureType.STRUCTURE_CONSTRUCTION_YARD;
 
                             s = Structure_Find(find);
-                            if (s != null)
-                            {
-                                feedbackID = (ushort)(((Orientation_Orientation256ToOrientation8((byte)Tile_GetDirection(s.o.position, unit.o.position)) + 1) & 7) / 2 + 2);
-                            }
-                            else
-                            {
-                                feedbackID = 1;
-                            }
+                            feedbackID = s != null
+                                ? (ushort)(((Orientation_Orientation256ToOrientation8((byte)Tile_GetDirection(s.o.position, unit.o.position)) + 1) & 7) / 2 + 2)
+                                : (ushort)1;
 
                             Sound_Output_Feedback(feedbackID);
                         }
@@ -959,14 +954,9 @@ class Unit
 
         type = Map_GetLandscapeType(packed);
 
-        if (g_dune2_enhanced)
-        {
-            res = (ushort)(g_table_landscapeInfo[type].movementSpeed[ui.movementType] * ui.movingSpeedFactor / 256);
-        }
-        else
-        {
-            res = g_table_landscapeInfo[type].movementSpeed[ui.movementType];
-        }
+        res = g_dune2_enhanced
+            ? (ushort)(g_table_landscapeInfo[type].movementSpeed[ui.movementType] * ui.movingSpeedFactor / 256)
+            : g_table_landscapeInfo[type].movementSpeed[ui.movementType];
 
         if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR && type == (ushort)LandscapeType.LST_WALL)
         {
@@ -1541,14 +1531,7 @@ class Unit
             if (tickBlinking && u.blinkCounter != 0)
             {
                 u.blinkCounter--;
-                if ((u.blinkCounter % 2) != 0)
-                {
-                    u.o.flags.isHighlighted = true;
-                }
-                else
-                {
-                    u.o.flags.isHighlighted = false;
-                }
+                u.o.flags.isHighlighted = (u.blinkCounter % 2) != 0;
 
                 Unit_UpdateMap(2, u);
             }
@@ -2959,14 +2942,9 @@ class Unit
                         if (!detonate)
                         {
                             /* ENHANCEMENT -- Saboteurs tend to forget their goal, depending on terrain and game speed: to blow up on reaching their destination. */
-                            if (g_dune2_enhanced)
-                            {
-                                detonate = (unit.targetMove != 0 && Tile_GetDistance(newPosition, Tools_Index_GetTile(unit.targetMove)) < 16);
-                            }
-                            else
-                            {
-                                detonate = (unit.targetMove != 0 && Tile_GetDistance(unit.o.position, Tools_Index_GetTile(unit.targetMove)) < 32);
-                            }
+                            detonate = g_dune2_enhanced
+                                ? unit.targetMove != 0 && Tile_GetDistance(newPosition, Tools_Index_GetTile(unit.targetMove)) < 16
+                                : unit.targetMove != 0 && Tile_GetDistance(unit.o.position, Tools_Index_GetTile(unit.targetMove)) < 32;
                         }
 
                         if (detonate)
@@ -3151,14 +3129,7 @@ class Unit
 
                 countDown = (ushort)(((ui.o.hitpoints - unit.o.hitpoints) * 256 / ui.o.hitpoints) * (ui.o.buildTime << 6) / 256);
 
-                if (countDown > 1)
-                {
-                    s.countDown = countDown;
-                }
-                else
-                {
-                    s.countDown = 1;
-                }
+                s.countDown = countDown > 1 ? countDown : (ushort)1;
                 unit.o.hitpoints = ui.o.hitpoints;
                 unit.o.flags.isSmoking = false;
                 unit.spriteOffset = 0;

@@ -766,14 +766,9 @@ class Map
         if (type != (ushort)LandscapeType.LST_SPICE && type != (ushort)LandscapeType.LST_THICK_SPICE && dir < 0) return;
         if (type != (ushort)LandscapeType.LST_NORMAL_SAND && type != (ushort)LandscapeType.LST_ENTIRELY_DUNE && type != (ushort)LandscapeType.LST_SPICE && dir > 0) return;
 
-        if (dir > 0)
-        {
-            type = (type == (ushort)LandscapeType.LST_SPICE) ? (ushort)LandscapeType.LST_THICK_SPICE : (ushort)LandscapeType.LST_SPICE;
-        }
-        else
-        {
-            type = (type == (ushort)LandscapeType.LST_THICK_SPICE) ? (ushort)LandscapeType.LST_SPICE : (ushort)LandscapeType.LST_NORMAL_SAND;
-        }
+        type = dir > 0
+            ? (type == (ushort)LandscapeType.LST_SPICE) ? (ushort)LandscapeType.LST_THICK_SPICE : (ushort)LandscapeType.LST_SPICE
+            : (type == (ushort)LandscapeType.LST_THICK_SPICE) ? (ushort)LandscapeType.LST_SPICE : (ushort)LandscapeType.LST_NORMAL_SAND;
 
         spriteID = 0;
         if (type == (ushort)LandscapeType.LST_SPICE) spriteID = 49;
@@ -1307,14 +1302,9 @@ class Map
 
                             u = Unit_Find(find);
 
-                            if (u != null)
-                            {
-                                ret = Tile_PackTile(Tile_MoveByRandom(u.o.position, 120, true));
-                            }
-                            else
-                            {
-                                ret = Tile_PackXY((ushort)(mapInfo.minX + Tools_RandomLCG_Range(0, mapInfo.sizeX)), (ushort)(mapInfo.minY + Tools_RandomLCG_Range(0, mapInfo.sizeY)));
-                            }
+                            ret = u != null
+                                ? Tile_PackTile(Tile_MoveByRandom(u.o.position, 120, true))
+                                : Tile_PackXY((ushort)(mapInfo.minX + Tools_RandomLCG_Range(0, mapInfo.sizeX)), (ushort)(mapInfo.minY + Tools_RandomLCG_Range(0, mapInfo.sizeY)));
                         }
 
                         if (houseID == (byte)g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
@@ -1604,14 +1594,7 @@ class Map
                     Debug.Assert(packed1 < 64 * 64);
 
                     /* ENHANCEMENT -- use groundTileID=0 when out-of-bounds to generate the original maps. */
-                    if (packed2 < 64 * 64)
-                    {
-                        sprite2 = g_map[packed2].groundTileID;
-                    }
-                    else
-                    {
-                        sprite2 = 0;
-                    }
+                    sprite2 = packed2 < 64 * 64 ? g_map[packed2].groundTileID : (ushort)0;
 
                     g_map[packed].groundTileID = (ushort)((g_map[packed1].groundTileID + sprite2 + 1) / 2);
                 }

@@ -672,14 +672,9 @@ class WidgetClick
 
             if (desc != g_savegameNameWindowDesc)
             {
-                if (desc.widgets[i].labelStringId != (ushort)Text.STR_NULL)
-                {
-                    w.shortcut = GUI_Widget_GetShortcut((byte)GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId)[0]);
-                }
-                else
-                {
-                    w.shortcut = GUI_Widget_GetShortcut((byte)GUI_String_Get_ByIndex((short)desc.widgets[i].stringID)[0]);
-                }
+                w.shortcut = desc.widgets[i].labelStringId != (ushort)Text.STR_NULL
+                    ? GUI_Widget_GetShortcut((byte)GUI_String_Get_ByIndex((short)desc.widgets[i].labelStringId)[0])
+                    : GUI_Widget_GetShortcut((byte)GUI_String_Get_ByIndex((short)desc.widgets[i].stringID)[0]);
             }
 
             w.shortcut2 = desc.widgets[i].shortcut2;

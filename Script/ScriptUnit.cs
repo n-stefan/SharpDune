@@ -1000,14 +1000,7 @@ class ScriptUnit
 
         u = g_scriptCurrentUnit;
 
-        if (g_dune2_enhanced)
-        {
-            res = Unit_GetTileEnterScore(u, packed, orient8);
-        }
-        else
-        {
-            res = Unit_GetTileEnterScore(u, packed, (ushort)(orient8 << 5));
-        }
+        res = g_dune2_enhanced ? Unit_GetTileEnterScore(u, packed, orient8) : Unit_GetTileEnterScore(u, packed, (ushort)(orient8 << 5));
 
         if (res == -1) res = 256;
 

@@ -1061,14 +1061,7 @@ class Widget
         w.drawParameterSelected.sprite = sprite1;
         w.drawParameterDown.sprite = sprite2;
 
-        if (isDown)
-        {
-            w.clickProc = GUI_Widget_Scrollbar_ArrowDown_Click;
-        }
-        else
-        {
-            w.clickProc = GUI_Widget_Scrollbar_ArrowUp_Click;
-        }
+        w.clickProc = isDown ? GUI_Widget_Scrollbar_ArrowDown_Click : GUI_Widget_Scrollbar_ArrowUp_Click;
 
         w.data = widget2.data;
         return w;
