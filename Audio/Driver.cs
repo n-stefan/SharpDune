@@ -244,7 +244,7 @@ class Driver
         var sound = g_driverSound;
         var soundBuffer = g_bufferSound[s_bufferSoundIndex];
 
-        if (index < 0 || index >= 120) return;
+        if (index is < 0 or >= 120) return;
 
         if (g_gameConfig.sounds == 0 && index > 1) return;
 

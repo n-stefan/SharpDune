@@ -204,7 +204,7 @@ class PoolStructure
 
         Script_Reset(s.o.script, g_scriptStructure);
 
-        if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) return;
+        if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) return;
 
         /* Walk the array to find the Structure we are removing */
         Debug.Assert(g_structureFindCount <= (ushort)StructureIndex.STRUCTURE_INDEX_MAX_SOFT);

@@ -170,7 +170,7 @@ class Map
         if (Structure_Get_ByPackedTile(packed) != null) return (ushort)LandscapeType.LST_STRUCTURE;
 
         spriteOffset = (short)(t.groundTileID - g_landscapeTileID); /* Offset in the landscape icon group. */
-        if (spriteOffset < 0 || spriteOffset > 80) return (ushort)LandscapeType.LST_ENTIRELY_ROCK;
+        if (spriteOffset is < 0 or > 80) return (ushort)LandscapeType.LST_ENTIRELY_ROCK;
 
         return _landscapeSpriteMap[spriteOffset];
     }
@@ -798,7 +798,7 @@ class Map
         type = Map_GetLandscapeType(packed);
         spriteID = 0;
 
-        if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE)
+        if (type is ((ushort)LandscapeType.LST_SPICE) or ((ushort)LandscapeType.LST_THICK_SPICE))
         {
             byte i;
 
@@ -809,7 +809,7 @@ class Map
 
                 if (Tile_IsOutOfMap(curPacked))
                 {
-                    if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE) spriteID |= (ushort)(1 << i);
+                    if (type is ((ushort)LandscapeType.LST_SPICE) or ((ushort)LandscapeType.LST_THICK_SPICE)) spriteID |= (ushort)(1 << i);
                     continue;
                 }
 
@@ -817,7 +817,7 @@ class Map
 
                 if (type == (ushort)LandscapeType.LST_SPICE)
                 {
-                    if (curType == (ushort)LandscapeType.LST_SPICE || curType == (ushort)LandscapeType.LST_THICK_SPICE) spriteID |= (ushort)(1 << i);
+                    if (curType is ((ushort)LandscapeType.LST_SPICE) or ((ushort)LandscapeType.LST_THICK_SPICE)) spriteID |= (ushort)(1 << i);
                     continue;
                 }
 
@@ -1165,7 +1165,7 @@ class Map
             s = Structure_Find(find);
             if (s == null) break;
 
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
             if (!Map_IsTileVisible(Tile_PackTile(s.o.position))) continue;
 
@@ -1237,7 +1237,7 @@ class Map
 
                 s = Structure_Find(find);
                 if (s == null) break;
-                if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+                if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
                 if (s.o.houseID == houseID) continue;
 

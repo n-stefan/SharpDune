@@ -1171,7 +1171,7 @@ class WidgetClick
 
         GUI_Widget_MakeNormal(w, false);
 
-        if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
+        if (g_table_unitInfo[type].movementType is not ((ushort)MovementType.MOVEMENT_WINGER) and not ((ushort)MovementType.MOVEMENT_SLITHER))
         {
             if (g_starPortEnforceUnitLimit && h.unitCount >= h.unitCountMax) canCreateMore = false;
         }

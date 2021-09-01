@@ -102,7 +102,7 @@ class SharpDune
                 s = Structure_Find(find);
                 if (s == null) break;
 
-                if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+                if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_TURRET) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_ROCKET_TURRET) continue;
 
@@ -180,7 +180,7 @@ class SharpDune
                 s = Structure_Find(find);
                 if (s == null) break;
 
-                if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+                if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_TURRET) continue;
                 if (s.o.type == (byte)StructureType.STRUCTURE_ROCKET_TURRET) continue;
 
@@ -298,7 +298,7 @@ class SharpDune
 
                 GUI_SetPaletteAnimated(g_palette2, 15);
 
-                if (g_campaignID == 1 || g_campaignID == 7)
+                if (g_campaignID is 1 or 7)
                 {
                     if (!GUI_Security_Show())
                     {
@@ -1147,7 +1147,7 @@ class SharpDune
 
             key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
-            if (g_selectionType == (ushort)SelectionType.TARGET || g_selectionType == (ushort)SelectionType.PLACE || g_selectionType == (ushort)SelectionType.UNIT || g_selectionType == (ushort)SelectionType.STRUCTURE)
+            if (g_selectionType is ((ushort)SelectionType.TARGET) or ((ushort)SelectionType.PLACE) or ((ushort)SelectionType.UNIT) or ((ushort)SelectionType.STRUCTURE))
             {
                 if (g_unitSelected != null)
                 {
@@ -1421,7 +1421,7 @@ class SharpDune
 
             s = Structure_Find(find);
             if (s == null) break;
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
             if (s.o.flags.isNotOnMap) continue;
 

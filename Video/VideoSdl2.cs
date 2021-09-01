@@ -364,7 +364,7 @@ class VideoSdl2
         uint window_flags = 0;
 
         if (s_video_initialized) return true;
-        if (screen_magnification <= 0 || screen_magnification > 4)
+        if (screen_magnification is <= 0 or > 4)
         {
             Trace.WriteLine($"ERROR: Incorrect screen magnification factor : {screen_magnification}");
             return false;

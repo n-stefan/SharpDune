@@ -218,7 +218,7 @@ class Explosion
 
         type = Map_GetLandscapeType(packed);
 
-        if (type == (ushort)LandscapeType.LST_STRUCTURE || type == (ushort)LandscapeType.LST_DESTROYED_WALL) return;
+        if (type is ((ushort)LandscapeType.LST_STRUCTURE) or ((ushort)LandscapeType.LST_DESTROYED_WALL)) return;
 
         t = g_map[packed];
 
@@ -394,7 +394,7 @@ class Explosion
 
     internal static CExplosion Explosion_Get_ByIndex(int i)
     {
-        Debug.Assert(0 <= i && i < EXPLOSION_MAX);
+        Debug.Assert(i is >= 0 and < EXPLOSION_MAX);
 
         return g_explosions[i];
     }

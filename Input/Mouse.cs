@@ -230,7 +230,7 @@ class Mouse
 
                 if (length != 2) break;
 
-                if ((g_mouseInputValue >= 0x41 && g_mouseInputValue <= 0x44) || g_mouseInputValue == 0x2D)
+                if (g_mouseInputValue is >= 0x41 and <= 0x44 or 0x2D)
                 {
                     /* 0x2D == '-' 0x41 == 'A' [...] 0x44 == 'D' */
                     File_Read(g_mouseFileID, ref buffer, 2);

@@ -1700,7 +1700,7 @@ class ScriptUnit
         packed = Tile_PackTile(u.o.position);
 
         type = Map_GetLandscapeType(packed);
-        if (type != (ushort)LandscapeType.LST_SPICE && type != (ushort)LandscapeType.LST_THICK_SPICE) return 0;
+        if (type is not ((ushort)LandscapeType.LST_SPICE) and not ((ushort)LandscapeType.LST_THICK_SPICE)) return 0;
 
         u.amount += (byte)(Tools_Random_256() & 1);
         u.o.flags.inTransport = true;
@@ -1806,7 +1806,7 @@ class ScriptUnit
         random = Tools_RandomLCG_Range(0, 10);
         movementType = g_table_unitInfo[u.o.type].movementType;
 
-        if (movementType != (ushort)MovementType.MOVEMENT_FOOT && movementType != (ushort)MovementType.MOVEMENT_TRACKED && movementType != (ushort)MovementType.MOVEMENT_WHEELED) return 0;
+        if (movementType is not ((ushort)MovementType.MOVEMENT_FOOT) and not ((ushort)MovementType.MOVEMENT_TRACKED) and not ((ushort)MovementType.MOVEMENT_WHEELED)) return 0;
 
         if (movementType == (ushort)MovementType.MOVEMENT_FOOT && random > 8)
         {

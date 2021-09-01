@@ -475,7 +475,7 @@ class House
             type = Tools_RandomLCG_Range(0, (ushort)(UnitType.UNIT_MAX - 1));
 
             /* Increase how many of this unit is available via starport by one */
-            if (g_starportAvailable[type] != 0 && g_starportAvailable[type] < 10)
+            if (g_starportAvailable[type] is not 0 and < 10)
             {
                 if (g_starportAvailable[type] == -1)
                 {

@@ -340,7 +340,7 @@ class Viewport
 
                 if (u == null) break;
 
-                if (u.o.index < 20 || u.o.index > 101) continue;
+                if (u.o.index is < 20 or > 101) continue;
 
                 packed = Tile_PackTile(u.o.position);
 
@@ -414,7 +414,7 @@ class Viewport
                 if (u.o.type == (byte)UnitType.UNIT_HARVESTER && u.actionID == (byte)ActionType.ACTION_HARVEST && u.spriteOffset >= 0 && (u.actionID == (byte)ActionType.ACTION_HARVEST || u.actionID == (byte)ActionType.ACTION_MOVE))
                 {
                     var type = Map_GetLandscapeType(packed);
-                    if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE)
+                    if (type is ((ushort)LandscapeType.LST_SPICE) or ((ushort)LandscapeType.LST_THICK_SPICE))
                     {
                         /*GUI_Widget_Viewport_GetSprite_HousePalette(..., Unit_GetHouseID(u), paletteHouse),*/
                         GUI_DrawSprite(Screen.ACTIVE,
@@ -777,7 +777,7 @@ class Viewport
             {
                 var v = sprite[10 + i];
 
-                if (v >= 0x90 && v <= 0x98)
+                if (v is >= 0x90 and <= 0x98)
                 {
                     v += (byte)(houseID << 4);
                 }
@@ -930,7 +930,7 @@ class Viewport
             u.targetMove = 0;
             u.route[0] = 0xFF;
 
-            encoded = action != ActionType.ACTION_MOVE && action != ActionType.ACTION_HARVEST
+            encoded = action is not ActionType.ACTION_MOVE and not ActionType.ACTION_HARVEST
                 ? Tools_Index_Encode(Unit_FindTargetAround(packed), IndexType.IT_TILE)
                 : Tools_Index_Encode(packed, IndexType.IT_TILE);
 
@@ -1035,7 +1035,7 @@ class Viewport
 
             Voice_Play(47);
 
-            if (g_structureActiveType == (ushort)StructureType.STRUCTURE_SLAB_1x1 || g_structureActiveType == (ushort)StructureType.STRUCTURE_SLAB_2x2)
+            if (g_structureActiveType is ((ushort)StructureType.STRUCTURE_SLAB_1x1) or ((ushort)StructureType.STRUCTURE_SLAB_2x2))
             {
                 GUI_DisplayText(String_Get_ByIndex(Text.STR_CAN_NOT_PLACE_FOUNDATION_HERE), 2);
             }

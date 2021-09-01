@@ -384,7 +384,7 @@ class ScriptStructure
             : g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
 
         rotation = (short)(tile.groundTileID - baseTileID);
-        if (rotation < 0 || rotation > 7) return 1;
+        if (rotation is < 0 or > 7) return 1;
 
         /* Find what rotation we should have to look at the target */
         rotationNeeded = Orientation_Orientation256ToOrientation8((byte)Tile_GetDirection(s.o.position, lookAt));

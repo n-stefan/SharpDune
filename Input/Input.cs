@@ -241,7 +241,7 @@ class Input
         ushort value;
         var mouseBuffer = new ushort[2];
 
-        if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL || g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY) return;
+        if (g_mouseMode is ((byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL) or not ((byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY)) return;
 
         var byteMouseBuffer = Array.ConvertAll(mouseBuffer, x => (byte)x);
 
@@ -265,7 +265,7 @@ class Input
             s_activeInputMap[idx] &= (byte)~bit;
             if ((value & 0x800) == 0) s_activeInputMap[idx] |= bit;
 
-            if ((value & 0xFF) < 0x41 || (value & 0xFF) > 0x44)
+            if ((value & 0xFF) is < 0x41 or > 0x44)
             {
                 g_timerInput = 0;
                 return;
@@ -356,7 +356,7 @@ class Input
             }
         }
 
-        if (value < 0x70 || value > 0x79)
+        if (value is < 0x70 or > 0x79)
         {
             return (ushort)(keyFlags | value | 0x80);
         }
@@ -503,7 +503,7 @@ class Input
         }
 
         value = (ushort)(input & 0xFF);
-        if (value == 0x2D || value == 0x41 || value == 0x42)
+        if (value is 0x2D or 0x41 or 0x42)
         {
             /* mouse buttons : 0x2D : no change
                                0x41 : change for 1st button
@@ -570,7 +570,7 @@ class Input
      */
     static ushort Input_AddHistory(ushort value)
     {
-        if (g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL || g_mouseMode == (byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD) return value;
+        if (g_mouseMode is ((byte)InputMouseMode.INPUT_MOUSE_MODE_NORMAL) or ((byte)InputMouseMode.INPUT_MOUSE_MODE_RECORD)) return value;
 
         if (g_mouseNoRecordedValue)
         {
@@ -699,7 +699,7 @@ class Input
 
             if (i == s_keymapIgnore.Length && (value & 0x800) == 0 && (value & 0xFF) < 0x7A) break;
 
-            if ((value & 0xFF) >= 0x41 && (value & 0xFF) <= 0x44) index += 4;
+            if ((value & 0xFF) is >= 0x41 and <= 0x44) index += 4;
 
             s_historyHead = (ushort)(index + 2);
         }

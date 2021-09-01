@@ -249,7 +249,7 @@ class Sound
         ushort index;
         ushort volume;
 
-        if (voiceID < 0 || voiceID >= 120) return;
+        if (voiceID is < 0 or >= 120) return;
         if (g_gameConfig.sounds == 0) return;
 
         volume = 255;
@@ -336,14 +336,14 @@ class Sound
                 case '%':
                     if (g_config.language != (byte)Language.ENGLISH || currentVoiceSet == voiceSet)
                     {
-                        if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
+                        if (voiceSet is not 0xFFFF and not 0xFFFE) break;
                     }
 
                     g_voiceData[voice] = null; //free(g_voiceData[voice]);
                     break;
 
                 case '+':
-                    if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
+                    if (voiceSet is not 0xFFFF and not 0xFFFE) break;
 
                     g_voiceData[voice] = null; //free(g_voiceData[voice]);
                     break;

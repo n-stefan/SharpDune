@@ -118,13 +118,13 @@ class PoolUnit
         h = House_Get_ByIndex(houseID);
         if (h.unitCount >= h.unitCountMax)
         {
-            if (g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
+            if (g_table_unitInfo[type].movementType is not ((ushort)MovementType.MOVEMENT_WINGER) and not ((ushort)MovementType.MOVEMENT_SLITHER))
             {
                 if (g_validateStrictIfZero == 0) return null;
             }
         }
 
-        if (index == 0 || index == (ushort)UnitIndex.UNIT_INDEX_INVALID)
+        if (index is 0 or ((ushort)UnitIndex.UNIT_INDEX_INVALID))
         {
             var indexStart = g_table_unitInfo[type].indexStart;
             var indexEnd = g_table_unitInfo[type].indexEnd;

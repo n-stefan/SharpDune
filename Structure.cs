@@ -235,7 +235,7 @@ class Structure
                 }
 
                 lst = Map_GetLandscapeType(curPos);
-                if (lst != (ushort)LandscapeType.LST_CONCRETE_SLAB && lst != (ushort)LandscapeType.LST_WALL) continue;
+                if (lst is not ((ushort)LandscapeType.LST_CONCRETE_SLAB) and not ((ushort)LandscapeType.LST_WALL)) continue;
                 if (g_map[curPos].houseID != (byte)g_playerHouseID) continue;
 
                 isValid = true;
@@ -434,7 +434,7 @@ class Structure
             if (ui.bulletType == (byte)UnitType.UNIT_INVALID) continue;
 
             /* XXX -- Dune2 does something odd here. What was their intention? */
-            if ((u.actionID == (byte)ActionType.ACTION_GUARD && u.actionID == (byte)ActionType.ACTION_AMBUSH) || u.actionID == (byte)ActionType.ACTION_AREA_GUARD) Unit_SetAction(u, ActionType.ACTION_HUNT);
+            if (u.actionID is ((byte)ActionType.ACTION_GUARD) and ((byte)ActionType.ACTION_AMBUSH) or ((byte)ActionType.ACTION_AREA_GUARD)) Unit_SetAction(u, ActionType.ACTION_HUNT);
         }
     }
 
@@ -717,7 +717,7 @@ class Structure
             s = Structure_Find(find);
             if (s == null) break;
             if (s.o.flags.isNotOnMap) continue;
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
             result |= (uint)(1 << s.o.type);
 
             if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP) h.windtrapCount++;
@@ -892,7 +892,7 @@ class Structure
 
             s = Structure_Find(find);
             if (s == null) break;
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
             si = g_table_structureInfo[s.o.type];
             h = House_Get_ByIndex(s.o.houseID);
@@ -1055,7 +1055,7 @@ class Structure
 
                                 if (s.o.houseID == (byte)g_playerHouseID)
                                 {
-                                    if (s.o.type != (byte)StructureType.STRUCTURE_BARRACKS && s.o.type != (byte)StructureType.STRUCTURE_WOR_TROOPER)
+                                    if (s.o.type is not ((byte)StructureType.STRUCTURE_BARRACKS) and not ((byte)StructureType.STRUCTURE_WOR_TROOPER))
                                     {
                                         var stringID = (ushort)Text.STR_IS_COMPLETED_AND_AWAITING_ORDERS;
                                         if (s.o.type == (byte)StructureType.STRUCTURE_HIGH_TECH) stringID = (ushort)Text.STR_IS_COMPLETE;
@@ -1235,7 +1235,7 @@ class Structure
 
             s = Structure_Find(find);
             if (s == null) return;
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
             si = g_table_structureInfo[s.o.type];
 
@@ -1286,7 +1286,7 @@ class Structure
             if (!Map_IsValidPosition(curPacked)) continue;
 
             type = Map_GetLandscapeType(curPacked);
-            if (type == (ushort)LandscapeType.LST_WALL || type == (ushort)LandscapeType.LST_ENTIRELY_MOUNTAIN || type == (ushort)LandscapeType.LST_PARTIAL_MOUNTAIN) continue;
+            if (type is ((ushort)LandscapeType.LST_WALL) or ((ushort)LandscapeType.LST_ENTIRELY_MOUNTAIN) or ((ushort)LandscapeType.LST_PARTIAL_MOUNTAIN)) continue;
 
             t = g_map[curPacked];
             if (t.hasUnit || t.hasStructure) continue;
@@ -1480,7 +1480,7 @@ class Structure
 
                             sf = Structure_Find(find);
                             if (sf == null) break;
-                            if (sf.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || sf.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || sf.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+                            if (sf.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
                             if (House_AreAllied(s.o.houseID, sf.o.houseID)) continue;
 
@@ -1711,7 +1711,7 @@ class Structure
             return false;
         }
 
-        if (objectType == 0xFFFF || objectType == 0xFFFE)
+        if (objectType is 0xFFFF or 0xFFFE)
         {
             ushort upgradeCost = 0;
             uint buildable;
@@ -2057,7 +2057,7 @@ class Structure
 
         tileCount = (short)g_table_structure_layoutTileCount[si.layout];
 
-        if (structureType == (ushort)StructureType.STRUCTURE_SLAB_1x1 || structureType == (ushort)StructureType.STRUCTURE_SLAB_2x2) return true;
+        if (structureType is ((ushort)StructureType.STRUCTURE_SLAB_1x1) or ((ushort)StructureType.STRUCTURE_SLAB_2x2)) return true;
 
         for (i = 0; i < 4096; i++)
         {

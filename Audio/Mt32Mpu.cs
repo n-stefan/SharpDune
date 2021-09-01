@@ -206,23 +206,23 @@ class Mt32Mpu
 
         for (chan = 0; chan < NUM_CHANS; chan++)
         {
-            if (data.controls[chan].sustain != 0xFF && data.controls[chan].sustain >= 64)
+            if (data.controls[chan].sustain is not 0xFF and >= 64)
             {
                 s_mpu_controls[chan].sustain = 0;
                 /* Sustain Off */
                 MPU_Send((byte)(0xB0 | chan), 64, 0);
             }
 
-            if (data.controls[chan].chan_lock != 0xFF && data.controls[chan].chan_lock >= 64)
+            if (data.controls[chan].chan_lock is not 0xFF and >= 64)
             {
                 MPU_FlushChannel(chan);
                 MPU_ReleaseChannel(data.chanMaps[chan]);    /* release_channel */
                 data.chanMaps[chan] = chan;
             }
 
-            if (data.controls[chan].chan_protect != 0xFF && data.controls[chan].chan_protect >= 64) s_mpu_lockStatus[chan] &= 0xBF;
+            if (data.controls[chan].chan_protect is not 0xFF and >= 64) s_mpu_lockStatus[chan] &= 0xBF;
 
-            if (data.controls[chan].voice_protect != 0xFF && data.controls[chan].voice_protect >= 64) MPU_Send((byte)(0xB0 | chan), 112, 0); /* 112 = VOICE_PROTECT */
+            if (data.controls[chan].voice_protect is not 0xFF and >= 64) MPU_Send((byte)(0xB0 | chan), 112, 0); /* 112 = VOICE_PROTECT */
         }
     }
 

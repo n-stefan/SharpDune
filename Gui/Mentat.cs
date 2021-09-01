@@ -1408,7 +1408,7 @@ class Mentat
 
         //TODO: Remove textPointer
         /* skip WSA file name (or string index) */
-        while (text[textPointer] != '*' && text[textPointer] != '?') textPointer++;
+        while (text[textPointer] is not '*' and not '?') textPointer++;
 
         loopAnimation = (text[textPointer] == '*');
 
@@ -1428,7 +1428,7 @@ class Mentat
             picture = text[..text.IndexOf('*', Comparison)];
             desc = text[textPointer..text.IndexOf('\f', Comparison)];
 
-            while (text[textPointer] != '\0' && text[textPointer] != 0xC) textPointer++;
+            while (text[textPointer] is not '\0' and not (char)0xC) textPointer++;
             if (text[textPointer] != '\0') textPointer++; //*text++ = '\0';
         }
 

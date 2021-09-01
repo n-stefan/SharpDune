@@ -474,7 +474,7 @@ class Unit
             {
                 var type = Map_GetLandscapeType(Tile_PackTile(unit.o.position));
 
-                if (type == (ushort)LandscapeType.LST_SPICE || type == (ushort)LandscapeType.LST_THICK_SPICE) stringID = (ushort)Text.STR_IS_D_PERCENT_FULL_AND_HARVESTING;
+                if (type is ((ushort)LandscapeType.LST_SPICE) or ((ushort)LandscapeType.LST_THICK_SPICE)) stringID = (ushort)Text.STR_IS_D_PERCENT_FULL_AND_HARVESTING;
             }
 
             if (unit.actionID == (byte)ActionType.ACTION_MOVE && Tools_Index_GetStructure(unit.targetMove) != null)
@@ -869,7 +869,7 @@ class Unit
 
         score = Unit_GetTileEnterScore(unit, packed, (ushort)(orientation / 32));
 
-        if (score > 255 || score == -1) return false;
+        if (score is > 255 or (-1)) return false;
 
         type = Map_GetLandscapeType(packed);
         if (type == (ushort)LandscapeType.LST_STRUCTURE) type = (ushort)LandscapeType.LST_CONCRETE_SLAB;
@@ -1106,7 +1106,7 @@ class Unit
             s = Structure_Find(find);
             if (s == null) break;
 
-            if (s.o.type != (byte)StructureType.STRUCTURE_TURRET && s.o.type != (byte)StructureType.STRUCTURE_ROCKET_TURRET) continue;
+            if (s.o.type is not ((byte)StructureType.STRUCTURE_TURRET) and not ((byte)StructureType.STRUCTURE_ROCKET_TURRET)) continue;
             if (s.o.script.variables[2] == encoded) s.o.script.variables[2] = 0;
         }
 
@@ -1222,7 +1222,7 @@ class Unit
             Unit_SetAction(unit, ActionType.ACTION_DIE);
         }
 
-        if (unit.o.type == (byte)UnitType.UNIT_TROOPERS || unit.o.type == (byte)UnitType.UNIT_INFANTRY)
+        if (unit.o.type is ((byte)UnitType.UNIT_TROOPERS) or ((byte)UnitType.UNIT_INFANTRY))
         {
             unit.o.type += 2;
             ui = g_table_unitInfo[unit.o.type];
@@ -1236,7 +1236,7 @@ class Unit
             }
         }
 
-        if (ui.movementType != (ushort)MovementType.MOVEMENT_TRACKED && ui.movementType != (ushort)MovementType.MOVEMENT_HARVESTER && ui.movementType != (ushort)MovementType.MOVEMENT_WHEELED) return false;
+        if (ui.movementType is not ((ushort)MovementType.MOVEMENT_TRACKED) and not ((ushort)MovementType.MOVEMENT_HARVESTER) and not ((ushort)MovementType.MOVEMENT_WHEELED)) return false;
 
         unit.o.flags.isSmoking = true;
         unit.spriteOffset = 0;
@@ -1650,7 +1650,7 @@ class Unit
     {
         short diff;
 
-        Debug.Assert(level == 0 || level == 1);
+        Debug.Assert(level is 0 or 1);
 
         if (unit == null) return;
 
@@ -1669,7 +1669,7 @@ class Unit
 
         diff = (short)(orientation - unit.orientation[level].current);
 
-        if ((diff > -128 && diff < 0) || diff > 128)
+        if (diff is > (-128) and < 0 or > 128)
         {
             unit.orientation[level].speed = (sbyte)-unit.orientation[level].speed;
         }
@@ -1993,7 +1993,7 @@ class Unit
             speed = (ushort)(((255 - unit.amount) * speed) / 256);
         }
 
-        if (speed == 0 || speed >= 256)
+        if (speed is 0 or >= 256)
         {
             unit.movingSpeed = 0;
             return;
@@ -2037,7 +2037,7 @@ class Unit
         sbyte newCurrent;
         short diff;
 
-        Debug.Assert(level == 0 || level == 1);
+        Debug.Assert(level is 0 or 1);
 
         if (unit.orientation[level].speed == 0) return;
 
@@ -2541,7 +2541,7 @@ class Unit
 
             if (target == null) break;
 
-            if (mode != 0 && mode != 4)
+            if (mode is not 0 and not 4)
             {
                 if (mode == 1)
                 {
@@ -2599,12 +2599,12 @@ class Unit
 
             s = Structure_Find(find);
             if (s == null) break;
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
             curPosition.x = (ushort)(s.o.position.x + g_table_structure_layoutTileDiff[g_table_structureInfo[s.o.type].layout].x);
             curPosition.y = (ushort)(s.o.position.y + g_table_structure_layoutTileDiff[g_table_structureInfo[s.o.type].layout].y);
 
-            if (mode != 0 && mode != 4)
+            if (mode is not 0 and not 4)
             {
                 if (mode == 1)
                 {
@@ -2856,7 +2856,7 @@ class Unit
             if (unit.o.type == (byte)UnitType.UNIT_BULLET)
             {
                 var type = Map_GetLandscapeType(Tile_PackTile(newPosition));
-                if (type == (ushort)LandscapeType.LST_WALL || type == (ushort)LandscapeType.LST_STRUCTURE)
+                if (type is ((ushort)LandscapeType.LST_WALL) or ((ushort)LandscapeType.LST_STRUCTURE))
                 {
                     if (Tools_Index_GetType(unit.originEncoded) == IndexType.IT_STRUCTURE)
                     {
@@ -2867,7 +2867,7 @@ class Unit
                     }
                 }
 
-                if (type == (ushort)LandscapeType.LST_WALL || type == (ushort)LandscapeType.LST_STRUCTURE || type == (ushort)LandscapeType.LST_ENTIRELY_MOUNTAIN)
+                if (type is ((ushort)LandscapeType.LST_WALL) or ((ushort)LandscapeType.LST_STRUCTURE) or ((ushort)LandscapeType.LST_ENTIRELY_MOUNTAIN))
                 {
                     unit.o.position = newPosition;
 

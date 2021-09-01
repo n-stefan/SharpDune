@@ -362,7 +362,7 @@ class Gfx
         if (yDst >= SCREEN_HEIGHT) return;
         if (yDst < 0) yDst = 0;
 
-        if (width <= 0 || width > SCREEN_WIDTH) return;
+        if (width is <= 0 or > (short)SCREEN_WIDTH) return;
 
         src = GFX_Screen_Get_ByIndex(screenSrc);
         dst = GFX_Screen_Get_ByIndex(screenDst);
@@ -514,12 +514,12 @@ class Gfx
         if (SCREEN_WIDTH - xDst - width < 0) width = (short)(SCREEN_WIDTH - xDst);
         if (SCREEN_HEIGHT - yDst - height < 0) height = (short)(SCREEN_HEIGHT - yDst);
 
-        if (xSrc < 0 || xSrc >= SCREEN_WIDTH) return;
-        if (xDst < 0 || xDst >= SCREEN_WIDTH) return;
-        if (ySrc < 0 || ySrc >= SCREEN_HEIGHT) return;
-        if (yDst < 0 || yDst >= SCREEN_HEIGHT) return;
-        if (width < 0 || width >= SCREEN_WIDTH) return;
-        if (height < 0 || height >= SCREEN_HEIGHT) return;
+        if (xSrc is < 0 or >= (short)SCREEN_WIDTH) return;
+        if (xDst is < 0 or >= (short)SCREEN_WIDTH) return;
+        if (ySrc is < 0 or >= (short)SCREEN_HEIGHT) return;
+        if (yDst is < 0 or >= (short)SCREEN_HEIGHT) return;
+        if (width is < 0 or >= (short)SCREEN_WIDTH) return;
+        if (height is < 0 or >= (short)SCREEN_HEIGHT) return;
 
         GFX_Screen_SetDirty(screenDst, (ushort)xDst, (ushort)yDst, (ushort)(xDst + width), (ushort)(yDst + height));
 

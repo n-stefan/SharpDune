@@ -1688,12 +1688,12 @@ class Gui
         {
             ushort width;
 
-            if (s[i] == '\n' || s[i] == '\r')
+            if (s[i] is '\n' or '\r')
             {
                 x = (ushort)left;
                 y += g_fontCurrent.height;
 
-                while (s[i] == '\n' || s[i] == '\r') i++;
+                while (s[i] is '\n' or '\r') i++;
             }
 
             width = Font_GetCharWidth(s[i]);
@@ -2321,7 +2321,7 @@ class Gui
 
             s = Structure_Find(find);
             if (s == null) break;
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
             Structure_UpdateMap(s);
         }
@@ -4317,7 +4317,7 @@ class Gui
         if (Input_Keyboard_NextKey() == 0) return 0;
 
         key = Input_WaitForValidInput();
-        if (key != 0xC6 && key != 0xC7) return 0;
+        if (key is not 0xC6 and not 0xC7) return 0;
 
         return g_fileRgnclkCPS[(g_mouseClickY - 24) * 304 + g_mouseClickX - 8];
     }
@@ -4405,7 +4405,7 @@ class Gui
 
             s = Structure_Find(find);
             if (s == null) break;
-            if (s.o.type == (byte)StructureType.STRUCTURE_SLAB_1x1 || s.o.type == (byte)StructureType.STRUCTURE_SLAB_2x2 || s.o.type == (byte)StructureType.STRUCTURE_WALL) continue;
+            if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
             score += (short)(g_table_structureInfo[s.o.type].o.buildCredits / 100);
         }
@@ -4705,7 +4705,7 @@ class Gui
         paletteChangeTimer = g_timerGUI + 3;
         paletteColour += paletteChange;
 
-        if (paletteColour < 0 || paletteColour > 63)
+        if (paletteColour is < 0 or > 63)
         {
             paletteChange = (sbyte)-paletteChange;
             paletteColour += paletteChange;
@@ -5218,7 +5218,7 @@ class Gui
                 g_factoryWindowItems[g_factoryWindowTotal].credits = (short)oi.buildCredits;
                 g_factoryWindowItems[g_factoryWindowTotal].sortPriority = oi.sortPriority;
 
-                if (i == 0 || i == 1) g_factoryWindowItems[g_factoryWindowTotal].sortPriority = (short)(0x64 + i);
+                if (i is 0 or 1) g_factoryWindowItems[g_factoryWindowTotal].sortPriority = (short)(0x64 + i);
 
                 g_factoryWindowTotal++;
             }

@@ -162,8 +162,8 @@ class Tile
             {
                 var t = new Tile32();
 
-                if ((x + i) < 0 || (x + i) >= 64) continue;
-                if ((y + j) < 0 || (y + j) >= 64) continue;
+                if (x + i is < 0 or >= 64) continue;
+                if (y + j is < 0 or >= 64) continue;
 
                 var xi = (ushort)(x + i);
                 var yj = (ushort)(y + j);
@@ -282,7 +282,7 @@ class Tile
 
         if (!invert) i = (ushort)(64 - i);
 
-        if (quadrant == 0 || quadrant == 3) return (sbyte)((baseOrientation + 64 - i) & 0xFF);
+        if (quadrant is 0 or 3) return (sbyte)((baseOrientation + 64 - i) & 0xFF);
 
         return (sbyte)((baseOrientation + i) & 0xFF);
     }

@@ -204,7 +204,7 @@ class WidgetDraw
             }
 
             /* Unit / Structure */
-            if (actionType == 2 || actionType == 3)
+            if (actionType is 2 or 3)
             {
                 GUI_DrawProgressbar(o.hitpoints, oi.hitpoints);
                 GUI_DrawSprite(Screen.ACTIVE, g_sprites[27], 292, 60, 0, 0);
@@ -915,7 +915,7 @@ class WidgetDraw
             );
         }
 
-        w.shortcut = g_productionStringID == (ushort)Text.STR_D_DONE || g_productionStringID == (ushort)Text.STR_UPGRADINGD_DONE
+        w.shortcut = g_productionStringID is ((ushort)Text.STR_D_DONE) or ((ushort)Text.STR_UPGRADINGD_DONE)
             ? GUI_Widget_GetShortcut((byte)String_Get_ByIndex(Text.STR_ON_HOLD)[0])
             : GUI_Widget_GetShortcut((byte)String_Get_ByIndex(g_productionStringID)[0]);
 
@@ -960,7 +960,7 @@ class WidgetDraw
 
         GUI_Widget_DrawBorder(19, state, true/*1*/);
 
-        if (w.stringID == (ushort)Text.STR_CANCEL || w.stringID == (ushort)Text.STR_PREVIOUS || w.stringID == (ushort)Text.STR_YES || w.stringID == (ushort)Text.STR_NO)
+        if (w.stringID is ((ushort)Text.STR_CANCEL) or ((ushort)Text.STR_PREVIOUS) or ((ushort)Text.STR_YES) or ((ushort)Text.STR_NO))
         {
             GUI_DrawText_Wrapper(GUI_String_Get_ByIndex((short)w.stringID), (short)(positionX + (width / 2)), (short)(positionY + 2), colour, 0, 0x122);
         }

@@ -152,7 +152,7 @@ class File
         int j;
         int i;
 
-        if (dir == SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR || dir == SearchDirectory.SEARCHDIR_CAMPAIGN_DIR)
+        if (dir is SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR or SearchDirectory.SEARCHDIR_CAMPAIGN_DIR)
         {
             /* Note: campaign specific data directory not implemented. */
             buf = Path.Combine(g_dune_data_dir, filename).ToCharArray();
@@ -174,16 +174,16 @@ class File
         {
             for (j = i - 1; j >= 0; j--)
             {
-                if (buf[j] == '/' || buf[j] == '\\')
+                if (buf[j] is '/' or '\\')
                     break;
                 if (convert == ConvertCase.CONVERT_TO_LOWERCASE)
                 {
-                    if ('A' <= buf[j] && buf[j] <= 'Z')
+                    if (buf[j] is >= 'A' and <= 'Z')
                         buf[j] = (char)(buf[j] + 'a' - 'A');
                 }
                 else if (convert == ConvertCase.CONVERT_TO_UPPERCASE)
                 {
-                    if ('a' <= buf[j] && buf[j] <= 'z')
+                    if (buf[j] is >= 'a' and <= 'z')
                         buf[j] = (char)(buf[j] - 'a' + 'A');
                 }
             }
