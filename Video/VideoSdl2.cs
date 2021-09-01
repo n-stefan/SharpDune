@@ -280,7 +280,7 @@ class VideoSdl2
 
                         var sym = evt.key.keysym.sym;
                         byte code = 0;
-                        if ((sym == SDL.SDL_Keycode.SDLK_RETURN && ((evt.key.keysym.mod & SDL.SDL_Keymod.KMOD_ALT) == SDL.SDL_Keymod.KMOD_ALT)) || sym == SDL.SDL_Keycode.SDLK_F11)
+                        if ((sym == SDL.SDL_Keycode.SDLK_RETURN && ((evt.key.keysym.mod & SDL.SDL_Keymod.KMOD_ALT) != 0)) || sym == SDL.SDL_Keycode.SDLK_F11)
                         {
                             /* ALT-ENTER was pressed */
                             if (keyup != 0) continue;   /* ignore key-up */
