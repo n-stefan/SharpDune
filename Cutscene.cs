@@ -591,11 +591,11 @@ class Cutscene
 
             Sound_Output_Feedback(feedback_index);
 
-            if (g_feedback[feedback_index].messageId != 0)
-            {
+            //if (g_feedback[feedback_index].messageId != 0)
+            //{
                 /* force drawing of subtitle */
                 GameLoop_DrawText(String_Get_ByIndex(subtitle.stringID), subtitle.top);
-            }
+            //}
         }
         else
         {
