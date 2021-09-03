@@ -161,11 +161,11 @@ class VideoSdl2
          * exactly. Note that the values from SDL_GetRendererOutputSize are in
          * physical units while SDL_RenderGetViewport are in logical units.
          */
-        SDL.SDL_RenderGetViewport(s_renderer, out SDL.SDL_Rect rect);
+        SDL_RenderGetViewport(s_renderer, out SDL_Rect rect);
 
-        if (SDL.SDL_GetRendererOutputSize(s_renderer, out int w, out int h) != 0)
+        if (SDL_GetRendererOutputSize(s_renderer, out int w, out int h) != 0)
         {
-            Trace.WriteLine($"ERROR: SDL_GetRendererOutputSize failed: {SDL.SDL_GetError()}");
+            Trace.WriteLine($"ERROR: SDL_GetRendererOutputSize failed: {SDL_GetError()}");
             return;
         }
 
@@ -183,7 +183,7 @@ class VideoSdl2
             scale = 1.0F;
         }
 
-        SDL.SDL_WarpMouseInWindow(s_window, (int)((rect.x + (float)x) * scale), (int)((rect.y + (float)y) * scale));
+        SDL_WarpMouseInWindow(s_window, (int)((rect.x + (float)x) * scale), (int)((rect.y + (float)y) * scale));
     }
 
     internal static byte[] Video_GetFrameBuffer(/*ushort size*/)
@@ -208,23 +208,23 @@ class VideoSdl2
 
         if (s_texture != IntPtr.Zero)
         {
-            SDL.SDL_DestroyTexture(s_texture);
+            SDL_DestroyTexture(s_texture);
             s_texture = IntPtr.Zero;
         }
 
         if (s_renderer != IntPtr.Zero)
         {
-            SDL.SDL_DestroyRenderer(s_renderer);
+            SDL_DestroyRenderer(s_renderer);
             s_renderer = IntPtr.Zero;
         }
 
         if (s_window != IntPtr.Zero)
         {
-            SDL.SDL_DestroyWindow(s_window);
+            SDL_DestroyWindow(s_window);
             s_window = IntPtr.Zero;
         }
 
-        SDL.SDL_Quit();
+        SDL_Quit();
     }
 
     static bool s_showFPS;
@@ -245,13 +245,13 @@ class VideoSdl2
             Video_ShowFPS(GFX_Screen_Get_ByIndex(Screen.NO0));
         }
 
-        while (SDL.SDL_PollEvent(out SDL.SDL_Event evt) == 1)
+        while (SDL_PollEvent(out SDL_Event evt) == 1)
         {
             byte keyup = 1;
 
             switch (evt.type)
             {
-                case SDL.SDL_EventType.SDL_QUIT:
+                case SDL_EventType.SDL_QUIT:
                     {
                         s_video_lock = false;
                         PrepareEnd();
@@ -259,54 +259,54 @@ class VideoSdl2
                     }
                     break;
 
-                case SDL.SDL_EventType.SDL_MOUSEMOTION:
+                case SDL_EventType.SDL_MOUSEMOTION:
                     Video_Mouse_Move(evt.motion.x, evt.motion.y);
                     break;
 
-                case SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN:
-                    if (evt.button.button == SDL.SDL_BUTTON_LEFT) Video_Mouse_Button(true, true);
-                    if (evt.button.button == SDL.SDL_BUTTON_RIGHT) Video_Mouse_Button(false, true);
+                case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                    if (evt.button.button == SDL_BUTTON_LEFT) Video_Mouse_Button(true, true);
+                    if (evt.button.button == SDL_BUTTON_RIGHT) Video_Mouse_Button(false, true);
                     break;
-                case SDL.SDL_EventType.SDL_MOUSEBUTTONUP:
-                    if (evt.button.button == SDL.SDL_BUTTON_LEFT) Video_Mouse_Button(true, false);
-                    if (evt.button.button == SDL.SDL_BUTTON_RIGHT) Video_Mouse_Button(false, false);
+                case SDL_EventType.SDL_MOUSEBUTTONUP:
+                    if (evt.button.button == SDL_BUTTON_LEFT) Video_Mouse_Button(true, false);
+                    if (evt.button.button == SDL_BUTTON_RIGHT) Video_Mouse_Button(false, false);
                     break;
 
-                case SDL.SDL_EventType.SDL_KEYDOWN:
-                case SDL.SDL_EventType.SDL_KEYUP:
+                case SDL_EventType.SDL_KEYDOWN:
+                case SDL_EventType.SDL_KEYUP:
                     {
-                        if (evt.type == SDL.SDL_EventType.SDL_KEYDOWN)
+                        if (evt.type == SDL_EventType.SDL_KEYDOWN)
                             keyup = 0;
 
                         var sym = evt.key.keysym.sym;
                         byte code = 0;
-                        if ((sym == SDL.SDL_Keycode.SDLK_RETURN && ((evt.key.keysym.mod & SDL.SDL_Keymod.KMOD_ALT) != 0)) || sym == SDL.SDL_Keycode.SDLK_F11)
+                        if ((sym == SDL_Keycode.SDLK_RETURN && ((evt.key.keysym.mod & SDL_Keymod.KMOD_ALT) != 0)) || sym == SDL_Keycode.SDLK_F11)
                         {
                             /* ALT-ENTER was pressed */
                             if (keyup != 0) continue;   /* ignore key-up */
-                            if (SDL.SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/) < 0)
+                            if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/) < 0)
                             {
-                                Trace.WriteLine($"WARNING: Failed to toggle full screen : {SDL.SDL_GetError()}");
+                                Trace.WriteLine($"WARNING: Failed to toggle full screen : {SDL_GetError()}");
                             }
                             s_full_screen = !s_full_screen;
                             continue;
                         }
-                        if (sym == SDL.SDL_Keycode.SDLK_F8)
+                        if (sym == SDL_Keycode.SDLK_F8)
                         {
                             if (keyup != 0) s_showFPS = !s_showFPS;
                             continue;
                         }
-                        if (sym == SDL.SDL_Keycode.SDLK_RSHIFT)
+                        if (sym == SDL_Keycode.SDLK_RSHIFT)
                         {
                             code = 0x36;
                         }
-                        else if (sym == SDL.SDL_Keycode.SDLK_LSHIFT)
+                        else if (sym == SDL_Keycode.SDLK_LSHIFT)
                         {
                             code = 0x2a;
                         }
-                        else if (sym >= SDL.SDL_Keycode.SDLK_CAPSLOCK)
+                        else if (sym >= SDL_Keycode.SDLK_CAPSLOCK)
                         {
-                            sym -= SDL.SDL_Keycode.SDLK_CAPSLOCK;
+                            sym -= SDL_Keycode.SDLK_CAPSLOCK;
                             if ((int)sym < s_SDL_hikeymap.Length) code = s_SDL_hikeymap[(int)sym];
                         }
                         else
@@ -315,26 +315,26 @@ class VideoSdl2
                         }
                         if (code == 0)
                         {
-                            Trace.WriteLine($"WARNING: Unhandled key scancode={evt.key.keysym.scancode} sym={evt.key.keysym.sym} {SDL.SDL_GetKeyName(evt.key.keysym.sym)}");
+                            Trace.WriteLine($"WARNING: Unhandled key scancode={evt.key.keysym.scancode} sym={evt.key.keysym.sym} {SDL_GetKeyName(evt.key.keysym.sym)}");
                             continue;
                         }
                         Video_Key_Callback((byte)(code | (keyup != 0 ? 0x80 : 0x0)));
                     }
                     break;
 
-                case SDL.SDL_EventType.SDL_WINDOWEVENT:
-                    if (evt.window.windowEvent == SDL.SDL_WindowEventID.SDL_WINDOWEVENT_EXPOSED)
+                case SDL_EventType.SDL_WINDOWEVENT:
+                    if (evt.window.windowEvent == SDL_WindowEventID.SDL_WINDOWEVENT_EXPOSED)
                     {
                         /* Clear area outside the 4:3 logical screen, if any */
-                        SDL.SDL_RenderClear(s_renderer);
+                        SDL_RenderClear(s_renderer);
 
-                        var rect = new SDL.SDL_Rect();
-                        if (SDL.SDL_RenderCopy(s_renderer, s_texture, ref rect, ref rect) != 0)
+                        var rect = new SDL_Rect();
+                        if (SDL_RenderCopy(s_renderer, s_texture, ref rect, ref rect) != 0)
                         {
-                            Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL.SDL_GetError()}");
+                            Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
                         }
 
-                        SDL.SDL_RenderPresent(s_renderer);
+                        SDL_RenderPresent(s_renderer);
                         draw = false;
                     }
                     break;
@@ -358,7 +358,7 @@ class VideoSdl2
         int render_width;
         int render_height;
 #if !WITHOUT_SDLIMAGE
-        /*SDL.SDL_Surface*/
+        /*SDL_Surface*/
         IntPtr icon;
 #endif //WITHOUT_SDLIMAGE
         uint window_flags = 0;
@@ -376,42 +376,42 @@ class VideoSdl2
         //	hqxInit();
         //}
 
-        err = SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
+        err = SDL_Init(SDL_INIT_VIDEO);
 
         if (err != 0)
         {
-            Trace.WriteLine($"ERROR: Could not initialize SDL: {SDL.SDL_GetError()}");
+            Trace.WriteLine($"ERROR: Could not initialize SDL: {SDL_GetError()}");
             return false;
         }
 
         if (IniFile_GetInteger("fullscreen", 0) != 0)
         {
-            window_flags |= (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/;
+            window_flags |= (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/;
             s_full_screen = true;
         }
 
-        err = SDL.SDL_CreateWindowAndRenderer(
+        err = SDL_CreateWindowAndRenderer(
                 SCREEN_WIDTH * s_screen_magnification,
                 SCREEN_HEIGHT * s_screen_magnification,
-                (SDL.SDL_WindowFlags)window_flags,
+                (SDL_WindowFlags)window_flags,
                 out s_window,
                 out s_renderer);
 
         if (err != 0)
         {
-            Trace.WriteLine($"ERROR: Could not set resolution: {SDL.SDL_GetError()}");
+            Trace.WriteLine($"ERROR: Could not set resolution: {SDL_GetError()}");
             return false;
         }
 
-        SDL.SDL_SetWindowTitle(s_window, window_caption);
+        SDL_SetWindowTitle(s_window, window_caption);
 
 #if !WITHOUT_SDLIMAGE
-        icon = SDL_image.IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune_32x32.png")); //"sharpdune.png"
-                                                                                       //if (icon == IntPtr.Zero) icon = SDL_image.IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune.ico")); //sharpdune_32x32.png
+        icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune_32x32.png")); //"sharpdune.png"
+        //if (icon == IntPtr.Zero) icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune.ico")); //sharpdune_32x32.png
         if (icon != IntPtr.Zero)
         {
-            SDL.SDL_SetWindowIcon(s_window, icon);
-            SDL.SDL_FreeSurface(icon);
+            SDL_SetWindowIcon(s_window, icon);
+            SDL_FreeSurface(icon);
         }
 #endif //WITHOUT_SDLIMAGE
 
@@ -435,29 +435,29 @@ class VideoSdl2
             Trace.WriteLine($"ERROR: Could not allocate {SCREEN_WIDTH * (SCREEN_HEIGHT + 4)} bytes of memory");
             return false;
         }
-        err = SDL.SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
+        err = SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
 
         if (err != 0)
         {
-            Trace.WriteLine($"ERROR: Could not set logical size: {SDL.SDL_GetError()}");
+            Trace.WriteLine($"ERROR: Could not set logical size: {SDL_GetError()}");
             return false;
         }
 
-        s_texture = SDL.SDL_CreateTexture(s_renderer,
-                SDL.SDL_PIXELFORMAT_ARGB8888,
-                (int)SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,
+        s_texture = SDL_CreateTexture(s_renderer,
+                SDL_PIXELFORMAT_ARGB8888,
+                (int)SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,
                 render_width, render_height);
 
         if (s_texture == IntPtr.Zero)
         {
-            Trace.WriteLine($"ERROR: Could not create texture: {SDL.SDL_GetError()}");
+            Trace.WriteLine($"ERROR: Could not create texture: {SDL_GetError()}");
             return false;
         }
 
-        SDL.SDL_ShowCursor(SDL.SDL_DISABLE);
+        SDL_ShowCursor(SDL_DISABLE);
 
         /* Setup SDL_RenderClear */
-        SDL.SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255);
 
         Video_Mouse_SetRegion(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 
@@ -599,7 +599,7 @@ class VideoSdl2
                     Trace.WriteLine("ERROR: Unsupported scale filter");
                     break;
             }
-        SDL.SDL_RenderPresent(s_renderer);
+        SDL_RenderPresent(s_renderer);
         GFX_Screen_SetClean(Screen.NO0);
         s_screen_needrepaint = false;
     }
@@ -614,15 +614,15 @@ class VideoSdl2
         var area = GFX_Screen_GetDirtyArea(Screen.NO0);
         int x, y;
         uint[] p;
-        SDL.SDL_Rect rect;
-        var prect = new SDL.SDL_Rect { w = SCREEN_WIDTH, h = SCREEN_HEIGHT }; //SDL_Rect* prect = NULL;
+        SDL_Rect rect;
+        var prect = new SDL_Rect { w = SCREEN_WIDTH, h = SCREEN_HEIGHT }; //SDL_Rect* prect = NULL;
         var gfx_screen8Pointer = 0;
         var pPointer = 0;
 
         gfx_screen8Pointer += s_screenOffset << 2;
-        if (SDL.SDL_LockTexture(s_texture, IntPtr.Zero, out IntPtr pixels, out int pitch) != 0)
+        if (SDL_LockTexture(s_texture, IntPtr.Zero, out IntPtr pixels, out int pitch) != 0)
         {
-            Trace.WriteLine($"ERROR: Could not set lock texture: {SDL.SDL_GetError()}");
+            Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
             return;
         }
 
@@ -668,10 +668,10 @@ class VideoSdl2
                 pPointer = 0;
             }
         }
-        SDL.SDL_UnlockTexture(s_texture);
-        if (SDL.SDL_RenderCopy(s_renderer, s_texture, ref prect, ref prect) != 0)
+        SDL_UnlockTexture(s_texture);
+        if (SDL_RenderCopy(s_renderer, s_texture, ref prect, ref prect) != 0)
         {
-            Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL.SDL_GetError()}");
+            Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
         }
     }
 
@@ -684,9 +684,9 @@ class VideoSdl2
     //	/*byte[]*/IntPtr pixels;
     //	int pitch;
     //	uint[] p;
-    //	SDL.SDL_Rect rect, rectlock;
-    //	SDL.SDL_Rect? prect = null;
-    //	SDL.SDL_Rect? prectlock = null;
+    //	SDL_Rect rect, rectlock;
+    //	SDL_Rect? prect = null;
+    //	SDL_Rect? prectlock = null;
     //	int pPointer = 0;
     //	int dataPointer = 0;
 
@@ -736,9 +736,9 @@ class VideoSdl2
     //	}
     //	/* then call scale2x */
     //	var prectlockValue = prectlock.Value;
-    //	if (SDL.SDL_LockTexture(s_texture, ref prectlockValue, out pixels, out pitch) != 0)
+    //	if (SDL_LockTexture(s_texture, ref prectlockValue, out pixels, out pitch) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: Could not set lock texture: {SDL.SDL_GetError()}");
+    //		Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
     //		return;
     //	}
     //	if (prectlock != null)
@@ -746,11 +746,11 @@ class VideoSdl2
     //		pixels -= rectlock.y * pitch;
     //	}
     //	ScaleBit.scale_part((ushort)s_screen_magnification, pixels, (ushort)pitch, truecolorbuffer, Gfx.SCREEN_WIDTH * 4, 4, Gfx.SCREEN_WIDTH, Gfx.SCREEN_HEIGHT, top, bottom);
-    //	SDL.SDL_UnlockTexture(s_texture);
+    //	SDL_UnlockTexture(s_texture);
     //	var prectValue = prect.Value;
-    //	if (SDL.SDL_RenderCopy(s_renderer, s_texture, ref prectValue, ref prectValue) != 0)
+    //	if (SDL_RenderCopy(s_renderer, s_texture, ref prectValue, ref prectValue) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL.SDL_GetError()}");
+    //		Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
     //	}
     //}
 
@@ -763,9 +763,9 @@ class VideoSdl2
     //	src = Gfx.GFX_Screen_Get_ByIndex(Screen.NO0);
     //	src = src[(s_screenOffset << 2)..];
 
-    //	if (SDL.SDL_LockTexture(s_texture, IntPtr.Zero, out pixels, out pitch) != 0)
+    //	if (SDL_LockTexture(s_texture, IntPtr.Zero, out pixels, out pitch) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: Could not set lock texture: {SDL.SDL_GetError()}");
+    //		Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
     //		return;
     //	}
     //	switch (s_screen_magnification)
@@ -786,10 +786,10 @@ class VideoSdl2
     //						  Gfx.SCREEN_WIDTH, Gfx.SCREEN_HEIGHT, s_palette);
     //			break;
     //	}
-    //	SDL.SDL_UnlockTexture(s_texture);
-    //	if (SDL.SDL_RenderCopy(s_renderer, s_texture, IntPtr.Zero, IntPtr.Zero) != 0)
+    //	SDL_UnlockTexture(s_texture);
+    //	if (SDL_RenderCopy(s_renderer, s_texture, IntPtr.Zero, IntPtr.Zero) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL.SDL_GetError()}");
+    //		Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
     //	}
     //}
 }

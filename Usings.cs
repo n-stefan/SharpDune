@@ -1,5 +1,4 @@
-﻿global using SDL2;
-global using SharpDune.Audio;
+﻿global using SharpDune.Audio;
 global using SharpDune.Gui;
 global using SharpDune.Include;
 global using SharpDune.Input;
@@ -19,6 +18,8 @@ global using System.Runtime.InteropServices;
 global using System.Text;
 global using System.Text.RegularExpressions;
 global using System.Threading;
+global using static SDL2.SDL;
+global using static SDL2.SDL_image;
 global using static SharpDune.Animation;
 global using static SharpDune.Audio.Driver;
 global using static SharpDune.Audio.Dsp;
