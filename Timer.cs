@@ -233,12 +233,15 @@ class Timer
                     while (node.usec_left <= delta) delta -= node.usec_left;
                 }
             }
-            else while (node.usec_left <= delta)
+            else
+            {
+                while (node.usec_left <= delta)
                 {
                     delta -= node.usec_left;
                     node.usec_left = node.usec_delay;
                     node.callback?.Invoke();
                 }
+            }
             node.usec_left -= delta;
         }
 

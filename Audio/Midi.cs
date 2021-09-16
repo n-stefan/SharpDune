@@ -173,7 +173,9 @@ class Midi
             Marshal.StructureToPtr(header, ptr, false);
 
             if (midiOutPrepareHeader(s_midi, ptr, hdrSize) != MMSYSERR_NOERROR)
+            {
                 Trace.WriteLine("ERROR: midiOutPrepareHeader() failed");
+            }
             else
             {
                 prepared = true;
@@ -183,8 +185,10 @@ class Midi
         finally
         {
             if (prepared)
+            {
                 if (midiOutUnprepareHeader(s_midi, ptr, hdrSize) != MMSYSERR_NOERROR)
                     Trace.WriteLine("ERROR: midiOutUnprepareHeader() failed");
+            }
 
             if (header.Data != IntPtr.Zero)
                 Marshal.FreeHGlobal(header.Data);

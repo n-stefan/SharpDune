@@ -186,11 +186,8 @@ class VideoSdl2
         SDL_WarpMouseInWindow(s_window, (int)((rect.x + (float)x) * scale), (int)((rect.y + (float)y) * scale));
     }
 
-    internal static byte[] Video_GetFrameBuffer(/*ushort size*/)
-    {
-        //(void)size;
-        return s_framebuffer;
-    }
+    internal static byte[] Video_GetFrameBuffer() =>
+        s_framebuffer;
 
     /*
      * Uninitialize the video driver.
@@ -582,7 +579,9 @@ class VideoSdl2
         {
             Video_DrawScreen_Nearest_Neighbor();
         }
-        else switch (s_scale_filter)
+        else
+        {
+            switch (s_scale_filter)
             {
                 case VideoScaleFilter.FILTER_NEAREST_NEIGHBOR:
                     Video_DrawScreen_Nearest_Neighbor();
@@ -599,6 +598,7 @@ class VideoSdl2
                     Trace.WriteLine("ERROR: Unsupported scale filter");
                     break;
             }
+        }
         SDL_RenderPresent(s_renderer);
         GFX_Screen_SetClean(Screen.NO0);
         s_screen_needrepaint = false;

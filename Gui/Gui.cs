@@ -5066,7 +5066,10 @@ class Gui
         if (oi.available == -1) return;
 
         y = 160;
-        if (oi.available <= item.amount) y = 169;
+        if (oi.available <= item.amount)
+        {
+            y = 169;
+        }
         else if (g_starPortEnforceUnitLimit && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_WINGER && g_table_unitInfo[type].movementType != (ushort)MovementType.MOVEMENT_SLITHER)
         {
             var h = g_playerHouse;

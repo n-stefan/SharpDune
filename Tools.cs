@@ -61,16 +61,14 @@ class Tools
      * @param id The encoded index to get the type of.
      * @return The type
      */
-    internal static IndexType Tools_Index_GetType(ushort encoded)
+    internal static IndexType Tools_Index_GetType(ushort encoded) =>
+    (encoded & 0xC000) switch
     {
-        return (encoded & 0xC000) switch
-        {
-            0x4000 => IndexType.IT_UNIT,
-            0x8000 => IndexType.IT_STRUCTURE,
-            0xC000 => IndexType.IT_TILE,
-            _ => IndexType.IT_NONE,
-        };
-    }
+        0x4000 => IndexType.IT_UNIT,
+        0x8000 => IndexType.IT_STRUCTURE,
+        0xC000 => IndexType.IT_TILE,
+        _ => IndexType.IT_NONE,
+    };
 
     /*
      * Decode the given encoded index.

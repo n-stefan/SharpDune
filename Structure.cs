@@ -1792,7 +1792,10 @@ class Structure
                                     availableUnits[i]++;
                                     g_table_unitInfo[i].o.available = (sbyte)availableUnits[i];
                                 }
-                                else if (availableUnits[i] == 0) g_table_unitInfo[i].o.available = -1;
+                                else if (availableUnits[i] == 0)
+                                {
+                                    g_table_unitInfo[i].o.available = -1;
+                                }
                             }
                         }
                     } while (loop);

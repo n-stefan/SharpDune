@@ -181,14 +181,14 @@ class Sprites
     internal static ushort Sprites_LoadImage(string filename, Screen screenID, byte[] palette)
     {
 #if Sprites_0
-			byte index;
-			byte[] header = default;
+        byte index;
+        byte[] header = default;
 
-			index = CFile.File_Open(filename, FileMode.FILE_MODE_READ);
-			if (index == (byte)FileMode.FILE_INVALID) return 0;
+        index = CFile.File_Open(filename, FileMode.FILE_MODE_READ);
+        if (index == (byte)FileMode.FILE_INVALID) return 0;
 
-			CFile.File_Read(index, header, 4);
-			CFile.File_Close(index);
+        CFile.File_Read(index, header, 4);
+        CFile.File_Close(index);
 #endif
         return (ushort)(Sprites_LoadCPSFile(filename, screenID, palette) / 8000);
     }

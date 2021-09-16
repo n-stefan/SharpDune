@@ -200,8 +200,10 @@ class Security
         var s = str.ToCharArray();
 
         for (var i = 0; i < s.Length; i++)
+        {
             if (char.IsLetterOrDigit(s[i]) && char.IsLower(s[i]))
                 s[i] = char.ToUpper(s[i], Culture);
+        }
 
         str = new string(s);
     }
