@@ -237,19 +237,18 @@ class SaveLoad
     internal static bool SaveLoad_Load(SaveLoadDesc[] sld, BinaryReader fp, object obj)
     {
         var flags = BindingFlags.Instance | BindingFlags.NonPublic;
-        var c = 0;
         var type = obj?.GetType();
         var sb = new StringBuilder();
         var values = new ArrayList();
         FieldInfo field = null;
+        int c = 0, index = -1;
         string member;
-        var index = -1;
+        object value, ptr, subPtr;
 
         while (sld[c].type_disk != SLDT_NULL)
         {
-            object/*uint*/ value = 0;
-            object ptr = null;
-            object subPtr;
+            value = 0;
+            ptr = null;
 
             member = sld[c].member;
             if (type != null && member != null)
@@ -452,16 +451,16 @@ class SaveLoad
     internal static bool SaveLoad_Save(SaveLoadDesc[] sld, BinaryWriter fp, object obj)
     {
         var flags = BindingFlags.Instance | BindingFlags.NonPublic;
-        var c = 0;
         var type = obj?.GetType();
         FieldInfo field = null;
+        int c = 0, index;
         string member;
-        int index;
+        object value;
+        object[] values;
 
         while (sld[c].type_disk != SLDT_NULL)
         {
-            object/*uint*/ value = 0;
-            object[] values;
+            value = 0;
 
             member = sld[c].member;
             if (type != null && member != null)
@@ -517,17 +516,13 @@ class SaveLoad
                         break;
 
                     case SLDT_HOUSEFLAGS:
-                        //{
                         values[i] = ((HouseFlags)values[i]).All; //ptr;
-                                                                 //value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.human) << 1) | (Convert.ToByte(f.doneFullScaleAttack) << 2) | (Convert.ToByte(f.isAIActive) << 3) | (Convert.ToByte(f.radarActivated) << 4));
-                                                                 //}
+                        //value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.human) << 1) | (Convert.ToByte(f.doneFullScaleAttack) << 2) | (Convert.ToByte(f.isAIActive) << 3) | (Convert.ToByte(f.radarActivated) << 4));
                         break;
 
                     case SLDT_OBJECTFLAGS:
-                        //{
                         values[i] = ((ObjectFlags)values[i]).All; //ptr;
-                                                                  //value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.allocated) << 1) | (Convert.ToByte(f.isNotOnMap) << 2) | (Convert.ToByte(f.isSmoking) << 3) | (Convert.ToByte(f.fireTwiceFlip) << 4) | (Convert.ToByte(f.animationFlip) << 5) | (Convert.ToByte(f.bulletIsBig) << 6) | (Convert.ToByte(f.isWobbling) << 7) | (Convert.ToByte(f.inTransport) << 8) | (Convert.ToByte(f.byScenario) << 9) | (Convert.ToByte(f.degrades) << 10) | (Convert.ToByte(f.isHighlighted) << 11) | (Convert.ToByte(f.isDirty) << 12) | (Convert.ToByte(f.repairing) << 13) | (Convert.ToByte(f.onHold) << 14) | (Convert.ToByte(f.isUnit) << 16) | (Convert.ToByte(f.upgrading) << 17));
-                                                                  //}
+                        //value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.allocated) << 1) | (Convert.ToByte(f.isNotOnMap) << 2) | (Convert.ToByte(f.isSmoking) << 3) | (Convert.ToByte(f.fireTwiceFlip) << 4) | (Convert.ToByte(f.animationFlip) << 5) | (Convert.ToByte(f.bulletIsBig) << 6) | (Convert.ToByte(f.isWobbling) << 7) | (Convert.ToByte(f.inTransport) << 8) | (Convert.ToByte(f.byScenario) << 9) | (Convert.ToByte(f.degrades) << 10) | (Convert.ToByte(f.isHighlighted) << 11) | (Convert.ToByte(f.isDirty) << 12) | (Convert.ToByte(f.repairing) << 13) | (Convert.ToByte(f.onHold) << 14) | (Convert.ToByte(f.isUnit) << 16) | (Convert.ToByte(f.upgrading) << 17));
                         break;
 
                     case SLDT_TEAMFLAGS:
