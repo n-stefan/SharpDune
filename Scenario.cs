@@ -315,14 +315,14 @@ class Scenario
         ushort packed;
         ushort value;
         string[] s;
-        string posY; //char[3]
+        /*string*/ReadOnlySpan<char> posY; //char[3]
 
         if (key[0] != 'C') return;
 
-        posY = key[4..6]; //memcpy(posY, key + 4, 2);
-                          //posY[2] = '\0';
+        posY = key.AsSpan(4, 2); //memcpy(posY, key + 4, 2);
+        //posY[2] = '\0';
 
-        packed = (ushort)(Tile_PackXY(ushort.Parse(posY, Culture), ushort.Parse(key[6..], Culture)) & 0xFFF);
+        packed = (ushort)(Tile_PackXY(ushort.Parse(posY, provider: Culture), ushort.Parse(key.AsSpan(6), provider: Culture)) & 0xFFF);
         t = g_map[packed];
 
         s = settings.Split(",\r\n"); //strtok(settings, ",\r\n");
@@ -494,7 +494,7 @@ class Scenario
         if (key.StartsWith("GEN", StringComparison.OrdinalIgnoreCase)) //(strncasecmp(key, "GEN", 3) == 0)
         {
             /* Position on the map is in the key */
-            position = ushort.Parse(key[3..], Culture);
+            position = ushort.Parse(key.AsSpan(3), provider: Culture);
 
             /* The value should have two values separated by a ',' */
             split = settings.Split(','); //strchr(settings, ',');
@@ -515,7 +515,7 @@ class Scenario
         }
 
         /* The key should start with 'ID', followed by the index */
-        index = byte.Parse(key[2..], Culture);
+        index = byte.Parse(key.AsSpan(2), provider: Culture);
 
         /* The value should have four values separated by a ',' */
         split = settings.Split(','); //strchr(settings, ',');

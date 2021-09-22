@@ -148,7 +148,7 @@ class Driver
         DSP_Play(data);
     }
 
-    internal static void Driver_Voice_LoadFile(string filename, byte[] buffer, uint length)
+    internal static void Driver_Voice_LoadFile(/*string*/ReadOnlySpan<char> filename, byte[] buffer, uint length)
     {
         Debug.Assert(buffer != null);
 
@@ -168,7 +168,7 @@ class Driver
         /* Remove extension if there is one */
         name = Path.GetFileNameWithoutExtension(name); //if (strrchr(basefilename, '.') != NULL) *strrchr(basefilename, '.') = '\0';
         basefilename = name; //strncpy(basefilename, name, sizeof(basefilename));
-                             //basefilename[sizeof(basefilename) - 1] = '\0';
+        //basefilename[sizeof(basefilename) - 1] = '\0';
 
         filename = $"{basefilename}.{driver.extension}"; //snprintf(filename, sizeof(filename), "%s.%s", basefilename, driver->extension);
 

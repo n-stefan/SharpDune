@@ -4,7 +4,7 @@ namespace SharpDune;
 
 class Ini
 {
-    internal static string Ini_GetString(string category, string key, string defaultValue, string source)
+    internal static string Ini_GetString(string category, /*string*/ReadOnlySpan<char> key, string defaultValue, string source)
     {
         var result = defaultValue;
 

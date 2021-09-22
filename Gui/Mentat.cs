@@ -16,13 +16,13 @@ class Mentat
      * eyeX, eyeY, mouthX, mouthY, otherX, otherY, shoulderX, shoulderY
      */
     static readonly byte[][] s_mentatSpritePositions = { //[6][8]
-			new byte[] {0x20,0x58,0x20,0x68,0x00,0x00,0x80,0x68}, /* Harkonnen mentat. */
-			new byte[] {0x28,0x50,0x28,0x60,0x48,0x98,0x80,0x80}, /* Atreides mentat. */
-			new byte[] {0x10,0x50,0x10,0x60,0x58,0x90,0x80,0x80}, /* Ordos mentat. */
-			new byte[] {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
-            new byte[] {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
-            new byte[] {0x40,0x50,0x38,0x60,0x00,0x00,0x00,0x00}  /* Intro houses (mercenaries) mentat. */
-		};
+    	new byte[] {0x20,0x58,0x20,0x68,0x00,0x00,0x80,0x68}, /* Harkonnen mentat. */
+    	new byte[] {0x28,0x50,0x28,0x60,0x48,0x98,0x80,0x80}, /* Atreides mentat. */
+    	new byte[] {0x10,0x50,0x10,0x60,0x58,0x90,0x80,0x80}, /* Ordos mentat. */
+    	new byte[] {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
+        new byte[] {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
+        new byte[] {0x40,0x50,0x38,0x60,0x00,0x00,0x00,0x00}  /* Intro houses (mercenaries) mentat. */
+    };
 
     static byte s_otherLeft; /*!< Left of the other object (ring of Ordos mentat, book of atreides mentat). */
     static byte s_otherTop;  /*!< Top of the other object (ring of Ordos mentat, book of atreides mentat). */
@@ -86,7 +86,7 @@ class Mentat
 
         if (g_debugSkipDialogs)
         {
-            Debug.WriteLine("DEBUG: Skipping Mentat dialog...");
+            Debug.WriteLine("DEBUG: Skipping Mentat dialog");
             return;
         }
 
@@ -1112,7 +1112,7 @@ class Mentat
         var w = g_widgetMentatTail;
         var helpSubjects = s_helpSubjects;
         ushort i;
-        string text;
+        /*string*/ReadOnlySpan<char> text;
         var helpSubjectsPointer = s_helpSubjectsPointer;
 
         if (!force && s_topHelpList == displayedHelpSubject) return;
@@ -1131,11 +1131,12 @@ class Mentat
         line = GUI_Widget_Get_ByIndex(w, 3);
         for (i = 0; i < 11; i++)
         {
-            text = SharpDune.Encoding.GetString(helpSubjects[(helpSubjectsPointer + 7)..]);
-            text = text[..text.IndexOf('\0', Comparison)];
-            line.drawParameterDown.text = text;
-            line.drawParameterSelected.text = text;
-            line.drawParameterNormal.text = text;
+            text = SharpDune.Encoding.GetString(helpSubjects.AsSpan(helpSubjectsPointer + 7));
+            text = text.Slice(0, text.IndexOf("\0", Comparison));
+            var textStr = new string(text);
+            line.drawParameterDown.text = textStr;
+            line.drawParameterSelected.text = textStr;
+            line.drawParameterNormal.text = textStr;
 
             if (helpSubjects[helpSubjectsPointer + 6] == '0')
             {
@@ -1388,7 +1389,7 @@ class Mentat
         for (i = 0; i < s_selectedHelpSubject; i++) subjectPointer = String_NextString(subject, subjectPointer);
 
         noDesc = (subject[subjectPointer + 5] == '0');  /* or no WSA file ? */
-        offset = HToBE32(Read_LE_UInt32(subject[(subjectPointer + 1)..]));
+        offset = HToBE32(Read_LE_UInt32(subject.AsSpan(subjectPointer + 1)));
 
         fileID = ChunkFile_Open(s_mentatFilename);
         ChunkFile_Read(fileID, HToBE32((uint)SharpDune.MultiChar[FourCC.INFO]), ref info, 12);

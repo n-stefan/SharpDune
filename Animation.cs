@@ -118,7 +118,7 @@ class Animation
      * Pause the animation for a few ticks.
      * @param animation The Animation to pause.
      * @param parameter How many ticks it should pause.
-     * @note Delays are randomly delayed with [0..3] ticks.
+     * @note Delays are randomly delayed with [0. . .3] ticks.
      */
     static void Animation_Func_Pause(CAnimation animation, short parameter)
     {
@@ -151,7 +151,7 @@ class Animation
     static void Animation_Func_SetGroundTile(CAnimation animation, short parameter)
     {
         var specialMap = new ushort[1];
-        ushort[] iconMap;
+        Span<ushort> iconMap;
         var layout = g_table_structure_layoutTiles[animation.tileLayout];
         var layoutTileCount = g_table_structure_layoutTileCount[animation.tileLayout];
         var packed = Tile_PackTile(animation.tile);
@@ -159,7 +159,7 @@ class Animation
         var layoutPointer = 0;
         var iconMapPointer = 0;
 
-        iconMap = g_iconMap[(g_iconMap[animation.iconGroup] + layoutTileCount * parameter)..];
+        iconMap = g_iconMap.AsSpan(g_iconMap[animation.iconGroup] + layoutTileCount * parameter);
 
         /* Some special case for turrets */
         if ((parameter > 1) && (animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET || animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET))

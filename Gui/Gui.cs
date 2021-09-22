@@ -119,12 +119,12 @@ class HallOfFameStruct
     internal void FromBytes(byte[] bytes)
     {
         for (var i = 0; i < 6; i++) name[i] = (char)bytes[i];
-        score = BitConverter.ToUInt16(bytes.AsSpan(6..8));
-        rank = BitConverter.ToUInt16(bytes.AsSpan(8..10));
-        campaignID = BitConverter.ToUInt16(bytes.AsSpan(10..12));
+        score = BitConverter.ToUInt16(bytes.AsSpan(6, 2));
+        rank = BitConverter.ToUInt16(bytes.AsSpan(8, 2));
+        campaignID = BitConverter.ToUInt16(bytes.AsSpan(10, 2));
         houseID = bytes[12];
         padding1 = bytes[13];
-        padding2 = BitConverter.ToUInt16(bytes.AsSpan(14..16));
+        padding2 = BitConverter.ToUInt16(bytes.AsSpan(14, 2));
     }
 
     internal static byte[] AllToBytes(HallOfFameStruct[] data)
@@ -301,7 +301,7 @@ class Gui
      * @param posY position where to draw sprite.
      * @param windowID The ID of the window where the drawing is done.
      * @param flags The flags.
-     * @param ... The extra args, flags dependant.
+     * @param . . . The extra args, flags dependant.
      *
      * flags :
      * 0x0001 reverse X (void)
@@ -351,8 +351,7 @@ class Gui
         ushort zoomRatioY = 0x100;  /* 8.8 fixed point, ie 0x0100 = 1x */
         ushort Ycounter = 0;    /* 8.8 fixed point, ie 0x0100 = 1 */
         short distX;
-        /* uint8 * */
-        byte[] palette = null;
+        Span<byte> palette = null;
         ushort spriteDecodedLength; /* if encoded with Format80 */
         var spriteBuffer = new byte[20000]; /* for sprites encoded with Format80 : maximum size for credits images is 19841, elsewere it is 3456 */
 
@@ -412,15 +411,15 @@ class Gui
             posX -= (short)(g_widgetProperties[windowID].xBase << 3);
         }
 
-        spriteFlags = Read_LE_UInt16(sprite[spritePointer..]);
+        spriteFlags = Read_LE_UInt16(sprite.AsSpan(spritePointer));
         spritePointer += 2;
 
         if ((spriteFlags & 0x1) != 0) flags |= DRAWSPRITE_FLAG_SPRITEPAL;
 
         spriteHeight = sprite[spritePointer++];
-        spriteWidth = (short)Read_LE_UInt16(sprite[spritePointer..]);
+        spriteWidth = (short)Read_LE_UInt16(sprite.AsSpan(spritePointer));
         spritePointer += 5;
-        spriteDecodedLength = Read_LE_UInt16(sprite[spritePointer..]);
+        spriteDecodedLength = Read_LE_UInt16(sprite.AsSpan(spritePointer));
         spritePointer += 2;
 
         spriteWidthZoomed = spriteWidth;
@@ -443,7 +442,7 @@ class Gui
 
         if ((spriteFlags & 0x1) != 0)
         {
-            if ((flags & DRAWSPRITE_FLAG_PAL) == 0) palette = sprite[spritePointer..];
+            if ((flags & DRAWSPRITE_FLAG_PAL) == 0) palette = sprite.AsSpan(spritePointer);
             spritePointer += 16;
         }
 
@@ -1131,7 +1130,7 @@ class Gui
      * Displays a message and waits for a user action.
      * @param str The text to display.
      * @param spriteID The sprite to draw (0xFFFF for none).
-     * @param ... The args for the text.
+     * @param . . . The args for the text.
      * @return ??
      */
     internal static ushort GUI_DisplayModalMessage(string str, uint spriteID, params object[] ap)
@@ -1251,7 +1250,7 @@ class Gui
      * @param str The text to display. If \c NULL, update the text display (scroll text, and/or remove it on time out).
      * @param importance Importance of the new text. Value \c -1 means remove all text lines, \c -2 means drop all texts in buffer but not yet displayed.
      *                   Otherwise, it is the importance of the message (if supplied). Higher numbers mean displayed sooner.
-     * @param ... The args for the text.
+     * @param . . . The args for the text.
      */
     internal static void GUI_DisplayText(string str, int importance, params object[] ap)
     {
@@ -1721,7 +1720,7 @@ class Gui
      */
     static void GUI_DrawChar(char c, ushort x, ushort y)
     {
-        var screen = (byte[])GFX_Screen_GetActive();
+        var screen = GFX_Screen_GetActive();
 
         FontChar fc;
 
@@ -1817,7 +1816,7 @@ class Gui
             height = (short)(SCREEN_HEIGHT - top);
         }
 
-        screen = (byte[])GFX_Screen_GetActive();
+        screen = GFX_Screen_GetActive();
         screenPointer += (ushort)(top * SCREEN_WIDTH + left);
 
         for (; height > 0; height--)
@@ -1873,7 +1872,7 @@ class Gui
         ushort height;
         ushort width;
 
-        var screen = (byte[])GFX_Screen_GetActive();
+        var screen = GFX_Screen_GetActive();
         var screenPointer = 0;
 
         if (left >= SCREEN_WIDTH) return;
@@ -1919,7 +1918,7 @@ class Gui
         ushort height;
         ushort width;
 
-        var screen = (byte[])GFX_Screen_GetActive();
+        var screen = GFX_Screen_GetActive();
         var screenPointer = 0;
 
         if (left >= SCREEN_WIDTH) return;
@@ -1995,7 +1994,7 @@ class Gui
      */
     internal static void GUI_DrawLine(short x1, short y1, short x2, short y2, byte colour)
     {
-        var screen = (byte[])GFX_Screen_GetActive();
+        var screen = GFX_Screen_GetActive();
         var screenPointer = 0;
         short increment = 1;
 
@@ -4336,7 +4335,7 @@ class Gui
 
     static void GUI_StrategicMap_ShowProgression(ushort campaignID)
     {
-        string key; //char[10];
+        /*string*/ReadOnlySpan<char> key; //char[10];
         string category; //char[10];
         string buf; //char[100]
         ushort i;
@@ -4348,8 +4347,8 @@ class Gui
         {
             var houseID = (byte)(((byte)g_playerHouseID + i) % 6);
 
-            key = g_table_houseInfo[houseID].name[0..3]; //strncpy(key, g_table_houseInfo[houseID].name, 3);
-                                                         //key[3] = '\0';
+            key = g_table_houseInfo[houseID].name.AsSpan(0, 3); //strncpy(key, g_table_houseInfo[houseID].name, 3);
+            //key[3] = '\0';
 
             if ((buf = Ini_GetString(category, key, null, g_fileRegionINI)) == null) continue;
 

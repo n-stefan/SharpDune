@@ -261,8 +261,6 @@ class Script
         Script_Reset(script, scriptInfo);
 
         script.script = scriptInfo.offsets[typeID];
-        //script.script = new Array<ushort> { Arr = scriptInfo.start.Arr, Ptr = scriptInfo.offsets[typeID] };
-        //script.script = new Array<ushort> { Arr = scriptInfo.start.Arr[scriptInfo.offsets[typeID]..] };
     }
 
     /*
@@ -286,7 +284,6 @@ class Script
         STACK_PUSH(script, script.returnValue);
 
         script.script = scriptInfo.offsets[typeID];
-        //script.script = new Array<ushort> { Arr = scriptInfo.start.Arr[scriptInfo.offsets[typeID]..] };
     }
 
     /*
@@ -373,7 +370,7 @@ class Script
 
     /*
      * Peek a value from the stack.
-     * @param position At which position you want to peek (1 = current, ..).
+     * @param position At which position you want to peek (1 = current, . . .).
      * @return The value that was on the stack.
      * @note Use SCRIPT_PEEK(position) to use; do not use this function directly.
      */
@@ -401,7 +398,7 @@ class Script
 
     static readonly string[] l_types = { "Unit", "Structure", "Team", "Unknown" };
     /*
-     * Show a script error with additional information (Type, Index, ..).
+     * Show a script error with additional information (Type, Index, . . .).
      * @param error The error to show.
      */
     static void Script_Error(string error, params object[] va)
@@ -454,7 +451,7 @@ class Script
         {
             if (data != null)
             {
-                scriptInfo.text = FromByteArrayToUshortArray(data[dataPointer..(dataPointer + (int)length)]);
+                scriptInfo.text = FromByteArrayToUshortArray(data.AsSpan(dataPointer, (int)length));
                 dataPointer += (int)length;
             }
             else
@@ -477,7 +474,7 @@ class Script
 
         if (data != null)
         {
-            scriptInfo.offsets = FromByteArrayToUshortArray(data[dataPointer..(dataPointer + (int)length)]);
+            scriptInfo.offsets = FromByteArrayToUshortArray(data.AsSpan(dataPointer, (int)length));
             dataPointer += (int)length;
         }
         else
@@ -505,7 +502,7 @@ class Script
 
         if (data != null)
         {
-            scriptInfo.start = FromByteArrayToUshortArray(data[dataPointer..(dataPointer + (int)length)]);
+            scriptInfo.start = FromByteArrayToUshortArray(data.AsSpan(dataPointer, (int)length));
             //dataPointer += (int)length;
         }
         else

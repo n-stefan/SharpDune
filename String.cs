@@ -37,7 +37,7 @@ class String
 
     static string filename; //char[14]
     /*
-     * Appends ".(ENG|FRE|...)" to the given string.
+     * Appends ".(ENG|FRE|. . .)" to the given string.
      *
      * @param name The string to append extension to.
      * @return The new string.
@@ -70,11 +70,11 @@ class String
         prev = Read_LE_UInt16(buf);
         for (i = 0; i <= count && s_stringsCount <= end; i++)
         {
-            //from = Endian.READ_LE_UINT16(buf[(i * 2)..]);
-            //to = (ushort)Min(Endian.READ_LE_UINT16(buf[((i + 1) * 2)..]), buf.Length - 1);
+            //from = Endian.READ_LE_UINT16(buf.AsSpan(i * 2));
+            //to = (ushort)Min(Endian.READ_LE_UINT16(buf.AsSpan((i + 1) * 2)), buf.Length - 1);
             //range = from == to ? from..to : from..(to - 1);
             from = prev;
-            to = (ushort)Math.Min(Read_LE_UInt16(buf[(i * 2)..]), buf.Length - 1);
+            to = (ushort)Math.Min(Read_LE_UInt16(buf.AsSpan(i * 2)), buf.Length - 1);
             prev = to;
             range = from == to ? from..to : from..(to - 1);
 

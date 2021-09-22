@@ -1208,7 +1208,7 @@ class Map
 
     static readonly short[] mapBase = { 1, -2, -2 };
     /*
-     * Find a tile close the a LocationID described position (North, Enemy Base, ..).
+     * Find a tile close the a LocationID described position (North, Enemy Base, . . .).
      *
      * @param locationID Value between 0 and 7 to indicate where the tile should be.
      * @param houseID The HouseID looking for a tile (to get an idea of Enemy Base).
@@ -1525,7 +1525,7 @@ class Map
         var previousRow = new ushort[64];
         ushort spriteID1;
         ushort spriteID2;
-        ushort[] iconMap;
+        Span<ushort> iconMap;
 
         Tools_Random_Seed(seed);
 
@@ -1606,8 +1606,7 @@ class Map
         /* Average each tile with its neighbours. */
         for (j = 0; j < 64; j++)
         {
-            var t = g_map[(j * 64)..];
-            //Span<Tile> t = g_map.AsSpan(j * 64);
+            var t = g_map.AsSpan(j * 64);
 
             Buffer.BlockCopy(currentRow, 0, previousRow, 0, 128); //memcpy(previousRow, currentRow, 128);
 
@@ -1701,8 +1700,7 @@ class Map
         /* Make everything smoother and use the right sprite indexes. */
         for (j = 0; j < 64; j++)
         {
-            var t = g_map[(j * 64)..];
-            //Span<Tile> t = g_map.AsSpan(j * 64);
+            var t = g_map.AsSpan(j * 64);
 
             Buffer.BlockCopy(currentRow, 0, previousRow, 0, 128); //memcpy(previousRow, currentRow, 128);
 
@@ -1758,7 +1756,7 @@ class Map
         }
 
         /* Finalise the tiles with the real sprites. */
-        iconMap = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]..];
+        iconMap = g_iconMap.AsSpan(g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_LANDSCAPE]);
 
         for (i = 0; i < 4096; i++)
         {

@@ -113,7 +113,7 @@ class VideoSdl2
      * @param from From which colour.
      * @param length The length of the palette (in colours).
      */
-    internal static void Video_SetPalette(/*void*/byte[] palette, int from, int length)
+    internal static void Video_SetPalette(Span<byte> palette, int from, int length)
     {
         var p = palette;
         var pPointer = 0;

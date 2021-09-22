@@ -95,7 +95,7 @@ class ScriptUnit
      * Stack: *none*.
      *
      * @param script The script engine to operate on.
-     * @return One if delivered, zero otherwise..
+     * @return One if delivered, zero otherwise.
      */
     internal static ushort Script_Unit_TransportDeliver(ScriptEngine script)
     {
@@ -1015,26 +1015,22 @@ class ScriptUnit
     static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data data)
     {
         ushort packed;
-        /*byte[]*/
         var bufferFrom = new Array<byte> { Arr = data.buffer };
-        /*byte[]*/
         var bufferTo = new Array<byte> { Arr = data.buffer };
-        //int bufferFromPointer = 0;
-        //int bufferToPointer = 0;
 
         data.buffer[data.routeSize] = 0xFF;
         packed = data.packed;
 
         if (data.routeSize > 1)
         {
-            bufferTo.Ptr = 1; //bufferTo = data.buffer[1..];
+            bufferTo.Ptr = 1;
 
             while (bufferTo.Arr[bufferTo.Ptr] != 0xFF)
             {
                 sbyte direction;
                 byte dir;
 
-                bufferFrom.Ptr = bufferTo.Ptr - 1; //bufferFrom = bufferTo[(bufferToPointer - 1)..];
+                bufferFrom.Ptr = bufferTo.Ptr - 1;
 
                 while (bufferFrom.Arr[bufferFrom.Ptr] == 0xFE && !AreArraysEqual(bufferFrom.Arr, bufferFrom.Ptr, data.buffer, 0, Math.Min(bufferFrom.Arr.Length, data.buffer.Length))) bufferFrom.Ptr--;
 

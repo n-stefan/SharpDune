@@ -210,7 +210,7 @@ class Explosion
         CTile t;
         short iconMapIndex;
         ushort overlayTileID;
-        ushort[] iconMap;
+        Span<ushort> iconMap;
 
         packed = Tile_PackTile(e.position);
 
@@ -235,7 +235,7 @@ class Explosion
         if (!Tile_IsUnveiled(overlayTileID)) return;
 
         iconMapIndex = craterIconMapIndex[g_table_landscapeInfo[type].craterType];
-        iconMap = g_iconMap[g_iconMap[iconMapIndex]..];
+        iconMap = g_iconMap.AsSpan(g_iconMap[iconMapIndex]);
 
         if (iconMap[0] <= overlayTileID && overlayTileID <= iconMap[10])
         {

@@ -429,13 +429,13 @@ class Sound
                 case '-':
                     if (voiceSet != 0xFFFF || g_voiceData[voice] != null) break;
 
-                    g_voiceData[voice] = Sound_LoadVoc(str[1..], out g_voiceDataSize[voice]);
+                    g_voiceData[voice] = Sound_LoadVoc(str.AsSpan(1), out g_voiceDataSize[voice]);
                     break;
 
                 case '/':
                     if (voiceSet != 0xFFFE) break;
 
-                    g_voiceData[voice] = Sound_LoadVoc(str[1..], out g_voiceDataSize[voice]);
+                    g_voiceData[voice] = Sound_LoadVoc(str.AsSpan(1), out g_voiceDataSize[voice]);
                     break;
 
                 case '?':
@@ -470,7 +470,7 @@ class Sound
      * @param filename The name of the file to load.
      * @return Where the file is loaded.
      */
-    static byte[] Sound_LoadVoc(string filename, out uint retFileSize)
+    static byte[] Sound_LoadVoc(/*string*/ReadOnlySpan<char> filename, out uint retFileSize)
     {
         byte[] res;
 

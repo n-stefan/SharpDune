@@ -46,8 +46,8 @@ class Font
      * @param string The string to get the width of.
      * @return The width of the string in pixels.
      */
-    internal static ushort Font_GetStringWidth(string str) =>
-        (ushort)((str == null) ? 0 : str.Sum(c => Font_GetCharWidth(c)));
+    internal static ushort Font_GetStringWidth(/*string*/ReadOnlySpan<char> str) =>
+        (ushort)((str == null) ? 0 : new string(str).Sum(c => Font_GetCharWidth(c)));
 
     /*
      * Get the width of a char in pixels.
@@ -103,13 +103,13 @@ class Font
         }
 
         f = new CFont(); //(Font*) calloc(1, sizeof(Font));
-        start = Read_LE_UInt16(buf[4..]);
-        dataStart = Read_LE_UInt16(buf[6..]);
-        widthList = Read_LE_UInt16(buf[8..]);
-        lineList = Read_LE_UInt16(buf[12..]);
+        start = Read_LE_UInt16(buf.AsSpan(4));
+        dataStart = Read_LE_UInt16(buf.AsSpan(6));
+        widthList = Read_LE_UInt16(buf.AsSpan(8));
+        lineList = Read_LE_UInt16(buf.AsSpan(12));
         f.height = buf[start + 4];
         f.maxWidth = buf[start + 5];
-        f.count = (byte)(Read_LE_UInt16(buf[10..]) - widthList);
+        f.count = (byte)(Read_LE_UInt16(buf.AsSpan(10)) - widthList);
         f.chars = new FontChar[f.count]; //(FontChar*) calloc(f->count, sizeof(FontChar));
         for (i = 0; i < f.chars.Length; i++) f.chars[i] = new FontChar();
 
@@ -124,7 +124,7 @@ class Font
             fc.unusedLines = buf[lineList + i * 2];
             fc.usedLines = buf[lineList + i * 2 + 1];
 
-            dataOffset = Read_LE_UInt16(buf[(dataStart + i * 2)..]);
+            dataOffset = Read_LE_UInt16(buf.AsSpan(dataStart + i * 2));
             if (dataOffset == 0) continue;
 
             fc.data = new byte[fc.usedLines * fc.width]; //(uint8*) malloc(fc->usedLines* fc->width);

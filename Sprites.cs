@@ -9,7 +9,7 @@ namespace SharpDune;
  * The \c ICON.MAP contains indices only. An index can point either to another
  * index or to a spriteID in the tiles file, as follows.
  *  - Index 0 contain the number of icon groups (including the EOF entry).
- *  - Each index in 1 .. number_of_icongroups-1 points to the first spriteID of a icon group.
+ *  - Each index in 1 . . . number_of_icongroups-1 points to the first spriteID of a icon group.
  *  - Index number_of_icongroups is 0, meaning 'the index at EOF'.
  *
  * Icon group at index i contains sprite indices. The first one is pointed to by
@@ -92,7 +92,7 @@ class Sprites
 
         GUI_Mouse_Hide();
 
-        size = GFX_GetSize((short)(Read_LE_UInt16(sprite[3..]) + 16), sprite[5]);
+        size = GFX_GetSize((short)(Read_LE_UInt16(sprite.AsSpan(3)) + 16), sprite[5]);
 
         if (s_mouseSpriteBufferSize < size)
         {
@@ -100,7 +100,7 @@ class Sprites
             s_mouseSpriteBufferSize = size;
         }
 
-        size = (ushort)(Read_LE_UInt16(sprite[8..]) + 10);
+        size = (ushort)(Read_LE_UInt16(sprite.AsSpan(8)) + 10);
         if ((sprite[spritePointer] & 0x1) != 0) size += 16;
 
         if (s_mouseSpriteSize < size)
@@ -111,7 +111,7 @@ class Sprites
 
         if ((sprite[spritePointer] & 0x2) != 0)
         {
-            Buffer.BlockCopy(sprite, spritePointer, g_mouseSprite, 0, Read_LE_UInt16(sprite[6..])); //memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6));
+            Buffer.BlockCopy(sprite, spritePointer, g_mouseSprite, 0, Read_LE_UInt16(sprite.AsSpan(6))); //memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6));
         }
         else
         {
@@ -149,7 +149,7 @@ class Sprites
 
         sprite = g_mouseSprite;
         g_mouseHeight = sprite[5];
-        g_mouseWidth = (ushort)((Read_LE_UInt16(sprite[3..]) >> 3) + 2);
+        g_mouseWidth = (ushort)((Read_LE_UInt16(sprite.AsSpan(3)) >> 3) + 2);
 
         GUI_Mouse_Show();
 
@@ -220,7 +220,7 @@ class Sprites
 
         size -= 8;
 
-        paletteSize = Read_LE_UInt16(buffer[6..]);
+        paletteSize = Read_LE_UInt16(buffer.AsSpan(6));
 
         if (palette != null && paletteSize != 0)
         {
@@ -262,16 +262,16 @@ class Sprites
         {
             case 0x0:
                 sourcePointer += 2;
-                size = Read_LE_UInt32(source[sourcePointer..]);
+                size = Read_LE_UInt32(source.AsSpan(sourcePointer));
                 sourcePointer += 4;
-                sourcePointer += Read_LE_UInt16(source[sourcePointer..]);
+                sourcePointer += Read_LE_UInt16(source.AsSpan(sourcePointer));
                 sourcePointer += 2;
                 Array.Copy(source, sourcePointer, dest, 0, size); //memmove(dest, source, size);
                 break;
 
             case 0x4:
                 sourcePointer += 6;
-                sourcePointer += Read_LE_UInt16(source[sourcePointer..]);
+                sourcePointer += Read_LE_UInt16(source.AsSpan(sourcePointer));
                 sourcePointer += 2;
                 size = Format80_Decode(dest, source, 0xFFFF, 0, sourcePointer);
                 break;
@@ -336,12 +336,12 @@ class Sprites
             var src = Sprites_GetSprite(buffer, i);
             byte[] dst = null;
 
-            Debug.WriteLine($"DEBUG: Sprites: {filename} {i} {Read_LE_UInt16(src)} {Read_LE_UInt16(src[3..]) /* flags */} {src[2] /* width */} {src[5] /* height */} {Read_LE_UInt16(src[6..]) /* packed size */} {Read_LE_UInt16(src[8..]) /* decoded size */}");
+            Debug.WriteLine($"DEBUG: Sprites: {filename} {i} {Read_LE_UInt16(src)} {Read_LE_UInt16(src.AsSpan(3)) /* flags */} {src[2] /* width */} {src[5] /* height */} {Read_LE_UInt16(src.AsSpan(6)) /* packed size */} {Read_LE_UInt16(src.AsSpan(8)) /* decoded size */}");
             if (src != null)
             {
                 if (g_unpackSHPonLoad && (src[0] & 0x2) == 0)
                 {
-                    size = (ushort)(Read_LE_UInt16(src[8..]) + 10);
+                    size = (ushort)(Read_LE_UInt16(src.AsSpan(8)) + 10);
                     if ((Read_LE_UInt16(src) & 0x1) != 0)
                     {
                         size += 16; /* 16 bytes more for the palette */
@@ -371,12 +371,12 @@ class Sprites
                             decoded_dataPointer += 16;
                             encoded_dataPointer += 16;
                         }
-                        Format80_Decode(decoded_data, encoded_data, Read_LE_UInt16(src[8..]), decoded_dataPointer, encoded_dataPointer);
+                        Format80_Decode(decoded_data, encoded_data, Read_LE_UInt16(src.AsSpan(8)), decoded_dataPointer, encoded_dataPointer);
                     }
                 }
                 else
                 {
-                    size = Read_LE_UInt16(src[6..]); /* "packed" size */
+                    size = Read_LE_UInt16(src.AsSpan(6)); /* "packed" size */
                     dst = new byte[size]; //(uint8 *)malloc(size);
                     if (dst == null)
                     {
@@ -498,10 +498,10 @@ class Sprites
 
         filename = $"REGION{g_table_houseInfo[(int)g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
         var length = (int)File_ReadFile(filename, buf, bufPointer);
-        g_fileRegionINI = SharpDune.Encoding.GetString(buf[bufPointer..(bufPointer + length)]);
+        g_fileRegionINI = SharpDune.Encoding.GetString(buf.AsSpan(bufPointer, length));
         bufPointer += length;
 
-        g_regions = FromByteArrayToUshortArray(buf[bufPointer..]);
+        g_regions = FromByteArrayToUshortArray(buf.AsSpan(bufPointer));
 
         InitRegions();
     }
@@ -523,7 +523,7 @@ class Sprites
 
         bufferPointer += 2;
 
-        offset = Read_LE_UInt32(buffer[(bufferPointer + 4 * index)..]);
+        offset = Read_LE_UInt32(buffer.AsSpan(bufferPointer + 4 * index));
 
         if (offset == 0) return null;
 

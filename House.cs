@@ -109,7 +109,7 @@ class HouseFlags
     internal bool used;                             /*!< The House is in use (no longer free in the pool). */
     internal bool human;                            /*!< The House is controlled by a human. */
     internal bool doneFullScaleAttack;              /*!< The House did his one time attack the human with everything we have. */
-    internal bool isAIActive;                       /*!< The House has been seen by the human, and everything now becomes active (Team attack, house missiles, rebuilding, ..). */
+    internal bool isAIActive;                       /*!< The House has been seen by the human, and everything now becomes active (Team attack, house missiles, rebuilding, . . .). */
     internal bool radarActivated;                   /*!< The radar is activated. */
     internal bool unused_0020;                      /*!< Unused */
     internal uint All

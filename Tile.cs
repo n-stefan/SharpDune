@@ -288,14 +288,14 @@ class Tile
     }
 
     /*
-     * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 7.
+     * Convert an orientation that goes from 0 . . . 255 to one that goes from 0 . . . 7.
      * @param orientation The 256-based orientation.
      * @return A 8-based orientation.
      */
     internal static byte Orientation_Orientation256ToOrientation8(byte orientation) => (byte)(((orientation + 16) / 32) & 0x7);
 
     /*
-     * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 15.
+     * Convert an orientation that goes from 0 . . . 255 to one that goes from 0 . . . 15.
      * @param orientation The 256-based orientation.
      * @return A 16-based orientation.
      */

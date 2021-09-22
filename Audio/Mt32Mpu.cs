@@ -266,7 +266,7 @@ class Mt32Mpu
         data.playing = 0;
     }
 
-    static byte[] MPU_FindSoundStart(/*uint8 * */byte[] file, ushort index)
+    static /*byte[]*/Span<byte> MPU_FindSoundStart(/*byte[]*/Span<byte> file, ushort index)
     {
         uint total;
         uint header;
@@ -277,26 +277,26 @@ class Mt32Mpu
 
         while (true)
         {
-            header = Read_BE_UInt32(file[pointer..]);
-            size = Read_BE_UInt32(file[(pointer + 4)..]);
+            header = Read_BE_UInt32(file.Slice(pointer));
+            size = Read_BE_UInt32(file.Slice(pointer + 4));
 
             if (header != SharpDune.MultiChar[FourCC.CAT] && header != SharpDune.MultiChar[FourCC.FORM]) return null;
-            if (Read_BE_UInt32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) break;
+            if (Read_BE_UInt32(file.Slice(pointer + 8)) == SharpDune.MultiChar[FourCC.XMID]) break;
 
             pointer += 8;
             pointer += (int)size;
         }
         total = size - 5;
 
-        if (header == SharpDune.MultiChar[FourCC.FORM]) return (index == 1) ? file[pointer..] : null;
+        if (header == SharpDune.MultiChar[FourCC.FORM]) return (index == 1) ? file.Slice(pointer) : null;
 
         pointer += 12;
 
         while (true)
         {
-            size = Read_BE_UInt32(file[(pointer + 4)..]);
+            size = Read_BE_UInt32(file.Slice(pointer + 4));
 
-            if ((Read_BE_UInt32(file[(pointer + 8)..]) == SharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
+            if ((Read_BE_UInt32(file.Slice(pointer + 8)) == SharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
 
             size += 8;
             total -= size;
@@ -305,7 +305,7 @@ class Mt32Mpu
             pointer += (int)size;
         }
 
-        return file[pointer..];
+        return file.Slice(pointer);
     }
 
     static void MPU_InitData(MSData data)
@@ -334,7 +334,7 @@ class Mt32Mpu
         data.timePerBeat = 0x7A1200;    /* 8000000 */
     }
 
-    internal static ushort MPU_SetData(/* uint8 * */byte[] file, ushort index, MSData msdata)
+    internal static ushort MPU_SetData(/*byte[]*/Span<byte> file, ushort index, MSData msdata)
     {
         var data = msdata;
         uint header;
@@ -356,16 +356,16 @@ class Mt32Mpu
         s_mpu_msdata[i] = data;
         data.EVNT = null;
 
-        header = Read_BE_UInt32(file[pointer..]);
+        header = Read_BE_UInt32(file.Slice(pointer));
         size = 12;
         while (header != SharpDune.MultiChar[FourCC.EVNT])
         {
             pointer += (int)size;
-            header = Read_BE_UInt32(file[pointer..]);
-            size = Read_BE_UInt32(file[(pointer + 4)..]) + 8;
+            header = Read_BE_UInt32(file.Slice(pointer));
+            size = Read_BE_UInt32(file.Slice(pointer + 4)) + 8;
         }
 
-        data.EVNT = file[pointer..];
+        data.EVNT = file.Slice(pointer).ToArray();
         data.playing = 0;
         data.delayedClear = false;
 
@@ -1109,7 +1109,7 @@ class Mt32Mpu
                 break;
 
             case 0x06:  /* Marker (text) */
-                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING Marker '{SharpDune.Encoding.GetString(data.sound.Arr[(data.sound.Ptr + len)..(data.sound.Ptr + len + data_len)])}'");
+                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING Marker '{SharpDune.Encoding.GetString(data.sound.Arr.AsSpan(data.sound.Ptr + len, data_len))}'");
                 break;
 
             default:

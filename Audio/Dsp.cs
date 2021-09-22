@@ -459,11 +459,11 @@ class Dsp
 
         DSP_Stop();
 
-        dataPointer += Read_LE_UInt16(data[20..]);
+        dataPointer += Read_LE_UInt16(data.AsSpan(20));
 
         if (data[dataPointer] != 1) return;
 
-        len = (Read_LE_UInt32(data[dataPointer..]) >> 8) - 2;
+        len = (Read_LE_UInt32(data.AsSpan(dataPointer)) >> 8) - 2;
 
         if (s_dataLen < len)
         {

@@ -2,7 +2,7 @@
 
 // Master TODO list:
 // - reduce casts
-// - speed up array operations: Array.Copy => Buffer.BlockCopy(faster?), ...
+// - speed up array operations: Array.Copy => Buffer.BlockCopy(faster?), . . .
 // - clean up
 // - use Array<T> where appropriate
 
@@ -565,7 +565,7 @@ class SharpDune
 
         File_ReadBlockFile(filename, source, GFX_Screen_GetSize_ByIndex(Screen.NO1));
 
-        keys = Encoding.GetString(source[(source.Length + 5000)..]);
+        keys = Encoding.GetString(source.AsSpan(source.Length + 5000));
         //*keys = '\0';
 
         sourceString = Encoding.GetString(source);

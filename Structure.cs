@@ -51,7 +51,7 @@ enum StructureState
     STRUCTURE_STATE_DETECT = -2,                            /*!< Used when setting state, meaning to detect which state it has by looking at other properties. */
     STRUCTURE_STATE_JUSTBUILT = -1,                         /*!< This shows you the building animation etc. */
     STRUCTURE_STATE_IDLE = 0,                               /*!< Structure is doing nothing. */
-    STRUCTURE_STATE_BUSY = 1,                               /*!< Structure is busy (harvester in refinery, unit in repair, .. */
+    STRUCTURE_STATE_BUSY = 1,                               /*!< Structure is busy (harvester in refinery, unit in repair, . . . */
     STRUCTURE_STATE_READY = 2                               /*!< Structure is ready and unit will be deployed soon. */
 }
 
@@ -274,7 +274,7 @@ class Structure
         StructureInfo si;
         ushort layoutSize;
         ushort[] layout;
-        ushort[] iconMap;
+        Span<ushort> iconMap;
         int i;
 
         if (s == null) return;
@@ -286,7 +286,7 @@ class Structure
         layout = g_table_structure_layoutTiles[si.layout];
         layoutSize = g_table_structure_layoutTileCount[si.layout];
 
-        iconMap = g_iconMap[(g_iconMap[si.iconGroup] + layoutSize + layoutSize)..];
+        iconMap = g_iconMap.AsSpan(g_iconMap[si.iconGroup] + layoutSize + layoutSize);
 
         for (i = 0; i < layoutSize; i++)
         {
@@ -2231,7 +2231,7 @@ class Structure
         s.o.script.variables[0] = 0;
         s.o.script.variables[4] = 0;
 
-        /* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediately .. how can this ever NOT happen? */
+        /* XXX -- Weird . . . if 'position' enters with 0xFFFF it is returned immediately . . . how can this ever NOT happen? */
         if (position != 0xFFFF)
         {
             s.o.script.delay = 0;

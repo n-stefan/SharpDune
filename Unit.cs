@@ -1031,7 +1031,7 @@ class Unit
 
     /*
      * Remove the Unit from the game, doing all required administration for it, like
-     *  deselecting it, remove it from the radar count, stopping scripts, ..
+     *  deselecting it, remove it from the radar count, stopping scripts, . . .
      *
      * @param u The Unit to remove.
      */

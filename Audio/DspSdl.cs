@@ -76,11 +76,11 @@ class DspSdl
 
         DSP_Stop();
 
-        dataPointer += Endian.READ_LE_UINT16(data[20..]);
+        dataPointer += Endian.READ_LE_UINT16(data.AsSpan(20));
 
         if (data[dataPointer] != 1) return;
 
-        s_bufferLen = (Endian.READ_LE_UINT32(data[dataPointer..]) >> 8) - 2;
+        s_bufferLen = (Endian.READ_LE_UINT32(data.AsSpan(dataPointer)) >> 8) - 2;
 
         if (s_dataLen < s_bufferLen)
         {

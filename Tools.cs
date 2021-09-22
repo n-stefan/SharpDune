@@ -103,7 +103,7 @@ class Tools
      */
     static short Tools_RandomLCG()
     {
-        /* Borland C/C++ 'a' and 'b' value, bits 30..16, as used by Dune2 */
+        /* Borland C/C++ 'a' and 'b' value, bits 30. . .16, as used by Dune2 */
         s_randomLCG = 0x015A4E35 * s_randomLCG + 1;
         return (short)((s_randomLCG >> 16) & 0x7FFF);
     }

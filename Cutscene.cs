@@ -911,7 +911,7 @@ class Cutscene
 
             while ((g_curWidgetHeight / 6) + 2 > stringCount && data[dataPointer] != 0)
             {
-                string text; //char *
+                /*string*/ReadOnlySpan<char> text; //char *
                 ushort y;
 
                 if (stringCount != 0)
@@ -928,13 +928,13 @@ class Cutscene
                     y = g_curWidgetHeight;
                 }
 
-                text = SharpDune.Encoding.GetString(data[dataPointer..(dataPointer + 50)]);
+                text = SharpDune.Encoding.GetString(data.AsSpan(dataPointer, 50));
 
                 var index = text.IndexOfAny(new[] { '\x05', '\r' });
                 if (index != -1)
                 {
                     dataPointer += index; //strpbrk(data, "\x05\r");
-                    text = text[..index];
+                    text = text.Slice(0, index);
                 }
                 else
                 {
@@ -951,17 +951,17 @@ class Cutscene
                     switch ((byte)text[0])
                     {
                         case 1:
-                            text = text[1..];
+                            text = text.Slice(1);
                             Font_Select(g_fontNew6p);
                             break;
                         case 2:
-                            text = text[1..];
+                            text = text.Slice(1);
                             Font_Select(g_fontNew8p);
                             break;
                         case 3:
                         case 4:
                             strings[stringCount].type = (byte)text[0];
-                            text = text[1..];
+                            text = text.Slice(1);
                             break;
                     }
                 }
@@ -979,7 +979,7 @@ class Cutscene
                 };
 
                 strings[stringCount].y = (short)y;
-                strings[stringCount].text = text;
+                strings[stringCount].text = new string(text);
 
                 stringCount++;
             }

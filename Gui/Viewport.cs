@@ -416,7 +416,7 @@ class Viewport
                     var type = Map_GetLandscapeType(packed);
                     if (type is ((ushort)LandscapeType.LST_SPICE) or ((ushort)LandscapeType.LST_THICK_SPICE))
                     {
-                        /*GUI_Widget_Viewport_GetSprite_HousePalette(..., Unit_GetHouseID(u), paletteHouse),*/
+                        /*GUI_Widget_Viewport_GetSprite_HousePalette(. . ., Unit_GetHouseID(u), paletteHouse),*/
                         GUI_DrawSprite(Screen.ACTIVE,
                                        g_sprites[(u.spriteOffset % 3) + 0xDF + (values_32A4[orientation][0] * 3)],
                                        (short)(x + values_334E[orientation][0]), (short)(y + values_334E[orientation][1]),

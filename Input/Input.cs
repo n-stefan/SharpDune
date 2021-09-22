@@ -470,9 +470,9 @@ class Input
                 }
                 else
                 {
-                    sbyte[] change;
+                    Span<sbyte> change;
 
-                    change = ((input & 0x100) == 0) ? offsetSmall[1..] : offsetBig[1..];
+                    change = ((input & 0x100) == 0) ? offsetSmall.AsSpan(1) : offsetBig.AsSpan(1);
 
                     inputMouseX += (ushort)change[dx];
                     inputMouseY += (ushort)change[dy];

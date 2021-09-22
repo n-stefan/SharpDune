@@ -204,10 +204,10 @@ class Gfx
     internal static void GFX_DrawTile(ushort tileID, ushort x, ushort y, byte houseID)
     {
         int i, j;
-        byte[] icon_palette;
+        Span<byte> icon_palette;
         byte[] wArray;
         var wPointer = 0;
-        byte[] rArray;
+        Span<byte> rArray;
         var rPointer = 0;
         var local_palette = new byte[16];
 
@@ -215,7 +215,7 @@ class Gfx
 
         if (s_tileMode == 4) return;
 
-        icon_palette = g_iconRPAL[(g_iconRTBL[tileID] << 4)..]; //g_iconRPAL + (g_iconRTBL[tileID] << 4);
+        icon_palette = g_iconRPAL.AsSpan(g_iconRTBL[tileID] << 4); //g_iconRPAL + (g_iconRTBL[tileID] << 4);
 
         if (houseID != 0)
         {
@@ -234,9 +234,9 @@ class Gfx
             icon_palette = local_palette;
         }
 
-        wArray = (byte[])GFX_Screen_GetActive();
+        wArray = GFX_Screen_GetActive();
         wPointer += (ushort)(y * SCREEN_WIDTH + x);
-        rArray = g_tilesPixels[(tileID * s_tileByteSize)..];
+        rArray = g_tilesPixels.AsSpan(tileID * s_tileByteSize);
 
         /* tiles with transparent pixels : [1 : 33] U [108 : 122] and 124
          * palettes 1 to 18 and 22 and 24 */
@@ -279,7 +279,7 @@ class Gfx
      * Get the codesegment of the active screen buffer.
      * @return The codesegment of the screen buffer.
      */
-    internal static /*byte[]*/object GFX_Screen_GetActive() =>
+    internal static byte[] GFX_Screen_GetActive() =>
         GFX_Screen_Get_ByIndex(s_screenActiveID);
 
     /*
@@ -307,7 +307,7 @@ class Gfx
                palette[to * 3 + 1] != g_paletteActive[to * 3 + 1] ||
                palette[to * 3 + 2] != g_paletteActive[to * 3 + 2]) break;
         }
-        Video_SetPalette(palette[(3 * from)..], from, to - from + 1);
+        Video_SetPalette(palette.AsSpan(3 * from), from, to - from + 1);
 
         Array.Copy(palette, 3 * from, g_paletteActive, 3 * from, (to - from + 1) * 3); //memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
     }
@@ -323,7 +323,7 @@ class Gfx
         if (y >= SCREEN_HEIGHT) return;
         if (x >= SCREEN_WIDTH) return;
 
-        ((byte[])GFX_Screen_GetActive())[y * SCREEN_WIDTH + x] = colour;
+        GFX_Screen_GetActive()[y * SCREEN_WIDTH + x] = colour;
     }
 
     /*
@@ -455,7 +455,7 @@ class Gfx
         if (y >= SCREEN_HEIGHT) return 0;
         if (x >= SCREEN_WIDTH) return 0;
 
-        return ((byte[])GFX_Screen_GetActive())[y * SCREEN_WIDTH + x];
+        return GFX_Screen_GetActive()[y * SCREEN_WIDTH + x];
     }
 
     /*

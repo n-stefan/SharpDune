@@ -121,12 +121,14 @@ class File
      * @param filename The filename to get the FileInfo for.
      * @return The FileInfo pointer or NULL if not found.
      */
-    static FileInfo FileInfo_Find_ByName(string filename, ref FileInfo pakInfo)
+    static FileInfo FileInfo_Find_ByName(/*string*/ReadOnlySpan<char> filename, ref FileInfo pakInfo)
     {
         FileInfoLinkedElem e;
+        var filenameStr = new string(filename);
+
         for (e = s_files_in_root; e != null; e = e.next)
         {
-            if (string.Equals(e.info.filename, filename, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(e.info.filename, filenameStr, StringComparison.OrdinalIgnoreCase))
             { //!strcasecmp(e->info.filename, filename)) {
                 /*if (pakInfo != null)*/
                 pakInfo = null; //if (pakInfo) *pakInfo = NULL;
@@ -136,7 +138,7 @@ class File
         PakFileInfoLinkedElem pe;
         for (pe = s_files_in_pak; pe != null; pe = pe.next)
         {
-            if (string.Equals(pe.info.filename, filename, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(pe.info.filename, filenameStr, StringComparison.OrdinalIgnoreCase))
             { //!strcasecmp(e->info.filename, filename)) {
                 /*if (pakInfo != null)*/
                 pakInfo = pe.pak; //if (pakInfo) *pakInfo = e->pak;
@@ -146,20 +148,21 @@ class File
         return null;
     }
 
-    static string File_MakeCompleteFilename(int len, SearchDirectory dir, string filename, ConvertCase convert)
+    static string File_MakeCompleteFilename(int len, SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, ConvertCase convert)
     {
         char[] buf = null;
         int j;
         int i;
+        var filenameStr = new string(filename);
 
         if (dir is SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR or SearchDirectory.SEARCHDIR_CAMPAIGN_DIR)
         {
             /* Note: campaign specific data directory not implemented. */
-            buf = Path.Combine(g_dune_data_dir, filename).ToCharArray();
+            buf = Path.Combine(g_dune_data_dir, filenameStr).ToCharArray();
         }
         else if (dir == SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
         {
-            buf = Path.Combine(g_personal_data_dir, filename).ToCharArray();
+            buf = Path.Combine(g_personal_data_dir, filenameStr).ToCharArray();
         }
         i = buf.Length;
 
@@ -194,11 +197,11 @@ class File
     /*
      * Open a file from the data/ directory
      */
-    internal static FileStream FOpenDataDir(SearchDirectory dir, string name, string mode)
+    internal static FileStream FOpenDataDir(SearchDirectory dir, /*string*/ReadOnlySpan<char> name, string mode)
     {
         string filenameComplete; //char[1024]
         FileInfo fileInfo;
-        string filename;
+        /*string*/ReadOnlySpan<char> filename;
         FileInfo pakInfo = null;
 
         var fileAccess = FileAccessFromString(mode);
@@ -247,7 +250,7 @@ class File
      * @param mode The mode to open the file in. Bit 1 means reading, bit 2 means writing.
      * @return An index value refering to the opened file, or FILE_INVALID.
      */
-    static byte File_Open(SearchDirectory dir, string filename, byte mode)
+    static byte File_Open(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, byte mode)
     {
         byte fileIndex;
         FileInfo fileInfo;
@@ -335,7 +338,7 @@ class File
      * @param mode The mode to open the file in. Bit 1 means reading, bit 2 means writing.
      * @return An index value refering to the opened file, or FILE_INVALID.
      */
-    static byte File_Open_Ex(SearchDirectory dir, string filename, byte mode)
+    static byte File_Open_Ex(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, byte mode)
     {
         byte res;
 
@@ -365,7 +368,7 @@ class File
      * @param fileSize Filled with the file size if the file exists
      * @return True if and only if the file can be found.
      */
-    static bool File_Exists_Ex(SearchDirectory dir, string filename, out uint fileSize)
+    static bool File_Exists_Ex(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, out uint fileSize)
     {
         var exists = false;
         FileInfo pakInfo = null;
@@ -407,7 +410,7 @@ class File
     internal static byte File_Open(string filename, FileMode mode) =>
         File_Open_Ex(SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, filename, (byte)mode);
 
-    internal static uint File_ReadBlockFile<T>(string filename, /*byte[]*/T buffer, uint length, int offset = 0) =>
+    internal static uint File_ReadBlockFile<T>(/*string*/ReadOnlySpan<char> filename, T buffer, uint length, int offset = 0) =>
         File_ReadBlockFile_Ex(SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, filename, buffer, length, offset);
 
     internal static byte File_Open_Personal(string filename, FileMode mode) =>
@@ -416,7 +419,7 @@ class File
     internal static uint File_ReadBlockFile_Personal(string filename, byte[] buffer, uint length) =>
         File_ReadBlockFile_Ex(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, buffer, length);
 
-    internal static bool File_Exists_GetSize(string filename, out uint filesize) =>
+    internal static bool File_Exists_GetSize(/*string*/ReadOnlySpan<char> filename, out uint filesize) =>
         File_Exists_Ex(SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, filename, out filesize);
 
     internal static byte ChunkFile_Open(string filename) =>
@@ -545,7 +548,7 @@ class File
      * @param length The amount of bytes to read.
      * @return The amount of bytes truly read, or 0 if there was a failure.
      */
-    static uint File_ReadBlockFile_Ex<T>(SearchDirectory dir, string filename, /*byte[]*/T buffer, uint length, int offset = 0)
+    static uint File_ReadBlockFile_Ex<T>(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, T buffer, uint length, int offset = 0)
     {
         byte index;
 
@@ -776,7 +779,7 @@ class File
         return true;
     }
 
-    //TODO: Consolidate fwrite_le_... methods
+    //TODO: Consolidate fwrite_le_. . . methods
     //internal static bool fwrite_le_int16(short value, BinaryWriter stream) =>
     //	fwrite_le_uint16((ushort)value, stream);
 

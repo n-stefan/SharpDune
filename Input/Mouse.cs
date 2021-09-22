@@ -232,7 +232,7 @@ class Mouse
 
                 if (g_mouseInputValue is >= 0x41 and <= 0x44 or 0x2D)
                 {
-                    /* 0x2D == '-' 0x41 == 'A' [...] 0x44 == 'D' */
+                    /* 0x2D == '-' 0x41 == 'A' [. . .] 0x44 == 'D' */
                     File_Read(g_mouseFileID, ref buffer, 2);
                     g_mouseRecordedX = Read_LE_UInt16(buffer);
                     Array.Clear(buffer, 0, 2);

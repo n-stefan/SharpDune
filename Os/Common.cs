@@ -15,7 +15,7 @@ class Common
         return true;
     }
 
-    internal static ushort[] FromByteArrayToUshortArray(byte[] from)
+    internal static ushort[] FromByteArrayToUshortArray(Span<byte> from)
     {
         var i = 0;
         var j = 0;
