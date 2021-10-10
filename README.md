@@ -10,3 +10,29 @@ For audio (MIDI and WaveOut) winmm.dll is used.
 IDE: latest Visual Studio Community 2022 Preview.
 
 WIP.
+
+## Screenshots
+
+Intro:
+
+![](Images/intro.png)
+
+Main menu:
+
+![](Images/mainmenu.png)
+
+Mentat:
+
+![](Images/mentat.png)
+
+In-game 1:
+
+![](Images/ingame1.png)
+
+In-game 2:
+
+![](Images/ingame2.png)
+
+Outro:
+
+![](Images/outro.png)
