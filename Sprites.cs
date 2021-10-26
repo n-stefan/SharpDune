@@ -347,45 +347,31 @@ class Sprites
                         size += 16; /* 16 bytes more for the palette */
                     }
                     dst = new byte[size]; //(uint8 *)malloc(size);
-                    if (dst == null)
+                    var encoded_data = src;
+                    var decoded_data = dst;
+                    var encoded_dataPointer = 0;
+                    var decoded_dataPointer = 0;
+                    decoded_data[decoded_dataPointer++] = (byte)(encoded_data[encoded_dataPointer++] | 0x2);    /* the sprite is not Format80 encoded any more */
+                    Array.Copy(encoded_data, encoded_dataPointer, decoded_data, decoded_dataPointer, 5); //memcpy(decoded_data, encoded_data, 5);
+                    decoded_dataPointer += 5;
+                    Write_LE_UInt16(decoded_data, size, decoded_dataPointer);  /* new packed size */
+                    decoded_dataPointer += 2;
+                    encoded_dataPointer += 7;
+                    decoded_data[decoded_dataPointer++] = encoded_data[encoded_dataPointer++];    /* copy pixel size */
+                    decoded_data[decoded_dataPointer++] = encoded_data[encoded_dataPointer++];
+                    if ((Read_LE_UInt16(src) & 0x1) != 0)
                     {
-                        Trace.WriteLine($"ERROR: Sprites_Load({filename}) failed to allocate {size} bytes");
+                        Array.Copy(encoded_data, encoded_dataPointer, decoded_data, decoded_dataPointer, 16); //memcpy(decoded_data, encoded_data, 16);	/* copy palette */
+                        decoded_dataPointer += 16;
+                        encoded_dataPointer += 16;
                     }
-                    else
-                    {
-                        var encoded_data = src;
-                        var decoded_data = dst;
-                        var encoded_dataPointer = 0;
-                        var decoded_dataPointer = 0;
-                        decoded_data[decoded_dataPointer++] = (byte)(encoded_data[encoded_dataPointer++] | 0x2);    /* the sprite is not Format80 encoded any more */
-                        Array.Copy(encoded_data, encoded_dataPointer, decoded_data, decoded_dataPointer, 5); //memcpy(decoded_data, encoded_data, 5);
-                        decoded_dataPointer += 5;
-                        Write_LE_UInt16(decoded_data, size, decoded_dataPointer);  /* new packed size */
-                        decoded_dataPointer += 2;
-                        encoded_dataPointer += 7;
-                        decoded_data[decoded_dataPointer++] = encoded_data[encoded_dataPointer++];    /* copy pixel size */
-                        decoded_data[decoded_dataPointer++] = encoded_data[encoded_dataPointer++];
-                        if ((Read_LE_UInt16(src) & 0x1) != 0)
-                        {
-                            Array.Copy(encoded_data, encoded_dataPointer, decoded_data, decoded_dataPointer, 16); //memcpy(decoded_data, encoded_data, 16);	/* copy palette */
-                            decoded_dataPointer += 16;
-                            encoded_dataPointer += 16;
-                        }
-                        Format80_Decode(decoded_data, encoded_data, Read_LE_UInt16(src.AsSpan(8)), decoded_dataPointer, encoded_dataPointer);
-                    }
+                    Format80_Decode(decoded_data, encoded_data, Read_LE_UInt16(src.AsSpan(8)), decoded_dataPointer, encoded_dataPointer);
                 }
                 else
                 {
                     size = Read_LE_UInt16(src.AsSpan(6)); /* "packed" size */
                     dst = new byte[size]; //(uint8 *)malloc(size);
-                    if (dst == null)
-                    {
-                        Trace.WriteLine($"ERROR: Sprites_Load({filename}) failed to allocate {size} bytes");
-                    }
-                    else
-                    {
-                        Array.Copy(src, dst, size); //memcpy(dst, src, size);
-                    }
+                    Array.Copy(src, dst, size); //memcpy(dst, src, size);
                 }
             }
 

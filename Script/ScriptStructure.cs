@@ -12,7 +12,7 @@ class ScriptStructure
      * @param script The script engine to operate on.
      * @return State of current structure.
      */
-    internal static ushort Script_Structure_GetState(ScriptEngine script)
+    internal static ushort Script_Structure_GetState(ScriptEngine _)
     {
         CStructure s;
 
@@ -64,7 +64,7 @@ class ScriptStructure
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Structure_RemoveFogAroundTile(ScriptEngine script)
+    internal static ushort Script_Structure_RemoveFogAroundTile(ScriptEngine _)
     {
         Structure_RemoveFog(g_scriptCurrentStructure);
 
@@ -79,7 +79,7 @@ class ScriptStructure
      * @param script The script engine to operate on.
      * @return 0 if there is no spice to refine, otherwise 1.
      */
-    internal static ushort Script_Structure_RefineSpice(ScriptEngine script)
+    internal static ushort Script_Structure_RefineSpice(ScriptEngine _)
     {
         StructureInfo si;
         CStructure s;
@@ -140,7 +140,7 @@ class ScriptStructure
      * @param script The script engine to operate on.
      * @return unknown.
      */
-    internal static ushort Script_Structure_Unknown0A81(ScriptEngine script)
+    internal static ushort Script_Structure_Unknown0A81(ScriptEngine _)
     {
         ushort structureIndex;
         CStructure s;
@@ -214,7 +214,7 @@ class ScriptStructure
      * @param script The script engine to operate on.
      * @return unknown.
      */
-    internal static ushort Script_Structure_Unknown0C5A(ScriptEngine script)
+    internal static ushort Script_Structure_Unknown0C5A(ScriptEngine _)
     {
         Tile32 tile;
         CStructure s;
@@ -545,7 +545,7 @@ class ScriptStructure
      * @param script The script engine to operate on.
      * @return unknown.
      */
-    internal static ushort Script_Structure_Explode(ScriptEngine script)
+    internal static ushort Script_Structure_Explode(ScriptEngine _)
     {
         CStructure s;
         ushort position;
@@ -576,7 +576,7 @@ class ScriptStructure
      * @param script The script engine to operate on.
      * @return Always 0.
      */
-    internal static ushort Script_Structure_Destroy(ScriptEngine script)
+    internal static ushort Script_Structure_Destroy(ScriptEngine _)
     {
         CStructure s;
         ushort position;

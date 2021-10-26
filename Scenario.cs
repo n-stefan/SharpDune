@@ -277,7 +277,7 @@ class Scenario
         string buf; //char[128]
 
         buf = Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer);
-        if (buf == string.Empty) return;
+        if (buf.Length == 0) return;
 
         s = buf.Split(","); //strtok(buf, ",\r\n");
         for (var i = 0; i < s.Length; i++) //while (s != NULL) {

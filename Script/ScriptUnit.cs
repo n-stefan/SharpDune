@@ -97,7 +97,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return One if delivered, zero otherwise.
      */
-    internal static ushort Script_Unit_TransportDeliver(ScriptEngine script)
+    internal static ushort Script_Unit_TransportDeliver(ScriptEngine _)
     {
         CUnit u;
         CUnit u2;
@@ -202,7 +202,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_Pickup(ScriptEngine script)
+    internal static ushort Script_Unit_Pickup(ScriptEngine _)
     {
         CUnit u;
 
@@ -343,7 +343,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_Stop(ScriptEngine script)
+    internal static ushort Script_Unit_Stop(ScriptEngine _)
     {
         CUnit u;
 
@@ -475,7 +475,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_Die(ScriptEngine script)
+    internal static ushort Script_Unit_Die(ScriptEngine _)
     {
         UnitInfo ui;
         CUnit u;
@@ -725,7 +725,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return 0 if the enemy is no longer there or if we are looking at him, 1 otherwise.
      */
-    internal static ushort Script_Unit_Rotate(ScriptEngine script)
+    internal static ushort Script_Unit_Rotate(ScriptEngine _)
     {
         UnitInfo ui;
         CUnit u;
@@ -899,7 +899,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_SetActionDefault(ScriptEngine script)
+    internal static ushort Script_Unit_SetActionDefault(ScriptEngine _)
     {
         CUnit u;
 
@@ -1470,7 +1470,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The amount.
      */
-    internal static ushort Script_Unit_GetAmount(ScriptEngine script)
+    internal static ushort Script_Unit_GetAmount(ScriptEngine _)
     {
         CUnit u;
 
@@ -1489,7 +1489,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return True if the current unit is in transport.
      */
-    internal static ushort Script_Unit_IsInTransport(ScriptEngine script)
+    internal static ushort Script_Unit_IsInTransport(ScriptEngine _)
     {
         CUnit u;
 
@@ -1506,7 +1506,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 1. Always.
      */
-    internal static ushort Script_Unit_StartAnimation(ScriptEngine script)
+    internal static ushort Script_Unit_StartAnimation(ScriptEngine _)
     {
         CUnit u;
         ushort animationUnitID;
@@ -1577,7 +1577,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_Unknown2552(ScriptEngine script)
+    internal static ushort Script_Unit_Unknown2552(ScriptEngine _)
     {
         CUnit u;
         CUnit u2;
@@ -1637,7 +1637,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_DisplayDestroyedText(ScriptEngine script)
+    internal static ushort Script_Unit_DisplayDestroyedText(ScriptEngine _)
     {
         UnitInfo ui;
         CUnit u;
@@ -1665,7 +1665,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_RemoveFog(ScriptEngine script)
+    internal static ushort Script_Unit_RemoveFog(ScriptEngine _)
     {
         CUnit u;
 
@@ -1682,7 +1682,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return ??.
      */
-    internal static ushort Script_Unit_Harvest(ScriptEngine script)
+    internal static ushort Script_Unit_Harvest(ScriptEngine _)
     {
         CUnit u;
         ushort packed;
@@ -1790,7 +1790,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_IdleAction(ScriptEngine script)
+    internal static ushort Script_Unit_IdleAction(ScriptEngine _)
     {
         CUnit u;
         ushort random;
@@ -1877,7 +1877,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return 1 if and only if the transformation succeeded.
      */
-    internal static ushort Script_Unit_MCVDeploy(ScriptEngine script)
+    internal static ushort Script_Unit_MCVDeploy(ScriptEngine _)
     {
         CUnit u;
         CStructure s;
@@ -1916,7 +1916,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return An encoded unit index, or 0.
      */
-    internal static ushort Script_Unit_Sandworm_GetBestTarget(ScriptEngine script)
+    internal static ushort Script_Unit_Sandworm_GetBestTarget(ScriptEngine _)
     {
         CUnit u;
         CUnit u2;
@@ -1937,7 +1937,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return ??.
      */
-    internal static ushort Script_Unit_Unknown2BD5(ScriptEngine script)
+    internal static ushort Script_Unit_Unknown2BD5(ScriptEngine _)
     {
         CUnit u;
 
@@ -1981,7 +1981,7 @@ class ScriptUnit
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Unit_Blink(ScriptEngine script)
+    internal static ushort Script_Unit_Blink(ScriptEngine _)
     {
         CUnit u;
 

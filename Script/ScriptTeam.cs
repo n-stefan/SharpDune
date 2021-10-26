@@ -12,7 +12,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return Amount of members in current team.
      */
-    internal static ushort Script_Team_GetMembers(ScriptEngine script) =>
+    internal static ushort Script_Team_GetMembers(ScriptEngine _) =>
         g_scriptCurrentTeam.members;
 
     /*
@@ -23,7 +23,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return The variable_06 of the current team.
      */
-    internal static ushort Script_Team_GetVariable6(ScriptEngine script) =>
+    internal static ushort Script_Team_GetVariable6(ScriptEngine _) =>
         g_scriptCurrentTeam.minMembers;
 
     /*
@@ -34,7 +34,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return The encoded target.
      */
-    internal static ushort Script_Team_GetTarget(ScriptEngine script) =>
+    internal static ushort Script_Team_GetTarget(ScriptEngine _) =>
         g_scriptCurrentTeam.target;
 
     /*
@@ -45,7 +45,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return The amount of space left in current team.
      */
-    internal static ushort Script_Team_AddClosestUnit(ScriptEngine script)
+    internal static ushort Script_Team_AddClosestUnit(ScriptEngine _)
     {
         CTeam t;
         CUnit closest = null;
@@ -107,7 +107,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return The average distance.
      */
-    internal static ushort Script_Team_GetAverageDistance(ScriptEngine script)
+    internal static ushort Script_Team_GetAverageDistance(ScriptEngine _)
     {
         ushort averageX = 0;
         ushort averageY = 0;
@@ -236,7 +236,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return The encoded index of the best target or 0 if none found.
      */
-    internal static ushort Script_Team_FindBestTarget(ScriptEngine script)
+    internal static ushort Script_Team_FindBestTarget(ScriptEngine _)
     {
         CTeam t;
         var find = new PoolFindStruct();
@@ -301,7 +301,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Team_Load2(ScriptEngine script)
+    internal static ushort Script_Team_Load2(ScriptEngine _)
     {
         CTeam t;
         ushort type;
@@ -327,7 +327,7 @@ class ScriptTeam
      * @param script The script engine to operate on.
      * @return The value 0. Always.
      */
-    internal static ushort Script_Team_Unknown0788(ScriptEngine script)
+    internal static ushort Script_Team_Unknown0788(ScriptEngine _)
     {
         CTeam t;
         Tile32 tile;

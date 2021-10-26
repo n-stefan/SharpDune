@@ -861,7 +861,7 @@ class Mentat
      * Handle clicks on the Mentat widget.
      * @return True, always.
      */
-    internal static bool GUI_Widget_Mentat_Click(CWidget w)
+    internal static bool GUI_Widget_Mentat_Click(CWidget _)
     {
         g_cursorSpriteID = 0;
 

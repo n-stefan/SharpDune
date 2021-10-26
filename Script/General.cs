@@ -77,7 +77,7 @@ class General
      * @param script The script engine to operate on
      * @return The value 0. Always.
      */
-    internal static ushort Script_General_NoOperation(ScriptEngine script) =>
+    internal static ushort Script_General_NoOperation(ScriptEngine _) =>
         0;
 
     /*
@@ -266,7 +266,7 @@ class General
      * @param script The script engine to operate on.
      * @return The type, or 0xFFFF if no linked unit.
      */
-    internal static ushort Script_General_GetLinkedUnitType(ScriptEngine script)
+    internal static ushort Script_General_GetLinkedUnitType(ScriptEngine _)
     {
         ushort linkedID;
 

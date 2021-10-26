@@ -427,11 +427,6 @@ class VideoSdl2
                 break;
         }
         s_framebuffer = new byte[SCREEN_WIDTH * (SCREEN_HEIGHT + 4)]; //calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
-        if (s_framebuffer == null)
-        {
-            Trace.WriteLine($"ERROR: Could not allocate {SCREEN_WIDTH * (SCREEN_HEIGHT + 4)} bytes of memory");
-            return false;
-        }
         err = SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
 
         if (err != 0)

@@ -868,7 +868,7 @@ class File
         else
         {
             /* %APPDATA%/SharpDUNE */
-            if ((buf = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) == string.Empty) //SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, buf ) != S_OK)
+            if ((buf = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).Length == 0) //SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, buf ) != S_OK)
             {
                 Trace.WriteLine("WARNING: Cannot find AppData directory.");
                 g_personal_data_dir = "."; //snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");

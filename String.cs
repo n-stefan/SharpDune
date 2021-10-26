@@ -118,7 +118,7 @@ class String
 
     private static void String_Replace(int i, string term, int position)
     {
-        var index = s_strings[i].IndexOf(term);
+        var index = s_strings[i].IndexOf(term, Comparison);
         if (index == -1) return;
         s_strings[i] = char.IsDigit(term[1]) ?
             s_strings[i].Remove(index, term.Length).Insert(index, $"{{{position}, {term[1]}}}") :
@@ -140,7 +140,7 @@ class String
             String_Replace(i, "%4d", 1);
             String_Replace(i, "%s", 0);
             String_Replace(i, "%s", 1);
-            index = s_strings[i].IndexOf("%%");
+            index = s_strings[i].IndexOf("%%", Comparison);
             if (index != -1) s_strings[i] = s_strings[i].Remove(index, 1);
         }
     }

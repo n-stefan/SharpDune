@@ -1294,9 +1294,9 @@ class Gui
             ushort oldWidgetId;
             ushort height;
 
-            if (buffer != string.Empty) //buffer[0] != '\0'
+            if (buffer.Length != 0) //buffer[0] != '\0'
             {
-                if (string.Compare(buffer, displayLine2, StringComparison.OrdinalIgnoreCase) != 0 && importance >= line3Importance) //strcasecmp(buffer, displayLine2) != 0
+                if (!string.Equals(buffer, displayLine2, StringComparison.OrdinalIgnoreCase) && importance >= line3Importance) //strcasecmp(buffer, displayLine2) != 0
                 {
                     displayLine3 = buffer; //strncpy(displayLine3, buffer, sizeof(displayLine3));
                     line3Importance = (short)importance;
@@ -1357,14 +1357,14 @@ class Gui
             return;
         }
 
-        if (buffer != string.Empty) //buffer[0] != '\0'
+        if (buffer.Length != 0) //buffer[0] != '\0'
         {
             /* If new line arrived, different from every line that is in the display buffers, and more important than existing messages,
              * insert it at the right place.
              */
-            if (string.Compare(buffer, displayLine1, StringComparison.OrdinalIgnoreCase) != 0 && //strcasecmp(buffer, displayLine1) != 0
-                string.Compare(buffer, displayLine2, StringComparison.OrdinalIgnoreCase) != 0 && //strcasecmp(buffer, displayLine2) != 0
-                string.Compare(buffer, displayLine3, StringComparison.OrdinalIgnoreCase) != 0) //strcasecmp(buffer, displayLine3) != 0
+            if (!string.Equals(buffer, displayLine1, StringComparison.OrdinalIgnoreCase) && //strcasecmp(buffer, displayLine1) != 0
+                !string.Equals(buffer, displayLine2, StringComparison.OrdinalIgnoreCase) && //strcasecmp(buffer, displayLine2) != 0
+                !string.Equals(buffer, displayLine3, StringComparison.OrdinalIgnoreCase)) //strcasecmp(buffer, displayLine3) != 0
             {
                 if (importance >= line2Importance)
                 {
@@ -1389,7 +1389,7 @@ class Gui
         }
         else
         {
-            if (displayLine1 == string.Empty && displayLine2 == string.Empty) return; //displayLine1[0] == '\0' && displayLine2[0] == '\0'
+            if (displayLine1.Length == 0 && displayLine2.Length == 0) return; //displayLine1[0] == '\0' && displayLine2[0] == '\0'
         }
 
         if (line2Importance <= line1Importance && displayTimer >= g_timerGUI) return;
@@ -3654,7 +3654,7 @@ class Gui
 
             GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x22);
 
-            while (name == string.Empty)
+            while (name.Length == 0)
             {
                 Screen oldScreenID;
 
@@ -3664,7 +3664,7 @@ class Gui
 
                 GUI_EditBox(ref name, 5, 19, null, GUI_HallOfFame_Tick, false);
 
-                if (name == string.Empty) continue;
+                if (name.Length == 0) continue;
             }
 
             data[editLine - 1].name = name.PadRight(6, '\0').ToArray();
@@ -4102,7 +4102,7 @@ class Gui
             name = new string(data[i].name).Replace("\0", string.Empty, Comparison);
             buffer = $"{name}, {p1} {p2}"; //snprintf(buffer, sizeof(buffer), "%s, %s %s", data[i].name, p1, p2);
 
-            if (name == string.Empty)
+            if (name.Length == 0)
             {
                 width = (ushort)(battleX - 36 - Font_GetStringWidth(buffer));
             }

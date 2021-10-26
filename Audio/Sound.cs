@@ -390,7 +390,7 @@ class Sound
                         Language.GERMAN => 'G',
                         _ => g_table_houseInfo[voiceSet].prefixChar,
                     };
-                    filename = str.Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str, prefixChar);
+                    filename = str.Replace("%c", ((char)prefixChar).ToString(), Comparison); //snprintf(filename, sizeof(filename), str, prefixChar);
 
                     g_voiceData[voice] = Sound_LoadVoc(filename, out g_voiceDataSize[voice]);
                     break;
@@ -404,7 +404,7 @@ class Sound
                         Language.GERMAN => 'G',
                         _ => 'Z',
                     };
-                    filename = str[1..].Replace("%c", ((char)prefixChar).ToString()); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
+                    filename = str[1..].Replace("%c", ((char)prefixChar).ToString(), Comparison); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
 
                     /* XXX - In the 1.07us datafiles, a few files are named differently:
                      *

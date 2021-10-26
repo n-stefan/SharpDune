@@ -7,10 +7,7 @@ class WidgetClick
     static ushort s_savegameIndexBase;
     static ushort s_savegameCountOnDisk;                    /*!< Amount of savegames on disk. */
 
-    internal static string[] g_savegameDesc; //[5][51]			/*!< Array of savegame descriptions for the SaveLoad window. */
-
-    static WidgetClick() =>
-        g_savegameDesc = new[] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
+    internal static string[] g_savegameDesc = { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty }; //[5][51]			/*!< Array of savegame descriptions for the SaveLoad window. */
 
     /*
      * Handles Click event for "Save Game" or "Load Game" button.
@@ -344,7 +341,7 @@ class WidgetClick
      *
      * @return True, always.
      */
-    internal static bool GUI_Widget_HOF_Resume_Click(CWidget w)
+    internal static bool GUI_Widget_HOF_Resume_Click(CWidget _)
     {
         g_doQuitHOF = true;
 
@@ -356,7 +353,7 @@ class WidgetClick
      *
      * @return True, always.
      */
-    internal static bool GUI_Widget_Cancel_Click(CWidget w)
+    internal static bool GUI_Widget_Cancel_Click(CWidget _)
     {
         if (g_structureActiveType != 0xFFFF)
         {
@@ -401,7 +398,7 @@ class WidgetClick
      * @param w The widget.
      * @return False, always.
      */
-    internal static bool GUI_Widget_SpriteTextButton_Click(CWidget w)
+    internal static bool GUI_Widget_SpriteTextButton_Click(CWidget _)
     {
         CStructure s;
 
@@ -455,7 +452,7 @@ class WidgetClick
      *
      * @return False, always.
      */
-    internal static bool GUI_Widget_Name_Click(CWidget w)
+    internal static bool GUI_Widget_Name_Click(CWidget _)
     {
         CObject o;
         ushort packed;
@@ -477,7 +474,7 @@ class WidgetClick
      *
      * @return False, always.
      */
-    internal static bool GUI_Widget_Picture_Click(CWidget w)
+    internal static bool GUI_Widget_Picture_Click(CWidget _)
     {
         CStructure s;
 
@@ -565,7 +562,7 @@ class WidgetClick
             switch (eventKey & 0x7FFF)
             {
                 case 0x1E:  /* RETURN / Save Button */
-                    if (/*saveDesc == 0*/g_savegameDesc[index] == string.Empty) break;
+                    if (/*saveDesc == 0*/g_savegameDesc[index].Length == 0) break;
 
                     SaveGame_SaveFile(GenerateSavegameFilename((ushort)(s_savegameIndexBase - index)), /*saveDesc*/g_savegameDesc[index]);
                     loop = false;
