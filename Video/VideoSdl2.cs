@@ -161,7 +161,11 @@ class VideoSdl2
          * exactly. Note that the values from SDL_GetRendererOutputSize are in
          * physical units while SDL_RenderGetViewport are in logical units.
          */
-        SDL_RenderGetViewport(s_renderer, out SDL_Rect rect);
+        if (SDL_RenderGetViewport(s_renderer, out SDL_Rect rect) != 0)
+        {
+            Trace.WriteLine($"ERROR: SDL_RenderGetViewport failed: {SDL_GetError()}");
+            return;
+        }
 
         if (SDL_GetRendererOutputSize(s_renderer, out int w, out int h) != 0)
         {
@@ -323,7 +327,10 @@ class VideoSdl2
                     if (evt.window.windowEvent == SDL_WindowEventID.SDL_WINDOWEVENT_EXPOSED)
                     {
                         /* Clear area outside the 4:3 logical screen, if any */
-                        SDL_RenderClear(s_renderer);
+                        if (SDL_RenderClear(s_renderer) != 0)
+                        {
+                            Trace.WriteLine($"ERROR: SDL_RenderClear failed : {SDL_GetError()}");
+                        }
 
                         var rect = new SDL_Rect();
                         if (SDL_RenderCopy(s_renderer, s_texture, ref rect, ref rect) != 0)
@@ -446,10 +453,18 @@ class VideoSdl2
             return false;
         }
 
-        SDL_ShowCursor(SDL_DISABLE);
+        if (SDL_ShowCursor(SDL_DISABLE) < 0)
+        {
+            Trace.WriteLine($"ERROR: SDL_ShowCursor failed : {SDL_GetError()}");
+            return false;
+        }
 
         /* Setup SDL_RenderClear */
-        SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255);
+        if (SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255) != 0)
+        {
+            Trace.WriteLine($"ERROR: SDL_SetRenderDrawColor failed : {SDL_GetError()}");
+            return false;
+        }
 
         Video_Mouse_SetRegion(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 

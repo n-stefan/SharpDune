@@ -135,8 +135,16 @@ class Midi
     {
         if (s_midi == IntPtr.Zero) return;
 
-        midiOutReset(s_midi);
-        midiOutClose(s_midi);
+        if (midiOutReset(s_midi) != MMSYSERR_NOERROR)
+        {
+            Trace.WriteLine("ERROR: midiOutReset() failed");
+            return;
+        }
+        if (midiOutClose(s_midi) != MMSYSERR_NOERROR)
+        {
+            Trace.WriteLine("ERROR: midiOutClose() failed");
+            return;
+        }
 
         s_midi = IntPtr.Zero;
     }
@@ -145,14 +153,22 @@ class Midi
     {
         if (s_midi == IntPtr.Zero) return;
 
-        midiOutShortMsg(s_midi, data);
+        if (midiOutShortMsg(s_midi, data) != MMSYSERR_NOERROR)
+        {
+            Trace.WriteLine("ERROR: midiOutShortMsg() failed");
+            return;
+        }
     }
 
     internal static void Midi_Reset()
     {
         if (s_midi == IntPtr.Zero) return;
 
-        midiOutReset(s_midi);
+        if (midiOutReset(s_midi) != MMSYSERR_NOERROR)
+        {
+            Trace.WriteLine("ERROR: midiOutReset() failed");
+            return;
+        }
     }
 
     internal static ushort Midi_Send_String(byte[] data, ushort len)

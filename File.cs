@@ -485,7 +485,7 @@ class File
             {
                 buffer = (T)(object)br.ReadUInt32();
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 Trace.WriteLine($"ERROR: Read error - {e.Message}");
                 File_Close(index);
@@ -501,7 +501,7 @@ class File
                 sr.ReadBlock(chars, offset, (int)length);
                 buffer = (T)(object)new string(chars);
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 Trace.WriteLine($"ERROR: Read error - {e.Message}");
                 File_Close(index);
@@ -523,7 +523,7 @@ class File
                 {
                     mentatInfo.length = br.ReadUInt32();
                 }
-                catch (Exception e)
+                catch (IOException e)
                 {
                     Trace.WriteLine($"ERROR: Read error - {e.Message}");
                     File_Close(index);
@@ -533,7 +533,7 @@ class File
         }
         else
         {
-            throw new Exception($"ERROR: File_Read - no implementation for type '{buffer.GetType()}'!");
+            throw new NotImplementedException($"ERROR: File_Read - no implementation for type '{buffer.GetType()}'!");
         }
 
         s_file[index].position += length;
@@ -657,7 +657,7 @@ class File
         {
             s_file[index].fp.Write(buffer, 0, (int)length);
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             Trace.WriteLine($"ERROR: Write error: {e.Message}");
             File_Close(index);
@@ -1110,7 +1110,7 @@ class File
         {
             System.IO.File.Delete(filenameComplete);
         }
-        catch (Exception)
+        catch (IOException)
         {
             //if (unlink(filenameComplete) < 0)
             /* try with the upper case file name */
@@ -1119,7 +1119,7 @@ class File
             {
                 System.IO.File.Delete(filenameComplete);
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 Trace.WriteLine($"ERROR: Couldn't delete file '{filenameComplete}'. Details: {e.Message}");
             }
@@ -1135,7 +1135,7 @@ class File
                 Directory.CreateDirectory(dir);
                 return true;
             }
-            catch (Exception)
+            catch (IOException)
             {
                 return false;
             }
@@ -1162,7 +1162,7 @@ class File
             files.ToList().ForEach(f => cb?.Invoke(f.Name, f.FullName, (uint)f.Length));
             return true;
         }
-        catch (Exception)
+        catch (IOException)
         {
             return false;
         }
@@ -1248,11 +1248,6 @@ class File
         uint i;
 
         f = new FileStream(pakpath, System.IO.FileMode.Open, FileAccessFromString("rb")); //fopen(pakpath, "rb");
-        if (f == null)
-        {
-            Trace.WriteLine($"ERROR: Failed to open {pakpath}");
-            return false;
-        }
         if (!FRead_LE_UInt32(ref nextposition, f))
         {
             f.Close();

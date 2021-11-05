@@ -492,21 +492,9 @@ class Mt32Mpu
 
         //s_mpu_sem = Thread.Semaphore_Create(0);
         s_mpu_sem = new SemaphoreSlim(0, 1);
-        if (s_mpu_sem == null)
-        {
-            Trace.WriteLine("ERROR: Failed to create semaphore");
-            return false;
-        }
 
         //s_mpu_thread = Thread.Thread_Create(MPU_ThreadProc, IntPtr.Zero);
         s_mpu_thread = new Thread(MPU_ThreadProc);
-        if (s_mpu_thread == null)
-        {
-            Trace.WriteLine("ERROR: Failed to create thread");
-            s_mpu_sem.Dispose();
-            //Thread.Semaphore_Destroy(s_mpu_sem);
-            return false;
-        }
         s_mpu_thread.Start();
 
         s_mpu_msdataSize = 0;

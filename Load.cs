@@ -166,7 +166,7 @@ class Load
         {
             return true;
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             Trace.WriteLine($"ERROR: {e.Message}");
             return false;
@@ -193,7 +193,7 @@ class Load
                 return length;
             }
         }
-        catch (Exception)
+        catch (IOException)
         {
             return 0;
         }

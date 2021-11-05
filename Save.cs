@@ -145,7 +145,7 @@ class Save
 
             return true;
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             Trace.WriteLine($"ERROR: {e.Message}");
             return false;

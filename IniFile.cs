@@ -54,7 +54,6 @@ class IniFile
     internal static bool Load_IniFile()
     {
         FileStream f;
-        StreamReader s;
         long fileSize;
         string path;
 
@@ -109,7 +108,7 @@ class IniFile
         //	fclose(f);
         //	return false;
         //}
-        s = new StreamReader(f);
+        using var s = new StreamReader(f);
         g_sharpduneini = s.ReadToEnd();
         if (g_sharpduneini.Length != fileSize)
         {

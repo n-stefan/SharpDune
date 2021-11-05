@@ -75,7 +75,7 @@ class Gfx
             Screen.NO1 => s_screen1,
             Screen.NO2 => s_screen2,
             Screen.NO3 => s_screen3,
-            _ => throw new Exception($"ERROR: GFX_Screen_Get_ByIndex() parameter value '{screenID}' is invalid."),
+            _ => throw new ArgumentOutOfRangeException(nameof(screenID), $"ERROR: GFX_Screen_Get_ByIndex() parameter value '{screenID}' is invalid."),
         };
     }
 

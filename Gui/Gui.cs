@@ -1157,10 +1157,7 @@ class Gui
         screenBackup = new byte[GFX_GetSize((short)(g_curWidgetWidth * 8), (short)g_curWidgetHeight)];
         //malloc(GFX_GetSize((short)(g_curWidgetWidth * 8), (short)g_curWidgetHeight));
 
-        if (screenBackup != null)
-        {
-            GFX_CopyToBuffer((short)(g_curWidgetXBase * 8), (short)g_curWidgetYBase, (ushort)(g_curWidgetWidth * 8), g_curWidgetHeight, screenBackup);
-        }
+        GFX_CopyToBuffer((short)(g_curWidgetXBase * 8), (short)g_curWidgetYBase, (ushort)(g_curWidgetWidth * 8), g_curWidgetHeight, screenBackup);
 
         GUI_Widget_DrawBorder(1, 1, true /*1*/);
 
@@ -1210,21 +1207,12 @@ class Gui
             GUI_Widget_SetProperties(1, (ushort)(g_curWidgetXBase - 1), (ushort)(g_curWidgetYBase - 8), (ushort)(g_curWidgetWidth + 2), (ushort)(g_curWidgetHeight + 16));
         }
 
-        if (screenBackup != null)
-        {
-            GFX_CopyFromBuffer((short)(g_curWidgetXBase * 8), (short)g_curWidgetYBase, (ushort)(g_curWidgetWidth * 8), g_curWidgetHeight, screenBackup);
-        }
+        GFX_CopyFromBuffer((short)(g_curWidgetXBase * 8), (short)g_curWidgetYBase, (ushort)(g_curWidgetWidth * 8), g_curWidgetHeight, screenBackup);
 
         Widget_SetCurrentWidget(oldWidgetId);
 
-        if (screenBackup != null)
-        {
-            //screenBackup = null; //free(screenBackup);
-        }
-        else
-        {
-            g_viewport_forceRedraw = true;
-        }
+        //screenBackup = null; //free(screenBackup);
+        //g_viewport_forceRedraw = true;
 
         GFX_Screen_SetActive(oldScreenID);
 
