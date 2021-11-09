@@ -6,14 +6,8 @@ class TableUnitInfo
 {
     internal static ushort[] g_table_actionsAI = { (ushort)ActionType.ACTION_HUNT, (ushort)ActionType.ACTION_AREA_GUARD, (ushort)ActionType.ACTION_AMBUSH, (ushort)ActionType.ACTION_GUARD };
 
-    internal static UnitInfo[] g_table_unitInfo;
-
-    static TableUnitInfo()
-    {
-        unchecked
-        {
-            g_table_unitInfo = new UnitInfo[] { //[UNIT_MAX]
-			    new() { /* 0 */
+    internal static UnitInfo[] g_table_unitInfo = { //[UNIT_MAX]
+        new() { /* 0 */
 			    	o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_CARRYALL,
                     name = "Carryall",
@@ -74,7 +68,7 @@ class TableUnitInfo
                     movingSpeedFactor = 200,
                     turningSpeed = 3,
                     groundSpriteID = 283,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_STOP,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 0,
@@ -85,8 +79,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-
-                new() { /* 1 */
+        
+        new() { /* 1 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_THOPTER,
                     name = "'Thopter",
@@ -147,7 +141,7 @@ class TableUnitInfo
                     movingSpeedFactor = 150,
                     turningSpeed = 2,
                     groundSpriteID = 289,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_STOP,
                     displayMode = (ushort)DisplayMode.ORNITHOPTER,
                     destroyedSpriteID = 0,
@@ -158,8 +152,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_MISSILE_TROOPER,
                     bulletSound = 42
                 },
-
-                new() { /* 2 */
+        
+        new() { /* 2 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_INFANTRY,
                     name = "Infantry",
@@ -220,7 +214,7 @@ class TableUnitInfo
                     movingSpeedFactor = 5,
                     turningSpeed = 3,
                     groundSpriteID = 329,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.INFANTRY_4_FRAMES,
                     destroyedSpriteID = 0,
@@ -231,8 +225,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 58
                 },
-
-                new() { /* 3 */
+        
+        new() { /* 3 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TROOPERS,
                     name = "Troopers",
@@ -293,7 +287,7 @@ class TableUnitInfo
                     movingSpeedFactor = 10,
                     turningSpeed = 3,
                     groundSpriteID = 341,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.INFANTRY_4_FRAMES,
                     destroyedSpriteID = 0,
@@ -304,8 +298,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-
-                new() { /* 4 */
+        
+        new() { /* 4 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SOLDIER,
                     name = "Soldier",
@@ -366,7 +360,7 @@ class TableUnitInfo
                     movingSpeedFactor = 8,
                     turningSpeed = 3,
                     groundSpriteID = 311,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.INFANTRY_3_FRAMES,
                     destroyedSpriteID = 0,
@@ -377,8 +371,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 58
                 },
-
-                new() { /* 5 */
+        
+        new() { /* 5 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TROOPER,
                     name = "Trooper",
@@ -439,7 +433,7 @@ class TableUnitInfo
                     movingSpeedFactor = 15,
                     turningSpeed = 3,
                     groundSpriteID = 320,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.INFANTRY_3_FRAMES,
                     destroyedSpriteID = 0,
@@ -450,8 +444,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-
-                new() { /* 6 */
+        
+        new() { /* 6 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SABOTEUR,
                     name = "Saboteur",
@@ -512,7 +506,7 @@ class TableUnitInfo
                     movingSpeedFactor = 40,
                     turningSpeed = 3,
                     groundSpriteID = 301,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_SABOTAGE,
                     displayMode = (ushort)DisplayMode.INFANTRY_3_FRAMES,
                     destroyedSpriteID = 0,
@@ -523,8 +517,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 58
                 },
-
-                new() { /* 7 */
+        
+        new() { /* 7 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_LAUNCHER,
                     name = "Launcher",
@@ -594,10 +588,10 @@ class TableUnitInfo
                     damage = 75,
                     explosionType = (ushort)ExplosionType.EXPLOSION_IMPACT_EXPLODE,
                     bulletType = (byte)UnitType.UNIT_MISSILE_ROCKET,
-                    bulletSound = (ushort)-1
+                    bulletSound = 65535 /*(ushort)-1*/
                 },
-
-                new() { /* 8 */
+        
+        new() { /* 8 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_DEVIATOR,
                     name = "Deviator",
@@ -667,10 +661,10 @@ class TableUnitInfo
                     damage = 0,
                     explosionType = (ushort)ExplosionType.EXPLOSION_IMPACT_EXPLODE,
                     bulletType = (byte)UnitType.UNIT_MISSILE_DEVIATOR,
-                    bulletSound = (ushort)-1
+                    bulletSound = 65535 /*(ushort)-1*/
                 },
-
-                new() { /* 9 */
+        
+        new() { /* 9 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TANK,
                     name = "Tank",
@@ -742,8 +736,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 57
                 },
-
-                new() { /* 10 */
+        
+        new() { /* 10 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SIEGE_TANK,
                     name = "Siege Tank",
@@ -815,8 +809,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 57
                 },
-
-                new() { /* 11 */
+        
+        new() { /* 11 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_DEVASTATOR,
                     name = "Devastator",
@@ -888,8 +882,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 57
                 },
-
-                new() { /* 12 */
+        
+        new() { /* 12 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SONIC_TANK,
                     name = "Sonic Tank",
@@ -961,8 +955,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_SONIC_BLAST,
                     bulletSound = 43
                 },
-
-                new() { /* 13 */
+        
+        new() { /* 13 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TRIKE,
                     name = "Trike",
@@ -1023,7 +1017,7 @@ class TableUnitInfo
                     movingSpeedFactor = 45,
                     turningSpeed = 2,
                     groundSpriteID = 243,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 0,
@@ -1034,8 +1028,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-
-                new() { /* 14 */
+        
+        new() { /* 14 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_RAIDER_TRIKE,
                     name = "Raider Trike",
@@ -1096,7 +1090,7 @@ class TableUnitInfo
                     movingSpeedFactor = 60,
                     turningSpeed = 2,
                     groundSpriteID = 243,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 0,
@@ -1107,8 +1101,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-
-                new() { /* 15 */
+        
+        new() { /* 15 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_QUAD,
                     name = "Quad",
@@ -1169,7 +1163,7 @@ class TableUnitInfo
                     movingSpeedFactor = 40,
                     turningSpeed = 2,
                     groundSpriteID = 238,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 0,
@@ -1180,8 +1174,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-
-                new() { /* 16 */
+        
+        new() { /* 16 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_HARVESTER,
                     name = "Harvester",
@@ -1242,7 +1236,7 @@ class TableUnitInfo
                     movingSpeedFactor = 20,
                     turningSpeed = 1,
                     groundSpriteID = 248,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HARVEST,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 165,
@@ -1253,8 +1247,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 0
                 },
-
-                new() { /* 17 */
+        
+        new() { /* 17 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_MCV,
                     name = "MCV",
@@ -1315,7 +1309,7 @@ class TableUnitInfo
                     movingSpeedFactor = 20,
                     turningSpeed = 1,
                     groundSpriteID = 253,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_HUNT,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 0,
@@ -1326,8 +1320,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 0
                 },
-
-                new() { /* 18 */
+        
+        new() { /* 18 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "Death Hand",
@@ -1388,7 +1382,7 @@ class TableUnitInfo
                     movingSpeedFactor = 250,
                     turningSpeed = 2,
                     groundSpriteID = 278,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.ROCKET,
                     destroyedSpriteID = 0,
@@ -1399,8 +1393,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-
-                new() { /* 19 */
+        
+        new() { /* 19 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "Rocket",
@@ -1461,7 +1455,7 @@ class TableUnitInfo
                     movingSpeedFactor = 200,
                     turningSpeed = 2,
                     groundSpriteID = 258,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.ROCKET,
                     destroyedSpriteID = 0,
@@ -1472,8 +1466,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-
-                new() { /* 20 */
+        
+        new() { /* 20 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "ARocket",
@@ -1534,7 +1528,7 @@ class TableUnitInfo
                     movingSpeedFactor = 160,
                     turningSpeed = 8,
                     groundSpriteID = 258,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.ROCKET,
                     destroyedSpriteID = 0,
@@ -1545,8 +1539,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-
-                new() { /* 21 */
+        
+        new() { /* 21 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "GRocket",
@@ -1607,7 +1601,7 @@ class TableUnitInfo
                     movingSpeedFactor = 200,
                     turningSpeed = 2,
                     groundSpriteID = 258,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.ROCKET,
                     destroyedSpriteID = 0,
@@ -1618,8 +1612,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-
-                new() { /* 22 */
+        
+        new() { /* 22 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "MiniRocket",
@@ -1680,7 +1674,7 @@ class TableUnitInfo
                     movingSpeedFactor = 180,
                     turningSpeed = 5,
                     groundSpriteID = 268,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.ROCKET,
                     destroyedSpriteID = 0,
@@ -1691,8 +1685,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 64
                 },
-
-                new() { /* 23 */
+        
+        new() { /* 23 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "Bullet",
@@ -1753,7 +1747,7 @@ class TableUnitInfo
                     movingSpeedFactor = 250,
                     turningSpeed = 0,
                     groundSpriteID = 174,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.SINGLE_FRAME,
                     destroyedSpriteID = 0,
@@ -1762,10 +1756,10 @@ class TableUnitInfo
                     damage = 0,
                     explosionType = (ushort)ExplosionType.EXPLOSION_IMPACT_SMALL,
                     bulletType = (byte)UnitType.UNIT_INVALID,
-                    bulletSound = (ushort)-1
+                    bulletSound = 65535 /*(ushort)-1*/
                 },
-
-                new() { /* 24 */
+        
+        new() { /* 24 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "Sonic Blast",
@@ -1826,7 +1820,7 @@ class TableUnitInfo
                     movingSpeedFactor = 200,
                     turningSpeed = 0,
                     groundSpriteID = 160,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.SINGLE_FRAME,
                     destroyedSpriteID = 0,
@@ -1835,10 +1829,10 @@ class TableUnitInfo
                     damage = 25,
                     explosionType = (ushort)ExplosionType.EXPLOSION_INVALID,
                     bulletType = (byte)UnitType.UNIT_INVALID,
-                    bulletSound = (ushort)-1
+                    bulletSound = 65535 /*(ushort)-1*/
                 },
-
-                new() { /* 25 */
+        
+        new() { /* 25 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SANDWORM,
                     name = "Sandworm",
@@ -1899,7 +1893,7 @@ class TableUnitInfo
                     movingSpeedFactor = 35,
                     turningSpeed = 3,
                     groundSpriteID = 161,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 0,
@@ -1910,8 +1904,8 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_SANDWORM,
                     bulletSound = 63
                 },
-
-                new() { /* 26 */
+        
+        new() { /* 26 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
                     name = "Frigate",
@@ -1972,7 +1966,7 @@ class TableUnitInfo
                     movingSpeedFactor = 130,
                     turningSpeed = 2,
                     groundSpriteID = 298,
-                    turretSpriteID = (ushort)-1,
+                    turretSpriteID = 65535 /*(ushort)-1*/,
                     actionAI = (ushort)ActionType.ACTION_INVALID,
                     displayMode = (ushort)DisplayMode.UNIT,
                     destroyedSpriteID = 0,
@@ -1981,9 +1975,7 @@ class TableUnitInfo
                     damage = 0,
                     explosionType = (ushort)ExplosionType.EXPLOSION_INVALID,
                     bulletType = (byte)UnitType.UNIT_INVALID,
-                    bulletSound = (ushort)-1
+                    bulletSound = 65535 /*(ushort)-1*/
                 }
-            };
-        }
-    }
+    };
 }

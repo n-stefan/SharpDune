@@ -98,13 +98,7 @@ class File
     static FileInfoLinkedElem s_files_in_root;
     static PakFileInfoLinkedElem s_files_in_pak;
 
-    static readonly CFile[] s_file;
-
-    static File()
-    {
-        s_file = new CFile[8];
-        for (var i = 0; i < s_file.Length; i++) s_file[i] = new CFile();
-    }
+    static readonly CFile[] s_file = { new(), new(), new(), new(), new(), new(), new(), new() };
 
     static FileAccess FileAccessFromString(string access) =>
         access switch

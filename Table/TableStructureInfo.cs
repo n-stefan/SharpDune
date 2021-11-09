@@ -4,14 +4,8 @@ namespace SharpDune.Table;
 
 class TableStructureInfo
 {
-    internal static StructureInfo[] g_table_structureInfo;
-
-    static TableStructureInfo()
-    {
-        unchecked
-        {
-            g_table_structureInfo = new StructureInfo[] { //[STRUCTURE_MAX]
-                new() { /* 0 */
+    internal static StructureInfo[] g_table_structureInfo = { //[STRUCTURE_MAX]
+        new() { /* 0 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_CONCRETE,
                         name = "Concrete",
@@ -76,7 +70,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 1 */
+        new() { /* 1 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_CONCRETE_4,
                         name = "Concrete4",
@@ -141,7 +135,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 2 */
+        new() { /* 2 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_PALACE,
                         name = "Palace",
@@ -206,7 +200,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 3 */
+        new() { /* 3 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_LIGHT_FCTRY,
                         name = "Light Fctry",
@@ -271,7 +265,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 4 */
+        new() { /* 4 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_HEAVY_FCTRY,
                         name = "Heavy Fctry",
@@ -336,7 +330,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 5 */
+        new() { /* 5 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_HITECH,
                         name = "Hi-Tech",
@@ -401,7 +395,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 6 */
+        new() { /* 6 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_IX,
                         name = "IX",
@@ -466,7 +460,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 7 */
+        new() { /* 7 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_WOR,
                         name = "WOR",
@@ -531,7 +525,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 8 */
+        new() { /* 8 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_CONST_YARD,
                         name = "Const Yard",
@@ -559,7 +553,7 @@ class TableStructureInfo
                         buildCredits = 400,
                         buildTime = 80,
                         availableCampaign = 99,
-                        structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NEVER,
+                        structuresRequired = 4294967295 /*(uint)StructureFlag.FLAG_STRUCTURE_NEVER*/,
                         sortPriority = 0,
                         upgradeLevelRequired = 0,
                         actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
@@ -596,7 +590,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 9 */
+        new() { /* 9 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_WINDTRAP,
                         name = "Windtrap",
@@ -661,7 +655,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 10 */
+        new() { /* 10 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_BARRACKS,
                         name = "Barracks",
@@ -726,7 +720,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 11 */
+        new() { /* 11 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_STARPORT,
                         name = "Starport",
@@ -791,7 +785,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 12 */
+        new() { /* 12 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_REFINERY,
                         name = "Refinery",
@@ -856,7 +850,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 13 */
+        new() { /* 13 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_REPAIR2,
                         name = "Repair",
@@ -921,7 +915,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 14 */
+        new() { /* 14 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_WALL,
                         name = "Wall",
@@ -986,7 +980,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 15 */
+        new() { /* 15 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_TURRET,
                         name = "Turret",
@@ -1051,7 +1045,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 16 */
+        new() { /* 16 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_RTURRET,
                         name = "R-Turret",
@@ -1116,7 +1110,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 17 */
+        new() { /* 17 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_SPICE_SILO,
                         name = "Spice Silo",
@@ -1181,7 +1175,7 @@ class TableStructureInfo
                     },
                 },
 
-                new() { /* 18 */
+        new() { /* 18 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_OUTPOST,
                         name = "Outpost",
@@ -1245,9 +1239,7 @@ class TableStructureInfo
                         0,
                     },
                 }
-            };
-        }
-    }
+    };
 
     /* Array with position offset per tile in a structure layout. */
     internal static ushort[][] g_table_structure_layoutTiles = { //[STRUCTURE_LAYOUT_MAX][9]
