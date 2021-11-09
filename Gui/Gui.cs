@@ -574,9 +574,7 @@ class Gui
         if ((flags & DRAWSPRITE_FLAG_RTL) != 0)
         {
             /* XCHG pixelSkipStart, pixelSkipEnd */
-            var tmp = pixelSkipStart;
-            pixelSkipStart = pixelSkipEnd;
-            pixelSkipEnd = tmp;
+            (pixelSkipEnd, pixelSkipStart) = (pixelSkipStart, pixelSkipEnd);
             bufPointer += pixelCountPerRow - 1;
             buf_incr = -1;
         }
@@ -2022,9 +2020,7 @@ class Gui
         {
             if (x1 >= x2)
             {
-                var x = x1;
-                x1 = x2;
-                x2 = x;
+                (x2, x1) = (x1, x2);
             }
 
             x2 -= (short)(x1 - 1);
@@ -2038,9 +2034,7 @@ class Gui
 
         if (y2 < 0)
         {
-            var x = x1;
-            x1 = x2;
-            x2 = x;
+            (x2, x1) = (x1, x2);
             y2 = (short)-y2;
             y1 -= y2;
         }
