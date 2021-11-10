@@ -430,6 +430,7 @@ class File
      * @param length The amount of bytes to read.
      * @return The amount of bytes truly read, or 0 if there was a failure.
      */
+    [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Underlying stream might still be needed")]
     internal static uint File_Read<T>(byte index, ref T buffer, uint length, int offset = 0)
     {
         if (index >= (byte)FileMode.FILE_MAX) return 0;
