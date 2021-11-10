@@ -161,7 +161,7 @@ class VideoSdl2
          * exactly. Note that the values from SDL_GetRendererOutputSize are in
          * physical units while SDL_RenderGetViewport are in logical units.
          */
-        if (SDL_RenderGetViewport(s_renderer, out SDL_Rect rect) != 0)
+        if (SDL_RenderGetViewport(s_renderer, out SDL_Rect rect) < 0)
         {
             Trace.WriteLine($"ERROR: SDL_RenderGetViewport failed: {SDL_GetError()}");
             return;
