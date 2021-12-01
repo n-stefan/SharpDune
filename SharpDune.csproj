@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU</Platforms>
     <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
     <!--<AnalysisMode>AllEnabledByDefault</AnalysisMode>-->
   </PropertyGroup>
 
