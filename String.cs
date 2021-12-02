@@ -143,6 +143,11 @@ class String
             index = s_strings[i].IndexOf("%%", Comparison);
             if (index != -1) s_strings[i] = s_strings[i].Remove(index, 1);
         }
+
+        if (g_config.language == (byte)Language.GERMAN)
+        {
+            s_strings[Array.FindIndex(s_strings, s => s == "Ziel w\u0084hlen\rZeit-Minus: {0}")] = "Ziel w\u0084hlen\rZ-Minus: {0}";
+        }
     }
 
     /*
