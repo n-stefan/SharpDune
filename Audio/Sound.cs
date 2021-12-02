@@ -175,7 +175,7 @@ class Sound
 
             for (i = 0; i < /*Common.lengthof<ushort>(s_spokenWords)*/s_spokenWords.Length; i++)
             {
-                s_spokenWords[i] = (g_config.language == (byte)Language.ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[i][index]; //[index][i];
+                s_spokenWords[i] = (g_config.language == (byte)Language.ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[index][i];
             }
         }
 
