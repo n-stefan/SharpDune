@@ -244,11 +244,9 @@ class String
     {
         if (str == null) return null;
 
-        char[] dest;
+        var dest = new StringBuilder();
         var strPointer = 0;
-        var destPointer = 0;
 
-        dest = str.ToCharArray();
         while (strPointer < str.Length)
         {
             var c = str[strPointer++];
@@ -256,9 +254,9 @@ class String
             {
                 c = (char)(0x7F + str[strPointer++]);
             }
-            dest[destPointer++] = c;
+            dest.Append(c);
         }
-        return new string(dest);
+        return dest.ToString();
         //*dest = '\0';
     }
 
