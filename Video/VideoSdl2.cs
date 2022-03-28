@@ -618,12 +618,12 @@ class VideoSdl2
      * This function copies the 320x200 buffer to the real screen.
      * Scaling is done automatically.
      */
-    static void Video_DrawScreen_Nearest_Neighbor()
+    unsafe static void Video_DrawScreen_Nearest_Neighbor()
     {
         var gfx_screen8 = GFX_Screen_Get_ByIndex(Screen.NO0);
         var area = GFX_Screen_GetDirtyArea(Screen.NO0);
         int x, y;
-        uint[] p;
+        uint* p;
         SDL_Rect rect;
         var prect = new SDL_Rect { w = SCREEN_WIDTH, h = SCREEN_HEIGHT }; //SDL_Rect* prect = NULL;
         var gfx_screen8Pointer = 0;
@@ -644,8 +644,8 @@ class VideoSdl2
             rect.h = area.bottom - area.top;
             prect = rect;
             pixels = IntPtr.Add(pixels, pitch * area.top);
+            p = (uint*)pixels;
             gfx_screen8Pointer += SCREEN_WIDTH * area.top + area.left;
-            p = new uint[area.right];
             for (y = area.top; y < area.bottom; y++)
             {
                 pPointer += area.left;
@@ -654,27 +654,23 @@ class VideoSdl2
                     p[pPointer++] = s_palette[gfx_screen8[gfx_screen8Pointer++]];
                 }
                 gfx_screen8Pointer += SCREEN_WIDTH - rect.w;
-
-                unsafe { fixed (uint* first = p) Unsafe.CopyBlock(pixels.ToPointer(), first, (uint)p.Length * 4); }
-
                 pixels = IntPtr.Add(pixels, pitch);
+                p = (uint*)pixels;
                 pPointer = 0;
             }
             //Debug.WriteLine($"DEBUG: Dirty area : ({area.left}, {area.top}) - ({area.right}, {area.bottom})");
         }
         else
         {
-            p = new uint[SCREEN_WIDTH];
+            p = (uint*)pixels;
             for (y = 0; y < SCREEN_HEIGHT; y++)
             {
                 for (x = 0; x < SCREEN_WIDTH; x++)
                 {
                     p[pPointer++] = s_palette[gfx_screen8[gfx_screen8Pointer++]];
                 }
-
-                unsafe { fixed (uint* first = p) Unsafe.CopyBlock(pixels.ToPointer(), first, (uint)p.Length * 4); }
-
                 pixels = IntPtr.Add(pixels, pitch);
+                p = (uint*)pixels;
                 pPointer = 0;
             }
         }
