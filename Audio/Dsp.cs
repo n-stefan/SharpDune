@@ -32,11 +32,10 @@ class Dsp
     const int WaveOutMapperDeviceId = -1;
     static bool s_playing;
     static bool s_init;
-    static sbyte[] s_data;
     static uint s_dataLen;
+    static IntPtr s_data;
     static IntPtr s_waveOut = IntPtr.Zero;
     static IntPtr s_waveHdrAddr;
-    static IntPtr s_dataAddr;
     static readonly WaveOutProc DSP_Callback_Del = DSP_Callback;
 
     /// <summary>
@@ -425,8 +424,10 @@ class Dsp
         s_waveOut = IntPtr.Zero;
         s_playing = false;
 
-        if (s_dataAddr != IntPtr.Zero)
-            Marshal.FreeHGlobal(s_dataAddr);
+        s_dataLen = 0;
+
+        if (s_data != IntPtr.Zero)
+            Marshal.FreeHGlobal(s_data);
 
         if (s_waveHdrAddr != IntPtr.Zero)
             Marshal.FreeHGlobal(s_waveHdrAddr);
@@ -444,15 +445,13 @@ class Dsp
 
         DSP_Stop();
 
-        s_data = null; //free(s_data);
-        s_dataLen = 0;
+        //free(s_data);
 
         s_init = false;
     }
 
     internal static void DSP_Play(byte[] data)
     {
-        uint len;
         int freq;
         MMSYSERROR res;
         var dataPointer = 0;
@@ -463,15 +462,11 @@ class Dsp
 
         if (data[dataPointer] != 1) return;
 
-        len = (Read_LE_UInt32(data.AsSpan(dataPointer)) >> 8) - 2;
+        s_dataLen = (Read_LE_UInt32(data.AsSpan(dataPointer)) >> 8) - 2;
 
-        if (s_dataLen < len)
-        {
-            Array.Resize(ref s_data, (int)len); //s_data = realloc(s_data, len);
-            s_dataLen = len;
-        }
+        s_data = Marshal.AllocHGlobal((IntPtr)s_dataLen); //s_data = realloc(s_data, len);
 
-        Array.Copy(data, dataPointer + 6, s_data, 0, len); //memcpy(s_data, data + 6, len);
+        Marshal.Copy(data, dataPointer + 6, s_data, (int)s_dataLen); //memcpy(s_data, data + 6, len);
 
         freq = 1000000 / (256 - data[dataPointer + 4]);
 
@@ -494,14 +489,10 @@ class Dsp
             return;
         }
 
-        s_dataAddr = Marshal.AllocHGlobal(s_data.Length);
-
-        unsafe { fixed (sbyte* first = s_data) Unsafe.CopyBlock(s_dataAddr.ToPointer(), first, (uint)s_data.Length); }
-
         var s_waveHdr = new WAVEHDR
         {
-            lpData = s_dataAddr, //s_data
-            dwBufferLength = (int)len,
+            lpData = s_data,
+            dwBufferLength = (int)s_dataLen,
             dwFlags = 0,
             dwLoops = 0
         };
