@@ -121,9 +121,7 @@ class Tools
 
         if (min > max)
         {
-            var temp = min;
-            min = max;
-            max = temp;
+            (max, min) = (min, max);
         }
 
         do

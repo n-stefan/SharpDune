@@ -277,15 +277,11 @@ class Mouse
     {
         if (left > right)
         {
-            var temp = left;
-            left = right;
-            right = temp;
+            (right, left) = (left, right);
         }
         if (top > bottom)
         {
-            var temp = top;
-            top = bottom;
-            bottom = temp;
+            (bottom, top) = (top, bottom);
         }
 
         left = Clamp(left, 0, SCREEN_WIDTH - 1);
