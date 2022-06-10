@@ -64,7 +64,7 @@ class EditBox
 
             oldWidgetID = Widget_SetCurrentWidget(widgetID);
 
-            returnValue = 0x0;
+            //returnValue = 0x0;
         }
 
         positionX = (ushort)(g_curWidgetXBase << 3);

@@ -324,7 +324,7 @@ class Sound
      */
     internal static void Voice_LoadVoices(ushort voiceSet)
     {
-        int prefixChar = ' ';
+        int prefixChar; // = ' ';
         ushort voice;
 
         if (!g_enableVoices/* == 0*/) return;
