@@ -118,11 +118,10 @@ class File
     static FileInfo FileInfo_Find_ByName(/*string*/ReadOnlySpan<char> filename, ref FileInfo pakInfo)
     {
         FileInfoLinkedElem e;
-        var filenameStr = new string(filename);
 
         for (e = s_files_in_root; e != null; e = e.next)
         {
-            if (string.Equals(e.info.filename, filenameStr, StringComparison.OrdinalIgnoreCase))
+            if (e.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase))
             { //!strcasecmp(e->info.filename, filename)) {
                 /*if (pakInfo != null)*/
                 pakInfo = null; //if (pakInfo) *pakInfo = NULL;
@@ -132,7 +131,7 @@ class File
         PakFileInfoLinkedElem pe;
         for (pe = s_files_in_pak; pe != null; pe = pe.next)
         {
-            if (string.Equals(pe.info.filename, filenameStr, StringComparison.OrdinalIgnoreCase))
+            if (pe.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase))
             { //!strcasecmp(e->info.filename, filename)) {
                 /*if (pakInfo != null)*/
                 pakInfo = pe.pak; //if (pakInfo) *pakInfo = e->pak;
