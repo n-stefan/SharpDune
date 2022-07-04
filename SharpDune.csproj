@@ -10,12 +10,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;WITH_SDL2</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;WITH_SDL2;WITHOUT_SDLIMAGE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;WITH_SDL2</DefineConstants>
+    <DefineConstants>TRACE;WITH_SDL2;WITHOUT_SDLIMAGE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -34,7 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
+    <PackageReference Include="ppy.SDL2-CS" Version="1.0.565-alpha" />
+    <PackageReference Include="sdl2.nuget" Version="2.0.22" />
+    <PackageReference Include="sdl2_image.nuget" Version="2.0.5" />
   </ItemGroup>
 
   <ItemGroup>
