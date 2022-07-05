@@ -58,7 +58,7 @@ class Driver
 
         driver.content = File_ReadWholeFile(filename);
         driver.contentMalloced = true;
-        Debug.WriteLine($"DEBUG: Driver_LoadFile({musicName}, {driver}): {filename} loaded");
+        Debug.WriteLine($"DEBUG: Driver_LoadFile({musicName}, {driver.extension}): {filename} loaded");
     }
 
     internal static void Driver_UnloadFile(CDriver driver)

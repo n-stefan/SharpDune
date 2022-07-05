@@ -35,8 +35,6 @@
 
   <ItemGroup>
     <PackageReference Include="ppy.SDL2-CS" Version="1.0.565-alpha" />
-    <PackageReference Include="sdl2.nuget" Version="2.0.22" />
-    <PackageReference Include="sdl2_image.nuget" Version="2.0.5" />
   </ItemGroup>
 
   <ItemGroup>
