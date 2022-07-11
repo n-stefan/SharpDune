@@ -18,8 +18,13 @@ global using static SDL2.SDL;
 global using static SDL2.SDL_image;
 global using static SharpDune.Animation;
 global using static SharpDune.Audio.Driver;
+#if LINUX
+global using static SharpDune.Audio.DspNone;
+global using static SharpDune.Audio.MidiNone;
+#else
 global using static SharpDune.Audio.Dsp;
 global using static SharpDune.Audio.Midi;
+#endif
 global using static SharpDune.Audio.Mt32Mpu;
 global using static SharpDune.Audio.Sound;
 global using static SharpDune.Codec.Format40;

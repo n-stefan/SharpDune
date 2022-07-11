@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "SharpDune": {
+      "commandName": "Project",
+      "environmentVariables": {
+      }
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {
+        "DISPLAY": ":0"
+      },
+      "distributionName": ""
+    }
+  }
+}
