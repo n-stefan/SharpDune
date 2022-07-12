@@ -1686,9 +1686,8 @@ class Map
             {
                 while (true)
                 {
-                    //packed = CTile.Tile_PackTile(CTile.Tile_MoveByRandom(tile, (ushort)(Tools.Tools_Random_256() & 0x3F), true));
-                    var unpacked = Tile_MoveByRandom(tile, (ushort)(Tools_Random_256() & 0x3F), true);
-                    packed = Tile_PackTile(unpacked);
+                    packed = (ushort)((Tile_GetPosY(Tile_MoveByRandom(tile, (ushort)(Tools_Random_256() & 0x3F), true)) << 6) |
+                        Tile_GetPosX(Tile_MoveByRandom(tile, (ushort)(Tools_Random_256() & 0x3F), true)));
 
                     if (!Tile_IsOutOfMap(packed)) break;
                 }
