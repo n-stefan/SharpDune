@@ -992,7 +992,7 @@ class WidgetDraw
         ushort scrollLeft, scrollTop;
         ushort scrollRight, scrollBottom;
 
-        if (w == null) return;
+        if (w == null || w.data == null) return;
         if (w.flags.invisible) return;
 
         scrollbar = (WidgetScrollbar)w.data;
