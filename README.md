@@ -1,11 +1,21 @@
 # SharpDune
 C# port of the excellent [OpenDUNE](https://github.com/OpenDUNE/OpenDUNE).
 
-In order to run the original game data files need to be present in a folder named "data".
+In order to run the original game data files need to be present in a folder named `data`.
+
+Running under Windows:
+1. Edit paths (`datadir`, `savedir`) in sharpdune.ini
+2. Start SharpDune with the `SharpDune` profile
+
+Running under Linux (WSL):
+1. Install and start an X Server (like VcXsrv)
+2. Define the constant `LINUX` in SharpDune.csproj
+3. Edit paths (`datadir`, `savedir`) in sharpdune.ini
+4. Start SharpDune with the `WSL` profile
 
 For video [SDL2](https://www.libsdl.org) and [SDL2 Image](https://www.libsdl.org/projects/SDL_image) are used.
 
-For audio (MIDI and WaveOut) winmm.dll is used.
+For audio (MIDI and WaveOut) winmm.dll is used. Under WSL audio isn't supported currently.
 
 IDE: latest Visual Studio Community 2022 Preview.
 
