@@ -9,12 +9,12 @@
       }
     },
     "WSL": {
-      "commandName": "WSL2",
+      "commandName": "WSL",
       "environmentVariables": {
         "DOTNET_TC_QuickJitForLoops": "1",
         "DOTNET_TieredPGO": "1",
         "DOTNET_ReadyToRun": "0",
-        "DISPLAY": ":0"
+        "DISPLAY": "172.30.224.1:0"
       },
       "distributionName": ""
     }
