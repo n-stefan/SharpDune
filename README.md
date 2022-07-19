@@ -5,13 +5,14 @@ In order to run the original game data files need to be present in a folder name
 
 Running on Windows:
 1. Edit paths (`datadir`, `savedir`) in sharpdune.ini
-2. Start SharpDune with the `SharpDune` profile
+2. Select the `Debug` or `Release` configuration
+3. Start SharpDune with the `SharpDune` profile
 
 Running on Linux (WSL):
 1. Install and start an X Server (like VcXsrv)
 2. Edit the environment variable `DISPLAY` in launchSettings.json
-3. Define the constant `LINUX` in SharpDune.csproj
-4. Edit paths (`datadir`, `savedir`) in sharpdune.ini
+3. Edit paths (`datadir`, `savedir`) in sharpdune.ini
+4. Select the `DebugWSL` or `ReleaseWSL` configuration
 5. Start SharpDune with the `WSL` profile
 
 For video [SDL2](https://www.libsdl.org) and [SDL2 Image](https://www.libsdl.org/projects/SDL_image) are used.
