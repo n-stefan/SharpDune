@@ -91,7 +91,7 @@ class ScriptTeam
             closest2 = u;
         }
 
-        if (closest == null) closest = closest2;
+        closest ??= closest2;
         if (closest == null) return 0;
 
         Unit_RemoveFromTeam(closest);

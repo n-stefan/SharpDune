@@ -1131,9 +1131,9 @@ class Map
 
             if ((u.o.seenByHouses & (1 << (byte)g_playerHouseID)) == 0) continue;
 
-            if (first == null) first = u.o;
+            first ??= u.o;
             last = u.o;
-            if (selected == null) selected = u.o;
+            selected ??= u.o;
 
             if (selected == u.o)
             {
@@ -1171,9 +1171,9 @@ class Map
 
             if ((s.o.seenByHouses & (1 << (byte)g_playerHouseID)) == 0) continue;
 
-            if (first == null) first = s.o;
+            first ??= s.o;
             last = s.o;
-            if (selected == null) selected = s.o;
+            selected ??= s.o;
 
             if (selected == s.o)
             {
@@ -1194,10 +1194,10 @@ class Map
             }
         }
 
-        if (previous == null) previous = last;
-        if (next == null) next = first;
-        if (previous == null) previous = next;
-        if (next == null) next = previous;
+        previous ??= last;
+        next ??= first;
+        previous ??= next;
+        next ??= previous;
 
         selected = getNext ? next : previous;
 

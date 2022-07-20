@@ -830,10 +830,7 @@ class Widget
                     w.state.hover2 = true;
 
                     /* If we don't have a selected widget yet, this will be the one */
-                    if (l_widget_selected == null)
-                    {
-                        l_widget_selected = w;
-                    }
+                    l_widget_selected ??= w;
                 }
                 /* No button pressed, and click not is hover */
                 if ((buttonState & 0x8800) != 0 && !w.flags.clickAsHover)
