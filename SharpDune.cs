@@ -545,7 +545,7 @@ class SharpDune
     static void ReadProfileIni(string filename)
     {
         /* char * */
-        byte[] source;
+        Memory<byte> source;
         /* char * */
         string key;
         /* char * */
@@ -561,14 +561,14 @@ class SharpDune
 
         source = GFX_Screen_Get_ByIndex(Screen.NO1);
 
-        Array.Fill<byte>(source, 0, 0, 32000); //memset(source, 0, 32000);
+        source.Span.Slice(0, 32000).Fill(0); //memset(source, 0, 32000);
 
         File_ReadBlockFile(filename, source, GFX_Screen_GetSize_ByIndex(Screen.NO1));
 
-        keys = Encoding.GetString(source.AsSpan(source.Length + 5000));
+        keys = Encoding.GetString(source.Span.Slice(source.Length + 5000));
         //*keys = '\0';
 
-        sourceString = Encoding.GetString(source);
+        sourceString = Encoding.GetString(source.Span);
         keys = Ini_GetString("construct", null, keys, sourceString);
 
         var keyPointer = 0;
@@ -633,7 +633,7 @@ class SharpDune
                 //	15 - (int)strlen(oi->name), string.Empty, oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
                 //	oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source));
+                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source.Span));
             }
 
             for (locsi = 0; locsi < (ushort)StructureType.STRUCTURE_MAX; locsi++)
@@ -645,7 +645,7 @@ class SharpDune
                 //	15 - (int)strlen(oi->name), string.Empty, oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
                 //	oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source));
+                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source.Span));
             }
         }
 
@@ -693,7 +693,7 @@ class SharpDune
 
             buffer = $"{ui.o.name.PadRight(15 - ui.o.name.Length, ' ')}{ui.fireDistance},{ui.damage},{ui.fireDelay},{ui.movingSpeedFactor}";
             //sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), string.Empty, ui->fireDistance, ui->damage, ui->fireDelay, ui->movingSpeedFactor);
-            Ini_SetString("combat", ui.o.name, buffer, Encoding.GetString(source));
+            Ini_SetString("combat", ui.o.name, buffer, Encoding.GetString(source.Span));
         }
     }
 

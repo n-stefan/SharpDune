@@ -28,7 +28,7 @@ class WSAHeader
     internal ushort height;                                 /*!< Height of WSA. */
     internal ushort bufferLength;                           /*!< Length of the buffer. */
     internal Array<byte> buffer;                            /*!< The buffer. */
-    internal byte[] fileContent;                            /*!< The content of the file. */
+    internal Memory<byte> fileContent;                      /*!< The content of the file. */
     internal string filename; //char[13]                    /*!< Filename of WSA. */
     internal WSAFlags flags;                                /*!< Flags of WSA. */
 }
@@ -128,7 +128,7 @@ class Wsa
             {
                 if (!header.flags.displayInBuffer)
                 {
-                    Format40_Decode_ToScreen(dst.Arr, header.buffer.Arr, header.width, dst.Ptr, header.buffer.Ptr);
+                    Format40_Decode_ToScreen(dst.Arr.Span, header.buffer.Arr.Span, header.width, dst.Ptr, header.buffer.Ptr);
                 }
                 else
                 {
@@ -215,28 +215,28 @@ class Wsa
     {
         var header = wsa.header;
         ushort lengthPalette;
-        byte[] buffer;
+        Memory<byte> buffer;
         var bufferPointer = 0;
 
         lengthPalette = (ushort)(header.flags.hasPalette ? 0x300 : 0);
 
-        buffer = header.buffer.Arr[header.buffer.Ptr..];
+        buffer = header.buffer.Arr.Slice(header.buffer.Ptr);
 
         if (header.flags.dataInMemory)
         {
             uint positionStart;
             uint positionEnd;
             uint length;
-            byte[] positionFrame;
+            Memory<byte> positionFrame;
 
             positionStart = WSA_GetFrameOffset_FromMemory(header, frame);
             positionEnd = WSA_GetFrameOffset_FromMemory(header, (ushort)(frame + 1));
             length = positionEnd - positionStart;
 
-            positionFrame = header.fileContent[(int)positionStart..];
+            positionFrame = header.fileContent.Slice((int)positionStart);
             bufferPointer += (ushort)(header.bufferLength - length);
 
-            Array.Copy(positionFrame, 0, buffer, bufferPointer, length); //memmove(buffer, positionFrame, length);
+            positionFrame.Slice(0, (int)length).CopyTo(buffer.Slice(bufferPointer)); //memmove(buffer, positionFrame, length);
         }
         else if (header.flags.dataOnDisk)
         {
@@ -267,7 +267,7 @@ class Wsa
             if (res != length) return 0;
         }
 
-        Format80_Decode(header.buffer.Arr, buffer, header.bufferLength, header.buffer.Ptr, bufferPointer);
+        Format80_Decode(header.buffer.Arr.Span, buffer.Span, header.bufferLength, header.buffer.Ptr, bufferPointer);
 
         if (header.flags.displayInBuffer)
         {
@@ -275,7 +275,7 @@ class Wsa
         }
         else
         {
-            Format40_Decode_XorToScreen(dst.Arr, header.buffer.Arr, header.width, dst.Ptr, header.buffer.Ptr);
+            Format40_Decode_XorToScreen(dst.Arr.Span, header.buffer.Arr.Span, header.width, dst.Ptr, header.buffer.Ptr);
         }
 
         return 1;
@@ -289,7 +289,7 @@ class Wsa
      * @param reserveDisplayFrame True if we need to reserve the display frame.
      * @return Address of loaded WSA file, or NULL.
      */
-    internal static /*WSAObject*/(WSAHeader, Array<byte>) WSA_LoadFile(string filename, /*WSAObject*/byte[] wsa, uint wsaSize, bool reserveDisplayFrame)
+    internal static /*WSAObject*/(WSAHeader, Array<byte>) WSA_LoadFile(string filename, /*WSAObject*/Memory<byte> wsa, uint wsaSize, bool reserveDisplayFrame)
     {
         var flags = new WSAFlags();
         var fileheader = new WSAFileHeader();
@@ -303,8 +303,8 @@ class Wsa
         ushort lengthFirstFrame;
         uint lengthFileContent;
         uint displaySize;
-        int wsaPointer;
-
+        Memory<byte> buffer;
+        
         //memset(&flags, 0, sizeof(flags));
 
         fileno = File_Open(filename, FileMode.FILE_MODE_READ);
@@ -313,7 +313,7 @@ class Wsa
         fileheader.height = File_Read_LE16(fileno);
         fileheader.requiredBufferSize = File_Read_LE16(fileno);
         fileheader.hasPalette = File_Read_LE16(fileno);           /* has palette */
-        fileheader.firstFrameOffset = File_Read_LE32(fileno);       /* Offset of 1st frame */
+        fileheader.firstFrameOffset = File_Read_LE32(fileno);     /* Offset of 1st frame */
         fileheader.secondFrameOffset = File_Read_LE32(fileno);    /* Offset of 2nd frame (end of 1st frame) */
 
         lengthPalette = 0;
@@ -357,7 +357,7 @@ class Wsa
         if (wsaSize == 0) wsaSize = bufferSizeOptimal;
         if (wsaSize == 1) wsaSize = bufferSizeMinimal;
 
-        if (wsa == null)
+        if (wsa.IsEmpty)
         {
             if (wsaSize == 0)
             {
@@ -376,7 +376,6 @@ class Wsa
                 wsaSize = bufferSizeMinimal;
             }
 
-            //result.data = new Array<byte> { Array = new byte[wsaSize] }; //calloc(1, wsaSize);
             wsa = new byte[wsaSize]; //calloc(1, wsaSize);
             flags.malloced = true;
         }
@@ -386,17 +385,16 @@ class Wsa
         }
 
         //header = (WSAHeader*)wsa;
-        //result.header = header;
-        wsaPointer = WSAHeaderSize;
+        buffer = wsa.Slice(WSAHeaderSize); //(uint8 *)wsa + sizeof(WSAHeader);
 
         header.flags = flags;
 
         if (reserveDisplayFrame)
         {
-            Array.Fill<byte>(wsa, 0, wsaPointer, (int)displaySize); //memset(buffer, 0, displaySize);
+            buffer.Span.Slice(0, (int)displaySize).Fill(0); //memset(buffer, 0, displaySize);
         }
 
-        wsaPointer += reserveDisplayFrame ? (ushort)displaySize : 5000;
+        buffer = buffer.Slice((int)displaySize);
 
         if ((fileheader.frames & 0x8000) != 0)
         {
@@ -408,19 +406,20 @@ class Wsa
         header.width = fileheader.width;
         header.height = fileheader.height;
         header.bufferLength = (ushort)(fileheader.requiredBufferSize + 33 - WSAHeaderSize);
-        header.buffer = new Array<byte> { Arr = wsa, Ptr = wsaPointer };
+        header.buffer = new Array<byte> { Arr = buffer };
         header.filename = filename; //strncpy(header->filename, filename, sizeof(header->filename));
 
         lengthHeader = (ushort)((fileheader.frames + 2) * 4);
 
         if (wsaSize >= bufferSizeOptimal)
         {
-            header.fileContent = wsa[(wsaPointer + header.bufferLength)..];
+            header.fileContent = buffer.Slice(header.bufferLength);
+            var fileContent = header.fileContent.Slice(lengthHeader);
 
             File_Seek(fileno, 10, 0);
             File_Read(fileno, ref header.fileContent, lengthHeader);
             File_Seek(fileno, lengthFirstFrame + lengthPalette, 1);
-            File_Read(fileno, ref header.fileContent, lengthFileContent - lengthHeader, lengthHeader);
+            File_Read(fileno, ref fileContent, lengthFileContent - lengthHeader);
 
             header.flags.dataInMemory = true;
             if (WSA_GetFrameOffset_FromMemory(header, (ushort)(header.frames + 1)) == 0) header.flags.noAnimation = true;
@@ -431,16 +430,15 @@ class Wsa
             if (WSA_GetFrameOffset_FromDisk(fileno, (ushort)(header.frames + 1)) == 0) header.flags.noAnimation = true;
         }
 
-        var b = wsa[(wsaPointer + header.bufferLength - lengthFirstFrame)..];
+        {
+            var b = buffer.Slice(header.bufferLength - lengthFirstFrame);
 
-        File_Seek(fileno, lengthHeader + lengthPalette + 10, 0);
-        File_Read(fileno, ref b, lengthFirstFrame);
-        File_Close(fileno);
+            File_Seek(fileno, lengthHeader + lengthPalette + 10, 0);
+            File_Read(fileno, ref b, lengthFirstFrame);
+            File_Close(fileno);
 
-        Format80_Decode(wsa, b, header.bufferLength, wsaPointer, 0);
-
-        //result.data = new Array<byte> { Array = wsa, Pointer = wsaPointer };
-
+            Format80_Decode(buffer.Span, b.Span, header.bufferLength, 0, 0);
+        }
         return (header, new Array<byte> { Arr = wsa });
     }
 
@@ -454,7 +452,7 @@ class Wsa
      * @param screenID the screen to write to
      * @param src The source for the frame.
      */
-    static void WSA_DrawFrame(short x, short y, short width, short height, ushort windowID, /*byte[]*/Array<byte> src, Screen screenID)
+    static void WSA_DrawFrame(short x, short y, short width, short height, ushort windowID, Array<byte> src, Screen screenID)
     {
         short left;
         short right;
@@ -462,7 +460,7 @@ class Wsa
         short bottom;
         short skipBefore;
         short skipAfter;
-        byte[] dst;
+        Span<byte> dst;
         //int srcPointer = 0;
         var dstPointer = 0;
 
@@ -507,7 +505,7 @@ class Wsa
         {
             /*srcPointer*/
             src += skipBefore; //src.Ptr += skipBefore;
-            Array.Copy(src.Arr, /*srcPointer*/src.Ptr, dst, dstPointer, width); //memcpy(dst, src, width);
+            src.Arr.Span.Slice(src.Ptr, width).CopyTo(dst.Slice(dstPointer)); //memcpy(dst, src, width);
 
             //src.Arr.AsSpan(src.Ptr, width).CopyTo(dst.AsSpan(dstPointer, width));
 
@@ -530,14 +528,14 @@ class Wsa
         uint animationFrame;
         uint animation0;
 
-        animationFrame = Read_LE_UInt32(header.fileContent.AsSpan(frame * 4));
+        animationFrame = Read_LE_UInt32(header.fileContent.Span.Slice(frame * 4));
 
         if (animationFrame == 0) return 0;
 
-        animation0 = Read_LE_UInt32(header.fileContent);
+        animation0 = Read_LE_UInt32(header.fileContent.Span);
         if (animation0 != 0)
         {
-            lengthAnimation = (ushort)(Read_LE_UInt32(header.fileContent.AsSpan(4)) - animation0);
+            lengthAnimation = (ushort)(Read_LE_UInt32(header.fileContent.Span.Slice(4)) - animation0);
         }
 
         return animationFrame - lengthAnimation - 10;

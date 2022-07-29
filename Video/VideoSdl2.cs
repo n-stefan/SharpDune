@@ -34,7 +34,7 @@ class VideoSdl2
     static IntPtr s_renderer;
     static IntPtr s_texture;
 
-    static byte[] s_framebuffer;
+    //static byte[] s_framebuffer;
 
     static byte s_keyBufferLatest;
 
@@ -190,8 +190,8 @@ class VideoSdl2
         SDL_WarpMouseInWindow(s_window, (int)((rect.x + (float)x) * scale), (int)((rect.y + (float)y) * scale));
     }
 
-    internal static byte[] Video_GetFrameBuffer() =>
-        s_framebuffer;
+    //internal static byte[] Video_GetFrameBuffer() =>
+    //    s_framebuffer;
 
     /*
      * Uninitialize the video driver.
@@ -205,7 +205,7 @@ class VideoSdl2
         //	hqxUnInit();
         //}
 
-        s_framebuffer = null; //free(s_framebuffer);
+        //s_framebuffer = null; //free(s_framebuffer);
 
         if (s_texture != IntPtr.Zero)
         {
@@ -433,7 +433,7 @@ class VideoSdl2
                 render_height = SCREEN_HEIGHT * s_screen_magnification;
                 break;
         }
-        s_framebuffer = new byte[SCREEN_WIDTH * (SCREEN_HEIGHT + 4)]; //calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
+        //s_framebuffer = new byte[SCREEN_WIDTH * (SCREEN_HEIGHT + 4)]; //calloc(1, SCREEN_WIDTH * (SCREEN_HEIGHT + 4) * sizeof(uint8));
         err = SDL_RenderSetLogicalSize(s_renderer, render_width, render_height);
 
         if (err != 0)

@@ -2,14 +2,20 @@
 
 class Array<T>
 {
-    internal T[] Arr { get; set; }
+    internal Memory<T> Arr { get; set; }
 
     internal int Ptr { get; set; }
 
+    internal T this[int index]
+    {
+        get => Arr.Span[index];
+        set => Arr.Span[index] = value;
+    }
+
     internal T Curr
     {
-        get => Arr[Ptr];
-        set => Arr[Ptr] = value;
+        get => Arr.Span[Ptr];
+        set => Arr.Span[Ptr] = value;
     }
 
     //internal T CurrInc

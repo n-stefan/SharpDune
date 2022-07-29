@@ -4,14 +4,14 @@ namespace SharpDune.Video;
 
 class VideoFps
 {
-    delegate void Video_ShowFPS_Proc(byte[] screen, ushort x, byte digit);
+    delegate void Video_ShowFPS_Proc(Span<byte> screen, ushort x, byte digit);
 
-    internal static void Video_ShowFPS(byte[] screen) =>
+    internal static void Video_ShowFPS(Span<byte> screen) =>
         Video_ShowFPS_2(screen, 320, null);
 
     static readonly uint[] s_previousTimeStamps = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     static byte s_previousTimeStampsIndex;
-    static void Video_ShowFPS_2(byte[] screen, int bytes_per_row, Video_ShowFPS_Proc drawchar)
+    static void Video_ShowFPS_2(Span<byte> screen, int bytes_per_row, Video_ShowFPS_Proc drawchar)
     {
         uint timeStamp;
 
@@ -41,7 +41,7 @@ class VideoFps
 
     static readonly byte[] fontdigits = { 0167, 044, 0135, 0155, 056, 0153, 0173, 045, 0177, 0157 };
     static readonly byte[] fonttestsegments = { 03, 01, 05, 02, 0, 04, 032, 010, 054, 020, 0, 040, 0120, 0100, 0140 };
-    static void Video_ShowFPS_DrawChar(byte[] screen, int bytes_per_row, ushort x, byte digit)
+    static void Video_ShowFPS_DrawChar(Span<byte> screen, int bytes_per_row, ushort x, byte digit)
     {
         int i;
         var segments = fontdigits[digit];

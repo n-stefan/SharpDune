@@ -302,7 +302,7 @@ class Cutscene
             else
             {
                 string filenameBuffer; //char[16]
-                byte[] wsaData;
+                Memory<byte> wsaData;
                 uint wsaSize;
                 bool wsaReservedDisplayFrame;
 
@@ -752,7 +752,7 @@ class Cutscene
     {
         ushort i;
         var remap = new byte[256];
-        byte[] credits_buffer;
+        Memory<byte> credits_buffer;
         int credits_bufferPointer;
 
         GUI_Mouse_Hide_Safe();
@@ -816,7 +816,7 @@ class Cutscene
         {
             File_ReadBlockFile(String_GenerateFilename("CREDITS"), credits_buffer, GFX_Screen_GetSize_ByIndex(Screen.NO3), credits_bufferPointer);
 
-            GameCredits_Play(credits_buffer, credits_bufferPointer, 20, Screen.NO1, Screen.NO2, 6);
+            GameCredits_Play(credits_buffer.Span, credits_bufferPointer, 20, Screen.NO1, Screen.NO2, 6);
 
             if (Input_Keyboard_NextKey() != 0) break;
 
@@ -856,7 +856,7 @@ class Cutscene
         }
     }
 
-    static void GameCredits_Play(byte[] data, int dataPointer, ushort windowID, Screen spriteScreenID, Screen backScreenID, ushort delay)
+    static void GameCredits_Play(Span<byte> data, int dataPointer, ushort windowID, Screen spriteScreenID, Screen backScreenID, ushort delay)
     {
         ushort i;
         ushort stringCount = 0;
@@ -928,7 +928,7 @@ class Cutscene
                     y = g_curWidgetHeight;
                 }
 
-                text = SharpDune.Encoding.GetString(data.AsSpan(dataPointer, 50));
+                text = SharpDune.Encoding.GetString(data.Slice(dataPointer, 50));
 
                 var index = text.IndexOfAny(new[] { '\x05', '\r' });
                 if (index != -1)
@@ -1093,8 +1093,8 @@ class Cutscene
         var screen2Pointer = 0;
 
         var b = GFX_Screen_Get_ByIndex(dstScreenID);   /* destination */
-        var screen1 = GFX_Screen_Get_ByIndex(srcScreenID).AsSpan(top * SCREEN_WIDTH / 2);  /* source */
-        var screen2 = GFX_Screen_Get_ByIndex(Screen.NO0).AsSpan(top * SCREEN_WIDTH / 2);   /* secondary destination : Video RAM*/
+        var screen1 = GFX_Screen_Get_ByIndex(srcScreenID).Slice(top * SCREEN_WIDTH / 2);  /* source */
+        var screen2 = GFX_Screen_Get_ByIndex(Screen.NO0).Slice(top * SCREEN_WIDTH / 2);   /* secondary destination : Video RAM*/
 
         for (var count = height * SCREEN_WIDTH / 2; count > 0; count--)
         {

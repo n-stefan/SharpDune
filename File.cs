@@ -429,7 +429,6 @@ class File
      * @param length The amount of bytes to read.
      * @return The amount of bytes truly read, or 0 if there was a failure.
      */
-    [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Underlying stream might still be needed")]
     internal static uint File_Read<T>(byte index, ref T buffer, uint length, int offset = 0)
     {
         if (index >= (byte)FileMode.FILE_MAX) return 0;
@@ -439,7 +438,16 @@ class File
 
         if (length > s_file[index].size - s_file[index].position) length = s_file[index].size - s_file[index].position;
 
-        if (buffer is byte[] bufferByteArray)
+        if (buffer is Memory<byte> memoryByte)
+        {
+            if (s_file[index].fp.Read(memoryByte.Span.Slice(offset, (int)length)) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
+            {
+                Trace.WriteLine("ERROR: Read error");
+                File_Close(index);
+                length = 0;
+            }
+        }
+        else if (buffer is byte[] bufferByteArray)
         {
             if (s_file[index].fp.Read(bufferByteArray, offset, (int)length) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
             {
@@ -904,7 +912,7 @@ class File
      * @param buf The buffer to read into.
      * @return The length of the file.
      */
-    internal static uint File_ReadFile(string filename, byte[] buf, int offset = 0)
+    internal static uint File_ReadFile(string filename, Memory<byte> buf, int offset = 0)
     {
         byte index;
         uint length;

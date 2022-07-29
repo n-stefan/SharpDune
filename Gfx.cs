@@ -27,12 +27,17 @@ class Gfx
 
     static Screen s_screenActiveID = Screen.NO0;
 
+    /* SCREEN_0 = 320x200 = 64000 = 0xFA00   The main screen buffer, 0xA0000 Video RAM in DOS Dune 2
+     * SCREEN_1 = 64500 = 0xFBF4
+     * SCREEN_2 = 320x200 = 64000 = 0xFA00
+     * SCREEN_3 = 64781 = 0xFD0D    * NEVER ACTIVE * only used for game credits and intro */
     const byte GFX_SCREEN_BUFFER_COUNT = 4;
-    static readonly ushort[] s_screenBufferSize = { /*0xFA00*/0xFF00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
-    //TODO: Use one Array<byte>
-    static byte[] s_screen1;
-    static byte[] s_screen2;
-    static byte[] s_screen3;
+    static readonly ushort[] s_screenBufferSize = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
+    static byte[] s_screen;
+    static ArraySegment<byte> s_screen0;
+    static ArraySegment<byte> s_screen1;
+    static ArraySegment<byte> s_screen2;
+    static ArraySegment<byte> s_screen3;
 
     internal const ushort SCREEN_WIDTH = 320;   /*!< Width of the screen in pixels. */
     internal const ushort SCREEN_HEIGHT = 200;  /*!< Height of the screen in pixels. */
@@ -64,14 +69,15 @@ class Gfx
      * @param screenID The screenbuffer to get.
      * @return A pointer to the screenbuffer.
      */
-    internal static byte[] GFX_Screen_Get_ByIndex(Screen screenID)
+    internal static ArraySegment<byte> GFX_Screen_Get_ByIndex(Screen screenID)
     {
         if (screenID == Screen.ACTIVE)
             screenID = s_screenActiveID;
         Debug.Assert(screenID >= 0 && (byte)screenID < GFX_SCREEN_BUFFER_COUNT);
         return screenID switch
         {
-            Screen.NO0 => Video_GetFrameBuffer(),
+            /* special case for SCREEN_0 which is the MCGA frame buffer */
+            Screen.NO0 => s_screen0, //Video_GetFrameBuffer(),
             Screen.NO1 => s_screen1,
             Screen.NO2 => s_screen2,
             Screen.NO3 => s_screen3,
@@ -98,10 +104,9 @@ class Gfx
      * @param height The height.
      * @param buffer The buffer to copy from.
      */
-    internal static void GFX_CopyFromBuffer(short left, short top, ushort width, ushort height, /* uint8 * */byte[] buffer)
+    internal static void GFX_CopyFromBuffer(short left, short top, ushort width, ushort height, Span<byte> buffer)
     {
-        /* uint8 * */
-        byte[] screen;
+        Span<byte> screen;
         var screenPointer = 0;
         var bufferPointer = 0;
 
@@ -124,7 +129,7 @@ class Gfx
 
         while (height-- != 0)
         {
-            Array.Copy(buffer, bufferPointer, screen, screenPointer, width); //memcpy(screen, buffer, width);
+            buffer.Slice(bufferPointer, width).CopyTo(screen.Slice(screenPointer)); //memcpy(screen, buffer, width);
             screenPointer += SCREEN_WIDTH;
             bufferPointer += width;
         }
@@ -138,10 +143,9 @@ class Gfx
      * @param height The height.
      * @param buffer The buffer to copy to.
      */
-    internal static void GFX_CopyToBuffer(short left, short top, ushort width, ushort height, /* uint8 * */byte[] buffer)
+    internal static void GFX_CopyToBuffer(short left, short top, ushort width, ushort height, Span<byte> buffer)
     {
-        /* uint8 * */
-        byte[] screen;
+        Span<byte> screen;
         var screenPointer = 0;
         var bufferPointer = 0;
 
@@ -162,7 +166,7 @@ class Gfx
 
         while (height-- != 0)
         {
-            Array.Copy(screen, screenPointer, buffer, bufferPointer, width); //memcpy(buffer, screen, width);
+            screen.Slice(screenPointer, width).CopyTo(buffer.Slice(bufferPointer)); //memcpy(buffer, screen, width);
             screenPointer += SCREEN_WIDTH;
             bufferPointer += width;
         }
@@ -205,7 +209,7 @@ class Gfx
     {
         int i, j;
         Span<byte> icon_palette;
-        byte[] wArray;
+        Span<byte> wArray;
         var wPointer = 0;
         Span<byte> rArray;
         var rPointer = 0;
@@ -279,7 +283,7 @@ class Gfx
      * Get the codesegment of the active screen buffer.
      * @return The codesegment of the screen buffer.
      */
-    internal static byte[] GFX_Screen_GetActive() =>
+    internal static ArraySegment<byte> GFX_Screen_GetActive() =>
         GFX_Screen_Get_ByIndex(s_screenActiveID);
 
     /*
@@ -339,8 +343,8 @@ class Gfx
      */
     internal static void GFX_Screen_Copy(short xSrc, short ySrc, short xDst, short yDst, short width, short height, Screen screenSrc, Screen screenDst)
     {
-        byte[] src;
-        byte[] dst;
+        Span<byte> src;
+        Span<byte> dst;
         var srcPointer = 0;
         var dstPointer = 0;
 
@@ -374,13 +378,13 @@ class Gfx
 
         if (width == SCREEN_WIDTH)
         {
-            Array.Copy(src, srcPointer, dst, dstPointer, height * SCREEN_WIDTH); //memmove(dst, src, height * SCREEN_WIDTH);
+            src.Slice(srcPointer, height * SCREEN_WIDTH).CopyTo(dst.Slice(dstPointer)); //memmove(dst, src, height * SCREEN_WIDTH);
         }
         else
         {
             while (height-- != 0)
             {
-                Array.Copy(src, srcPointer, dst, dstPointer, width); //memmove(dst, src, width);
+                src.Slice(srcPointer, width).CopyTo(dst.Slice(dstPointer)); //memmove(dst, src, width);
                 dstPointer += SCREEN_WIDTH;
                 srcPointer += SCREEN_WIDTH;
             }
@@ -405,7 +409,7 @@ class Gfx
      */
     internal static void GFX_ClearScreen(Screen screenID)
     {
-        Array.Fill<byte>(GFX_Screen_Get_ByIndex(screenID), 0, 0, SCREEN_WIDTH * SCREEN_HEIGHT); //memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+        GFX_Screen_Get_ByIndex(screenID).AsSpan().Slice(0, SCREEN_WIDTH * SCREEN_HEIGHT).Fill(0); //memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
         GFX_Screen_SetDirty(screenID, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -415,7 +419,7 @@ class Gfx
      */
     internal static void GFX_ClearBlock(Screen index)
     {
-        Array.Fill<byte>(GFX_Screen_Get_ByIndex(index), 0, 0, GFX_Screen_GetSize_ByIndex(index)); //memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
+        GFX_Screen_Get_ByIndex(index).AsSpan().Slice(0, GFX_Screen_GetSize_ByIndex(index)).Fill(0); //memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
         GFX_Screen_SetDirty(index, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -427,9 +431,17 @@ class Gfx
         /* init g_paletteActive with invalid values so first GFX_SetPalette() will be ok */
         Array.Fill<byte>(g_paletteActive, 0xff, 0, 3 * 256); //memset(g_paletteActive, 0xff, 3*256);
 
-        s_screen1 = new byte[s_screenBufferSize[(int)Screen.NO1] + s_screenBufferSize[(int)Screen.NO2] + s_screenBufferSize[(int)Screen.NO3]];
-        s_screen2 = new byte[s_screenBufferSize[(int)Screen.NO2] + s_screenBufferSize[(int)Screen.NO3]];
-        s_screen3 = new byte[s_screenBufferSize[(int)Screen.NO3]];
+        var index0 = s_screenBufferSize[(int)Screen.NO0];
+        var index1 = s_screenBufferSize[(int)Screen.NO0] + s_screenBufferSize[(int)Screen.NO1];
+        var index2 = s_screenBufferSize[(int)Screen.NO0] + s_screenBufferSize[(int)Screen.NO1] + s_screenBufferSize[(int)Screen.NO2];
+        var index3 = s_screenBufferSize[(int)Screen.NO0] + s_screenBufferSize[(int)Screen.NO1] + s_screenBufferSize[(int)Screen.NO2] + s_screenBufferSize[(int)Screen.NO3];
+
+        s_screen = new byte[index3];
+
+        s_screen0 = new ArraySegment<byte>(s_screen, 0, index0);
+        s_screen1 = new ArraySegment<byte>(s_screen, index0, s_screen.Length - index0);
+        s_screen2 = new ArraySegment<byte>(s_screen, index1, s_screen.Length - index1);
+        s_screen3 = new ArraySegment<byte>(s_screen, index2, s_screen.Length - index2);
 
         s_screenActiveID = Screen.NO0;
     }
@@ -439,9 +451,11 @@ class Gfx
      */
     internal static void GFX_Uninit()
     {
+        s_screen0 = null;
         s_screen1 = null;
         s_screen2 = null;
         s_screen3 = null;
+        s_screen = null;
     }
 
     /*
@@ -472,8 +486,8 @@ class Gfx
      */
     internal static void GFX_Screen_Copy2(short xSrc, short ySrc, short xDst, short yDst, short width, short height, Screen screenSrc, Screen screenDst, bool skipNull)
     {
-        byte[] src;
-        byte[] dst;
+        Span<byte> src;
+        Span<byte> dst;
         var srcPointer = 0;
         var dstPointer = 0;
 
@@ -541,7 +555,7 @@ class Gfx
             }
             else
             {
-                Array.Copy(src, srcPointer, dst, dstPointer, width); //memmove(dst, src, width);
+                src.Slice(srcPointer, width).CopyTo(dst.Slice(dstPointer)); //memmove(dst, src, width);
             }
             dstPointer += SCREEN_WIDTH;
             srcPointer += SCREEN_WIDTH;

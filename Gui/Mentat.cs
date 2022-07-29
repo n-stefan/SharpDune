@@ -1271,7 +1271,7 @@ class Mentat
 
         if (init)
         {
-            helpDataList = GFX_Screen_Get_ByIndex(Screen.NO1);
+            helpDataList = GFX_Screen_Get_ByIndex(Screen.NO1).ToArray();
 
             s_topHelpList = 0;
             s_selectedHelpSubject = 0;

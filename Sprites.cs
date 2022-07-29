@@ -205,8 +205,8 @@ class Sprites
     {
         byte index;
         ushort size;
-        byte[] buffer;
-        byte[] buffer2;
+        Memory<byte> buffer;
+        Memory<byte> buffer2;
         var buffer2Pointer = 0;
         ushort paletteSize;
 
@@ -220,7 +220,7 @@ class Sprites
 
         size -= 8;
 
-        paletteSize = Read_LE_UInt16(buffer.AsSpan(6));
+        paletteSize = Read_LE_UInt16(buffer.Span.Slice(6));
 
         if (palette != null && paletteSize != 0)
         {
@@ -231,19 +231,19 @@ class Sprites
             File_Seek(index, paletteSize, 1);
         }
 
-        buffer[6] = 0;  /* dont read palette next time */
-        buffer[7] = 0;
+        buffer.Span[6] = 0;  /* dont read palette next time */
+        buffer.Span[7] = 0;
         size -= paletteSize;
 
         buffer2 = GFX_Screen_Get_ByIndex(screenID);
         buffer2Pointer += (ushort)(GFX_Screen_GetSize_ByIndex(screenID) - size - 8);
 
-        Array.Copy(buffer, 0, buffer2, buffer2Pointer, 8); //memmove(buffer2, buffer, 8);
+        buffer.Slice(0, 8).CopyTo(buffer2.Slice(buffer2Pointer)); //memmove(buffer2, buffer, 8);
         File_Read(index, ref buffer2, size, buffer2Pointer + 8);
 
         File_Close(index);
 
-        return Sprites_Decode(buffer2[buffer2Pointer..], buffer);
+        return Sprites_Decode(buffer2.Span.Slice(buffer2Pointer), buffer.Span);
     }
 
     /*
@@ -253,7 +253,7 @@ class Sprites
      * @param dest The place the decoded image will be.
      * @return The size of the decoded image.
      */
-    static uint Sprites_Decode(byte[] source, byte[] dest)
+    static uint Sprites_Decode(Span<byte> source, Span<byte> dest)
     {
         uint size = 0;
         var sourcePointer = 0;
@@ -262,16 +262,16 @@ class Sprites
         {
             case 0x0:
                 sourcePointer += 2;
-                size = Read_LE_UInt32(source.AsSpan(sourcePointer));
+                size = Read_LE_UInt32(source.Slice(sourcePointer));
                 sourcePointer += 4;
-                sourcePointer += Read_LE_UInt16(source.AsSpan(sourcePointer));
+                sourcePointer += Read_LE_UInt16(source.Slice(sourcePointer));
                 sourcePointer += 2;
-                Array.Copy(source, sourcePointer, dest, 0, size); //memmove(dest, source, size);
+                source.Slice(sourcePointer, (int)size).CopyTo(dest); //memmove(dest, source, size);
                 break;
 
             case 0x4:
                 sourcePointer += 6;
-                sourcePointer += Read_LE_UInt16(source.AsSpan(sourcePointer));
+                sourcePointer += Read_LE_UInt16(source.Slice(sourcePointer));
                 sourcePointer += 2;
                 size = Format80_Decode(dest, source, 0xFFFF, 0, sourcePointer);
                 break;
@@ -470,24 +470,24 @@ class Sprites
 
     internal static void Sprites_CPS_LoadRegionClick()
     {
-        byte[] buf;
+        Memory<byte> buf;
         byte i;
         string filename; //char[16];
         var bufPointer = 0;
 
         buf = GFX_Screen_Get_ByIndex(Screen.NO2);
 
-        g_fileRgnclkCPS = buf;
+        g_fileRgnclkCPS = buf.ToArray();
         Sprites_LoadCPSFile("RGNCLK.CPS", Screen.NO2, null);
-        for (i = 0; i < 120; i++) Array.Copy(buf, 7688 + (i * 320), buf, i * 304, 304); //memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
+        for (i = 0; i < 120; i++) buf.Slice(7688 + (i * 320), 304).CopyTo(buf.Slice(i * 304)); //memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
         bufPointer += 120 * 304;
 
         filename = $"REGION{g_table_houseInfo[(int)g_playerHouseID].name[0]}.INI"; //snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
         var length = (int)File_ReadFile(filename, buf, bufPointer);
-        g_fileRegionINI = SharpDune.Encoding.GetString(buf.AsSpan(bufPointer, length));
+        g_fileRegionINI = SharpDune.Encoding.GetString(buf.Span.Slice(bufPointer, length));
         bufPointer += length;
 
-        g_regions = FromByteArrayToUshortArray(buf.AsSpan(bufPointer));
+        g_regions = FromByteArrayToUshortArray(buf.Span.Slice(bufPointer));
 
         InitRegions();
     }

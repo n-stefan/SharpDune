@@ -423,7 +423,7 @@ class Script
      * @param functions Pointer to the functions to call via script.
      * @param data Pointer to preallocated space to load data.
      */
-    internal static ushort Script_LoadFromFile(string filename, ScriptInfo scriptInfo, ScriptFunction[] functions, byte[] data)
+    internal static ushort Script_LoadFromFile(string filename, ScriptInfo scriptInfo, ScriptFunction[] functions, Span<byte> data)
     {
         uint total = 0;
         uint length;
@@ -451,7 +451,7 @@ class Script
         {
             if (data != null)
             {
-                scriptInfo.text = FromByteArrayToUshortArray(data.AsSpan(dataPointer, (int)length));
+                scriptInfo.text = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
                 dataPointer += (int)length;
             }
             else
@@ -474,7 +474,7 @@ class Script
 
         if (data != null)
         {
-            scriptInfo.offsets = FromByteArrayToUshortArray(data.AsSpan(dataPointer, (int)length));
+            scriptInfo.offsets = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
             dataPointer += (int)length;
         }
         else
@@ -502,7 +502,7 @@ class Script
 
         if (data != null)
         {
-            scriptInfo.start = FromByteArrayToUshortArray(data.AsSpan(dataPointer, (int)length));
+            scriptInfo.start = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
             //dataPointer += (int)length;
         }
         else

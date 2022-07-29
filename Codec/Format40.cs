@@ -16,15 +16,15 @@ class Format40
 
         for (; ; )
         {
-            cmd = src.Arr[src.Ptr++];   /* 8 bit command code */
+            cmd = src[src.Ptr++];   /* 8 bit command code */
 
             if (cmd == 0)
             {
                 /* XOR with value */
-                for (count = src.Arr[src.Ptr++]; count > 0; count--)
+                for (count = src[src.Ptr++]; count > 0; count--)
                 {
                     /*dst.CurrInc*/
-                    dst.Arr[dst.Ptr++] ^= src.Curr; //src.Arr[src.Ptr];
+                    dst[dst.Ptr++] ^= src.Curr; //src.Arr[src.Ptr];
                 }
                 src++; //src.Ptr++;
             }
@@ -34,7 +34,7 @@ class Format40
                 for (count = cmd; count > 0; count--)
                 {
                     /*dst.CurrInc*/
-                    dst.Arr[dst.Ptr++] ^= src.Arr[src.Ptr++];
+                    dst[dst.Ptr++] ^= src[src.Ptr++];
                 }
             }
             else if (cmd != 0x80)
@@ -45,8 +45,8 @@ class Format40
             else
             {
                 /* last byte was 0x80 : read 16 bit value */
-                cmd = src.Arr[src.Ptr++];
-                cmd += (ushort)((src.Arr[src.Ptr++]) << 8);
+                cmd = src[src.Ptr++];
+                cmd += (ushort)((src[src.Ptr++]) << 8);
 
                 if (cmd == 0)
                     break;    /* 0x80 0x00 0x00 => exit code */
@@ -62,7 +62,7 @@ class Format40
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
                         /*dst.CurrInc*/
-                        dst.Arr[dst.Ptr++] ^= src.Arr[src.Ptr++];
+                        dst[dst.Ptr++] ^= src[src.Ptr++];
                     }
                 }
                 else
@@ -71,7 +71,7 @@ class Format40
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
                         /*dst.CurrInc*/
-                        dst.Arr[dst.Ptr++] ^= src.Curr; //src.Arr[src.Ptr];
+                        dst[dst.Ptr++] ^= src.Curr; //src.Arr[src.Ptr];
                     }
                     src++; //src.Ptr++;
                 }
@@ -85,7 +85,7 @@ class Format40
      * @param src Data source.
      * @param width Width of the rectangle.
      */
-    internal static void Format40_Decode_ToScreen(byte[] dst, byte[] src, ushort width, int dstPointer/* = 0*/, int srcPointer/* = 0*/)
+    internal static void Format40_Decode_ToScreen(Span<byte> dst, Span<byte> src, ushort width, int dstPointer/* = 0*/, int srcPointer/* = 0*/)
     {
         ushort length;
         ushort cmd;
@@ -197,7 +197,7 @@ class Format40
      * @param src Data source.
      * @param width Width of the rectangle.
      */
-    internal static void Format40_Decode_XorToScreen(byte[] dst, byte[] src, ushort width, int dstPointer/* = 0*/, int srcPointer/* = 0*/)
+    internal static void Format40_Decode_XorToScreen(Span<byte> dst, Span<byte> src, ushort width, int dstPointer/* = 0*/, int srcPointer/* = 0*/)
     {
         ushort length;
         ushort cmd;

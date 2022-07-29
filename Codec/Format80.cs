@@ -11,7 +11,7 @@ class Format80
      * @param destLength The length of the destination buffer.
      * @return The length of decoded data.
      */
-    internal static ushort Format80_Decode(/* uint8 * */byte[] dest, /* uint8 * */byte[] source, ushort destLength, int destPointer/* = 0*/, int sourcePointer/* = 0*/)
+    internal static ushort Format80_Decode(Span<byte> dest, Span<byte> source, ushort destLength, int destPointer/* = 0*/, int sourcePointer/* = 0*/)
     {
         var start = destPointer;
         var end = destPointer + destLength;
@@ -38,7 +38,7 @@ class Format80
                 offset = (ushort)(((cmd & 0xF) << 8) + source[sourcePointer++]);
 
                 /* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
-                for (; size > 0; size--) { dest[destPointer] = dest[destPointer - offset]; destPointer++; }
+                for (; size > 0; size--) { dest[destPointer] = dest[(ushort)(destPointer - offset)]; destPointer++; }
             }
             else if (cmd == 0xFE)
             {
@@ -47,7 +47,7 @@ class Format80
                 size += (ushort)((source[sourcePointer++]) << 8);
                 if (size > end - destPointer) size = (ushort)(end - destPointer);
 
-                Array.Fill(dest, source[sourcePointer++], destPointer, size); //memset(dest, (*source++), size);
+                dest.Slice(destPointer, size).Fill(source[sourcePointer++]); //memset(dest, (*source++), size);
                 destPointer += size;
             }
             else if (cmd == 0xFF)

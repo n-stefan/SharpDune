@@ -355,8 +355,7 @@ class Gui
         ushort spriteDecodedLength; /* if encoded with Format80 */
         var spriteBuffer = new byte[20000]; /* for sprites encoded with Format80 : maximum size for credits images is 19841, elsewere it is 3456 */
 
-        /* uint8 * */
-        byte[] buf = null;
+        Span<byte> buf = null;
         short count;
         short buf_incr;
         var bufPointer = 0;
@@ -1772,7 +1771,7 @@ class Gui
      */
     internal static void GUI_DrawBlockedRectangle(short left, short top, short width, short height, byte colour)
     {
-        byte[] screen;
+        Span<byte> screen;
         var screenPointer = 0;
 
         if (width <= 0) return;
@@ -2027,7 +2026,7 @@ class Gui
 
             screenPointer += y1 * SCREEN_WIDTH + x1;
 
-            Array.Fill(screen, colour, screenPointer, x2); //memset(screen, colour, x2);
+            screen.AsSpan().Slice(screenPointer, x2).Fill(colour); //memset(screen, colour, x2);
 
             return;
         }
@@ -4029,7 +4028,7 @@ class Gui
         }
 
         s_palette1_houseColour = new Array<byte> { Arr = g_palette1[(colour * 3)..(colour * 3 + 3)] };
-        Buffer.BlockCopy(s_palette1_houseColour.Arr, 0, g_palette1, 255 * 3, 3);
+        s_palette1_houseColour.Arr.Slice(0, 3).CopyTo(MemoryExtensions.AsMemory(g_palette1, 255 * 3, 3));
         s_palette1_houseColour += offset;
 
         if (!hallOfFame) GUI_HallOfFame_Tick();

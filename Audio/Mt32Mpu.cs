@@ -679,7 +679,7 @@ class Mt32Mpu
                         byte data2;
                         ushort nb;
 
-                        status = data.sound.Arr[data.sound.Ptr];
+                        status = data.sound.Curr;
 
                         if (status < 0x80)
                         {
@@ -690,8 +690,8 @@ class Mt32Mpu
                         }
 
                         chan = (byte)(status & 0xF);
-                        data1 = data.sound.Arr[data.sound.Ptr + 1];
-                        data2 = data.sound.Arr[data.sound.Ptr + 2];
+                        data1 = data.sound[data.sound.Ptr + 1];
+                        data2 = data.sound[data.sound.Ptr + 2];
 
                         switch (status & 0xF0)
                         {
@@ -710,11 +710,11 @@ class Mt32Mpu
                                     nb = 0;
                                     do
                                     {
-                                        nb = (ushort)((nb << 7) | (data.sound.Arr[data.sound.Ptr + i] & 0x7F));
-                                    } while ((data.sound.Arr[data.sound.Ptr + i++] & 0x80) == 0x80);
+                                        nb = (ushort)((nb << 7) | (data.sound[data.sound.Ptr + i] & 0x7F));
+                                    } while ((data.sound[data.sound.Ptr + i++] & 0x80) == 0x80);
                                     buffer[0] = status;
                                     Debug.Assert(nb < buffer.Length);
-                                    Buffer.BlockCopy(data.sound.Arr, data.sound.Ptr + i, buffer, 1, nb); //memcpy(buffer + 1, data.sound + i, nb);
+                                    data.sound.Arr.Slice(data.sound.Ptr + i, nb).CopyTo(MemoryExtensions.AsMemory(buffer, 1, nb)); //Buffer.BlockCopy(data.sound.Arr, data.sound.Ptr + i, buffer, 1, nb); //memcpy(buffer + 1, data.sound + i, nb);
                                     Midi_Send_String(buffer, (ushort)(nb + 1));
                                     nb += (ushort)i;
                                 }
@@ -835,15 +835,15 @@ class Mt32Mpu
         uint duration = 0;
         byte i;
 
-        chan = (byte)(data.sound.Arr[data.sound.Ptr + len++] & 0x0F);
-        note = data.sound.Arr[data.sound.Ptr + len++];
-        velocity = data.sound.Arr[data.sound.Ptr + len++];
+        chan = (byte)(data.sound[data.sound.Ptr + len++] & 0x0F);
+        note = data.sound[data.sound.Ptr + len++];
+        velocity = data.sound[data.sound.Ptr + len++];
 
         /* decode variable length duration */
         do
         {
-            duration = (duration << 7) | (uint)(data.sound.Arr[data.sound.Ptr + len] & 0x7F);
-        } while ((data.sound.Arr[data.sound.Ptr + len++] & 0x80) == 0x80);
+            duration = (duration << 7) | (uint)(data.sound[data.sound.Ptr + len] & 0x7F);
+        } while ((data.sound[data.sound.Ptr + len++] & 0x80) == 0x80);
 
         if ((s_mpu_lockStatus[chan] & 0x80) != 0) return len;
 
@@ -958,7 +958,7 @@ class Mt32Mpu
                         if (data.forLoopCounters[i] == 0xFFFF)
                         {
                             data.forLoopCounters[i] = value;
-                            data.forLoopPtrs[i] = data.sound.Arr[data.sound.Ptr..];
+                            data.forLoopPtrs[i] = data.sound.Arr.Slice(data.sound.Ptr).ToArray();
                             break;
                         }
                     }
@@ -994,7 +994,7 @@ class Mt32Mpu
                 break;
 
             default:
-                Debug.WriteLine($"DEBUG: MPU_Control() {data.sound.Arr[data.sound.Ptr]:X2} {control:X2} {value:X2}   control={control}");
+                Debug.WriteLine($"DEBUG: MPU_Control() {data.sound.Curr:X2} {control:X2} {value:X2}   control={control}");
                 if ((s_mpu_lockStatus[chan] & 0x80) == 0) MPU_Send((byte)(0xB0 | data.chanMaps[chan]), control, value);
                 break;
         }
@@ -1049,14 +1049,14 @@ class Mt32Mpu
         ushort len;
         ushort data_len = 0;
 
-        type = data.sound.Arr[data.sound.Ptr + 1];
+        type = data.sound[data.sound.Ptr + 1];
         len = 2;
 
         /* decode variable length */
         do
         {
-            data_len = (ushort)((data_len << 7) | (data.sound.Arr[data.sound.Ptr + len] & 0x7F));
-        } while ((data.sound.Arr[data.sound.Ptr + len++] & 0x80) == 0x80);
+            data_len = (ushort)((data_len << 7) | (data.sound[data.sound.Ptr + len] & 0x7F));
+        } while ((data.sound[data.sound.Ptr + len++] & 0x80) == 0x80);
 
         switch (type)
         {
@@ -1071,8 +1071,8 @@ class Mt32Mpu
                 {   /* time sig */
                     sbyte mul;
 
-                    data.timeNumerator = data.sound.Arr[data.sound.Ptr + len];
-                    mul = (sbyte)(data.sound.Arr[data.sound.Ptr + len + 1] - 2);
+                    data.timeNumerator = data.sound[data.sound.Ptr + len];
+                    mul = (sbyte)(data.sound[data.sound.Ptr + len + 1] - 2);
 
                     data.timeFraction = mul < 0 ? (uint)(133333 >> -mul) : (uint)(133333 << mul);
 
@@ -1081,23 +1081,23 @@ class Mt32Mpu
                 break;
 
             case 0x51:  /* TEMPO meta-event */
-                data.timePerBeat = (uint)((data.sound.Arr[data.sound.Ptr + len] << 20) | (data.sound.Arr[data.sound.Ptr + len + 1] << 12) | (data.sound.Arr[data.sound.Ptr + len + 2] << 4));
+                data.timePerBeat = (uint)((data.sound[data.sound.Ptr + len] << 20) | (data.sound[data.sound.Ptr + len + 1] << 12) | (data.sound[data.sound.Ptr + len + 2] << 4));
                 break;
 
             case 0x59:  /* Key signature : 1st byte = flats/sharps, 2nd byte = major(0)/minor(1) */
-                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING key signature : {data.sound.Arr[data.sound.Ptr + len]:X2} {data.sound.Arr[data.sound.Ptr + len + 1]:X2}");
+                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING key signature : {data.sound[data.sound.Ptr + len]:X2} {data.sound[data.sound.Ptr + len + 1]:X2}");
                 break;
 
             case 0x21:  /* Midi Port */
-                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING MIDI Port : {data.sound.Arr[data.sound.Ptr + len]:X2}");
+                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING MIDI Port : {data.sound[data.sound.Ptr + len]:X2}");
                 break;
 
             case 0x54:  /* SMPTE Offset */
-                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING SMPTE Offset : {rates[(data.sound.Arr[data.sound.Ptr + len] >> 5) & 3]}fps {data.sound.Arr[data.sound.Ptr + len] & 31}:{data.sound.Arr[data.sound.Ptr + len + 1]:D2}:{data.sound.Arr[data.sound.Ptr + len + 2]:D2} {data.sound.Arr[data.sound.Ptr + len + 3]}.{data.sound.Arr[data.sound.Ptr + len + 4]:D3}");
+                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING SMPTE Offset : {rates[(data.sound[data.sound.Ptr + len] >> 5) & 3]}fps {data.sound[data.sound.Ptr + len] & 31}:{data.sound[data.sound.Ptr + len + 1]:D2}:{data.sound[data.sound.Ptr + len + 2]:D2} {data.sound[data.sound.Ptr + len + 3]}.{data.sound[data.sound.Ptr + len + 4]:D3}");
                 break;
 
             case 0x06:  /* Marker (text) */
-                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING Marker '{SharpDune.Encoding.GetString(data.sound.Arr.AsSpan(data.sound.Ptr + len, data_len))}'");
+                Debug.WriteLine($"DEBUG: MPU_XMIDIMeta() IGNORING Marker '{SharpDune.Encoding.GetString(data.sound.Arr.Span.Slice(data.sound.Ptr + len, data_len))}'");
                 break;
 
             default:
@@ -1105,7 +1105,7 @@ class Mt32Mpu
                     int i;
                     Trace.WriteLine($"WARNING: MPU_XMIDIMeta() type={type:X2} len={len}");
                     Trace.WriteLine("WARNING:   ignored data :");
-                    for (i = 0; i < len + data_len; i++) Trace.WriteLine($"WARNING:  {data.sound.Arr[data.sound.Ptr + i]:X2}");
+                    for (i = 0; i < len + data_len; i++) Trace.WriteLine($"WARNING:  {data.sound[data.sound.Ptr + i]:X2}");
                     Trace.WriteLine('\n');
                 }
                 break;

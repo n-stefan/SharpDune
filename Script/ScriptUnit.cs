@@ -1025,29 +1025,29 @@ class ScriptUnit
         {
             bufferTo.Ptr = 1;
 
-            while (bufferTo.Arr[bufferTo.Ptr] != 0xFF)
+            while (bufferTo.Curr != 0xFF)
             {
                 sbyte direction;
                 byte dir;
 
                 bufferFrom.Ptr = bufferTo.Ptr - 1;
 
-                while (bufferFrom.Arr[bufferFrom.Ptr] == 0xFE && !AreArraysEqual(bufferFrom.Arr, bufferFrom.Ptr, data.buffer, 0, Math.Min(bufferFrom.Arr.Length, data.buffer.Length))) bufferFrom.Ptr--;
+                while (bufferFrom.Curr == 0xFE && !AreArraysEqual(bufferFrom.Arr.Span, bufferFrom.Ptr, data.buffer, 0, Math.Min(bufferFrom.Arr.Length, data.buffer.Length))) bufferFrom.Ptr--;
 
-                if (bufferFrom.Arr[bufferFrom.Ptr] == 0xFE)
+                if (bufferFrom.Curr == 0xFE)
                 {
                     bufferTo.Ptr++;
                     continue;
                 }
 
-                direction = (sbyte)((bufferTo.Arr[bufferTo.Ptr] - bufferFrom.Arr[bufferFrom.Ptr]) & 0x7);
+                direction = (sbyte)((bufferTo.Curr - bufferFrom.Curr) & 0x7);
                 direction = directionOffset[direction];
 
                 /* The directions are opposite of each other, so they can both be removed */
                 if (direction == 3)
                 {
-                    bufferFrom.Arr[bufferFrom.Ptr] = 0xFE;
-                    bufferTo.Arr[bufferTo.Ptr] = 0xFE;
+                    bufferFrom.Curr = 0xFE;
+                    bufferTo.Curr = 0xFE;
 
                     bufferTo.Ptr++;
                     continue;
@@ -1056,42 +1056,42 @@ class ScriptUnit
                 /* The directions are close to each other, so follow */
                 if (direction == 0)
                 {
-                    packed += (ushort)s_mapDirection[bufferFrom.Arr[bufferFrom.Ptr]];
+                    packed += (ushort)s_mapDirection[bufferFrom.Curr];
                     bufferTo.Ptr++;
                     continue;
                 }
 
-                if ((bufferFrom.Arr[bufferFrom.Ptr] & 0x1) != 0)
+                if ((bufferFrom.Curr & 0x1) != 0)
                 {
-                    dir = (byte)((bufferFrom.Arr[bufferFrom.Ptr] + (direction < 0 ? -1 : 1)) & 0x7);
+                    dir = (byte)((bufferFrom.Curr + (direction < 0 ? -1 : 1)) & 0x7);
 
                     /* If we go 45 degrees with 90 degree difference, we can also go straight */
                     if (Math.Abs(direction) == 1)
                     {
                         if (Script_Unit_Pathfind_GetScore((ushort)(packed + s_mapDirection[dir]), dir) <= 255)
                         {
-                            bufferTo.Arr[bufferTo.Ptr] = dir;
-                            bufferFrom.Arr[bufferFrom.Ptr] = dir;
+                            bufferTo.Curr = dir;
+                            bufferFrom.Curr = dir;
                         }
-                        packed += (ushort)s_mapDirection[bufferFrom.Arr[bufferFrom.Ptr]];
+                        packed += (ushort)s_mapDirection[bufferFrom.Curr];
                         bufferTo.Ptr++;
                         continue;
                     }
                 }
                 else
                 {
-                    dir = (byte)((bufferFrom.Arr[bufferFrom.Ptr] + direction) & 0x7);
+                    dir = (byte)((bufferFrom.Curr + direction) & 0x7);
                 }
 
                 /* In these cases we can do with 1 direction change less, so remove one */
-                bufferTo.Arr[bufferTo.Ptr] = dir;
-                bufferFrom.Arr[bufferFrom.Ptr] = 0xFE;
+                bufferTo.Curr = dir;
+                bufferFrom.Curr = 0xFE;
 
                 /* Walk back one tile */
-                while (bufferFrom.Arr[bufferFrom.Ptr] == 0xFE && bufferFrom.Ptr != 0/*data.buffer != bufferFrom.Arr*/) bufferFrom.Ptr--;
-                if (bufferFrom.Arr[bufferFrom.Ptr] != 0xFE)
+                while (bufferFrom.Curr == 0xFE && bufferFrom.Ptr != 0/*data.buffer != bufferFrom.Arr*/) bufferFrom.Ptr--;
+                if (bufferFrom.Curr != 0xFE)
                 {
-                    packed += (ushort)s_mapDirection[(bufferFrom.Arr[bufferFrom.Ptr] + 4) & 0x7];
+                    packed += (ushort)s_mapDirection[(bufferFrom.Curr + 4) & 0x7];
                 }
                 else
                 {
@@ -1109,18 +1109,18 @@ class ScriptUnit
         data.routeSize = 0;
 
         /* Build the new improved route, without gaps */
-        for (; bufferTo.Arr[bufferTo.Ptr] != 0xFF; bufferTo.Ptr++)
+        for (; bufferTo.Curr != 0xFF; bufferTo.Ptr++)
         {
-            if (bufferTo.Arr[bufferTo.Ptr] == 0xFE) continue;
+            if (bufferTo.Curr == 0xFE) continue;
 
-            packed += (ushort)s_mapDirection[bufferTo.Arr[bufferTo.Ptr]];
-            data.score += Script_Unit_Pathfind_GetScore(packed, bufferTo.Arr[bufferTo.Ptr]);
+            packed += (ushort)s_mapDirection[bufferTo.Curr];
+            data.score += Script_Unit_Pathfind_GetScore(packed, bufferTo.Curr);
             data.routeSize++;
-            bufferFrom.Arr[bufferFrom.Ptr++] = bufferTo.Arr[bufferTo.Ptr];
+            bufferFrom[bufferFrom.Ptr++] = bufferTo.Curr;
         }
 
         data.routeSize++;
-        bufferFrom.Arr[bufferFrom.Ptr] = 0xFF;
+        bufferFrom.Curr = 0xFF;
     }
 
     /*
