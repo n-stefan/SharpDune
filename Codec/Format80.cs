@@ -11,7 +11,7 @@ class Format80
      * @param destLength The length of the destination buffer.
      * @return The length of decoded data.
      */
-    internal static ushort Format80_Decode(Span<byte> dest, Span<byte> source, ushort destLength, int destPointer/* = 0*/, int sourcePointer/* = 0*/)
+    internal static ushort Format80_Decode(Span<byte> dest, Span<byte> source, ushort destLength, int destPointer = 0, int sourcePointer = 0)
     {
         var start = destPointer;
         var end = destPointer + destLength;

@@ -172,7 +172,7 @@ class Gui
     static readonly byte[] g_colours = new byte[16];                 /*!< Colors used for drawing chars */
     static readonly ClippingArea g_clipping = new() { left = 0, top = 0, right = SCREEN_WIDTH - 1, bottom = SCREEN_HEIGHT - 1 };
 
-    static /*byte[]*/Array<byte> s_palette1_houseColour;
+    static Array<byte> s_palette1_houseColour;
 
     static uint s_tickCreditsAnimation;                 /*!< Next tick when credits animation needs an update. */
     static uint s_arrowAnimationTimeout;                /*!< Timeout value for the next palette change in the animation of the arrows. */
@@ -4027,7 +4027,7 @@ class Gui
                 break;
         }
 
-        s_palette1_houseColour = new Array<byte> { Arr = g_palette1[(colour * 3)..(colour * 3 + 3)] };
+        s_palette1_houseColour = new Array<byte>(g_palette1[(colour * 3)..(colour * 3 + 3)]);
         s_palette1_houseColour.Arr.Slice(0, 3).CopyTo(MemoryExtensions.AsMemory(g_palette1, 255 * 3, 3));
         s_palette1_houseColour += offset;
 

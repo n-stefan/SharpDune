@@ -37,8 +37,8 @@ class MSData
         for (var i = 0; i < controls.Length; i++) controls[i] = new Controls();
     }
 
-    internal byte[] EVNT;                                           /*!< Pointer to EVNT position in sound file. */
-    internal /*byte[]*/Array<byte> sound;                           /*!< Pointer to current position in sound file. */
+    internal Memory<byte> EVNT;                                     /*!< Pointer to EVNT position in sound file. */
+    internal Array<byte> sound;                                     /*!< Pointer to current position in sound file. */
     internal ushort playing;                                        /*!< status : 0 = SEQ_STOPPED, 1 = SEQ_PLAYING or 2 = SEQ_DONE. */
     internal bool delayedClear;                                     /*!< post_release */
     internal short delay;                                           /*!< Delay before reading next command. interval_cnt */
@@ -266,7 +266,7 @@ class Mt32Mpu
         data.playing = 0;
     }
 
-    static /*byte[]*/Span<byte> MPU_FindSoundStart(/*byte[]*/Span<byte> file, ushort index)
+    static Span<byte> MPU_FindSoundStart(Span<byte> file, ushort index)
     {
         uint total;
         uint header;
@@ -334,7 +334,7 @@ class Mt32Mpu
         data.timePerBeat = 0x7A1200;    /* 8000000 */
     }
 
-    internal static ushort MPU_SetData(/*byte[]*/Span<byte> file, ushort index, MSData msdata)
+    internal static ushort MPU_SetData(Span<byte> file, ushort index, MSData msdata)
     {
         var data = msdata;
         uint header;
@@ -388,7 +388,7 @@ class Mt32Mpu
 
         MPU_InitData(data);
 
-        data.sound = new Array<byte> { Arr = data.EVNT[8..] };
+        data.sound = new Array<byte>(data.EVNT.Slice(8));
 
         data.playing = 1;
     }

@@ -114,11 +114,11 @@ class Wsa
 
         if (header.flags.displayInBuffer)
         {
-            dst = new Array<byte> { Arr = wsa.buffer.Arr, Ptr = wsa.buffer.Ptr + WSAHeaderSize };
+            dst = new Array<byte>(wsa.buffer.Arr, wsa.buffer.Ptr + WSAHeaderSize);
         }
         else
         {
-            dst = new Array<byte> { Arr = GFX_Screen_Get_ByIndex(screenID) };
+            dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
             dst += (ushort)(posX + posY * SCREEN_WIDTH); //dst.Ptr += (ushort)(posX + posY * Gfx.SCREEN_WIDTH);
         }
 
@@ -128,7 +128,7 @@ class Wsa
             {
                 if (!header.flags.displayInBuffer)
                 {
-                    Format40_Decode_ToScreen(dst.Arr.Span, header.buffer.Arr.Span, header.width, dst.Ptr, header.buffer.Ptr);
+                    Format40_Decode_ToScreen(dst, header.buffer, header.width);
                 }
                 else
                 {
@@ -275,7 +275,7 @@ class Wsa
         }
         else
         {
-            Format40_Decode_XorToScreen(dst.Arr.Span, header.buffer.Arr.Span, header.width, dst.Ptr, header.buffer.Ptr);
+            Format40_Decode_XorToScreen(new Array<byte>(dst), new Array<byte>(header.buffer), header.width);
         }
 
         return 1;
@@ -406,7 +406,7 @@ class Wsa
         header.width = fileheader.width;
         header.height = fileheader.height;
         header.bufferLength = (ushort)(fileheader.requiredBufferSize + 33 - WSAHeaderSize);
-        header.buffer = new Array<byte> { Arr = buffer };
+        header.buffer = new Array<byte>(buffer);
         header.filename = filename; //strncpy(header->filename, filename, sizeof(header->filename));
 
         lengthHeader = (ushort)((fileheader.frames + 2) * 4);
@@ -414,12 +414,11 @@ class Wsa
         if (wsaSize >= bufferSizeOptimal)
         {
             header.fileContent = buffer.Slice(header.bufferLength);
-            var fileContent = header.fileContent.Slice(lengthHeader);
 
             File_Seek(fileno, 10, 0);
             File_Read(fileno, ref header.fileContent, lengthHeader);
             File_Seek(fileno, lengthFirstFrame + lengthPalette, 1);
-            File_Read(fileno, ref fileContent, lengthFileContent - lengthHeader);
+            File_Read(fileno, ref header.fileContent, lengthFileContent - lengthHeader, lengthHeader);
 
             header.flags.dataInMemory = true;
             if (WSA_GetFrameOffset_FromMemory(header, (ushort)(header.frames + 1)) == 0) header.flags.noAnimation = true;
@@ -437,9 +436,9 @@ class Wsa
             File_Read(fileno, ref b, lengthFirstFrame);
             File_Close(fileno);
 
-            Format80_Decode(buffer.Span, b.Span, header.bufferLength, 0, 0);
+            Format80_Decode(buffer.Span, b.Span, header.bufferLength);
         }
-        return (header, new Array<byte> { Arr = wsa });
+        return (header, new Array<byte>(wsa));
     }
 
     /*

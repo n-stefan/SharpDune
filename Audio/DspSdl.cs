@@ -6,7 +6,7 @@ namespace SharpDune.Audio;
 
 class DspSdl
 {
-    static /*byte[]*/Array<byte> s_buffer;
+    static Array<byte> s_buffer;
     static uint s_bufferLen;
     static byte s_status;
     static byte[] s_data;
@@ -92,7 +92,7 @@ class DspSdl
 
         DSP_ConvertAudio((uint)(1000000 / (256 - data[dataPointer + 4])));
 
-        s_buffer = new Array<byte> { Arr = s_data };
+        s_buffer = new Array<byte>(s_data);
         s_status = 2;
         SDL.SDL_PauseAudio(0);
     }

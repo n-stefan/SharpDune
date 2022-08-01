@@ -1015,8 +1015,8 @@ class ScriptUnit
     static void Script_Unit_Pathfinder_Smoothen(Pathfinder_Data data)
     {
         ushort packed;
-        var bufferFrom = new Array<byte> { Arr = data.buffer };
-        var bufferTo = new Array<byte> { Arr = data.buffer };
+        var bufferFrom = new Array<byte>(data.buffer);
+        var bufferTo = new Array<byte>(data.buffer);
 
         data.buffer[data.routeSize] = 0xFF;
         packed = data.packed;

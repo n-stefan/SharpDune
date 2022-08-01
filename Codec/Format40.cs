@@ -24,9 +24,9 @@ class Format40
                 for (count = src[src.Ptr++]; count > 0; count--)
                 {
                     /*dst.CurrInc*/
-                    dst[dst.Ptr++] ^= src.Curr; //src.Arr[src.Ptr];
+                    dst[dst.Ptr++] ^= src.Curr;
                 }
-                src++; //src.Ptr++;
+                src++;
             }
             else if ((cmd & 0x80) == 0)
             {
@@ -40,7 +40,7 @@ class Format40
             else if (cmd != 0x80)
             {
                 /* skip bytes */
-                dst += cmd & 0x7F; //dst.Ptr += cmd & 0x7F;
+                dst += cmd & 0x7F;
             }
             else
             {
@@ -54,7 +54,7 @@ class Format40
                 if ((cmd & 0x8000) == 0)
                 {
                     /* skip bytes */
-                    dst += cmd; //dst.Ptr += cmd;
+                    dst += cmd;
                 }
                 else if ((cmd & 0x4000) == 0)
                 {
@@ -71,9 +71,9 @@ class Format40
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
                         /*dst.CurrInc*/
-                        dst[dst.Ptr++] ^= src.Curr; //src.Arr[src.Ptr];
+                        dst[dst.Ptr++] ^= src.Curr;
                     }
-                    src++; //src.Ptr++;
+                    src++;
                 }
             }
         }
@@ -85,77 +85,75 @@ class Format40
      * @param src Data source.
      * @param width Width of the rectangle.
      */
-    internal static void Format40_Decode_ToScreen(Span<byte> dst, Span<byte> src, ushort width, int dstPointer/* = 0*/, int srcPointer/* = 0*/)
+    internal static void Format40_Decode_ToScreen(Array<byte> dst, Array<byte> src, ushort width)
     {
         ushort length;
         ushort cmd;
         ushort count;
-        //int srcPointer = 0;
-        //int dstPointer = 0;
 
         length = 0;
 
         for (; ; )
         {
-            cmd = src[srcPointer++];    /* 8 bit command code */
+            cmd = src[src.Ptr++];    /* 8 bit command code */
 
             if (cmd == 0)
             {
                 /* fill with value */
-                for (count = src[srcPointer++]; count > 0; count--)
+                for (count = src[src.Ptr++]; count > 0; count--)
                 {
-                    dst[dstPointer++] = src[srcPointer];
+                    dst[dst.Ptr++] = src[src.Ptr];
                     length++;
                     if (length == width)
                     {
                         length = 0;
-                        dstPointer += SCREEN_WIDTH - width;
+                        dst.Ptr += SCREEN_WIDTH - width;
                     }
                 }
-                srcPointer++;
+                src.Ptr++;
             }
             else if ((cmd & 0x80) == 0)
             {
                 /* copy string */
                 for (count = (ushort)(cmd & 0x7F); count > 0; count--)
                 {
-                    dst[dstPointer++] = src[srcPointer++];
+                    dst[dst.Ptr++] = src[src.Ptr++];
                     length++;
                     if (length == width)
                     {
                         length = 0;
-                        dstPointer += SCREEN_WIDTH - width;
+                        dst.Ptr += SCREEN_WIDTH - width;
                     }
                 }
             }
             else if (cmd != 0x80)
             {
                 /* skip bytes */
-                dstPointer += cmd & 0x7F;
+                dst.Ptr += cmd & 0x7F;
                 length += (ushort)(cmd & 0x7F);
                 while (length >= width)
                 {
                     length -= width;
-                    dstPointer += SCREEN_WIDTH - width;
+                    dst.Ptr += SCREEN_WIDTH - width;
                 }
             }
             else
             {
                 /* last byte was 0x80 : read 16 bit value */
-                cmd = src[srcPointer++];
-                cmd += (ushort)((src[srcPointer++]) << 8);
+                cmd = src[src.Ptr++];
+                cmd += (ushort)((src[src.Ptr++]) << 8);
 
                 if (cmd == 0) break;    /* 0x80 0x00 0x00 => exit code */
 
                 if ((cmd & 0x8000) == 0)
                 {
                     /* skip bytes */
-                    dstPointer += cmd;
+                    dst.Ptr += cmd;
                     length += cmd;
                     while (length >= width)
                     {
                         length -= width;
-                        dstPointer += SCREEN_WIDTH - width;
+                        dst.Ptr += SCREEN_WIDTH - width;
                     }
                 }
                 else if ((cmd & 0x4000) == 0)
@@ -163,12 +161,12 @@ class Format40
                     /* copy string */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dstPointer++] = src[srcPointer++];
+                        dst[dst.Ptr++] = src[src.Ptr++];
                         length++;
                         if (length == width)
                         {
                             length = 0;
-                            dstPointer += SCREEN_WIDTH - width;
+                            dst.Ptr += SCREEN_WIDTH - width;
                         }
                     }
                 }
@@ -177,15 +175,15 @@ class Format40
                     /* fill with value */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dstPointer++] = src[srcPointer];
+                        dst[dst.Ptr++] = src[src.Ptr];
                         length++;
                         if (length == width)
                         {
                             length = 0;
-                            dstPointer += SCREEN_WIDTH - width;
+                            dst.Ptr += SCREEN_WIDTH - width;
                         }
                     }
-                    srcPointer++;
+                    src.Ptr++;
                 }
             }
         }
@@ -197,77 +195,75 @@ class Format40
      * @param src Data source.
      * @param width Width of the rectangle.
      */
-    internal static void Format40_Decode_XorToScreen(Span<byte> dst, Span<byte> src, ushort width, int dstPointer/* = 0*/, int srcPointer/* = 0*/)
+    internal static void Format40_Decode_XorToScreen(Array<byte> dst, Array<byte> src, ushort width)
     {
         ushort length;
         ushort cmd;
         ushort count;
-        //int srcPointer = 0;
-        //int dstPointer = 0;
 
         length = 0;
 
         for (; ; )
         {
-            cmd = src[srcPointer++];    /* 8 bit command code */
+            cmd = src[src.Ptr++];    /* 8 bit command code */
 
             if (cmd == 0)
             {
                 /* XOR with value */
-                for (count = src[srcPointer++]; count > 0; count--)
+                for (count = src[src.Ptr++]; count > 0; count--)
                 {
-                    dst[dstPointer++] ^= src[srcPointer];
+                    dst[dst.Ptr++] ^= src[src.Ptr];
                     length++;
                     if (length == width)
                     {
                         length = 0;
-                        dstPointer += SCREEN_WIDTH - width;
+                        dst.Ptr += SCREEN_WIDTH - width;
                     }
                 }
-                srcPointer++;
+                src.Ptr++;
             }
             else if ((cmd & 0x80) == 0)
             {
                 /* XOR with string */
                 for (count = cmd; count > 0; count--)
                 {
-                    dst[dstPointer++] ^= src[srcPointer++];
+                    dst[dst.Ptr++] ^= src[src.Ptr++];
                     length++;
                     if (length == width)
                     {
                         length = 0;
-                        dstPointer += SCREEN_WIDTH - width;
+                        dst.Ptr += SCREEN_WIDTH - width;
                     }
                 }
             }
             else if (cmd != 0x80)
             {
                 /* skip bytes */
-                dstPointer += cmd & 0x7F;
+                dst.Ptr += cmd & 0x7F;
                 length += (ushort)(cmd & 0x7F);
                 while (length >= width)
                 {
                     length -= width;
-                    dstPointer += SCREEN_WIDTH - width;
+                    dst.Ptr += SCREEN_WIDTH - width;
                 }
             }
             else
             {
                 /* last byte was 0x80 : read 16 bit value */
-                cmd = src[srcPointer++];
-                cmd += (ushort)((src[srcPointer++]) << 8);
+                cmd = src[src.Ptr++];
+                cmd += (ushort)((src[src.Ptr++]) << 8);
 
                 if (cmd == 0) break;    /* 0x80 0x00 0x00 => exit code */
 
                 if ((cmd & 0x8000) == 0)
                 {
                     /* skip bytes */
-                    dstPointer += cmd;
+                    dst.Ptr += cmd;
                     length += cmd;
                     while (length >= width)
                     {
                         length -= width;
-                        dstPointer += SCREEN_WIDTH - width;
+                        dst.Ptr += SCREEN_WIDTH - width;
                     }
                 }
                 else if ((cmd & 0x4000) == 0)
@@ -275,12 +271,12 @@ class Format40
                     /* XOR with string */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dstPointer++] ^= src[srcPointer++];
+                        dst[dst.Ptr++] ^= src[src.Ptr++];
                         length++;
                         if (length == width)
                         {
                             length = 0;
-                            dstPointer += SCREEN_WIDTH - width;
+                            dst.Ptr += SCREEN_WIDTH - width;
                         }
                     }
                 }
@@ -289,15 +285,15 @@ class Format40
                     /* XOR with value */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dstPointer++] ^= src[srcPointer];
+                        dst[dst.Ptr++] ^= src[src.Ptr];
                         length++;
                         if (length == width)
                         {
                             length = 0;
-                            dstPointer += SCREEN_WIDTH - width;
+                            dst.Ptr += SCREEN_WIDTH - width;
                         }
                     }
-                    srcPointer++;
+                    src.Ptr++;
                 }
             }
         }

@@ -18,12 +18,6 @@ class Array<T>
         set => Arr.Span[Ptr] = value;
     }
 
-    //internal T CurrInc
-    //{
-    //    get => Arr[Ptr++];
-    //    //set => Arr[Ptr++] = value;
-    //}
-
     internal Array() { }
 
     internal Array(Array<T> old)
@@ -32,11 +26,14 @@ class Array<T>
         Ptr = old.Ptr;
     }
 
-    //internal Array(T[] array, int pointer)
-    //{
-    //    Arr = array;
-    //    Ptr = pointer;
-    //}
+    internal Array(Memory<T> array) =>
+        Arr = array;
+
+    internal Array(Memory<T> array, int pointer)
+    {
+        Arr = array;
+        Ptr = pointer;
+    }
 
     public static Array<T> operator +(Array<T> array, int amount)
     {
@@ -49,4 +46,10 @@ class Array<T>
         array.Ptr++;
         return array;
     }
+
+    //internal T CurrInc
+    //{
+    //    get => Arr[Ptr++];
+    //    //set => Arr[Ptr++] = value;
+    //}
 }

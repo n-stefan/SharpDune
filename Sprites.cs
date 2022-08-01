@@ -76,7 +76,7 @@ class Sprites
     static bool s_iconLoaded;
 
     internal static byte[] g_fileRgnclkCPS;
-    internal static /*byte[]*/string g_fileRegionINI;
+    internal static string g_fileRegionINI;
     internal static ushort[] g_regions;
 
     internal static void Sprites_SetMouseSprite(ushort hotSpotX, ushort hotSpotY, /*uint8 * */byte[] sprite)

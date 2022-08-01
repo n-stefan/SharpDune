@@ -447,9 +447,9 @@ class File
                 length = 0;
             }
         }
-        else if (buffer is byte[] bufferByteArray)
+        else if (buffer is byte[] byteArray)
         {
-            if (s_file[index].fp.Read(bufferByteArray, offset, (int)length) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
+            if (s_file[index].fp.Read(byteArray, offset, (int)length) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
             {
                 Trace.WriteLine("ERROR: Read error");
                 File_Close(index);
@@ -458,7 +458,7 @@ class File
         }
         else if (buffer is ushort[] _)
         {
-            var bytes = new byte[length]; //[bufferUshortArray.Length * 2]
+            var bytes = new byte[length];
             if (s_file[index].fp.Read(bytes, offset, bytes.Length) == 0)
             {
                 Trace.WriteLine("ERROR: Read error");
@@ -470,10 +470,10 @@ class File
                 buffer = (T)(object)FromByteArrayToUshortArray(bytes);
             }
         }
-        else if (buffer is char[] bufferCharArray)
+        else if (buffer is char[] charArray)
         {
             var sr = new StreamReader(s_file[index].fp);
-            if (sr.ReadBlock(bufferCharArray, offset, (int)length) == 0)
+            if (sr.ReadBlock(charArray, offset, (int)length) == 0)
             {
                 Trace.WriteLine("ERROR: Read error");
                 File_Close(index);

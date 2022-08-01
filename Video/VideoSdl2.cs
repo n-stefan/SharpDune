@@ -687,7 +687,7 @@ class VideoSdl2
     //	byte[] data = Gfx.GFX_Screen_Get_ByIndex(Screen.NO0);
     //	dirty_area area = Gfx.GFX_Screen_GetDirtyArea(Screen.NO0);
     //	ushort top, bottom;
-    //	/*byte[]*/IntPtr pixels;
+    //	IntPtr pixels;
     //	int pitch;
     //	uint[] p;
     //	SDL_Rect rect, rectlock;
