@@ -440,43 +440,23 @@ class File
 
         if (buffer is Array<byte> arrayByte)
         {
-            if (s_file[index].fp.Read(arrayByte.Arr.Span.Slice(arrayByte.Ptr + offset, (int)length)) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
+            if (s_file[index].fp.Read(arrayByte.Arr.Span.Slice(arrayByte.Ptr + offset, (int)length)) == 0)
             {
-                Trace.WriteLine("ERROR: Read error");
-                File_Close(index);
-                length = 0;
+                HandleError();
             }
         }
         else if (buffer is Memory<byte> memoryByte)
         {
-            if (s_file[index].fp.Read(memoryByte.Span.Slice(offset, (int)length)) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
+            if (s_file[index].fp.Read(memoryByte.Span.Slice(offset, (int)length)) == 0)
             {
-                Trace.WriteLine("ERROR: Read error");
-                File_Close(index);
-                length = 0;
+                HandleError();
             }
         }
         else if (buffer is byte[] byteArray)
         {
-            if (s_file[index].fp.Read(byteArray, offset, (int)length) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
+            if (s_file[index].fp.Read(byteArray, offset, (int)length) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1
             {
-                Trace.WriteLine("ERROR: Read error");
-                File_Close(index);
-                length = 0;
-            }
-        }
-        else if (buffer is ushort[] _)
-        {
-            var bytes = new byte[length];
-            if (s_file[index].fp.Read(bytes, offset, bytes.Length) == 0)
-            {
-                Trace.WriteLine("ERROR: Read error");
-                File_Close(index);
-                length = 0;
-            }
-            else
-            {
-                buffer = (T)(object)FromByteArrayToUshortArray(bytes);
+                HandleError();
             }
         }
         else if (buffer is char[] charArray)
@@ -484,48 +464,14 @@ class File
             var sr = new StreamReader(s_file[index].fp);
             if (sr.ReadBlock(charArray, offset, (int)length) == 0)
             {
-                Trace.WriteLine("ERROR: Read error");
-                File_Close(index);
-                length = 0;
-            }
-        }
-        else if (buffer is uint _)
-        {
-            var br = new BinaryReader(s_file[index].fp);
-            try
-            {
-                buffer = (T)(object)br.ReadUInt32();
-            }
-            catch (IOException e)
-            {
-                Trace.WriteLine($"ERROR: Read error - {e.Message}");
-                File_Close(index);
-                length = 0;
-            }
-        }
-        else if (buffer is string _)
-        {
-            var sr = new StreamReader(s_file[index].fp);
-            try
-            {
-                var chars = new char[length];
-                sr.ReadBlock(chars, offset, (int)length);
-                buffer = (T)(object)new string(chars);
-            }
-            catch (IOException e)
-            {
-                Trace.WriteLine($"ERROR: Read error - {e.Message}");
-                File_Close(index);
-                length = 0;
+                HandleError();
             }
         }
         else if (buffer is MentatInfo mentatInfo)
         {
             if (s_file[index].fp.Read(mentatInfo.notused, 0, mentatInfo.notused.Length) == 0)
             {
-                Trace.WriteLine("ERROR: Read error");
-                File_Close(index);
-                length = 0;
+                HandleError();
             }
             else
             {
@@ -536,10 +482,46 @@ class File
                 }
                 catch (IOException e)
                 {
-                    Trace.WriteLine($"ERROR: Read error - {e.Message}");
-                    File_Close(index);
-                    length = 0;
+                    HandleError(e);
                 }
+            }
+        }
+        else if (buffer is ushort[])
+        {
+            var bytes = new byte[length];
+            if (s_file[index].fp.Read(bytes, offset, (int)length) == 0)
+            {
+                HandleError();
+            }
+            else
+            {
+                buffer = (T)(object)FromByteArrayToUshortArray(bytes);
+            }
+        }
+        else if (buffer is uint)
+        {
+            var br = new BinaryReader(s_file[index].fp);
+            try
+            {
+                buffer = (T)(object)br.ReadUInt32();
+            }
+            catch (IOException e)
+            {
+                HandleError(e);
+            }
+        }
+        else if (buffer is string)
+        {
+            var chars = new char[length];
+            var sr = new StreamReader(s_file[index].fp);
+            try
+            {
+                sr.ReadBlock(chars, offset, (int)length);
+                buffer = (T)(object)new string(chars);
+            }
+            catch (IOException e)
+            {
+                HandleError(e);
             }
         }
         else
@@ -549,6 +531,20 @@ class File
 
         s_file[index].position += length;
         return length;
+
+        void HandleError(IOException e = null)
+        {
+            if (e is null)
+            {
+                Trace.WriteLine("ERROR: Read error");
+            }
+            else
+            {
+                Trace.WriteLine($"ERROR: Read error - {e.Message}");
+            }
+            File_Close(index);
+            length = 0;
+        }
     }
 
     /*
