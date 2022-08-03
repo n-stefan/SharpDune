@@ -438,7 +438,16 @@ class File
 
         if (length > s_file[index].size - s_file[index].position) length = s_file[index].size - s_file[index].position;
 
-        if (buffer is Memory<byte> memoryByte)
+        if (buffer is Array<byte> arrayByte)
+        {
+            if (s_file[index].fp.Read(arrayByte.Arr.Span.Slice(arrayByte.Ptr + offset, (int)length)) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
+            {
+                Trace.WriteLine("ERROR: Read error");
+                File_Close(index);
+                length = 0;
+            }
+        }
+        else if (buffer is Memory<byte> memoryByte)
         {
             if (s_file[index].fp.Read(memoryByte.Span.Slice(offset, (int)length)) == 0) //fread(buffer, length, 1, s_file[index].fp) != 1) {
             {

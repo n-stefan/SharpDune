@@ -7,14 +7,14 @@ namespace SharpDune;
  */
 class WSAFlags
 {
-    internal bool notmalloced;                          /*!< If the WSA is in memory of the caller. */
-    internal bool malloced;                             /*!< If the WSA is malloc'd by us. */
-    internal bool dataOnDisk;                           /*!< Only the header is in the memory. Rest is on disk. */
-    internal bool dataInMemory;                         /*!< The whole WSA is in memory. */
-    internal bool displayInBuffer;                      /*!< The output display is in the buffer. */
-    internal bool noAnimation;                          /*!< If the WSA has animation or not. */
-    internal bool hasNoFirstFrame;                      /*!< The WSA is the continuation of another one. */
-    internal bool hasPalette;                           /*!< Indicates if the WSA has a palette stored. */
+    internal bool notmalloced;                                   /*!< If the WSA is in memory of the caller. */
+    internal bool malloced;                                      /*!< If the WSA is malloc'd by us. */
+    internal bool dataOnDisk;                                    /*!< Only the header is in the memory. Rest is on disk. */
+    internal bool dataInMemory;                                  /*!< The whole WSA is in memory. */
+    internal bool displayInBuffer;                               /*!< The output display is in the buffer. */
+    internal bool noAnimation;                                   /*!< If the WSA has animation or not. */
+    internal bool hasNoFirstFrame;                               /*!< The WSA is the continuation of another one. */
+    internal bool hasPalette;                                    /*!< Indicates if the WSA has a palette stored. */
 }
 
 /*
@@ -86,7 +86,8 @@ class Wsa
         if (wsa == (null, null)) return;
         if (!header.flags.malloced) return;
 
-        //wsa = (null, null); //free(wsa);
+        wsa.header = null;
+        wsa.buffer = null; //free(wsa);
     }
 
     /*
@@ -119,7 +120,7 @@ class Wsa
         else
         {
             dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
-            dst += (ushort)(posX + posY * SCREEN_WIDTH); //dst.Ptr += (ushort)(posX + posY * Gfx.SCREEN_WIDTH);
+            dst += (ushort)(posX + posY * SCREEN_WIDTH);
         }
 
         if (header.frameCurrent == header.frames)
@@ -128,7 +129,7 @@ class Wsa
             {
                 if (!header.flags.displayInBuffer)
                 {
-                    Format40_Decode_ToScreen(dst, header.buffer, header.width);
+                    Format40_Decode_ToScreen(new Array<byte>(dst), new Array<byte>(header.buffer), header.width);
                 }
                 else
                 {
@@ -215,12 +216,11 @@ class Wsa
     {
         var header = wsa.header;
         ushort lengthPalette;
-        Memory<byte> buffer;
-        var bufferPointer = 0;
+        Array<byte> buffer;
 
         lengthPalette = (ushort)(header.flags.hasPalette ? 0x300 : 0);
 
-        buffer = header.buffer.Arr.Slice(header.buffer.Ptr);
+        buffer = new Array<byte>(header.buffer.Arr, header.buffer.Ptr);
 
         if (header.flags.dataInMemory)
         {
@@ -234,9 +234,9 @@ class Wsa
             length = positionEnd - positionStart;
 
             positionFrame = header.fileContent.Slice((int)positionStart);
-            bufferPointer += (ushort)(header.bufferLength - length);
+            buffer += (int)(header.bufferLength - length);
 
-            positionFrame.Slice(0, (int)length).CopyTo(buffer.Slice(bufferPointer)); //memmove(buffer, positionFrame, length);
+            positionFrame.Slice(0, (int)length).CopyTo(buffer.Arr.Slice(buffer.Ptr)); //memmove(buffer, positionFrame, length);
         }
         else if (header.flags.dataOnDisk)
         {
@@ -250,6 +250,7 @@ class Wsa
 
             positionStart = WSA_GetFrameOffset_FromDisk(fileno, frame);
             positionEnd = WSA_GetFrameOffset_FromDisk(fileno, (ushort)(frame + 1));
+
             length = positionEnd - positionStart;
 
             if (positionStart == 0 || positionEnd == 0 || length == 0)
@@ -258,16 +259,16 @@ class Wsa
                 return 0;
             }
 
-            bufferPointer += (ushort)(header.bufferLength - length);
+            buffer += (int)(header.bufferLength - length);
 
             File_Seek(fileno, (int)(positionStart + lengthPalette), 0);
-            res = File_Read(fileno, ref buffer, length, bufferPointer);
+            res = File_Read(fileno, ref buffer, length);
             File_Close(fileno);
 
             if (res != length) return 0;
         }
 
-        Format80_Decode(header.buffer.Arr.Span, buffer.Span, header.bufferLength, header.buffer.Ptr, bufferPointer);
+        Format80_Decode(header.buffer.Arr.Span, buffer.Arr.Span, header.bufferLength, header.buffer.Ptr, buffer.Ptr);
 
         if (header.flags.displayInBuffer)
         {
@@ -304,7 +305,7 @@ class Wsa
         uint lengthFileContent;
         uint displaySize;
         Memory<byte> buffer;
-        
+
         //memset(&flags, 0, sizeof(flags));
 
         fileno = File_Open(filename, FileMode.FILE_MODE_READ);
@@ -312,9 +313,9 @@ class Wsa
         fileheader.width = File_Read_LE16(fileno);
         fileheader.height = File_Read_LE16(fileno);
         fileheader.requiredBufferSize = File_Read_LE16(fileno);
-        fileheader.hasPalette = File_Read_LE16(fileno);           /* has palette */
-        fileheader.firstFrameOffset = File_Read_LE32(fileno);     /* Offset of 1st frame */
-        fileheader.secondFrameOffset = File_Read_LE32(fileno);    /* Offset of 2nd frame (end of 1st frame) */
+        fileheader.hasPalette = File_Read_LE16(fileno);         /* has palette */
+        fileheader.firstFrameOffset = File_Read_LE32(fileno);   /* Offset of 1st frame */
+        fileheader.secondFrameOffset = File_Read_LE32(fileno);  /* Offset of 2nd frame (end of 1st frame) */
 
         lengthPalette = 0;
         if (fileheader.hasPalette != 0)
@@ -374,7 +375,7 @@ class Wsa
             else
             {
                 wsaSize = bufferSizeMinimal;
-            }
+		    }
 
             wsa = new byte[wsaSize]; //calloc(1, wsaSize);
             flags.malloced = true;
@@ -384,7 +385,7 @@ class Wsa
             flags.notmalloced = true;
         }
 
-        //header = (WSAHeader*)wsa;
+        //header = (WSAHeader *)wsa;
         buffer = wsa.Slice(WSAHeaderSize); //(uint8 *)wsa + sizeof(WSAHeader);
 
         header.flags = flags;
@@ -459,11 +460,9 @@ class Wsa
         short bottom;
         short skipBefore;
         short skipAfter;
-        Span<byte> dst;
-        //int srcPointer = 0;
-        var dstPointer = 0;
+        Array<byte> dst;
 
-        dst = GFX_Screen_Get_ByIndex(screenID);
+        dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
 
         left = (short)(g_widgetProperties[windowID].xBase << 3);
         right = (short)(left + (g_widgetProperties[windowID].width << 3));
@@ -474,8 +473,7 @@ class Wsa
         {
             if (y - top + height <= 0) return;
             height += (short)(y - top);
-            /*srcPointer*/
-            src += (top - y) * width; //src.Ptr += (top - y) * width;
+            src += (top - y) * width;
             y += (short)(top - y);
         }
 
@@ -498,19 +496,14 @@ class Wsa
             width = (short)(right - x);
         }
 
-        dstPointer += y * SCREEN_WIDTH + x;
+        dst += y * SCREEN_WIDTH + x;
 
         while (height-- != 0)
         {
-            /*srcPointer*/
-            src += skipBefore; //src.Ptr += skipBefore;
-            src.Arr.Span.Slice(src.Ptr, width).CopyTo(dst.Slice(dstPointer)); //memcpy(dst, src, width);
-
-            //src.Arr.AsSpan(src.Ptr, width).CopyTo(dst.AsSpan(dstPointer, width));
-
-            /*srcPointer*/
-            src += width + skipAfter; //src.Ptr += width + skipAfter;
-            dstPointer += SCREEN_WIDTH;
+            src += skipBefore;
+            src.Arr.Slice(src.Ptr, width).CopyTo(dst.Arr.Slice(dst.Ptr)); //memcpy(dst, src, width);
+            src += width + skipAfter;
+            dst += SCREEN_WIDTH;
         }
     }
 
