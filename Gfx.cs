@@ -33,7 +33,8 @@ class Gfx
      * SCREEN_3 = 64781 = 0xFD0D    * NEVER ACTIVE * only used for game credits and intro */
     const byte GFX_SCREEN_BUFFER_COUNT = 4;
     static readonly ushort[] s_screenBufferSize = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
-    static byte[] s_screen;
+    static byte[] s_screenBuffer;
+
     static ArraySegment<byte> s_screen0;
     static ArraySegment<byte> s_screen1;
     static ArraySegment<byte> s_screen2;
@@ -429,19 +430,19 @@ class Gfx
     internal static void GFX_Init()
     {
         /* init g_paletteActive with invalid values so first GFX_SetPalette() will be ok */
-        Array.Fill<byte>(g_paletteActive, 0xff, 0, 3 * 256); //memset(g_paletteActive, 0xff, 3*256);
+        Array.Fill<byte>(g_paletteActive, 0xff, 0, 3 * 256); //memset(g_paletteActive, 0xff, 3 * 256);
 
         var index0 = s_screenBufferSize[(int)Screen.NO0];
-        var index1 = s_screenBufferSize[(int)Screen.NO0] + s_screenBufferSize[(int)Screen.NO1];
-        var index2 = s_screenBufferSize[(int)Screen.NO0] + s_screenBufferSize[(int)Screen.NO1] + s_screenBufferSize[(int)Screen.NO2];
-        var index3 = s_screenBufferSize[(int)Screen.NO0] + s_screenBufferSize[(int)Screen.NO1] + s_screenBufferSize[(int)Screen.NO2] + s_screenBufferSize[(int)Screen.NO3];
+        var index1 = index0 + s_screenBufferSize[(int)Screen.NO1];
+        var index2 = index1 + s_screenBufferSize[(int)Screen.NO2];
+        var index3 = index2 + s_screenBufferSize[(int)Screen.NO3];
 
-        s_screen = new byte[index3];
+        s_screenBuffer = new byte[index3];
 
-        s_screen0 = new ArraySegment<byte>(s_screen, 0, index0);
-        s_screen1 = new ArraySegment<byte>(s_screen, index0, s_screen.Length - index0);
-        s_screen2 = new ArraySegment<byte>(s_screen, index1, s_screen.Length - index1);
-        s_screen3 = new ArraySegment<byte>(s_screen, index2, s_screen.Length - index2);
+        s_screen0 = new ArraySegment<byte>(s_screenBuffer, 0, index0);
+        s_screen1 = new ArraySegment<byte>(s_screenBuffer, index0, s_screenBuffer.Length - index0);
+        s_screen2 = new ArraySegment<byte>(s_screenBuffer, index1, s_screenBuffer.Length - index1);
+        s_screen3 = new ArraySegment<byte>(s_screenBuffer, index2, s_screenBuffer.Length - index2);
 
         s_screenActiveID = Screen.NO0;
     }
@@ -455,7 +456,7 @@ class Gfx
         s_screen1 = null;
         s_screen2 = null;
         s_screen3 = null;
-        s_screen = null;
+        s_screenBuffer = null;
     }
 
     /*
