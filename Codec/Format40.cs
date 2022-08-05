@@ -23,7 +23,6 @@ class Format40
                 /* XOR with value */
                 for (count = src[src.Ptr++]; count > 0; count--)
                 {
-                    /*dst.CurrInc*/
                     dst[dst.Ptr++] ^= src.Curr;
                 }
                 src++;
@@ -33,7 +32,6 @@ class Format40
                 /* XOR with string */
                 for (count = cmd; count > 0; count--)
                 {
-                    /*dst.CurrInc*/
                     dst[dst.Ptr++] ^= src[src.Ptr++];
                 }
             }
@@ -61,7 +59,6 @@ class Format40
                     /* XOR with string */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        /*dst.CurrInc*/
                         dst[dst.Ptr++] ^= src[src.Ptr++];
                     }
                 }
@@ -70,7 +67,6 @@ class Format40
                     /* XOR with value */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        /*dst.CurrInc*/
                         dst[dst.Ptr++] ^= src.Curr;
                     }
                     src++;
@@ -107,10 +103,10 @@ class Format40
                     if (length == width)
                     {
                         length = 0;
-                        dst.Ptr += SCREEN_WIDTH - width;
+                        dst += SCREEN_WIDTH - width;
                     }
                 }
-                src.Ptr++;
+                src++;
             }
             else if ((cmd & 0x80) == 0)
             {
@@ -122,19 +118,19 @@ class Format40
                     if (length == width)
                     {
                         length = 0;
-                        dst.Ptr += SCREEN_WIDTH - width;
+                        dst += SCREEN_WIDTH - width;
                     }
                 }
             }
             else if (cmd != 0x80)
             {
                 /* skip bytes */
-                dst.Ptr += cmd & 0x7F;
+                dst += cmd & 0x7F;
                 length += (ushort)(cmd & 0x7F);
                 while (length >= width)
                 {
                     length -= width;
-                    dst.Ptr += SCREEN_WIDTH - width;
+                    dst += SCREEN_WIDTH - width;
                 }
             }
             else
@@ -148,12 +144,12 @@ class Format40
                 if ((cmd & 0x8000) == 0)
                 {
                     /* skip bytes */
-                    dst.Ptr += cmd;
+                    dst += cmd;
                     length += cmd;
                     while (length >= width)
                     {
                         length -= width;
-                        dst.Ptr += SCREEN_WIDTH - width;
+                        dst += SCREEN_WIDTH - width;
                     }
                 }
                 else if ((cmd & 0x4000) == 0)
@@ -166,7 +162,7 @@ class Format40
                         if (length == width)
                         {
                             length = 0;
-                            dst.Ptr += SCREEN_WIDTH - width;
+                            dst += SCREEN_WIDTH - width;
                         }
                     }
                 }
@@ -180,10 +176,10 @@ class Format40
                         if (length == width)
                         {
                             length = 0;
-                            dst.Ptr += SCREEN_WIDTH - width;
+                            dst += SCREEN_WIDTH - width;
                         }
                     }
-                    src.Ptr++;
+                    src++;
                 }
             }
         }
@@ -217,10 +213,10 @@ class Format40
                     if (length == width)
                     {
                         length = 0;
-                        dst.Ptr += SCREEN_WIDTH - width;
+                        dst += SCREEN_WIDTH - width;
                     }
                 }
-                src.Ptr++;
+                src++;
             }
             else if ((cmd & 0x80) == 0)
             {
@@ -232,19 +228,19 @@ class Format40
                     if (length == width)
                     {
                         length = 0;
-                        dst.Ptr += SCREEN_WIDTH - width;
+                        dst += SCREEN_WIDTH - width;
                     }
                 }
             }
             else if (cmd != 0x80)
             {
                 /* skip bytes */
-                dst.Ptr += cmd & 0x7F;
+                dst += cmd & 0x7F;
                 length += (ushort)(cmd & 0x7F);
                 while (length >= width)
                 {
                     length -= width;
-                    dst.Ptr += SCREEN_WIDTH - width;
+                    dst += SCREEN_WIDTH - width;
                 }
             }
             else
@@ -258,12 +254,12 @@ class Format40
                 if ((cmd & 0x8000) == 0)
                 {
                     /* skip bytes */
-                    dst.Ptr += cmd;
+                    dst += cmd;
                     length += cmd;
                     while (length >= width)
                     {
                         length -= width;
-                        dst.Ptr += SCREEN_WIDTH - width;
+                        dst += SCREEN_WIDTH - width;
                     }
                 }
                 else if ((cmd & 0x4000) == 0)
@@ -276,7 +272,7 @@ class Format40
                         if (length == width)
                         {
                             length = 0;
-                            dst.Ptr += SCREEN_WIDTH - width;
+                            dst += SCREEN_WIDTH - width;
                         }
                     }
                 }
@@ -290,10 +286,10 @@ class Format40
                         if (length == width)
                         {
                             length = 0;
-                            dst.Ptr += SCREEN_WIDTH - width;
+                            dst += SCREEN_WIDTH - width;
                         }
                     }
-                    src.Ptr++;
+                    src++;
                 }
             }
         }

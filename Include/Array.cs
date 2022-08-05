@@ -18,8 +18,6 @@ class Array<T>
         set => Arr.Span[Ptr] = value;
     }
 
-    internal Array() { }
-
     internal Array(Array<T> old)
     {
         Arr = old.Arr;
@@ -46,6 +44,8 @@ class Array<T>
         array.Ptr++;
         return array;
     }
+
+    //internal Array() { }
 
     //internal T CurrInc
     //{

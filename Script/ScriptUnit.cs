@@ -1036,7 +1036,7 @@ class ScriptUnit
 
                 if (bufferFrom.Curr == 0xFE)
                 {
-                    bufferTo.Ptr++;
+                    bufferTo++;
                     continue;
                 }
 
@@ -1049,7 +1049,7 @@ class ScriptUnit
                     bufferFrom.Curr = 0xFE;
                     bufferTo.Curr = 0xFE;
 
-                    bufferTo.Ptr++;
+                    bufferTo++;
                     continue;
                 }
 
@@ -1057,7 +1057,7 @@ class ScriptUnit
                 if (direction == 0)
                 {
                     packed += (ushort)s_mapDirection[bufferFrom.Curr];
-                    bufferTo.Ptr++;
+                    bufferTo++;
                     continue;
                 }
 
@@ -1074,7 +1074,7 @@ class ScriptUnit
                             bufferFrom.Curr = dir;
                         }
                         packed += (ushort)s_mapDirection[bufferFrom.Curr];
-                        bufferTo.Ptr++;
+                        bufferTo++;
                         continue;
                     }
                 }
@@ -1109,7 +1109,7 @@ class ScriptUnit
         data.routeSize = 0;
 
         /* Build the new improved route, without gaps */
-        for (; bufferTo.Curr != 0xFF; bufferTo.Ptr++)
+        for (; bufferTo.Curr != 0xFF; bufferTo++)
         {
             if (bufferTo.Curr == 0xFE) continue;
 
