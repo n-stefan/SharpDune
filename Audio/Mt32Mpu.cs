@@ -59,7 +59,7 @@ class MSData
     internal uint timeFraction;                                     /*!< time_fraction */
     internal uint beatFraction;                                     /*!< beat_fraction */
     internal uint timePerBeat;                                      /*!< time_per_beat */
-    internal byte[][] forLoopPtrs = new byte[4][];                  /*!< FOR_loop_ptrs pointer to start of FOR loop */
+    internal Memory<byte>[] forLoopPtrs = new Memory<byte>[4];      /*!< FOR_loop_ptrs pointer to start of FOR loop */
     internal ushort[] forLoopCounters = new ushort[4];              /*!< FOR_loop_cnt */
     internal byte[] chanMaps = new byte[NUM_CHANS];         /*!< ?? Channel mapping. */
     internal Controls[] controls = new Controls[NUM_CHANS]; /*!< ?? */
@@ -958,7 +958,7 @@ class Mt32Mpu
                         if (data.forLoopCounters[i] == 0xFFFF)
                         {
                             data.forLoopCounters[i] = value;
-                            data.forLoopPtrs[i] = data.sound.Arr.Slice(data.sound.Ptr).ToArray();
+                            data.forLoopPtrs[i] = data.sound.Arr.Slice(data.sound.Ptr);
                             break;
                         }
                     }

@@ -75,7 +75,7 @@ class Sprites
 
     static bool s_iconLoaded;
 
-    internal static byte[] g_fileRgnclkCPS;
+    internal static Memory<byte> g_fileRgnclkCPS;
     internal static string g_fileRegionINI;
     internal static ushort[] g_regions;
 
@@ -477,7 +477,7 @@ class Sprites
 
         buf = GFX_Screen_Get_ByIndex(Screen.NO2);
 
-        g_fileRgnclkCPS = buf.ToArray();
+        g_fileRgnclkCPS = buf;
         Sprites_LoadCPSFile("RGNCLK.CPS", Screen.NO2, null);
         for (i = 0; i < 120; i++) buf.Slice(7688 + (i * 320), 304).CopyTo(buf.Slice(i * 304)); //memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
         bufPointer += 120 * 304;

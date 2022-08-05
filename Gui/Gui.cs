@@ -4299,7 +4299,7 @@ class Gui
         key = Input_WaitForValidInput();
         if (key is not 0xC6 and not 0xC7) return 0;
 
-        return g_fileRgnclkCPS[(g_mouseClickY - 24) * 304 + g_mouseClickX - 8];
+        return g_fileRgnclkCPS.Span[(g_mouseClickY - 24) * 304 + g_mouseClickX - 8];
     }
 
     static void GUI_StrategicMap_AnimateArrows()
