@@ -22,7 +22,7 @@ class Ini
         {
             var pattern = $"^{key}=(.*)$";
             var match = Regex.Match(section, pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (match.Success) result = match.Groups[1].Value.Trim();
+            if (match.Success) result = match.Groups[1].Value.Trim().TrimEnd(',');
         }
         else
         {
