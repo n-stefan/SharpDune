@@ -807,14 +807,14 @@ class Mentat
         return result;
     }
 
-    internal static /*(string[] parts, ushort count)*/string[] GUI_Mentat_SplitText(string text, ushort maxWidth)
+    internal static string[] GUI_Mentat_SplitText(string text, ushort maxWidth)
     {
         //ushort lines = 0;
         ushort height = 0;
         char[] str;
         var i = 0;
 
-        if (text == null) return null; //(null, 0);
+        if (text == null) return null;
 
         str = text.ToCharArray();
 
@@ -822,7 +822,7 @@ class Mentat
         {
             ushort width = 0;
 
-            while (width < maxWidth && str[i] != '.' && str[i] != '!' && str[i] != '?' && str[i] != '\0' && str[i] != '\r')
+            while (width < maxWidth && i < str.Length && str[i] != '.' && str[i] != '!' && str[i] != '?' && str[i] != '\0' && str[i] != '\r')
             {
                 width += Font_GetCharWidth(str[i++]);
             }
@@ -834,7 +834,7 @@ class Mentat
 
             height++;
 
-            if ((str[i] != '\0' && (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '\r')) || height >= 3)
+            if ((i < str.Length && str[i] != '\0' && (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '\r')) || height >= 3)
             {
                 while (i < str.Length && str[i] != '\0' && (str[i] == ' ' || str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '\r')) i++;
 
@@ -844,17 +844,17 @@ class Mentat
                 continue;
             }
 
-            if (str[i] == '\0')
+            if (i < str.Length && str[i] == '\0')
             {
                 //lines++;
                 height = 0;
                 continue;
             }
 
-            str[i++] = '\r';
+            if (i < str.Length) str[i++] = '\r';
         }
 
-        return new string(str).Split('\0'); //(new string(str).Split('\0'), lines);
+        return new string(str).Split('\0');
     }
 
     /*
