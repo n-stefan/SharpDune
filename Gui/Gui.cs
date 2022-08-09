@@ -3809,28 +3809,22 @@ class Gui
 
     static void GUI_StrategicMap_ReadHouseRegions(byte houseID, ushort campaignID)
     {
-        string key; //char[4];
+        ReadOnlySpan<char> key; //char[4]
         string buffer; //char[100]
-        string groupText; //char[16];
-        var bufferPointer = 0;
+        string groupText; //char[16]
 
-        key = g_table_houseInfo[houseID].name; //strncpy(key, g_table_houseInfo[houseID].name, 3);
-                                               //key[3] = '\0';
+        key = g_table_houseInfo[houseID].name.AsSpan(0, 3); //strncpy(key, g_table_houseInfo[houseID].name, 3);
+        //key[3] = '\0';
 
         groupText = $"GROUP{campaignID}"; //snprintf(groupText, sizeof(groupText), "GROUP%d", campaignID);
 
         if ((buffer = Ini_GetString(groupText, key, null, g_fileRegionINI)) == null) return;
 
-        while (buffer[bufferPointer] != Environment.NewLine[0])
-        { //*s != '\0'
-            var region = ushort.Parse(buffer[bufferPointer].ToString(), Culture);
-
+        var regions = buffer.Split(',');
+        for (var i = 0; i < regions.Length; i++)
+        {
+            var region = ushort.Parse(regions[i], Culture);
             if (region != 0) g_regions[region] = houseID;
-
-            while (buffer[bufferPointer] != Environment.NewLine[0])
-            { //*s != '\0'
-                if (buffer[bufferPointer++] == ',') break;
-            }
         }
     }
 
