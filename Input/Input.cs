@@ -701,7 +701,7 @@ class Input
 
             if ((value & 0xFF) is >= 0x41 and <= 0x44) index += 4;
 
-            s_historyHead = (ushort)(index + 2);
+            s_historyHead = (ushort)((index + 2) & 0xFF);
         }
 
         if (value != 0)
