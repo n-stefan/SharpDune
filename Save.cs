@@ -120,7 +120,7 @@ class Save
             length = Math.Min(255, (uint)description.Length + 1);
             lengthSwapped = HToBE32(length);
             bw.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
-            bw.Write($"{description}\0".ToArray()); //if (fwrite(description, length, 1, fp) != 1) return false;
+            bw.Write($"{description}\0".ToCharArray()); //if (fwrite(description, length, 1, fp) != 1) return false;
             /* Ensure we are word aligned */
             if ((length & 1) == 1)
             {
@@ -165,7 +165,7 @@ class Save
         uint length;
         uint lengthSwapped;
 
-        fp.Write(header.ToArray()); //if (fwrite(header, 4, 1, fp) != 1) return false;
+        fp.Write(header.ToCharArray()); //if (fwrite(header, 4, 1, fp) != 1) return false;
 
         /* Reserve the length field */
         length = 0;

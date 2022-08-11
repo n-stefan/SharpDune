@@ -2354,7 +2354,7 @@ class Gui
 
         if (text == null) return 0;
 
-        var str = text.ToArray();
+        var str = text.ToCharArray();
 
         while (i < str.Length && str[i] != '\0')
         {
@@ -3648,7 +3648,7 @@ class Gui
                 if (name.Length == 0) continue;
             }
 
-            data[editLine - 1].name = name.PadRight(6, '\0').ToArray();
+            data[editLine - 1].name = name.PadRight(6, '\0').ToCharArray();
 
             g_widgetProperties[19] = backupProperties.Clone(); //memcpy(&g_widgetProperties[19], &backupProperties, sizeof(WidgetProperties));
 

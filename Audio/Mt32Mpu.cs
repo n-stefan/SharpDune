@@ -266,7 +266,7 @@ class Mt32Mpu
         data.playing = 0;
     }
 
-    static Span<byte> MPU_FindSoundStart(Span<byte> file, ushort index)
+    static Memory<byte> MPU_FindSoundStart(Memory<byte> file, ushort index)
     {
         uint total;
         uint header;
@@ -334,7 +334,7 @@ class Mt32Mpu
         data.timePerBeat = 0x7A1200;    /* 8000000 */
     }
 
-    internal static ushort MPU_SetData(Span<byte> file, ushort index, MSData msdata)
+    internal static ushort MPU_SetData(Memory<byte> file, ushort index, MSData msdata)
     {
         var data = msdata;
         uint header;
@@ -342,7 +342,7 @@ class Mt32Mpu
         ushort i;
         var pointer = 0;
 
-        if (file == null) return 0xFFFF;
+        if (file.IsEmpty) return 0xFFFF;
 
         for (i = 0; i < 8; i++)
         {
@@ -351,7 +351,7 @@ class Mt32Mpu
         if (i == 8) return 0xFFFF;
 
         file = MPU_FindSoundStart(file, index);
-        if (file == null) return 0xFFFF;
+        if (file.IsEmpty) return 0xFFFF;
 
         s_mpu_msdata[i] = data;
         data.EVNT = null;
@@ -365,7 +365,7 @@ class Mt32Mpu
             size = Read_BE_UInt32(file.Slice(pointer + 4)) + 8;
         }
 
-        data.EVNT = file.Slice(pointer).ToArray();
+        data.EVNT = file.Slice(pointer);
         data.playing = 0;
         data.delayedClear = false;
 
