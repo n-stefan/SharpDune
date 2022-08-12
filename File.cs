@@ -141,50 +141,35 @@ class File
         return null;
     }
 
-    static string File_MakeCompleteFilename(int len, SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, ConvertCase convert)
+    static string File_MakeCompleteFilename(int len, SearchDirectory dir, ReadOnlySpan<char> filename, ConvertCase convert)
     {
-        char[] buf = null;
-        int j;
-        int i;
-        var filenameStr = new string(filename);
+        var buf = string.Empty;
+        var filenameStr = filename.ToString();
+
+        filenameStr = convert switch
+        {
+            ConvertCase.CONVERT_TO_LOWERCASE => filenameStr.ToLower(),
+            ConvertCase.CONVERT_TO_UPPERCASE => filenameStr.ToUpper(),
+            _ => filenameStr
+        };
 
         if (dir is SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR or SearchDirectory.SEARCHDIR_CAMPAIGN_DIR)
         {
             /* Note: campaign specific data directory not implemented. */
-            buf = Path.Combine(g_dune_data_dir, filenameStr).ToCharArray();
+            buf = Path.Combine(g_dune_data_dir, filenameStr);
         }
-        else if (dir == SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
+        else if (dir is SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
         {
-            buf = Path.Combine(g_personal_data_dir, filenameStr).ToCharArray();
+            buf = Path.Combine(g_personal_data_dir, filenameStr);
         }
-        i = buf.Length;
 
-        //buf[len - 1] = '\0';
+        if (buf.Length > len)
+        {
+            buf = buf[..len];
+            Trace.WriteLine($"WARNING: output truncated : {buf} ({filenameStr})");
+        }
 
-        if (i > len)
-        {
-            Trace.WriteLine($"WARNING: output truncated : {new string(buf)} ({filename})");
-            i = len;
-        }
-        if (convert != ConvertCase.NO_CONVERT)
-        {
-            for (j = i - 1; j >= 0; j--)
-            {
-                if (buf[j] is '/' or '\\')
-                    break;
-                if (convert == ConvertCase.CONVERT_TO_LOWERCASE)
-                {
-                    if (buf[j] is >= 'A' and <= 'Z')
-                        buf[j] = (char)(buf[j] + 'a' - 'A');
-                }
-                else if (convert == ConvertCase.CONVERT_TO_UPPERCASE)
-                {
-                    if (buf[j] is >= 'a' and <= 'z')
-                        buf[j] = (char)(buf[j] - 'a' + 'A');
-                }
-            }
-        }
-        return new string(buf);
+        return buf;
     }
 
     /*
