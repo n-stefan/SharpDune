@@ -47,7 +47,7 @@ class Mentat
     static readonly byte[][][] s_mentatSprites = new byte[3][/*5*/][];
 
     static bool s_selectMentatHelp; /*!< Selecting from the list of in-game help subjects. */
-    static byte[] s_helpSubjects;
+    static Memory<byte> s_helpSubjects;
     static int s_helpSubjectsPointer;
 
     static string s_mentatFilename; //char[13]
@@ -1110,7 +1110,7 @@ class Mentat
         Screen oldScreenID;
         CWidget line;
         var w = g_widgetMentatTail;
-        var helpSubjects = s_helpSubjects;
+        var helpSubjects = s_helpSubjects.Span;
         ushort i;
         /*string*/ReadOnlySpan<char> text;
         var helpSubjectsPointer = s_helpSubjectsPointer;
@@ -1131,7 +1131,7 @@ class Mentat
         line = GUI_Widget_Get_ByIndex(w, 3);
         for (i = 0; i < 11; i++)
         {
-            text = SharpDune.Encoding.GetString(helpSubjects.AsSpan(helpSubjectsPointer + 7));
+            text = SharpDune.Encoding.GetString(helpSubjects.Slice(helpSubjectsPointer + 7));
             text = text.Slice(0, text.IndexOf("\0", Comparison));
             var textStr = new string(text);
             line.drawParameterDown.text = textStr;
@@ -1259,19 +1259,19 @@ class Mentat
         }
     }
 
-    static byte[] helpDataList;
+    static Memory<byte> helpDataList;
     static void GUI_Mentat_LoadHelpSubjects(bool init)
     {
         byte fileID;
         uint length;
         uint counter;
-        byte[] helpSubjects;
         ushort i;
+        Memory<byte> helpSubjectsMem;
         var helpSubjectsPointer = 0;
 
         if (init)
         {
-            helpDataList = GFX_Screen_Get_ByIndex(Screen.NO1).ToArray();
+            helpDataList = GFX_Screen_Get_ByIndex(Screen.NO1);
 
             s_topHelpList = 0;
             s_selectedHelpSubject = 0;
@@ -1288,8 +1288,8 @@ class Mentat
 
         s_numberHelpSubjects = 0;
 
-        helpSubjects = helpDataList;
-        //helpSubjectsPointer = 0;
+        helpSubjectsMem = helpDataList;
+        var helpSubjects = helpSubjectsMem.Span;
 
         counter = 0;
         while (counter < length)
@@ -1300,7 +1300,7 @@ class Mentat
 
             if (helpSubjects[helpSubjectsPointer + size - 1] > g_campaignID + 1)
             {
-                while (size-- != 0) helpSubjects[helpSubjectsPointer++] = (byte)'\0';
+                while (size-- != 0) helpSubjects[helpSubjectsPointer++] = 0;
                 continue;
             }
 
@@ -1309,14 +1309,13 @@ class Mentat
             s_numberHelpSubjects++;
         }
 
-        //helpSubjects = helpDataList;
         helpSubjectsPointer = 0;
 
-        while (helpSubjects[helpSubjectsPointer] == '\0') helpSubjectsPointer++;
+        while (helpSubjects[helpSubjectsPointer] == 0) helpSubjectsPointer++;
 
         for (i = 0; i < s_topHelpList; i++) helpSubjectsPointer = String_NextString(helpSubjects, helpSubjectsPointer);
 
-        s_helpSubjects = helpSubjects;
+        s_helpSubjects = helpSubjectsMem;
         s_helpSubjectsPointer = helpSubjectsPointer;
     }
 
@@ -1342,7 +1341,7 @@ class Mentat
 
             while (difference-- != 0)
             {
-                s_helpSubjectsPointer = String_NextString(s_helpSubjects, s_helpSubjectsPointer);
+                s_helpSubjectsPointer = String_NextString(s_helpSubjects.Span, s_helpSubjectsPointer);
             }
             return;
         }
@@ -1360,7 +1359,7 @@ class Mentat
 
             while (difference-- != 0)
             {
-                s_helpSubjectsPointer = String_PrevString(s_helpSubjects, s_helpSubjectsPointer);
+                s_helpSubjectsPointer = String_PrevString(s_helpSubjects.Span, s_helpSubjectsPointer);
             }
             return;
         }
@@ -1368,7 +1367,7 @@ class Mentat
 
     static void GUI_Mentat_ShowHelp()
     {
-        byte[] subject;
+        Span<byte> subject;
         ushort i;
         bool noDesc;
         byte fileID;
@@ -1383,13 +1382,13 @@ class Mentat
         var textPointer = 0;
 
         info = new MentatInfo();
-        subject = s_helpSubjects;
+        subject = s_helpSubjects.Span;
         subjectPointer = s_helpSubjectsPointer;
 
         for (i = 0; i < s_selectedHelpSubject; i++) subjectPointer = String_NextString(subject, subjectPointer);
 
         noDesc = (subject[subjectPointer + 5] == '0');  /* or no WSA file ? */
-        offset = HToBE32(Read_LE_UInt32(subject.AsSpan(subjectPointer + 1)));
+        offset = HToBE32(Read_LE_UInt32(subject.Slice(subjectPointer + 1)));
 
         fileID = ChunkFile_Open(s_mentatFilename);
         ChunkFile_Read(fileID, HToBE32((uint)SharpDune.MultiChar[FourCC.INFO]), ref info, 12);

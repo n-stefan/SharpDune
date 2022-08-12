@@ -265,7 +265,7 @@ class String
      * @param ptr Pointer to the current string.
      * @return Pointer to the next string.
      */
-    internal static int String_NextString(byte[] text, int pointer)
+    internal static int String_NextString(Span<byte> text, int pointer)
     {
         pointer += text[pointer];
         while (text[pointer] == 0) pointer++;
@@ -277,7 +277,7 @@ class String
      * @param ptr Pointer to the current string.
      * @return Pointer to the previous string.
      */
-    internal static int String_PrevString(byte[] text, int pointer)
+    internal static int String_PrevString(Span<byte> text, int pointer)
     {
         do
         {
