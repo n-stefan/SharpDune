@@ -16,17 +16,16 @@ class Ini
         var section = source[start..];
         var end = section.IndexOf('[', Comparison);
         if (end != -1) section = section[..end];
-        section = section.Replace("\t", string.Empty, Comparison).Replace("  =", "=", Comparison).Replace(" =", "=", Comparison);
 
         if (key != null)
         {
-            var pattern = $"^{key}=(.*)$";
+            var pattern = $"^{key}[\t ]*=[\t ]*(.*)$";
             var match = Regex.Match(section, pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
             if (match.Success) result = match.Groups[1].Value.Trim().TrimEnd(',');
         }
         else
         {
-            var pattern = $"^(.*)=.*$";
+            var pattern = $"^(.*)[\t ]*=[\t ]*.*$";
             var matches = Regex.Matches(section, pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
             if (matches.Any()) result = string.Join('|', matches.Select(m => m.Groups[1].Value));
         }
