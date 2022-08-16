@@ -143,25 +143,21 @@ class File
 
     static string File_MakeCompleteFilename(int len, SearchDirectory dir, ReadOnlySpan<char> filename, ConvertCase convert)
     {
-        var buf = string.Empty;
         var filenameStr = filename.ToString();
 
         filenameStr = convert switch
         {
-            ConvertCase.CONVERT_TO_LOWERCASE => filenameStr.ToLower(),
-            ConvertCase.CONVERT_TO_UPPERCASE => filenameStr.ToUpper(),
+            ConvertCase.CONVERT_TO_LOWERCASE => filenameStr.ToLower(Culture),
+            ConvertCase.CONVERT_TO_UPPERCASE => filenameStr.ToUpper(Culture),
             _ => filenameStr
         };
 
-        if (dir is SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR or SearchDirectory.SEARCHDIR_CAMPAIGN_DIR)
+        var buf = dir switch
         {
             /* Note: campaign specific data directory not implemented. */
-            buf = Path.Combine(g_dune_data_dir, filenameStr);
-        }
-        else if (dir is SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
-        {
-            buf = Path.Combine(g_personal_data_dir, filenameStr);
-        }
+            SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR or SearchDirectory.SEARCHDIR_CAMPAIGN_DIR => Path.Combine(g_dune_data_dir, filenameStr),
+            SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR => Path.Combine(g_personal_data_dir, filenameStr)
+        };
 
         if (buf.Length > len)
         {

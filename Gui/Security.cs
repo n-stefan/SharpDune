@@ -107,11 +107,11 @@ class Security
             GUI_Screen_Copy(0, 0, (short)(g_curWidgetXBase - 1), (short)(g_curWidgetYBase - 8), (short)(g_curWidgetWidth + 2), (short)(g_curWidgetHeight + 16), Screen.NO2, Screen.NO0);
             GUI_Mouse_Show_Safe();
 
-            GUI_Security_NormaliseText(ref buffer);
+            buffer = GUI_Security_NormaliseText(buffer);
 
             question = String_Get_ByIndex((ushort)(questionIndex + 2));
             g_readBuffer = SharpDune.Encoding.GetBytes(question); //strncpy(g_readBuffer, String_Get_ByIndex(questionIndex + 2), g_readBufferSize);
-            GUI_Security_NormaliseText(ref question);
+            question = GUI_Security_NormaliseText(question);
 
             if (!string.Equals(question/*CSharpDune.Encoding.GetString(g_readBuffer)*/, buffer, StringComparison.OrdinalIgnoreCase))
             { //if (strcasecmp(g_readBuffer, buffer) != 0) {
@@ -195,16 +195,6 @@ class Security
         GUI_Mouse_Show_Safe();
     }
 
-    static void GUI_Security_NormaliseText(ref string str)
-    {
-        var s = str.ToCharArray();
-
-        for (var i = 0; i < s.Length; i++)
-        {
-            if (char.IsLetterOrDigit(s[i]) && char.IsLower(s[i]))
-                s[i] = char.ToUpper(s[i], Culture);
-        }
-
-        str = new string(s);
-    }
+    static string GUI_Security_NormaliseText(string str) =>
+        str.ToUpper(Culture);
 }
