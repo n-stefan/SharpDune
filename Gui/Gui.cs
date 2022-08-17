@@ -4022,7 +4022,7 @@ class Gui
         }
 
         s_palette1_houseColour = new Array<byte>(g_palette1[(colour * 3)..(colour * 3 + 3)]);
-        s_palette1_houseColour.Arr.Slice(0, 3).CopyTo(MemoryExtensions.AsMemory(g_palette1, 255 * 3, 3));
+        s_palette1_houseColour.Arr.Slice(0, 3).CopyTo(new Memory<byte>(g_palette1, 255 * 3, 3));
         s_palette1_houseColour += offset;
 
         if (!hallOfFame) GUI_HallOfFame_Tick();

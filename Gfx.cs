@@ -291,7 +291,7 @@ class Gfx
      * Set a new palette for the screen.
      * @param palette The palette in RGB order.
      */
-    internal static void GFX_SetPalette(byte[] palette)
+    internal static void GFX_SetPalette(Span<byte> palette)
     {
         int from, to;
 
@@ -312,9 +312,9 @@ class Gfx
                palette[to * 3 + 1] != g_paletteActive[to * 3 + 1] ||
                palette[to * 3 + 2] != g_paletteActive[to * 3 + 2]) break;
         }
-        Video_SetPalette(palette.AsSpan(3 * from), from, to - from + 1);
+        Video_SetPalette(palette.Slice(3 * from), from, to - from + 1);
 
-        Array.Copy(palette, 3 * from, g_paletteActive, 3 * from, (to - from + 1) * 3); //memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
+        palette.Slice(3 * from, (to - from + 1) * 3).CopyTo(new Span<byte>(g_paletteActive).Slice(3 * from)); //memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
     }
 
     /*
