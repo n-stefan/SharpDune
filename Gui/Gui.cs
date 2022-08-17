@@ -116,15 +116,15 @@ class HallOfFameStruct
         return bytes;
     }
 
-    internal void FromBytes(byte[] bytes)
+    internal void FromBytes(Span<byte> bytes)
     {
         for (var i = 0; i < 6; i++) name[i] = (char)bytes[i];
-        score = BitConverter.ToUInt16(bytes.AsSpan(6, 2));
-        rank = BitConverter.ToUInt16(bytes.AsSpan(8, 2));
-        campaignID = BitConverter.ToUInt16(bytes.AsSpan(10, 2));
+        score = BitConverter.ToUInt16(bytes.Slice(6, 2));
+        rank = BitConverter.ToUInt16(bytes.Slice(8, 2));
+        campaignID = BitConverter.ToUInt16(bytes.Slice(10, 2));
         houseID = bytes[12];
         padding1 = bytes[13];
-        padding2 = BitConverter.ToUInt16(bytes.AsSpan(14, 2));
+        padding2 = BitConverter.ToUInt16(bytes.Slice(14, 2));
     }
 
     internal static byte[] AllToBytes(HallOfFameStruct[] data)
@@ -140,7 +140,7 @@ class HallOfFameStruct
         for (var i = 0; i < output.Length; i++)
         {
             output[i] = new HallOfFameStruct();
-            output[i].FromBytes(bytes[(i * size)..((i + 1) * size)]);
+            output[i].FromBytes(new Span<byte>(bytes, i * size, size));
         }
         return output;
     }
@@ -4021,7 +4021,7 @@ class Gui
                 break;
         }
 
-        s_palette1_houseColour = new Array<byte>(g_palette1[(colour * 3)..(colour * 3 + 3)]);
+        s_palette1_houseColour = new Array<byte>(new Memory<byte>(g_palette1, colour * 3, 3));
         s_palette1_houseColour.Arr.Slice(0, 3).CopyTo(new Memory<byte>(g_palette1, 255 * 3, 3));
         s_palette1_houseColour += offset;
 

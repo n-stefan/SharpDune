@@ -221,18 +221,18 @@ class Sound
         }
         else
         {
-            string filenameBuffer, filename;
+            ReadOnlySpan<char> filenameBuffer;
 
-            filename = g_table_voices[index].str;
-            if (filename[0] == '?')
+            var filename = g_table_voices[index].str;
+            if (filename.StartsWith('?'))
             {
                 //snprintf(filenameBuffer, sizeof(filenameBuffer), filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
-                filenameBuffer = filename[1..].Replace("%c", g_playerHouseID < HouseType.HOUSE_MAX ? Convert.ToString((char)g_table_houseInfo[(int)g_playerHouseID].prefixChar, Culture) : " ", Comparison);
+                filenameBuffer = filename.Replace("%c", g_playerHouseID < HouseType.HOUSE_MAX ? Convert.ToString((char)g_table_houseInfo[(int)g_playerHouseID].prefixChar, Culture) : " ", Comparison);
 
                 if (g_readBuffer.Length < g_readBufferSize)
                     Array.Resize(ref g_readBuffer, (int)g_readBufferSize);
 
-                Driver_Voice_LoadFile(filenameBuffer, g_readBuffer, g_readBufferSize);
+                Driver_Voice_LoadFile(filenameBuffer.Slice(1), g_readBuffer, g_readBufferSize);
 
                 Driver_Voice_Play(g_readBuffer, 0xFF);
             }
