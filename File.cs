@@ -375,7 +375,7 @@ class File
         return exists;
     }
 
-    internal static bool File_Exists(string filename) =>
+    internal static bool File_Exists(ReadOnlySpan<char> filename) =>
         File_Exists_Ex(SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR, filename, out _);
 
     internal static bool File_Exists_Personal(string filename) =>

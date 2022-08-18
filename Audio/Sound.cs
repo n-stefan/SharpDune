@@ -227,7 +227,7 @@ class Sound
             if (filename.StartsWith('?'))
             {
                 //snprintf(filenameBuffer, sizeof(filenameBuffer), filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
-                filenameBuffer = filename.Replace("%c", g_playerHouseID < HouseType.HOUSE_MAX ? Convert.ToString((char)g_table_houseInfo[(int)g_playerHouseID].prefixChar, Culture) : " ", Comparison);
+                filenameBuffer = filename.Replace("%c", g_playerHouseID < HouseType.HOUSE_MAX ? g_table_houseInfo[(int)g_playerHouseID].prefixChar.ToString(Culture) : " ", Comparison);
 
                 if (g_readBuffer.Length < g_readBufferSize)
                     Array.Resize(ref g_readBuffer, (int)g_readBufferSize);
@@ -324,7 +324,7 @@ class Sound
      */
     internal static void Voice_LoadVoices(ushort voiceSet)
     {
-        int prefixChar; // = ' ';
+        char prefixChar; // = ' ';
         ushort voice;
 
         if (!g_enableVoices/* == 0*/) return;
@@ -376,7 +376,7 @@ class Sound
 
         for (voice = 0; voice < NUM_VOICES; voice++)
         {
-            string filename; //char[16]
+            ReadOnlySpan<char> filename; //char[16]
             var str = g_table_voices[voice].str;
             SleepIdle();  /* let a chance to update screen, etc. */
             switch (str[0])
@@ -390,7 +390,7 @@ class Sound
                         Language.GERMAN => 'G',
                         _ => g_table_houseInfo[voiceSet].prefixChar,
                     };
-                    filename = str.Replace("%c", ((char)prefixChar).ToString(), Comparison); //snprintf(filename, sizeof(filename), str, prefixChar);
+                    filename = str.Replace("%c", prefixChar.ToString(), Comparison); //snprintf(filename, sizeof(filename), str, prefixChar);
 
                     g_voiceData[voice] = Sound_LoadVoc(filename, out g_voiceDataSize[voice]);
                     break;
@@ -404,7 +404,7 @@ class Sound
                         Language.GERMAN => 'G',
                         _ => 'Z',
                     };
-                    filename = str[1..].Replace("%c", ((char)prefixChar).ToString(), Comparison); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
+                    filename = str[1..].Replace("%c", prefixChar.ToString(), Comparison); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
 
                     /* XXX - In the 1.07us datafiles, a few files are named differently:
                      *
@@ -420,7 +420,7 @@ class Sound
                      */
                     if (!File_Exists(filename))
                     {
-                        filename = filename.Remove(0, 1); //Array.Copy(filename, 1, filename, 0, filename.Length); //memmove(filename, filename + 1, strlen(filename));
+                        filename = filename.Slice(1); //memmove(filename, filename + 1, strlen(filename));
                     }
 
                     g_voiceData[voice] = Sound_LoadVoc(filename, out g_voiceDataSize[voice]);

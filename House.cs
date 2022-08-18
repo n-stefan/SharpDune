@@ -174,7 +174,7 @@ class HouseInfo
     internal ushort minimapColor;                           /*!< The color used on the minimap. */
     internal ushort specialCountDown;                       /*!< Time between activation of Special Weapon. */
     internal ushort starportDeliveryTime;                   /*!< Time it takes for a starport delivery. */
-    internal ushort prefixChar;                             /*!< Char used as prefix for some filenames. */
+    internal char prefixChar;                               /*!< Char used as prefix for some filenames. */
     internal ushort specialWeapon;                          /*!< Which Special Weapon this House has. @see HouseWeapon. */
     internal ushort musicWin;                               /*!< Music played when you won a mission. */
     internal ushort musicLose;                              /*!< Music played when you lose a mission. */
