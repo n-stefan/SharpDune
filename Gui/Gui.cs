@@ -140,7 +140,7 @@ class HallOfFameStruct
         for (var i = 0; i < output.Length; i++)
         {
             output[i] = new HallOfFameStruct();
-            output[i].FromBytes(new Span<byte>(bytes, i * size, size));
+            output[i].FromBytes(bytes.AsSpan(i * size, size));
         }
         return output;
     }
@@ -4021,8 +4021,8 @@ class Gui
                 break;
         }
 
-        s_palette1_houseColour = new Array<byte>(new Memory<byte>(g_palette1, colour * 3, 3));
-        s_palette1_houseColour.Arr.Slice(0, 3).CopyTo(new Memory<byte>(g_palette1, 255 * 3, 3));
+        s_palette1_houseColour = new Array<byte>(g_palette1.AsMemory(colour * 3, 3));
+        s_palette1_houseColour.Arr.Slice(0, 3).CopyTo(g_palette1.AsMemory(255 * 3, 3));
         s_palette1_houseColour += offset;
 
         if (!hallOfFame) GUI_HallOfFame_Tick();

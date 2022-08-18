@@ -85,16 +85,10 @@ class Scenario
         var houseName = g_table_houseInfo[houseID].name;
         string houseType; //char*
         string buf; //char[128]
-        //char[] b; //char*
         CHouse h;
 
         /* Get the type of the House (CPU / Human) */
         buf = Ini_GetString(houseName, "Brain", "NONE", s_scenarioBuffer);
-        //b = buf.ToCharArray();
-        //for (var i = 0; i < b.Length; i++) if (b[i] >= 'a' && b[i] <= 'z') unchecked { b[i] += (char)('A' - 'a'); }
-        //for (b = buf; *b != '\0'; b++) if (*b >= 'a' && *b <= 'z') *b += 'A' - 'a';
-        //buf = new string(b);
-        //buf = buf.ToUpper();
 
         //strstr("HUMAN$CPU", buf);
         if (string.Equals(buf, "HUMAN", StringComparison.OrdinalIgnoreCase))

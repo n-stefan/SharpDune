@@ -714,7 +714,7 @@ class Mt32Mpu
                                     } while ((data.sound[data.sound.Ptr + i++] & 0x80) == 0x80);
                                     buffer[0] = status;
                                     Debug.Assert(nb < buffer.Length);
-                                    data.sound.Arr.Slice(data.sound.Ptr + i, nb).CopyTo(new Memory<byte>(buffer, 1, nb)); //memcpy(buffer + 1, data.sound + i, nb);
+                                    data.sound.Arr.Slice(data.sound.Ptr + i, nb).CopyTo(buffer.AsMemory(1, nb)); //memcpy(buffer + 1, data.sound + i, nb);
                                     Midi_Send_String(buffer, (ushort)(nb + 1));
                                     nb += (ushort)i;
                                 }

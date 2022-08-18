@@ -314,7 +314,7 @@ class Gfx
         }
         Video_SetPalette(palette.Slice(3 * from), from, to - from + 1);
 
-        palette.Slice(3 * from, (to - from + 1) * 3).CopyTo(new Span<byte>(g_paletteActive).Slice(3 * from)); //memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
+        palette.Slice(3 * from, (to - from + 1) * 3).CopyTo(g_paletteActive.AsSpan(3 * from)); //memcpy(g_paletteActive + 3 * from, palette + 3 * from, (to - from + 1) * 3);
     }
 
     /*

@@ -1020,7 +1020,7 @@ class Cutscene
                     break;
 
                 case 3: /* 3 : fade from black */
-                    if (counter < 8) GFX_SetPalette(new Span<byte>(g_palette1).Slice(256 * 3 * counter));
+                    if (counter < 8) GFX_SetPalette(g_palette1.AsSpan(256 * 3 * counter));
 
                     if (counter-- == 0)
                     {
@@ -1030,7 +1030,7 @@ class Cutscene
                     break;
 
                 case 5: /* 5 : fade to black */
-                    if (counter > 0) GFX_SetPalette(new Span<byte>(g_palette1).Slice(256 * 3 * counter));
+                    if (counter > 0) GFX_SetPalette(g_palette1.AsSpan(256 * 3 * counter));
 
                     if (counter++ >= 8) stage = 0;
                     break;
