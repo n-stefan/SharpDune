@@ -275,13 +275,14 @@ class Mt32Mpu
 
         index++;
 
+        var fileSpan = file.Span;
         while (true)
         {
-            header = Read_BE_UInt32(file.Slice(pointer));
-            size = Read_BE_UInt32(file.Slice(pointer + 4));
+            header = Read_BE_UInt32(fileSpan.Slice(pointer));
+            size = Read_BE_UInt32(fileSpan.Slice(pointer + 4));
 
             if (header != SharpDune.MultiChar[FourCC.CAT] && header != SharpDune.MultiChar[FourCC.FORM]) return null;
-            if (Read_BE_UInt32(file.Slice(pointer + 8)) == SharpDune.MultiChar[FourCC.XMID]) break;
+            if (Read_BE_UInt32(fileSpan.Slice(pointer + 8)) == SharpDune.MultiChar[FourCC.XMID]) break;
 
             pointer += 8;
             pointer += (int)size;
@@ -294,9 +295,9 @@ class Mt32Mpu
 
         while (true)
         {
-            size = Read_BE_UInt32(file.Slice(pointer + 4));
+            size = Read_BE_UInt32(fileSpan.Slice(pointer + 4));
 
-            if ((Read_BE_UInt32(file.Slice(pointer + 8)) == SharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
+            if ((Read_BE_UInt32(fileSpan.Slice(pointer + 8)) == SharpDune.MultiChar[FourCC.XMID]) && --index == 0) break;
 
             size += 8;
             total -= size;
@@ -356,13 +357,14 @@ class Mt32Mpu
         s_mpu_msdata[i] = data;
         data.EVNT = null;
 
-        header = Read_BE_UInt32(file.Slice(pointer));
+        var fileSpan = file.Span;
+        header = Read_BE_UInt32(fileSpan.Slice(pointer));
         size = 12;
         while (header != SharpDune.MultiChar[FourCC.EVNT])
         {
             pointer += (int)size;
-            header = Read_BE_UInt32(file.Slice(pointer));
-            size = Read_BE_UInt32(file.Slice(pointer + 4)) + 8;
+            header = Read_BE_UInt32(fileSpan.Slice(pointer));
+            size = Read_BE_UInt32(fileSpan.Slice(pointer + 4)) + 8;
         }
 
         data.EVNT = file.Slice(pointer);

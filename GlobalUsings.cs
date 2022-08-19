@@ -7,7 +7,6 @@ global using SharpDune.Script;
 global using SharpDune.Video;
 global using System.Collections;
 global using System.Diagnostics;
-global using System.Diagnostics.CodeAnalysis;
 global using System.Globalization;
 global using System.Reflection;
 global using System.Runtime.CompilerServices;

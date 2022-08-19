@@ -25,13 +25,10 @@ class Endian
     internal static uint Read_LE_UInt32(Span<byte> p) =>
         (uint)(p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24));
 
-    internal static uint Read_BE_UInt32(Memory<byte> p)
-    {
-        var s = p.Span;
-        return (uint)((s[0] << 24) | (s[1] << 16) | (s[2] << 8) | s[3]);
-    }
+    internal static uint Read_BE_UInt32(Span<byte> p) =>
+        (uint)((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3]);
 
-    internal static void Write_LE_UInt16(byte[] p, ushort value, int i = 0)
+    internal static void Write_LE_UInt16(Span<byte> p, ushort value, int i = 0)
     {
         p[i] = (byte)(value & 0xFF);
         p[i + 1] = (byte)((value >> 8) & 0xFF);
