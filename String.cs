@@ -55,8 +55,8 @@ class String
         Span<byte> buf;
         ushort count;
         ushort i;
-        string decomp_buffer = null; //char[1024]
-        ushort from, to, prev;
+        string decomp_buffer; //char[1024]
+        ushort from, to;
 
         buf = File_ReadWholeFile(String_GenerateFilename(filename));
         count = (ushort)(Read_LE_UInt16(buf) / 2);
@@ -66,19 +66,18 @@ class String
         Array.Resize(ref s_strings, end + 1); //(char**)realloc(s_strings, (end + 1) * sizeof(char*));
         s_strings[s_stringsCount] = null;
 
-        prev = Read_LE_UInt16(buf);
-        for (i = 0; i < count && s_stringsCount <= end; i++)
+        to = Read_LE_UInt16(buf);
+        for (i = 0; i <= count && s_stringsCount <= end; i++)
         {
-            from = prev;
-            to = Read_LE_UInt16(buf.Slice(i * 2));
-            prev = to;
+            from = to;
+            to = (ushort)Math.Min(Read_LE_UInt16(buf.Slice(i * 2)), buf.Length - 1);
 
             var src = from == to ? string.Empty : SharpDune.Encoding.GetString(buf.Slice(from, to - from - 1));
             string dst;
 
             if (compressed)
             {
-                String_Decompress(src, ref decomp_buffer, 1024);
+                (decomp_buffer, _) = String_Decompress(src, 1024);
                 decomp_buffer = String_TranslateSpecial(decomp_buffer);
                 decomp_buffer = decomp_buffer.Trim(); //String_Trim(decomp_buffer);
                 dst = decomp_buffer; //strdup(decomp_buffer);
@@ -86,7 +85,7 @@ class String
             else
             {
                 dst = src; //strdup(src);
-                dst = dst.Trim(); //String_Trim(dst);
+                //dst = dst.Trim(); //String_Trim(dst);
             }
 
             if (dst.Length == 0 && s_strings[0] != null)
@@ -200,7 +199,7 @@ class String
      * @param dest The decompressed string.
      * @return The length of decompressed string.
      */
-    internal static ushort String_Decompress(string s, ref string result, ushort destLen)
+    internal static (string, ushort) String_Decompress(string s, ushort destLen)
     {
         ushort count;
         var sPointer = 0;
@@ -213,7 +212,7 @@ class String
             {
                 c &= 0x7F;
                 dest[count++] = couples[c >> 3];    /* 1st char */
-                c = (byte)couples[c + 16];  /* 2nd char */
+                c = (byte)couples[c + 16];    /* 2nd char */
             }
             dest[count++] = (char)c;
             if (count >= destLen - 1)
@@ -224,8 +223,8 @@ class String
         }
         //dest[count] = '\0';
 
-        result = new string(dest, 0, count);
-        return count;
+        var result = new string(dest, 0, count);
+        return (result, count);
     }
 
     /*

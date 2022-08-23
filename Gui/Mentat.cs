@@ -1396,13 +1396,13 @@ class Mentat
 
         info.length = HToBE32(info.length);
 
-        text = null; //CSharpDune.Encoding.GetString(g_readBuffer);
+        //CSharpDune.Encoding.GetString(g_readBuffer);
         compressedText = new byte[info.length]; //Gfx.GFX_Screen_Get_ByIndex(Screen.NO1);
 
         fileID = File_Open(s_mentatFilename, FileMode.FILE_MODE_READ);
         File_Seek(fileID, (int)offset, 0);
         File_Read(fileID, ref compressedText, info.length);
-        String_Decompress(SharpDune.Encoding.GetString(compressedText), ref text, (ushort)g_readBufferSize);
+        (text, _) = String_Decompress(SharpDune.Encoding.GetString(compressedText), (ushort)g_readBufferSize);
         text = String_TranslateSpecial(text);
         File_Close(fileID);
 
