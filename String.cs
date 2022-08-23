@@ -52,12 +52,11 @@ class String
 
     static void String_Load(string filename, bool compressed, int start, int end)
     {
-        byte[] buf;
+        Span<byte> buf;
         ushort count;
         ushort i;
         string decomp_buffer = null; //char[1024]
         ushort from, to, prev;
-        Range range;
 
         buf = File_ReadWholeFile(String_GenerateFilename(filename));
         count = (ushort)(Read_LE_UInt16(buf) / 2);
@@ -68,23 +67,18 @@ class String
         s_strings[s_stringsCount] = null;
 
         prev = Read_LE_UInt16(buf);
-        for (i = 0; i <= count && s_stringsCount <= end; i++)
+        for (i = 0; i < count && s_stringsCount <= end; i++)
         {
-            //from = Endian.READ_LE_UINT16(buf.AsSpan(i * 2));
-            //to = (ushort)Min(Endian.READ_LE_UINT16(buf.AsSpan((i + 1) * 2)), buf.Length - 1);
-            //range = from == to ? from..to : from..(to - 1);
             from = prev;
-            to = (ushort)Math.Min(Read_LE_UInt16(buf.AsSpan(i * 2)), buf.Length - 1);
+            to = Read_LE_UInt16(buf.Slice(i * 2));
             prev = to;
-            range = from == to ? from..to : from..(to - 1);
 
-            var src = SharpDune.Encoding.GetString(buf[range]);
+            var src = from == to ? string.Empty : SharpDune.Encoding.GetString(buf.Slice(from, to - from - 1));
             string dst;
 
             if (compressed)
             {
-                //ushort len;
-                /*len = */ String_Decompress(src, ref decomp_buffer, 1024);
+                String_Decompress(src, ref decomp_buffer, 1024);
                 decomp_buffer = String_TranslateSpecial(decomp_buffer);
                 decomp_buffer = decomp_buffer.Trim(); //String_Trim(decomp_buffer);
                 dst = decomp_buffer; //strdup(decomp_buffer);
@@ -92,13 +86,13 @@ class String
             else
             {
                 dst = src; //strdup(src);
-                //dst = dst.Trim(); //String_Trim(dst);
+                dst = dst.Trim(); //String_Trim(dst);
             }
 
             if (dst.Length == 0 && s_strings[0] != null)
             {
                 //dst = null; //free(dst);
-            }
+		    }
             else
             {
                 s_strings[s_stringsCount++] = dst;

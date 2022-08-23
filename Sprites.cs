@@ -329,14 +329,14 @@ class Sprites
         count = Read_LE_UInt16(buffer);
 
         s_spritesCount += count;
-        Array.Resize(ref g_sprites, s_spritesCount); //g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *)); //g_sprites = new byte[s_spritesCount][];
+        Array.Resize(ref g_sprites, s_spritesCount); //g_sprites = (uint8 **)realloc(g_sprites, s_spritesCount * sizeof(uint8 *));
 
         for (i = 0; i < count; i++)
         {
             var src = Sprites_GetSprite(buffer, i);
             byte[] dst = null;
 
-            Debug.WriteLine($"DEBUG: Sprites: {filename} {i} {Read_LE_UInt16(src)} {Read_LE_UInt16(src.Slice(3)) /* flags */} {src[2] /* width */} {src[5] /* height */} {Read_LE_UInt16(src.Slice(6)) /* packed size */} {Read_LE_UInt16(src.Slice(8)) /* decoded size */}");
+            Debug.WriteLine($"DEBUG: Sprites {filename} {i} : {Read_LE_UInt16(src)} {Read_LE_UInt16(src.Slice(3)) /* flags */} {src[2] /* width */} {src[5] /* height */} {Read_LE_UInt16(src.Slice(6)) /* packed size */} {Read_LE_UInt16(src.Slice(8)) /* decoded size */}");
             if (src != null)
             {
                 if (g_unpackSHPonLoad && (src[0] & 0x2) == 0)
