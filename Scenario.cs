@@ -159,7 +159,7 @@ class Scenario
         CUnit u;
         string[] split;
 
-        key = key.Replace(";", "", Comparison);
+        key = key.Replace(";", string.Empty, Comparison);
         index = byte.Parse(key, Culture);
         index--;
 
@@ -202,7 +202,8 @@ class Scenario
         /* Fourth value is the time between reinforcement */
         //settings = split + 1;
         repeat = split[3].EndsWith('+'); //settings[strlen(settings) - 1] == '+') ? true : false;
-        timeBetween = repeat ? (ushort)(ushort.Parse(split[3][..^1], Culture) * 6 + 1) : (ushort)(ushort.Parse(split[3], Culture) * 6 + 1);
+        var value = repeat ? ushort.Parse(split[3].AsSpan(0, split[3].Length - 1), provider: Culture) : ushort.Parse(split[3], Culture);
+        timeBetween = (ushort)(value * 6 + 1);
         /* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
         if (!g_dune2_enhanced) repeat = false;
 
