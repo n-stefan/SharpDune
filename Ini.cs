@@ -4,7 +4,7 @@ namespace SharpDune;
 
 class Ini
 {
-    internal static string Ini_GetString(string category, /*string*/ReadOnlySpan<char> key, string defaultValue, string source)
+    internal static string Ini_GetString(ReadOnlySpan<char> category, ReadOnlySpan<char> key, string defaultValue, ReadOnlySpan<char> source)
     {
         var result = defaultValue;
 
@@ -13,20 +13,20 @@ class Ini
         var start = source.IndexOf($"[{category}]", StringComparison.OrdinalIgnoreCase);
         if (start == -1) return result;
         start += category.Length + 2;
-        var section = source[start..];
-        var end = section.IndexOf('[', Comparison);
-        if (end != -1) section = section[..end];
+        var section = source.Slice(start);
+        var end = section.IndexOf('[');
+        if (end != -1) section = section.Slice(0, end);
 
         if (key != null)
         {
             var pattern = $"^{key}[\t ]*=[\t ]*(.*)$";
-            var match = Regex.Match(section, pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var match = Regex.Match(new string(section), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
             if (match.Success) result = match.Groups[1].Value.Trim().TrimEnd(',');
         }
         else
         {
             var pattern = $"^(.*)[\t ]*=[\t ]*.*$";
-            var matches = Regex.Matches(section, pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var matches = Regex.Matches(new string(section), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
             if (matches.Any()) result = string.Join('|', matches.Select(m => m.Groups[1].Value));
         }
 
