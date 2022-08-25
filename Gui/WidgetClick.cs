@@ -181,7 +181,7 @@ class WidgetClick
 
         if (unitAction == action) return true;
 
-        var index = Array.FindIndex(actions[..4], a => a == (ushort)unitAction);
+        var index = Array.FindIndex(actions, a => a == (ushort)unitAction);
         if (index == -1) return true;
         //found = memchr(actions, unitAction, 4);
         //if (found == NULL) return true;
