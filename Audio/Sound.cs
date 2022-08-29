@@ -404,7 +404,7 @@ class Sound
                         Language.GERMAN => 'G',
                         _ => 'Z',
                     };
-                    filename = str[1..].Replace("%c", prefixChar.ToString(), Comparison); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
+                    filename = str.Replace("%c", prefixChar.ToString(), Comparison).AsSpan(1); //snprintf(filename, sizeof(filename), str + 1, prefixChar);
 
                     /* XXX - In the 1.07us datafiles, a few files are named differently:
                      *
