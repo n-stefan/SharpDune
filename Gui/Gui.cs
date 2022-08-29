@@ -325,7 +325,7 @@ class Gui
      * 0A: [16 bytes] = house colors (if flags & 0x01)
      * [1]A: xx bytes = data (depending on flags & 0x02 : 1 = raw, 0 = Format80 encoded)
      */
-    internal static void GUI_DrawSprite(Screen screenID, /* uint8 * */byte[] sprite, short posX, short posY, ushort windowID, int flags, params object[] ap)
+    internal static void GUI_DrawSprite(Screen screenID, Span<byte> sprite, short posX, short posY, ushort windowID, int flags, params object[] ap)
     {
         /* variables for blur/sandworm effect */
         ushort blurOffset = 1;
@@ -343,8 +343,7 @@ class Gui
         short spriteWidth;  /* original sprite Width */
         short pixelSkipStart;   /* pixel count to skip at start of row */
         short pixelSkipEnd; /* pixel count to skip at end of row */
-        /* uint8 * */
-        byte[] remap = null;
+        Span<byte> remap = null;
         short remapCount = 0;
         short distY;
         ushort zoomRatioX = 0;  /* 8.8 fixed point, ie 0x0100 = 1x */
@@ -410,15 +409,15 @@ class Gui
             posX -= (short)(g_widgetProperties[windowID].xBase << 3);
         }
 
-        spriteFlags = Read_LE_UInt16(sprite.AsSpan(spritePointer));
+        spriteFlags = Read_LE_UInt16(sprite.Slice(spritePointer));
         spritePointer += 2;
 
         if ((spriteFlags & 0x1) != 0) flags |= DRAWSPRITE_FLAG_SPRITEPAL;
 
         spriteHeight = sprite[spritePointer++];
-        spriteWidth = (short)Read_LE_UInt16(sprite.AsSpan(spritePointer));
+        spriteWidth = (short)Read_LE_UInt16(sprite.Slice(spritePointer));
         spritePointer += 5;
-        spriteDecodedLength = Read_LE_UInt16(sprite.AsSpan(spritePointer));
+        spriteDecodedLength = Read_LE_UInt16(sprite.Slice(spritePointer));
         spritePointer += 2;
 
         spriteWidthZoomed = spriteWidth;
@@ -441,7 +440,7 @@ class Gui
 
         if ((spriteFlags & 0x1) != 0)
         {
-            if ((flags & DRAWSPRITE_FLAG_PAL) == 0) palette = sprite.AsSpan(spritePointer);
+            if ((flags & DRAWSPRITE_FLAG_PAL) == 0) palette = sprite.Slice(spritePointer);
             spritePointer += 16;
         }
 
@@ -692,7 +691,7 @@ class Gui
                         }
                         break;
 
-                    case (DRAWSPRITE_FLAG_REMAP):   /* remap */
+                    case DRAWSPRITE_FLAG_REMAP:   /* remap */
                         while (count > 0)
                         {
                             var v = sprite[spritePointer++];
@@ -714,7 +713,7 @@ class Gui
                         }
                         break;
 
-                    case (DRAWSPRITE_FLAG_BLUR):    /* blur/Sandworm effect */
+                    case DRAWSPRITE_FLAG_BLUR:    /* blur/Sandworm effect */
                         while (count > 0)
                         {
                             var v = sprite[spritePointer++];
@@ -736,7 +735,7 @@ class Gui
                                 else
                                 {
                                     blurRandomValue &= 0xFF;
-                                    buf[bufPointer] = buf[blurOffset];
+                                    buf[bufPointer] = buf[bufPointer + blurOffset];
                                 }
                                 bufPointer += buf_incr;
                                 count--;
@@ -744,8 +743,8 @@ class Gui
                         }
                         break;
 
-                    case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR):
-                    case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
+                    case DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR:
+                    case DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL:
                         /* remap + blur ? (+ has house colors) */
                         while (count > 0)
                         {
@@ -769,7 +768,7 @@ class Gui
                         }
                         break;
 
-                    case (DRAWSPRITE_FLAG_SPRITEPAL):   /* sprite has palette */
+                    case DRAWSPRITE_FLAG_SPRITEPAL:   /* sprite has palette */
                         while (count > 0)
                         {
                             var v = sprite[spritePointer++];
@@ -789,7 +788,7 @@ class Gui
                         }
                         break;
 
-                    case (DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL):
+                    case DRAWSPRITE_FLAG_REMAP | DRAWSPRITE_FLAG_SPRITEPAL:
                         /* remap +  sprite has palette */
                         while (count > 0)
                         {
@@ -813,7 +812,7 @@ class Gui
                         }
                         break;
 
-                    case (DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL):
+                    case DRAWSPRITE_FLAG_BLUR | DRAWSPRITE_FLAG_SPRITEPAL:
                         /* blur/sandworm effect + sprite has palette */
                         while (count > 0)
                         {
@@ -836,7 +835,7 @@ class Gui
                                 else
                                 {
                                     blurRandomValue &= 0x00FF;
-                                    buf[bufPointer] = buf[blurOffset];
+                                    buf[bufPointer] = buf[bufPointer + blurOffset];
                                 }
                                 bufPointer += buf_incr;
                                 count--;
