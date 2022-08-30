@@ -233,7 +233,7 @@ class String
      * @param source The untranslated string.
      * @param dest The translated string.
      */
-    internal static string String_TranslateSpecial(string str)
+    internal static string String_TranslateSpecial(ReadOnlySpan<char> str)
     {
         if (str == null) return null;
 

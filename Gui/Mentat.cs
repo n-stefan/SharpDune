@@ -1373,15 +1373,13 @@ class Mentat
         byte fileID;
         uint offset;
         byte[] compressedText; //char *
-        string desc; //char *
-        string picture; //char *
-        string text; //char *
-        bool loopAnimation;
-        MentatInfo info;
+        ReadOnlySpan<char> desc; //char *
+        ReadOnlySpan<char> picture; //char *
+        ReadOnlySpan<char> text; //char *
+        char first;
+        var info = new MentatInfo();
         int subjectPointer;
-        var textPointer = 0;
 
-        info = new MentatInfo();
         subject = s_helpSubjects.Span;
         subjectPointer = s_helpSubjectsPointer;
 
@@ -1396,43 +1394,35 @@ class Mentat
 
         info.length = HToBE32(info.length);
 
-        //CSharpDune.Encoding.GetString(g_readBuffer);
-        compressedText = new byte[info.length]; //Gfx.GFX_Screen_Get_ByIndex(Screen.NO1);
+        //text = g_readBuffer;
+        compressedText = new byte[info.length]; //GFX_Screen_Get_ByIndex(Screen.NO1);
 
         fileID = File_Open(s_mentatFilename, FileMode.FILE_MODE_READ);
         File_Seek(fileID, (int)offset, 0);
         File_Read(fileID, ref compressedText, info.length);
         (text, _) = String_Decompress(SharpDune.Encoding.GetString(compressedText), (ushort)g_readBufferSize);
         text = String_TranslateSpecial(text);
+        first = text[0];
         File_Close(fileID);
-
-        //TODO: Remove textPointer
-        /* skip WSA file name (or string index) */
-        while (text[textPointer] is not '*' and not '?') textPointer++;
-
-        loopAnimation = (text[textPointer] == '*');
-
-        textPointer++; //*text++ = '\0';
 
         if (noDesc)
         {
             picture = g_scenario.pictureBriefing;
             desc = null;
 
-            textPointer = 0;
-            var index = (ushort)(text[textPointer] - 44 + g_campaignID * 4 + 405 + (byte)g_playerHouseID * 40);
-            text = $"{String_Get_ByIndex(index)}\0"; //strncpy(g_readBuffer, String_Get_ByIndex(index), g_readBufferSize);
+            var index = first - 44 + g_campaignID * 4 + Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)g_playerHouseID * 40;
+
+            text = String_Get_ByIndex(index); //strncpy(g_readBuffer, String_Get_ByIndex(index), g_readBufferSize);
         }
         else
         {
-            picture = text[..text.IndexOf('*', Comparison)];
-            desc = text[textPointer..text.IndexOf('\f', Comparison)];
+            picture = text.Slice(0, text.IndexOf('*')); //(char *)g_readBuffer;
+            desc = text.Slice(text.IndexOf('*') + 1, text.IndexOf('\f') - text.IndexOf('*') - 1);
 
-            while (text[textPointer] is not '\0' and not (char)0xC) textPointer++;
-            if (text[textPointer] != '\0') textPointer++; //*text++ = '\0';
+            text = text.Slice(text.IndexOf('\f') + 1, text.IndexOf('\0') - text.IndexOf('\f') - 1);
         }
 
-        GUI_Mentat_Loop(picture, desc, text[textPointer..text.IndexOf('\0', Comparison)], loopAnimation, g_widgetMentatFirst);
+        GUI_Mentat_Loop(picture.ToString(), desc.ToString(), text.ToString(), true, g_widgetMentatFirst);
 
         GUI_Widget_MakeNormal(g_widgetMentatFirst, false);
 
