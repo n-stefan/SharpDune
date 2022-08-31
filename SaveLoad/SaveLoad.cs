@@ -35,17 +35,17 @@ enum SaveLoadType
  */
 class SaveLoadDesc
 {
-    //internal int offset;                                           /*!< The offset in the object, in bytes. */
     internal SaveLoadType type_disk;                                 /*!< The type it is on disk. */
     internal SaveLoadType type_memory;                               /*!< The type it is in memory. */
     internal ushort count;                                           /*!< The number of elements */
     internal SaveLoadDesc[] sld;                                     /*!< The SaveLoadDesc. */
-    //internal int size;                                             /*!< The size of an element. */
     internal SaveLoadDescCallback callback;                          /*!< The custom callback. */
-    //internal object address;                                         /*!< The address of the element. */
     internal string member;
     internal SaveLoadDescGetter getter;
     internal SaveLoadDescSetter setter;
+    //internal int offset;                                           /*!< The offset in the object, in bytes. */
+    //internal int size;                                             /*!< The size of an element. */
+    //internal object address;                                       /*!< The address of the element. */
 }
 
 class SaveLoad
@@ -65,6 +65,21 @@ class SaveLoad
     //	var size = Common.SizeOf(c.GetField(m, BindingFlags.Instance | BindingFlags.NonPublic).FieldType);
     //	return size;
     //}
+
+    //internal static SaveLoadDesc SLD_GENTRY<M>(SaveLoadType t, M m, SaveLoadDescSetter s) =>
+    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, address = m, setter = s };
+
+    //internal static SaveLoadDesc SLD_GENTRY2<M>(SaveLoadType t, M m, SaveLoadType t2, SaveLoadDescSetter s) =>
+    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, address = m, setter = s };
+
+    //internal static SaveLoadDesc SLD_GARRAY<M>(SaveLoadType t, M m, ushort n) =>
+    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, address = m };
+
+    //internal static SaveLoadDesc SLD_GCALLB<M>(SaveLoadType t, M m, SaveLoadDescCallback p) =>
+    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, address = m };
+
+    //internal static SaveLoadDesc SLD_GSLD<M>(M m, SaveLoadDesc[] s) =>
+    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, address = m };
 
     /*
      * An empty entry. Just to pad bytes on disk.
@@ -93,9 +108,6 @@ class SaveLoad
     internal static SaveLoadDesc SLD_GENTRY(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescSetter s) =>
         new() { /*offset = 0,*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, getter = g, setter = s };
 
-    //internal static SaveLoadDesc SLD_GENTRY<M>(SaveLoadType t, M m, SaveLoadDescSetter s) =>
-    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, address = m, setter = s };
-
     /*
      * A full entry.
      * @param c The class.
@@ -108,9 +120,6 @@ class SaveLoad
 
     internal static SaveLoadDesc SLD_GENTRY2(SaveLoadType t, SaveLoadType t2, SaveLoadDescGetter g, SaveLoadDescSetter s) =>
         new() { /*offset = 0,*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, getter = g, setter = s };
-
-    //internal static SaveLoadDesc SLD_GENTRY2<M>(SaveLoadType t, M m, SaveLoadType t2, SaveLoadDescSetter s) =>
-    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t2, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = null, address = m, setter = s };
 
     /*
      * A normal array.
@@ -125,9 +134,6 @@ class SaveLoad
     internal static SaveLoadDesc SLD_GARRAY(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescSetter s, ushort n) =>
         new() { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, getter = g, setter = s };
 
-    //internal static SaveLoadDesc SLD_GARRAY<M>(SaveLoadType t, M m, ushort n) =>
-    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = t, count = n, sld = null, /*size = Common.SizeOf(m) / n,*/ callback = null, address = m };
-
     /*
      * A callback entry.
      * @param c The class.
@@ -140,9 +146,6 @@ class SaveLoad
 
     internal static SaveLoadDesc SLD_GCALLB(SaveLoadType t, SaveLoadDescGetter g, SaveLoadDescCallback p) =>
         new() { /*offset = 0,*/ type_disk = t, type_memory = SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, getter = g };
-
-    //internal static SaveLoadDesc SLD_GCALLB<M>(SaveLoadType t, M m, SaveLoadDescCallback p) =>
-    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = t, type_memory = SaveLoadType.SLDT_CALLBACK, count = 1, sld = null, /*size = Common.SizeOf(m),*/ callback = p, address = m };
 
     /* Indicates end of array. */
     internal static SaveLoadDesc SLD_END() =>
@@ -159,9 +162,6 @@ class SaveLoad
 
     internal static SaveLoadDesc SLD_GSLD(SaveLoadDescGetter g, SaveLoadDesc[] s) =>
         new() { /*offset = 0,*/ type_disk = SLDT_SLD, type_memory = SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, getter = g };
-
-    //internal static SaveLoadDesc SLD_GSLD<M>(M m, SaveLoadDesc[] s) =>
-    //	new SaveLoadDesc { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, address = m };
 
     /*
      * A struct array.
@@ -196,7 +196,7 @@ class SaveLoad
                 SLDT_INT16 => (uint)SizeOf(typeof(short)) * sld[i].count,
                 SLDT_INT32 => (uint)SizeOf(typeof(int)) * sld[i].count,
                 SLDT_SLD => SaveLoad_GetLength(sld[i].sld) * sld[i].count,
-                _ => 0,
+                _ => 0
             };
             i++;
         }
@@ -204,7 +204,7 @@ class SaveLoad
         return length;
     }
 
-    static void FillArray(Array array, ArrayList values)
+    private static void FillArray(Array array, ArrayList values)
     {
         var index = 0;
         if (array.GetValue(0) is Array)
@@ -242,7 +242,7 @@ class SaveLoad
         var values = new ArrayList();
         FieldInfo field = null;
         int c = 0, index = -1;
-        string member;
+        ReadOnlySpan<char> member;
         object value, ptr, subPtr;
 
         while (sld[c].type_disk != SLDT_NULL)
@@ -253,14 +253,14 @@ class SaveLoad
             member = sld[c].member;
             if (type != null && member != null)
             {
-                index = member.IndexOf('.', Comparison);
+                index = member.IndexOf('.');
 
                 field = (index != -1) ?
-                    type.GetField(member[..index], flags).FieldType.GetField(member[(index + 1)..], flags) :
-                    type.GetField(member, flags);
+                    type.GetField(member.Slice(0, index).ToString(), flags).FieldType.GetField(member.Slice(index + 1).ToString(), flags) :
+                    type.GetField(member.ToString(), flags);
 
                 ptr = (index != -1) ?
-                    type.GetField(member[..index], flags).GetValue(obj) :
+                    type.GetField(member.Slice(0, index).ToString(), flags).GetValue(obj) :
                     obj;
             }
             else
@@ -271,8 +271,6 @@ class SaveLoad
             for (var i = 0; i < sld[c].count; i++)
             {
                 //void* ptr = (sld->address == NULL ? ((uint8*)object) + sld->offset : (uint8*)sld->address) + i * sld->size;
-                //object ptr = (sld[c].address == null ? ((byte[])obj)[sld[c].offset..] : (byte[])sld[c].address)[(i * sld[c].size)..];
-                //object ptr = sld[c].address == null ? ((byte[])obj)[(sld[c].offset + i * sld[c].size)..] : ((byte[])sld[c].address)[(i * sld[c].size)..];
 
                 switch (sld[c].type_disk)
                 {
@@ -317,12 +315,12 @@ class SaveLoad
                     case SLDT_NULL:
                         break;
 
-                    case SLDT_UINT8: //ptr = (byte)value;
-                    case SLDT_UINT16: //ptr = (ushort)value;
-                    case SLDT_UINT32: //ptr = value;
-                    case SLDT_INT8: //ptr = (sbyte)value;
-                    case SLDT_INT16: //ptr = (short)value;
-                    case SLDT_INT32: //ptr = (int)value;
+                    case SLDT_UINT8:
+                    case SLDT_UINT16:
+                    case SLDT_UINT32:
+                    case SLDT_INT8:
+                    case SLDT_INT16:
+                    case SLDT_INT32:
                         if (field != null)
                         {
                             if (field.FieldType == typeof(string))
@@ -348,7 +346,7 @@ class SaveLoad
                                 field.SetValue(ptr, (sld[c].type_memory == SLDT_UINT8) ? Convert.ToByte(value, Culture) : value);
                                 if (ptr is ValueType && index != -1)
                                 {
-                                    type.GetField(member[..index], flags).SetValue(obj, ptr);
+                                    type.GetField(member.Slice(0, index).ToString(), flags).SetValue(obj, ptr);
                                 }
                             }
                         }
@@ -454,7 +452,7 @@ class SaveLoad
         var type = obj?.GetType();
         FieldInfo field = null;
         int c = 0, index;
-        string member;
+        ReadOnlySpan<char> member;
         object value;
         object[] values;
 
@@ -465,16 +463,16 @@ class SaveLoad
             member = sld[c].member;
             if (type != null && member != null)
             {
-                index = member.IndexOf('.', Comparison);
+                index = member.IndexOf('.');
 
                 field = (index != -1) ?
-                    type.GetField(member[..index], flags).FieldType.GetField(member[(index + 1)..], flags) :
-                    type.GetField(member, flags);
+                    type.GetField(member.Slice(0, index).ToString(), flags).FieldType.GetField(member.Slice(index + 1).ToString(), flags) :
+                    type.GetField(member.ToString(), flags);
 
                 value = (field.FieldType == typeof(string)) ?
                     (field.GetValue(obj) as string).PadRight(sld[c].count, '\0') :
                     (index != -1) ?
-                    field.GetValue(type.GetField(member[..index], flags).GetValue(obj)) :
+                    field.GetValue(type.GetField(member.Slice(0, index).ToString(), flags).GetValue(obj)) :
                     field.GetValue(obj);
             }
             else
@@ -499,7 +497,6 @@ class SaveLoad
             for (var i = 0; i < sld[c].count; i++)
             {
                 //void* ptr = (sld->address == NULL ? ((uint8*)object) + sld->offset : (uint8*)sld->address) + i * sld->size;
-                //object ptr = sld[c].address == null ? ((byte[])obj)[(sld[c].offset + i * sld[c].size)..] : ((byte[])sld[c].address)[(i * sld[c].size)..];
 
                 switch (sld[c].type_memory)
                 {
@@ -507,22 +504,20 @@ class SaveLoad
                         values[i] = 0;
                         break;
 
-                    case SLDT_UINT8: //value = ((byte[])ptr)[0];
-                    case SLDT_UINT16: //value = ((ushort[])ptr)[0];
-                    case SLDT_UINT32: //value = ((uint[])ptr)[0];
-                    case SLDT_INT8: //value = (uint)((sbyte[])ptr)[0];
-                    case SLDT_INT16: //value = (uint)((short[])ptr)[0];
-                    case SLDT_INT32: //value = (uint)((int[])ptr)[0];
+                    case SLDT_UINT8:
+                    case SLDT_UINT16:
+                    case SLDT_UINT32:
+                    case SLDT_INT8:
+                    case SLDT_INT16:
+                    case SLDT_INT32:
                         break;
 
                     case SLDT_HOUSEFLAGS:
                         values[i] = ((HouseFlags)values[i]).All; //ptr;
-                        //value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.human) << 1) | (Convert.ToByte(f.doneFullScaleAttack) << 2) | (Convert.ToByte(f.isAIActive) << 3) | (Convert.ToByte(f.radarActivated) << 4));
                         break;
 
                     case SLDT_OBJECTFLAGS:
                         values[i] = ((ObjectFlags)values[i]).All; //ptr;
-                        //value = (uint)(Convert.ToByte(f.used) | (Convert.ToByte(f.allocated) << 1) | (Convert.ToByte(f.isNotOnMap) << 2) | (Convert.ToByte(f.isSmoking) << 3) | (Convert.ToByte(f.fireTwiceFlip) << 4) | (Convert.ToByte(f.animationFlip) << 5) | (Convert.ToByte(f.bulletIsBig) << 6) | (Convert.ToByte(f.isWobbling) << 7) | (Convert.ToByte(f.inTransport) << 8) | (Convert.ToByte(f.byScenario) << 9) | (Convert.ToByte(f.degrades) << 10) | (Convert.ToByte(f.isHighlighted) << 11) | (Convert.ToByte(f.isDirty) << 12) | (Convert.ToByte(f.repairing) << 13) | (Convert.ToByte(f.onHold) << 14) | (Convert.ToByte(f.isUnit) << 16) | (Convert.ToByte(f.upgrading) << 17));
                         break;
 
                     case SLDT_TEAMFLAGS:
