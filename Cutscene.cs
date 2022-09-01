@@ -979,7 +979,7 @@ class Cutscene
                 };
 
                 strings[stringCount].y = (short)y;
-                strings[stringCount].text = new string(text);
+                strings[stringCount].text = text.ToString();
 
                 stringCount++;
             }

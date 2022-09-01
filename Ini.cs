@@ -20,13 +20,13 @@ class Ini
         if (key != null)
         {
             var pattern = $"^{key}[\t ]*=[\t ]*(.*)$";
-            var match = Regex.Match(new string(section), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var match = Regex.Match(section.ToString(), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
             if (match.Success) result = match.Groups[1].Value.Trim().TrimEnd(',');
         }
         else
         {
             var pattern = $"^(.*)[\t ]*=[\t ]*.*$";
-            var matches = Regex.Matches(new string(section), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var matches = Regex.Matches(section.ToString(), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
             if (matches.Any()) result = string.Join('|', matches.Select(m => m.Groups[1].Value));
         }
 

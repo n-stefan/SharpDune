@@ -1133,7 +1133,7 @@ class Mentat
         {
             text = SharpDune.Encoding.GetString(helpSubjects.Slice(helpSubjectsPointer + 7));
             text = text.Slice(0, text.IndexOf("\0", Comparison));
-            var textStr = new string(text);
+            var textStr = text.ToString();
             line.drawParameterDown.text = textStr;
             line.drawParameterSelected.text = textStr;
             line.drawParameterNormal.text = textStr;
