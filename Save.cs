@@ -121,11 +121,11 @@ class Save
             lengthSwapped = HToBE32(length);
             bw.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
             bw.Write($"{description}\0".ToCharArray()); //if (fwrite(description, length, 1, fp) != 1) return false;
+
             /* Ensure we are word aligned */
             if ((length & 1) == 1)
             {
-                byte empty = 0;
-                bw.Write(empty); //if (fwrite(&empty, 1, 1, fp) != 1) return false;
+                bw.Write((byte)0); //if (fwrite(&empty, 1, 1, fp) != 1) return false;
             }
 
             /* Store all additional chunks */
@@ -179,8 +179,7 @@ class Save
         /* Ensure we are word aligned */
         if ((length & 1) == 1)
         {
-            byte empty = 0;
-            fp.Write(empty); //if (fwrite(&empty, 1, 1, fp) != 1) return false;
+            fp.Write((byte)0); //if (fwrite(&empty, 1, 1, fp) != 1) return false;
         }
 
         /* Write back the chunk size */

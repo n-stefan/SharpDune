@@ -240,7 +240,7 @@ class WidgetClick
             string filename; //char*
             byte fileId;
 
-            g_savegameDesc[i] = string.Empty; //*desc = '\0';
+            //g_savegameDesc[i] = string.Empty; //*desc = '\0';
 
             if (s_savegameIndexBase - i < 0) continue;
 
@@ -248,8 +248,7 @@ class WidgetClick
             {
                 if (!save) continue;
 
-                /*desc*/
-                g_savegameDesc[i] = String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
+                /*desc*/g_savegameDesc[i] = String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
                 continue;
             }
 
@@ -258,8 +257,8 @@ class WidgetClick
             fileId = ChunkFile_Open_Personal(filename);
             if (fileId == (byte)FileMode.FILE_INVALID) continue;
             ChunkFile_Read(fileId, HToBE32((uint)SharpDune.MultiChar[FourCC.NAME]), ref /*desc*/g_savegameDesc[i], 50);
-            g_savegameDesc[i] = g_savegameDesc[i][..^1];
             ChunkFile_Close(fileId);
+            g_savegameDesc[i] = g_savegameDesc[i][..^1];
             continue;
         }
     }

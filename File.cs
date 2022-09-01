@@ -152,7 +152,7 @@ class File
             _ => filenameStr
         };
 
-        var buf = dir switch
+        ReadOnlySpan<char> buf = dir switch
         {
             /* Note: campaign specific data directory not implemented. */
             SearchDirectory.SEARCHDIR_GLOBAL_DATA_DIR or SearchDirectory.SEARCHDIR_CAMPAIGN_DIR => Path.Combine(g_dune_data_dir, filenameStr),
@@ -161,11 +161,11 @@ class File
 
         if (buf.Length > len)
         {
-            buf = buf[..len];
+            buf = buf.Slice(0, len);
             Trace.WriteLine($"WARNING: output truncated : {buf} ({filenameStr})");
         }
 
-        return buf;
+        return buf.ToString();
     }
 
     /*
