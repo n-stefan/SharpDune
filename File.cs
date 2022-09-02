@@ -265,7 +265,7 @@ class File
                 /* file is found in PAK */
                 if (pakInfo != s_currentPakInfo)
                 {
-                    if (s_currentPakFp != null) s_currentPakFp.Close();
+                    s_currentPakFp?.Close();
                     s_currentPakFp = FOpenDataDir(dir, pakInfo.filename, "rb");
                     s_currentPakInfo = pakInfo;
                 }
@@ -821,7 +821,7 @@ class File
      */
     internal static void File_Uninit()
     {
-        if (s_currentPakFp != null) s_currentPakFp.Close();
+        s_currentPakFp?.Close();
         s_currentPakFp = null;
         s_currentPakInfo = null;
         while (s_files_in_root != null)

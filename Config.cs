@@ -151,8 +151,8 @@ class Config
         config.musicDrv = buffer[1];
         config.soundDrv = buffer[2];
         config.voiceDrv = buffer[3];
-        config.useMouse = Convert.ToBoolean(buffer[4]); //BitConverter.ToBoolean(buffer.AsSpan(4, 1));
-        config.useXMS = Convert.ToBoolean(buffer[5]); //BitConverter.ToBoolean(buffer.AsSpan(5, 1));
+        config.useMouse = Convert.ToBoolean(buffer[4]);
+        config.useXMS = Convert.ToBoolean(buffer[5]);
         config.variable_0006 = buffer[6];
         config.variable_0007 = buffer[7];
         config.language = buffer[8];

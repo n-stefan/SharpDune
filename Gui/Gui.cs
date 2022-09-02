@@ -134,13 +134,13 @@ class HallOfFameStruct
         return output;
     }
 
-    internal static HallOfFameStruct[] AllFromBytes(byte[] bytes)
+    internal static HallOfFameStruct[] AllFromBytes(Span<byte> bytes)
     {
         var output = new HallOfFameStruct[bytes.Length / size];
         for (var i = 0; i < output.Length; i++)
         {
             output[i] = new HallOfFameStruct();
-            output[i].FromBytes(bytes.AsSpan(i * size, size));
+            output[i].FromBytes(bytes.Slice(i * size, size));
         }
         return output;
     }

@@ -84,7 +84,7 @@ class Font
      */
     static CFont Font_LoadFile(string filename)
     {
-        byte[] buf;
+        Span<byte> buf;
         CFont f;
         byte i;
         ushort start;
@@ -103,13 +103,13 @@ class Font
         }
 
         f = new CFont(); //(Font*) calloc(1, sizeof(Font));
-        start = Read_LE_UInt16(buf.AsSpan(4));
-        dataStart = Read_LE_UInt16(buf.AsSpan(6));
-        widthList = Read_LE_UInt16(buf.AsSpan(8));
-        lineList = Read_LE_UInt16(buf.AsSpan(12));
+        start = Read_LE_UInt16(buf.Slice(4));
+        dataStart = Read_LE_UInt16(buf.Slice(6));
+        widthList = Read_LE_UInt16(buf.Slice(8));
+        lineList = Read_LE_UInt16(buf.Slice(12));
         f.height = buf[start + 4];
         f.maxWidth = buf[start + 5];
-        f.count = (byte)(Read_LE_UInt16(buf.AsSpan(10)) - widthList);
+        f.count = (byte)(Read_LE_UInt16(buf.Slice(10)) - widthList);
         f.chars = new FontChar[f.count]; //(FontChar*) calloc(f->count, sizeof(FontChar));
         for (i = 0; i < f.chars.Length; i++) f.chars[i] = new FontChar();
 
@@ -124,7 +124,7 @@ class Font
             fc.unusedLines = buf[lineList + i * 2];
             fc.usedLines = buf[lineList + i * 2 + 1];
 
-            dataOffset = Read_LE_UInt16(buf.AsSpan(dataStart + i * 2));
+            dataOffset = Read_LE_UInt16(buf.Slice(dataStart + i * 2));
             if (dataOffset == 0) continue;
 
             fc.data = new byte[fc.usedLines * fc.width]; //(uint8*) malloc(fc->usedLines* fc->width);

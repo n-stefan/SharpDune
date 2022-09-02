@@ -79,7 +79,7 @@ class Sprites
     internal static string g_fileRegionINI;
     internal static ushort[] g_regions;
 
-    internal static void Sprites_SetMouseSprite(ushort hotSpotX, ushort hotSpotY, /*uint8 * */byte[] sprite)
+    internal static void Sprites_SetMouseSprite(ushort hotSpotX, ushort hotSpotY, Span<byte> sprite)
     {
         ushort size;
         var spritePointer = 0;
@@ -92,7 +92,7 @@ class Sprites
 
         GUI_Mouse_Hide();
 
-        size = GFX_GetSize((short)(Read_LE_UInt16(sprite.AsSpan(3)) + 16), sprite[5]);
+        size = GFX_GetSize((short)(Read_LE_UInt16(sprite.Slice(3)) + 16), sprite[5]);
 
         if (s_mouseSpriteBufferSize < size)
         {
@@ -100,7 +100,7 @@ class Sprites
             s_mouseSpriteBufferSize = size;
         }
 
-        size = (ushort)(Read_LE_UInt16(sprite.AsSpan(8)) + 10);
+        size = (ushort)(Read_LE_UInt16(sprite.Slice(8)) + 10);
         if ((sprite[spritePointer] & 0x1) != 0) size += 16;
 
         if (s_mouseSpriteSize < size)
@@ -111,11 +111,11 @@ class Sprites
 
         if ((sprite[spritePointer] & 0x2) != 0)
         {
-            Buffer.BlockCopy(sprite, spritePointer, g_mouseSprite, 0, Read_LE_UInt16(sprite.AsSpan(6))); //memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6));
+            sprite.Slice(spritePointer, Read_LE_UInt16(sprite.Slice(6))).CopyTo(g_mouseSprite); //memcpy(g_mouseSprite, sprite, READ_LE_UINT16(sprite + 6));
         }
         else
         {
-            var dst = g_mouseSprite;
+            var dst = g_mouseSprite.AsSpan();
             var flags = (byte)(sprite[0] | 0x2);
             var dstPointer = 0;
 
@@ -124,7 +124,7 @@ class Sprites
             dstPointer += 2;
             spritePointer += 2;
 
-            Buffer.BlockCopy(sprite, spritePointer, dst, dstPointer, 6); //memcpy(dst, sprite, 6);
+            sprite.Slice(spritePointer, 6).CopyTo(dst.Slice(dstPointer)); //memcpy(dst, sprite, 6);
             dstPointer += 6;
             spritePointer += 6;
 
@@ -136,7 +136,7 @@ class Sprites
 
             if ((flags & 0x1) != 0)
             {
-                Buffer.BlockCopy(sprite, spritePointer, dst, dstPointer, 16); //memcpy(dst, sprite, 16);
+                sprite.Slice(spritePointer, 16).CopyTo(dst.Slice(dstPointer)); //memcpy(dst, sprite, 16);
                 dstPointer += 16;
                 spritePointer += 16;
             }
@@ -149,7 +149,7 @@ class Sprites
 
         sprite = g_mouseSprite;
         g_mouseHeight = sprite[5];
-        g_mouseWidth = (ushort)((Read_LE_UInt16(sprite.AsSpan(3)) >> 3) + 2);
+        g_mouseWidth = (ushort)((Read_LE_UInt16(sprite.Slice(3)) >> 3) + 2);
 
         GUI_Mouse_Show();
 
@@ -348,11 +348,11 @@ class Sprites
                     }
                     dst = new byte[size]; //(uint8 *)malloc(size);
                     var encoded_data = src;
-                    var decoded_data = dst;
+                    var decoded_data = dst.AsSpan();
                     var encoded_dataPointer = 0;
                     var decoded_dataPointer = 0;
                     decoded_data[decoded_dataPointer++] = (byte)(encoded_data[encoded_dataPointer++] | 0x2);    /* the sprite is not Format80 encoded any more */
-                    encoded_data.Slice(encoded_dataPointer, 5).CopyTo(decoded_data.AsSpan(decoded_dataPointer)); //memcpy(decoded_data, encoded_data, 5);
+                    encoded_data.Slice(encoded_dataPointer, 5).CopyTo(decoded_data.Slice(decoded_dataPointer)); //memcpy(decoded_data, encoded_data, 5);
                     decoded_dataPointer += 5;
                     Write_LE_UInt16(decoded_data, size, decoded_dataPointer);  /* new packed size */
                     decoded_dataPointer += 2;
@@ -361,7 +361,7 @@ class Sprites
                     decoded_data[decoded_dataPointer++] = encoded_data[encoded_dataPointer++];
                     if ((Read_LE_UInt16(src) & 0x1) != 0)
                     {
-                        encoded_data.Slice(encoded_dataPointer, 16).CopyTo(decoded_data.AsSpan(decoded_dataPointer)); //memcpy(decoded_data, encoded_data, 16);	/* copy palette */
+                        encoded_data.Slice(encoded_dataPointer, 16).CopyTo(decoded_data.Slice(decoded_dataPointer)); //memcpy(decoded_data, encoded_data, 16);	/* copy palette */
                         decoded_dataPointer += 16;
                         encoded_dataPointer += 16;
                     }
@@ -499,7 +499,7 @@ class Sprites
      * @param index The index of the sprite to get.
      * @return The sprite.
      */
-    static Span<byte> Sprites_GetSprite(byte[] buffer, ushort index)
+    static Span<byte> Sprites_GetSprite(Span<byte> buffer, ushort index)
     {
         uint offset;
         var bufferPointer = 0;
@@ -509,11 +509,11 @@ class Sprites
 
         bufferPointer += 2;
 
-        offset = Read_LE_UInt32(buffer.AsSpan(bufferPointer + 4 * index));
+        offset = Read_LE_UInt32(buffer.Slice(bufferPointer + 4 * index));
 
         if (offset == 0) return null;
 
-        return buffer.AsSpan(bufferPointer + (int)offset);
+        return buffer.Slice(bufferPointer + (int)offset);
     }
 
     /*
