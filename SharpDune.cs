@@ -480,12 +480,10 @@ class SharpDune
                     for (i = 0; i < props.height; i++)
                     {
                         char c1;
-                        var c2 = (char)27;
+                        char c2;
 
-                        c1 = char.ToUpper(strings[0][i], Culture); //TODO: Or strings[i][0]?
-                        var chr = (char)Input_Keyboard_HandleKeys((ushort)(key & 0xFF));
-                        if (char.IsLetterOrDigit(chr))
-                            c2 = char.ToUpper(chr, Culture);
+                        c1 = char.ToUpper(strings[i][0], Culture);
+                        c2 = char.ToUpper((char)Input_Keyboard_HandleKeys((ushort)(key & 0xFF)), Culture);
 
                         if (c1 == c2)
                         {
