@@ -1,7 +1,5 @@
 ﻿/* File access */
 
-//TODO: Add using statements
-
 namespace SharpDune;
 
 delegate bool ProcessFileCallback(string name, string path, uint size);
@@ -442,7 +440,9 @@ class File
         }
         else if (buffer is char[] charArray)
         {
+#pragma warning disable CA2000 // Dispose objects before losing scope - Stream is closed later
             var sr = new StreamReader(s_file[index].fp);
+#pragma warning restore CA2000 // Dispose objects before losing scope
             if (sr.ReadBlock(charArray, offset, (int)length) == 0)
             {
                 HandleError();
@@ -456,7 +456,9 @@ class File
             }
             else
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope - Stream is closed later
                 var br = new BinaryReader(s_file[index].fp);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 try
                 {
                     mentatInfo.length = br.ReadUInt32();
@@ -481,7 +483,9 @@ class File
         }
         else if (buffer is uint)
         {
+#pragma warning disable CA2000 // Dispose objects before losing scope - Stream is closed later
             var br = new BinaryReader(s_file[index].fp);
+#pragma warning restore CA2000 // Dispose objects before losing scope
             try
             {
                 buffer = (T)(object)br.ReadUInt32();
@@ -494,7 +498,9 @@ class File
         else if (buffer is string)
         {
             var chars = new char[length];
+#pragma warning disable CA2000 // Dispose objects before losing scope - Stream is closed later
             var sr = new StreamReader(s_file[index].fp);
+#pragma warning restore CA2000 // Dispose objects before losing scope
             try
             {
                 sr.ReadBlock(chars, offset, (int)length);
@@ -1093,7 +1099,7 @@ class File
     {
         string filenameComplete; //char[1024]
 
-        filenameComplete = File_MakeCompleteFilename(12/*filenameComplete.Length*/, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_LOWERCASE);
+        filenameComplete = File_MakeCompleteFilename(1024, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_LOWERCASE);
         try
         {
             System.IO.File.Delete(filenameComplete);
@@ -1102,7 +1108,7 @@ class File
         {
             //if (unlink(filenameComplete) < 0)
             /* try with the upper case file name */
-            filenameComplete = File_MakeCompleteFilename(12/*filenameComplete.Length*/, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_UPPERCASE);
+            filenameComplete = File_MakeCompleteFilename(1024, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_UPPERCASE);
             try
             {
                 System.IO.File.Delete(filenameComplete);
