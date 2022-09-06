@@ -113,7 +113,7 @@ class Midi
                 if (midiOutGetDevCaps((UIntPtr)i, out var caps, (uint)Marshal.SizeOf<MidiOutCaps>()) == MMSYSERR_NOERROR)
                 {
                     Debug.WriteLine($"DEBUG: MidiOutdevice #{i}: {caps.Mid}:{caps.Pid} v{caps.DriverVersion >> 8}.{caps.DriverVersion & 0xff}" +
-                                      $" voices={caps.Voices} notes={caps.Notes} channels={caps.ChannelMask} {caps.Name}");
+                                    $" voices={caps.Voices} notes={caps.Notes} channels={caps.ChannelMask} {caps.Name}");
                     /* select this device if its description contains "MT-32" */
                     if (caps.Name.Contains("MT-32", Comparison)) devID = i;
                 }
@@ -184,7 +184,7 @@ class Midi
         {
             header.Data = Marshal.AllocHGlobal(len);
             header.BufferLength = len;
-            Marshal.Copy(data, 0, header.Data, header.BufferLength); //TODO: Use Unsafe.CopyBlock?
+            Marshal.Copy(data, 0, header.Data, header.BufferLength);
             ptr = Marshal.AllocHGlobal(hdrSize);
             Marshal.StructureToPtr(header, ptr, false);
 

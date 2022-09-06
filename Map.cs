@@ -281,7 +281,7 @@ class Map
         ushort oldPosition;
 
         oldLayout = selectionLayout;
-        if ((layout & 0x80) != 0) return oldLayout; //TODO: Check
+        if ((layout & 0x80) != 0) return oldLayout;
 
         oldPosition = Map_SetSelectionObjectPosition(0xFFFF);
 

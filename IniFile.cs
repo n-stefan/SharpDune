@@ -125,17 +125,13 @@ class IniFile
     internal static string IniFile_GetString(string key, string defaultValue)
     {
         string p;
-        //ushort i;
         /* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
         p = Ini_GetString("sharpdune", key, defaultValue, g_sharpduneini);
-        //TODO: Check
         if (!string.IsNullOrEmpty(p))
         {
             /* Trim space from the beginning of the dest */
             p = p.TrimStart();
-            //for (i = 0; i < length && (dest[i] == ' ' || dest[i] == '\t') && (dest[i] != '\0'); i++);
-            //if (i > 0 && i < length) memmove(dest, dest+i, length - i);
-        }
+	    }
         return p;
     }
 }
