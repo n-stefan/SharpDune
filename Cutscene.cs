@@ -692,13 +692,21 @@ class Cutscene
 
         WSA_Unload(wsa);
 
-        if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+        if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro)
+        {
+            LogosExit();
+            return;
+        }
 
         Voice_LoadVoices(0xFFFF);
 
         for (; g_timerTimeout != 0; SleepIdle())
         {
-            if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+            if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro)
+            {
+                LogosExit();
+                return;
+            }
         }
 
         GUI_SetPaletteAnimated(g_palette2, 60);
@@ -717,7 +725,11 @@ class Cutscene
 
         for (g_timerTimeout = 60; g_timerTimeout != 0; SleepIdle())
         {
-            if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+            if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro)
+            {
+                LogosExit();
+                return;
+            }
         }
 
         GUI_SetPaletteAnimated(g_palette2, 30);
@@ -732,16 +744,21 @@ class Cutscene
 
         for (g_timerTimeout = 180; g_timerTimeout != 0; SleepIdle())
         {
-            if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro) goto logos_exit;
+            if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro)
+            {
+                LogosExit();
+                return;
+            }
         }
 
-    //TODO: Use a local function instead?
-    logos_exit:
-        GUI_SetPaletteAnimated(g_palette2, 30);
+        void LogosExit()
+        {
+            GUI_SetPaletteAnimated(g_palette2, 30);
 
-        GUI_ClearScreen(Screen.NO0);
+            GUI_ClearScreen(Screen.NO0);
 
-        GFX_Screen_SetActive(oldScreenID);
+            GFX_Screen_SetActive(oldScreenID);
+        }
     }
 
     static readonly byte[] colours = { 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
