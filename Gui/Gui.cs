@@ -83,36 +83,17 @@ class HallOfFameStruct
     internal byte padding1;                                 /*!< Padding bytes. */
     internal ushort padding2;                               /*!< Padding bytes. */
 
-    //TODO: Use BitConverter?
     internal byte[] ToBytes()
     {
         var bytes = new byte[size];
-
-        //name
+        var span = bytes.AsSpan();
         for (var i = 0; i < 6; i++) bytes[i] = (byte)name[i];
-
-        //score
-        bytes[6] = (byte)(score & 0xFF);
-        bytes[7] = (byte)((score >> 8) & 0xFF);
-
-        //rank
-        bytes[8] = (byte)(rank & 0xFF);
-        bytes[9] = (byte)((rank >> 8) & 0xFF);
-
-        //campaignID
-        bytes[10] = (byte)(campaignID & 0xFF);
-        bytes[11] = (byte)((campaignID >> 8) & 0xFF);
-
-        //houseID
+        BitConverter.TryWriteBytes(span.Slice(6), score);
+        BitConverter.TryWriteBytes(span.Slice(8), rank);
+        BitConverter.TryWriteBytes(span.Slice(10), campaignID);
         bytes[12] = houseID;
-
-        //padding1
         bytes[13] = padding1;
-
-        //padding2
-        bytes[14] = (byte)(padding2 & 0xFF);
-        bytes[15] = (byte)((padding2 >> 8) & 0xFF);
-
+        BitConverter.TryWriteBytes(span.Slice(14), padding2);
         return bytes;
     }
 
