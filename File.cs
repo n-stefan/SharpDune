@@ -737,77 +737,61 @@ class File
         return (File_Write(index, buffer, 2) == 2);
     }
 
-    //internal static bool fread_le_int16(ref short p, FileStream f)
-    //{
-    //	var value = (ushort)p;
-    //	return fread_le_uint16(ref value, f);
-    //}
-
     /*
      * Read a uint16 value from a little endian file.
      */
     internal static bool FRead_LE_UInt16(ref ushort value, FileStream stream)
     {
-        var buffer = new byte[2];
         //if (value == null) return false;
+        var buffer = new byte[2];
         if (stream.Read(buffer, 0, 2) != 2) return false; //fread(buffer, 1, 2, stream) != 2)
         value = Read_LE_UInt16(buffer);
         return true;
     }
-
-    //internal static bool fread_le_int32(ref int p, FileStream f)
-    //{
-    //	var value = (uint)p;
-    //	return fread_le_uint32(ref value, f);
-    //}
 
     /*
      * Read a uint32 value from a little endian file.
      */
     internal static bool FRead_LE_UInt32(ref uint value, FileStream stream)
     {
-        var buffer = new byte[4];
         //if (value == null) return false;
+        var buffer = new byte[4];
         if (stream.Read(buffer, 0, 4) != 4) return false; //fread(buffer, 1, 4, stream) != 4)
         value = Read_LE_UInt32(buffer);
         return true;
     }
-
-    //TODO: Consolidate fwrite_le_. . . methods
-    //internal static bool fwrite_le_int16(short value, BinaryWriter stream) =>
-    //	fwrite_le_uint16((ushort)value, stream);
 
     /*
      * Write a uint16 value from a little endian file.
      */
     internal static bool FWrite_LE_UInt16(ushort value, BinaryWriter stream)
     {
-        stream.Write(value);
-        //stream.Write((/*char*/sbyte)(value & 0xff)); //if (putc(value & 0xff, stream) == EOF) return false;
-        //stream.Write((/*char*/sbyte)((value >> 8) & 0xff)); //if (putc((value >> 8) & 0xff, stream) == EOF) return false;
-        //TODO: Or do it this way?
-        //byte[] bytes = new byte[2];
-        //Endian.WRITE_LE_UINT16(bytes, value);
-        //stream.Write(bytes);
-        return true;
+        try
+        {
+            stream.Write(value);
+            return true;
+        }
+        catch (IOException)
+        {
+            return false;
+        }
     }
-
-    //internal static bool fwrite_le_int32(int value, BinaryWriter stream) =>
-    //	fwrite_le_uint32((uint)value, stream);
 
     /*
      * Write a uint32 value from a little endian file.
      */
-    internal static bool FWrite_LE_UInt32(uint value, BinaryWriter stream)
-    {
-        stream.Write(value);
-        //TODO: Use Endian.WRITE_LE_UINT32?
-        //stream.Write((/*char*/sbyte)(value & 0xff)); //if (putc(value & 0xff, stream) == EOF) return false;
-        //stream.Write((/*char*/sbyte)((value >> 8) & 0xff)); //if (putc((value >> 8) & 0xff, stream) == EOF) return false;
-        //stream.Write((/*char*/sbyte)((value >> 16) & 0xff)); //if (putc((value >> 16) & 0xff, stream) == EOF) return false;
-        //stream.Write((/*char*/sbyte)((value >> 24) & 0xff)); //if (putc((value >> 24) & 0xff, stream) == EOF) return false;
-        return true;
-    }
+    //internal static bool FWrite_LE_UInt32(uint value, BinaryWriter stream)
+    //{
+    //    try
+    //    {
+    //        stream.Write(value);
+    //        return true;
+    //    }
+    //    catch (IOException)
+    //    {
+    //        return false;
+    //    }
+    //}
 
     /*
      * Create a file on the disk.
