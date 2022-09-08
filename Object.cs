@@ -165,7 +165,7 @@ class Object
         si = g_table_structureInfo[o.type];
         if (!si.o.flags.busyStateIsIncoming) return;
 
-        s = Structure_Get_ByIndex(o.index); //TODO: Check
+        s = Structure_Get_ByIndex(o.index);
         if (Structure_GetLinkedUnit(s) != null) return;
 
         Structure_SetState(s, (short)((encoded == 0) ? StructureState.STRUCTURE_STATE_IDLE : StructureState.STRUCTURE_STATE_BUSY));
