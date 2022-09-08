@@ -234,7 +234,7 @@ class Scenario
         /* Load scenario file */
         filename = $"SCEN{g_table_houseInfo[houseID].name[0]}{scenarioID:D3}.INI"; //sprintf(filename, "SCEN%c%03hu.INI", g_table_houseInfo[houseID].name[0], scenarioID);
         if (!File_Exists(filename)) return false;
-        File_ReadWholeFile(filename, ref s_scenarioBuffer); //s_scenarioBuffer = CFile.File_ReadWholeFile(filename);
+        s_scenarioBuffer = SharpDune.Encoding.GetString(File_ReadWholeFile(filename));
 
         //memset(&g_scenario, 0, sizeof(Scenario));
 

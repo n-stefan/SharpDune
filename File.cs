@@ -560,7 +560,7 @@ class File
      * @param mallocFlags The type of memory to allocate.
      * @return The pointer to allocated memory where the file has been read.
      */
-    internal static /*IntPtr*/byte[] File_ReadWholeFile(string filename)
+    internal static byte[] File_ReadWholeFile(string filename)
     {
         byte index;
         uint length;
@@ -579,25 +579,6 @@ class File
         File_Close(index);
 
         return buffer;
-    }
-
-    internal static uint File_ReadWholeFile<T>(string filename, ref T buffer)
-    {
-        byte index;
-        uint length;
-
-        index = File_Open(filename, FileMode.FILE_MODE_READ);
-        if (index == (byte)FileMode.FILE_INVALID) return 0;
-        length = File_GetSize(index);
-
-        File_Read(index, ref buffer, length);
-
-        /* In case of text-files it can be very important to have a \0 at the end */
-        //((char *)buffer)[length] = '\0';
-
-        File_Close(index);
-
-        return length;
     }
 
     /*
