@@ -236,7 +236,7 @@ class Scenario
         if (!File_Exists(filename)) return false;
         s_scenarioBuffer = SharpDune.Encoding.GetString(File_ReadWholeFile(filename));
 
-        //memset(&g_scenario, 0, sizeof(Scenario));
+        g_scenario = new CScenario(); //memset(&g_scenario, 0, sizeof(Scenario));
 
         Scenario_Load_General();
         Sprites_LoadTiles();
@@ -262,7 +262,7 @@ class Scenario
 
         g_tickScenarioStart = g_timerGame;
 
-        s_scenarioBuffer = string.Empty; //free(s_scenarioBuffer);
+        s_scenarioBuffer = null; //free(s_scenarioBuffer);
         return true;
     }
 
