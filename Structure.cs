@@ -1647,7 +1647,7 @@ class Structure
 
                     if (i == (int)StructureType.STRUCTURE_WOR_TROOPER && s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && g_campaignID >= 1)
                     {
-                        structuresRequired &= ~((uint)1 << (byte)StructureType.STRUCTURE_BARRACKS); //TODO: Check
+                        structuresRequired &= ~((uint)1 << (byte)StructureType.STRUCTURE_BARRACKS);
                         availableCampaign = 2;
                     }
 

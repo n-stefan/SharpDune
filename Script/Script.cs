@@ -51,9 +51,8 @@ class ScriptEngine
 */
 class ScriptInfo
 {
-    //TODO: Change to ushort?
     internal ushort[] text;                               /*!< Pointer to TEXT section of the scripts. */
-    internal /*Array<ushort>*/ushort[] start;             /*!< Pointer to the begin of the scripts. */
+    internal ushort[] start;                              /*!< Pointer to the begin of the scripts. */
     internal ushort[] offsets;                            /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
     internal ushort offsetsCount;                         /*!< Number of words in offsets array. */
     internal ushort startCount;                           /*!< Number of words in start. */

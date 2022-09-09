@@ -3403,16 +3403,6 @@ class Gui
 
         s_ticksPlayed = ((g_timerGame - g_tickScenarioStart) / 3600) + 1;
 
-        //TODO: Remove
-        //s_ticksPlayed = 5;
-        //killedAllied = 0;
-        //killedEnemy = 2;
-        //destroyedAllied = 0;
-        //destroyedEnemy = 0;
-        //harvestedAllied = 707;
-        //harvestedEnemy = 0;
-        //score = 68;
-
         score = (short)Update_Score(score, ref harvestedAllied, ref harvestedEnemy, houseID);
 
         /* 1st scenario doesn't have the "Building destroyed" stats */
