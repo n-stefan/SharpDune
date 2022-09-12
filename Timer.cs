@@ -20,13 +20,13 @@ class TimerNode
 
 class Timer
 {
-    volatile internal static uint g_timerGUI;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
-    volatile internal static uint g_timerGame;                                     /*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, . . .). */
-    volatile internal static uint g_timerInput;                                    /*!< Tick counter. Increases with 1 every tick. Used for input timing. */
-    volatile internal static uint g_timerSleep;                                    /*!< Tick counter. Increases with 1 every tick. Used for sleeping. */
-    volatile internal static uint g_timerTimeout;                                  /*!< Tick counter. Decreases with 1 every tick when non-zero. Used to timeout. */
+    internal static volatile uint g_timerGUI;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
+    internal static volatile uint g_timerGame;                                     /*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, . . .). */
+    internal static volatile uint g_timerInput;                                    /*!< Tick counter. Increases with 1 every tick. Used for input timing. */
+    internal static volatile uint g_timerSleep;                                    /*!< Tick counter. Increases with 1 every tick. Used for sleeping. */
+    internal static volatile uint g_timerTimeout;                                  /*!< Tick counter. Decreases with 1 every tick when non-zero. Used to timeout. */
 
-    volatile static int s_timer_count;
+    static volatile int s_timer_count;
 
     static ushort s_timersActive;
 

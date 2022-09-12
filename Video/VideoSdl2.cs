@@ -618,7 +618,7 @@ class VideoSdl2
      * This function copies the 320x200 buffer to the real screen.
      * Scaling is done automatically.
      */
-    unsafe static void Video_DrawScreen_Nearest_Neighbor()
+    static unsafe void Video_DrawScreen_Nearest_Neighbor()
     {
         var gfx_screen8 = GFX_Screen_Get_ByIndex(Screen.NO0);
         var area = GFX_Screen_GetDirtyArea(Screen.NO0);

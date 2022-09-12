@@ -299,7 +299,10 @@ class Gfx
         {
             if (palette[from * 3] != g_paletteActive[from * 3] ||
                palette[from * 3 + 1] != g_paletteActive[from * 3 + 1] ||
-               palette[from * 3 + 2] != g_paletteActive[from * 3 + 2]) break;
+               palette[from * 3 + 2] != g_paletteActive[from * 3 + 2])
+            {
+                break;
+            }
         }
         if (from >= 256)
         {
@@ -310,7 +313,10 @@ class Gfx
         {
             if (palette[to * 3] != g_paletteActive[to * 3] ||
                palette[to * 3 + 1] != g_paletteActive[to * 3 + 1] ||
-               palette[to * 3 + 2] != g_paletteActive[to * 3 + 2]) break;
+               palette[to * 3 + 2] != g_paletteActive[to * 3 + 2])
+            {
+                break;
+            }
         }
         Video_SetPalette(palette.Slice(3 * from), from, to - from + 1);
 

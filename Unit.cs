@@ -2060,7 +2060,10 @@ class Unit
         unit.orientation[level].current = newCurrent;
 
         if (Orientation_Orientation256ToOrientation16((byte)newCurrent) == Orientation_Orientation256ToOrientation16((byte)current) &&
-            Orientation_Orientation256ToOrientation8((byte)newCurrent) == Orientation_Orientation256ToOrientation8((byte)current)) return;
+            Orientation_Orientation256ToOrientation8((byte)newCurrent) == Orientation_Orientation256ToOrientation8((byte)current))
+        {
+            return;
+        }
 
         Unit_UpdateMap(2, unit);
     }

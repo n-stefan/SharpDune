@@ -178,8 +178,7 @@ class Sprites
      * @param palette Where to store the palette, if any.
      * @return The size of the loaded image.
      */
-    internal static ushort Sprites_LoadImage(string filename, Screen screenID, byte[] palette)
-    {
+    internal static ushort Sprites_LoadImage(string filename, Screen screenID, byte[] palette) =>
 #if Sprites_0
         byte index;
         byte[] header = default;
@@ -190,8 +189,7 @@ class Sprites
         CFile.File_Read(index, header, 4);
         CFile.File_Close(index);
 #endif
-        return (ushort)(Sprites_LoadCPSFile(filename, screenID, palette) / 8000);
-    }
+        (ushort)(Sprites_LoadCPSFile(filename, screenID, palette) / 8000);
 
     /*
      * Loads a CPS file.
