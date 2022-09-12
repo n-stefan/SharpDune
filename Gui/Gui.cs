@@ -4280,7 +4280,7 @@ class Gui
 
     static void GUI_StrategicMap_ShowProgression(ushort campaignID)
     {
-        /*string*/ReadOnlySpan<char> key; //char[10];
+        ReadOnlySpan<char> key; //char[10];
         string category; //char[10];
         string buf; //char[100]
         ushort i;

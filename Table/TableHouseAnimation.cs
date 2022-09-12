@@ -38,7 +38,7 @@ class TableHouseAnimation
             new() { str = "MEANWHIL", duration = 70, frameCount = 1, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         },
-        
+
         new HouseAnimation_Animation[] { /* 2 - Level 4: Atreides */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 75, frameCount = 2, flags = 0x47 },
@@ -46,7 +46,7 @@ class TableHouseAnimation
             new() { str = "MEANWHIL", duration = 70, frameCount = 2, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         },
-        
+
         new HouseAnimation_Animation[] { /* 3 - Level 4: Ordos */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 0, flags = 0x47 },
@@ -54,14 +54,14 @@ class TableHouseAnimation
             new() { str = "MEANWHIL", duration = 70, frameCount = 0, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         },
-        
+
         new HouseAnimation_Animation[] { /* 4 - Level 8: Harkonnen */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 3, flags = 0x47 },
             new() { str = "EFINALA", duration = 85, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         },
-        
+
         new HouseAnimation_Animation[] { /* 5 - Level 8: Atreides */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 90, frameCount = 5, flags = 0x47 },
@@ -75,7 +75,7 @@ class TableHouseAnimation
             new() { str = "EFINALA", duration = 75, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         },
-        
+
         new HouseAnimation_Animation[] { /* 7 - Level 9: Harkonnen */
         	new() { str = "HFINALA", duration = 40, frameCount = 0, flags = 0x46 },
             new() { str = "HFINALA", duration = 40, frameCount = 0, flags = 0x42 },
@@ -90,7 +90,7 @@ class TableHouseAnimation
             new() { str = string.Empty, duration = 10, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         },
-        
+
         new HouseAnimation_Animation[] { /* 8 - Level 9: Atreides */
         	new() { str = "AFINALA", duration = 35, frameCount = 0, flags = 0x7 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
@@ -102,7 +102,7 @@ class TableHouseAnimation
             new() { str = string.Empty, duration = 35, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         },
-        
+
         new HouseAnimation_Animation[] { /* 9 - Level 9: Ordos */
         	new() { str = "OFINALA", duration = 65, frameCount = 0, flags = 0x7 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },

@@ -375,7 +375,7 @@ class Wsa
             else
             {
                 wsaSize = bufferSizeMinimal;
-		    }
+            }
 
             wsa = new byte[wsaSize]; //calloc(1, wsaSize);
             flags.malloced = true;

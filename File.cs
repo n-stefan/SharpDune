@@ -173,7 +173,7 @@ class File
     {
         string filenameComplete; //char[1024]
         FileInfo fileInfo;
-        /*string*/ReadOnlySpan<char> filename;
+        ReadOnlySpan<char> filename;
         FileInfo pakInfo = null;
 
         var fileAccess = FileAccessFromString(mode);

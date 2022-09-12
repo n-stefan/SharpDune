@@ -79,7 +79,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-        
+
         new() { /* 1 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_THOPTER,
@@ -152,7 +152,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_MISSILE_TROOPER,
                     bulletSound = 42
                 },
-        
+
         new() { /* 2 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_INFANTRY,
@@ -225,7 +225,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 58
                 },
-        
+
         new() { /* 3 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TROOPERS,
@@ -298,7 +298,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-        
+
         new() { /* 4 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SOLDIER,
@@ -371,7 +371,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 58
                 },
-        
+
         new() { /* 5 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TROOPER,
@@ -444,7 +444,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-        
+
         new() { /* 6 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SABOTEUR,
@@ -517,7 +517,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 58
                 },
-        
+
         new() { /* 7 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_LAUNCHER,
@@ -590,7 +590,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_MISSILE_ROCKET,
                     bulletSound = 65535 /*(ushort)-1*/
                 },
-        
+
         new() { /* 8 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_DEVIATOR,
@@ -663,7 +663,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_MISSILE_DEVIATOR,
                     bulletSound = 65535 /*(ushort)-1*/
                 },
-        
+
         new() { /* 9 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TANK,
@@ -736,7 +736,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 57
                 },
-        
+
         new() { /* 10 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SIEGE_TANK,
@@ -809,7 +809,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 57
                 },
-        
+
         new() { /* 11 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_DEVASTATOR,
@@ -882,7 +882,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 57
                 },
-        
+
         new() { /* 12 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SONIC_TANK,
@@ -955,7 +955,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_SONIC_BLAST,
                     bulletSound = 43
                 },
-        
+
         new() { /* 13 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_TRIKE,
@@ -1028,7 +1028,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-        
+
         new() { /* 14 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_RAIDER_TRIKE,
@@ -1101,7 +1101,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-        
+
         new() { /* 15 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_QUAD,
@@ -1174,7 +1174,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_BULLET,
                     bulletSound = 59
                 },
-        
+
         new() { /* 16 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_HARVESTER,
@@ -1247,7 +1247,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 0
                 },
-        
+
         new() { /* 17 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_MCV,
@@ -1320,7 +1320,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 0
                 },
-        
+
         new() { /* 18 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
@@ -1393,7 +1393,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-        
+
         new() { /* 19 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
@@ -1466,7 +1466,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-        
+
         new() { /* 20 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
@@ -1539,7 +1539,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-        
+
         new() { /* 21 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
@@ -1612,7 +1612,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 42
                 },
-        
+
         new() { /* 22 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
@@ -1685,7 +1685,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 64
                 },
-        
+
         new() { /* 23 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
@@ -1758,7 +1758,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 65535 /*(ushort)-1*/
                 },
-        
+
         new() { /* 24 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,
@@ -1831,7 +1831,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_INVALID,
                     bulletSound = 65535 /*(ushort)-1*/
                 },
-        
+
         new() { /* 25 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_SANDWORM,
@@ -1904,7 +1904,7 @@ class TableUnitInfo
                     bulletType = (byte)UnitType.UNIT_SANDWORM,
                     bulletSound = 63
                 },
-        
+
         new() { /* 26 */
 					o = new ObjectInfo {
                     stringID_abbrev = (ushort)Text.STR_NULL,

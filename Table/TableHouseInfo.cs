@@ -20,7 +20,7 @@ class TableHouseInfo
             musicBriefing = 24,
             voiceFilename = "nhark.voc"
         },
-        
+
         new() {
             name = "Atreides",
             toughness = 77,
@@ -36,7 +36,7 @@ class TableHouseInfo
             musicBriefing = 25,
             voiceFilename = "nattr.voc"
         },
-        
+
         new() {
             name = "Ordos",
             toughness = 128,

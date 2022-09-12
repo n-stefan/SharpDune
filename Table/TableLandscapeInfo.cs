@@ -16,7 +16,7 @@ class TableLandscapeInfo
             radarColour = 88,
             spriteID = 37
         },
-        
+
         new() { /* 1 / LST_PARTIAL_ROCK */
             movementSpeed = new byte[] { 160, 112, 112, 64, 255, 0 },
             letUnitWobble = true,
@@ -28,7 +28,7 @@ class TableLandscapeInfo
             radarColour = 28,
             spriteID = 39
         },
-        
+
         new() { /* 2 / LST_ENTIRELY_DUNE */
             movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
             letUnitWobble = false,
@@ -40,7 +40,7 @@ class TableLandscapeInfo
             radarColour = 92,
             spriteID = 41
         },
-        
+
         new() { /* 3 / LST_PARTIAL_DUNE */
             movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
             letUnitWobble = false,
@@ -52,7 +52,7 @@ class TableLandscapeInfo
             radarColour = 89,
             spriteID = 43
         },
-        
+
         new() { /* 4 / LST_ENTIRELY_ROCK */
             movementSpeed = new byte[] { 112, 160, 160, 112, 255, 0 },
             letUnitWobble = true,

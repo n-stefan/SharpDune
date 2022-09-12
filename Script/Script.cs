@@ -302,12 +302,12 @@ class Script
     }
 
 #if DEBUG
-        static void STACK_PUSH(ScriptEngine script, ushort value, [CallerFilePath]string filename = default, [CallerLineNumber]int lineno = default) =>
-            Script_Stack_Push(script, value, filename, lineno);
-        static ushort STACK_POP(ScriptEngine script, [CallerFilePath]string filename = default, [CallerLineNumber]int lineno = default) =>
-            Script_Stack_Pop(script, filename, lineno);
-        internal static ushort STACK_PEEK(ScriptEngine script, int position, [CallerFilePath]string filename = default, [CallerLineNumber]int lineno = default) =>
-            Script_Stack_Peek(script, position, filename, lineno);
+    static void STACK_PUSH(ScriptEngine script, ushort value, [CallerFilePath] string filename = default, [CallerLineNumber] int lineno = default) =>
+        Script_Stack_Push(script, value, filename, lineno);
+    static ushort STACK_POP(ScriptEngine script, [CallerFilePath] string filename = default, [CallerLineNumber] int lineno = default) =>
+        Script_Stack_Pop(script, filename, lineno);
+    internal static ushort STACK_PEEK(ScriptEngine script, int position, [CallerFilePath] string filename = default, [CallerLineNumber] int lineno = default) =>
+        Script_Stack_Peek(script, position, filename, lineno);
 #else
     static void STACK_PUSH(ScriptEngine script, ushort value) =>
         Script_Stack_Push(script, value);
@@ -323,7 +323,7 @@ class Script
      * @note Use SCRIPT_PUSH(position) to use; do not use this function directly.
      */
 #if DEBUG
-        static void Script_Stack_Push(ScriptEngine script, ushort value, string filename = default, int lineno = default)
+    static void Script_Stack_Push(ScriptEngine script, ushort value, string filename = default, int lineno = default)
 #else
     static void Script_Stack_Push(ScriptEngine script, ushort value)
 #endif
@@ -331,7 +331,7 @@ class Script
         if (script.stackPointer == 0)
         {
 #if DEBUG
-                Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
 #else
             Script_Error("Stack Overflow");
 #endif
@@ -348,7 +348,7 @@ class Script
      * @note Use SCRIPT_POP(position) to use; do not use this function directly.
      */
 #if DEBUG
-        static ushort Script_Stack_Pop(ScriptEngine script, string filename = default, int lineno = default)
+    static ushort Script_Stack_Pop(ScriptEngine script, string filename = default, int lineno = default)
 #else
     static ushort Script_Stack_Pop(ScriptEngine script)
 #endif
@@ -356,7 +356,7 @@ class Script
         if (script.stackPointer >= 15)
         {
 #if DEBUG
-                Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
 #else
             Script_Error("Stack Overflow");
 #endif
@@ -374,7 +374,7 @@ class Script
      * @note Use SCRIPT_PEEK(position) to use; do not use this function directly.
      */
 #if DEBUG
-        static ushort Script_Stack_Peek(ScriptEngine script, int position, string filename = default, int lineno = default)
+    static ushort Script_Stack_Peek(ScriptEngine script, int position, string filename = default, int lineno = default)
 #else
     static ushort Script_Stack_Peek(ScriptEngine script, int position)
 #endif
@@ -384,7 +384,7 @@ class Script
         if (script.stackPointer >= 16 - position)
         {
 #if DEBUG
-                Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
 #else
             Script_Error("Stack Overflow");
 #endif
@@ -615,7 +615,7 @@ class Script
                     if (script.framePointer - parameter - 2 >= 15)
                     {
 #if DEBUG
-                            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
 #else
                         Script_Error("Stack Overflow");
 #endif
@@ -632,7 +632,7 @@ class Script
                     if (script.framePointer + parameter - 1 >= 15)
                     {
 #if DEBUG
-                            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
 #else
                         Script_Error("Stack Overflow");
 #endif
@@ -676,7 +676,7 @@ class Script
                     if (script.framePointer - parameter - 2 >= 15)
                     {
 #if DEBUG
-                            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
 #else
                         Script_Error("Stack Overflow");
 #endif
@@ -693,7 +693,7 @@ class Script
                     if (script.framePointer + parameter - 1 >= 15)
                     {
 #if DEBUG
-                            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
 #else
                         Script_Error("Stack Overflow");
 #endif

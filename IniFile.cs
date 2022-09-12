@@ -131,7 +131,7 @@ class IniFile
         {
             /* Trim space from the beginning of the dest */
             p = p.TrimStart();
-	    }
+        }
         return p;
     }
 }

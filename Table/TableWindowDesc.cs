@@ -4,7 +4,8 @@ namespace SharpDune.Table;
 
 class TableWindowDesc
 {
-    internal static WindowDesc g_saveLoadWindowDesc = new() {
+    internal static WindowDesc g_saveLoadWindowDesc = new()
+    {
         index = 17,
         stringID = (short)Text.STR_SELECT_A_SAVED_GAME_TO_LOAD,
         addArrows = true,
@@ -76,7 +77,8 @@ class TableWindowDesc
         }
     };
 
-    internal static WindowDesc g_gameControlWindowDesc = new() {
+    internal static WindowDesc g_gameControlWindowDesc = new()
+    {
         index = 16,
         stringID = (short)Text.STR_GAME_CONTROLS,
         addArrows = false,

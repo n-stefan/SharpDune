@@ -91,7 +91,7 @@ class String
             if (dst.Length == 0 && s_strings[0] != null)
             {
                 //dst = null; //free(dst);
-		    }
+            }
             else
             {
                 s_strings[s_stringsCount++] = dst;

@@ -1112,7 +1112,7 @@ class Mentat
         var w = g_widgetMentatTail;
         var helpSubjects = s_helpSubjects.Span;
         ushort i;
-        /*string*/ReadOnlySpan<char> text;
+        ReadOnlySpan<char> text;
         var helpSubjectsPointer = s_helpSubjectsPointer;
 
         if (!force && s_topHelpList == displayedHelpSubject) return;

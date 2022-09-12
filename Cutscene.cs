@@ -593,8 +593,8 @@ class Cutscene
 
             //if (g_feedback[feedback_index].messageId != 0)
             //{
-                /* force drawing of subtitle */
-                GameLoop_DrawText(String_Get_ByIndex(subtitle.stringID), subtitle.top);
+            /* force drawing of subtitle */
+            GameLoop_DrawText(String_Get_ByIndex(subtitle.stringID), subtitle.top);
             //}
         }
         else
@@ -928,7 +928,7 @@ class Cutscene
 
             while ((g_curWidgetHeight / 6) + 2 > stringCount && data[dataPointer] != 0)
             {
-                /*string*/ReadOnlySpan<char> text; //char *
+                ReadOnlySpan<char> text; //char *
                 ushort y;
 
                 if (stringCount != 0)

@@ -1050,7 +1050,7 @@ class Viewport
         if (click && w.index == 43)
         {
             var position = g_debugScenario ? packed : Unit_FindTargetAround(packed);
-            
+
             if (g_map[position].overlayTileID != g_veiledTileID || g_debugScenario)
             {
                 if (Object_GetByPackedTile(position) != null || g_debugScenario)

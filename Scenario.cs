@@ -310,7 +310,7 @@ class Scenario
         ushort packed;
         ushort value;
         string[] s;
-        /*string*/ReadOnlySpan<char> posY; //char[3]
+        ReadOnlySpan<char> posY; //char[3]
 
         if (key[0] != 'C') return;
 
