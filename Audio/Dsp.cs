@@ -26,7 +26,7 @@
 
 namespace SharpDune.Audio;
 
-class Dsp
+partial class Dsp
 {
     const string LibraryName = "winmm";
     const int WaveOutMapperDeviceId = -1;
@@ -392,23 +392,23 @@ class Dsp
 
     public delegate void WaveOutProc(IntPtr handle, WaveOutMessage uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2);
 
-    [DllImport(LibraryName, SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern MMSYSERROR waveOutReset(IntPtr handle);
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial MMSYSERROR waveOutReset(IntPtr handle);
 
-    [DllImport(LibraryName, SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern MMSYSERROR waveOutUnprepareHeader(IntPtr handle, IntPtr pwh, int cbwh);
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial MMSYSERROR waveOutUnprepareHeader(IntPtr handle, IntPtr pwh, int cbwh);
 
-    [DllImport(LibraryName, SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern MMSYSERROR waveOutClose(IntPtr handle);
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial MMSYSERROR waveOutClose(IntPtr handle);
 
-    [DllImport(LibraryName, SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern MMSYSERROR waveOutWrite(IntPtr handle, IntPtr pwh, int cbwh);
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial MMSYSERROR waveOutWrite(IntPtr handle, IntPtr pwh, int cbwh);
 
-    [DllImport(LibraryName, SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern MMSYSERROR waveOutPrepareHeader(IntPtr handle, IntPtr pwh, int cbwh);
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial MMSYSERROR waveOutPrepareHeader(IntPtr handle, IntPtr pwh, int cbwh);
 
-    [DllImport(LibraryName, SetLastError = true, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern MMSYSERROR waveOutOpen(ref IntPtr handle, int uDeviceID, ref WAVEFORMATEX pwfx, WaveOutProc dwCallback, IntPtr dwCallbackInstance, WaveOpenFlags dwFlags);
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial MMSYSERROR waveOutOpen(ref IntPtr handle, int uDeviceID, ref WAVEFORMATEX pwfx, WaveOutProc dwCallback, IntPtr dwCallbackInstance, WaveOpenFlags dwFlags);
 
     internal static byte DSP_GetStatus() =>
         (byte)(s_playing ? 2 : 0);
