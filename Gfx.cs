@@ -416,7 +416,7 @@ class Gfx
      */
     internal static void GFX_ClearScreen(Screen screenID)
     {
-        GFX_Screen_Get_ByIndex(screenID).AsSpan().Slice(0, SCREEN_WIDTH * SCREEN_HEIGHT).Fill(0); //memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+        GFX_Screen_Get_ByIndex(screenID).AsSpan().Slice(0, SCREEN_WIDTH * SCREEN_HEIGHT).Clear(); //memset(GFX_Screen_Get_ByIndex(screenID), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
         GFX_Screen_SetDirty(screenID, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -426,7 +426,7 @@ class Gfx
      */
     internal static void GFX_ClearBlock(Screen index)
     {
-        GFX_Screen_Get_ByIndex(index).AsSpan().Slice(0, GFX_Screen_GetSize_ByIndex(index)).Fill(0); //memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
+        GFX_Screen_Get_ByIndex(index).AsSpan().Slice(0, GFX_Screen_GetSize_ByIndex(index)).Clear(); //memset(GFX_Screen_Get_ByIndex(index), 0, GFX_Screen_GetSize_ByIndex(index));
         GFX_Screen_SetDirty(index, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 

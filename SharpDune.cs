@@ -559,7 +559,7 @@ class SharpDune
 
         source = GFX_Screen_Get_ByIndex(Screen.NO1);
 
-        source.Span.Slice(0, 32000).Fill(0); //memset(source, 0, 32000);
+        source.Span.Slice(0, 32000).Clear(); //memset(source, 0, 32000);
 
         File_ReadBlockFile(filename, source, GFX_Screen_GetSize_ByIndex(Screen.NO1));
 

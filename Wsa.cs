@@ -392,7 +392,7 @@ class Wsa
 
         if (reserveDisplayFrame)
         {
-            buffer.Span.Slice(0, (int)displaySize).Fill(0); //memset(buffer, 0, displaySize);
+            buffer.Span.Slice(0, (int)displaySize).Clear(); //memset(buffer, 0, displaySize);
         }
 
         buffer = buffer.Slice((int)displaySize);
