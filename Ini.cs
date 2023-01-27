@@ -2,8 +2,11 @@
 
 namespace SharpDune;
 
-class Ini
+partial class Ini
 {
+    [GeneratedRegex("^(.*)[\t ]*=[\t ]*.*$", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase)]
+    private static partial Regex IniRegex();
+
     internal static string Ini_GetString(ReadOnlySpan<char> category, ReadOnlySpan<char> key, string defaultValue, ReadOnlySpan<char> source)
     {
         var result = defaultValue;
@@ -25,8 +28,7 @@ class Ini
         }
         else
         {
-            var pattern = $"^(.*)[\t ]*=[\t ]*.*$";
-            var matches = Regex.Matches(section.ToString(), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var matches = IniRegex().Matches(section.ToString());
             if (matches.Any()) result = string.Join('|', matches.Select(m => m.Groups[1].Value));
         }
 
