@@ -8,16 +8,14 @@ Running on Windows:
 2. Select the `Debug` or `Release` configuration
 3. Start SharpDune with the `SharpDune` profile
 
-Running on Linux (WSL):
-1. Install and start an X Server (like VcXsrv)
-2. Edit the environment variable `DISPLAY` in launchSettings.json
-3. Edit paths (`datadir`, `savedir`) in sharpdune.ini
-4. Select the `DebugWSL` or `ReleaseWSL` configuration
-5. Start SharpDune with the `WSL` profile
+Running on Linux (WSL 2/WSLg):
+1. Edit paths (`datadir`, `savedir`) in sharpdune.ini
+2. Select the `DebugWSL` or `ReleaseWSL` configuration
+3. Start SharpDune with the `WSL` profile
 
 For video [SDL2](https://www.libsdl.org) and [SDL2 Image](https://www.libsdl.org/projects/SDL_image) are used.
 
-For audio (MIDI and WaveOut) winmm.dll is used. On WSL audio isn't supported currently.
+For audio (MIDI and WaveOut) winmm.dll is used. On Linux audio isn't supported currently.
 
 IDE: latest Visual Studio Community 2022 Preview.
 
