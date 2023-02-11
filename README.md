@@ -15,7 +15,7 @@ Running on Linux (WSL 2/WSLg):
 
 For video [SDL2](https://www.libsdl.org) and [SDL2 Image](https://www.libsdl.org/projects/SDL_image) are used.
 
-For audio (MIDI and WaveOut) winmm.dll is used. On Linux audio isn't supported currently.
+For audio (MIDI and WaveOut) WinMM is used. On Linux audio isn't supported currently.
 
 IDE: latest Visual Studio Community 2022 Preview.
 
