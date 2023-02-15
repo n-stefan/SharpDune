@@ -18,11 +18,13 @@ global using static SDL2.SDL_image;
 global using static SharpDune.Animation;
 global using static SharpDune.Audio.Driver;
 #if LINUX
-global using static SharpDune.Audio.DspNone;
+global using static SharpDune.Audio.DspPulse;
 global using static SharpDune.Audio.MidiNone;
+global using static TerraFX.Interop.Pulse;
+global using TerraFX.Interop;
 #else
-global using static SharpDune.Audio.Dsp;
-global using static SharpDune.Audio.Midi;
+global using static SharpDune.Audio.DspWin;
+global using static SharpDune.Audio.MidiWin;
 #endif
 global using static SharpDune.Audio.Mt32Mpu;
 global using static SharpDune.Audio.Sound;

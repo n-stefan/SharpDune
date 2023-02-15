@@ -22,9 +22,11 @@
  * THE SOFTWARE.
  */
 
+#if !LINUX
+
 namespace SharpDune.Audio;
 
-partial class Midi
+partial class MidiWin
 {
     const string LibraryName = "winmm";
     const int MaxPNameLen = 32;
@@ -216,3 +218,5 @@ partial class Midi
         return len;
     }
 }
+
+#endif

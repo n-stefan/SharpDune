@@ -1,5 +1,7 @@
 ﻿/* Linux implementation of the MIDI */
 
+#if LINUX
+
 namespace SharpDune.Audio;
 
 class MidiNone
@@ -14,3 +16,5 @@ class MidiNone
 
     internal static ushort Midi_Send_String(byte[] data, ushort len) => len;
 }
+
+#endif

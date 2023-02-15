@@ -48,6 +48,7 @@
 
   <ItemGroup>
     <PackageReference Include="ppy.SDL2-CS" Version="1.0.630-alpha" />
+    <PackageReference Condition="'$(Configuration)|$(Platform)'=='DebugWSL|AnyCPU' or '$(Configuration)|$(Platform)'=='ReleaseWSL|AnyCPU'" Include="TerraFX.Interop.PulseAudio" Version="13.0.0-beta2" />
   </ItemGroup>
 
   <ItemGroup>

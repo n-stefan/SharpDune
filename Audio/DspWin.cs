@@ -24,9 +24,11 @@
  * SOFTWARE.
  */
 
+#if !LINUX
+
 namespace SharpDune.Audio;
 
-partial class Dsp
+partial class DspWin
 {
     const string LibraryName = "winmm";
     const int WaveOutMapperDeviceId = -1;
@@ -520,3 +522,5 @@ partial class Dsp
     static void DSP_Callback(IntPtr handle, WaveOutMessage uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2) =>
         s_playing = false;
 }
+
+#endif
