@@ -127,7 +127,7 @@ unsafe class DspPulse
         }
         pa_stream_set_state_callback(s_stream, &DSP_stream_state_cb, null);
         pa_stream_set_underflow_callback(s_stream, &DSP_stream_underflow_cb, null);
-        if (pa_stream_connect_playback(s_stream, null, null, pa_stream_flags.PA_STREAM_START_UNMUTED | pa_stream_flags.PA_STREAM_VARIABLE_RATE, null, nint.Zero) < 0)
+        if (pa_stream_connect_playback(s_stream, null, null, pa_stream_flags.PA_STREAM_START_UNMUTED | pa_stream_flags.PA_STREAM_VARIABLE_RATE | pa_stream_flags.PA_STREAM_ADJUST_LATENCY, null, nint.Zero) < 0)
         {
             Trace.WriteLine("ERROR: pa_stream_connect_playback() failed");
             return false;
