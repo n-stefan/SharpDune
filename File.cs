@@ -54,7 +54,7 @@ class FileInfo
 {
     internal string filename;                       /*!< Name of the file. */
     internal uint fileSize;                         /*!< The size of this file. */
-    //IntPtr buffer;                                /*!< In case the file is read in the memory, this is the location of the data. */
+    //nint buffer;                                  /*!< In case the file is read in the memory, this is the location of the data. */
     internal uint filePosition;                     /*!< Where in the file we currently are (doesn't have to start at zero when in PAK file). */
     internal FileInfoFlags flags;                   /*!< General flags of the FileInfo. */
 }

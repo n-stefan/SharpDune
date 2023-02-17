@@ -468,7 +468,7 @@ class Mt32Mpu
     internal static ushort MPU_GetDataSize() =>
         1;
 
-    //static uint/*ThreadStatus WINAPI*/ MPU_ThreadProc(IntPtr data)
+    //static uint/*ThreadStatus WINAPI*/ MPU_ThreadProc(nint data)
     static void MPU_ThreadProc()
     {
         s_mpu_sem.Wait(Timeout.Infinite);
@@ -495,7 +495,7 @@ class Mt32Mpu
         //s_mpu_sem = Thread.Semaphore_Create(0);
         s_mpu_sem = new SemaphoreSlim(0, 1);
 
-        //s_mpu_thread = Thread.Thread_Create(MPU_ThreadProc, IntPtr.Zero);
+        //s_mpu_thread = Thread.Thread_Create(MPU_ThreadProc, nint.Zero);
         s_mpu_thread = new Thread(MPU_ThreadProc);
         s_mpu_thread.Start();
 

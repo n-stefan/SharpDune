@@ -56,7 +56,7 @@ class SaveLoad
     //	var handle = (index != -1) ?
     //		c.GetField(m[..index], BindingFlags.Instance | BindingFlags.NonPublic).FieldType.GetField(m[(index + 1)..], BindingFlags.Instance | BindingFlags.NonPublic).FieldHandle :
     //		c.GetField(m, BindingFlags.Instance | BindingFlags.NonPublic).FieldHandle;
-    //	var offset = Marshal.ReadInt32(handle.Value + (4 + IntPtr.Size)) & 0xFFFFFF;
+    //	var offset = Marshal.ReadInt32(handle.Value + (4 + nint.Size)) & 0xFFFFFF;
     //	return offset;
     //}
 

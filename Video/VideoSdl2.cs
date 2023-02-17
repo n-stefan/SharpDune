@@ -30,9 +30,9 @@ class VideoSdl2
 
     static bool s_full_screen;
 
-    static IntPtr s_window;
-    static IntPtr s_renderer;
-    static IntPtr s_texture;
+    static nint s_window;
+    static nint s_renderer;
+    static nint s_texture;
 
     //static byte[] s_framebuffer;
 
@@ -207,22 +207,22 @@ class VideoSdl2
 
         //s_framebuffer = null; //free(s_framebuffer);
 
-        if (s_texture != IntPtr.Zero)
+        if (s_texture != nint.Zero)
         {
             SDL_DestroyTexture(s_texture);
-            s_texture = IntPtr.Zero;
+            s_texture = nint.Zero;
         }
 
-        if (s_renderer != IntPtr.Zero)
+        if (s_renderer != nint.Zero)
         {
             SDL_DestroyRenderer(s_renderer);
-            s_renderer = IntPtr.Zero;
+            s_renderer = nint.Zero;
         }
 
-        if (s_window != IntPtr.Zero)
+        if (s_window != nint.Zero)
         {
             SDL_DestroyWindow(s_window);
-            s_window = IntPtr.Zero;
+            s_window = nint.Zero;
         }
 
         SDL_Quit();
@@ -363,7 +363,7 @@ class VideoSdl2
         int render_height;
 #if !WITHOUT_SDLIMAGE
         /*SDL_Surface*/
-        IntPtr icon;
+        nint icon;
 #endif //WITHOUT_SDLIMAGE
         uint window_flags = 0;
 
@@ -411,8 +411,8 @@ class VideoSdl2
 
 #if !WITHOUT_SDLIMAGE
         icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune_32x32.png")); //"sharpdune.png"
-        //if (icon == IntPtr.Zero) icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune.ico")); //sharpdune_32x32.png
-        if (icon != IntPtr.Zero)
+        //if (icon == nint.Zero) icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune.ico")); //sharpdune_32x32.png
+        if (icon != nint.Zero)
         {
             SDL_SetWindowIcon(s_window, icon);
             SDL_FreeSurface(icon);
@@ -447,7 +447,7 @@ class VideoSdl2
                 (int)SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,
                 render_width, render_height);
 
-        if (s_texture == IntPtr.Zero)
+        if (s_texture == nint.Zero)
         {
             Trace.WriteLine($"ERROR: Could not create texture: {SDL_GetError()}");
             return false;
@@ -630,7 +630,7 @@ class VideoSdl2
         var pPointer = 0;
 
         gfx_screen8Pointer += s_screenOffset << 2;
-        if (SDL_LockTexture(s_texture, IntPtr.Zero, out IntPtr pixels, out int pitch) != 0)
+        if (SDL_LockTexture(s_texture, nint.Zero, out nint pixels, out int pitch) != 0)
         {
             Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
             return;
@@ -643,7 +643,7 @@ class VideoSdl2
             rect.w = area.right - area.left;
             rect.h = area.bottom - area.top;
             prect = rect;
-            pixels = IntPtr.Add(pixels, pitch * area.top);
+            pixels = nint.Add(pixels, pitch * area.top);
             p = (uint*)pixels;
             gfx_screen8Pointer += SCREEN_WIDTH * area.top + area.left;
             for (y = area.top; y < area.bottom; y++)
@@ -654,7 +654,7 @@ class VideoSdl2
                     p[pPointer++] = s_palette[gfx_screen8[gfx_screen8Pointer++]];
                 }
                 gfx_screen8Pointer += SCREEN_WIDTH - rect.w;
-                pixels = IntPtr.Add(pixels, pitch);
+                pixels = nint.Add(pixels, pitch);
                 p = (uint*)pixels;
                 pPointer = 0;
             }
@@ -669,7 +669,7 @@ class VideoSdl2
                 {
                     p[pPointer++] = s_palette[gfx_screen8[gfx_screen8Pointer++]];
                 }
-                pixels = IntPtr.Add(pixels, pitch);
+                pixels = nint.Add(pixels, pitch);
                 p = (uint*)pixels;
                 pPointer = 0;
             }
@@ -687,7 +687,7 @@ class VideoSdl2
     //	byte[] data = Gfx.GFX_Screen_Get_ByIndex(Screen.NO0);
     //	dirty_area area = Gfx.GFX_Screen_GetDirtyArea(Screen.NO0);
     //	ushort top, bottom;
-    //	IntPtr pixels;
+    //	nint pixels;
     //	int pitch;
     //	uint[] p;
     //	SDL_Rect rect, rectlock;
@@ -763,13 +763,13 @@ class VideoSdl2
     //static void Video_DrawScreen_Hqx()
     //{
     //	byte[] src;
-    //	/*uint[]*/IntPtr pixels;
+    //	/*uint[]*/nint pixels;
     //	int pitch;
 
     //	src = Gfx.GFX_Screen_Get_ByIndex(Screen.NO0);
     //	src = src[(s_screenOffset << 2)..];
 
-    //	if (SDL_LockTexture(s_texture, IntPtr.Zero, out pixels, out pitch) != 0)
+    //	if (SDL_LockTexture(s_texture, nint.Zero, out pixels, out pitch) != 0)
     //	{
     //		Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
     //		return;
@@ -793,7 +793,7 @@ class VideoSdl2
     //			break;
     //	}
     //	SDL_UnlockTexture(s_texture);
-    //	if (SDL_RenderCopy(s_renderer, s_texture, IntPtr.Zero, IntPtr.Zero) != 0)
+    //	if (SDL_RenderCopy(s_renderer, s_texture, nint.Zero, nint.Zero) != 0)
     //	{
     //		Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
     //	}

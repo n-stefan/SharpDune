@@ -32,7 +32,7 @@ partial class MidiWin
     const int MaxPNameLen = 32;
     const int MMSYSERR_NOERROR = 0;
 
-    static /*HMIDIOUT*/IntPtr s_midi = IntPtr.Zero;
+    static /*HMIDIOUT*/nint s_midi = nint.Zero;
 
     [Flags]
     public enum MidiOutOpenFlags
@@ -62,46 +62,46 @@ partial class MidiWin
     [StructLayout(LayoutKind.Sequential)]
     struct MidiHdr
     {
-        public IntPtr Data;
+        public nint Data;
         public int BufferLength;
         public int BytesRecorded;
-        public IntPtr User;
+        public nint User;
         public int Flags;
-        public IntPtr Next; // of MidiHdr
-        public IntPtr Reserved;
+        public nint Next; // of MidiHdr
+        public nint Reserved;
         public int Offset;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         private readonly int[] reservedArray;
     }
 
-    delegate void MidiOutProc(IntPtr midiOut, uint msg, IntPtr instance, IntPtr param1, IntPtr param2);
+    delegate void MidiOutProc(nint midiOut, uint msg, nint instance, nint param1, nint param2);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static partial int midiOutGetNumDevs();
 
     [DllImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern int midiOutGetDevCaps(UIntPtr uDeviceID, out MidiOutCaps midiOutCaps, uint sizeOfMidiOutCaps);
+    static extern int midiOutGetDevCaps(nuint uDeviceID, out MidiOutCaps midiOutCaps, uint sizeOfMidiOutCaps);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial int midiOutOpen(out IntPtr midiIn, uint deviceID, MidiOutProc callback, IntPtr callbackInstance, MidiOutOpenFlags flags);
+    private static partial int midiOutOpen(out nint midiIn, uint deviceID, MidiOutProc callback, nint callbackInstance, MidiOutOpenFlags flags);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial int midiOutShortMsg(IntPtr handle, uint msg);
+    private static partial int midiOutShortMsg(nint handle, uint msg);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial int midiOutReset(IntPtr handle);
+    private static partial int midiOutReset(nint handle);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial int midiOutClose(IntPtr midiIn);
+    private static partial int midiOutClose(nint midiIn);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial int midiOutLongMsg(IntPtr handle, IntPtr midiOutHdr, int midiOutHdrSize);
+    private static partial int midiOutLongMsg(nint handle, nint midiOutHdr, int midiOutHdrSize);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial int midiOutPrepareHeader(IntPtr handle, IntPtr midiOutHdr, int midiOutHdrSize);
+    private static partial int midiOutPrepareHeader(nint handle, nint midiOutHdr, int midiOutHdrSize);
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial int midiOutUnprepareHeader(IntPtr handle, IntPtr headerPtr, int sizeOfMidiHeader);
+    private static partial int midiOutUnprepareHeader(nint handle, nint headerPtr, int sizeOfMidiHeader);
 
     internal static bool Midi_Init()
     {
@@ -112,7 +112,7 @@ partial class MidiWin
         {
             for (i = 0; i < numDevs; i++)
             {
-                if (midiOutGetDevCaps((UIntPtr)i, out var caps, (uint)Marshal.SizeOf<MidiOutCaps>()) == MMSYSERR_NOERROR)
+                if (midiOutGetDevCaps((nuint)i, out var caps, (uint)Marshal.SizeOf<MidiOutCaps>()) == MMSYSERR_NOERROR)
                 {
                     Debug.WriteLine($"DEBUG: MidiOutdevice #{i}: {caps.Mid}:{caps.Pid} v{caps.DriverVersion >> 8}.{caps.DriverVersion & 0xff}" +
                                     $" voices={caps.Voices} notes={caps.Notes} channels={caps.ChannelMask} {caps.Name}");
@@ -123,10 +123,10 @@ partial class MidiWin
         }
 
         /* No callback to process messages related to the progress of the playback */
-        if (midiOutOpen(out s_midi, devID, null, IntPtr.Zero, MidiOutOpenFlags.Null) != MMSYSERR_NOERROR)
+        if (midiOutOpen(out s_midi, devID, null, nint.Zero, MidiOutOpenFlags.Null) != MMSYSERR_NOERROR)
         {
             Trace.WriteLine($"ERROR: Failed to initialize MIDI (Device ID = {devID})");
-            s_midi = IntPtr.Zero;
+            s_midi = nint.Zero;
             return false;
         }
 
@@ -135,7 +135,7 @@ partial class MidiWin
 
     internal static void Midi_Uninit()
     {
-        if (s_midi == IntPtr.Zero) return;
+        if (s_midi == nint.Zero) return;
 
         if (midiOutReset(s_midi) != MMSYSERR_NOERROR)
         {
@@ -148,12 +148,12 @@ partial class MidiWin
             return;
         }
 
-        s_midi = IntPtr.Zero;
+        s_midi = nint.Zero;
     }
 
     internal static void Midi_Send(uint data)
     {
-        if (s_midi == IntPtr.Zero) return;
+        if (s_midi == nint.Zero) return;
 
         if (midiOutShortMsg(s_midi, data) != MMSYSERR_NOERROR)
         {
@@ -164,7 +164,7 @@ partial class MidiWin
 
     internal static void Midi_Reset()
     {
-        if (s_midi == IntPtr.Zero) return;
+        if (s_midi == nint.Zero) return;
 
         if (midiOutReset(s_midi) != MMSYSERR_NOERROR)
         {
@@ -175,12 +175,12 @@ partial class MidiWin
 
     internal static ushort Midi_Send_String(byte[] data, ushort len)
     {
-        if (s_midi == IntPtr.Zero) return len;
+        if (s_midi == nint.Zero) return len;
 
         var header = new MidiHdr();
         var hdrSize = Marshal.SizeOf(typeof(MidiHdr));
         var prepared = false;
-        var ptr = IntPtr.Zero;
+        var ptr = nint.Zero;
 
         try
         {
@@ -208,10 +208,10 @@ partial class MidiWin
                     Trace.WriteLine("ERROR: midiOutUnprepareHeader() failed");
             }
 
-            if (header.Data != IntPtr.Zero)
+            if (header.Data != nint.Zero)
                 Marshal.FreeHGlobal(header.Data);
 
-            if (ptr != IntPtr.Zero)
+            if (ptr != nint.Zero)
                 Marshal.FreeHGlobal(ptr);
         }
 

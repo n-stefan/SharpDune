@@ -6,7 +6,7 @@ class CDriver
 {
     internal ushort index;                                  /*!< Index of the loaded driver. */
     internal /*char[4]*/string extension;                   /*!< Extension used for music file names. */
-    internal /*IntPtr*/byte[] content;                      /*!< Pointer to the file to play content. */
+    internal /*nint*/byte[] content;                      /*!< Pointer to the file to play content. */
     internal /*char[14]*/string filename;                   /*!< Name of file to play. */
     internal bool contentMalloced;                          /*!< Wether content pointer is the result of a malloc. */
 
@@ -69,7 +69,7 @@ class Driver
         }
 
         driver.filename = null; //"\0";
-        driver.content = null; //IntPtr.Zero;
+        driver.content = null; //nint.Zero;
         driver.contentMalloced = false;
     }
 
@@ -114,7 +114,7 @@ class Driver
             voice.contentMalloced = false;
         }
 
-        voice.content = null; //IntPtr.Zero;
+        voice.content = null; //nint.Zero;
     }
 
     static short l_currentPriority = -1;   /* priority of sound currently playing */

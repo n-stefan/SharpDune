@@ -35,9 +35,9 @@ partial class DspWin
     static bool s_playing;
     static bool s_init;
     static uint s_dataLen;
-    static IntPtr s_data;
-    static IntPtr s_waveOut = IntPtr.Zero;
-    static IntPtr s_waveHdrAddr;
+    static nint s_data;
+    static nint s_waveOut = nint.Zero;
+    static nint s_waveHdrAddr;
     static readonly WaveOutProc DSP_Callback_Del = DSP_Callback;
 
     /// <summary>
@@ -354,7 +354,7 @@ partial class DspWin
         /// <summary>
         /// Pointer to the waveform buffer.
         /// </summary>
-        public IntPtr lpData;
+        public nint lpData;
 
         /// <summary>
         /// Length, in bytes, of the buffer.
@@ -369,7 +369,7 @@ partial class DspWin
         /// <summary>
         /// User data.
         /// </summary>
-        public IntPtr dwUser;
+        public nint dwUser;
 
         /// <summary>
         /// Flags supplying information about the buffer. The following values are defined:
@@ -384,7 +384,7 @@ partial class DspWin
         /// <summary>
         /// Reserved for internal use.
         /// </summary>
-        public IntPtr lpNext;
+        public nint lpNext;
 
         /// <summary>
         /// Reserved for internal use.
@@ -392,46 +392,46 @@ partial class DspWin
         public int reserved;
     }
 
-    public delegate void WaveOutProc(IntPtr handle, WaveOutMessage uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2);
+    public delegate void WaveOutProc(nint handle, WaveOutMessage uMsg, nint dwInstance, nint dwParam1, nint dwParam2);
 
     [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial MMSYSERROR waveOutReset(IntPtr handle);
+    private static partial MMSYSERROR waveOutReset(nint handle);
 
     [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial MMSYSERROR waveOutUnprepareHeader(IntPtr handle, IntPtr pwh, int cbwh);
+    private static partial MMSYSERROR waveOutUnprepareHeader(nint handle, nint pwh, int cbwh);
 
     [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial MMSYSERROR waveOutClose(IntPtr handle);
+    private static partial MMSYSERROR waveOutClose(nint handle);
 
     [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial MMSYSERROR waveOutWrite(IntPtr handle, IntPtr pwh, int cbwh);
+    private static partial MMSYSERROR waveOutWrite(nint handle, nint pwh, int cbwh);
 
     [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial MMSYSERROR waveOutPrepareHeader(IntPtr handle, IntPtr pwh, int cbwh);
+    private static partial MMSYSERROR waveOutPrepareHeader(nint handle, nint pwh, int cbwh);
 
     [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static partial MMSYSERROR waveOutOpen(ref IntPtr handle, int uDeviceID, ref WAVEFORMATEX pwfx, WaveOutProc dwCallback, IntPtr dwCallbackInstance, WaveOpenFlags dwFlags);
+    private static partial MMSYSERROR waveOutOpen(ref nint handle, int uDeviceID, ref WAVEFORMATEX pwfx, WaveOutProc dwCallback, nint dwCallbackInstance, WaveOpenFlags dwFlags);
 
     internal static byte DSP_GetStatus() =>
         (byte)(s_playing ? 2 : 0);
 
     internal static void DSP_Stop()
     {
-        if (s_waveOut == IntPtr.Zero) return;
+        if (s_waveOut == nint.Zero) return;
 
         waveOutReset(s_waveOut);
         waveOutUnprepareHeader(s_waveOut, s_waveHdrAddr, Marshal.SizeOf(typeof(WAVEHDR)));
         waveOutClose(s_waveOut);
 
-        s_waveOut = IntPtr.Zero;
+        s_waveOut = nint.Zero;
         s_playing = false;
 
         s_dataLen = 0;
 
-        if (s_data != IntPtr.Zero)
+        if (s_data != nint.Zero)
             Marshal.FreeHGlobal(s_data);
 
-        if (s_waveHdrAddr != IntPtr.Zero)
+        if (s_waveHdrAddr != nint.Zero)
             Marshal.FreeHGlobal(s_waveHdrAddr);
     }
 
@@ -466,7 +466,7 @@ partial class DspWin
 
         s_dataLen = (Read_LE_UInt32(data.AsSpan(dataPointer)) >> 8) - 2;
 
-        s_data = Marshal.AllocHGlobal((IntPtr)s_dataLen); //s_data = realloc(s_data, len);
+        s_data = Marshal.AllocHGlobal((nint)s_dataLen); //s_data = realloc(s_data, len);
 
         Marshal.Copy(data, dataPointer + 6, s_data, (int)s_dataLen); //memcpy(s_data, data + 6, len);
 
@@ -483,11 +483,11 @@ partial class DspWin
             cbSize = 0 //sizeof(WAVEFORMATEX);
         };
 
-        res = waveOutOpen(ref s_waveOut, WaveOutMapperDeviceId/*WAVE_MAPPER*/, ref waveFormat, DSP_Callback_Del, IntPtr.Zero, WaveOpenFlags.CALLBACK_FUNCTION/*CALLBACK_FUNCTION*/);
+        res = waveOutOpen(ref s_waveOut, WaveOutMapperDeviceId/*WAVE_MAPPER*/, ref waveFormat, DSP_Callback_Del, nint.Zero, WaveOpenFlags.CALLBACK_FUNCTION/*CALLBACK_FUNCTION*/);
         if (res != MMSYSERROR.MMSYSERR_NOERROR)
         {
             Trace.WriteLine($"ERROR: waveOutOpen failed ({res})");
-            s_waveOut = IntPtr.Zero;
+            s_waveOut = nint.Zero;
             return;
         }
 
@@ -519,7 +519,7 @@ partial class DspWin
         s_playing = true;
     }
 
-    static void DSP_Callback(IntPtr handle, WaveOutMessage uMsg, IntPtr dwInstance, IntPtr dwParam1, IntPtr dwParam2) =>
+    static void DSP_Callback(nint handle, WaveOutMessage uMsg, nint dwInstance, nint dwParam1, nint dwParam2) =>
         s_playing = false;
 }
 

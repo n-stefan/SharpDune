@@ -6,7 +6,7 @@ namespace SharpDune.Os;
 
 class Thread
 {
-    internal static Kernel32.SafeHTHREAD/*Thread*/ Thread_Create(Kernel32.ThreadProc/*ThreadProc*/ proc, IntPtr data) =>
+    internal static Kernel32.SafeHTHREAD/*Thread*/ Thread_Create(Kernel32.ThreadProc/*ThreadProc*/ proc, nint data) =>
         Kernel32.CreateThread(null/*NULL*/, 0, proc, data, 0, out uint _/*NULL*/);
 
     internal static void Thread_Wait(Kernel32.SafeHTHREAD/*Thread*/ thread, out uint/*ThreadStatus*/ status)

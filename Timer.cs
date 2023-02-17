@@ -41,7 +41,7 @@ class Timer
 
     static System.Threading.Timer s_timer;
 
-    //static /*HANDLE*/IntPtr s_timerMainThread = IntPtr.Zero;
+    //static /*HANDLE*/nint s_timerMainThread = nint.Zero;
     //static /*HANDLE*/Kernel32.TimerQueueTimerHandle s_timerThread = Kernel32.TimerQueueTimerHandle.NULL;
 
     //readonly static Kernel32.WaitOrTimerCallback Timer_InterruptWindows_Del = Timer_InterruptWindows;
@@ -132,9 +132,9 @@ class Timer
         s_timer?.Dispose();
         s_timer = null;
 
-        //if (s_timerThread != IntPtr.Zero) Kernel32.DeleteTimerQueueTimer(Kernel32.TimerQueueHandle.NULL, s_timerThread, Kernel32.SafeEventHandle.Null);
+        //if (s_timerThread != nint.Zero) Kernel32.DeleteTimerQueueTimer(Kernel32.TimerQueueHandle.NULL, s_timerThread, Kernel32.SafeEventHandle.Null);
 
-        //s_timerThread = IntPtr.Zero;
+        //s_timerThread = nint.Zero;
     }
 
     /*
@@ -146,7 +146,7 @@ class Timer
 
         s_timerTime = (int)(s_timerSpeed / 1000);
 
-        //Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), (IntPtr)Kernel32.GetCurrentThread(), Kernel32.GetCurrentProcess(), out s_timerMainThread, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS);
+        //Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), (nint)Kernel32.GetCurrentThread(), Kernel32.GetCurrentProcess(), out s_timerMainThread, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS);
 
         Timer_InterruptResume();
     }
@@ -157,9 +157,9 @@ class Timer
     static void Timer_InterruptResume() =>
         s_timer = new System.Threading.Timer(_ => s_timer_count++, null, s_timerTime, s_timerTime);
 
-    //Kernel32.CreateTimerQueueTimer(out s_timerThread, Kernel32.TimerQueueHandle.NULL, Timer_InterruptWindows_Del, IntPtr.Zero, (uint)s_timerTime, (uint)s_timerTime, Kernel32.WT.WT_EXECUTEINTIMERTHREAD);
+    //Kernel32.CreateTimerQueueTimer(out s_timerThread, Kernel32.TimerQueueHandle.NULL, Timer_InterruptWindows_Del, nint.Zero, (uint)s_timerTime, (uint)s_timerTime, Kernel32.WT.WT_EXECUTEINTIMERTHREAD);
 
-    //static void Timer_InterruptWindows(IntPtr arg, bool TimerOrWaitFired)
+    //static void Timer_InterruptWindows(nint arg, bool TimerOrWaitFired)
     //{
     //	//Kernel32.SuspendThread(s_timerMainThread);
 

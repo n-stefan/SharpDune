@@ -134,7 +134,7 @@ class DspSdl
         SDL.SDL_QuitSubSystem(SDL.SDL_INIT_AUDIO);
     }
 
-    static void DSP_Callback(IntPtr userdata, IntPtr stream, int len)
+    static void DSP_Callback(nint userdata, nint stream, int len)
     {
         if (s_status == 0 || s_bufferLen == 0 || s_buffer == null)
         {
