@@ -205,6 +205,7 @@ unsafe class DspPulse
         {
             /* pa_operation* */ nint operation = pa_stream_flush(s_stream, &DSP_stream_flush_cb, null);
             pa_operation_unref(operation);
+            s_playing = false;
         }
 
         if (s_data != nint.Zero)
