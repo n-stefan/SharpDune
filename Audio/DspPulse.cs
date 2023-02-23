@@ -1,4 +1,4 @@
-﻿/* Linux implementation of the DSP */
+﻿/* PulseAudio implementation of the DSP */
 
 #if LINUX
 
