@@ -33,14 +33,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Audio\DspSdl.cs" />
     <Compile Remove="Os\Thread.cs" />
     <Compile Remove="Video\Scale2x.cs" />
     <Compile Remove="Video\ScaleBit.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Audio\DspSdl.cs" />
     <None Include="Os\Thread.cs" />
     <None Include="Video\Scale2x.cs" />
     <None Include="Video\ScaleBit.cs" />

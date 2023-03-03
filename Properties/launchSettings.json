@@ -5,7 +5,8 @@
       "environmentVariables": {
         "DOTNET_TC_QuickJitForLoops": "1",
         "DOTNET_TieredPGO": "1",
-        "DOTNET_ReadyToRun": "0"
+        "DOTNET_ReadyToRun": "0",
+        "SDL_AUDIODRIVER": "directsound" //winmm
       }
     },
     "WSL": {
