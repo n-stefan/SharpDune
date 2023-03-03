@@ -13,9 +13,11 @@ Running on Linux (WSL 2/WSLg):
 2. Select the `DebugWSL` or `ReleaseWSL` configuration
 3. Start SharpDune with the `WSL` profile
 
-For video [SDL2](https://www.libsdl.org) and [SDL2 Image](https://www.libsdl.org/projects/SDL_image) are used.
+Graphics: SDL2.
 
-For audio WinMM is used on Windows (sound and music) and PulseAudio or ALSA on Linux (sound).
+Sound: SDL2/WinMM (Windows), SDL2/PulseAudio/ALSA (Linux).
+
+Music: WinMM (Windows).
 
 IDE: latest Visual Studio Community 2022 Preview.
 
