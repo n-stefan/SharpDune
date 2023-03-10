@@ -76,31 +76,31 @@ partial class MidiWin
 
     delegate void MidiOutProc(nint midiOut, uint msg, nint instance, nint param1, nint param2);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutGetNumDevs();
 
-    [DllImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    static extern int midiOutGetDevCaps(nuint uDeviceID, out MidiOutCaps midiOutCaps, uint sizeOfMidiOutCaps);
+    [DllImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
+    private static extern int midiOutGetDevCaps(nuint uDeviceID, out MidiOutCaps midiOutCaps, uint sizeOfMidiOutCaps);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutOpen(out nint midiIn, uint deviceID, MidiOutProc callback, nint callbackInstance, MidiOutOpenFlags flags);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutShortMsg(nint handle, uint msg);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutReset(nint handle);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutClose(nint midiIn);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutLongMsg(nint handle, nint midiOutHdr, int midiOutHdrSize);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutPrepareHeader(nint handle, nint midiOutHdr, int midiOutHdrSize);
 
-    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int midiOutUnprepareHeader(nint handle, nint headerPtr, int sizeOfMidiHeader);
 
     internal static bool Midi_Init()

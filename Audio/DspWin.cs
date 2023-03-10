@@ -394,22 +394,22 @@ partial class DspWin
 
     public delegate void WaveOutProc(nint handle, WaveOutMessage uMsg, nint dwInstance, nint dwParam1, nint dwParam2);
 
-    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial MMSYSERROR waveOutReset(nint handle);
 
-    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial MMSYSERROR waveOutUnprepareHeader(nint handle, nint pwh, int cbwh);
 
-    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial MMSYSERROR waveOutClose(nint handle);
 
-    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial MMSYSERROR waveOutWrite(nint handle, nint pwh, int cbwh);
 
-    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial MMSYSERROR waveOutPrepareHeader(nint handle, nint pwh, int cbwh);
 
-    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial MMSYSERROR waveOutOpen(ref nint handle, int uDeviceID, ref WAVEFORMATEX pwfx, WaveOutProc dwCallback, nint dwCallbackInstance, WaveOpenFlags dwFlags);
 
     internal static byte DSP_GetStatus() =>

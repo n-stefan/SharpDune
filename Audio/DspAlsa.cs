@@ -82,52 +82,52 @@ partial class DspAlsa
     static uint s_bufferLen = 0;
     static uint s_bufferDone = 0;
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_close(nint pcm);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_drop(nint pcm);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial long snd_pcm_avail(nint pcm);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial long snd_pcm_avail_update(nint pcm);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial long snd_pcm_writei(nint pcm, nint buffer, ulong size);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial snd_pcm_state_t snd_pcm_state(nint pcm);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_hw_params(nint pcm, nint @params);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_hw_params_set_rate(nint pcm, nint @params, uint val, int dir);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_hw_params_set_channels(nint pcm, nint @params, uint val);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_hw_params_set_format(nint pcm, nint @params, snd_pcm_format_t format);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_hw_params_set_access(nint pcm, nint @params, snd_pcm_access_t access);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_hw_params_any(nint pcm, nint @params);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_hw_params_malloc(ref nint @params);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_pcm_hw_params_free(nint @params);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     unsafe private static partial int snd_async_add_pcm_handler(ref nint handler, nint pcm, delegate* unmanaged<nint, void> callback, nint private_data);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_open(ref nint pcm, [MarshalAs(UnmanagedType.LPStr)] string name, snd_pcm_stream_t stream, int mode);
 
     [UnmanagedCallersOnly]
@@ -261,7 +261,7 @@ partial class DspAlsa
         {
             /* Async callbacks not supported. Fallback on a more ugly way to detect end-of-stream */
             s_bufferDone = (uint)snd_pcm_avail(s_dsp);
-            Trace.WriteLine($"WARNING: dsp_alsa: Async callbacks not supported. {(int)s_bufferDone} PCM byte available");
+            Trace.WriteLine($"WARNING: dsp_alsa: Async callbacks not supported. {(int)s_bufferDone} PCM bytes available");
         }
 
         /* Write as much as we can to start playback */

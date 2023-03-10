@@ -80,109 +80,109 @@ partial class MidiAlsa
         public snd_seq_addr_t dest;
     }
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_close(nint handle);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_delete_port(nint handle, int port);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_midi_event_init(nint dev);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_midi_event_new(uint bufsize, ref nint rdev);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_client_id(nint handle);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_port_info_get_client(nint info);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_port_info_get_port(nint info);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_client_info_get_client(nint info);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_set_client_name(nint seq, nint name);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_client_info_set_client(nint info, int client);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_query_next_client(nint handle, nint info);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_info_set_client(nint info, int client);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_info_set_port(nint info, int port);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_query_next_port(nint handle, nint info);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial uint snd_seq_port_info_get_capability(nint info);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial nint snd_seq_port_info_get_name(nint info);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_create_simple_port(nint seq, nint name, uint caps, uint type);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_port_subscribe_malloc(ref nint ptr);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_subscribe_set_sender(nint info, nint addr);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_subscribe_set_dest(nint info, nint addr);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_subscribe_set_time_update(nint info, int val);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_subscribe_set_time_real(nint info, int val);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_subscribe_port(nint handle, nint sub);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_port_info_malloc(ref nint port);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_info_free(nint port);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_client_info_malloc(ref nint port);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_client_info_free(nint port);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_open(ref nint handle, nint name, int streams, int mode);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_midi_event_free(nint dev);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_seq_port_subscribe_free(nint ptr);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial void snd_midi_event_reset_encode(nint dev);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_event_output(nint handle, nint ev);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_seq_drain_output(nint handle);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial long snd_midi_event_encode(nint dev, nint buf, long count, nint ev);
 
-    [LibraryImport(LibraryName)]
+    [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_midi_event_encode_byte(nint dev, int c, nint ev);
 
     internal static bool Midi_Init()
@@ -265,7 +265,7 @@ partial class MidiAlsa
         snd_seq_port_subscribe_set_time_real(s_midiSubscription, 1);
         if (snd_seq_subscribe_port(s_midi, s_midiSubscription) < 0)
         {
-            Trace.WriteLine("ERROR: Failed to subscript to MIDI output");
+            Trace.WriteLine("ERROR: Failed to subscribe to MIDI output");
             snd_seq_delete_port(s_midi, s_midiPort);
             snd_seq_close(s_midi);
             s_midi = nint.Zero;
