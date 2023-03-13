@@ -43,7 +43,7 @@ partial class MidiAlsa
     static /* snd_midi_event_t* */ nint s_midiCoder = nint.Zero;
     static /* snd_seq_port_subscribe_t* */ nint s_midiSubscription = nint.Zero;
     static int s_midiPort = -1;
-    static string s_midiCaption = "SharpDUNE MIDI Port";
+    const string s_midiCaption = "SharpDUNE MIDI Port";
 
     [StructLayout(LayoutKind.Sequential)]
     struct snd_seq_addr_t
@@ -232,7 +232,7 @@ partial class MidiAlsa
                 /* Most linux installations come with a Midi Through Port.
                  *  This is 'hardware' support that mostly ends up on your serial, which
                  *  you most likely do not have connected. So we skip it by default. */
-                if (Marshal.PtrToStringAuto(snd_seq_port_info_get_name(pinfo)).StartsWith("Midi Through Port")) continue;
+                if (Marshal.PtrToStringAuto(snd_seq_port_info_get_name(pinfo)).StartsWith("Midi Through Port", StringComparison.OrdinalIgnoreCase)) continue;
                 found = true;
                 break;
             }

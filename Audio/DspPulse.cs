@@ -112,7 +112,7 @@ unsafe class DspPulse
         {
             pa_mainloop_iterate(s_mainloop, 1, &retval);
             state = pa_context_get_state(s_context);
-            if (state == pa_context_state.PA_CONTEXT_FAILED || state == pa_context_state.PA_CONTEXT_TERMINATED) return false;
+            if (state is pa_context_state.PA_CONTEXT_FAILED or pa_context_state.PA_CONTEXT_TERMINATED) return false;
         } while (state != pa_context_state.PA_CONTEXT_READY);
         /* create stream */
         s_current_freq = 10989; /* default value */
