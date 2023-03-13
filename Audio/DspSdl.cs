@@ -29,7 +29,7 @@ class DspSdl
      */
     unsafe static void DSP_ConvertAudio(uint freq)
     {
-        uint newlen = (uint)(s_bufferLen * s_spec.freq / freq);
+        var newlen = (uint)(s_bufferLen * s_spec.freq / freq);
         byte* r, w;
         uint i, j;
 

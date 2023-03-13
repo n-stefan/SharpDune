@@ -188,10 +188,10 @@ partial class MidiAlsa
     internal static bool Midi_Init()
     {
         snd_seq_addr_t sender, receiver;
-        /* snd_seq_port_info_t* */ nint pinfo = nint.Zero;
-        /* snd_seq_client_info_t* */ nint cinfo = nint.Zero;
-        bool found = false;
-        nint name = Marshal.StringToHGlobalAuto(s_midiCaption);
+        /* snd_seq_port_info_t* */ var pinfo = nint.Zero;
+        /* snd_seq_client_info_t* */ var cinfo = nint.Zero;
+        var found = false;
+        var name = Marshal.StringToHGlobalAuto(s_midiCaption);
 
         if (snd_seq_open(ref s_midi, Marshal.StringToHGlobalAuto("default"), SND_SEQ_OPEN_OUTPUT, 0) < 0)
         {
@@ -253,9 +253,9 @@ partial class MidiAlsa
         sender.client = (byte)snd_seq_client_id(s_midi);
         sender.port = (byte)s_midiPort;
 
-        nint senderPtr = Marshal.AllocHGlobal(Marshal.SizeOf(sender));
+        var senderPtr = Marshal.AllocHGlobal(Marshal.SizeOf(sender));
         Marshal.StructureToPtr(sender, senderPtr, true);
-        nint receiverPtr = Marshal.AllocHGlobal(Marshal.SizeOf(receiver));
+        var receiverPtr = Marshal.AllocHGlobal(Marshal.SizeOf(receiver));
         Marshal.StructureToPtr(receiver, receiverPtr, true);
 
         snd_seq_port_subscribe_malloc(ref s_midiSubscription);
@@ -322,7 +322,7 @@ partial class MidiAlsa
         snd_seq_ev_set_subs(ref ev);
         snd_seq_ev_set_direct(ref ev);
 
-        nint evPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ev));
+        var evPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ev));
         Marshal.StructureToPtr(ev, evPtr, true);
 
         r = snd_midi_event_encode_byte(s_midiCoder, (int)(data & 0xff), evPtr);  /* status byte */
@@ -369,10 +369,10 @@ partial class MidiAlsa
         snd_seq_ev_set_subs(ref ev);
         snd_seq_ev_set_direct(ref ev);
 
-        nint evPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ev));
+        var evPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ev));
         Marshal.StructureToPtr(ev, evPtr, true);
 
-        nint dataPtr = Marshal.AllocHGlobal(len);
+        var dataPtr = Marshal.AllocHGlobal(len);
         Marshal.Copy(data, 0, dataPtr, len);
 
         snd_midi_event_encode(s_midiCoder, dataPtr, len, evPtr);

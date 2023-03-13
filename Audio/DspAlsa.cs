@@ -184,7 +184,7 @@ partial class DspAlsa
     {
         uint len;
         uint freq;
-        /* snd_pcm_hw_params_t* */ nint dspParams = nint.Zero;
+        /* snd_pcm_hw_params_t* */ var dspParams = nint.Zero;
         var dataPointer = 0;
 
         DSP_Stop();

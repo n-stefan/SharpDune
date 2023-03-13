@@ -22,7 +22,7 @@ unsafe class DspPulse
     static void DSP_stream_state_cb(/* pa_stream* */ nint p, void* userdata)
     {
         /*pa_operation * op;*/
-        pa_stream_state state = pa_stream_get_state(p);
+        var state = pa_stream_get_state(p);
         Debug.WriteLine($"DEBUG: DSP_stream_state_cb({p}, {(nint)userdata}) state={(int)state}");
         switch (state)
         {
@@ -179,7 +179,7 @@ unsafe class DspPulse
 
         if (s_playing)
         {
-            /* pa_operation* */ nint operation = pa_stream_flush(s_stream, &DSP_stream_flush_cb, null);
+            /* pa_operation* */ var operation = pa_stream_flush(s_stream, &DSP_stream_flush_cb, null);
             pa_operation_unref(operation);
         }
 
@@ -203,7 +203,7 @@ unsafe class DspPulse
         Debug.WriteLine("DEBUG: DSP_Stop()");
         if (s_playing)
         {
-            /* pa_operation* */ nint operation = pa_stream_flush(s_stream, &DSP_stream_flush_cb, null);
+            /* pa_operation* */ var operation = pa_stream_flush(s_stream, &DSP_stream_flush_cb, null);
             pa_operation_unref(operation);
             s_playing = false;
         }
