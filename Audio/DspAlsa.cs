@@ -72,15 +72,15 @@ partial class DspAlsa
     static /* snd_pcm_t* */ nint s_dsp = nint.Zero;
     static /* snd_async_handler_t* */ nint s_dspAsync = nint.Zero;
 
-    static bool s_init = false;
-    static bool s_playing = false;
+    static bool s_init;
+    static bool s_playing;
 
     static nint s_data = nint.Zero;
-    static uint s_dataLen = 0;
+    static uint s_dataLen;
 
     static nint s_buffer = nint.Zero;
-    static uint s_bufferLen = 0;
-    static uint s_bufferDone = 0;
+    static uint s_bufferLen;
+    static uint s_bufferDone;
 
     [LibraryImport(LibraryName), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial int snd_pcm_close(nint pcm);

@@ -6,12 +6,12 @@ namespace SharpDune.Audio;
 
 unsafe class DspPulse
 {
-    static pa_mainloop_api* s_mainloop_api = default;
+    static pa_mainloop_api* s_mainloop_api;
     static /* pa_mainloop* */ nint s_mainloop = nint.Zero;
     static /* pa_context* */ nint s_context = nint.Zero;
     static /* pa_stream* */ nint s_stream = nint.Zero;
-    static uint s_current_freq = 0;
-    static bool s_playing = false;
+    static uint s_current_freq;
+    static bool s_playing;
     static nint s_data = nint.Zero;
 
     [UnmanagedCallersOnly]
