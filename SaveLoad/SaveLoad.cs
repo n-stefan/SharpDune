@@ -189,12 +189,12 @@ class SaveLoad
             {
                 SLDT_NULL => 0,
                 SLDT_CALLBACK => 0,
-                SLDT_UINT8 => (uint)SizeOf(typeof(byte)) * sld[i].count,
-                SLDT_UINT16 => (uint)SizeOf(typeof(ushort)) * sld[i].count,
-                SLDT_UINT32 => (uint)SizeOf(typeof(uint)) * sld[i].count,
-                SLDT_INT8 => (uint)SizeOf(typeof(sbyte)) * sld[i].count,
-                SLDT_INT16 => (uint)SizeOf(typeof(short)) * sld[i].count,
-                SLDT_INT32 => (uint)SizeOf(typeof(int)) * sld[i].count,
+                SLDT_UINT8 => (uint)sizeof(byte) * sld[i].count,
+                SLDT_UINT16 => (uint)sizeof(ushort) * sld[i].count,
+                SLDT_UINT32 => (uint)sizeof(uint) * sld[i].count,
+                SLDT_INT8 => (uint)sizeof(sbyte) * sld[i].count,
+                SLDT_INT16 => (uint)sizeof(short) * sld[i].count,
+                SLDT_INT32 => (uint)sizeof(int) * sld[i].count,
                 SLDT_SLD => SaveLoad_GetLength(sld[i].sld) * sld[i].count,
                 _ => 0
             };
@@ -568,16 +568,14 @@ class SaveLoad
                         break;
 
                     case SLDT_INT8:
-                        sbyte v;
                         try
                         {
-                            v = Convert.ToSByte(values[i], Culture);
+                            fp.Write(Convert.ToSByte(values[i], Culture)); //if (fwrite(&v, sizeof(int8), 1, fp) != 1) return false;
                         }
                         catch (OverflowException)
                         {
-                            v = (sbyte)(ushort)values[i];
+                            fp.Write((sbyte)(ushort)values[i]);
                         }
-                        fp.Write(v); //if (fwrite(&v, sizeof(int8), 1, fp) != 1) return false;
                         break;
 
                     case SLDT_INT16:

@@ -82,11 +82,11 @@ class SaveLoadMap
             t.overlayTileID = g_veiledTileID;
         }
 
-        while (length >= SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/)
+        while (length >= sizeof(ushort) + 4/*Common.SizeOf(typeof(Tile))*/)
         {
             CTile t;
 
-            length -= (uint)(SizeOf(typeof(ushort)) + 4/*Common.SizeOf(typeof(Tile))*/);
+            length -= sizeof(ushort) + 4/*Common.SizeOf(typeof(Tile))*/;
 
             if (!FRead_LE_UInt16(ref i, fp)) return false;
             if (i >= 0x1000) return false;

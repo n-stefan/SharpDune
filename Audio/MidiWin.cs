@@ -112,7 +112,7 @@ partial class MidiWin
         {
             for (i = 0; i < numDevs; i++)
             {
-                if (midiOutGetDevCaps((nuint)i, out var caps, (uint)Marshal.SizeOf<MidiOutCaps>()) == MMSYSERR_NOERROR)
+                if (midiOutGetDevCaps(i, out var caps, (uint)Marshal.SizeOf<MidiOutCaps>()) == MMSYSERR_NOERROR)
                 {
                     Debug.WriteLine($"DEBUG: MidiOutdevice #{i}: {caps.Mid}:{caps.Pid} v{caps.DriverVersion >> 8}.{caps.DriverVersion & 0xff}" +
                                     $" voices={caps.Voices} notes={caps.Notes} channels={caps.ChannelMask} {caps.Name}");
