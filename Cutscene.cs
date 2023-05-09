@@ -746,10 +746,11 @@ class Cutscene
         {
             if (Input_Keyboard_NextKey() != 0 && g_canSkipIntro)
             {
-                LogosExit();
-                return;
+                break;
             }
         }
+
+        LogosExit();
 
         void LogosExit()
         {

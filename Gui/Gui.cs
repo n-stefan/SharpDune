@@ -2803,7 +2803,7 @@ class Gui
      * @param palette The new palette.
      * @param ticksOfAnimation The amount of ticks it should take.
      */
-    internal static void GUI_SetPaletteAnimated(byte[] palette, short ticksOfAnimation)
+    internal static void GUI_SetPaletteAnimated(Span<byte> palette, short ticksOfAnimation)
     {
         bool progress;
         short diffPerTick;
