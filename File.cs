@@ -113,27 +113,23 @@ class File
      * @param filename The filename to get the FileInfo for.
      * @return The FileInfo pointer or NULL if not found.
      */
-    static FileInfo FileInfo_Find_ByName(/*string*/ReadOnlySpan<char> filename, ref FileInfo pakInfo)
+    static FileInfo FileInfo_Find_ByName(ReadOnlySpan<char> filename, out FileInfo pakInfo)
     {
-        FileInfoLinkedElem e;
-
-        for (e = s_files_in_root; e != null; e = e.next)
+        pakInfo = null;
+        for (var e = s_files_in_root; e != null; e = e.next)
         {
-            if (e.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase))
-            { //!strcasecmp(e->info.filename, filename)) {
-                /*if (pakInfo != null)*/
-                pakInfo = null; //if (pakInfo) *pakInfo = NULL;
+            if (e.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase)) //!strcasecmp(e->info.filename, filename))
+            {
+                /*if (pakInfo != null)*/ pakInfo = null; //if (pakInfo) *pakInfo = NULL;
                 return e.info;
             }
         }
-        PakFileInfoLinkedElem pe;
-        for (pe = s_files_in_pak; pe != null; pe = pe.next)
+        for (var e = s_files_in_pak; e != null; e = e.next)
         {
-            if (pe.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase))
-            { //!strcasecmp(e->info.filename, filename)) {
-                /*if (pakInfo != null)*/
-                pakInfo = pe.pak; //if (pakInfo) *pakInfo = e->pak;
-                return pe.info;
+            if (e.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase)) //!strcasecmp(e->info.filename, filename))
+            {
+                /*if (pakInfo != null)*/ pakInfo = e.pak; //if (pakInfo) *pakInfo = e->pak;
+                return e.info;
             }
         }
         return null;
@@ -174,13 +170,12 @@ class File
         string filenameComplete; //char[1024]
         FileInfo fileInfo;
         ReadOnlySpan<char> filename;
-        FileInfo pakInfo = null;
 
         var fileAccess = FileAccessFromString(mode);
         Debug.WriteLine($"DEBUG: FOpenDataDir({dir}, {name}, {mode})");
         if (dir != SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
         {
-            fileInfo = FileInfo_Find_ByName(name, ref pakInfo);
+            fileInfo = FileInfo_Find_ByName(name, out _);
             if (fileInfo != null)
             {
                 /* Take the filename from the FileInfo structure, as it was read
@@ -226,7 +221,6 @@ class File
     {
         byte fileIndex;
         FileInfo fileInfo;
-        FileInfo pakInfo = null;
 
         if (((FileMode)mode & FileMode.FILE_MODE_READ_WRITE) == FileMode.FILE_MODE_READ_WRITE) return (byte)FileMode.FILE_INVALID;
 
@@ -244,7 +238,7 @@ class File
         if (mode == (byte)FileMode.FILE_MODE_READ && dir != SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
         {
             /* Look in PAK only for READ only files, and not Personnal files */
-            fileInfo = FileInfo_Find_ByName(filename, ref pakInfo);
+            fileInfo = FileInfo_Find_ByName(filename, out var pakInfo);
             if (fileInfo == null) return (byte)FileMode.FILE_INVALID;
             if (pakInfo == null)
             {
@@ -343,13 +337,12 @@ class File
     static bool File_Exists_Ex(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, out uint fileSize)
     {
         var exists = false;
-        FileInfo pakInfo = null;
         fileSize = 0;
 
         if (dir != SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
         {
             FileInfo fileInfo;
-            fileInfo = FileInfo_Find_ByName(filename, ref pakInfo);
+            fileInfo = FileInfo_Find_ByName(filename, out _);
             if (fileInfo != null)
             {
                 exists = true;
