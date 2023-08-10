@@ -94,7 +94,7 @@ unsafe class DspPulse
                 return false;
             }
         */
-        s_context = pa_context_new_with_proplist(s_mainloop_api, (sbyte*)Marshal.StringToHGlobalAuto("OpenDUNE"), nint.Zero/*proplist*/);
+        s_context = pa_context_new_with_proplist(s_mainloop_api, (sbyte*)Marshal.StringToHGlobalAuto("SharpDUNE"), nint.Zero/*proplist*/);
         if (s_context == nint.Zero)
         {
             Trace.WriteLine("ERROR: PulseAudio pa_context_new_with_proplist() failed");
