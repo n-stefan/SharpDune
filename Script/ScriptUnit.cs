@@ -1032,7 +1032,7 @@ class ScriptUnit
 
                 bufferFrom.Ptr = bufferTo.Ptr - 1;
 
-                while (bufferFrom.Curr == 0xFE && !AreArraysEqual(bufferFrom.Arr.Span, bufferFrom.Ptr, data.buffer, 0, Math.Min(bufferFrom.Arr.Length, data.buffer.Length))) bufferFrom.Ptr--;
+                while (bufferFrom.Curr == 0xFE && !AreArraysEqual(bufferFrom.Arr.Span, bufferFrom.Ptr, data.buffer, 0, Math.Min(bufferFrom.Arr.Length, data.buffer.Length))) bufferFrom--;
 
                 if (bufferFrom.Curr == 0xFE)
                 {
@@ -1088,7 +1088,7 @@ class ScriptUnit
                 bufferFrom.Curr = 0xFE;
 
                 /* Walk back one tile */
-                while (bufferFrom.Curr == 0xFE && bufferFrom.Ptr != 0/*data.buffer != bufferFrom.Arr*/) bufferFrom.Ptr--;
+                while (bufferFrom.Curr == 0xFE && bufferFrom.Ptr != 0/*data.buffer != bufferFrom.Arr*/) bufferFrom--;
                 if (bufferFrom.Curr != 0xFE)
                 {
                     packed += (ushort)s_mapDirection[(bufferFrom.Curr + 4) & 0x7];

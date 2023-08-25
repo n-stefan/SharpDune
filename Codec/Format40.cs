@@ -16,12 +16,12 @@ class Format40
 
         for (; ; )
         {
-            cmd = src[src.Ptr++];   /* 8 bit command code */
+            cmd = src.CurrInc;   /* 8 bit command code */
 
             if (cmd == 0)
             {
                 /* XOR with value */
-                for (count = src[src.Ptr++]; count > 0; count--)
+                for (count = src.CurrInc; count > 0; count--)
                 {
                     dst[dst.Ptr++] ^= src.Curr;
                 }
@@ -32,7 +32,7 @@ class Format40
                 /* XOR with string */
                 for (count = cmd; count > 0; count--)
                 {
-                    dst[dst.Ptr++] ^= src[src.Ptr++];
+                    dst[dst.Ptr++] ^= src.CurrInc;
                 }
             }
             else if (cmd != 0x80)
@@ -43,8 +43,8 @@ class Format40
             else
             {
                 /* last byte was 0x80 : read 16 bit value */
-                cmd = src[src.Ptr++];
-                cmd += (ushort)((src[src.Ptr++]) << 8);
+                cmd = src.CurrInc;
+                cmd += (ushort)((src.CurrInc) << 8);
 
                 if (cmd == 0)
                     break;    /* 0x80 0x00 0x00 => exit code */
@@ -59,7 +59,7 @@ class Format40
                     /* XOR with string */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dst.Ptr++] ^= src[src.Ptr++];
+                        dst[dst.Ptr++] ^= src.CurrInc;
                     }
                 }
                 else
@@ -91,14 +91,14 @@ class Format40
 
         for (; ; )
         {
-            cmd = src[src.Ptr++];    /* 8 bit command code */
+            cmd = src.CurrInc;    /* 8 bit command code */
 
             if (cmd == 0)
             {
                 /* fill with value */
-                for (count = src[src.Ptr++]; count > 0; count--)
+                for (count = src.CurrInc; count > 0; count--)
                 {
-                    dst[dst.Ptr++] = src[src.Ptr];
+                    dst.CurrInc = src.Curr;
                     length++;
                     if (length == width)
                     {
@@ -113,7 +113,7 @@ class Format40
                 /* copy string */
                 for (count = (ushort)(cmd & 0x7F); count > 0; count--)
                 {
-                    dst[dst.Ptr++] = src[src.Ptr++];
+                    dst.CurrInc = src.CurrInc;
                     length++;
                     if (length == width)
                     {
@@ -136,8 +136,8 @@ class Format40
             else
             {
                 /* last byte was 0x80 : read 16 bit value */
-                cmd = src[src.Ptr++];
-                cmd += (ushort)((src[src.Ptr++]) << 8);
+                cmd = src.CurrInc;
+                cmd += (ushort)((src.CurrInc) << 8);
 
                 if (cmd == 0) break;    /* 0x80 0x00 0x00 => exit code */
 
@@ -157,7 +157,7 @@ class Format40
                     /* copy string */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dst.Ptr++] = src[src.Ptr++];
+                        dst.CurrInc = src.CurrInc;
                         length++;
                         if (length == width)
                         {
@@ -171,7 +171,7 @@ class Format40
                     /* fill with value */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dst.Ptr++] = src[src.Ptr];
+                        dst.CurrInc = src.Curr;
                         length++;
                         if (length == width)
                         {
@@ -201,14 +201,14 @@ class Format40
 
         for (; ; )
         {
-            cmd = src[src.Ptr++];    /* 8 bit command code */
+            cmd = src.CurrInc;    /* 8 bit command code */
 
             if (cmd == 0)
             {
                 /* XOR with value */
-                for (count = src[src.Ptr++]; count > 0; count--)
+                for (count = src.CurrInc; count > 0; count--)
                 {
-                    dst[dst.Ptr++] ^= src[src.Ptr];
+                    dst[dst.Ptr++] ^= src.Curr;
                     length++;
                     if (length == width)
                     {
@@ -223,7 +223,7 @@ class Format40
                 /* XOR with string */
                 for (count = cmd; count > 0; count--)
                 {
-                    dst[dst.Ptr++] ^= src[src.Ptr++];
+                    dst[dst.Ptr++] ^= src.CurrInc;
                     length++;
                     if (length == width)
                     {
@@ -246,8 +246,8 @@ class Format40
             else
             {
                 /* last byte was 0x80 : read 16 bit value */
-                cmd = src[src.Ptr++];
-                cmd += (ushort)((src[src.Ptr++]) << 8);
+                cmd = src.CurrInc;
+                cmd += (ushort)((src.CurrInc) << 8);
 
                 if (cmd == 0) break;    /* 0x80 0x00 0x00 => exit code */
 
@@ -267,7 +267,7 @@ class Format40
                     /* XOR with string */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dst.Ptr++] ^= src[src.Ptr++];
+                        dst[dst.Ptr++] ^= src.CurrInc;
                         length++;
                         if (length == width)
                         {
@@ -281,7 +281,7 @@ class Format40
                     /* XOR with value */
                     for (count = (ushort)(cmd & 0x3FFF); count > 0; count--)
                     {
-                        dst[dst.Ptr++] ^= src[src.Ptr];
+                        dst[dst.Ptr++] ^= src.Curr;
                         length++;
                         if (length == width)
                         {

@@ -18,6 +18,12 @@ class Array<T>
         set => Arr.Span[Ptr] = value;
     }
 
+    internal T CurrInc
+    {
+        get => Arr.Span[Ptr++];
+        set => Arr.Span[Ptr++] = value;
+    }
+
     internal Array(Array<T> old)
     {
         Arr = old.Arr;
@@ -45,11 +51,9 @@ class Array<T>
         return array;
     }
 
-    //internal Array() { }
-
-    //internal T CurrInc
-    //{
-    //    get => Arr[Ptr++];
-    //    //set => Arr[Ptr++] = value;
-    //}
+    public static Array<T> operator --(Array<T> array)
+    {
+        array.Ptr--;
+        return array;
+    }
 }
