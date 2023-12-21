@@ -4,7 +4,7 @@ namespace SharpDune.Table;
 
 class TableHouseInfo
 {
-    internal static HouseInfo[] g_table_houseInfo = { //[HOUSE_MAX]
+    internal static HouseInfo[] g_table_houseInfo = [ //[HOUSE_MAX]
         new() {
             name = "Harkonnen",
             toughness = 200,
@@ -100,5 +100,5 @@ class TableHouseInfo
             musicBriefing = 65535,
             voiceFilename = "amerc.voc"
         }
-    };
+    ];
 }

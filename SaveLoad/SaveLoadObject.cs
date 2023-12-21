@@ -2,7 +2,7 @@
 
 class SaveLoadObject
 {
-    internal static readonly SaveLoadDesc[] g_saveObject = {
+    internal static readonly SaveLoadDesc[] g_saveObject = [
         SLD_ENTRY(SLDT_UINT16, nameof(CObject.index)),
         SLD_ENTRY(SLDT_UINT8, nameof(CObject.type)),
         SLD_ENTRY(SLDT_UINT8, nameof(CObject.linkedID)),
@@ -14,5 +14,5 @@ class SaveLoadObject
         SLD_ENTRY(SLDT_UINT16, nameof(CObject.hitpoints)),
         SLD_SLD(nameof(CObject.script), g_saveScriptEngine),
         SLD_END()
-    };
+    ];
 }

@@ -197,7 +197,7 @@ class Explosion
     static void Explosion_Func_MoveYPosition(CExplosion e, ushort row) =>
         e.position.y += row;
 
-    static readonly short[] craterIconMapIndex = { -1, 2, 1 };
+    static readonly short[] craterIconMapIndex = [-1, 2, 1];
     /*
      * Handle damage to a tile, removing spice, removing concrete, stuff like that.
      * @param e The Explosion to handle damage on.

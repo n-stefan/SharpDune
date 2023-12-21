@@ -49,7 +49,7 @@ class VideoSdl2
     static ushort s_mouseMaxY;
 
     /* Partly copied from http://webster.cs.ucr.edu/AoA/DOS/pdf/apndxc.pdf */
-    static readonly byte[] s_SDL_keymap = {
+    static readonly byte[] s_SDL_keymap = [
            0,    0,    0,    0,    0,    0,    0,    0, 0x0E, 0x0F,    0,    0,    0, 0x1C,    0,    0, /*  0x00 -  0x0F */
            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x01,    0,    0,    0,    0, /*  0x10 -  0x1F */
         0x39,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 0x33, 0x0C, 0x34, 0x35, /*  0x20 -  0x2F */
@@ -58,10 +58,10 @@ class VideoSdl2
         0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C,    0, 0x2B,    0,    0,    0, /*  0x50 -  0x5F */
         0x29, 0x1E, 0x30, 0x2E, 0x20, 0x12, 0x21, 0x22, 0x23, 0x17, 0x24, 0x25, 0x26, 0x32, 0x31, 0x18, /*  0x60 -  0x6F */
         0x19, 0x10, 0x13, 0x1F, 0x14, 0x16, 0x2F, 0x11, 0x2D, 0x15, 0x2C,    0,    0,    0,    0, 0x53, /*  0x70 -  0x7F */
-    };
+    ];
 
     /* see https://wiki.libsdl.org/SDLKeycodeLookup */
-    static readonly byte[] s_SDL_hikeymap = {
+    static readonly byte[] s_SDL_hikeymap = [
         0x3A,	/* 1073741881 0x40000039 SDLK_CAPSLOCK */
 	    0x3B,	/* 1073741882 0x4000003A SDLK_F1 */
 	    0x3C,	/* 1073741883 0x4000003B SDLK_F2 */
@@ -105,7 +105,7 @@ class VideoSdl2
 	    0x49,	/* 1073741921 0x40000061 SDLK_KP_9 */
 	    0x52,	/* 1073741922 0x40000062 SDLK_KP_0 */
 	    0x53,	/* 1073741923 0x40000063 SDLK_KP_PERIOD */
-    };
+    ];
 
     /*
      * Change the palette with the palette supplied.

@@ -225,25 +225,25 @@ class Gui
     static ushort[][] s_temporaryColourBorderSchema = new ushort[5][]; /*!< Temporary storage for the #s_colourBorderSchema. */
 
     /*!< Colours used for the border of widgets. */
-    static ushort[][] s_colourBorderSchema = { //[5][4]
-			new ushort[] {  26,  29,  29,  29 },
-            new ushort[] {  20,  26,  16,  20 },
-            new ushort[] {  20,  16,  26,  20 },
-            new ushort[] { 233, 235, 232, 233 },
-            new ushort[] { 233, 232, 235, 233 }
-        };
+    static ushort[][] s_colourBorderSchema = [ //[5][4]
+			[26,  29,  29,  29],
+            [20,  26,  16,  20],
+            [20,  16,  26,  20],
+            [233, 235, 232, 233],
+            [233, 232, 235, 233]
+        ];
 
     /* Colours used for the border of widgets in the hall of fame. */
-    static readonly ushort[][] s_HOF_ColourBorderSchema = { //[5][4]
-			new ushort[] { 226, 228, 228, 228 },
-            new ushort[] { 116, 226, 105, 116 },
-            new ushort[] { 116, 105, 226, 116 },
-            new ushort[] { 233, 235, 232, 233 },
-            new ushort[] { 233, 232, 235, 233 }
-        };
+    static readonly ushort[][] s_HOF_ColourBorderSchema = [ //[5][4]
+			[226, 228, 228, 228],
+            [116, 226, 105, 116],
+            [116, 105, 226, 116],
+            [233, 235, 232, 233],
+            [233, 232, 235, 233]
+        ];
 
     /* Mapping of scores to rank names. */
-    static readonly RankScore[] _rankScores = {
+    static readonly RankScore[] _rankScores = [
             new() { rankString = 271, score = 25 }, /* "Sand Flea" */
 			new() { rankString = 272, score = 50 }, /* "Sand Snake" */
 			new() { rankString = 273, score = 100 }, /* "Desert Mongoose" */
@@ -256,7 +256,7 @@ class Gui
 			new() { rankString = 280, score = 1000 }, /* "Chief Warlord" */
 			new() { rankString = 281, score = 1400 }, /* "Ruler of Arrakis" */
 			new() { rankString = 282, score = 1800 }  /* "Emperor" */
-		};
+		];
 
     internal static bool g_factoryWindowConstructionYard;
     internal static FactoryWindowItem[] g_factoryWindowItems = new FactoryWindowItem[25];
@@ -272,7 +272,7 @@ class Gui
     internal static ushort g_factoryWindowTotal;
     internal static FactoryResult g_factoryWindowResult = FactoryResult.FACTORY_RESUME;
 
-    static readonly byte[] blurOffsets = { 1, 3, 2, 5, 4, 3, 2, 1 };
+    static readonly byte[] blurOffsets = [1, 3, 2, 5, 4, 3, 2, 1];
     static ushort s_blurIndex; /* index into previous table */
     /*
      * Draws a sprite.
@@ -2078,7 +2078,7 @@ class Gui
         }
     }
 
-    static readonly ushort[] l_info = { 293, 52, 24, 7, 1, 0, 0, 0, 4, 5, 8 };
+    static readonly ushort[] l_info = [293, 52, 24, 7, 1, 0, 0, 0, 4, 5, 8];
     internal static void GUI_DrawProgressbar(ushort current, ushort max)
     {
         ushort width;
@@ -3209,12 +3209,12 @@ class Gui
         return scenarioID;
     }
 
-    static readonly byte[][] l_houses = { //[3][3]
+    static readonly byte[][] l_houses = [ //[3][3]
 			/* x, y, shortcut */
-			new byte[] { 16, 56, 31 }, /* A */
-			new byte[] { 112, 56, 25 }, /* O */
-			new byte[] { 208, 56, 36 }, /* H */
-		};
+			[16, 56, 31], /* A */
+			[112, 56, 25], /* O */
+			[208, 56, 36], /* H */
+		];
     /*
      * Show pick house screen.
      */
@@ -3397,9 +3397,9 @@ class Gui
         ushort statsBarWidth;   /* available width to draw the score bars */
         ushort i;
         (ushort value, ushort increment)[][] scores =
-        {
+        [
                 new (ushort value, ushort increment)[2], new (ushort value, ushort increment)[2], new (ushort value, ushort increment)[2]
-            };
+            ];
 
         s_ticksPlayed = ((g_timerGame - g_tickScenarioStart) / 3600) + 1;
 
@@ -4504,13 +4504,13 @@ class Gui
         return 0;
     }
 
-    static readonly ushort[] gameSpeedStrings = {
+    static readonly ushort[] gameSpeedStrings = [
             (ushort)Text.STR_SLOWEST,
             (ushort)Text.STR_SLOW,
             (ushort)Text.STR_NORMAL,
             (ushort)Text.STR_FAST,
             (ushort)Text.STR_FASTEST
-        };
+        ];
     internal static string GUI_String_Get_ByIndex(short stringID)
     {
         switch (stringID)
@@ -4686,8 +4686,8 @@ class Gui
         GUI_Mouse_Show_Safe();
     }
 
-    static readonly byte[] xSrc = { 0, 0, 16, 0, 0, 0 }; //HOUSE_MAX
-    static readonly byte[] ySrc = { 8, 152, 48, 0, 0, 0 }; //HOUSE_MAX
+    static readonly byte[] xSrc = [0, 0, 16, 0, 0, 0]; //HOUSE_MAX
+    static readonly byte[] ySrc = [8, 152, 48, 0, 0, 0]; //HOUSE_MAX
     static void GUI_FactoryWindow_Init()
     {
         Screen oldScreenID;

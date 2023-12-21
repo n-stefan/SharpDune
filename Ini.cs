@@ -64,7 +64,7 @@ partial class Ini
         if (s != null)
         {
             //TODO: Check and try to simplify
-            var count = s.IndexOfAny(new[] { '\r', '\n' }); //uint16 count = (uint16)strcspn(s, "\r\n");
+            var count = s.IndexOfAny(['\r', '\n']); //uint16 count = (uint16)strcspn(s, "\r\n");
             if (count != 0)
             {
                 /* Drop first line if not empty */

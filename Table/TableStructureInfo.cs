@@ -4,7 +4,7 @@ namespace SharpDune.Table;
 
 class TableStructureInfo
 {
-    internal static StructureInfo[] g_table_structureInfo = { //[STRUCTURE_MAX]
+    internal static StructureInfo[] g_table_structureInfo = [ //[STRUCTURE_MAX]
         new() { /* 0 */
 		            o = new ObjectInfo {
                         stringID_abbrev = (ushort)Text.STR_CONCRETE,
@@ -36,7 +36,7 @@ class TableStructureInfo
                         structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NONE,
                         sortPriority = 2,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_CONCRETE_USE_CONCRETE_TO_MAKE_A_STURDY_FOUNDATION_FOR_YOUR_STRUCTURES,
                         priorityBuild = 0,
@@ -48,12 +48,12 @@ class TableStructureInfo
                     powerUsage = 0,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_1x1,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_CONCRETE_SLAB,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         2,
                         2,
                         2
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -62,12 +62,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 1 */
@@ -101,7 +101,7 @@ class TableStructureInfo
                         structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NONE,
                         sortPriority = 4,
                         upgradeLevelRequired = 1,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_CONCRETE_USE_CONCRETE_TO_MAKE_A_STURDY_FOUNDATION_FOR_YOUR_STRUCTURES,
                         priorityBuild = 0,
@@ -113,12 +113,12 @@ class TableStructureInfo
                     powerUsage = 0,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_CONCRETE_SLAB,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         2,
                         2,
                         2
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -127,12 +127,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 2 */
@@ -166,7 +166,7 @@ class TableStructureInfo
                         structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_STARPORT,
                         sortPriority = 5,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_PALACE_THIS_IS_YOUR_PALACE,
                         priorityBuild = 0,
@@ -178,12 +178,12 @@ class TableStructureInfo
                     powerUsage = 80,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_3x3,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_HOUSE_PALACE,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         4,
                         4,
                         4
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -192,12 +192,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 3 */
@@ -231,7 +231,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 14,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_LIGHT_FACTORY_THE_LIGHT_FACTORY_PRODUCES_LIGHT_ATTACK_VEHICLES,
                         priorityBuild = 0,
@@ -243,12 +243,12 @@ class TableStructureInfo
                     powerUsage = 20,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_LIGHT_VEHICLE_FACTORY,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         14,
                         15,
                         16
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_TRIKE,
                         (byte)UnitType.UNIT_QUAD,
                         (byte)UnitType.UNIT_INVALID,
@@ -257,12 +257,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         3,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 4 */
@@ -296,7 +296,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP | StructureFlag.FLAG_STRUCTURE_LIGHT_VEHICLE),
                         sortPriority = 28,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_HEAVY_FACTORY_THE_HEAVY_FACTORY_PRODUCES_TRACKED_VEHICLES,
                         priorityBuild = 0,
@@ -308,12 +308,12 @@ class TableStructureInfo
                     powerUsage = 35,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_3x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_HEAVY_VEHICLE_FACTORY,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         11,
                         12,
                         13
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_SIEGE_TANK,
                         (byte)UnitType.UNIT_LAUNCHER,
                         (byte)UnitType.UNIT_HARVESTER,
@@ -322,12 +322,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_DEVIATOR,
                         (byte)UnitType.UNIT_MCV,
                         (byte)UnitType.UNIT_SONIC_TANK,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         4,
                         5,
                         6,
-                    },
+                    ],
                 },
 
         new() { /* 5 */
@@ -361,7 +361,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP | StructureFlag.FLAG_STRUCTURE_LIGHT_VEHICLE),
                         sortPriority = 30,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_HITECH_FACTORY_THE_HITECH_FACTORY_PRODUCES_FLYING_VEHICLES,
                         priorityBuild = 0,
@@ -373,12 +373,12 @@ class TableStructureInfo
                     powerUsage = 35,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_3x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_HI_TECH_FACTORY,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         8,
                         9,
                         10
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_CARRYALL,
                         (byte)UnitType.UNIT_ORNITHOPTER,
                         (byte)UnitType.UNIT_INVALID,
@@ -387,12 +387,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         7,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 6 */
@@ -426,7 +426,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_STARPORT | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 34,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_HOUSE_IX_THE_IX_RESEARCH_FACILITY_ADVANCES_YOUR_HOUSES_TECHNOLOGY,
                         priorityBuild = 0,
@@ -438,12 +438,12 @@ class TableStructureInfo
                     powerUsage = 40,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_IX_RESEARCH,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         20,
                         20,
                         20
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -452,12 +452,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 7 */
@@ -491,7 +491,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_BARRACKS | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 20,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_WOR_WOR_IS_USED_TO_TRAIN_YOUR_HEAVY_INFANTRY,
                         priorityBuild = 0,
@@ -503,12 +503,12 @@ class TableStructureInfo
                     powerUsage = 20,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_WOR_TROOPER_FACILITY,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         21,
                         21,
                         21
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_TROOPER,
                         (byte)UnitType.UNIT_TROOPERS,
                         (byte)UnitType.UNIT_INVALID,
@@ -517,12 +517,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         6,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 8 */
@@ -556,7 +556,7 @@ class TableStructureInfo
                         structuresRequired = 4294967295 /*(uint)StructureFlag.FLAG_STRUCTURE_NEVER*/,
                         sortPriority = 0,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_CONSTRUCTION_FACILITY_ALL_STRUCTURES_ARE_BUILT_BY_THE_CONSTRUCTION_FACILITY,
                         priorityBuild = 0,
@@ -568,12 +568,12 @@ class TableStructureInfo
                     powerUsage = 0,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_CONSTRUCTION_YARD,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         22,
                         22,
                         22
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -582,12 +582,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         4,
                         6,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 9 */
@@ -621,7 +621,7 @@ class TableStructureInfo
                         structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_NONE,
                         sortPriority = 6,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_WINDTRAP_THE_WINDTRAP_SUPPLIES_POWER_TO_YOUR_BASE_WITHOUT_POWER_YOUR_STRUCTURES_WILL_DECAY,
                         priorityBuild = 0,
@@ -633,12 +633,12 @@ class TableStructureInfo
                     powerUsage = -100,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_WINDTRAP_POWER,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         26,
                         26,
                         26
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -647,12 +647,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 10 */
@@ -686,7 +686,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 18,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_BARRACKS_THE_BARRACKS_IS_USED_TO_TRAIN_YOUR_LIGHT_INFANTRY,
                         priorityBuild = 0,
@@ -698,12 +698,12 @@ class TableStructureInfo
                     powerUsage = 10,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_INFANTRY_BARRACKS,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         28,
                         28,
                         28
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_SOLDIER,
                         (byte)UnitType.UNIT_INFANTRY,
                         (byte)UnitType.UNIT_INVALID,
@@ -712,12 +712,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         2,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 11 */
@@ -751,7 +751,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 32,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_STARTPORT_THE_STARPORT_IS_USED_TO_ORDER_AND_RECEIVE_SHIPMENTS_FROM_CHOAM,
                         priorityBuild = 0,
@@ -763,12 +763,12 @@ class TableStructureInfo
                     powerUsage = 50,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_3x3,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_STARPORT_FACILITY,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         5,
                         6,
                         7
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -777,12 +777,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 12 */
@@ -816,7 +816,7 @@ class TableStructureInfo
                         structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_WINDTRAP,
                         sortPriority = 8,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_SPICE_REFINERY_THE_REFINERY_CONVERTS_SPICE_INTO_CREDITS,
                         priorityBuild = 0,
@@ -828,12 +828,12 @@ class TableStructureInfo
                     powerUsage = 30,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_3x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_SPICE_REFINERY,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         17,
                         18,
                         19
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -842,12 +842,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 13 */
@@ -881,7 +881,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP | StructureFlag.FLAG_STRUCTURE_LIGHT_VEHICLE),
                         sortPriority = 24,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_REPAIR_FACILITY_THE_REPAIR_FACILITY_IS_USED_TO_REPAIR_YOUR_VEHICLES,
                         priorityBuild = 0,
@@ -893,12 +893,12 @@ class TableStructureInfo
                     powerUsage = 20,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_3x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_VEHICLE_REPAIR_CENTRE,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         23,
                         24,
                         25
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -907,12 +907,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 14 */
@@ -946,7 +946,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 16,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_WALL_THE_WALL_IS_USED_FOR_PASSIVE_DEFENSE,
                         priorityBuild = 0,
@@ -958,12 +958,12 @@ class TableStructureInfo
                     powerUsage = 0,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_1x1,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_WALLS,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         0xFF,
                         0xFF,
                         0xFF
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -972,12 +972,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 15 */
@@ -1011,7 +1011,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 22,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_GUN_TURRET_THE_CANNON_TURRET_IS_USED_FOR_SHORT_RANGE_ACTIVE_DEFENSE,
                         priorityBuild = 75,
@@ -1023,12 +1023,12 @@ class TableStructureInfo
                     powerUsage = 10,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_1x1,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         0xFF,
                         0xFF,
                         0xFF
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -1037,12 +1037,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 16 */
@@ -1076,7 +1076,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_OUTPOST | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 26,
                         upgradeLevelRequired = 2,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_ROCKET_TURRET_THE_ROCKETCANNON_TURRET_IS_USED_FOR_BOTH_SHORT_AND_MEDIUM_RANGE_ACTIVE_DEFENSE,
                         priorityBuild = 100,
@@ -1088,12 +1088,12 @@ class TableStructureInfo
                     powerUsage = 25,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_1x1,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         0xFF,
                         0xFF,
                         0xFF
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -1102,12 +1102,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 17 */
@@ -1141,7 +1141,7 @@ class TableStructureInfo
                         structuresRequired = (uint)(StructureFlag.FLAG_STRUCTURE_REFINERY | StructureFlag.FLAG_STRUCTURE_WINDTRAP),
                         sortPriority = 12,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_SPICE_SILO_THE_SPICE_SILO_IS_USED_TO_STORE_REFINED_SPICE,
                         priorityBuild = 0,
@@ -1153,12 +1153,12 @@ class TableStructureInfo
                     powerUsage = 5,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_SPICE_STORAGE_SILO,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         27,
                         27,
                         27
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -1167,12 +1167,12 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 },
 
         new() { /* 18 */
@@ -1206,7 +1206,7 @@ class TableStructureInfo
                         structuresRequired = (uint)StructureFlag.FLAG_STRUCTURE_WINDTRAP,
                         sortPriority = 10,
                         upgradeLevelRequired = 0,
-                        actionsPlayer = new[] { (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK },
+                        actionsPlayer = [(ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK, (ushort)ActionType.ACTION_ATTACK],
                         available = 0,
                         hintStringID = (ushort)Text.STR_OUTPOST_THE_OUTPOST_PROVIDES_RADAR_AND_AIDS_CONTROL_OF_DISTANT_VEHICLES,
                         priorityBuild = 0,
@@ -1218,12 +1218,12 @@ class TableStructureInfo
                     powerUsage = 30,
                     layout = (ushort)StructureLayout.STRUCTURE_LAYOUT_2x2,
                     iconGroup = (ushort)IconMapEntries.ICM_ICONGROUP_RADAR_OUTPOST,
-                    animationIndex = new byte[] {
+                    animationIndex = [
                         3,
                         3,
                         3
-                    },
-                    buildableUnits = new[] {
+                    ],
+                    buildableUnits = [
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
@@ -1232,39 +1232,39 @@ class TableStructureInfo
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
                         (byte)UnitType.UNIT_INVALID,
-                    },
-                    upgradeCampaign = new ushort[] {
+                    ],
+                    upgradeCampaign = [
                         0,
                         0,
                         0,
-                    },
+                    ],
                 }
-    };
+    ];
 
     /* Array with position offset per tile in a structure layout. */
-    internal static ushort[][] g_table_structure_layoutTiles = { //[STRUCTURE_LAYOUT_MAX][9]
-        new ushort[] {0,    0,    0,    0,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_1x1 */
-        new ushort[] {0,    1,    0,    0,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_2x1 */
-        new ushort[] {0, 64+0,    0,    0,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_1x2 */
-        new ushort[] {0,    1, 64+0, 64+1,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_2x2 */
-        new ushort[] {0,    1, 64+0, 64+1, 128+0, 128+1,     0,     0,     0}, /* STRUCTURE_LAYOUT_2x3 */
-        new ushort[] {0,    1,    2, 64+0,  64+1,  64+2,     0,     0,     0}, /* STRUCTURE_LAYOUT_3x2 */
-        new ushort[] {0,    1,    2, 64+0,  64+1,  64+2, 128+0, 128+1, 128+2}  /* STRUCTURE_LAYOUT_3x3 */
-    };
+    internal static ushort[][] g_table_structure_layoutTiles = [ //[STRUCTURE_LAYOUT_MAX][9]
+        [0,    0,    0,    0,     0,     0,     0,     0,     0], /* STRUCTURE_LAYOUT_1x1 */
+        [0,    1,    0,    0,     0,     0,     0,     0,     0], /* STRUCTURE_LAYOUT_2x1 */
+        [0, 64+0,    0,    0,     0,     0,     0,     0,     0], /* STRUCTURE_LAYOUT_1x2 */
+        [0,    1, 64+0, 64+1,     0,     0,     0,     0,     0], /* STRUCTURE_LAYOUT_2x2 */
+        [0,    1, 64+0, 64+1, 128+0, 128+1,     0,     0,     0], /* STRUCTURE_LAYOUT_2x3 */
+        [0,    1,    2, 64+0,  64+1,  64+2,     0,     0,     0], /* STRUCTURE_LAYOUT_3x2 */
+        [0,    1,    2, 64+0,  64+1,  64+2, 128+0, 128+1, 128+2]  /* STRUCTURE_LAYOUT_3x3 */
+    ];
 
     /* Array with position offset of edge tiles in a structure layout. */
-    internal static ushort[][] g_table_structure_layoutEdgeTiles = { //[STRUCTURE_LAYOUT_MAX][8]
-        new ushort[] {0, 0,    0,     0,     0,     0,     0, 0}, /* STRUCTURE_LAYOUT_1x1 */
-        new ushort[] {0, 1,    1,     1,     1,     0,     0, 0}, /* STRUCTURE_LAYOUT_2x1 */
-        new ushort[] {0, 0,    0,  64+0,  64+0,  64+0,     0, 0}, /* STRUCTURE_LAYOUT_1x2 */
-        new ushort[] {0, 1,    1,  64+1,  64+1,  64+0,  64+0, 0}, /* STRUCTURE_LAYOUT_2x2 */
-        new ushort[] {0, 1, 64+1, 128+1, 128+1, 128+0,  64+0, 0}, /* STRUCTURE_LAYOUT_2x3 */
-        new ushort[] {1, 2,    2,  64+2,  64+1,  64+0,     0, 0}, /* STRUCTURE_LAYOUT_3x2 */
-        new ushort[] {1, 2, 64+2, 128+2, 128+1, 128+0,  64+0, 0}, /* STRUCTURE_LAYOUT_3x3 */
-    };
+    internal static ushort[][] g_table_structure_layoutEdgeTiles = [ //[STRUCTURE_LAYOUT_MAX][8]
+        [0, 0,    0,     0,     0,     0,     0, 0], /* STRUCTURE_LAYOUT_1x1 */
+        [0, 1,    1,     1,     1,     0,     0, 0], /* STRUCTURE_LAYOUT_2x1 */
+        [0, 0,    0,  64+0,  64+0,  64+0,     0, 0], /* STRUCTURE_LAYOUT_1x2 */
+        [0, 1,    1,  64+1,  64+1,  64+0,  64+0, 0], /* STRUCTURE_LAYOUT_2x2 */
+        [0, 1, 64+1, 128+1, 128+1, 128+0,  64+0, 0], /* STRUCTURE_LAYOUT_2x3 */
+        [1, 2,    2,  64+2,  64+1,  64+0,     0, 0], /* STRUCTURE_LAYOUT_3x2 */
+        [1, 2, 64+2, 128+2, 128+1, 128+0,  64+0, 0], /* STRUCTURE_LAYOUT_3x3 */
+    ];
 
     /* Array with number of tiles in a layout. */
-    internal static ushort[] g_table_structure_layoutTileCount = { //[STRUCTURE_LAYOUT_MAX]
+    internal static ushort[] g_table_structure_layoutTileCount = [ //[STRUCTURE_LAYOUT_MAX]
         1, /* STRUCTURE_LAYOUT_1x1 */
         2, /* STRUCTURE_LAYOUT_2x1 */
         2, /* STRUCTURE_LAYOUT_1x2 */
@@ -1272,10 +1272,10 @@ class TableStructureInfo
         6, /* STRUCTURE_LAYOUT_2x3 */
         6, /* STRUCTURE_LAYOUT_3x2 */
         9, /* STRUCTURE_LAYOUT_3x3 */
-    };
+    ];
 
     /* Array with TileDiff of a layout. */
-    internal static Tile32[] g_table_structure_layoutTileDiff = { //[STRUCTURE_LAYOUT_MAX]
+    internal static Tile32[] g_table_structure_layoutTileDiff = [ //[STRUCTURE_LAYOUT_MAX]
         new() { x = 0x0080, y = 0x0080 }, /* STRUCTURE_LAYOUT_1x1 */
         new() { x = 0x0100, y = 0x0080 }, /* STRUCTURE_LAYOUT_2x1 */
         new() { x = 0x0080, y = 0x0100 }, /* STRUCTURE_LAYOUT_1x2 */
@@ -1283,10 +1283,10 @@ class TableStructureInfo
         new() { x = 0x0100, y = 0x0180 }, /* STRUCTURE_LAYOUT_2x3 */
         new() { x = 0x0280, y = 0x0100 }, /* STRUCTURE_LAYOUT_3x2 */
         new() { x = 0x0180, y = 0x0180 }, /* STRUCTURE_LAYOUT_3x3 */
-    };
+    ];
 
     /* Array with size of a layout. */
-    internal static XYSize[] g_table_structure_layoutSize = { //[STRUCTURE_LAYOUT_MAX]
+    internal static XYSize[] g_table_structure_layoutSize = [ //[STRUCTURE_LAYOUT_MAX]
         new() { width = 1, height = 1 }, /* STRUCTURE_LAYOUT_1x1 */
         new() { width = 2, height = 1 }, /* STRUCTURE_LAYOUT_2x1 */
         new() { width = 1, height = 2 }, /* STRUCTURE_LAYOUT_1x2 */
@@ -1294,16 +1294,16 @@ class TableStructureInfo
         new() { width = 2, height = 3 }, /* STRUCTURE_LAYOUT_2x3 */
         new() { width = 3, height = 2 }, /* STRUCTURE_LAYOUT_3x2 */
         new() { width = 3, height = 3 }, /* STRUCTURE_LAYOUT_3x3 */
-    };
+    ];
 
     /* Array with position offset per tile around a structure layout. */
-    internal static readonly short[][] g_table_structure_layoutTilesAround = { //[STRUCTURE_LAYOUT_MAX][16]
-        new short[] {-64, -64+1,     1,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_1x1 */
-        new short[] {-64, -64+1, -64+2,     2,  64+2,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_2x1 */
-        new short[] {-64, -64+1,     1,  64+1, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_1x2 */
-        new short[] {-64, -64+1, -64+2,     2,  64+2, 128+2, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_2x2 */
-        new short[] {-64, -64+1, -64+2,     2,  64+2, 128+2, 192+2, 192+1, 192+0, 192-1, 128-1,  64-1,    -1, -64-1,  0,     0}, /* STRUCTURE_LAYOUT_2x3 */
-        new short[] {-64, -64+1, -64+2, -64+3,     3,  64+3, 128+3, 128+2, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,  0,     0}, /* STRUCTURE_LAYOUT_3x2 */
-        new short[] {-64, -64+1, -64+2, -64+3,     3,  64+3, 128+3, 192+3, 192+2, 192+1, 192+0, 192-1, 128-1,  64-1, -1, -64-1}, /* STRUCTURE_LAYOUT_3x3 */
-    };
+    internal static readonly short[][] g_table_structure_layoutTilesAround = [ //[STRUCTURE_LAYOUT_MAX][16]
+        [-64, -64+1,     1,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,     0,     0,  0,     0], /* STRUCTURE_LAYOUT_1x1 */
+        [-64, -64+1, -64+2,     2,  64+2,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0], /* STRUCTURE_LAYOUT_2x1 */
+        [-64, -64+1,     1,  64+1, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0], /* STRUCTURE_LAYOUT_1x2 */
+        [-64, -64+1, -64+2,     2,  64+2, 128+2, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,     0,     0,  0,     0], /* STRUCTURE_LAYOUT_2x2 */
+        [-64, -64+1, -64+2,     2,  64+2, 128+2, 192+2, 192+1, 192+0, 192-1, 128-1,  64-1,    -1, -64-1,  0,     0], /* STRUCTURE_LAYOUT_2x3 */
+        [-64, -64+1, -64+2, -64+3,     3,  64+3, 128+3, 128+2, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,  0,     0], /* STRUCTURE_LAYOUT_3x2 */
+        [-64, -64+1, -64+2, -64+3,     3,  64+3, 128+3, 192+3, 192+2, 192+1, 192+0, 192-1, 128-1,  64-1, -1, -64-1], /* STRUCTURE_LAYOUT_3x3 */
+    ];
 }

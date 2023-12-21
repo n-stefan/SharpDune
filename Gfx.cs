@@ -32,7 +32,7 @@ class Gfx
      * SCREEN_2 = 320x200 = 64000 = 0xFA00
      * SCREEN_3 = 64781 = 0xFD0D    * NEVER ACTIVE * only used for game credits and intro */
     const byte GFX_SCREEN_BUFFER_COUNT = 4;
-    static readonly ushort[] s_screenBufferSize = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/ };
+    static readonly ushort[] s_screenBufferSize = [0xFA00, 0xFBF4, 0xFA00, 0xFD0D/*, 0xA044*/];
     static byte[] s_screenBuffer;
 
     static ArraySegment<byte> s_screen0;

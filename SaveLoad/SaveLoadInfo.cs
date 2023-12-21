@@ -4,7 +4,7 @@ namespace SharpDune.SaveLoad;
 
 class SaveLoadInfo
 {
-    static readonly SaveLoadDesc[] s_saveInfo = {
+    static readonly SaveLoadDesc[] s_saveInfo = [
         SLD_GSLD(() => g_scenario, g_saveScenario),
         SLD_GENTRY(SLDT_UINT16, () => g_playerCreditsNoSilo, (v, _) => g_playerCreditsNoSilo = (ushort)v),
         SLD_GENTRY(SLDT_UINT16, () => g_minimapPosition, (v, _) => g_minimapPosition = (ushort)v),
@@ -28,14 +28,14 @@ class SaveLoadInfo
         SLD_GCALLB(SLDT_UINT16, () => g_unitHouseMissile, SaveLoad_UnitHouseMissile),
         SLD_GENTRY(SLDT_UINT16, () => g_structureIndex, (v, _) => g_structureIndex = (ushort)v),
         SLD_END()
-    };
+    ];
 
-    static readonly SaveLoadDesc[] s_saveInfoOld = {
+    static readonly SaveLoadDesc[] s_saveInfoOld = [
         SLD_EMPTY2(SLDT_UINT8, 250),
         SLD_GENTRY(SLDT_UINT16, () => g_scenarioID, (v, _) => g_scenarioID = (ushort)v),
         SLD_GENTRY(SLDT_UINT16, () => g_campaignID, (v, _) => g_campaignID = (ushort)v),
         SLD_END()
-    };
+    ];
 
     static uint SaveLoad_SelectionType(object obj, uint value, bool loading)
     {

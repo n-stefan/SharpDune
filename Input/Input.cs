@@ -106,59 +106,59 @@ class Input
      * 0x57 => 0x7a            F11
      * 0x58 => 0x7b            F12
      */
-    static readonly byte[] s_keyTranslate = {
+    static readonly byte[] s_keyTranslate = [
             127, (byte)'n', 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, /* 0x00 - 0x0f */
 			17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, (byte)'+', (byte)':', 31, (byte)' ', /* 0x10 - 0x1f */
 			(byte)'!', (byte)'"', (byte)'#', (byte)'$', (byte)'%', (byte)'&', (byte)'\'', (byte)'(', (byte)')', 1, (byte)',', 29, (byte)'.', (byte)'/', (byte)'0', (byte)'1', /* 0x20 - 0x2f */
 			(byte)'2', (byte)'3', (byte)'4', (byte)'5', (byte)'6', (byte)'7', (byte)'9', (byte)'d', (byte)'<', (byte)'=', 30, (byte)'p', (byte)'q', (byte)'r', (byte)'s', (byte)'t', /* 0x30 - 0x3f */
 			(byte)'u', (byte)'v', (byte)'w', (byte)'x', (byte)'y', (byte)'Z', (byte)'}', (byte)'[', (byte)'`', (byte)'e', (byte)'i', (byte)'\\', (byte)'a', (byte)'f', (byte)'j', (byte)']', /* 0x40 - 0x4f */
 			(byte)'b', (byte)'g', (byte)'c', (byte)'h', 127, 127, 127, (byte)'z', (byte)'{' /* 0x50 - 0x58 */
-		};
+		];
 
-    static readonly byte[] s_keymapIgnore = { 30, (byte)',', (byte)'9', (byte)':', (byte)'<', (byte)'>', (byte)'@', (byte)'Z', 128 }; /*!< Keys to ignore when reading. */
+    static readonly byte[] s_keymapIgnore = [30, (byte)',', (byte)'9', (byte)':', (byte)'<', (byte)'>', (byte)'@', (byte)'Z', 128]; /*!< Keys to ignore when reading. */
     /* Dune II codes                    0x1e, 0x2c, 0x39, 0x3a, 0x3c, 0x3e, 0x40, 0x5a, 0x80 */
     /*                                  CAPS  LSHFT RSHFT LCTRL LALT  RALT  RCTRL NUMLK */
 
     /* Per bit, mask which keys are letters and special and should be done &= 0x1F when ALT is pressed (or CTLR ?) */
-    static readonly byte[] s_keymapSpecialMask = { 0x00, 0x00, 0xFE, 0x87, 0xFF, 0xC0, 0x1F, 0x00 };
+    static readonly byte[] s_keymapSpecialMask = [0x00, 0x00, 0xFE, 0x87, 0xFF, 0xC0, 0x1F, 0x00];
     /* 0x11-0x1b : qwertyuiop
      * 0x1f-0x27 : asdfghjkl
      * 0x2e-0x34 : zxcvbnm
      */
 
     /* Keymap to convert Dune II codes to ASCII with capslock off and shift released. */
-    static readonly byte[] s_keymapNormal = {
+    static readonly byte[] s_keymapNormal = [
             0, (byte)'`', (byte)'1', (byte)'2', (byte)'3', (byte)'4', (byte)'5', (byte)'6', (byte)'7', (byte)'8', (byte)'9', (byte)'0', (byte)'-', (byte)'=', 0, 8, /* 0x00 - 0x0f */
 			(byte)'\t', (byte)'q', (byte)'w', (byte)'e', (byte)'r', (byte)'t', (byte)'y', (byte)'u', (byte)'i', (byte)'o', (byte)'p', (byte)'[', (byte)']', (byte)'\\', 0, (byte)'a', /* 0x10 - 0x1f */
 			(byte)'s', (byte)'d', (byte)'f', (byte)'g', (byte)'h', (byte)'j', (byte)'k', (byte)'l', (byte)';', (byte)'\'', 0, (byte)'\r', 0, (byte)'-', (byte)'z', (byte)'x', /* 0x20 - 0x2f */
 			(byte)'c', (byte)'v', (byte)'b', (byte)'n', (byte)'m', (byte)',', (byte)'.', (byte)'/', 0, 0, 0, 0, 0, (byte)' ' /* 0x30 - 0x3d */
-		};
+		];
 
     /* Keymap to convert Dune II codes to ASCII with capslock off and shift pressed. */
-    static readonly byte[] s_keymapShift = {
+    static readonly byte[] s_keymapShift = [
             0, (byte)'~', (byte)'!', (byte)'@', (byte)'#', (byte)'$', (byte)'%', (byte)'^', (byte)'&', (byte)'*', (byte)'(', (byte)')', (byte)'_', (byte)'+', 0, 8,
             (byte)'\t', (byte)'Q', (byte)'W', (byte)'E', (byte)'R', (byte)'T', (byte)'Y', (byte)'U', (byte)'I', (byte)'O', (byte)'P', (byte)'{', (byte)'}', (byte)'|', 0, (byte)'A',
             (byte)'S', (byte)'D', (byte)'F', (byte)'G', (byte)'H', (byte)'J', (byte)'K', (byte)'L', (byte)':', (byte)'"', 0, (byte)'\r', 0, (byte)'-', (byte)'Z', (byte)'X',
             (byte)'C', (byte)'V', (byte)'B', (byte)'N', (byte)'M', (byte)'<', (byte)'>', (byte)'?', 0, 0, 0, 0, 0, (byte)' '
-        };
+        ];
 
     /* Keymap to convert scancode to for numpad with numlock on. */
-    static readonly byte[] s_keymapNumlock = {0, (byte)'7', (byte)'4', (byte)'1', 0, (byte)'/', (byte)'8', (byte)'5', (byte)'2', (byte)'0', (byte)'*', (byte)'9', (byte)'6', (byte)'3',
-            (byte)'.', (byte)'-', (byte)'+', 0, (byte)'\r', 0};
+    static readonly byte[] s_keymapNumlock = [0, (byte)'7', (byte)'4', (byte)'1', 0, (byte)'/', (byte)'8', (byte)'5', (byte)'2', (byte)'0', (byte)'*', (byte)'9', (byte)'6', (byte)'3',
+            (byte)'.', (byte)'-', (byte)'+', 0, (byte)'\r', 0];
 
     /* Some kind of translation map. */
-    static readonly byte[] s_translateMap = { (byte)'>', (byte)'@', (byte)'K', (byte)'L', (byte)'O', (byte)'P', (byte)'Q', (byte)'S', (byte)'T', (byte)'U', (byte)'V', (byte)'Y', (byte)'_', (byte)'l', (byte)'|', 0 };
+    static readonly byte[] s_translateMap = [(byte)'>', (byte)'@', (byte)'K', (byte)'L', (byte)'O', (byte)'P', (byte)'Q', (byte)'S', (byte)'T', (byte)'U', (byte)'V', (byte)'Y', (byte)'_', (byte)'l', (byte)'|', 0];
     /* DuneII codes :  0x3e 0x40 0x4b 0x4c  0x4f 0x50 0x51 0x53  0x54 0x55 0x56 0x59  0x5f 0x6c 0x7c 0x00 */
     /*                 RALT RCTL                                                      KP / KPENTER        */
 
     /* when escaped with 0xE0, scancodes in s_translateExtendedMap are translated to s_translateMap */
     /* Some kind of translation map for extended keys. */
-    static readonly byte[] s_translateExtendedMap = { (byte)'8', 29, (byte)'R', (byte)'S', (byte)'K', (byte)'G', (byte)'O', (byte)'H', (byte)'P', (byte)'I', (byte)'Q', (byte)'M', (byte)'5', 28, (byte)'7', (byte)'F' };
+    static readonly byte[] s_translateExtendedMap = [(byte)'8', 29, (byte)'R', (byte)'S', (byte)'K', (byte)'G', (byte)'O', (byte)'H', (byte)'P', (byte)'I', (byte)'Q', (byte)'M', (byte)'5', 28, (byte)'7', (byte)'F'];
     /* scancodes : 0x38, 0x1d, 0x52, 0x53,  0x4b, 0x47, 0x4f, 0x48,  0x50, 0x49, 0x51, 0x4d,  0x35, 0x1c, 0x37, 0x46 */
     /* 0xE0 keys : RALT RCTRL  INSRT DEL    LEFT  7HOME 1END  8UP    DOWN  9PGUP 3PGDN 6RGHT  KP/  ENTR *PRNSCN SCLOCK */
 
     /* To what a match in #s_translateMap translates. */
-    static readonly byte[] s_translateTo = { (byte)'<', (byte)':', (byte)'c', (byte)'h', (byte)'\\', (byte)'[', (byte)']', (byte)'`', (byte)'b', (byte)'e', (byte)'g', (byte)'f', (byte)'7', (byte)'+', (byte)'|', 0 };
+    static readonly byte[] s_translateTo = [(byte)'<', (byte)':', (byte)'c', (byte)'h', (byte)'\\', (byte)'[', (byte)']', (byte)'`', (byte)'b', (byte)'e', (byte)'g', (byte)'f', (byte)'7', (byte)'+', (byte)'|', 0];
     /* DuneII codes :  0x3c 0x3a 0x63 0x68  0x5c 0x5b 0x5d 0x60  0x62 0x65 0x67 0x66  0x37 0x2b 0x7c 0x00 */
     /*                 LALT LCTL KP 0 KP .  KP 4 KP 7 KP 1 KP 8  KP 2 KP 9 KP 3 KP 6   /  ENTER           */
 
@@ -378,22 +378,22 @@ class Input
 
     /* Copied from 29E8:0A9C - 29E8:0AB6 */
     static readonly sbyte[][] data_0A9C = //[13][2]
-    {
-            new sbyte[] {-1, -1}, new sbyte[] {-1,  0}, new sbyte[] {-1,  1}, new sbyte[] { 0,  0},
-            new sbyte[] { 0,  0}, new sbyte[] { 0, -1}, new sbyte[] { 0,  0}, new sbyte[] { 0,  1},
-            new sbyte[] { 0,  0}, new sbyte[] { 0,  0}, new sbyte[] { 1, -1}, new sbyte[] { 1,  0},
-            new sbyte[] { 1,  1}
-        };
+    [
+            [-1, -1], [-1,  0], [-1,  1], [0,  0],
+            [0,  0], [0, -1], [0,  0], [0,  1],
+            [0,  0], [0,  0], [1, -1], [1,  0],
+            [1,  1]
+        ];
     /* Copied from 29E8:0AB6 - 29E8:0AD6 */
-    static readonly ushort[] data_0AB6 = { 8, 2, 8, 6, 4, 3, 8, 5, 8, 8, 8, 8, 0, 1, 8, 7 };
+    static readonly ushort[] data_0AB6 = [8, 2, 8, 6, 4, 3, 8, 5, 8, 8, 8, 8, 0, 1, 8, 7];
     /* Copied from 29E8:000A - 29E8:002E */
-    static readonly XYPosition[] mousePos = {
+    static readonly XYPosition[] mousePos = [
             new() { x = 0x0a0, y = 0x000}, new() { x = 0x13f, y = 0x000}, new() { x = 0x13f, y = 0x045},
             new() { x = 0x13f, y = 0x089}, new() { x = 0x0a0, y = 0x089}, new() { x = 0x000, y = 0x089},
             new() { x = 0x000, y = 0x045}, new() { x = 0x000, y = 0x000}, new() { x = 0x0a0, y = 0x045}
-        };
-    static readonly sbyte[] offsetSmall = { -1, 0, 1 };
-    static readonly sbyte[] offsetBig = { -16, 0, 16 };
+        ];
+    static readonly sbyte[] offsetSmall = [-1, 0, 1];
+    static readonly sbyte[] offsetBig = [-16, 0, 16];
     /*
      * Handle input.
      * @param input New input.

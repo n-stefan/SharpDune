@@ -2,14 +2,14 @@
 
 class SaveLoadUnit
 {
-    static readonly SaveLoadDesc[] s_saveUnitOrientation = {
+    static readonly SaveLoadDesc[] s_saveUnitOrientation = [
         SLD_ENTRY(SLDT_INT8, nameof(Dir24.speed)),
         SLD_ENTRY(SLDT_INT8, nameof(Dir24.target)),
         SLD_ENTRY(SLDT_INT8, nameof(Dir24.current)),
         SLD_END()
-    };
+    ];
 
-    static readonly SaveLoadDesc[] s_saveUnit = {
+    static readonly SaveLoadDesc[] s_saveUnit = [
         SLD_SLD(nameof(CUnit.o), g_saveObject),
         SLD_EMPTY(SLDT_UINT16),
         SLD_ENTRY(SLDT_UINT16, $"{nameof(CUnit.currentDestination)}.{nameof(Tile32.x)}"),
@@ -39,20 +39,20 @@ class SaveLoadUnit
         SLD_ENTRY(SLDT_UINT16, nameof(CUnit.timer)),
         SLD_ARRAY(SLDT_UINT8, nameof(CUnit.route), 14),
         SLD_END()
-    };
+    ];
 
-    static readonly SaveLoadDesc[] s_saveUnitNewIndex = {
+    static readonly SaveLoadDesc[] s_saveUnitNewIndex = [
         SLD_ENTRY(SLDT_UINT16, nameof(CObject.index)),
         SLD_END()
-    };
+    ];
 
-    static readonly SaveLoadDesc[] s_saveUnitNew = {
+    static readonly SaveLoadDesc[] s_saveUnitNew = [
         SLD_ENTRY(SLDT_UINT16, nameof(CUnit.fireDelay)),
         SLD_ENTRY(SLDT_UINT8, nameof(CUnit.deviatedHouse)),
         SLD_EMPTY(SLDT_UINT8),
         SLD_EMPTY2(SLDT_UINT16, 6),
         SLD_END()
-    };
+    ];
 
     /*
      * Load all Units from a file.

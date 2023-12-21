@@ -2,7 +2,7 @@
 
 class SaveLoadScriptEngine
 {
-    internal static readonly SaveLoadDesc[] g_saveScriptEngine = {
+    internal static readonly SaveLoadDesc[] g_saveScriptEngine = [
         SLD_ENTRY(SLDT_UINT16, nameof(ScriptEngine.delay)),
         SLD_CALLB(SLDT_UINT32, nameof(ScriptEngine.script), SaveLoad_Script_Script),
         SLD_EMPTY(SLDT_UINT32),
@@ -13,7 +13,7 @@ class SaveLoadScriptEngine
         SLD_ARRAY(SLDT_UINT16, nameof(ScriptEngine.stack), 15),
         SLD_ENTRY(SLDT_UINT8, nameof(ScriptEngine.isSubroutine)),
         SLD_END()
-    };
+    ];
 
     internal static uint SaveLoad_Script_Script(object obj, uint value, bool loading)
     {

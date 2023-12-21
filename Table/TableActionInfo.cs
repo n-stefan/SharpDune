@@ -4,7 +4,7 @@ namespace SharpDune.Table;
 
 class TableActionInfo
 {
-    internal static ActionInfo[] g_table_actionInfo = { //[ACTION_MAX]
+    internal static ActionInfo[] g_table_actionInfo = [ //[ACTION_MAX]
     	new() { /* 0 */
     		stringID = (ushort)Text.STR_ATTACK,
             name = "Attack",
@@ -116,5 +116,5 @@ class TableActionInfo
             selectionType = (ushort)SelectionType.UNIT,
             soundID = 20
         }
-    };
+    ];
 }

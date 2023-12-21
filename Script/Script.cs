@@ -80,7 +80,7 @@ class Script
     /*
      * Converted script functions for Structures.
      */
-    internal static ScriptFunction[] g_scriptFunctionsStructure = {
+    internal static ScriptFunction[] g_scriptFunctionsStructure = [
         /* 00 */ Script_General_Delay,
         /* 01 */ Script_General_NoOperation,
         /* 02 */ Script_Structure_Unknown0A81,
@@ -106,12 +106,12 @@ class Script
         /* 16 */ Script_Structure_Explode,
         /* 17 */ Script_Structure_Destroy,
         /* 18 */ Script_General_NoOperation,
-    };
+    ];
 
     /*
      * Converted script functions for Teams.
      */
-    internal static ScriptFunction[] g_scriptFunctionsTeam = { //ScriptFunction[SCRIPT_FUNCTIONS_COUNT]
+    internal static ScriptFunction[] g_scriptFunctionsTeam = [ //ScriptFunction[SCRIPT_FUNCTIONS_COUNT]
         /* 00 */ Script_General_Delay,
         /* 01 */ Script_Team_DisplayText,
         /* 02 */ Script_Team_GetMembers,
@@ -127,12 +127,12 @@ class Script
         /* 0C */ Script_Team_GetVariable6,
         /* 0D */ Script_Team_GetTarget,
         /* 0E */ Script_General_NoOperation,
-    };
+    ];
 
     /*
      * Converted script functions for Units.
      */
-    internal static ScriptFunction[] g_scriptFunctionsUnit = { //ScriptFunction[SCRIPT_FUNCTIONS_COUNT]
+    internal static ScriptFunction[] g_scriptFunctionsUnit = [ //ScriptFunction[SCRIPT_FUNCTIONS_COUNT]
         /* 00 */ Script_Unit_GetInfo,
         /* 01 */ Script_Unit_SetAction,
         /* 02 */ Script_General_DisplayText,
@@ -197,7 +197,7 @@ class Script
         /* 3D */ Script_Unit_Rotate,
         /* 3E */ Script_General_GetDistanceToObject,
         /* 3F */ Script_General_NoOperation,
-    };
+    ];
 
     /*
     * Clears the given scriptInfo.
@@ -395,7 +395,7 @@ class Script
         return script.stack[script.stackPointer + position - 1];
     }
 
-    static readonly string[] l_types = { "Unit", "Structure", "Team", "Unknown" };
+    static readonly string[] l_types = ["Unit", "Structure", "Team", "Unknown"];
     /*
      * Show a script error with additional information (Type, Index, . . .).
      * @param error The error to show.

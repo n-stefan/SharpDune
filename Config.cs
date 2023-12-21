@@ -183,8 +183,8 @@ class Config
 
         sum = 0;
 
-        c1 = new byte[] { config.graphicDrv, config.musicDrv, config.soundDrv, config.voiceDrv, Convert.ToByte(config.useMouse),
-                Convert.ToByte(config.useXMS), config.variable_0006, config.variable_0007, config.language, config.checksum };
+        c1 = [ config.graphicDrv, config.musicDrv, config.soundDrv, config.voiceDrv, Convert.ToByte(config.useMouse),
+                Convert.ToByte(config.useXMS), config.variable_0006, config.variable_0007, config.language, config.checksum ];
         c2 = new byte[10];
 
         for (c1Pointer = 0, c2Pointer = 0, i = 7; i >= 0; c1Pointer++, c2Pointer++, i--)

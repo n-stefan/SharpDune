@@ -485,7 +485,7 @@ class Mt32Mpu
         //return 0;
     }
 
-    static readonly byte[] defaultPrograms = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
+    static readonly byte[] defaultPrograms = [68, 48, 95, 78, 41, 3, 110, 122, 255];
     internal static bool MPU_Init()
     {
         byte i;
@@ -1041,7 +1041,7 @@ class Mt32Mpu
         return chan;
     }
 
-    static readonly byte[] rates = { 24, 25, 30, 30 };
+    static readonly byte[] rates = [24, 25, 30, 30];
     /*
      * XMIDI.ASM - XMIDI_meta
      */

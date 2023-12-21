@@ -144,38 +144,38 @@ class Viewport
         return true;
     }
 
-    static readonly ushort[][] values_32A4 = { //[8][2]	/* index, flag passed to GUI_DrawSprite() */
-			new ushort[] {0, 0}, new ushort[] {1, 0}, new ushort[] {2, 0}, new ushort[] {3, 0},
-            new ushort[] {4, 0}, new ushort[] {3, 1}, new ushort[] {2, 1}, new ushort[] {1, 1}
-        };
-    static readonly ushort[][] values_32C4 = { //[8][2]	/* index, flag */
-			new ushort[] {0, 0}, new ushort[] {1, 0}, new ushort[] {1, 0}, new ushort[] {1, 0},
-            new ushort[] {2, 0}, new ushort[] {1, 1}, new ushort[] {1, 1}, new ushort[] {1, 1}
-        };
-    static readonly ushort[] values_334A = { 0, 1, 0, 2 };
-    static readonly short[][] values_334E = { //[8][2]
-			new short[] {0, 7},  new short[] {-7,  6}, new short[] {-14, 1}, new short[] {-9, -6},
-            new short[] {0, -9}, new short[] { 9, -6}, new short[] { 14, 1}, new short[] { 7,  6}
-        };
-    static readonly short[][] values_336E = { //[8][2]
-			new short[] { 0, -5}, new short[] { 0, -5}, new short[] { 2, -3}, new short[] { 2, -1},
-            new short[] {-1, -3}, new short[] {-2, -1}, new short[] {-2, -3}, new short[] {-1, -5}
-        };
-    static readonly short[][] values_338E = { //[8][2]
-			new short[] { 0, -4}, new short[] {-1, -3}, new short[] { 2, -4}, new short[] {0, -3},
-            new short[] {-1, -3}, new short[] { 0, -3}, new short[] {-2, -4}, new short[] {1, -3}
-        };
-    static readonly ushort[][] values_32E4 = { //[8][2]
-			new ushort[] {0, 0}, new ushort[] {1, 0}, new ushort[] {2, 0}, new ushort[] {1, 2},
-            new ushort[] {0, 2}, new ushort[] {1, 3}, new ushort[] {2, 1}, new ushort[] {1, 1}
-        };
-    static readonly ushort[][] values_3304 = { //[16][2]
-			new ushort[] {0, 0}, new ushort[] {1, 0}, new ushort[] {2, 0}, new ushort[] {3, 0},
-            new ushort[] {4, 0}, new ushort[] {3, 2}, new ushort[] {2, 2}, new ushort[] {1, 2},
-            new ushort[] {0, 2}, new ushort[] {3, 3}, new ushort[] {2, 3}, new ushort[] {3, 3},
-            new ushort[] {4, 1}, new ushort[] {3, 1}, new ushort[] {2, 1}, new ushort[] {1, 1}
-        };
-    static readonly ushort[] values_33AE = { 2, 1, 0, 1 };
+    static readonly ushort[][] values_32A4 = [ //[8][2]	/* index, flag passed to GUI_DrawSprite() */
+			[0, 0], [1, 0], [2, 0], [3, 0],
+            [4, 0], [3, 1], [2, 1], [1, 1]
+        ];
+    static readonly ushort[][] values_32C4 = [ //[8][2]	/* index, flag */
+			[0, 0], [1, 0], [1, 0], [1, 0],
+            [2, 0], [1, 1], [1, 1], [1, 1]
+        ];
+    static readonly ushort[] values_334A = [0, 1, 0, 2];
+    static readonly short[][] values_334E = [ //[8][2]
+			[0, 7],  [-7,  6], [-14, 1], [-9, -6],
+            [0, -9], [9, -6], [14, 1], [7,  6]
+        ];
+    static readonly short[][] values_336E = [ //[8][2]
+			[0, -5], [0, -5], [2, -3], [2, -1],
+            [-1, -3], [-2, -1], [-2, -3], [-1, -5]
+        ];
+    static readonly short[][] values_338E = [ //[8][2]
+			[0, -4], [-1, -3], [2, -4], [0, -3],
+            [-1, -3], [0, -3], [-2, -4], [1, -3]
+        ];
+    static readonly ushort[][] values_32E4 = [ //[8][2]
+			[0, 0], [1, 0], [2, 0], [1, 2],
+            [0, 2], [1, 3], [2, 1], [1, 1]
+        ];
+    static readonly ushort[][] values_3304 = [ //[16][2]
+			[0, 0], [1, 0], [2, 0], [3, 0],
+            [4, 0], [3, 2], [2, 2], [1, 2],
+            [0, 2], [3, 3], [2, 3], [3, 3],
+            [4, 1], [3, 1], [2, 1], [1, 1]
+        ];
+    static readonly ushort[] values_33AE = [2, 1, 0, 1];
     /*
      * Redraw parts of the viewport that require redrawing.
      *
@@ -789,10 +789,10 @@ class Viewport
     }
 
     /* HotSpots for different cursor types. */
-    static readonly XYPosition[] cursorHotSpots = {
+    static readonly XYPosition[] cursorHotSpots = [
             new() { x = 0, y = 0 }, new() { x = 5, y = 0 }, new() { x = 8, y = 5 },
             new() { x = 5, y = 8 }, new() { x = 0, y = 5 }, new() { x = 8, y = 8 }
-        };
+        ];
     /*
      * Handles the Click events for the Viewport widget.
      *

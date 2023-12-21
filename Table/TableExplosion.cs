@@ -5,17 +5,17 @@ namespace SharpDune.Table;
 class TableExplosion
 {
     /* EXPLOSION_IMPACT_SMALL */
-    static readonly ExplosionCommandStruct[] s_explosion00 = {
+    static readonly ExplosionCommandStruct[] s_explosion00 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 153 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 153 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_IMPACT_MEDIUM */
-    static readonly ExplosionCommandStruct[] s_explosion01 = {
+    static readonly ExplosionCommandStruct[] s_explosion01 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 154 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
@@ -24,10 +24,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 154 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_IMPACT_LARGE */
-    static readonly ExplosionCommandStruct[] s_explosion02 = {
+    static readonly ExplosionCommandStruct[] s_explosion02 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 183 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 50 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -36,10 +36,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 184 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 15 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_IMPACT_EXPLODE */
-    static readonly ExplosionCommandStruct[] s_explosion03 = {
+    static readonly ExplosionCommandStruct[] s_explosion03 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 183 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 49 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -48,10 +48,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 184 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_SABOTEUR_DEATH */
-    static readonly ExplosionCommandStruct[] s_explosion04 = {
+    static readonly ExplosionCommandStruct[] s_explosion04 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 203 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 51 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -66,10 +66,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 207 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_SABOTEUR_INFILTRATE */
-    static readonly ExplosionCommandStruct[] s_explosion05 = {
+    static readonly ExplosionCommandStruct[] s_explosion05 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_RANDOM_TIMEOUT, parameter = 60 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 203 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 41 },
@@ -85,10 +85,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 207 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_TANK_EXPLODE */
-    static readonly ExplosionCommandStruct[] s_explosion06 = {
+    static readonly ExplosionCommandStruct[] s_explosion06 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 198 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 51 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -103,10 +103,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 202 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_DEVIATOR_GAS */
-    static readonly ExplosionCommandStruct[] s_explosion07 = {
+    static readonly ExplosionCommandStruct[] s_explosion07 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 208 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 39 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 15 },
@@ -119,10 +119,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 212 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 15 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_SAND_BURST */
-    static readonly ExplosionCommandStruct[] s_explosion08 = {
+    static readonly ExplosionCommandStruct[] s_explosion08 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 156 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 40 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -135,10 +135,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_TILE_DAMAGE, parameter = 0 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_WHEELED_VEHICLE */
-    static readonly ExplosionCommandStruct[] s_explosion10 = {
+    static readonly ExplosionCommandStruct[] s_explosion10 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 151 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 49 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -147,10 +147,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 152 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 7 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_DEATH_HAND */
-    static readonly ExplosionCommandStruct[] s_explosion11 = {
+    static readonly ExplosionCommandStruct[] s_explosion11 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_RANDOM_TIMEOUT, parameter = 60 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 188 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 51 },
@@ -166,10 +166,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 192 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_UNUSED_12 */
-    static readonly ExplosionCommandStruct[] s_explosion12 = {
+    static readonly ExplosionCommandStruct[] s_explosion12 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 213 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 15 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 214 },
@@ -181,10 +181,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 217 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 30 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_SANDWORM_SWALLOW */
-    static readonly ExplosionCommandStruct[] s_explosion13 = {
+    static readonly ExplosionCommandStruct[] s_explosion13 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 218 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 15 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 219 },
@@ -196,10 +196,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 222 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 30 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_STRUCTURE */
-    static readonly ExplosionCommandStruct[] s_explosion14 = {
+    static readonly ExplosionCommandStruct[] s_explosion14 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_RANDOM_TIMEOUT, parameter = 60 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 188 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 51 },
@@ -215,10 +215,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 192 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_ORNITHOPTER_CRASH */
-    static readonly ExplosionCommandStruct[] s_explosion16 = {
+    static readonly ExplosionCommandStruct[] s_explosion16 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 203 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 49 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -228,10 +228,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 207 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_CARRYALL_CRASH */
-    static readonly ExplosionCommandStruct[] s_explosion17 = {
+    static readonly ExplosionCommandStruct[] s_explosion17 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 203 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 49 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -241,10 +241,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 207 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_MINI_ROCKET */
-    static readonly ExplosionCommandStruct[] s_explosion18 = {
+    static readonly ExplosionCommandStruct[] s_explosion18 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 183 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 54 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -252,10 +252,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 184 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 3 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_SPICE_BLOOM_TREMOR */
-    static readonly ExplosionCommandStruct[] s_explosion19 = {
+    static readonly ExplosionCommandStruct[] s_explosion19 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 156 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 40 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SCREEN_SHAKE, parameter = 0 },
@@ -272,10 +272,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SCREEN_SHAKE, parameter = 0 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_TILE_DAMAGE, parameter = 0 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_TANK_FLAMES */
-    static readonly ExplosionCommandStruct[] s_explosion09 = {
+    static readonly ExplosionCommandStruct[] s_explosion09 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 183 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 41 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_BLOOM_EXPLOSION, parameter = 0 },
@@ -315,10 +315,10 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 170 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 15 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
     /* EXPLOSION_SMOKE_PLUME */
-    static readonly ExplosionCommandStruct[] s_explosion15 = {
+    static readonly ExplosionCommandStruct[] s_explosion15 = [
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 183 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_PLAY_VOICE, parameter = 49 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_MOVE_Y_POSITION, parameter = 65456 /*(ushort)-80*/ },
@@ -374,9 +374,9 @@ class TableExplosion
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_SPRITE, parameter = 181 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_SET_TIMEOUT, parameter = 15 },
         new() { command = (byte)ExplosionCommand.EXPLOSION_STOP, parameter = 0 }
-    };
+    ];
 
-    internal static readonly ExplosionCommandStruct[][] g_table_explosion = { //[EXPLOSIONTYPE_MAX]
+    internal static readonly ExplosionCommandStruct[][] g_table_explosion = [ //[EXPLOSIONTYPE_MAX]
     	s_explosion00,
         s_explosion01,
         s_explosion02,
@@ -397,5 +397,5 @@ class TableExplosion
         s_explosion17,
         s_explosion18,
         s_explosion19
-    };
+    ];
 }

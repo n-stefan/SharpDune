@@ -96,7 +96,7 @@ class File
     static FileInfoLinkedElem s_files_in_root;
     static PakFileInfoLinkedElem s_files_in_pak;
 
-    static readonly CFile[] s_file = { new(), new(), new(), new(), new(), new(), new(), new() };
+    static readonly CFile[] s_file = [new(), new(), new(), new(), new(), new(), new(), new()];
 
     static FileAccess FileAccessFromString(string access) =>
         access switch

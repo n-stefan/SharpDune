@@ -177,7 +177,7 @@ class CUnit
     {
         o = new CObject();
         currentDestination = new Tile32();
-        orientation = new Dir24[] { new(), new() };
+        orientation = [new(), new()];
     }
 }
 
@@ -2711,8 +2711,8 @@ class Unit
         return Math.Min(priority, (ushort)32000);
     }
 
-    static readonly short[] offsetX = { 0, 0, 200, 256, 200, 0, -200, -256, -200, 0, 400, 512, 400, 0, -400, -512, -400 };
-    static readonly short[] offsetY = { 0, -256, -200, 0, 200, 256, 200, 0, -200, -512, -400, 0, 400, 512, 400, 0, -400 };
+    static readonly short[] offsetX = [0, 0, 200, 256, 200, 0, -200, -256, -200, 0, 400, 512, 400, 0, -400, -512, -400];
+    static readonly short[] offsetY = [0, -256, -200, 0, 200, 256, 200, 0, -200, -512, -400, 0, 400, 512, 400, 0, -400];
     /*
      * Moves the given unit.
      *
@@ -3210,7 +3210,7 @@ class Unit
         Unit_HouseUnitCount_Remove(unit);
     }
 
-    static readonly short[] around = { 0, -1, 1, -64, 64, -65, -63, 65, 63 };
+    static readonly short[] around = [0, -1, 1, -64, 64, -65, -63, 65, 63];
     /*
      * Find a target around the given packed tile.
      *

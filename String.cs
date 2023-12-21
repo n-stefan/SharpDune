@@ -23,7 +23,7 @@ class String
 
     static ushort s_stringsCount;
 
-    internal static string[] g_languageSuffixes = new string[(int)Language.MAX] { "ENG", "FRE", "GER", "ITA", "SPA" };
+    internal static string[] g_languageSuffixes = ["ENG", "FRE", "GER", "ITA", "SPA"];
 
     /*
      * Returns a pointer to the string at given index in current string file.

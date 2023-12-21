@@ -4,9 +4,9 @@ namespace SharpDune.Table;
 
 class TableLandscapeInfo
 {
-    internal static LandscapeInfo[] g_table_landscapeInfo = { //[LST_MAX]
+    internal static LandscapeInfo[] g_table_landscapeInfo = [ //[LST_MAX]
         new() { /* 0 / LST_NORMAL_SAND */
-            movementSpeed = new byte[] { 112, 112, 112, 160, 255, 192 },
+            movementSpeed = [112, 112, 112, 160, 255, 192],
             letUnitWobble = false,
             isValidForStructure = false,
             isSand = true,
@@ -18,7 +18,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 1 / LST_PARTIAL_ROCK */
-            movementSpeed = new byte[] { 160, 112, 112, 64, 255, 0 },
+            movementSpeed = [160, 112, 112, 64, 255, 0],
             letUnitWobble = true,
             isValidForStructure = false,
             isSand = false,
@@ -30,7 +30,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 2 / LST_ENTIRELY_DUNE */
-            movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
+            movementSpeed = [112, 160, 160, 160, 255, 192],
             letUnitWobble = false,
             isValidForStructure = false,
             isSand = true,
@@ -42,7 +42,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 3 / LST_PARTIAL_DUNE */
-            movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
+            movementSpeed = [112, 160, 160, 160, 255, 192],
             letUnitWobble = false,
             isValidForStructure = false,
             isSand = true,
@@ -54,7 +54,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 4 / LST_ENTIRELY_ROCK */
-            movementSpeed = new byte[] { 112, 160, 160, 112, 255, 0 },
+            movementSpeed = [112, 160, 160, 112, 255, 0],
             letUnitWobble = true,
             isValidForStructure = true,
             isSand = false,
@@ -66,7 +66,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 5 / LST_MOSTLY_ROCK */
-		    movementSpeed = new byte[] { 160, 160, 160, 160, 255, 0 },
+		    movementSpeed = [160, 160, 160, 160, 255, 0],
             letUnitWobble = true,
             isValidForStructure = true,
             isSand = false,
@@ -78,7 +78,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 6 / LST_ENTIRELY_MOUNTAIN */
-		    movementSpeed = new byte[] { 64, 0, 0, 0, 255, 0 },
+		    movementSpeed = [64, 0, 0, 0, 255, 0],
             letUnitWobble = true,
             isValidForStructure = false,
             isSand = false,
@@ -90,7 +90,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 7 / LST_PARTIAL_MOUNTAIN */
-		    movementSpeed = new byte[] { 64, 0, 0, 0, 255, 0 },
+		    movementSpeed = [64, 0, 0, 0, 255, 0],
             letUnitWobble = true,
             isValidForStructure = false,
             isSand = false,
@@ -102,7 +102,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 8 / LST_SPICE */
-		    movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
+		    movementSpeed = [112, 160, 160, 160, 255, 192],
             letUnitWobble = false,
             isValidForStructure = false,
             isSand = true,
@@ -114,7 +114,7 @@ class TableLandscapeInfo
 	    },
 
         new() { /* 9 / LST_THICK_SPICE */
-		    movementSpeed = new byte[] { 112, 160, 160, 160, 255, 192 },
+		    movementSpeed = [112, 160, 160, 160, 255, 192],
             letUnitWobble = true,
             isValidForStructure = false,
             isSand = true,
@@ -126,7 +126,7 @@ class TableLandscapeInfo
 	    },
 
         new() { /* 10 / LST_CONCRETE_SLAB */
-		    movementSpeed = new byte[] { 255, 255, 255, 255, 255, 0 },
+		    movementSpeed = [255, 255, 255, 255, 255, 0],
             letUnitWobble = false,
             isValidForStructure = true,
             isSand = false,
@@ -138,7 +138,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 11 / LST_WALL */
-		    movementSpeed = new byte[] { 0, 0, 0, 0, 255, 0 },
+		    movementSpeed = [0, 0, 0, 0, 255, 0],
             letUnitWobble = false,
             isValidForStructure = false,
             isSand = false,
@@ -150,7 +150,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 12 / LST_STRUCTURE */
-		    movementSpeed = new byte[] { 0, 0, 0, 0, 255, 0 },
+		    movementSpeed = [0, 0, 0, 0, 255, 0],
             letUnitWobble = false,
             isValidForStructure = false,
             isSand = false,
@@ -162,7 +162,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 13 / LST_DESTROYED_WALL */
-		    movementSpeed = new byte[] { 160, 160, 160, 160, 255, 0 },
+		    movementSpeed = [160, 160, 160, 160, 255, 0],
             letUnitWobble = true,
             isValidForStructure = true,
             isSand = false,
@@ -174,7 +174,7 @@ class TableLandscapeInfo
         },
 
         new() { /* 14 / LST_BLOOM_FIELD */
-		    movementSpeed = new byte[] { 112, 112, 112, 160, 255, 192 },
+		    movementSpeed = [112, 112, 112, 160, 255, 192],
             letUnitWobble = false,
             isValidForStructure = false,
             isSand = true,
@@ -184,5 +184,5 @@ class TableLandscapeInfo
             radarColour = 50,
             spriteID = 57
         }
-    };
+    ];
 }

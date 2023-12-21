@@ -158,7 +158,7 @@ class CHouse
     {
         flags = new HouseFlags();
         palacePosition = new Tile32();
-        ai_structureRebuild = new ushort[][] { new ushort[2], new ushort[2], new ushort[2], new ushort[2], new ushort[2] };
+        ai_structureRebuild = [new ushort[2], new ushort[2], new ushort[2], new ushort[2], new ushort[2]];
     }
 }
 
@@ -684,7 +684,7 @@ class House
         }
     }
 
-    static readonly string[] houseWSAFileNames = { "FHARK.WSA", "FARTR.WSA", "FORDOS.WSA" };
+    static readonly string[] houseWSAFileNames = ["FHARK.WSA", "FARTR.WSA", "FORDOS.WSA"];
     internal static string House_GetWSAHouseFilename(byte houseID)
     {
         if (houseID >= 3) return null;

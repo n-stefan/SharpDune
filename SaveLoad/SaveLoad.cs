@@ -483,7 +483,7 @@ class SaveLoad
             if (value != null)
             {
                 values = sld[c].count == 1 ?
-                    new object[] { value } :
+                    [value] :
                     ((IEnumerable)value).Cast<object>().ToArray();
 
                 if (values[0] is IEnumerable)

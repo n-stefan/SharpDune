@@ -191,7 +191,7 @@ class WidgetScrollbar
 class Widget
 {
     /* Layout and other properties of the widgets. */
-    internal static WidgetProperties[] g_widgetProperties = { //[22]
+    internal static WidgetProperties[] g_widgetProperties = [ //[22]
 			/* x   y   w    h   p4  norm sel */
 			new() { xBase =  0, yBase =   0, width = 40, height = 200, fgColourBlink =  15, fgColourNormal =  12, fgColourSelected = 0 }, /*  0 */
 			new() { xBase =  1, yBase =  75, width = 29, height =  70, fgColourBlink =  15, fgColourNormal =  15, fgColourSelected = 0 }, /*  1 */
@@ -215,7 +215,7 @@ class Widget
 			new() { xBase =  0, yBase =   0, width =  0, height =   0, fgColourBlink =   0, fgColourNormal =   0, fgColourSelected = 0 }, /* 19 */
 			new() { xBase =  2, yBase =  24, width = 36, height = 152, fgColourBlink =  12, fgColourNormal =  12, fgColourSelected = 0 }, /* 20 */
 			new() { xBase =  1, yBase =   6, width = 12, height =   3, fgColourBlink =   0, fgColourNormal =  15, fgColourSelected = 6 }  /* 21 */
-		};
+		];
 
     internal static ushort g_curWidgetIndex;          /*!< Index of the currently selected widget in #g_widgetProperties. */
     internal static ushort g_curWidgetXBase;          /*!< Horizontal base position of the currently selected widget. */
@@ -495,7 +495,7 @@ class Widget
     }
 
     /* This is for a US AT keyboard layout */
-    static readonly byte[] shortcuts = {
+    static readonly byte[] shortcuts = [
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /*  0 -  7 */
 			0x0f, 0x10, 0x00, 0x00, 0x00, 0x2b, 0x00, 0x00, /*  8 - 15 : Backspace, Tab, return */
 			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 16 - 23 */
@@ -522,7 +522,7 @@ class Widget
 			0x53, 0x50, 0x00, 0x00, 0x79, 0x78, 0x77, 0x76, /*184 -191 : UP HOME   F10 F9 F8 F7 */
 			0x75, 0x74, 0x73, 0x72, 0x71, 0x70, 0x41, 0x42, /*192 -199 : F6 F5 F4 F3 F2 F1 LEFT_MOUSEB RIGHT_MOUSEB */
 			0x43, 0x44, 0x45, 0x46, 0x47, 0x48              /*200 -205 : ??? ??? ??? ??? ??? ??? */
-		};
+		];
     /*
      * Get shortcut key for the given char.
      *

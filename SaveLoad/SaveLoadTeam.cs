@@ -2,7 +2,7 @@
 
 class SaveLoadTeam
 {
-    static readonly SaveLoadDesc[] s_saveTeam = {
+    static readonly SaveLoadDesc[] s_saveTeam = [
         SLD_ENTRY(SLDT_UINT16, nameof(CTeam.index)),
         SLD_ENTRY2(SLDT_UINT16, nameof(CTeam.flags), SLDT_TEAMFLAGS),
         SLD_ENTRY(SLDT_UINT16, nameof(CTeam.members)),
@@ -19,7 +19,7 @@ class SaveLoadTeam
         SLD_ENTRY(SLDT_UINT16, nameof(CTeam.target)),
         SLD_SLD(nameof(CTeam.script), g_saveScriptEngine),
         SLD_END()
-    };
+    ];
 
     /*
      * Load all Teams from a file.

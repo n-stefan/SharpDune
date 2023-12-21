@@ -2,7 +2,7 @@
 
 class SaveLoadHouse
 {
-    static readonly SaveLoadDesc[] s_saveHouse = {
+    static readonly SaveLoadDesc[] s_saveHouse = [
         SLD_ENTRY2(SLDT_UINT16, nameof(CHouse.index), SLDT_UINT8),
         SLD_ENTRY(SLDT_UINT16, nameof(CHouse.harvestersIncoming)),
         SLD_ENTRY2(SLDT_UINT16, nameof(CHouse.flags), SLDT_HOUSEFLAGS),
@@ -27,7 +27,7 @@ class SaveLoadHouse
         SLD_ENTRY(SLDT_UINT16, nameof(CHouse.starportLinkedID)),
         SLD_ARRAY(SLDT_UINT16, nameof(CHouse.ai_structureRebuild), 10),
         SLD_END()
-    };
+    ];
 
     /*
      * Load all Houses from a file.

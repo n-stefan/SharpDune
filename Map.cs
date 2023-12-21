@@ -81,9 +81,9 @@ class Map
 
     internal static CTile[] g_map = new CTile[64 * 64];                                        /*!< All map data. */
 
-    internal static byte[][] g_functions = { //[3][3]
-        new byte[] {0, 1, 0}, new byte[] {2, 3, 0}, new byte[] {0, 1, 0}
-    };
+    internal static byte[][] g_functions = [ //[3][3]
+        [0, 1, 0], [2, 3, 0], [0, 1, 0]
+    ];
 
     internal static ushort g_changedTilesCount;
     internal static ushort[] g_changedTiles = new ushort[200];
@@ -100,11 +100,11 @@ class Map
      * Map definitions.
      * Map sizes: [0] is 62x62, [1] is 32x32, [2] is 21x21.
      */
-    internal static MapInfo[] g_mapInfos = { //[3]
+    internal static MapInfo[] g_mapInfos = [ //[3]
         new() { minX =  1, minY =  1, sizeX = 62, sizeY = 62 },
         new() { minX = 16, minY = 16, sizeX = 32, sizeY = 32 },
         new() { minX = 21, minY = 21, sizeX = 21, sizeY = 21 }
-    };
+    ];
 
     internal static ushort g_dirtyViewportCount;
     internal static bool g_selectionRectangleNeedRepaint;
@@ -117,7 +117,7 @@ class Map
      * 6=entirely mountain, 8=spice, 9=thick spice
      * @see Map_GetLandscapeType
      */
-    static readonly ushort[] _landscapeSpriteMap = {
+    static readonly ushort[] _landscapeSpriteMap = [
         0, 1, 1, 1, 5, 1, 5, 5, 5, 5, /* Sprites 127-136 */
     	5, 5, 5, 5, 5, 5, 4, 3, 3, 3, /* Sprites 137-146 */
     	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, /* Sprites 147-156 */
@@ -127,24 +127,24 @@ class Map
     	8, 8, 8, 8, 8, 9, 9, 9, 9, 9, /* Sprites 187-196 */
     	9, 9, 9, 9, 9, 9, 9, 9, 9, 9, /* Sprites 197-206 */
     	9,                            /* Sprite  207 (bloom sprites 208 and 209 are already caught). */
-    };
+    ];
 
-    static readonly ushort[][][] _offsetTable = { //[2][21][4]
-        new ushort[][] {
-            new ushort[] {0, 0, 4, 0}, new ushort[] {4, 0, 4, 4}, new ushort[] {0, 0, 0, 4}, new ushort[] {0, 4, 4, 4}, new ushort[] {0, 0, 0, 2},
-            new ushort[] {0, 2, 0, 4}, new ushort[] {0, 0, 2, 0}, new ushort[] {2, 0, 4, 0}, new ushort[] {4, 0, 4, 2}, new ushort[] {4, 2, 4, 4},
-            new ushort[] {0, 4, 2, 4}, new ushort[] {2, 4, 4, 4}, new ushort[] {0, 0, 4, 4}, new ushort[] {2, 0, 2, 2}, new ushort[] {0, 0, 2, 2},
-            new ushort[] {4, 0, 2, 2}, new ushort[] {0, 2, 2, 2}, new ushort[] {2, 2, 4, 2}, new ushort[] {2, 2, 0, 4}, new ushort[] {2, 2, 4, 4},
-            new ushort[] {2, 2, 2, 4}
-        },
-        new ushort[][] {
-            new ushort[] {0, 0, 4, 0}, new ushort[] {4, 0, 4, 4}, new ushort[] {0, 0, 0, 4}, new ushort[] {0, 4, 4, 4}, new ushort[] {0, 0, 0, 2},
-            new ushort[] {0, 2, 0, 4}, new ushort[] {0, 0, 2, 0}, new ushort[] {2, 0, 4, 0}, new ushort[] {4, 0, 4, 2}, new ushort[] {4, 2, 4, 4},
-            new ushort[] {0, 4, 2, 4}, new ushort[] {2, 4, 4, 4}, new ushort[] {4, 0, 0, 4}, new ushort[] {2, 0, 2, 2}, new ushort[] {0, 0, 2, 2},
-            new ushort[] {4, 0, 2, 2}, new ushort[] {0, 2, 2, 2}, new ushort[] {2, 2, 4, 2}, new ushort[] {2, 2, 0, 4}, new ushort[] {2, 2, 4, 4},
-            new ushort[] {2, 2, 2, 4}
-        }
-    };
+    static readonly ushort[][][] _offsetTable = [ //[2][21][4]
+        [
+            [0, 0, 4, 0], [4, 0, 4, 4], [0, 0, 0, 4], [0, 4, 4, 4], [0, 0, 0, 2],
+            [0, 2, 0, 4], [0, 0, 2, 0], [2, 0, 4, 0], [4, 0, 4, 2], [4, 2, 4, 4],
+            [0, 4, 2, 4], [2, 4, 4, 4], [0, 0, 4, 4], [2, 0, 2, 2], [0, 0, 2, 2],
+            [4, 0, 2, 2], [0, 2, 2, 2], [2, 2, 4, 2], [2, 2, 0, 4], [2, 2, 4, 4],
+            [2, 2, 2, 4]
+        ],
+        [
+            [0, 0, 4, 0], [4, 0, 4, 4], [0, 0, 0, 4], [0, 4, 4, 4], [0, 0, 0, 2],
+            [0, 2, 0, 4], [0, 0, 2, 0], [2, 0, 4, 0], [4, 0, 4, 2], [4, 2, 4, 4],
+            [0, 4, 2, 4], [2, 4, 4, 4], [4, 0, 0, 4], [2, 0, 2, 2], [0, 0, 2, 2],
+            [4, 0, 2, 2], [0, 2, 2, 2], [2, 2, 4, 2], [2, 2, 0, 4], [2, 2, 4, 4],
+            [2, 2, 2, 4]
+        ]
+    ];
 
     /*
      * Get type of landscape of a tile.
@@ -346,7 +346,7 @@ class Map
         }
     }
 
-    static readonly short[] offsets = {
+    static readonly short[] offsets = [
             -64, /* up */
             -63, /* up right */
             1,   /* right */
@@ -356,7 +356,7 @@ class Map
             -1,  /* left */
             -65, /* up left */
             0
-        };
+        ];
     /*
      * Updates ??.
      *
@@ -438,13 +438,13 @@ class Map
         return x >= x2 && x < x2 + 15 && y >= y2 && y < y2 + 10;
     }
 
-    static readonly ushort[] tileOffsets = {
+    static readonly ushort[] tileOffsets = [
             0x0080, 0x0088, 0x0090, 0x0098,
             0x00A0, 0x00A8, 0x00B0, 0x00B8,
             0x00C0, 0x00C8, 0x00D0, 0x00D8,
             0x00E0, 0x00E8, 0x00F0, 0x00F8,
             0x0100, 0x0180
-        };
+        ];
     /*
      * Around a position, run a certain function for all tiles within a certain radius.
      *
@@ -641,7 +641,7 @@ class Map
     }
 
     /* Border tiles of the viewport relative to the top-left. */
-    static readonly ushort[] viewportBorder = {
+    static readonly ushort[] viewportBorder = [
             0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E,
             0x0040, 0x004E,
             0x0080, 0x008E,
@@ -653,7 +653,7 @@ class Map
             0x0200, 0x020E,
             0x0240, 0x0241, 0x0242, 0x0243, 0x0244, 0x0245, 0x0246, 0x0247, 0x0248, 0x0249, 0x024A, 0x024B, 0x024C, 0x024D, 0x024E,
             0xFFFF
-        };
+        ];
     static ushort minimapPreviousPosition;
     /*
      * Update the minimap position.
@@ -1066,10 +1066,10 @@ class Map
     {
         unchecked
         {
-            mapScrollOffset = new XYPosition[] {
+            mapScrollOffset = [
                     new() { x = 0, y = (ushort)-1 }, new() { x = 1, y = (ushort)-1 }, new() { x = 1, y = 0 }, new() { x = 1, y = 1 },
                     new() { x = 0, y = 1 }, new() { x = (ushort)-1, y = 1 }, new() { x = (ushort)-1, y = 0 }, new() { x = (ushort)-1, y = (ushort)-1 }
-                };
+                ];
         }
 
         ushort x, y;
@@ -1206,7 +1206,7 @@ class Map
         Map_SetSelection(Tile_PackTile(selected.position));
     }
 
-    static readonly short[] mapBase = { 1, -2, -2 };
+    static readonly short[] mapBase = [1, -2, -2];
     /*
      * Find a tile close the a LocationID described position (North, Enemy Base, . . .).
      *
@@ -1510,7 +1510,7 @@ class Map
         g_viewportPosition = Tile_PackXY((ushort)x, (ushort)y);
     }
 
-    static readonly sbyte[] around = { 0, -1, 1, -16, 16, -17, 17, -15, 15, -2, 2, -32, 32, -4, 4, -64, 64, -30, 30, -34, 34 };
+    static readonly sbyte[] around = [0, -1, 1, -16, 16, -17, 17, -15, 15, -2, 2, -32, 32, -4, 4, -64, 64, -30, 30, -34, 34];
     /*
      * Creates the landscape using the given seed.
      * @param seed The seed.

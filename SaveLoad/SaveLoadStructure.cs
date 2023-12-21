@@ -2,7 +2,7 @@
 
 class SaveLoadStructure
 {
-    static readonly SaveLoadDesc[] s_saveStructure = {
+    static readonly SaveLoadDesc[] s_saveStructure = [
         SLD_SLD(nameof(CStructure.o), g_saveObject),
         SLD_ENTRY(SLDT_UINT16, nameof(CStructure.creatorHouseID)),
         SLD_ENTRY(SLDT_UINT16, nameof(CStructure.rotationSpriteDiff)),
@@ -15,7 +15,7 @@ class SaveLoadStructure
         SLD_ENTRY(SLDT_INT16, nameof(CStructure.state)),
         SLD_ENTRY(SLDT_UINT16, nameof(CStructure.hitpointsMax)),
         SLD_END()
-    };
+    ];
 
     /*
      * Load all Structures from a file.

@@ -762,7 +762,7 @@ class Cutscene
         }
     }
 
-    static readonly byte[] colours = { 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    static readonly byte[] colours = [0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     /*
      * Shows the game credits.
      */
@@ -948,7 +948,7 @@ class Cutscene
 
                 text = SharpDune.Encoding.GetString(data.Slice(dataPointer, 50));
 
-                var index = text.IndexOfAny(new[] { '\x05', '\r' });
+                var index = text.IndexOfAny(['\x05', '\r']);
                 if (index != -1)
                 {
                     dataPointer += index; //strpbrk(data, "\x05\r");

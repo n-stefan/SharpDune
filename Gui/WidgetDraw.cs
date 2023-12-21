@@ -433,9 +433,9 @@ class WidgetDraw
         }
     }
 
-    static readonly byte[][] borderIndexSize = { //[][2]
-			new byte[] {0, 0}, new byte[] {2, 4}, new byte[] {1, 1}, new byte[] {2, 1}
-        };
+    static readonly byte[][] borderIndexSize = [ //[][2]
+			[0, 0], [2, 4], [1, 1], [2, 1]
+        ];
     /*
      * Draw the border around a widget.
      * @param widgetIndex The widget index to draw the border around.

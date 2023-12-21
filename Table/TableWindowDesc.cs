@@ -10,7 +10,7 @@ class TableWindowDesc
         stringID = (short)Text.STR_SELECT_A_SAVED_GAME_TO_LOAD,
         addArrows = true,
         widgetCount = 6,
-        widgets = new WindowDescWidget[] {
+        widgets = [
             new() {
                 stringID = 65535 /*(ushort)-1*/, /* First savegame name. */
                 offsetX = 16,
@@ -74,7 +74,7 @@ class TableWindowDesc
                 labelStringId = (ushort)Text.STR_NULL,
                 shortcut2 = 0
             }
-        }
+        ]
     };
 
     internal static WindowDesc g_gameControlWindowDesc = new()
@@ -83,7 +83,7 @@ class TableWindowDesc
         stringID = (short)Text.STR_GAME_CONTROLS,
         addArrows = false,
         widgetCount = 6,
-        widgets = new WindowDescWidget[] {
+        widgets = [
             new()
             {
                 stringID = 65526 /*(ushort)-10*/, /* Music state. */
@@ -154,7 +154,7 @@ class TableWindowDesc
                 labelStringId = (ushort)Text.STR_NULL,
                 shortcut2 = 0
             }
-        }
+        ]
     };
 
     internal static WindowDesc g_optionsWindowDesc = new()
@@ -163,7 +163,7 @@ class TableWindowDesc
         stringID = (short)Text.STR_DUNE_II_THE_BATTLE_FOR_ARRAKIS,
         addArrows = false,
         widgetCount = 7,
-        widgets = new WindowDescWidget[] {
+        widgets = [
             new() {
                 stringID = (ushort)Text.STR_LOAD_A_GAME,
                 offsetX = 16,
@@ -227,7 +227,7 @@ class TableWindowDesc
                 labelStringId = (ushort)Text.STR_NULL,
                 shortcut2 = 0
             }
-        }
+        ]
     };
 
     internal static WindowDesc g_yesNoWindowDesc = new()
@@ -236,7 +236,7 @@ class TableWindowDesc
         stringID = (short)Text.STR_ARE_YOU_SURE_YOU_WANT_TO_QUIT_PLAYING,
         addArrows = false,
         widgetCount = 2,
-        widgets = new WindowDescWidget[] {
+        widgets = [
             new()
             {
                 stringID = (ushort)Text.STR_YES,
@@ -307,7 +307,7 @@ class TableWindowDesc
                 labelStringId = (ushort)Text.STR_NULL,
                 shortcut2 = 0
             }
-        }
+        ]
     };
 
     internal static WindowDesc g_savegameNameWindowDesc = new()
@@ -316,7 +316,7 @@ class TableWindowDesc
         stringID = (short)Text.STR_ENTER_A_DESCRIPTION_OF_YOUR_SAVED_GAME,
         addArrows = false,
         widgetCount = 2,
-        widgets = new WindowDescWidget[] {
+        widgets = [
             new() {
                 stringID = (ushort)Text.STR_SAVE,
                 offsetX = 8,
@@ -380,6 +380,6 @@ class TableWindowDesc
                 labelStringId = (ushort)Text.STR_NULL,
                 shortcut2 = 0
             }
-        }
+        ]
     };
 }

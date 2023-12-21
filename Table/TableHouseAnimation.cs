@@ -4,8 +4,8 @@ namespace SharpDune.Table;
 
 class TableHouseAnimation
 {
-    internal static HouseAnimation_Animation[][] g_table_houseAnimation_animation = { //[HOUSEANIMATION_MAX][32]
-        new HouseAnimation_Animation[] { /* 0 - intro */
+    internal static HouseAnimation_Animation[][] g_table_houseAnimation_animation = [ //[HOUSEANIMATION_MAX][32]
+        [ /* 0 - intro */
         	new() { str = string.Empty, duration = 20, frameCount = 10, flags = 0x40 },
             new() { str = "INTRO1", duration = 45, frameCount = 0, flags = 0x62 },
             new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x48 },
@@ -29,54 +29,54 @@ class TableHouseAnimation
             new() { str = "INTRO5", duration = 90, frameCount = 40, flags = 0x4D },
             new() { str = string.Empty, duration = 100, frameCount = 50, flags = 0x0 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 1 - Level 4: Harkonnen */
+        [ /* 1 - Level 4: Harkonnen */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 1, flags = 0x47 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 1, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 2 - Level 4: Atreides */
+        [ /* 2 - Level 4: Atreides */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 75, frameCount = 2, flags = 0x47 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 2, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 3 - Level 4: Ordos */
+        [ /* 3 - Level 4: Ordos */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 0, flags = 0x47 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 0, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 4 - Level 8: Harkonnen */
+        [ /* 4 - Level 8: Harkonnen */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 3, flags = 0x47 },
             new() { str = "EFINALA", duration = 85, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 5 - Level 8: Atreides */
+        [ /* 5 - Level 8: Atreides */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 90, frameCount = 5, flags = 0x47 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 6 - Level 8: Ordos */
+        [ /* 6 - Level 8: Ordos */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
             new() { str = "MEANWHIL", duration = 70, frameCount = 4, flags = 0x47 },
             new() { str = "EFINALA", duration = 75, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 7 - Level 9: Harkonnen */
+        [ /* 7 - Level 9: Harkonnen */
         	new() { str = "HFINALA", duration = 40, frameCount = 0, flags = 0x46 },
             new() { str = "HFINALA", duration = 40, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 20, frameCount = 10, flags = 0x0 },
@@ -89,9 +89,9 @@ class TableHouseAnimation
             new() { str = "HFINALC", duration = 45, frameCount = 0, flags = 0x2 },
             new() { str = string.Empty, duration = 10, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 8 - Level 9: Atreides */
+        [ /* 8 - Level 9: Atreides */
         	new() { str = "AFINALA", duration = 35, frameCount = 0, flags = 0x7 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
             new() { str = "AFINALA", duration = 40, frameCount = 0, flags = 0x42 },
@@ -101,9 +101,9 @@ class TableHouseAnimation
             new() { str = "AFINALB", duration = 20, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 35, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        },
+        ],
 
-        new HouseAnimation_Animation[] { /* 9 - Level 9: Ordos */
+        [ /* 9 - Level 9: Ordos */
         	new() { str = "OFINALA", duration = 65, frameCount = 0, flags = 0x7 },
             new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
             new() { str = "OFINALA", duration = 20, frameCount = 0, flags = 0x42 },
@@ -118,11 +118,11 @@ class TableHouseAnimation
             new() { str = "OFINALD", duration = 16, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 20, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
-        }
-    };
+        ]
+    ];
 
-    internal static HouseAnimation_Subtitle[][] g_table_houseAnimation_subtitle = { //[HOUSEANIMATION_MAX][32]
-        new HouseAnimation_Subtitle[] { /* 0 - intro */
+    internal static HouseAnimation_Subtitle[][] g_table_houseAnimation_subtitle = [ //[HOUSEANIMATION_MAX][32]
+        [ /* 0 - intro */
         	new() {
                 stringID = (ushort)Text.STR_PRESENT,
                 colour = 0,
@@ -333,9 +333,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 1 - Level 4: Harkonnen */
+        [ /* 1 - Level 4: Harkonnen */
 		    new() {
                 stringID = (ushort)Text.STR_AT_THE_EMPERORS_PALACE3,
                 colour = 0,
@@ -406,9 +406,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 2 - Level 4: Atreides */
+        [ /* 2 - Level 4: Atreides */
 		    new() {
                 stringID = (ushort)Text.STR_AT_THE_EMPERORS_PALACE,
                 colour = 1,
@@ -479,9 +479,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 3 - Level 4: Ordos */
+        [ /* 3 - Level 4: Ordos */
 		    new() {
                 stringID = (ushort)Text.STR_AT_THE_EMPERORS_PALACE2,
                 colour = 2,
@@ -552,9 +552,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 4 - Level 8: Harkonnen */
+        [ /* 4 - Level 8: Harkonnen */
 		    new() {
                 stringID = (ushort)Text.STR_AT_THE_EMPERORS_PALACEON_DUNE3,
                 colour = 0,
@@ -625,9 +625,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 5 - Level 8: Atreides */
+        [ /* 5 - Level 8: Atreides */
 		    new() {
                 stringID = (ushort)Text.STR_AT_THE_EMPERORS_PALACEON_DUNE,
                 colour = 1,
@@ -688,9 +688,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 6 - Level 8: Ordos */
+        [ /* 6 - Level 8: Ordos */
 		    new() {
                 stringID = (ushort)Text.STR_AT_THE_EMPERORS_PALACEON_DUNE2,
                 colour = 2,
@@ -751,9 +751,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 7 - Level 9: Harkonnen */
+        [ /* 7 - Level 9: Harkonnen */
 		    new() {
                 stringID = (ushort)Text.STR_YOU_ARE_INDEED_NOT_ENTIRELYTRUE_TO_YOUR_WORD_EMPEROR,
                 colour = 0,
@@ -834,9 +834,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 8 - Level 9: Atreides */
+        [ /* 8 - Level 9: Atreides */
 		    new() {
                 stringID = (ushort)Text.STR_GREETINGS_EMPEROR,
                 colour = 1,
@@ -897,9 +897,9 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        },
+        ],
 
-        new HouseAnimation_Subtitle[] { /* 9 - Level 9: Ordos */
+        [ /* 9 - Level 9: Ordos */
 		    new() {
                 stringID = (ushort)Text.STR_YOU_ARE_AWARE_EMPEROR_THAT_WEHAVE_GROWN_WEARY_OF_YOUR_GAMES,
                 colour = 2,
@@ -970,11 +970,11 @@ class TableHouseAnimation
                 waitFadeout = 0,
                 paletteFadeout = 0
             }
-        }
-    };
+        ]
+    ];
 
-    internal static HouseAnimation_SoundEffect[][] g_table_houseAnimation_soundEffect = { //[HOUSEANIMATION_MAX][90]
-        new HouseAnimation_SoundEffect[] { /* 0 - intro */
+    internal static HouseAnimation_SoundEffect[][] g_table_houseAnimation_soundEffect = [ //[HOUSEANIMATION_MAX][90]
+        [ /* 0 - intro */
         	new() { animationID = 5, voiceID = 108, wait = 12 },
             new() { animationID = 7, voiceID = 117, wait = 19 },
             new() { animationID = 7, voiceID = 109, wait = 33 },
@@ -1059,33 +1059,33 @@ class TableHouseAnimation
             new() { animationID = 19, voiceID = 118, wait = 18 },
             new() { animationID = 19, voiceID = 119, wait = 28 },
             new() { animationID = 22, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 1 - Level 4: Harkonnen */
+        [ /* 1 - Level 4: Harkonnen */
 			new() { animationID = 4, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 2 - Level 4: Atreides */
+        [ /* 2 - Level 4: Atreides */
 			new() { animationID = 4, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 3 - Level 4: Ordos */
+        [ /* 3 - Level 4: Ordos */
 			new() { animationID = 4, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 4 - Level 8: Harkonnen */
+        [ /* 4 - Level 8: Harkonnen */
 			new() { animationID = 4, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 5 - Level 8: Atreides */
+        [ /* 5 - Level 8: Atreides */
 			new() { animationID = 4, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 6 - Level 8: Ordos */
+        [ /* 6 - Level 8: Ordos */
 			new() { animationID = 4, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 7 - Level 9: Harkonnen */
+        [ /* 7 - Level 9: Harkonnen */
 			new() { animationID = 8, voiceID = 69, wait = 2 },
             new() { animationID = 8, voiceID = 65, wait = 10 },
             new() { animationID = 8, voiceID = 68, wait = 12 },
@@ -1094,16 +1094,16 @@ class TableHouseAnimation
             new() { animationID = 9, voiceID = 68, wait = 2 },
             new() { animationID = 9, voiceID = 66, wait = 25 },
             new() { animationID = 11, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 8 - Level 9: Atreides */
+        [ /* 8 - Level 9: Atreides */
 			new() { animationID = 8, voiceID = 255, wait = 0 }
-        },
+        ],
 
-        new HouseAnimation_SoundEffect[] { /* 9 - Level 9: Ordos */
+        [ /* 9 - Level 9: Ordos */
 			new() { animationID = 2, voiceID = 67, wait = 2 },
             new() { animationID = 6, voiceID = 67, wait = 1 },
             new() { animationID = 13, voiceID = 255, wait = 0 }
-        }
-    };
+        ]
+    ];
 }

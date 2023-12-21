@@ -7,7 +7,7 @@ class WidgetClick
     static ushort s_savegameIndexBase;
     static ushort s_savegameCountOnDisk;                    /*!< Amount of savegames on disk. */
 
-    internal static string[] g_savegameDesc = { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty }; //[5][51]			/*!< Array of savegame descriptions for the SaveLoad window. */
+    internal static string[] g_savegameDesc = [string.Empty, string.Empty, string.Empty, string.Empty, string.Empty]; //[5][51]			/*!< Array of savegame descriptions for the SaveLoad window. */
 
     /*
      * Handles Click event for "Save Game" or "Load Game" button.

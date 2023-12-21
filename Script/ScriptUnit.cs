@@ -12,7 +12,7 @@ class Pathfinder_Data
 
 class ScriptUnit
 {
-    static readonly short[] s_mapDirection = { -64, -63, 1, 65, 64, 63, -1, -65 }; /*!< Tile index change when moving in a direction. */
+    static readonly short[] s_mapDirection = [-64, -63, 1, 65, 64, 63, -1, -65]; /*!< Tile index change when moving in a direction. */
 
     /*
      * Create a new soldier unit.
@@ -1007,7 +1007,7 @@ class ScriptUnit
         return res;
     }
 
-    static readonly sbyte[] directionOffset = { 0, 0, 1, 2, 3, -2, -1, 0 };
+    static readonly sbyte[] directionOffset = [0, 0, 1, 2, 3, -2, -1, 0];
     /*
      * Smoothen the route found by the pathfinder.
      * @param data The found route to smoothen.
@@ -1245,8 +1245,8 @@ class ScriptUnit
                 var foundCounterclockwise = false;
                 var foundClockwise = false;
                 short routeSize;
-                Pathfinder_Data[] routes = { new(), new() }; //new Pathfinder_Data[2];
-                byte[][] routesBuffer = { new byte[102], new byte[102] }; //new byte[2][]; //[2][102]
+                Pathfinder_Data[] routes = [new(), new()]; //new Pathfinder_Data[2];
+                byte[][] routesBuffer = [new byte[102], new byte[102]]; //new byte[2][]; //[2][102]
                 Pathfinder_Data bestRoute;
 
                 while (true)
@@ -1868,7 +1868,7 @@ class ScriptUnit
         return 1;
     }
 
-    static readonly sbyte[] offsets = { 0, -1, -64, -65 };
+    static readonly sbyte[] offsets = [0, -1, -64, -65];
     /*
      * Transform an MCV into Construction Yard.
      *

@@ -5,7 +5,7 @@ namespace SharpDune.Table;
 class TableWidgetInfo
 {
     /* TODO : const */
-    internal static WidgetInfo[] g_table_gameWidgetInfo = {
+    internal static WidgetInfo[] g_table_gameWidgetInfo = [
         new() {
             index = 1,
             clickProc = GUI_Widget_Mentat_Click,
@@ -234,9 +234,9 @@ class TableWidgetInfo
             height = 0,
             stringID = (ushort)Text.STR_NULL
         }
-    };
+    ];
 
-    internal static WidgetInfo[] g_table_factoryWidgetInfo = {
+    internal static WidgetInfo[] g_table_factoryWidgetInfo = [
         new() {
             index = -1,
             clickProc = GUI_Production_List_Click,
@@ -393,5 +393,5 @@ class TableWidgetInfo
             height = 16,
             stringID = (ushort)Text.STR_NULL,
         }
-    };
+    ];
 }

@@ -4,7 +4,7 @@ namespace SharpDune.Table;
 
 class TableWidget
 {
-    internal static CWidget[] g_table_windowWidgets = {
+    internal static CWidget[] g_table_windowWidgets = [
         new() {
             next = null,
             index = 30,
@@ -446,5 +446,5 @@ class TableWidget
             data = null,
             stringID = (ushort)Text.STR_NULL
         }
-    };
+    ];
 }

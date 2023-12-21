@@ -9,7 +9,7 @@ class VideoFps
     internal static void Video_ShowFPS(Span<byte> screen) =>
         Video_ShowFPS_2(screen, 320, null);
 
-    static readonly uint[] s_previousTimeStamps = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    static readonly uint[] s_previousTimeStamps = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     static byte s_previousTimeStampsIndex;
     static void Video_ShowFPS_2(Span<byte> screen, int bytes_per_row, Video_ShowFPS_Proc drawchar)
     {
@@ -39,8 +39,8 @@ class VideoFps
         s_previousTimeStampsIndex = (byte)((s_previousTimeStampsIndex + 1) & 0x0f);
     }
 
-    static readonly byte[] fontdigits = { 0167, 044, 0135, 0155, 056, 0153, 0173, 045, 0177, 0157 };
-    static readonly byte[] fonttestsegments = { 03, 01, 05, 02, 0, 04, 032, 010, 054, 020, 0, 040, 0120, 0100, 0140 };
+    static readonly byte[] fontdigits = [0167, 044, 0135, 0155, 056, 0153, 0173, 045, 0177, 0157];
+    static readonly byte[] fonttestsegments = [03, 01, 05, 02, 0, 04, 032, 010, 054, 020, 0, 040, 0120, 0100, 0140];
     static void Video_ShowFPS_DrawChar(Span<byte> screen, int bytes_per_row, ushort x, byte digit)
     {
         int i;

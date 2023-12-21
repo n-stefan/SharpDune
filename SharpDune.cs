@@ -701,12 +701,12 @@ class SharpDune
     static bool hasFame;
     static readonly string[] strings = new string[6];
     static ushort index = 0xFFFF;
-    static readonly ushort[][] mainMenuStrings = { //[][6]
-			new[] { (ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_EXIT_GAME, (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL }, /* Neither HOF nor save. */
-			new[] { (ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_LOAD_GAME, (ushort)Text.STR_EXIT_GAME,    (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL }, /* Has a save game. */
-			new[] { (ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_EXIT_GAME, (ushort)Text.STR_HALL_OF_FAME, (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL }, /* Has a HOF. */
-			new[] { (ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_LOAD_GAME, (ushort)Text.STR_EXIT_GAME,    (ushort)Text.STR_HALL_OF_FAME, (ushort)Text.STR_NULL }  /* Has a HOF and a save game. */
-		};
+    static readonly ushort[][] mainMenuStrings = [ //[][6]
+			[(ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_EXIT_GAME, (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL], /* Neither HOF nor save. */
+			[(ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_LOAD_GAME, (ushort)Text.STR_EXIT_GAME,    (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL], /* Has a save game. */
+			[(ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_EXIT_GAME, (ushort)Text.STR_HALL_OF_FAME, (ushort)Text.STR_NULL,         (ushort)Text.STR_NULL], /* Has a HOF. */
+			[(ushort)Text.STR_PLAY_A_GAME, (ushort)Text.STR_REPLAY_INTRODUCTION, (ushort)Text.STR_LOAD_GAME, (ushort)Text.STR_EXIT_GAME,    (ushort)Text.STR_HALL_OF_FAME, (ushort)Text.STR_NULL]  /* Has a HOF and a save game. */
+		];
     /*
      * Intro menu.
      */

@@ -36,8 +36,8 @@ class Driver
     static readonly MSBuffer s_bufferMusic = new();
     internal static MSBuffer g_bufferMusic = s_bufferMusic;
 
-    static readonly MSBuffer[] s_bufferSound = { new(), new(), new(), new() }; //new MSBuffer[4];
-    static readonly MSBuffer[] g_bufferSound = { s_bufferSound[0], s_bufferSound[1], s_bufferSound[2], s_bufferSound[3] };
+    static readonly MSBuffer[] s_bufferSound = [new(), new(), new(), new()]; //new MSBuffer[4];
+    static readonly MSBuffer[] g_bufferSound = [s_bufferSound[0], s_bufferSound[1], s_bufferSound[2], s_bufferSound[3]];
 
     static byte s_bufferSoundIndex;
 
@@ -335,7 +335,7 @@ class Driver
         }
         s_bufferSoundIndex = 0;
 
-        g_bufferMusic.buffer = new MSData[] { new() }; //new MSData[size]; //calloc(1, size);
+        g_bufferMusic.buffer = [new()]; //new MSData[size]; //calloc(1, size);
         g_bufferMusic.index = 0xFFFF;
 
         return true;
