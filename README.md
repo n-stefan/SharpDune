@@ -46,3 +46,7 @@ In-game 2:
 Outro:
 
 ![](Images/outro.png)
+
+Strategic map - Linux (WSL 2/WSLg):
+
+![](Images/strategicmap.png)
