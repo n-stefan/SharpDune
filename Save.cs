@@ -106,17 +106,17 @@ class Save
         {
             using var bw = new BinaryWriter(fp);
             /* Write the 'FORM' chunk (in which all other chunks are) */
-            bw.Write(new[] { 'F', 'O', 'R', 'M' }); //if (fwrite("FORM", 4, 1, fp) != 1) return false;
+            bw.Write(['F', 'O', 'R', 'M']); //if (fwrite("FORM", 4, 1, fp) != 1) return false;
 
             /* Write zero length for now. We come back to this value before closing */
             length = 0;
             bw.Write(length); //if (fwrite(&length, 4, 1, fp) != 1) return false;
 
             /* Write the 'SCEN' chunk. Never contains content. */
-            bw.Write(new[] { 'S', 'C', 'E', 'N' }); //if (fwrite("SCEN", 4, 1, fp) != 1) return false;
+            bw.Write(['S', 'C', 'E', 'N']); //if (fwrite("SCEN", 4, 1, fp) != 1) return false;
 
             /* Write the 'NAME' chunk. Keep ourself word-aligned. */
-            bw.Write(new[] { 'N', 'A', 'M', 'E' }); //if (fwrite("NAME", 4, 1, fp) != 1) return false;
+            bw.Write(['N', 'A', 'M', 'E']); //if (fwrite("NAME", 4, 1, fp) != 1) return false;
             length = Math.Min(255, (uint)description.Length + 1);
             lengthSwapped = HToBE32(length);
             bw.Write(lengthSwapped); //if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;

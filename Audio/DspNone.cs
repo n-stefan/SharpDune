@@ -10,7 +10,7 @@ class DspNone
 
     internal static byte DSP_GetStatus() => 0;
 
-    internal static void DSP_Play(byte[] data) { }
+    internal static void DSP_Play(byte[] _) { }
 
     internal static void DSP_Stop() { }
 }

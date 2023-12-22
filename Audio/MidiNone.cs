@@ -10,7 +10,7 @@ class MidiNone
 
     internal static void Midi_Reset() { }
 
-    internal static void Midi_Send(uint data) { }
+    internal static void Midi_Send(uint _) { }
 
-    internal static ushort Midi_Send_String(byte[] data, ushort len) => len;
+    internal static ushort Midi_Send_String(byte[] _, ushort len) => len;
 }

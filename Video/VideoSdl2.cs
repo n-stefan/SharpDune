@@ -13,7 +13,7 @@ class VideoSdl2
 {
     /* Set DUNE_ICON_DIR at compile time.  e.g. */
     /* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */
-    static readonly string DUNE_ICON_DIR = Path.Combine(".", "Images");
+    //static readonly string DUNE_ICON_DIR = Path.Combine(".", "Images");
 
     static VideoScaleFilter s_scale_filter;
 
@@ -161,13 +161,13 @@ class VideoSdl2
          * exactly. Note that the values from SDL_GetRendererOutputSize are in
          * physical units while SDL_RenderGetViewport are in logical units.
          */
-        if (SDL_RenderGetViewport(s_renderer, out SDL_Rect rect) < 0)
+        if (SDL_RenderGetViewport(s_renderer, out var rect) < 0)
         {
             Trace.WriteLine($"ERROR: SDL_RenderGetViewport failed: {SDL_GetError()}");
             return;
         }
 
-        if (SDL_GetRendererOutputSize(s_renderer, out int w, out int h) != 0)
+        if (SDL_GetRendererOutputSize(s_renderer, out var w, out var h) != 0)
         {
             Trace.WriteLine($"ERROR: SDL_GetRendererOutputSize failed: {SDL_GetError()}");
             return;
@@ -246,7 +246,7 @@ class VideoSdl2
             Video_ShowFPS(GFX_Screen_Get_ByIndex(Screen.NO0));
         }
 
-        while (SDL_PollEvent(out SDL_Event evt) == 1)
+        while (SDL_PollEvent(out var evt) == 1)
         {
             byte keyup = 1;
 
@@ -630,7 +630,7 @@ class VideoSdl2
         var pPointer = 0;
 
         gfx_screen8Pointer += s_screenOffset << 2;
-        if (SDL_LockTexture(s_texture, nint.Zero, out nint pixels, out int pitch) != 0)
+        if (SDL_LockTexture(s_texture, nint.Zero, out var pixels, out var pitch) != 0)
         {
             Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
             return;

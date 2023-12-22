@@ -29,7 +29,7 @@ partial class Ini
         else
         {
             var matches = IniRegex().Matches(section.ToString());
-            if (matches.Any()) result = string.Join('|', matches.Select(m => m.Groups[1].Value));
+            if (matches.Count != 0) result = string.Join('|', matches.Select(m => m.Groups[1].Value));
         }
 
         return result;

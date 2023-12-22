@@ -143,7 +143,7 @@ class Driver
 
         l_currentPriority = priority;
 
-        if (data == null) return;
+        //if (data == null) return;
 
         DSP_Play(data);
     }
