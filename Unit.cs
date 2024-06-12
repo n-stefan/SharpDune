@@ -2729,7 +2729,7 @@ static class Unit
         bool ret;
         Tile32 currentDestination;
         var isSpiceBloom = false;
-        var isSpecialBloom = false;
+        const bool isSpecialBloom = false;
 
         if (unit == null || !unit.o.flags.used) return false;
 

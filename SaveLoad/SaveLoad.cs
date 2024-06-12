@@ -236,7 +236,7 @@ static class SaveLoad
      */
     internal static bool SaveLoad_Load(SaveLoadDesc[] sld, BinaryReader fp, object obj)
     {
-        var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
         var type = obj?.GetType();
         var sb = new StringBuilder();
         var values = new ArrayList();
@@ -448,7 +448,7 @@ static class SaveLoad
      */
     internal static bool SaveLoad_Save(SaveLoadDesc[] sld, BinaryWriter fp, object obj)
     {
-        var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
         var type = obj?.GetType();
         FieldInfo field = null;
         int c = 0, index;

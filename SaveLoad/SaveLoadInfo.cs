@@ -145,7 +145,7 @@ static class SaveLoadInfo
      */
     internal static bool Info_Save(BinaryWriter fp)
     {
-        ushort savegameVersion = 0x0290;
+        const ushort savegameVersion = 0x0290;
 
         if (!FWrite_LE_UInt16(savegameVersion, fp)) return false;
 
