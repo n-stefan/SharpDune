@@ -217,7 +217,7 @@ static class String
             dest[count++] = (char)c;
             if (count >= destLen - 1)
             {
-                Trace.WriteLine($"WARNING: String_Decompress() : truncating output !");
+                Trace.WriteLine("WARNING: String_Decompress() : truncating output !");
                 break;
             }
         }

@@ -853,9 +853,9 @@ static class Cutscene
         ushort i;
         int p;
 
-        if (g_palette1 != null) Trace.WriteLine($"WARNING: g_palette1 already allocated");
+        if (g_palette1 != null) Trace.WriteLine("WARNING: g_palette1 already allocated");
         else g_palette1 = new byte[256 * 3 * 10]; //malloc(256 * 3 * 10);
-        if (g_palette2 != null) Trace.WriteLine($"WARNING: g_palette2 already allocated");
+        if (g_palette2 != null) Trace.WriteLine("WARNING: g_palette2 already allocated");
         else g_palette2 = new byte[256 * 3]; //calloc(1, 256 * 3);
 
         File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
