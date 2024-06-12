@@ -75,7 +75,7 @@ class MapInfo
     internal ushort sizeY;                                  /*!< Height of the map. */
 }
 
-class Map
+static class Map
 {
     internal static ushort[] g_mapTileID = new ushort[64 * 64];
 

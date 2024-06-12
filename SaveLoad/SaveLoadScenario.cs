@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadScenario
+static class SaveLoadScenario
 {
     static readonly SaveLoadDesc[] s_saveReinforcement = [
         SLD_ENTRY(SLDT_UINT16, nameof(Reinforcement.unitID)),

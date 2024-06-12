@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableTeamAction
+static class TableTeamAction
 {
     internal static string[] g_table_teamActionName =
     [

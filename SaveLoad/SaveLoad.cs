@@ -48,7 +48,7 @@ class SaveLoadDesc
     //internal object address;                                       /*!< The address of the element. */
 }
 
-class SaveLoad
+static class SaveLoad
 {
     //static int offset(Type c, string m) //(((size_t)&((c *)8)->m) - 8)
     //{

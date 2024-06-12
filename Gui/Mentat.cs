@@ -8,7 +8,7 @@ class MentatInfo
     internal uint length;
 }
 
-class Mentat
+static class Mentat
 {
     /*
      * Information about the mentat.

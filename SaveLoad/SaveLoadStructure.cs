@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadStructure
+static class SaveLoadStructure
 {
     static readonly SaveLoadDesc[] s_saveStructure = [
         SLD_SLD(nameof(CStructure.o), g_saveObject),

@@ -60,7 +60,7 @@ class WSAFileHeader
 //    internal Array<byte> data;
 //}
 
-class Wsa
+static class Wsa
 {
     const int WSAHeaderSize = 36;
 

@@ -4,7 +4,7 @@ namespace SharpDune;
 
 delegate bool SaveProc(BinaryWriter bw);
 
-class Save
+static class Save
 {
     /*
      * Save the game to a filename

@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableWidget
+static class TableWidget
 {
     internal static CWidget[] g_table_windowWidgets = [
         new() {

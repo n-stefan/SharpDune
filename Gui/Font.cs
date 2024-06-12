@@ -18,7 +18,7 @@ class CFont
     internal FontChar[] chars;
 }
 
-class Font
+static class Font
 {
     internal static CFont g_fontIntro;
     internal static CFont g_fontNew6p;

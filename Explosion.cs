@@ -75,7 +75,7 @@ class CExplosion
         position = new Tile32();
 }
 
-class Explosion
+static class Explosion
 {
     internal const byte EXPLOSION_MAX = 32;                         /*!< The maximum amount of active explosions we can have. */
 

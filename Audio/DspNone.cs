@@ -2,7 +2,7 @@
 
 namespace SharpDune.Audio;
 
-class DspNone
+static class DspNone
 {
     internal static bool DSP_Init() => true;
 

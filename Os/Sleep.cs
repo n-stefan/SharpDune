@@ -2,7 +2,7 @@
 
 namespace SharpDune.Os;
 
-class Sleep
+static class Sleep
 {
 #if !WITH_SDL && !WITH_SDL2
     internal static void SleepIdle() =>

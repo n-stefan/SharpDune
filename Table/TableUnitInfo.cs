@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableUnitInfo
+static class TableUnitInfo
 {
     internal static ushort[] g_table_actionsAI = [(ushort)ActionType.ACTION_HUNT, (ushort)ActionType.ACTION_AREA_GUARD, (ushort)ActionType.ACTION_AMBUSH, (ushort)ActionType.ACTION_GUARD];
 

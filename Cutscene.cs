@@ -26,7 +26,7 @@ class CreditPosition
     internal ushort y;
 }
 
-class Cutscene
+static class Cutscene
 {
     internal static bool g_canSkipIntro; /*!< When true, you can skip the intro by pressing a key or clicking. */
 

@@ -9,7 +9,7 @@ enum VideoScaleFilter
     FILTER_HQX                      /*<! see https://code.google.com/p/hqx/ */
 }
 
-class VideoSdl2
+static class VideoSdl2
 {
     /* Set DUNE_ICON_DIR at compile time.  e.g. */
     /* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */

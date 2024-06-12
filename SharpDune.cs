@@ -25,7 +25,7 @@ class XYPosition
     internal ushort y; /*!< Y coordinate. */
 }
 
-class SharpDune
+static class SharpDune
 {
     internal const string window_caption = "SharpDUNE - v0.1";
     internal static bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */

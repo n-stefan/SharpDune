@@ -127,7 +127,7 @@ class ObjectInfo
     internal byte availableHouse;                    /*!< To which house this Structure / Unit is available. */
 }
 
-class Object
+static class Object
 {
     /*
      * Clear variable4 in a safe (and recursive) way from an object.

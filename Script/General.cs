@@ -2,7 +2,7 @@
 
 namespace SharpDune.Script;
 
-class General
+static class General
 {
     /*
      * Suspend the script execution for a set amount of ticks.

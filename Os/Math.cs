@@ -2,7 +2,7 @@
 
 namespace SharpDune.Os;
 
-class Math
+static class Math
 {
     internal static short Clamp(short a, short b, short c) =>
         System.Math.Min(System.Math.Max(a, b), c);

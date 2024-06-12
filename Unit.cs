@@ -237,7 +237,7 @@ class ActionInfo
     internal ushort soundID;                                /*!< The sound played when unit is a Foot unit. */
 }
 
-class Unit
+static class Unit
 {
     static uint s_tickUnitMovement; /*!< Indicates next time the Movement function is executed. */
     static uint s_tickUnitRotation; /*!< Indicates next time the Rotation function is executed. */

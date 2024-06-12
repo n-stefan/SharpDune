@@ -78,7 +78,7 @@ class PakFileInfoLinkedElem
     internal string filenamebuffer; //char[1]
 }
 
-class File
+static class File
 {
     //readonly string SEARCHDIR_GLOBAL_DATA_DIR = Path.Combine(Environment.CurrentDirectory, "data");
     //readonly string SEARCHDIR_PERSONAL_DATA_DIR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);

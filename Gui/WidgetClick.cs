@@ -2,7 +2,7 @@
 
 namespace SharpDune.Gui;
 
-class WidgetClick
+static class WidgetClick
 {
     static ushort s_savegameIndexBase;
     static ushort s_savegameCountOnDisk;                    /*!< Amount of savegames on disk. */

@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableExplosion
+static class TableExplosion
 {
     /* EXPLOSION_IMPACT_SMALL */
     static readonly ExplosionCommandStruct[] s_explosion00 = [

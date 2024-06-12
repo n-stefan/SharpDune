@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableHouseAnimation
+static class TableHouseAnimation
 {
     internal static HouseAnimation_Animation[][] g_table_houseAnimation_animation = [ //[HOUSEANIMATION_MAX][32]
         [ /* 0 - intro */

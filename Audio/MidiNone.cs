@@ -2,7 +2,7 @@
 
 namespace SharpDune.Audio;
 
-class MidiNone
+static class MidiNone
 {
     internal static bool Midi_Init() => true;
 

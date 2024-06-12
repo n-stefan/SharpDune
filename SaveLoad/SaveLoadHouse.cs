@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadHouse
+static class SaveLoadHouse
 {
     static readonly SaveLoadDesc[] s_saveHouse = [
         SLD_ENTRY2(SLDT_UINT16, nameof(CHouse.index), SLDT_UINT8),

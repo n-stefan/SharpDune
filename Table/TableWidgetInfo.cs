@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableWidgetInfo
+static class TableWidgetInfo
 {
     /* TODO : const */
     internal static WidgetInfo[] g_table_gameWidgetInfo = [

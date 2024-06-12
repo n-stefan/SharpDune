@@ -42,7 +42,7 @@ class DuneCfg
     [FieldOffset(9)] internal byte checksum;          /*!< Used to check validity on config data. See Config_Read(). */
 }
 
-class Config
+static class Config
 {
     internal static GameCfg g_gameConfig = new() { music = 1, sounds = 1, gameSpeed = 2, hints = 1, autoScroll = 0 };
     internal static DuneCfg g_config = new();

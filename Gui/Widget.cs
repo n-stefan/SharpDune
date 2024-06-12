@@ -188,7 +188,7 @@ class WidgetScrollbar
     internal ScrollbarDrawProc drawProc;                  /*!< Draw proc (called on every draw). Can be null. */
 }
 
-class Widget
+static class Widget
 {
     /* Layout and other properties of the widgets. */
     internal static WidgetProperties[] g_widgetProperties = [ //[22]

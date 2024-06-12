@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableLandscapeInfo
+static class TableLandscapeInfo
 {
     internal static LandscapeInfo[] g_table_landscapeInfo = [ //[LST_MAX]
         new() { /* 0 / LST_NORMAL_SAND */

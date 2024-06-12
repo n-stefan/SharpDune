@@ -17,7 +17,7 @@ enum Language
     INVALID = 0xFF
 }
 
-class String
+static class String
 {
     static string[] s_strings;
 

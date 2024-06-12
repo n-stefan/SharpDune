@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableWindowDesc
+static class TableWindowDesc
 {
     internal static WindowDesc g_saveLoadWindowDesc = new()
     {

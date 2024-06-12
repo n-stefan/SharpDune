@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadUnit
+static class SaveLoadUnit
 {
     static readonly SaveLoadDesc[] s_saveUnitOrientation = [
         SLD_ENTRY(SLDT_INT8, nameof(Dir24.speed)),

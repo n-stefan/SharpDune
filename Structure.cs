@@ -128,7 +128,7 @@ class XYSize
     internal ushort height; /*!< Vertical length. */
 }
 
-class Structure
+static class Structure
 {
     internal static ushort g_structureActivePosition;
     internal static ushort g_structureActiveType;

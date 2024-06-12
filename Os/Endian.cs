@@ -2,7 +2,7 @@
 
 namespace SharpDune.Os;
 
-class Endian
+static class Endian
 {
     static ushort Endian_BSwap16(ushort x) =>
         (ushort)((x & 0xFF00) >> 8 | (x & 0x00FF) << 8);

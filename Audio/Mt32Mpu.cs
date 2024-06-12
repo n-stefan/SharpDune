@@ -68,7 +68,7 @@ class MSData
     internal int[] noteOnDuration = new int[MAX_NOTES];     /*!< ?? */
 }
 
-class Mt32Mpu
+static class Mt32Mpu
 {
     /* defines from AIL XMIDI.ASM : */
     internal const int NUM_CHANS = 16;

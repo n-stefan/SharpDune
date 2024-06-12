@@ -2,7 +2,7 @@
 
 namespace SharpDune.Gui;
 
-class Security
+static class Security
 {
     /*
      * Ask the security question to the user. Give him 3 times. If he fails,

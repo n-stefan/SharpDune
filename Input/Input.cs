@@ -35,7 +35,7 @@ enum InputFlagsEnum
     INPUT_FLAG_UNKNOWN_2000 = 0x2000                      /*!< ?? */
 }
 
-class Input
+static class Input
 {
     static readonly ushort[] s_history = new ushort[128];                /*!< History of input commands. */
     static ushort s_historyHead;                            /*!< The current head inside the #s_history array. */

@@ -10,7 +10,7 @@ class Pathfinder_Data
     internal byte[] buffer;                                 /*!< A buffer to store the route. */
 }
 
-class ScriptUnit
+static class ScriptUnit
 {
     static readonly short[] s_mapDirection = [-64, -63, 1, 65, 64, 63, -1, -65]; /*!< Tile index change when moving in a direction. */
 

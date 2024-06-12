@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableHouseInfo
+static class TableHouseInfo
 {
     internal static HouseInfo[] g_table_houseInfo = [ //[HOUSE_MAX]
         new() {

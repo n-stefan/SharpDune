@@ -2,7 +2,7 @@
 
 namespace SharpDune.Codec;
 
-class Format80
+static class Format80
 {
     /*
      * Decode a memory fragment which is encoded with 'format80'.

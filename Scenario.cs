@@ -42,7 +42,7 @@ class CScenario
     }
 }
 
-class Scenario
+static class Scenario
 {
     internal static CScenario g_scenario = new();
 

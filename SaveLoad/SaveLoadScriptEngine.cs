@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadScriptEngine
+static class SaveLoadScriptEngine
 {
     internal static readonly SaveLoadDesc[] g_saveScriptEngine = [
         SLD_ENTRY(SLDT_UINT16, nameof(ScriptEngine.delay)),

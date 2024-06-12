@@ -2,7 +2,7 @@
 
 namespace SharpDune.SaveLoad;
 
-class SaveLoadInfo
+static class SaveLoadInfo
 {
     static readonly SaveLoadDesc[] s_saveInfo = [
         SLD_GSLD(() => g_scenario, g_saveScenario),

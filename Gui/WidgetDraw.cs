@@ -2,7 +2,7 @@
 
 namespace SharpDune.Gui;
 
-class WidgetDraw
+static class WidgetDraw
 {
     /*
      * Draw the panel on the right side of the screen, with the actions of the

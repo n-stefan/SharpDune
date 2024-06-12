@@ -2,7 +2,7 @@
 
 namespace SharpDune.Codec;
 
-class Format40
+static class Format40
 {
     /*
      * Decode a memory fragment which is encoded with 'format40'.

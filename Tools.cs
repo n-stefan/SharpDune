@@ -13,7 +13,7 @@ enum IndexType
     IT_STRUCTURE = 3
 }
 
-class Tools
+static class Tools
 {
     static readonly byte[] s_randomSeed = new byte[4];
     static uint s_randomLCG;

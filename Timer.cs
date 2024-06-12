@@ -18,7 +18,7 @@ class TimerNode
     internal bool callonce;
 }
 
-class Timer
+static class Timer
 {
     internal static volatile uint g_timerGUI;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
     internal static volatile uint g_timerGame;                                     /*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, . . .). */

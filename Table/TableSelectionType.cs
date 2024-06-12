@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableSelectionType
+static class TableSelectionType
 {
     internal static readonly SelectionTypeStruct[] g_table_selectionType = [ //[8] [(int)SelectionType.SELECTIONTYPE_MAX]
     	new() {

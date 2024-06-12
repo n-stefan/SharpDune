@@ -2,7 +2,7 @@
 
 namespace SharpDune.Video;
 
-class VideoFps
+static class VideoFps
 {
     delegate void Video_ShowFPS_Proc(Span<byte> screen, ushort x, byte digit);
 

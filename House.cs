@@ -182,7 +182,7 @@ class HouseInfo
     internal string voiceFilename;                          /*!< Pointer to filename with the voices of the house. */
 }
 
-class House
+static class House
 {
     /*
      * HouseAnimation flags

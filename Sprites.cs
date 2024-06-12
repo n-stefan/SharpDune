@@ -49,7 +49,7 @@ enum IconMapEntries
     ICM_ICONGROUP_EOF = 27  /*!< End of file spriteIDs. */
 }
 
-class Sprites
+static class Sprites
 {
     internal static /* uint8** */byte[][] g_sprites;
     static ushort s_spritesCount;

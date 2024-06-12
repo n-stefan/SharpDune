@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableMovementType
+static class TableMovementType
 {
     internal static string[] g_table_movementTypeName =
     [

@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableActionInfo
+static class TableActionInfo
 {
     internal static ActionInfo[] g_table_actionInfo = [ //[ACTION_MAX]
     	new() { /* 0 */

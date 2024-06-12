@@ -38,7 +38,7 @@ class CAnimation
     internal Tile32 tile;                           /*!< Top-left tile of Animation. */
 }
 
-class Animation
+static class Animation
 {
     const byte ANIMATION_MAX = 112;
 

@@ -2,7 +2,7 @@
 
 namespace SharpDune;
 
-class IniFile
+static class IniFile
 {
     static string g_sharpduneini;
 

@@ -2,7 +2,7 @@
 
 namespace SharpDune.Gui;
 
-class EditBox
+static class EditBox
 {
     static uint tickEditBox;           /* Ticker for cursor blinking. */
     static bool editBoxShowCursor; /* Cursor is active. */

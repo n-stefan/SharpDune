@@ -2,7 +2,7 @@
 
 namespace SharpDune;
 
-class Load
+static class Load
 {
     /*
      * In case the current house is Mercenary, another palette is loaded.

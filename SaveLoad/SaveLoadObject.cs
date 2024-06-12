@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadObject
+static class SaveLoadObject
 {
     internal static readonly SaveLoadDesc[] g_saveObject = [
         SLD_ENTRY(SLDT_UINT16, nameof(CObject.index)),

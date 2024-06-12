@@ -52,7 +52,7 @@ class CTeam
     }
 }
 
-class Team
+static class Team
 {
     static uint s_tickTeamGameLoop; /*!< Indicates next time the GameLoop function is executed. */
 

@@ -2,7 +2,7 @@
 
 namespace SharpDune.Audio;
 
-class DspSdl
+static class DspSdl
 {
     static nint s_buffer;
     static uint s_bufferLen;

@@ -146,7 +146,7 @@ class RankScore
     internal ushort score;      /*!< Score needed to obtain the rank. */
 }
 
-class Gui
+static class Gui
 {
     internal static byte[] g_remap = new byte[256];
 

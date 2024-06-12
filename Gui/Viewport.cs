@@ -2,7 +2,7 @@
 
 namespace SharpDune.Gui;
 
-class Viewport
+static class Viewport
 {
     static uint s_tickCursor;                                 /*!< Stores last time Viewport changed the cursor spriteID. */
     static uint s_tickMapScroll;                              /*!< Stores last time Viewport ran MapScroll function. */

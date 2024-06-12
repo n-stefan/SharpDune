@@ -2,7 +2,7 @@
 
 namespace SharpDune.Script;
 
-class ScriptTeam
+static class ScriptTeam
 {
     /*
      * Gets the amount of members in the current team.

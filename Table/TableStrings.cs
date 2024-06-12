@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableStrings
+static class TableStrings
 {
     internal enum Text
     {

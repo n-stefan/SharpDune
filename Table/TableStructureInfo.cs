@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableStructureInfo
+static class TableStructureInfo
 {
     internal static StructureInfo[] g_table_structureInfo = [ //[STRUCTURE_MAX]
         new() { /* 0 */

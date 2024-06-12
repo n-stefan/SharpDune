@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadMap
+static class SaveLoadMap
 {
     /*
      * Load a Tile structure to a file (Little endian)

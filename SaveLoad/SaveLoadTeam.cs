@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.SaveLoad;
 
-class SaveLoadTeam
+static class SaveLoadTeam
 {
     static readonly SaveLoadDesc[] s_saveTeam = [
         SLD_ENTRY(SLDT_UINT16, nameof(CTeam.index)),

@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.Pool;
 
-class PoolTeam
+static class PoolTeam
 {
     enum TeamIndex
     {

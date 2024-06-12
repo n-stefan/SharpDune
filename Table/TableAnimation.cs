@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableAnimation
+static class TableAnimation
 {
     internal static AnimationCommandStruct[][] g_table_animation_unitMove = [ //[8][8]
     	[

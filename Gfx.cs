@@ -19,7 +19,7 @@ class DirtyArea
     internal ushort bottom;
 }
 
-class Gfx
+static class Gfx
 {
     static bool s_screen0_is_dirty;
     static readonly DirtyArea s_screen0_dirty_area = new() { left = 0, top = 0, right = 0, bottom = 0 };

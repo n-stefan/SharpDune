@@ -2,7 +2,7 @@
 
 namespace SharpDune.Input;
 
-class Mouse
+static class Mouse
 {
     internal static ushort g_mouseLock;         /*!< Lock for when handling mouse movement. */
     internal static ushort g_mouseX;            /*!< Current X position of the mouse. */

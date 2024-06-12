@@ -60,7 +60,7 @@ class ScriptInfo
     internal ushort isAllocated;                          /*!< Memory has been allocated on load. */
 }
 
-class Script
+static class Script
 {
     static readonly ScriptInfo s_scriptStructure = new();
     static readonly ScriptInfo s_scriptTeam = new();

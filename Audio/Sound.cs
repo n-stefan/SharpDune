@@ -26,7 +26,7 @@ class Feedback
     internal ushort soundId;                                        /*!< Sound. */
 }
 
-class Sound
+static class Sound
 {
     /* Number of voices in the game. */
     const byte NUM_VOICES = 131;

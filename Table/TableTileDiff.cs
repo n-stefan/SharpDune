@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableTileDiff
+static class TableTileDiff
 {
     internal static short[] g_table_mapDiff = [ //[4]
         -64, 1, 64, -1

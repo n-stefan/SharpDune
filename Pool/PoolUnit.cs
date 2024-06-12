@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.Pool;
 
-class PoolUnit
+static class PoolUnit
 {
     internal enum UnitIndex
     {

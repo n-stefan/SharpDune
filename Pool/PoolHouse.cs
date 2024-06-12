@@ -1,6 +1,6 @@
 ﻿namespace SharpDune.Pool;
 
-class PoolHouse
+static class PoolHouse
 {
     enum HouseIndex
     {

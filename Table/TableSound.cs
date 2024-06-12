@@ -2,7 +2,7 @@
 
 namespace SharpDune.Table;
 
-class TableSound
+static class TableSound
 {
 	/* Available voices.
      * Prefix :

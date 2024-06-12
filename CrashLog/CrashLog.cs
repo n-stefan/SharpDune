@@ -2,7 +2,7 @@
 
 namespace SharpDune.CrashLog;
 
-class CrashLog
+static class CrashLog
 {
     internal static void CrashLog_Init()
     {

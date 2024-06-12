@@ -20,7 +20,7 @@ class MSBuffer
     internal MSData[] buffer;                               /*!< ?? */
 }
 
-class Driver
+static class Driver
 {
     static readonly bool[] s_driverInstalled = new bool[16];
     static readonly bool[] s_driverLoaded = new bool[16];

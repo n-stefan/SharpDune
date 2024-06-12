@@ -2,7 +2,7 @@
 
 namespace SharpDune.Script;
 
-class ScriptStructure
+static class ScriptStructure
 {
     /*
      * Get the state of the current structure.

@@ -2,7 +2,7 @@
 
 namespace SharpDune.Os;
 
-class Common
+static class Common
 {
     internal static bool AreArraysEqual(Span<byte> array1, int index1, Span<byte> array2, int index2, int count)
     {
