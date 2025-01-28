@@ -309,9 +309,7 @@ static class Unit
 
         if (Unit_GetHouseID(unit) == (byte)g_playerHouseID)
         {
-            UnitInfo ui;
-
-            ui = g_table_unitInfo[unit.o.type];
+            UnitInfo ui = g_table_unitInfo[unit.o.type];
 
             /* Plays the 'reporting' sound file. */
             Sound_StartSound((ushort)(ui.movementType == (ushort)MovementType.MOVEMENT_FOOT ? 18 : 19));
@@ -466,9 +464,7 @@ static class Unit
 
         if (unit.o.type == (byte)UnitType.UNIT_HARVESTER)
         {
-            ushort stringID;
-
-            stringID = (ushort)Text.STR_IS_D_PERCENT_FULL;
+            ushort stringID = (ushort)Text.STR_IS_D_PERCENT_FULL;
 
             if (unit.actionID == (byte)ActionType.ACTION_HARVEST && unit.amount < 100)
             {
@@ -688,9 +684,7 @@ static class Unit
 
         while (true)
         {
-            CHouse h;
-
-            h = House_Find(find);
+            CHouse h = House_Find(find);
             if (h == null) break;
 
             if ((unit.o.seenByHouses & (1 << h.index)) == 0) continue;
@@ -895,9 +889,7 @@ static class Unit
 
         if (ui.movementType != (ushort)MovementType.MOVEMENT_SLITHER)
         {
-            Tile32 positionOld;
-
-            positionOld = unit.o.position;
+            Tile32 positionOld = unit.o.position;
             unit.o.position = position;
 
             Unit_UpdateMap(1, unit);
@@ -1012,9 +1004,7 @@ static class Unit
 
         for (i = 0; i < g_unitFindCount; i++)
         {
-            CUnit u;
-
-            u = g_unitFindArray[i];
+            CUnit u = g_unitFindArray[i];
             if ((u.o.seenByHouses & (1 << (byte)g_playerHouseID)) != 0 && !u.o.flags.isNotOnMap)
             {
                 if (House_AreAllied(u.o.houseID, (byte)g_playerHouseID))
@@ -1085,9 +1075,7 @@ static class Unit
 
         while (true)
         {
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
             if (u == null) break;
 
             if (u.targetMove == encoded) u.targetMove = 0;
@@ -1101,9 +1089,7 @@ static class Unit
 
         while (true)
         {
-            CStructure s;
-
-            s = Structure_Find(find);
+            CStructure s = Structure_Find(find);
             if (s == null) break;
 
             if (s.o.type is not ((byte)StructureType.STRUCTURE_TURRET) and not ((byte)StructureType.STRUCTURE_ROCKET_TURRET)) continue;
@@ -1118,9 +1104,7 @@ static class Unit
 
         while (true)
         {
-            CTeam t;
-
-            t = Team_Find(find);
+            CTeam t = Team_Find(find);
             if (t == null) break;
 
             if (t.target == encoded) t.target = 0;
@@ -1347,9 +1331,7 @@ static class Unit
             }
             else
             {
-                CStructure s;
-
-                s = Structure_Get_ByPackedTile(packed);
+                CStructure s = Structure_Get_ByPackedTile(packed);
                 if (s != null)
                 {
                     encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
@@ -1475,9 +1457,7 @@ static class Unit
         while (true)
         {
             UnitInfo ui;
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
             if (u == null) break;
 
             ui = g_table_unitInfo[u.o.type];
@@ -1491,9 +1471,7 @@ static class Unit
 
             if (tickUnknown4 && u.targetAttack != 0 && ui.o.flags.hasTurret)
             {
-                Tile32 tile;
-
-                tile = Tools_Index_GetTile(u.targetAttack);
+                Tile32 tile = Tools_Index_GetTile(u.targetAttack);
 
                 Unit_SetOrientation(u, Tile_GetDirection(u.o.position, tile), false, 1);
             }
@@ -1506,9 +1484,7 @@ static class Unit
                 {
                     if (ui.movementType == (ushort)MovementType.MOVEMENT_WINGER && !ui.flags.isNormalUnit)
                     {
-                        Tile32 tile;
-
-                        tile = u.currentDestination;
+                        Tile32 tile = u.currentDestination;
 
                         if (Tools_Index_GetType(u.targetAttack) == IndexType.IT_UNIT && g_table_unitInfo[Tools_Index_GetUnit(u.targetAttack).o.type].movementType == (ushort)MovementType.MOVEMENT_WINGER)
                         {
@@ -1752,9 +1728,7 @@ static class Unit
 
         while (true)
         {
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
             if (u == null) break;
             if (u.o.linkedID != 0xFF) continue;
             if (u.targetMove != 0) continue;
@@ -2173,9 +2147,7 @@ static class Unit
         if (Tools_Index_GetType(destination) == IndexType.IT_TILE)
         {
             CUnit u2;
-            ushort packed;
-
-            packed = Tools_Index_Decode(destination);
+            ushort packed = Tools_Index_Decode(destination);
 
             u2 = Unit_Get_ByPackedTile(packed);
             if (u2 != null)
@@ -2215,9 +2187,7 @@ static class Unit
 
         for (i = 0; i < g_unitFindCount; i++)
         {
-            CUnit u;
-
-            u = g_unitFindArray[i];
+            CUnit u = g_unitFindArray[i];
             if (houseID != (byte)HouseType.HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
             if (typeID != (byte)UnitType.UNIT_INVALID && u.o.type != typeID) continue;
             if (g_validateStrictIfZero == 0 && u.o.flags.isNotOnMap) continue;
@@ -2487,9 +2457,7 @@ static class Unit
 
         if (target != null && s != null)
         {
-            ushort priority;
-
-            priority = Unit_GetTargetUnitPriority(unit, target);
+            ushort priority = Unit_GetTargetUnitPriority(unit, target);
 
             if (Unit_GetTargetStructurePriority(unit, s) >= priority) return Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
             return Tools_Index_Encode(target.o.index, IndexType.IT_UNIT);
@@ -2768,8 +2736,7 @@ static class Unit
 
         if (ui.flags.isTracked && d < 48)
         {
-            CUnit u;
-            u = Unit_Get_ByPackedTile(packed);
+            CUnit u = Unit_Get_ByPackedTile(packed);
 
             /* Driving over a foot unit */
             if (u != null && g_table_unitInfo[u.o.type].movementType == (ushort)MovementType.MOVEMENT_FOOT && u.o.flags.allocated)
@@ -2807,9 +2774,7 @@ static class Unit
         if (unit.o.type == (byte)UnitType.UNIT_SONIC_BLAST)
         {
             CUnit u;
-            ushort damage;
-
-            damage = (ushort)((unit.o.hitpoints / 4) + 1);
+            ushort damage = (ushort)((unit.o.hitpoints / 4) + 1);
             ret = false;
 
             u = Unit_Get_ByPackedTile(packed);
@@ -2823,9 +2788,7 @@ static class Unit
             }
             else
             {
-                CStructure s;
-
-                s = Structure_Get_ByPackedTile(packed);
+                CStructure s = Structure_Get_ByPackedTile(packed);
 
                 if (s != null)
                 {
@@ -2967,9 +2930,7 @@ static class Unit
                     }
 
                     {
-                        CStructure s;
-
-                        s = Structure_Get_ByPackedTile(packed);
+                        CStructure s = Structure_Get_ByPackedTile(packed);
                         if (s != null)
                         {
                             unit.targetPreLast.x = 0;
@@ -3023,9 +2984,7 @@ static class Unit
 
         while (true)
         {
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
 
             if (u == null) break;
             if (Tile_GetDistance(position, u.o.position) / 16 >= radius) continue;
@@ -3128,9 +3087,7 @@ static class Unit
 
             if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
             {
-                ushort countDown;
-
-                countDown = (ushort)(((ui.o.hitpoints - unit.o.hitpoints) * 256 / ui.o.hitpoints) * (ui.o.buildTime << 6) / 256);
+                ushort countDown = (ushort)(((ui.o.hitpoints - unit.o.hitpoints) * 256 / ui.o.hitpoints) * (ui.o.buildTime << 6) / 256);
 
                 s.countDown = countDown > 1 ? countDown : (ushort)1;
                 unit.o.hitpoints = ui.o.hitpoints;
@@ -3152,9 +3109,7 @@ static class Unit
         /* Take over the building when low on hitpoints */
         if (s.o.hitpoints < si.o.hitpoints / 4)
         {
-            CHouse h;
-
-            h = House_Get_ByIndex(s.o.houseID);
+            CHouse h = House_Get_ByIndex(s.o.houseID);
             s.o.houseID = Unit_GetHouseID(unit);
             h.structuresBuilt = Structure_GetStructuresBuilt(h);
 
@@ -3229,9 +3184,7 @@ static class Unit
 
         for (i = 0; i < around.Length; i++)
         {
-            CUnit u;
-
-            u = Unit_Get_ByPackedTile((ushort)(packed + around[i]));
+            CUnit u = Unit_Get_ByPackedTile((ushort)(packed + around[i]));
             if (u == null) continue;
 
             return Tile_PackTile(u.o.position);

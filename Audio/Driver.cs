@@ -43,10 +43,9 @@ static class Driver
 
     internal static void Driver_LoadFile(string musicName, CDriver driver)
     {
-        string filename;
-        //int len;
+                //int len;
 
-        filename = Drivers_GenerateFilename(musicName, driver);
+        string filename = Drivers_GenerateFilename(musicName, driver);
 
         if (filename == null) return;
 
@@ -223,9 +222,7 @@ static class Driver
 
         if (music.filename != null)
         { //[0] != '\0') {
-            string filename;
-
-            filename = Drivers_GenerateFilename(musicName, sound);
+            string filename = Drivers_GenerateFilename(musicName, sound);
 
             if (filename != null && string.Equals(filename, music.filename, StringComparison.OrdinalIgnoreCase))
             { //strcasecmp(filename, music->filename) == 0) {
@@ -343,9 +340,7 @@ static class Driver
 
     static bool Drivers_Voice_Init(bool enable)
     {
-        CDriver voice;
-
-        voice = g_driverVoice;
+        CDriver voice = g_driverVoice;
 
         voice.index = 0xFFFF;
 

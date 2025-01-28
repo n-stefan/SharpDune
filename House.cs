@@ -255,9 +255,7 @@ static class House
         while (true)
         {
             StructureInfo si;
-            CStructure s;
-
-            s = Structure_Find(find);
+            CStructure s = Structure_Find(find);
             if (s == null) break;
 
             si = g_table_structureInfo[s.o.type];
@@ -293,9 +291,7 @@ static class House
         while (true)
         {
             StructureInfo si;
-            CStructure s;
-
-            s = Structure_Find(find);
+            CStructure s = Structure_Find(find);
             if (s == null) break;
             /* ENHANCEMENT -- Only count structures that are placed on the map, not ones we are building. */
             if (g_dune2_enhanced && s.o.flags.isNotOnMap) continue;
@@ -469,10 +465,9 @@ static class House
 
         if (tickStarportAvailability)
         {
-            ushort type;
-
+            
             /* Pick a random unit to increase starport availability */
-            type = Tools_RandomLCG_Range(0, (ushort)(UnitType.UNIT_MAX - 1));
+            ushort type = Tools_RandomLCG_Range(0, (ushort)(UnitType.UNIT_MAX - 1));
 
             /* Increase how many of this unit is available via starport by one */
             if (g_starportAvailable[type] is not 0 and < 10)
@@ -625,9 +620,7 @@ static class House
 
                 if (h.starportTimeLeft == 0)
                 {
-                    CStructure s;
-
-                    s = Structure_Get_ByIndex(g_structureIndex);
+                    CStructure s = Structure_Get_ByIndex(g_structureIndex);
                     if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT && s.o.houseID == h.index)
                     {
                         u = Unit_CreateWrapper(h.index, UnitType.UNIT_FRIGATE, Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE));
@@ -722,9 +715,7 @@ static class House
 
         while (true)
         {
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
             if (u == null) break;
             if (u.o.linkedID == (byte)UnitType.UNIT_INVALID) continue;
             if (Unit_Get_ByIndex(u.o.linkedID).o.type == (byte)UnitType.UNIT_HARVESTER) return;

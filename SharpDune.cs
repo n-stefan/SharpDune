@@ -97,9 +97,7 @@ static class SharpDune
             /* Calculate how many structures are left on the map */
             while (true)
             {
-                CStructure s;
-
-                s = Structure_Find(find);
+                CStructure s = Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
@@ -175,9 +173,7 @@ static class SharpDune
             /* Calculate how many structures are left on the map */
             while (true)
             {
-                CStructure s;
-
-                s = Structure_Find(find);
+                CStructure s = Structure_Find(find);
                 if (s == null) break;
 
                 if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
@@ -523,9 +519,7 @@ static class SharpDune
         for (pointer = 0; g_table_gameWidgetInfo[pointer].index >= 0; pointer++)
         {
             wi = g_table_gameWidgetInfo[pointer];
-            CWidget w;
-
-            w = GUI_Widget_Allocate((ushort)wi.index, (ushort)wi.shortcut, wi.offsetX, wi.offsetY, (ushort)wi.spriteID, wi.stringID);
+            CWidget w = GUI_Widget_Allocate((ushort)wi.index, (ushort)wi.shortcut, wi.offsetX, wi.offsetY, (ushort)wi.spriteID, wi.stringID);
 
             if (wi.spriteID < 0)
             {
@@ -1382,9 +1376,7 @@ static class SharpDune
         for (i = 0; i < 64 * 64; i++, tPointer++)
         {
             CStructure s;
-            CUnit u;
-
-            u = Unit_Get_ByPackedTile((ushort)i);
+            CUnit u = Unit_Get_ByPackedTile((ushort)i);
             s = Structure_Get_ByPackedTile((ushort)i);
 
             if (u == null || !u.o.flags.used) t[tPointer].hasUnit = false;
@@ -1398,9 +1390,7 @@ static class SharpDune
 
         while (true)
         {
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
             if (u == null) break;
 
             if (u.o.flags.isNotOnMap) continue;
@@ -1415,9 +1405,7 @@ static class SharpDune
 
         while (true)
         {
-            CStructure s;
-
-            s = Structure_Find(find);
+            CStructure s = Structure_Find(find);
             if (s == null) break;
             if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
@@ -1457,9 +1445,7 @@ static class SharpDune
 
         while (true)
         {
-            CHouse h;
-
-            h = House_Find(find);
+            CHouse h = House_Find(find);
             if (h == null) break;
 
             h.structuresBuilt = Structure_GetStructuresBuilt(h);

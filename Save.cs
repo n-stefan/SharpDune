@@ -41,9 +41,7 @@ static class Save
             /* Remove the fog of war for all units */
             while (true)
             {
-                CUnit u;
-
-                u = Unit_Find(find);
+                CUnit u = Unit_Find(find);
                 if (u == null) break;
 
                 Unit_RemoveFog(u);
@@ -56,9 +54,7 @@ static class Save
             /* Remove the fog of war for all structures */
             while (true)
             {
-                CStructure s;
-
-                s = Structure_Find(find);
+                CStructure s = Structure_Find(find);
                 if (s == null) break;
                 if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 

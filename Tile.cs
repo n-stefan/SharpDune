@@ -358,9 +358,7 @@ static class Tile
      */
     internal static Tile32 Tile_Center(Tile32 tile)
     {
-        Tile32 result;
-
-        result = tile;
+        Tile32 result = tile;
         result.x = (ushort)((result.x & 0xff00) | 0x80);
         result.y = (ushort)((result.y & 0xff00) | 0x80);
 

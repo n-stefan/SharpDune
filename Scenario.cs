@@ -269,9 +269,8 @@ static class Scenario
     static void Scenario_Load_MapParts(string key, Action<ushort, CTile> ptr)
     {
         string[] s; //char*
-        string buf; //char[128]
+        string buf = Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer); //char[128]
 
-        buf = Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer);
         if (buf.Length == 0) return;
 
         s = buf.Split(","); //strtok(buf, ",\r\n");
@@ -296,9 +295,7 @@ static class Scenario
      */
     static void Scenario_Load_Choam(string key, string settings)
     {
-        byte unitType;
-
-        unitType = Unit_StringToType(key);
+        byte unitType = Unit_StringToType(key);
         if (unitType == (byte)UnitType.UNIT_INVALID) return;
 
         g_starportAvailable[unitType] = short.Parse(settings, Culture);
@@ -363,10 +360,9 @@ static class Scenario
     {
         byte houseType, teamActionType, movementType;
         ushort minMembers, maxMembers;
-        string[] split;
-
+        
         /* The value should have 5 values separated by a ',' */
-        split = settings.Split(',');
+        string[] split = settings.Split(',');
 
         /* First value is the House type */
         houseType = House_StringToType(split[0]);
@@ -396,10 +392,9 @@ static class Scenario
         ushort hitpoints;
         Tile32 position;
         CUnit u;
-        string[] split;
-
+        
         /* The value should have 6 values separated by a ',' */
-        split = settings.Split(','); //strchr(settings, ',');
+        string[] split = settings.Split(','); //strchr(settings, ',');
         if (split == null || split.Length == 0) return;
         //*split = '\0';
 
@@ -556,9 +551,7 @@ static class Scenario
         if (Structure_Get_ByPackedTile(position) != null) return;
 
         {
-            CStructure s;
-
-            s = Structure_Create(index, structureType, houseType, position);
+            CStructure s = Structure_Create(index, structureType, houseType, position);
             if (s == null) return;
 
             s.o.hitpoints = (ushort)(hitpoints * g_table_structureInfo[s.o.type].o.hitpoints / 256);

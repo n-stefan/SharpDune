@@ -72,9 +72,7 @@ static class SaveLoadTeam
 
         while (true)
         {
-            CTeam t;
-
-            t = Team_Find(find);
+            CTeam t = Team_Find(find);
             if (t == null) break;
 
             if (!SaveLoad_Save(s_saveTeam, fp, t)) return false;

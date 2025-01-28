@@ -97,9 +97,7 @@ static class Viewport
         }
         else
         {
-            CStructure s;
-
-            s = Structure_Get_ByPackedTile(packed);
+            CStructure s = Structure_Get_ByPackedTile(packed);
 
             if (s != null && s.o.houseID == (byte)g_playerHouseID)
             {

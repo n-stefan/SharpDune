@@ -135,9 +135,7 @@ static class Team
      */
     internal static CTeam Team_Create(byte houseID, byte teamActionType, byte movementType, ushort minMembers, ushort maxMembers)
     {
-        CTeam t;
-
-        t = Team_Allocate(0xFFFF);
+        CTeam t = Team_Allocate(0xFFFF);
 
         if (t == null) return null;
         t.flags.used = true;

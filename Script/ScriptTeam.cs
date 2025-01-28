@@ -124,9 +124,7 @@ static class ScriptTeam
 
         while (true)
         {
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
             if (u == null) break;
             if (t.index != u.team - 1) continue;
             count++;
@@ -146,9 +144,7 @@ static class ScriptTeam
 
         while (true)
         {
-            CUnit u;
-
-            u = Unit_Find(find);
+            CUnit u = Unit_Find(find);
             if (u == null) break;
             if (t.index != u.team - 1) continue;
             distance += Tile_GetDistanceRoundedUp(u.o.position, t.position);

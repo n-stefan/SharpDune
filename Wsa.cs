@@ -460,9 +460,7 @@ static class Wsa
         short bottom;
         short skipBefore;
         short skipAfter;
-        Array<byte> dst;
-
-        dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
+        Array<byte> dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
 
         left = (short)(g_widgetProperties[windowID].xBase << 3);
         right = (short)(left + (g_widgetProperties[windowID].width << 3));
@@ -545,8 +543,6 @@ static class Wsa
         uint offset;
 
         File_Seek(fileno, frame * 4 + 10, 0);
-        offset = File_Read_LE32(fileno);
-
-        return offset;
+        return File_Read_LE32(fileno);
     }
 }

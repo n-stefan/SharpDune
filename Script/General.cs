@@ -17,9 +17,7 @@ static class General
      */
     internal static ushort Script_General_Delay(ScriptEngine script)
     {
-        ushort delay;
-
-        delay = (ushort)(STACK_PEEK(script, 1) / 5);
+        ushort delay = (ushort)(STACK_PEEK(script, 1) / 5);
 
         script.delay = delay;
 
@@ -37,9 +35,7 @@ static class General
      */
     internal static ushort Script_General_DelayRandom(ScriptEngine script)
     {
-        ushort delay;
-
-        delay = (ushort)(Tools_Random_256() * STACK_PEEK(script, 1) / 256);
+        ushort delay = (ushort)(Tools_Random_256() * STACK_PEEK(script, 1) / 256);
         delay /= 5;
 
         script.delay = delay;
@@ -58,9 +54,7 @@ static class General
     internal static ushort Script_General_GetDistanceToTile(ScriptEngine script)
     {
         CObject o;
-        ushort encoded;
-
-        encoded = STACK_PEEK(script, 1);
+        ushort encoded = STACK_PEEK(script, 1);
         o = g_scriptCurrentObject;
 
         if (!Tools_Index_IsValid(encoded)) return 0xFFFF;
@@ -92,9 +86,7 @@ static class General
     internal static ushort Script_General_DisplayText(ScriptEngine script)
     {
         string text; //char *
-        ushort offset;
-
-        offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+        ushort offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
         text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
         GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
@@ -125,9 +117,7 @@ static class General
     internal static ushort Script_General_DisplayModalMessage(ScriptEngine script)
     {
         string text; //char *
-        ushort offset;
-
-        offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+        ushort offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
         text = script.scriptInfo.text[offset..].Cast<char>().ToString();
 
         return GUI_DisplayModalMessage(text, 0xFFFF);
@@ -143,9 +133,7 @@ static class General
      */
     internal static ushort Script_General_GetDistanceToObject(ScriptEngine script)
     {
-        ushort index;
-
-        index = STACK_PEEK(script, 1);
+        ushort index = STACK_PEEK(script, 1);
 
         if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
@@ -183,9 +171,7 @@ static class General
      */
     internal static ushort Script_General_GetOrientation(ScriptEngine script)
     {
-        CUnit u;
-
-        u = Tools_Index_GetUnit(STACK_PEEK(script, 1));
+        CUnit u = Tools_Index_GetUnit(STACK_PEEK(script, 1));
 
         if (u == null) return 128;
 
@@ -230,9 +216,7 @@ static class General
      */
     internal static ushort Script_General_DecodeIndex(ScriptEngine script)
     {
-        ushort index;
-
-        index = STACK_PEEK(script, 1);
+        ushort index = STACK_PEEK(script, 1);
 
         if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
@@ -249,9 +233,7 @@ static class General
      */
     internal static ushort Script_General_GetIndexType(ScriptEngine script)
     {
-        ushort index;
-
-        index = STACK_PEEK(script, 1);
+        ushort index = STACK_PEEK(script, 1);
 
         if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
@@ -268,9 +250,7 @@ static class General
      */
     internal static ushort Script_General_GetLinkedUnitType(ScriptEngine _)
     {
-        ushort linkedID;
-
-        linkedID = g_scriptCurrentObject.linkedID;
+        ushort linkedID = g_scriptCurrentObject.linkedID;
 
         if (linkedID == 0xFF) return 0xFFFF;
 
@@ -287,9 +267,7 @@ static class General
      */
     internal static ushort Script_General_VoicePlay(ScriptEngine script)
     {
-        Tile32 position;
-
-        position = g_scriptCurrentObject.position;
+        Tile32 position = g_scriptCurrentObject.position;
 
         Voice_PlayAtTile((short)STACK_PEEK(script, 1), position);
 
@@ -353,9 +331,7 @@ static class General
     internal static ushort Script_General_IsEnemy(ScriptEngine script)
     {
         byte houseID;
-        ushort index;
-
-        index = STACK_PEEK(script, 1);
+        ushort index = STACK_PEEK(script, 1);
 
         if (!Tools_Index_IsValid(index)) return 0;
 

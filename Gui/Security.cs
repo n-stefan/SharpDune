@@ -167,9 +167,7 @@ static class Security
 
     static void GUI_Security_DrawText(string text)
     {
-        Screen oldScreenID;
-
-        oldScreenID = GFX_Screen_SetActive(Screen.NO2);
+        Screen oldScreenID = GFX_Screen_SetActive(Screen.NO2);
 
         GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
         GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, Screen.NO0, Screen.NO2);

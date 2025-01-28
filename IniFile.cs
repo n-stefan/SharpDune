@@ -55,14 +55,13 @@ static class IniFile
     {
         FileStream f;
         long fileSize;
-        string path;
-
+        
         /* look for sharpdune.ini in the following locations:
            1) %APPDATA%/SharpDUNE
            2) current directory
            3) data/ dir
         */
-        path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SharpDUNE", "sharpdune.ini"); //SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, path ) != S_OK)
+        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SharpDUNE", "sharpdune.ini"); //SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, path ) != S_OK)
         if (System.IO.File.Exists(path))
         {
             f = new FileStream(path, System.IO.FileMode.Open); //fopen(path, "rb");
@@ -124,9 +123,8 @@ static class IniFile
 
     internal static string IniFile_GetString(string key, string defaultValue)
     {
-        string p;
-        /* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
-        p = Ini_GetString("sharpdune", key, defaultValue, g_sharpduneini);
+                /* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
+        string p = Ini_GetString("sharpdune", key, defaultValue, g_sharpduneini);
         if (!string.IsNullOrEmpty(p))
         {
             /* Trim space from the beginning of the dest */

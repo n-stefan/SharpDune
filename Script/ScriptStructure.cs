@@ -14,9 +14,7 @@ static class ScriptStructure
      */
     internal static ushort Script_Structure_GetState(ScriptEngine _)
     {
-        CStructure s;
-
-        s = g_scriptCurrentStructure;
+        CStructure s = g_scriptCurrentStructure;
         return (ushort)s.state;
     }
 
@@ -304,9 +302,7 @@ static class ScriptStructure
         while (true)
         {
             ushort distance;
-            CUnit uf;
-
-            uf = Unit_Find(find);
+            CUnit uf = Unit_Find(find);
             if (uf == null) break;
 
             if (House_AreAllied(s.o.houseID, Unit_GetHouseID(uf))) continue;
@@ -478,9 +474,7 @@ static class ScriptStructure
      */
     internal static ushort Script_Structure_VoicePlay(ScriptEngine script)
     {
-        CStructure s;
-
-        s = g_scriptCurrentStructure;
+        CStructure s = g_scriptCurrentStructure;
 
         if (s.o.houseID != (byte)g_playerHouseID) return 0;
 
@@ -558,9 +552,7 @@ static class ScriptStructure
 
         for (i = 0; i < g_table_structure_layoutTileCount[layout]; i++)
         {
-            Tile32 tile;
-
-            tile = Tile_UnpackTile((ushort)(position + g_table_structure_layoutTiles[layout][i]));
+            Tile32 tile = Tile_UnpackTile((ushort)(position + g_table_structure_layoutTiles[layout][i]));
 
             Map_MakeExplosion((ushort)ExplosionType.EXPLOSION_STRUCTURE, tile, 0, 0);
         }

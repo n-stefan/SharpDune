@@ -55,9 +55,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_FindBestTarget(ScriptEngine script)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         return Unit_FindBestTargetEncoded(u, STACK_PEEK(script, 1));
     }
@@ -110,9 +108,7 @@ static class ScriptUnit
         if (Tools_Index_GetType(u.targetMove) == IndexType.IT_STRUCTURE)
         {
             StructureInfo si;
-            CStructure s;
-
-            s = Tools_Index_GetStructure(u.targetMove);
+            CStructure s = Tools_Index_GetStructure(u.targetMove);
             si = g_table_structureInfo[s.o.type];
 
             if (s.o.type == (byte)StructureType.STRUCTURE_STARPORT)
@@ -204,9 +200,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_Pickup(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         if (u.o.linkedID != 0xFF) return 0;
 
@@ -345,9 +339,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_Stop(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         Unit_SetSpeed(u, 0);
 
@@ -389,9 +381,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_SetSprite(ScriptEngine script)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         u.spriteOffset = (sbyte)-(STACK_PEEK(script, 1) & 0xFF);
 
@@ -478,18 +468,14 @@ static class ScriptUnit
     internal static ushort Script_Unit_Die(ScriptEngine _)
     {
         UnitInfo ui;
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
         ui = g_table_unitInfo[u.o.type];
 
         Unit_Remove(u);
 
         if (ui.movementType != (ushort)MovementType.MOVEMENT_WINGER)
         {
-            ushort credits;
-
-            credits = (ushort)Math.Max(ui.o.buildCredits / 100, 1);
+            ushort credits = (ushort)Math.Max(ui.o.buildCredits / 100, 1);
 
             if (u.o.houseID == (byte)g_playerHouseID)
             {
@@ -522,9 +508,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_ExplosionSingle(ScriptEngine script)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         Map_MakeExplosion(STACK_PEEK(script, 1), u.o.position, g_table_unitInfo[u.o.type].o.hitpoints, Tools_Index_Encode(u.o.index, IndexType.IT_UNIT));
         return 0;
@@ -603,9 +587,7 @@ static class ScriptUnit
         if (u.o.type != (byte)UnitType.UNIT_SANDWORM && (Tools_Index_GetType(target) != IndexType.IT_UNIT || g_table_unitInfo[Tools_Index_GetUnit(target).o.type].movementType != (ushort)MovementType.MOVEMENT_WINGER))
         {
             short diff;
-            sbyte orientation;
-
-            orientation = Tile_GetDirection(u.o.position, Tools_Index_GetTile(target));
+            sbyte orientation = Tile_GetDirection(u.o.position, Tools_Index_GetTile(target));
 
             diff = (short)Math.Abs(u.orientation[ui.o.flags.hasTurret ? 1 : 0].current - orientation);
             if (ui.movementType == (ushort)MovementType.MOVEMENT_WINGER) diff /= 8;
@@ -662,9 +644,7 @@ static class ScriptUnit
                     if (typeID == UnitType.UNIT_MISSILE_TROOPER)
                         damage -= (ushort)(damage / 4);
 
-                    CUnit bullet;
-
-                    bullet = Unit_CreateBullet(u.o.position, typeID, Unit_GetHouseID(u), damage, target);
+                    CUnit bullet = Unit_CreateBullet(u.o.position, typeID, Unit_GetHouseID(u), damage, target);
 
                     if (bullet == null) return 0;
 
@@ -708,9 +688,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_SetOrientation(ScriptEngine script)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         Unit_SetOrientation(u, (sbyte)STACK_PEEK(script, 1), false, 0);
 
@@ -776,9 +754,7 @@ static class ScriptUnit
 
         if (Tools_Index_IsValid(encoded))
         {
-            Tile32 tile;
-
-            tile = Tools_Index_GetTile(encoded);
+            Tile32 tile = Tools_Index_GetTile(encoded);
 
             return (ushort)Tile_GetDirection(u.o.position, tile);
         }
@@ -810,9 +786,7 @@ static class ScriptUnit
 
         if (u.o.type == (byte)UnitType.UNIT_HARVESTER)
         {
-            CStructure s;
-
-            s = Tools_Index_GetStructure(encoded);
+            CStructure s = Tools_Index_GetStructure(encoded);
             if (s == null)
             {
                 u.targetMove = encoded;
@@ -901,9 +875,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_SetActionDefault(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         Unit_SetAction(u, (ActionType)g_table_unitInfo[u.o.type].o.actionsPlayer[3]);
 
@@ -922,9 +894,7 @@ static class ScriptUnit
     internal static ushort Script_Unit_SetDestinationDirect(ScriptEngine script)
     {
         CUnit u;
-        ushort encoded;
-
-        encoded = STACK_PEEK(script, 1);
+        ushort encoded = STACK_PEEK(script, 1);
 
         if (!Tools_Index_IsValid(encoded)) return 0;
 
@@ -951,9 +921,7 @@ static class ScriptUnit
     internal static ushort Script_Unit_GetInfo(ScriptEngine script)
     {
         UnitInfo ui;
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
         ui = g_table_unitInfo[u.o.type];
 
         switch (STACK_PEEK(script, 1))
@@ -1374,9 +1342,7 @@ static class ScriptUnit
         }
         else
         {
-            ushort distance;
-
-            distance = Tile_GetDistancePacked(packedDst, packedSrc);
+            ushort distance = Tile_GetDistancePacked(packedDst, packedSrc);
             if (distance < 14) u.route[distance] = 0xFF;
         }
 
@@ -1417,15 +1383,11 @@ static class ScriptUnit
 
         if (u.o.linkedID != 0xFF)
         {
-            CStructure s;
-
-            s = Tools_Index_GetStructure(Unit_Get_ByIndex(u.o.linkedID).originEncoded);
+            CStructure s = Tools_Index_GetStructure(Unit_Get_ByIndex(u.o.linkedID).originEncoded);
 
             if (s != null && s.state == (short)StructureState.STRUCTURE_STATE_IDLE && s.o.script.variables[4] == 0)
             {
-                ushort encoded;
-
-                encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
+                ushort encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
                 Object_Script_Variable4_Link(Tools_Index_Encode(u.o.index, IndexType.IT_UNIT), encoded);
 
@@ -1472,9 +1434,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_GetAmount(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         if (u.o.linkedID == 0xFF) return u.amount;
 
@@ -1491,9 +1451,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_IsInTransport(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         return (ushort)(u.o.flags.inTransport ? 1 : 0);
     }
@@ -1615,9 +1573,7 @@ static class ScriptUnit
 
         while (true)
         {
-            CStructure s;
-
-            s = Structure_Find(find);
+            CStructure s = Structure_Find(find);
             if (s == null) break;
             if (s.state != (short)StructureState.STRUCTURE_STATE_IDLE) continue;
             if (s.o.linkedID != 0xFF) continue;
@@ -1640,9 +1596,7 @@ static class ScriptUnit
     internal static ushort Script_Unit_DisplayDestroyedText(ScriptEngine _)
     {
         UnitInfo ui;
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
         ui = g_table_unitInfo[u.o.type];
 
         if (g_config.language == (byte)Language.FRENCH)
@@ -1667,9 +1621,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_RemoveFog(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
         Unit_RemoveFog(u);
         return 0;
     }
@@ -1747,9 +1699,7 @@ static class ScriptUnit
 
             case IndexType.IT_STRUCTURE:
                 {
-                    CStructure s;
-
-                    s = Structure_Get_ByIndex(index);
+                    CStructure s = Structure_Get_ByIndex(index);
                     if (s.o.houseID == Unit_GetHouseID(u)) return 0;
                     if (u.o.linkedID == 0xFF) return 1;
                     u2 = Unit_Get_ByIndex(u.o.linkedID);
@@ -1939,17 +1889,13 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_Unknown2BD5(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
 
         switch (Tools_Index_GetType(u.o.script.variables[4]))
         {
             case IndexType.IT_UNIT:
                 {
-                    CUnit u2;
-
-                    u2 = Tools_Index_GetUnit(u.o.script.variables[4]);
+                    CUnit u2 = Tools_Index_GetUnit(u.o.script.variables[4]);
 
                     if (Tools_Index_Encode(u.o.index, IndexType.IT_UNIT) == u2.o.script.variables[4] && u2.o.houseID == u.o.houseID) return 1;
 
@@ -1959,9 +1905,7 @@ static class ScriptUnit
 
             case IndexType.IT_STRUCTURE:
                 {
-                    CStructure s;
-
-                    s = Tools_Index_GetStructure(u.o.script.variables[4]);
+                    CStructure s = Tools_Index_GetStructure(u.o.script.variables[4]);
                     if (Tools_Index_Encode(u.o.index, IndexType.IT_UNIT) == s.o.script.variables[4] && s.o.houseID == u.o.houseID) return 1;
                 }
                 break;
@@ -1983,9 +1927,7 @@ static class ScriptUnit
      */
     internal static ushort Script_Unit_Blink(ScriptEngine _)
     {
-        CUnit u;
-
-        u = g_scriptCurrentUnit;
+        CUnit u = g_scriptCurrentUnit;
         u.blinkCounter = 32;
         return 0;
     }

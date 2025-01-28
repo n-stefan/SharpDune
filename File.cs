@@ -306,9 +306,7 @@ static class File
      */
     static byte File_Open_Ex(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, byte mode)
     {
-        byte res;
-
-        res = File_Open(dir, filename, mode);
+        byte res = File_Open(dir, filename, mode);
 
         if (res == (byte)FileMode.FILE_INVALID)
         {
@@ -341,8 +339,7 @@ static class File
 
         if (dir != SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
         {
-            FileInfo fileInfo;
-            fileInfo = FileInfo_Find_ByName(filename, out _);
+            FileInfo fileInfo = FileInfo_Find_ByName(filename, out _);
             if (fileInfo != null)
             {
                 exists = true;
@@ -352,8 +349,7 @@ static class File
         }
         else
         {
-            byte index;
-            index = File_Open(dir, filename, (byte)FileMode.FILE_MODE_READ);
+            byte index = File_Open(dir, filename, (byte)FileMode.FILE_MODE_READ);
             if (index != (byte)FileMode.FILE_INVALID)
             {
                 exists = true;
@@ -537,9 +533,7 @@ static class File
      */
     static uint File_ReadBlockFile_Ex<T>(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, T buffer, uint length, int offset = 0)
     {
-        byte index;
-
-        index = File_Open_Ex(dir, filename, (byte)FileMode.FILE_MODE_READ);
+        byte index = File_Open_Ex(dir, filename, (byte)FileMode.FILE_MODE_READ);
         if (index == (byte)FileMode.FILE_INVALID) return 0;
         length = File_Read(index, ref buffer, length, offset);
         File_Close(index);
@@ -774,9 +768,7 @@ static class File
      */
     internal static void File_Create_Personal(string filename)
     {
-        byte index;
-
-        index = File_Open(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, (byte)FileMode.FILE_MODE_WRITE);
+        byte index = File_Open(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, (byte)FileMode.FILE_MODE_WRITE);
         if (index != (byte)FileMode.FILE_INVALID) File_Close(index);
     }
 
@@ -1055,9 +1047,8 @@ static class File
      */
     internal static void File_Delete_Personal(string filename)
     {
-        string filenameComplete; //char[1024]
+        string filenameComplete = File_MakeCompleteFilename(1024, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_LOWERCASE); //char[1024]
 
-        filenameComplete = File_MakeCompleteFilename(1024, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_LOWERCASE);
         try
         {
             System.IO.File.Delete(filenameComplete);
@@ -1131,9 +1122,7 @@ static class File
     static bool File_Init_Callback(string name, string path, uint size)
     {
         string ext;
-        FileInfo fileInfo;
-
-        fileInfo = File_Init_AddFileInRootDir(name, size);
+        FileInfo fileInfo = File_Init_AddFileInRootDir(name, size);
         if (fileInfo == null) return false;
         ext = Path.GetExtension(path);
         //ext = strrchr(path, '.');
@@ -1159,11 +1148,10 @@ static class File
      */
     static FileInfo File_Init_AddFileInRootDir(string filename, uint filesize)
     {
-        FileInfoLinkedElem elem;
-        //size_t size;
+                //size_t size;
 
         //size = sizeof(FileInfoLinkedElem) + strlen(filename);
-        elem = new FileInfoLinkedElem
+        FileInfoLinkedElem elem = new FileInfoLinkedElem
         {
             //if (new == NULL) {
             //	Error("cannot allocate %u bytes of memory\n", size);
@@ -1249,11 +1237,10 @@ static class File
      */
     static FileInfo File_Init_AddFileInPak(string filename, uint filesize, uint position, FileInfo pakInfo)
     {
-        PakFileInfoLinkedElem elem;
-        //size_t size;
+                //size_t size;
 
         //size = sizeof(PakFileInfoLinkedElem) + strlen(filename);
-        elem = new PakFileInfoLinkedElem
+        PakFileInfoLinkedElem elem = new PakFileInfoLinkedElem
         {
             //if (new == NULL) {
             //	Error("cannot allocate %u bytes of memory\n", size);

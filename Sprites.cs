@@ -457,9 +457,8 @@ static class Sprites
     {
         //ushort[] regions = g_regions;
         ushort i;
-        string textBuffer; //char[81]
+        string textBuffer = Ini_GetString("INFO", "TOTAL REGIONS", null, g_fileRegionINI); //char[81]
 
-        textBuffer = Ini_GetString("INFO", "TOTAL REGIONS", null, g_fileRegionINI);
 
         g_regions[0] = ushort.Parse(textBuffer, Culture); //sscanf(textBuffer, "%hu", &regions[0]);
 

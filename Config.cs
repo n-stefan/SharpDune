@@ -74,9 +74,7 @@ static class Config
      */
     internal static bool GameOptions_Load()
     {
-        byte index;
-
-        index = File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_READ);
+        byte index = File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_READ);
 
         if (index == (byte)FileMode.FILE_INVALID) return false;
 
@@ -96,9 +94,7 @@ static class Config
      */
     internal static void GameOptions_Save()
     {
-        byte index;
-
-        index = File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_WRITE);
+        byte index = File_Open_Personal("OPTIONS.CFG", FileMode.FILE_MODE_WRITE);
 
         if (index == (byte)FileMode.FILE_INVALID) return;
 

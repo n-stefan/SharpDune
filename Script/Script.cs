@@ -582,8 +582,7 @@ static class Script
 
                     if (parameter == 1)
                     { /* PUSH NEXT LOCATION + FRAMEPOINTER */
-                        uint location;
-                        location = (uint)script.script + 1;
+                        uint location = (uint)script.script + 1;
 
                         STACK_PUSH(script, (ushort)location);
                         STACK_PUSH(script, script.framePointer);

@@ -322,9 +322,7 @@ static class WidgetDraw
                                     {
                                         ushort percent;
                                         ushort steps;
-                                        CUnit u2;
-
-                                        u2 = Structure_GetLinkedUnit(s);
+                                        CUnit u2 = Structure_GetLinkedUnit(s);
                                         if (u2 == null) break;
 
                                         GUI_DrawSprite(Screen.ACTIVE, g_sprites[g_table_unitInfo[u2.o.type].o.spriteID], 260, 89, 0, 0);
@@ -364,9 +362,7 @@ static class WidgetDraw
                                 case (byte)StructureType.STRUCTURE_REFINERY:
                                 case (byte)StructureType.STRUCTURE_SILO:
                                     {
-                                        ushort creditsStored;
-
-                                        creditsStored = (ushort)(h.credits * si.creditsStorage / h.creditsStorage);
+                                        ushort creditsStored = (ushort)(h.credits * si.creditsStorage / h.creditsStorage);
                                         if (h.credits > h.creditsStorage) creditsStored = si.creditsStorage;
 
                                         GUI_DrawLine(261, 95, 312, 95, 16);
@@ -645,18 +641,14 @@ static class WidgetDraw
 
         if (g_unitSelected != null)
         {
-            UnitInfo ui;
-
-            ui = g_table_unitInfo[g_unitSelected.o.type];
+            UnitInfo ui = g_table_unitInfo[g_unitSelected.o.type];
 
             spriteID = ui.o.spriteID;
         }
         else
         {
             StructureInfo si;
-            CStructure s;
-
-            s = Structure_Get_ByPackedTile(g_selectionPosition);
+            CStructure s = Structure_Get_ByPackedTile(g_selectionPosition);
             if (s == null) return;
             si = g_table_structureInfo[s.o.type];
 
@@ -845,9 +837,7 @@ static class WidgetDraw
                 }
                 else
                 {
-                    UnitInfo ui;
-
-                    ui = g_table_unitInfo[s.objectType];
+                    UnitInfo ui = g_table_unitInfo[s.objectType];
                     spriteID = ui.o.spriteID;
                 }
                 break;
@@ -862,9 +852,7 @@ static class WidgetDraw
 
             if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
             {
-                StructureInfo si;
-
-                si = g_table_structureInfo[s.objectType];
+                StructureInfo si = g_table_structureInfo[s.objectType];
                 buildTime = si.o.buildTime;
             }
             else if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
@@ -878,9 +866,7 @@ static class WidgetDraw
             }
             else
             {
-                UnitInfo ui;
-
-                ui = g_table_unitInfo[s.objectType];
+                UnitInfo ui = g_table_unitInfo[s.objectType];
                 buildTime = ui.o.buildTime;
             }
 
