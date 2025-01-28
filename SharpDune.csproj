@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Platforms>AnyCPU</Platforms>
     <LangVersion>preview</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Configurations>Debug;Release;DebugWSL;ReleaseWSL</Configurations>
-    <!--<AnalysisMode>AllEnabledByDefault</AnalysisMode>-->
+    <!--<AnalysisMode>All</AnalysisMode>-->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ppy.SDL2-CS" Version="1.0.693-alpha" />
+    <PackageReference Include="ppy.SDL2-CS" Version="1.0.741-alpha" />
     <PackageReference Condition="'$(Configuration)|$(Platform)'=='DebugWSL|AnyCPU' or '$(Configuration)|$(Platform)'=='ReleaseWSL|AnyCPU'" Include="TerraFX.Interop.PulseAudio" Version="13.0.0-beta2" />
   </ItemGroup>
 
