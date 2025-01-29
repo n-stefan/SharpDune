@@ -95,7 +95,7 @@ static class Explosion
 
         for (i = 0; i < EXPLOSION_MAX; i++)
         {
-            CExplosion e = g_explosions[i];
+            var e = g_explosions[i];
 
             if (e.commands == null) continue;
 
@@ -297,7 +297,7 @@ static class Explosion
      */
     static void Explosion_Func_SetAnimation(CExplosion e, ushort animationMapID)
     {
-        ushort packed = Tile_PackTile(e.position);
+        var packed = Tile_PackTile(e.position);
 
         if (Structure_Get_ByPackedTile(packed) != null) return;
 
@@ -315,7 +315,7 @@ static class Explosion
      */
     static void Explosion_Func_BloomExplosion(CExplosion e)
     {
-        ushort packed = Tile_PackTile(e.position);
+        var packed = Tile_PackTile(e.position);
 
         if (g_map[packed].groundTileID != g_bloomTileID) return;
 
@@ -342,7 +342,7 @@ static class Explosion
 
         for (i = 0; i < EXPLOSION_MAX; i++)
         {
-            CExplosion e = g_explosions[i];
+            var e = g_explosions[i];
 
             if (e.commands != null) continue;
 
@@ -374,7 +374,7 @@ static class Explosion
 
         for (i = 0; i < EXPLOSION_MAX; i++)
         {
-            CExplosion e = g_explosions[i];
+            var e = g_explosions[i];
 
             if (e.commands == null || Tile_PackTile(e.position) != packed) continue;
 

@@ -193,10 +193,10 @@ static class Map
 
         if ((packed != 0xFFFF && g_map[packed].overlayTileID != g_veiledTileID) || g_debugScenario)
         {
-            CStructure s = Structure_Get_ByPackedTile(packed);
+            var s = Structure_Get_ByPackedTile(packed);
             if (s != null)
             {
-                StructureInfo si = g_table_structureInfo[s.o.type];
+                var si = g_table_structureInfo[s.o.type];
                 if (s.o.houseID == (byte)g_playerHouseID && g_selectionType != (ushort)SelectionType.MENTAT)
                 {
                     GUI_DisplayHint(si.o.hintStringID, si.o.spriteID);
@@ -215,7 +215,7 @@ static class Map
 
             if (g_selectionType != (ushort)SelectionType.TARGET)
             {
-                CUnit u = Unit_Get_ByPackedTile(packed);
+                var u = Unit_Get_ByPackedTile(packed);
                 if (u != null)
                 {
                     if (u.o.type != (byte)UnitType.UNIT_CARRYALL)
@@ -297,7 +297,7 @@ static class Map
      */
     internal static ushort Map_SetSelectionObjectPosition(ushort packed)
     {
-        ushort oldPacked = selectionPosition;
+        var oldPacked = selectionPosition;
 
         if (packed == oldPacked) return oldPacked;
 
@@ -320,7 +320,7 @@ static class Map
         {
             for (x = 0; x < g_selectionWidth; x++)
             {
-                ushort curPacked = (ushort)(packed + Tile_PackXY(x, y));
+                var curPacked = (ushort)(packed + Tile_PackXY(x, y));
 
                 Map_Update(curPacked, 0, false);
 
@@ -671,7 +671,7 @@ static class Map
 
             for (var mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
             {
-                ushort curPacked = (ushort)(minimapPreviousPosition + m[mPointer]);
+                var curPacked = (ushort)(minimapPreviousPosition + m[mPointer]);
                 BitArray_Clear(g_displayedMinimap, curPacked);
 
                 GUI_Widget_Viewport_DrawTile(curPacked);
@@ -697,7 +697,7 @@ static class Map
 
             for (var mPointer = 0; m[mPointer] != 0xFFFF; mPointer++)
             {
-                ushort curPacked = (ushort)(packed + m[mPointer]);
+                var curPacked = (ushort)(packed + m[mPointer]);
                 BitArray_Set(g_displayedMinimap, curPacked);
             }
         }
@@ -1093,7 +1093,7 @@ static class Map
         }
         else
         {
-            CStructure s = Structure_Get_ByPackedTile(g_selectionPosition);
+            var s = Structure_Get_ByPackedTile(g_selectionPosition);
 
             if (s != null && Map_IsTileVisible(Tile_PackTile(s.o.position))) selected = s.o;
         }
@@ -1104,7 +1104,7 @@ static class Map
 
         while (true)
         {
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             if (!g_table_unitInfo[u.o.type].o.flags.tabSelectable) continue;
@@ -1142,7 +1142,7 @@ static class Map
 
         while (true)
         {
-            CStructure s = Structure_Find(find);
+            var s = Structure_Find(find);
             if (s == null) break;
 
             if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
@@ -1213,7 +1213,7 @@ static class Map
             /* Find the house of an enemy */
             while (true)
             {
-                CStructure s = Structure_Find(find);
+                var s = Structure_Find(find);
                 if (s == null) break;
                 if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
@@ -1406,7 +1406,7 @@ static class Map
         /* Find a house that belongs to the enemy */
         while (true)
         {
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             if (u.o.houseID == houseID) continue;
@@ -1758,7 +1758,7 @@ static class Map
      */
     static void Map_AddSpiceOnTile(ushort packed)
     {
-        CTile t = g_map[packed];
+        var t = g_map[packed];
 
         switch ((LandscapeType)t.groundTileID)
         {

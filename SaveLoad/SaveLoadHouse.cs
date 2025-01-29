@@ -114,7 +114,7 @@ static class SaveLoadHouse
 
         while (true)
         {
-            CHouse h = House_Find(find);
+            var h = House_Find(find);
             if (h == null) break;
 
             if (!SaveLoad_Save(s_saveHouse, fp, h)) return false;

@@ -108,7 +108,7 @@ static class Mt32Mpu
         for (i = 0; i < MAX_NOTES; i++)
         {
             byte note;
-            byte chan = data.noteOnChans[i];
+            var chan = data.noteOnChans[i];
             if (chan == 0xFF) continue;
 
             data.noteOnChans[i] = 0xFF;
@@ -403,7 +403,7 @@ static class Mt32Mpu
 
         for (i = 0; i < NUM_CHANS; i++)
         {
-            byte volume = data.controls[i].volume;
+            var volume = data.controls[i].volume;
             if (volume == 0xFF) continue;
 
             /* get scaled volume value, maximum is 127 */
@@ -703,7 +703,7 @@ static class Mt32Mpu
                                 {
                                     /* System Exclusive */
                                     /* decode XMID variable len */
-                                    int i = 1;
+                                    var i = 1;
                                     nb = 0;
                                     do
                                     {

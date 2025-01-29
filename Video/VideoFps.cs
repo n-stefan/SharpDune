@@ -13,7 +13,7 @@ static class VideoFps
     static byte s_previousTimeStampsIndex;
     static void Video_ShowFPS_2(Span<byte> screen, int bytes_per_row, Video_ShowFPS_Proc drawchar)
     {
-        uint timeStamp = Timer_GetTime();
+        var timeStamp = Timer_GetTime();
         if (s_previousTimeStamps[s_previousTimeStampsIndex] > 0
                 && timeStamp != s_previousTimeStamps[s_previousTimeStampsIndex])
         {

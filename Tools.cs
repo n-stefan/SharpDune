@@ -191,7 +191,7 @@ static class Tools
         {
             case IndexType.IT_TILE:
                 {
-                    ushort ret = (ushort)(((Tile_GetPackedX(index) << 1) + 1) << 0);
+                    var ret = (ushort)(((Tile_GetPackedX(index) << 1) + 1) << 0);
                     ret |= (ushort)(((Tile_GetPackedY(index) << 1) + 1) << 7);
                     return (ushort)(ret | 0xC000);
                 }
@@ -229,7 +229,7 @@ static class Tools
      */
     internal static ushort Tools_Index_GetPackedTile(ushort encoded)
     {
-        ushort index = Tools_Index_Decode(encoded);
+        var index = Tools_Index_Decode(encoded);
 
         return Tools_Index_GetType(encoded) switch
         {

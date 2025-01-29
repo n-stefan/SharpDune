@@ -460,7 +460,7 @@ static class Wsa
         short bottom;
         short skipBefore;
         short skipAfter;
-        Array<byte> dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
+        var dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
 
         left = (short)(g_widgetProperties[windowID].xBase << 3);
         right = (short)(left + (g_widgetProperties[windowID].width << 3));

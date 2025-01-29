@@ -1219,7 +1219,7 @@ static class Gui
      */
     internal static void GUI_DisplayText(string str, int importance, params object[] ap)
     {
-        string buffer = string.Empty; //char[80]		  /* Formatting buffer of new message. */
+        var buffer = string.Empty; //char[80]		  /* Formatting buffer of new message. */
                                       //buffer[0] = '\0';
 
         if (str != null)
@@ -2276,7 +2276,7 @@ static class Gui
 
         while (true)
         {
-            CStructure s = Structure_Find(find);
+            var s = Structure_Find(find);
             if (s == null) break;
             if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
@@ -2289,7 +2289,7 @@ static class Gui
 
         while (true)
         {
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             Unit_UpdateMap(1, u);
@@ -2368,7 +2368,7 @@ static class Gui
         if (timerAnimation < g_timerGUI)
         {
             /* make the repair button flash */
-            ushort colour = (ushort)((!g_structureHighHealth && animationToggle) ? 6 : 15);
+            var colour = (ushort)((!g_structureHighHealth && animationToggle) ? 6 : 15);
             if (!AreArraysEqual(g_palette1, 3 * 239, g_palette1, 3 * colour, 3))
             { //memcmp(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3) != 0
                 Array.Copy(g_palette1, 3 * colour, g_palette1, 3 * 239, 3); //memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
@@ -2647,7 +2647,7 @@ static class Gui
         for (i = 0; i < 6; i++)
         {
             var left = (ushort)(i * 10 + 4);
-            ushort spriteID = (ushort)((charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34);
+            var spriteID = (ushort)((charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34);
 
             if (charCreditsOld[i] != charCreditsNew[i])
             {
@@ -2976,7 +2976,7 @@ static class Gui
         short loc6;
         //int remapPointer = 0;
 
-        byte[] remap = g_remap;
+        var remap = g_remap;
         for (i = 0; i < 0x100; i++/*, remapPointer++*/)
         {
             remap[i/*remapPointer*/] = (byte)(i & 0xFF);
@@ -3230,7 +3230,7 @@ static class Gui
 
             for (i = 0; i < 3; i++)
             {
-                CWidget w2 = GUI_Widget_Allocate((ushort)(i + 1), l_houses[i][2], l_houses[i][0], l_houses[i][1], 0xFFFF, 0);
+                var w2 = GUI_Widget_Allocate((ushort)(i + 1), l_houses[i][2], l_houses[i][0], l_houses[i][1], 0xFFFF, 0);
 
                 //memset(w2.flags, 0, sizeof(w2.flags));
                 w2.flags.loseSelect = true;
@@ -3578,7 +3578,7 @@ static class Gui
         if (editLine != 0)
         {
             WidgetProperties backupProperties;
-            string name = new string(data[editLine - 1].name).Replace("\0", string.Empty, Comparison);
+            var name = new string(data[editLine - 1].name).Replace("\0", string.Empty, Comparison);
 
             backupProperties = g_widgetProperties[19].Clone(); //memcpy(&backupProperties, &g_widgetProperties[19], sizeof(WidgetProperties));
 
@@ -3593,7 +3593,7 @@ static class Gui
 
             while (name.Length == 0)
             {
-                Screen oldScreenID = GFX_Screen_SetActive(Screen.NO0);
+                var oldScreenID = GFX_Screen_SetActive(Screen.NO0);
                 Widget_SetAndPaintCurrentWidget(19);
                 GFX_Screen_SetActive(oldScreenID);
 
@@ -3935,7 +3935,7 @@ static class Gui
         {
 
             //snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
-            string buffer = string.Format(Culture, String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60); //char[64];
+            var buffer = string.Format(Culture, String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60); //char[64];
 
 
             if (s_ticksPlayed < 60)
@@ -4329,7 +4329,7 @@ static class Gui
 
         while (true)
         {
-            CStructure s = Structure_Find(find);
+            var s = Structure_Find(find);
             if (s == null) break;
             if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
@@ -4344,7 +4344,7 @@ static class Gui
 
         while (true)
         {
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             if (House_AreAllied(Unit_GetHouseID(u), (byte)g_playerHouseID))
@@ -4746,7 +4746,7 @@ static class Gui
 
     static uint GUI_FactoryWindow_LoadGraymapTbl()
     {
-        byte fileID = File_Open("GRAYRMAP.TBL", FileMode.FILE_MODE_READ);
+        var fileID = File_Open("GRAYRMAP.TBL", FileMode.FILE_MODE_READ);
         File_Read(fileID, ref s_factoryWindowGraymapTbl, 256);
         File_Close(fileID);
 
@@ -4943,7 +4943,7 @@ static class Gui
 
     internal static void GUI_FactoryWindow_DrawCaption(string caption)
     {
-        Screen oldScreenID = GFX_Screen_SetActive(Screen.NO1);
+        var oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
         GUI_DrawFilledRectangle(128, 21, 310, 35, 116);
 

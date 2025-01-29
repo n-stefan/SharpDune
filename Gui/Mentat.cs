@@ -382,7 +382,7 @@ static class Mentat
 
             if (partNeedsRedraw)
             {
-                byte[] sprite = s_mentatSprites[1][movingMouthSprite];
+                var sprite = s_mentatSprites[1][movingMouthSprite];
 
                 GUI_Mouse_Hide_InRegion(s_mouthLeft, s_mouthTop, (ushort)(s_mouthLeft + Sprite_GetWidth(sprite)), (ushort)(s_mouthTop + Sprite_GetHeight(sprite)));
                 GUI_DrawSprite(Screen.NO0, sprite, s_mouthLeft, s_mouthTop, 0, 0);
@@ -406,7 +406,7 @@ static class Mentat
 
                 if (partNeedsRedraw)
                 {
-                    byte[] sprite = s_mentatSprites[0][movingEyesSprite];
+                    var sprite = s_mentatSprites[0][movingEyesSprite];
 
                     GUI_Mouse_Hide_InRegion(s_eyesLeft, s_eyesTop, (ushort)(s_eyesLeft + Sprite_GetWidth(sprite)), (ushort)(s_eyesTop + Sprite_GetHeight(sprite)));
                     GUI_DrawSprite(Screen.NO0, sprite, s_eyesLeft, s_eyesTop, 0, 0);
@@ -535,7 +535,7 @@ static class Mentat
 
         if (partNeedsRedraw)
         {
-            byte[] sprite = s_mentatSprites[0][movingEyesSprite];
+            var sprite = s_mentatSprites[0][movingEyesSprite];
 
             GUI_Mouse_Hide_InRegion(s_eyesLeft, s_eyesTop, (ushort)(s_eyesLeft + Sprite_GetWidth(sprite)), (ushort)(s_eyesTop + Sprite_GetHeight(sprite)));
             GUI_DrawSprite(Screen.NO0, sprite, s_eyesLeft, s_eyesTop, 0, 0);
@@ -916,7 +916,7 @@ static class Mentat
      */
     static void GUI_Mentat_ShowHelpList(bool proceed)
     {
-        Screen oldScreenID = GFX_Screen_SetActive(Screen.NO1);
+        var oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 
         /* ENHANCEMENT -- After visiting Mentat (the help) window, auto-repeat of keys gets disabled. */
         if (!g_dune2_enhanced) Input_Flags_SetBits((ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT);

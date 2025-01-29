@@ -302,7 +302,7 @@ static class Input
      */
     internal static ushort Input_Keyboard_HandleKeys(ushort value)
     {
-        ushort keyFlags = (ushort)(value & 0xFF00);
+        var keyFlags = (ushort)(value & 0xFF00);
         value &= 0x00FF;
 
         if ((keyFlags & 0x8000) != 0 || (keyFlags & 0x800) != 0)
@@ -414,7 +414,7 @@ static class Input
         ushort inputMouseX;
         ushort inputMouseY;
         var tempBuffer = new ushort[4];
-        ushort flags = g_inputFlags; /* Mask for allowed input types. See InputFlagsEnum. */
+        var flags = g_inputFlags; /* Mask for allowed input types. See InputFlagsEnum. */
 
         inputMouseX = g_mouseX;
         inputMouseY = g_mouseY;
@@ -459,13 +459,13 @@ static class Input
 
                 if ((input & 0x200) != 0)
                 {
-                    XYPosition xy = mousePos[data_0AB6[((dy & 3) << 2) | (dx & 3)]];
+                    var xy = mousePos[data_0AB6[((dy & 3) << 2) | (dx & 3)]];
                     inputMouseX = xy.x;
                     inputMouseY = xy.y;
                 }
                 else
                 {
-                    Span<sbyte> change = ((input & 0x100) == 0) ? offsetSmall.AsSpan(1) : offsetBig.AsSpan(1);
+                    var change = ((input & 0x100) == 0) ? offsetSmall.AsSpan(1) : offsetBig.AsSpan(1);
 
                     inputMouseX += (ushort)change[dx];
                     inputMouseY += (ushort)change[dy];
@@ -546,7 +546,7 @@ static class Input
      */
     static ushort Input_History_Add(ushort value)
     {
-        ushort index = (ushort)((s_historyTail + 2) & 0xFF);
+        var index = (ushort)((s_historyTail + 2) & 0xFF);
         if (index == s_historyHead) return 1;
 
         s_history[s_historyTail / 2] = value;
@@ -591,7 +591,7 @@ static class Input
      */
     internal static ushort Input_IsInputAvailable()
     {
-        ushort value = (ushort)(s_historyHead ^ s_historyTail);
+        var value = (ushort)(s_historyHead ^ s_historyTail);
 
         return Input_AddHistory(value);
     }
@@ -669,7 +669,7 @@ static class Input
 
         for (; ; SleepIdle())
         {
-            ushort index = s_historyHead;
+            var index = s_historyHead;
             if (g_mouseMode != (byte)InputMouseMode.INPUT_MOUSE_MODE_PLAY && index == s_historyTail)
             {
                 value = 0;

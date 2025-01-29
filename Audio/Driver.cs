@@ -45,7 +45,7 @@ static class Driver
     {
         //int len;
 
-        string filename = Drivers_GenerateFilename(musicName, driver);
+        var filename = Drivers_GenerateFilename(musicName, driver);
 
         if (filename == null) return;
 
@@ -222,7 +222,7 @@ static class Driver
 
         if (music.filename != null)
         { //[0] != '\0') {
-            string filename = Drivers_GenerateFilename(musicName, sound);
+            var filename = Drivers_GenerateFilename(musicName, sound);
 
             if (filename != null && string.Equals(filename, music.filename, StringComparison.OrdinalIgnoreCase))
             { //strcasecmp(filename, music->filename) == 0) {
@@ -340,7 +340,7 @@ static class Driver
 
     static bool Drivers_Voice_Init(bool enable)
     {
-        CDriver voice = g_driverVoice;
+        var voice = g_driverVoice;
 
         voice.index = 0xFFFF;
 

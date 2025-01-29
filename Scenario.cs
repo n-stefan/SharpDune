@@ -269,7 +269,7 @@ static class Scenario
     static void Scenario_Load_MapParts(string key, Action<ushort, CTile> ptr)
     {
         string[] s; //char*
-        string buf = Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer); //char[128]
+        var buf = Ini_GetString("MAP", key, string.Empty, s_scenarioBuffer); //char[128]
 
         if (buf.Length == 0) return;
 
@@ -295,7 +295,7 @@ static class Scenario
      */
     static void Scenario_Load_Choam(string key, string settings)
     {
-        byte unitType = Unit_StringToType(key);
+        var unitType = Unit_StringToType(key);
         if (unitType == (byte)UnitType.UNIT_INVALID) return;
 
         g_starportAvailable[unitType] = short.Parse(settings, Culture);
@@ -362,7 +362,7 @@ static class Scenario
         ushort minMembers, maxMembers;
 
         /* The value should have 5 values separated by a ',' */
-        string[] split = settings.Split(',');
+        var split = settings.Split(',');
 
         /* First value is the House type */
         houseType = House_StringToType(split[0]);
@@ -394,7 +394,7 @@ static class Scenario
         CUnit u;
 
         /* The value should have 6 values separated by a ',' */
-        string[] split = settings.Split(','); //strchr(settings, ',');
+        var split = settings.Split(','); //strchr(settings, ',');
         if (split == null || split.Length == 0) return;
         //*split = '\0';
 
@@ -551,7 +551,7 @@ static class Scenario
         if (Structure_Get_ByPackedTile(position) != null) return;
 
         {
-            CStructure s = Structure_Create(index, structureType, houseType, position);
+            var s = Structure_Create(index, structureType, houseType, position);
             if (s == null) return;
 
             s.o.hitpoints = (ushort)(hitpoints * g_table_structureInfo[s.o.type].o.hitpoints / 256);

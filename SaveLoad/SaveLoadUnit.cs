@@ -116,7 +116,7 @@ static class SaveLoadUnit
 
         while (true)
         {
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             if (!SaveLoad_Save(s_saveUnit, fp, u)) return false;
@@ -174,7 +174,7 @@ static class SaveLoadUnit
 
         while (true)
         {
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             if (!SaveLoad_Save(s_saveUnitNewIndex, fp, u.o)) return false;

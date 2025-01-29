@@ -1032,7 +1032,7 @@ static class Widget
      */
     internal static CWidget GUI_Widget_AllocateScrollBtn(ushort index, ushort parentID, ushort offsetX, ushort offsetY, byte[] sprite1, byte[] sprite2, CWidget widget2, bool isDown)
     {
-        CWidget w = new CWidget
+        var w = new CWidget
         {
             index = index,
             parentID = parentID,
@@ -1158,7 +1158,7 @@ static class Widget
 
     internal static ushort GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar scrollbar)
     {
-        CWidget w = scrollbar.parent;
+        var w = scrollbar.parent;
         if (w == null) return 0xFFFF;
 
         scrollbar.scrollPosition = (ushort)(scrollbar.position * (scrollbar.scrollMax - scrollbar.scrollPageSize) / (Math.Max(w.width, w.height) - 2 - scrollbar.size));

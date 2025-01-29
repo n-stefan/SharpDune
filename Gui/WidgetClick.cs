@@ -400,7 +400,7 @@ static class WidgetClick
      */
     internal static bool GUI_Widget_SpriteTextButton_Click(CWidget _)
     {
-        CStructure s = Structure_Get_ByPackedTile(g_selectionPosition);
+        var s = Structure_Get_ByPackedTile(g_selectionPosition);
 
         switch ((Text)g_productionStringID)
         {
@@ -409,7 +409,7 @@ static class WidgetClick
             case Text.STR_PLACE_IT:
                 if (s.o.type == (byte)StructureType.STRUCTURE_CONSTRUCTION_YARD)
                 {
-                    CStructure ns = Structure_Get_ByIndex(s.o.linkedID);
+                    var ns = Structure_Get_ByIndex(s.o.linkedID);
                     g_structureActive = ns;
                     g_structureActiveType = s.objectType;
                     g_selectionState = Structure_IsValidBuildLocation(g_selectionRectanglePosition, (StructureType)g_structureActiveType);
@@ -498,7 +498,7 @@ static class WidgetClick
      */
     internal static bool GUI_Widget_RepairUpgrade_Click(CWidget w)
     {
-        CStructure s = Structure_Get_ByPackedTile(g_selectionPosition);
+        var s = Structure_Get_ByPackedTile(g_selectionPosition);
 
         if (Structure_SetRepairingState(s, -1, w)) return false;
         Structure_SetUpgradingState(s, -1, w);

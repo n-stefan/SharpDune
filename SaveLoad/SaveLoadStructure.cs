@@ -69,7 +69,7 @@ static class SaveLoadStructure
 
         while (true)
         {
-            CStructure s = Structure_Find(find);
+            var s = Structure_Find(find);
             if (s == null) break;
 
             if (!SaveLoad_Save(s_saveStructure, fp, s)) return false;

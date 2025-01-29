@@ -308,7 +308,7 @@ static class File
      */
     static byte File_Open_Ex(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, byte mode)
     {
-        byte res = File_Open(dir, filename, mode);
+        var res = File_Open(dir, filename, mode);
 
         if (res == (byte)FileMode.FILE_INVALID)
         {
@@ -341,7 +341,7 @@ static class File
 
         if (dir != SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
         {
-            FileInfo fileInfo = FileInfo_Find_ByName(filename, out _);
+            var fileInfo = FileInfo_Find_ByName(filename, out _);
             if (fileInfo != null)
             {
                 exists = true;
@@ -351,7 +351,7 @@ static class File
         }
         else
         {
-            byte index = File_Open(dir, filename, (byte)FileMode.FILE_MODE_READ);
+            var index = File_Open(dir, filename, (byte)FileMode.FILE_MODE_READ);
             if (index != (byte)FileMode.FILE_INVALID)
             {
                 exists = true;
@@ -535,7 +535,7 @@ static class File
      */
     static uint File_ReadBlockFile_Ex<T>(SearchDirectory dir, /*string*/ReadOnlySpan<char> filename, T buffer, uint length, int offset = 0)
     {
-        byte index = File_Open_Ex(dir, filename, (byte)FileMode.FILE_MODE_READ);
+        var index = File_Open_Ex(dir, filename, (byte)FileMode.FILE_MODE_READ);
         if (index == (byte)FileMode.FILE_INVALID) return 0;
         length = File_Read(index, ref buffer, length, offset);
         File_Close(index);
@@ -770,7 +770,7 @@ static class File
      */
     internal static void File_Create_Personal(string filename)
     {
-        byte index = File_Open(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, (byte)FileMode.FILE_MODE_WRITE);
+        var index = File_Open(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, (byte)FileMode.FILE_MODE_WRITE);
         if (index != (byte)FileMode.FILE_INVALID) File_Close(index);
     }
 
@@ -1049,7 +1049,7 @@ static class File
      */
     internal static void File_Delete_Personal(string filename)
     {
-        string filenameComplete = File_MakeCompleteFilename(1024, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_LOWERCASE); //char[1024]
+        var filenameComplete = File_MakeCompleteFilename(1024, SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, ConvertCase.CONVERT_TO_LOWERCASE); //char[1024]
 
         try
         {
@@ -1124,7 +1124,7 @@ static class File
     static bool File_Init_Callback(string name, string path, uint size)
     {
         string ext;
-        FileInfo fileInfo = File_Init_AddFileInRootDir(name, size);
+        var fileInfo = File_Init_AddFileInRootDir(name, size);
         if (fileInfo == null) return false;
         ext = Path.GetExtension(path);
         //ext = strrchr(path, '.');
@@ -1153,7 +1153,7 @@ static class File
         //size_t size;
 
         //size = sizeof(FileInfoLinkedElem) + strlen(filename);
-        FileInfoLinkedElem elem = new FileInfoLinkedElem
+        var elem = new FileInfoLinkedElem
         {
             //if (new == NULL) {
             //	Error("cannot allocate %u bytes of memory\n", size);
@@ -1242,7 +1242,7 @@ static class File
         //size_t size;
 
         //size = sizeof(PakFileInfoLinkedElem) + strlen(filename);
-        PakFileInfoLinkedElem elem = new PakFileInfoLinkedElem
+        var elem = new PakFileInfoLinkedElem
         {
             //if (new == NULL) {
             //	Error("cannot allocate %u bytes of memory\n", size);

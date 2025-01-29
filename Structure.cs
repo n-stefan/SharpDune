@@ -397,7 +397,7 @@ static class Structure
     internal static void Structure_HouseUnderAttack(byte houseID)
     {
         var find = new PoolFindStruct();
-        CHouse h = House_Get_ByIndex(houseID);
+        var h = House_Get_ByIndex(houseID);
 
         if (houseID != (byte)g_playerHouseID && h.flags.doneFullScaleAttack) return;
         h.flags.doneFullScaleAttack = true;
@@ -422,7 +422,7 @@ static class Structure
         while (true)
         {
             UnitInfo ui;
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             ui = g_table_unitInfo[u.o.type];
@@ -463,7 +463,7 @@ static class Structure
 
         if (s.o.hitpoints == 0)
         {
-            ushort score = (ushort)(si.o.buildCredits / 100);
+            var score = (ushort)(si.o.buildCredits / 100);
             if (score < 1) score = 1;
 
             if (House_AreAllied((byte)g_playerHouseID, s.o.houseID))
@@ -524,7 +524,7 @@ static class Structure
 
         while (true)
         {
-            CUnit u = Unit_Find(find);
+            var u = Unit_Find(find);
             if (u == null) break;
 
             if (u.targetMove == encoded) u.targetMove = 0;
@@ -538,7 +538,7 @@ static class Structure
 
         while (true)
         {
-            CTeam t = Team_Find(find);
+            var t = Team_Find(find);
             if (t == null) break;
 
             if (t.target == encoded) t.target = 0;
@@ -702,7 +702,7 @@ static class Structure
 
         while (true)
         {
-            CStructure s = Structure_Find(find);
+            var s = Structure_Find(find);
             if (s == null) break;
             if (s.o.flags.isNotOnMap) continue;
             if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
@@ -1219,7 +1219,7 @@ static class Structure
         while (true)
         {
             StructureInfo si;
-            CStructure s = Structure_Find(find);
+            var s = Structure_Find(find);
             if (s == null) return;
             if (s.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
@@ -1382,7 +1382,7 @@ static class Structure
 
             while (true)
             {
-                CUnit u = Unit_Find(find);
+                var u = Unit_Find(find);
                 if (u == null) break;
 
                 buildable &= (int)~UnitFlag.FLAG_UNIT_CARRYALL;
@@ -1460,7 +1460,7 @@ static class Structure
                         /* For the AI, try to find the first structure which is not ours, and launch missile to there */
                         while (true)
                         {
-                            CStructure sf = Structure_Find(find);
+                            var sf = Structure_Find(find);
                             if (sf == null) break;
                             if (sf.o.type is ((byte)StructureType.STRUCTURE_SLAB_1x1) or ((byte)StructureType.STRUCTURE_SLAB_2x2) or ((byte)StructureType.STRUCTURE_WALL)) continue;
 
@@ -1526,7 +1526,7 @@ static class Structure
                     CUnit u;
 
                     /* Find a spot next to the structure */
-                    ushort position = Structure_FindFreePosition(s, false);
+                    var position = Structure_FindFreePosition(s, false);
 
                     /* If there is no spot, reset countdown */
                     if (position == 0)
@@ -2226,7 +2226,7 @@ static class Structure
             for (i = 0; i < g_table_structure_layoutTileCount[si.layout]; i++)
             {
                 var curPos = (ushort)(position + g_table_structure_layoutTiles[si.layout][i]);
-                CUnit u = Unit_Get_ByPackedTile(curPos);
+                var u = Unit_Get_ByPackedTile(curPos);
 
                 Unit_Remove(u);
 
@@ -2237,20 +2237,20 @@ static class Structure
 
         if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP)
         {
-            CHouse h = House_Get_ByIndex(s.o.houseID);
+            var h = House_Get_ByIndex(s.o.houseID);
             h.windtrapCount += 1;
         }
 
         if (g_validateStrictIfZero == 0)
         {
-            CHouse h = House_Get_ByIndex(s.o.houseID);
+            var h = House_Get_ByIndex(s.o.houseID);
             House_CalculatePowerAndCredit(h);
         }
 
         Structure_UpdateMap(s);
 
         {
-            CHouse h = House_Get_ByIndex(s.o.houseID);
+            var h = House_Get_ByIndex(s.o.houseID);
             h.structuresBuilt = Structure_GetStructuresBuilt(h);
         }
 
