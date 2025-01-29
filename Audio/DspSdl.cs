@@ -34,7 +34,7 @@ static class DspSdl
         uint i, j;
 
         Debug.Assert((int)freq < s_spec.freq);
-        
+
         if (s_dataLen < newlen)
         {
             s_data = Marshal.ReAllocHGlobal(s_data, (int)newlen);
@@ -60,10 +60,10 @@ static class DspSdl
             j++;
         }
         w++;
-        
+
         Debug.Assert(w == (byte*)s_data);
         Debug.Assert(r == (byte*)s_data);
-        
+
         s_bufferLen = newlen;
     }
 

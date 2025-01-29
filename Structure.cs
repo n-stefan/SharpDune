@@ -1524,7 +1524,7 @@ static class Structure
             case HouseWeapon.HOUSE_WEAPON_SABOTEUR:
                 {
                     CUnit u;
-                    
+
                     /* Find a spot next to the structure */
                     ushort position = Structure_FindFreePosition(s, false);
 

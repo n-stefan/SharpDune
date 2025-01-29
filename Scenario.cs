@@ -360,7 +360,7 @@ static class Scenario
     {
         byte houseType, teamActionType, movementType;
         ushort minMembers, maxMembers;
-        
+
         /* The value should have 5 values separated by a ',' */
         string[] split = settings.Split(',');
 
@@ -392,7 +392,7 @@ static class Scenario
         ushort hitpoints;
         Tile32 position;
         CUnit u;
-        
+
         /* The value should have 6 values separated by a ',' */
         string[] split = settings.Split(','); //strchr(settings, ',');
         if (split == null || split.Length == 0) return;

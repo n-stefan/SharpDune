@@ -702,7 +702,7 @@ static class Mt32Mpu
                                 else if (chan == 0)
                                 {
                                     /* System Exclusive */
-                                                                        /* decode XMID variable len */
+                                    /* decode XMID variable len */
                                     int i = 1;
                                     nb = 0;
                                     do

@@ -248,7 +248,8 @@ static class WidgetClick
             {
                 if (!save) continue;
 
-                /*desc*/ g_savegameDesc[i] = String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
+                /*desc*/
+                g_savegameDesc[i] = String_Get_ByIndex(Text.STR_EMPTY_SLOT_); //strncpy(desc, String_Get_ByIndex(STR_EMPTY_SLOT_), 50);
                 continue;
             }
 

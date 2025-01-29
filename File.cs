@@ -120,7 +120,8 @@ static class File
         {
             if (e.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase)) //!strcasecmp(e->info.filename, filename))
             {
-                /*if (pakInfo != null)*/ pakInfo = null; //if (pakInfo) *pakInfo = NULL;
+                /*if (pakInfo != null)*/
+                pakInfo = null; //if (pakInfo) *pakInfo = NULL;
                 return e.info;
             }
         }
@@ -128,7 +129,8 @@ static class File
         {
             if (e.info.filename.AsSpan().Equals(filename, StringComparison.OrdinalIgnoreCase)) //!strcasecmp(e->info.filename, filename))
             {
-                /*if (pakInfo != null)*/ pakInfo = e.pak; //if (pakInfo) *pakInfo = e->pak;
+                /*if (pakInfo != null)*/
+                pakInfo = e.pak; //if (pakInfo) *pakInfo = e->pak;
                 return e.info;
             }
         }
@@ -1148,7 +1150,7 @@ static class File
      */
     static FileInfo File_Init_AddFileInRootDir(string filename, uint filesize)
     {
-                //size_t size;
+        //size_t size;
 
         //size = sizeof(FileInfoLinkedElem) + strlen(filename);
         FileInfoLinkedElem elem = new FileInfoLinkedElem
@@ -1237,7 +1239,7 @@ static class File
      */
     static FileInfo File_Init_AddFileInPak(string filename, uint filesize, uint position, FileInfo pakInfo)
     {
-                //size_t size;
+        //size_t size;
 
         //size = sizeof(PakFileInfoLinkedElem) + strlen(filename);
         PakFileInfoLinkedElem elem = new PakFileInfoLinkedElem

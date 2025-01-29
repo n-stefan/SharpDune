@@ -465,7 +465,7 @@ static class House
 
         if (tickStarportAvailability)
         {
-            
+
             /* Pick a random unit to increase starport availability */
             ushort type = Tools_RandomLCG_Range(0, (ushort)(UnitType.UNIT_MAX - 1));
 

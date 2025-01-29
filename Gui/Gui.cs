@@ -1220,7 +1220,7 @@ static class Gui
     internal static void GUI_DisplayText(string str, int importance, params object[] ap)
     {
         string buffer = string.Empty; //char[80]		  /* Formatting buffer of new message. */
- //buffer[0] = '\0';
+                                      //buffer[0] = '\0';
 
         if (str != null)
         {
@@ -2974,7 +2974,7 @@ static class Gui
         short i;
         short loc4;
         short loc6;
-                //int remapPointer = 0;
+        //int remapPointer = 0;
 
         byte[] remap = g_remap;
         for (i = 0; i < 0x100; i++/*, remapPointer++*/)
@@ -3933,7 +3933,7 @@ static class Gui
 
         if (score != 0xFFFF)
         {
-            
+
             //snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
             string buffer = string.Format(Culture, String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60); //char[64];
 

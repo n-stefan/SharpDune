@@ -543,7 +543,8 @@ static class Sprites
         /* Get the SpritePixels chunk */
         g_tilesPixels = new byte[tilesDataLength]; //calloc(1, tilesDataLength);
         ChunkFile_Read(fileIndex, HToBE32((uint)SharpDune.MultiChar[FourCC.SSET]), ref g_tilesPixels, tilesDataLength);
-        /*tilesDataLength = */ Sprites_Decode(g_tilesPixels, g_tilesPixels);
+        /*tilesDataLength = */
+        Sprites_Decode(g_tilesPixels, g_tilesPixels);
         /*g_tilesPixels = realloc(g_tilesPixels, tilesDataLength);*/
 
         /* Get the Table chunk */

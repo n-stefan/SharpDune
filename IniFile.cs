@@ -55,7 +55,7 @@ static class IniFile
     {
         FileStream f;
         long fileSize;
-        
+
         /* look for sharpdune.ini in the following locations:
            1) %APPDATA%/SharpDUNE
            2) current directory
@@ -123,7 +123,7 @@ static class IniFile
 
     internal static string IniFile_GetString(string key, string defaultValue)
     {
-                /* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
+        /* if g_sharpduneini is NULL, Ini_GetString() still does what we expect */
         string p = Ini_GetString("sharpdune", key, defaultValue, g_sharpduneini);
         if (!string.IsNullOrEmpty(p))
         {

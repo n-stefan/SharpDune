@@ -658,7 +658,8 @@ static class Widget
 
         if (w2.index > w1.index)
         {
-            /*w1 = */ GUI_Widget_Link(first, w2);
+            /*w1 = */
+            GUI_Widget_Link(first, w2);
         }
         else
         {

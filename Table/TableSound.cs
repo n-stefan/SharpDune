@@ -4,7 +4,7 @@ namespace SharpDune.Table;
 
 static class TableSound
 {
-	/* Available voices.
+    /* Available voices.
      * Prefix :
      *  '+' : Don't include in voiceSet 0xFFFF
      *  '?' : don't preload voice in RAM
@@ -15,7 +15,7 @@ static class TableSound
      *       or house prefix char ('A'treides, 'O'rdos or Fremen,
      *           'H'arkonnen or Sardokar, 'M'ercenary)
      */
-	internal static readonly VoiceData[] g_table_voices = [ //[NUM_VOICES]
+    internal static readonly VoiceData[] g_table_voices = [ //[NUM_VOICES]
 		new() { str = "+VSCREAM1.VOC",  priority = 11}, /*   0 */
 		new() { str = "+EXSAND.VOC",    priority = 10}, /*   1 */
 		new() { str = "+ROCKET.VOC",    priority = 11}, /*   2 */
@@ -149,12 +149,12 @@ static class TableSound
 		new() { str = "-BLOWUP2.VOC",   priority = 11}  /* 130 */
 	];
 
-	/*
+    /*
      * Available music.
      * @note The code compares pointers rather than the text itself, thus strings must be unique.
      */
-	internal static readonly MusicData[] g_table_musics = [
-		new() { name = null, index = 0 }, /*  0 */
+    internal static readonly MusicData[] g_table_musics = [
+        new() { name = null, index = 0 }, /*  0 */
 		new() { name = "dune1", index = 2 }, /*  1 */
 		new() { name = "dune1", index = 3 }, /*  2 */
 		new() { name = "dune1", index = 4 }, /*  3 */
@@ -194,11 +194,11 @@ static class TableSound
 		new() { name = "dune0", index = 5 }, /* 37 */
 	];
 
-	/*
+    /*
      * Mapping soundID -> voice.
      */
-	internal static readonly ushort[] g_table_voiceMapping = [
-		0xFFFF, /*   0 */
+    internal static readonly ushort[] g_table_voiceMapping = [
+        0xFFFF, /*   0 */
 		0xFFFF, /*   1 */
 		0xFFFF, /*   2 */
 		0xFFFF, /*   3 */
@@ -320,12 +320,12 @@ static class TableSound
 		130     /* 119 */
 	];
 
-	/*
+    /*
      * Feedback on events and user commands (English audio, viewport message, and sound).
      * @see g_translatedVoice
      */
-	internal static Feedback[] g_feedback = [
-		new() { voiceId = [0x002B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF], messageId = 0x33, soundId = 0x003C }, /*  0 */
+    internal static Feedback[] g_feedback = [
+        new() { voiceId = [0x002B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF], messageId = 0x33, soundId = 0x003C }, /*  0 */
 		new() { voiceId = [0x0031, 0x001D, 0x0024, 0x0037, 0xFFFF], messageId = 0x34, soundId = 0xFFFF }, /*  1 */
 		new() { voiceId = [0x0031, 0x001D, 0x0024, 0x0037, 0x0039], messageId = 0x34, soundId = 0xFFFF }, /*  2 */
 		new() { voiceId = [0x0031, 0x001D, 0x0024, 0x0037, 0x003A], messageId = 0x34, soundId = 0xFFFF }, /*  3 */
@@ -421,8 +421,8 @@ static class TableSound
 		new() { voiceId = [0x006C, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF], messageId = 0x01, soundId = 0xFFFF }  /* 93 */
 	];
 
-	/* Translated audio feedback of events and user commands. */
-	internal static readonly ushort[][] g_translatedVoice = [ //[][NUM_SPEECH_PARTS]
+    /* Translated audio feedback of events and user commands. */
+    internal static readonly ushort[][] g_translatedVoice = [ //[][NUM_SPEECH_PARTS]
 		[0x002B, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF], /*  0 */
 		[0x0031, 0x001D, 0xFFFF, 0xFFFF, 0xFFFF], /*  1 */
 		[0x0031, 0x001D, 0xFFFF, 0xFFFF, 0xFFFF], /*  2 */
