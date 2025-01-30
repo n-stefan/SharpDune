@@ -3937,7 +3937,6 @@ static class Gui
             //snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
             var buffer = string.Format(Culture, String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60); //char[64];
 
-
             if (s_ticksPlayed < 60)
             {
                 //char* hours = strchr(buffer, '0');
