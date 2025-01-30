@@ -484,10 +484,10 @@ static class SaveLoad
             {
                 values = sld[c].count == 1 ?
                     [value] :
-                    ((IEnumerable)value).Cast<object>().ToArray();
+                    [.. ((IEnumerable)value).Cast<object>()];
 
                 if (values[0] is IEnumerable)
-                    values = values.SelectMany(o => ((IEnumerable)o).Cast<object>()).ToArray();
+                    values = [.. values.SelectMany(o => ((IEnumerable)o).Cast<object>())];
             }
             else
             {
