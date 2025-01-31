@@ -2238,7 +2238,7 @@ static class Structure
         if (s.o.type == (byte)StructureType.STRUCTURE_WINDTRAP)
         {
             var h = House_Get_ByIndex(s.o.houseID);
-            h.windtrapCount += 1;
+            h.windtrapCount++;
         }
 
         if (g_validateStrictIfZero == 0)

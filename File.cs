@@ -956,7 +956,7 @@ static class File
                 continue;
             }
 
-            length += 1;
+            length++;
             length &= 0xFFFFFFFE;
             File_Seek(index, (int)length, 1);
         }
@@ -993,7 +993,7 @@ static class File
 
                 File_Read(index, ref buffer, buflen);
 
-                length += 1;
+                length++;
                 length &= 0xFFFFFFFE;
 
                 if (buflen < length) File_Seek(index, (int)(length - buflen), 1);
@@ -1008,7 +1008,7 @@ static class File
                 continue;
             }
 
-            length += 1;
+            length++;
             length &= 0xFFFFFFFE;
             File_Seek(index, (int)length, 1);
         }

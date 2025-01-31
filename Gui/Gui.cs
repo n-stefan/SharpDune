@@ -1932,8 +1932,8 @@ static class Gui
 
         if (!fill) GFX_Screen_SetDirty(Screen.ACTIVE, left, top, (ushort)(left + width), (ushort)(top + height));
 
-        width -= 1;
-        height -= 1;
+        width--;
+        height--;
 
         colourSchema = s_colourBorderSchema[colourSchemaIndex];
 
@@ -2626,7 +2626,7 @@ static class Gui
 
         if (creditsAnimationOffset < 0)
         {
-            creditsOld -= 1;
+            creditsOld--;
             if (creditsOld < 0) creditsOld = 0;
 
             offset -= 8;
@@ -2634,7 +2634,7 @@ static class Gui
 
         if (creditsAnimationOffset > 0)
         {
-            creditsNew += 1;
+            creditsNew++;
         }
 
         GUI_DrawSprite(Screen.ACTIVE, g_sprites[12], 0, 0, 4, DRAWSPRITE_FLAG_WIDGETPOS);
