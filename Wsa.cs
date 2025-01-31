@@ -540,8 +540,6 @@ static class Wsa
      */
     static uint WSA_GetFrameOffset_FromDisk(byte fileno, ushort frame)
     {
-        uint offset;
-
         File_Seek(fileno, frame * 4 + 10, 0);
         return File_Read_LE32(fileno);
     }
