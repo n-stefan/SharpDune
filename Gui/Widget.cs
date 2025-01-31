@@ -867,7 +867,6 @@ static class Widget
                 /* Check if we want to consider this as click */
                 if ((buttonLeftFiltered != 0 || buttonRightFiltered != 0) && (widgetHover || !w.flags.requiresClick))
                 {
-
                     if (Convert.ToBoolean(buttonLeftFiltered & 1) || Convert.ToBoolean(buttonRightFiltered & 1))
                     {
                         /* Widget click */

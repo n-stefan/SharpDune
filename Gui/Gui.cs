@@ -1340,7 +1340,6 @@ static class Gui
                     displayLine2 = buffer; //strncpy(displayLine2, buffer, sizeof(displayLine2));
                     fgColour2 = 12;
                     line2Importance = (short)importance;
-
                 }
                 else if (importance >= line3Importance)
                 {
@@ -3933,7 +3932,6 @@ static class Gui
 
         if (score != 0xFFFF)
         {
-
             //snprintf(buffer, sizeof(buffer), String_Get_ByIndex(STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60);
             var buffer = string.Format(Culture, String_Get_ByIndex(Text.STR_TIME_DH_DM), s_ticksPlayed / 60, s_ticksPlayed % 60); //char[64];
 

@@ -118,7 +118,6 @@ static class Mouse
     {
         if (g_mouseHiddenDepth == 0 && (g_mousePrevX != mouseX || g_mousePrevY != mouseY))
         {
-
             if ((g_regionFlags & 0xC000) != 0xC000)
             {
                 GUI_Mouse_Hide();

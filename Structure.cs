@@ -2103,7 +2103,6 @@ static class Structure
 
                     Structure_ConnectWall(position, true);
                     Structure_Free(s);
-
                 }
                 return true;
 

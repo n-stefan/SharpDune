@@ -429,7 +429,6 @@ static class Input
         value = (ushort)(input & 0xFF);
         if ((flags & (ushort)InputFlagsEnum.INPUT_FLAG_NO_CLICK) != 0 && (input & 0x400) == 0)
         {
-
             if (((flags & (ushort)InputFlagsEnum.INPUT_FLAG_UNKNOWN_2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63)
             {
                 input = (ushort)(0x41 | (input & 0xFF00));
@@ -451,7 +450,6 @@ static class Input
             else if ((input & 0x800) == 0 && (value == 0x61 || (value >= 0x5B && value <= 0x67 &&
                   (value <= 0x5D || value >= 0x65 || value == 0x60 || value == 0x62))))
             {
-
                 sbyte dx, dy;
 
                 dx = data_0A9C[value - 0x5B][0];
