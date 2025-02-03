@@ -242,7 +242,7 @@ static class WidgetClick
 
             //g_savegameDesc[i] = string.Empty; //*desc = '\0';
 
-            if (s_savegameIndexBase - i < 0) continue;
+            if (s_savegameIndexBase < i) continue;
 
             if (s_savegameIndexBase - i == s_savegameCountOnDisk)
             {

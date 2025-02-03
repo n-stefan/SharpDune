@@ -530,10 +530,10 @@ static class Gfx
             yDst = 0;
         }
 
-        if (SCREEN_WIDTH - xSrc - width < 0) width = (short)(SCREEN_WIDTH - xSrc);
-        if (SCREEN_HEIGHT - ySrc - height < 0) height = (short)(SCREEN_HEIGHT - ySrc);
-        if (SCREEN_WIDTH - xDst - width < 0) width = (short)(SCREEN_WIDTH - xDst);
-        if (SCREEN_HEIGHT - yDst - height < 0) height = (short)(SCREEN_HEIGHT - yDst);
+        if (SCREEN_WIDTH - xSrc < width) width = (short)(SCREEN_WIDTH - xSrc);
+        if (SCREEN_HEIGHT - ySrc < height) height = (short)(SCREEN_HEIGHT - ySrc);
+        if (SCREEN_WIDTH - xDst < width) width = (short)(SCREEN_WIDTH - xDst);
+        if (SCREEN_HEIGHT - yDst < height) height = (short)(SCREEN_HEIGHT - yDst);
 
         if (xSrc is < 0 or >= (short)SCREEN_WIDTH) return;
         if (xDst is < 0 or >= (short)SCREEN_WIDTH) return;

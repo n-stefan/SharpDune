@@ -467,7 +467,7 @@ static class Wsa
         top = (short)g_widgetProperties[windowID].yBase;
         bottom = (short)(top + g_widgetProperties[windowID].height);
 
-        if (y - top < 0)
+        if (y < top)
         {
             if (y - top + height <= 0) return;
             height += (short)(y - top);
@@ -475,11 +475,11 @@ static class Wsa
             y += (short)(top - y);
         }
 
-        if (bottom - y <= 0) return;
+        if (bottom <= y) return;
         height = Math.Min((short)(bottom - y), height);
 
         skipBefore = 0;
-        if (x - left < 0)
+        if (x < left)
         {
             skipBefore = (short)(left - x);
             x += skipBefore;
@@ -487,7 +487,7 @@ static class Wsa
         }
 
         skipAfter = 0;
-        if (right - x <= 0) return;
+        if (right <= x) return;
         if (right - x < width)
         {
             skipAfter = (short)(width - right + x);
