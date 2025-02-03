@@ -755,7 +755,7 @@ static class Widget
             }
 
             /* Disable when release, enable when click */
-            l_widget_button_state &= (ushort)(~((buttonStateChange & 0x4400) >> 1));
+            l_widget_button_state &= (ushort)~((buttonStateChange & 0x4400) >> 1);
             l_widget_button_state |= (ushort)((buttonStateChange & 0x1100) << 1);
 
             buttonState |= buttonStateChange;
@@ -845,7 +845,7 @@ static class Widget
             triggerWidgetHover = widgetHover;
             if (l_widget_selected != null && l_widget_selected.flags.loseSelect)
             {
-                triggerWidgetHover = (l_widget_selected == w);
+                triggerWidgetHover = l_widget_selected == w;
             }
 
             widgetClick = false;

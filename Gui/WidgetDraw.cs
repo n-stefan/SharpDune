@@ -549,7 +549,7 @@ static class WidgetDraw
                     || House_Get_ByIndex(s.o.houseID).starportTimeLeft != displayedStarportTime
                     || s.o.flags.All != displayedStructureFlags)
                 {
-                    g_structureHighHealth = (s.o.hitpoints > (g_table_structureInfo[s.o.type].o.hitpoints / 2));
+                    g_structureHighHealth = s.o.hitpoints > (g_table_structureInfo[s.o.type].o.hitpoints / 2);
                     actionType = 3; /* Structure */
                 }
             }

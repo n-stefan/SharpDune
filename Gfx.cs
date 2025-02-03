@@ -196,7 +196,7 @@ static class Gfx
     internal static bool GFX_Screen_IsActive(Screen screenID)
     {
         if (screenID == Screen.ACTIVE) return true;
-        return (screenID == s_screenActiveID);
+        return screenID == s_screenActiveID;
     }
 
     /*

@@ -257,7 +257,7 @@ static class Driver
         soundBuffer.index = MPU_SetData(sound.content, (ushort)index, soundBuffer.buffer[0]);
 
         MPU_Play(soundBuffer.index);
-        MPU_SetVolume(soundBuffer.index, (ushort)(((volume & 0xFF) * 90) / 256), 0);
+        MPU_SetVolume(soundBuffer.index, (ushort)((volume & 0xFF) * 90 / 256), 0);
 
         s_bufferSoundIndex = (byte)((s_bufferSoundIndex + 1) % 4);
     }

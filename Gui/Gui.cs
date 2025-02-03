@@ -375,7 +375,7 @@ static class Gui
         }
 
         buf = GFX_Screen_Get_ByIndex(screenID);
-        bufPointer += (g_widgetProperties[windowID].xBase << 3);
+        bufPointer += g_widgetProperties[windowID].xBase << 3;
 
         width = (ushort)(g_widgetProperties[windowID].width << 3);
         top = (short)g_widgetProperties[windowID].yBase;
@@ -5157,7 +5157,7 @@ static class Gui
 
     static ushort GUI_FactoryWindow_CalculateStarportPrice(ushort credits)
     {
-        credits = (ushort)((credits / 10) * 4 + (credits / 10) * (Tools_RandomLCG_Range(0, 6) + Tools_RandomLCG_Range(0, 6)));
+        credits = (ushort)(credits / 10 * 4 + credits / 10 * (Tools_RandomLCG_Range(0, 6) + Tools_RandomLCG_Range(0, 6)));
 
         return Math.Min(credits, (ushort)999);
     }

@@ -407,7 +407,7 @@ static class Mt32Mpu
             if (volume == 0xFF) continue;
 
             /* get scaled volume value, maximum is 127 */
-            volume = (byte)Math.Min((volume * data.globalVolume) / 100, 127);
+            volume = (byte)Math.Min(volume * data.globalVolume / 100, 127);
 
             s_mpu_controls[i].volume = volume;
 

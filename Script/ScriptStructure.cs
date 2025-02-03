@@ -96,7 +96,7 @@ static class ScriptStructure
         u = Unit_Get_ByIndex(s.o.linkedID);
         si = g_table_structureInfo[s.o.type];
 
-        harvesterStep = (ushort)((s.o.hitpoints * 256 / si.o.hitpoints) * 3 / 256);
+        harvesterStep = (ushort)(s.o.hitpoints * 256 / si.o.hitpoints * 3 / 256);
 
         if (u.amount < harvesterStep) harvesterStep = u.amount;
         if (u.amount != 0 && harvesterStep < 1) harvesterStep = 1;
@@ -189,7 +189,7 @@ static class ScriptStructure
 
         u = Unit_Get_ByIndex(s.o.linkedID);
 
-        if ((byte)g_playerHouseID == s.o.houseID && u.o.type == (byte)UnitType.UNIT_HARVESTER && (u.targetLast.x == 0 && u.targetLast.y == 0) && position != 0)
+        if ((byte)g_playerHouseID == s.o.houseID && u.o.type == (byte)UnitType.UNIT_HARVESTER && u.targetLast.x == 0 && u.targetLast.y == 0 && position != 0)
         {
             return (ushort)IndexType.IT_NONE;
         }

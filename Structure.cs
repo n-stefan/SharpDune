@@ -599,7 +599,7 @@ static class Structure
         h = House_Get_ByIndex(s.o.houseID);
         si = g_table_structureInfo[s.o.type];
 
-        h.credits -= (ushort)((h.creditsStorage == 0) ? h.credits : Math.Min(h.credits, (h.credits * 256 / h.creditsStorage) * si.creditsStorage / 256));
+        h.credits -= (ushort)((h.creditsStorage == 0) ? h.credits : Math.Min(h.credits, h.credits * 256 / h.creditsStorage * si.creditsStorage / 256));
 
         if (s.o.houseID != (byte)g_playerHouseID) h.credits += (ushort)(si.o.buildCredits + (g_campaignID > 7 ? si.o.buildCredits / 2 : 0));
 
@@ -950,7 +950,7 @@ static class Structure
                     /* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
                     var repairCost = g_dune2_enhanced
                         ? (ushort)(si.o.buildCredits * 2 / si.o.hitpoints)
-                        : (ushort)(((2 * 256 / si.o.hitpoints) * si.o.buildCredits + 128) / 256);
+                        : (ushort)((2 * 256 / si.o.hitpoints * si.o.buildCredits + 128) / 256);
 
                     if (repairCost <= h.credits)
                     {
@@ -2016,7 +2016,7 @@ static class Structure
             Unit_Free(u);
         }
 
-        House_Get_ByIndex(s.o.houseID).credits += (ushort)(((oi.buildTime - (s.countDown >> 8)) * 256 / oi.buildTime) * oi.buildCredits / 256);
+        House_Get_ByIndex(s.o.houseID).credits += (ushort)((oi.buildTime - (s.countDown >> 8)) * 256 / oi.buildTime * oi.buildCredits / 256);
 
         s.o.flags.onHold = false;
         s.countDown = 0;
@@ -2193,7 +2193,7 @@ static class Structure
             var tilesWithoutSlab = (ushort)-validBuildLocation;
             var structureTileCount = g_table_structure_layoutTileCount[si.layout];
 
-            s.o.hitpoints -= (ushort)((si.o.hitpoints / 2) * tilesWithoutSlab / structureTileCount);
+            s.o.hitpoints -= (ushort)(si.o.hitpoints / 2 * tilesWithoutSlab / structureTileCount);
 
             s.o.flags.degrades = true;
         }

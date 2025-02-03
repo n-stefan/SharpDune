@@ -391,8 +391,8 @@ static class Tile
         distance = newDistance;
 
         orientation = Tools_Random_256();
-        x += (ushort)(((_stepX[orientation] * distance) / 128) * 16);
-        y -= (ushort)(((_stepY[orientation] * distance) / 128) * 16);
+        x += (ushort)(_stepX[orientation] * distance / 128 * 16);
+        y -= (ushort)(_stepY[orientation] * distance / 128 * 16);
 
         if (x > 16384 || y > 16384) return tile;
 

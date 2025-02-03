@@ -156,7 +156,7 @@ static class Config
 
         sum ^= 0xA5;
 
-        return (sum == config.checksum);
+        return sum == config.checksum;
     }
 
     /*

@@ -1964,7 +1964,7 @@ static class Unit
 
         if (unit.o.type == (byte)UnitType.UNIT_HARVESTER)
         {
-            speed = (ushort)(((255 - unit.amount) * speed) / 256);
+            speed = (ushort)((255 - unit.amount) * speed / 256);
         }
 
         if (speed is 0 or >= 256)
@@ -2844,7 +2844,7 @@ static class Unit
                 }
             }
 
-            ret = (unit.distanceToDestination < distance || distance < 16);
+            ret = unit.distanceToDestination < distance || distance < 16;
 
             if (ret)
             {
@@ -2903,7 +2903,7 @@ static class Unit
 
                     if (unit.o.type == (byte)UnitType.UNIT_SABOTEUR)
                     {
-                        var detonate = (Map_GetLandscapeType(Tile_PackTile(newPosition)) == (ushort)LandscapeType.LST_WALL);
+                        var detonate = Map_GetLandscapeType(Tile_PackTile(newPosition)) == (ushort)LandscapeType.LST_WALL;
 
                         if (!detonate)
                         {
@@ -3087,7 +3087,7 @@ static class Unit
 
             if (s.o.type == (byte)StructureType.STRUCTURE_REPAIR)
             {
-                var countDown = (ushort)(((ui.o.hitpoints - unit.o.hitpoints) * 256 / ui.o.hitpoints) * (ui.o.buildTime << 6) / 256);
+                var countDown = (ushort)((ui.o.hitpoints - unit.o.hitpoints) * 256 / ui.o.hitpoints * (ui.o.buildTime << 6) / 256);
 
                 s.countDown = countDown > 1 ? countDown : (ushort)1;
                 unit.o.hitpoints = ui.o.hitpoints;

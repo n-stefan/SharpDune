@@ -228,10 +228,10 @@ static class House
 
         if (houseID1 == (byte)HouseType.HOUSE_FREMEN || houseID2 == (byte)HouseType.HOUSE_FREMEN)
         {
-            return (houseID1 == (byte)HouseType.HOUSE_ATREIDES || houseID2 == (byte)HouseType.HOUSE_ATREIDES);
+            return houseID1 == (byte)HouseType.HOUSE_ATREIDES || houseID2 == (byte)HouseType.HOUSE_ATREIDES;
         }
 
-        return (houseID1 != (byte)g_playerHouseID && houseID2 != (byte)g_playerHouseID);
+        return houseID1 != (byte)g_playerHouseID && houseID2 != (byte)g_playerHouseID;
     }
 
     /*

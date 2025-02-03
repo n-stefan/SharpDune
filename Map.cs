@@ -258,7 +258,7 @@ static class Map
 
         mapInfo = g_mapInfos[g_scenario.mapScale];
 
-        return (mapInfo.minX <= x && x < (mapInfo.minX + mapInfo.sizeX) && mapInfo.minY <= y && y < (mapInfo.minY + mapInfo.sizeY));
+        return mapInfo.minX <= x && x < (mapInfo.minX + mapInfo.sizeX) && mapInfo.minY <= y && y < (mapInfo.minY + mapInfo.sizeY);
     }
 
     static ushort selectionLayout;

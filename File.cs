@@ -704,7 +704,7 @@ static class File
     {
         var buffer = new byte[2];
         Write_LE_UInt16(buffer, value);
-        return (File_Write(index, buffer, 2) == 2);
+        return File_Write(index, buffer, 2) == 2;
     }
 
     /*

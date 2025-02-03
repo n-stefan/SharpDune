@@ -521,7 +521,7 @@ static class Input
         }
 
         index = (ushort)((value & 0x7F) >> 3);
-        bit_value <<= (value & 7);
+        bit_value <<= value & 7;
         if ((bit_value & s_activeInputMap[index]) != 0 && (flags & (ushort)InputFlagsEnum.INPUT_FLAG_KEY_REPEAT) == 0)
         {
             s_historyTail = oldTail;

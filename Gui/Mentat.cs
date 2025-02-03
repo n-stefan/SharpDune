@@ -1373,7 +1373,7 @@ static class Mentat
 
         for (i = 0; i < s_selectedHelpSubject; i++) subjectPointer = String_NextString(subject, subjectPointer);
 
-        noDesc = (subject[subjectPointer + 5] == '0');  /* or no WSA file ? */
+        noDesc = subject[subjectPointer + 5] == '0';  /* or no WSA file ? */
         offset = HToBE32(Read_LE_UInt32(subject.Slice(subjectPointer + 1)));
 
         fileID = ChunkFile_Open(s_mentatFilename);

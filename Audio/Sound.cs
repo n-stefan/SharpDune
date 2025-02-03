@@ -59,7 +59,7 @@ static class Sound
         musicBuffer.index = MPU_SetData(music.content, (ushort)index, musicBuffer.buffer[0]);
 
         MPU_Play(musicBuffer.index);
-        MPU_SetVolume(musicBuffer.index, (ushort)(((volume & 0xFF) * 90) / 256), 0);
+        MPU_SetVolume(musicBuffer.index, (ushort)((volume & 0xFF) * 90 / 256), 0);
     }
 
     static void Driver_Music_LoadFile(string musicName)
