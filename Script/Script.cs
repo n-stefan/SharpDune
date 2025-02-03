@@ -525,7 +525,7 @@ static class Script
      * @return Returns false if and only if there was an scripting error, like
      *   invalid opcode.
      */
-    internal static bool Script_Run(ScriptEngine script, [CallerFilePath] string filename = default, [CallerLineNumber] int lineno = default)
+    internal static bool Script_Run(ScriptEngine script)
     {
         ScriptInfo scriptInfo;
         ushort current, parameter;
