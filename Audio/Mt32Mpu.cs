@@ -943,7 +943,7 @@ static class Mt32Mpu
                 break;
 
             case 115:   /* INDIRECT_C_PFX */
-                Debug.Assert(false); /* Not decompiled code */
+                Debug.Fail(string.Empty); /* Not decompiled code */
                 break;
 
             case 116:
@@ -987,7 +987,7 @@ static class Mt32Mpu
 
             case 118:   /* CLEAR_BEAT_BAR */
             case 119:   /* CALLBACK_TRIG */
-                Debug.Assert(false); /* Not decompiled code */
+                Debug.Fail(string.Empty); /* Not decompiled code */
                 break;
 
             default:
