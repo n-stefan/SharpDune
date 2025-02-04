@@ -160,10 +160,7 @@ static class Wsa
         {
             frameCount = (short)(header.frames - header.frameCurrent + frameNext);
 
-            if (frameCount < frameDiff && !header.flags.noAnimation)
-            {
-            }
-            else
+            if (frameCount >= frameDiff || header.flags.noAnimation)
             {
                 direction = -1;
                 frameCount = frameDiff;

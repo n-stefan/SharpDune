@@ -1217,9 +1217,8 @@ static class ScriptUnit
                 byte[][] routesBuffer = [new byte[102], new byte[102]]; //new byte[2][]; //[2][102]
                 Pathfinder_Data bestRoute;
 
-                while (true)
+                while (packedNext != packedDst)
                 {
-                    if (packedNext == packedDst) break;
 
                     /* Find the first valid tile on the (direct) route. */
                     dir = (byte)(Tile_GetDirectionPacked(packedNext, packedDst) / 32);

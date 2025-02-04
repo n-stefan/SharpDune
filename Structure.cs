@@ -2317,9 +2317,8 @@ static class Structure
         /* AIs get the full upgrade immediately */
         if (houseID != (byte)g_playerHouseID)
         {
-            while (true)
+            while (Structure_IsUpgradable(s))
             {
-                if (!Structure_IsUpgradable(s)) break;
                 s.upgradeLevel++;
             }
             s.upgradeTimeLeft = 0;

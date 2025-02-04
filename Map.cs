@@ -1647,26 +1647,24 @@ static class Map
             Tile32 tile;
             ushort packed;
 
-            while (true)
+            do
             {
                 packed = (ushort)(Tools_Random_256() & 0x3F);
                 packed = Tile_PackXY((ushort)(Tools_Random_256() & 0x3F), packed);
-
-                if (g_table_landscapeInfo[g_map[packed].groundTileID].canBecomeSpice) break;
             }
+            while (!g_table_landscapeInfo[g_map[packed].groundTileID].canBecomeSpice);
 
             tile = Tile_UnpackTile(packed);
 
             j = (ushort)(Tools_Random_256() & 0x1F);
             while (j-- != 0)
             {
-                while (true)
+                do
                 {
                     packed = (ushort)((Tile_GetPosY(Tile_MoveByRandom(tile, (ushort)(Tools_Random_256() & 0x3F), true)) << 6) |
                         Tile_GetPosX(Tile_MoveByRandom(tile, (ushort)(Tools_Random_256() & 0x3F), true)));
-
-                    if (!Tile_IsOutOfMap(packed)) break;
                 }
+                while (Tile_IsOutOfMap(packed));
 
                 Map_AddSpiceOnTile(packed);
             }
