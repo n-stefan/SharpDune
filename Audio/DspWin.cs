@@ -163,14 +163,19 @@ partial class DspWin
     public enum WaveHeaderFlags
     {
         /// <summary>
-        /// This buffer is the first buffer in a loop.  This flag is used only with output buffers.
-        /// </summary>
-        BeginLoop = 0x00000004,
-
-        /// <summary>
         /// Set by the device driver to indicate that it is finished with the buffer and is returning it to the application.
         /// </summary>
         Done = 0x00000001,
+
+        /// <summary>
+        /// Set by Windows to indicate that the buffer has been prepared with the waveInPrepareHeader or waveOutPrepareHeader function.
+        /// </summary>
+        Prepared = 0x00000002,
+
+        /// <summary>
+        /// This buffer is the first buffer in a loop.  This flag is used only with output buffers.
+        /// </summary>
+        BeginLoop = 0x00000004,
 
         /// <summary>
         /// This buffer is the last buffer in a loop.  This flag is used only with output buffers.
@@ -180,12 +185,7 @@ partial class DspWin
         /// <summary>
         /// Set by Windows to indicate that the buffer is queued for playback.
         /// </summary>
-        InQueue = 0x00000010,
-
-        /// <summary>
-        /// Set by Windows to indicate that the buffer has been prepared with the waveInPrepareHeader or waveOutPrepareHeader function.
-        /// </summary>
-        Prepared = 0x00000002
+        InQueue = 0x00000010
     }
 
     /// <summary>
@@ -236,6 +236,26 @@ partial class DspWin
         CALLBACK_NULL = 0x00000,
 
         /// <summary>
+        /// If this flag is specified, <see cref="NativeMethods.waveOutOpen"/> queries the device to determine if it supports the given format, but the device is not actually opened.
+        /// </summary>
+        WAVE_FORMAT_QUERY = 0x00001,
+
+        /// <summary>
+        /// If this flag is specified, a synchronous waveform-audio device can be opened. If this flag is not specified while opening a synchronous driver, the device will fail to open.
+        /// </summary>
+        WAVE_ALLOWSYNC = 0x00002,
+
+        /// <summary>
+        /// If this flag is specified, the uDeviceID parameter specifies a waveform-audio device to be mapped to by the wave mapper.
+        /// </summary>
+        WAVE_MAPPED = 0x00004,
+
+        /// <summary>
+        /// If this flag is specified, the ACM driver does not perform conversions on the audio data.
+        /// </summary>
+        WAVE_FORMAT_DIRECT = 0x00008,
+
+        /// <summary>
         /// Indicates the dwCallback parameter is a window handle.
         /// </summary>
         CALLBACK_WINDOW = 0x10000,
@@ -254,27 +274,7 @@ partial class DspWin
         /// <summary>
         /// The dwCallback parameter is a callback procedure address.
         /// </summary>
-        CALLBACK_FUNCTION = 0x30000,
-
-        /// <summary>
-        /// If this flag is specified, <see cref="NativeMethods.waveOutOpen"/> queries the device to determine if it supports the given format, but the device is not actually opened.
-        /// </summary>
-        WAVE_FORMAT_QUERY = 0x00001,
-
-        /// <summary>
-        /// If this flag is specified, a synchronous waveform-audio device can be opened. If this flag is not specified while opening a synchronous driver, the device will fail to open.
-        /// </summary>
-        WAVE_ALLOWSYNC = 0x00002,
-
-        /// <summary>
-        /// If this flag is specified, the uDeviceID parameter specifies a waveform-audio device to be mapped to by the wave mapper.
-        /// </summary>
-        WAVE_MAPPED = 0x00004,
-
-        /// <summary>
-        /// If this flag is specified, the ACM driver does not perform conversions on the audio data.
-        /// </summary>
-        WAVE_FORMAT_DIRECT = 0x00008
+        CALLBACK_FUNCTION = 0x30000
     }
 
     /// <summary>

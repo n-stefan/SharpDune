@@ -5,11 +5,11 @@ static class PoolStructure
     internal enum StructureIndex
     {
         STRUCTURE_INDEX_MAX_SOFT = 79,                          /*!< The highest possible index for normal Structure. */
-        STRUCTURE_INDEX_MAX_HARD = 82,                          /*!< The highest possible index for any Structure. */
 
         STRUCTURE_INDEX_WALL = 79,                              /*!< All walls are are put under index 79. */
         STRUCTURE_INDEX_SLAB_2x2 = 80,                          /*!< All 2x2 slabs are put under index 80. */
         STRUCTURE_INDEX_SLAB_1x1 = 81,                          /*!< All 1x1 slabs are put under index 81. */
+        STRUCTURE_INDEX_MAX_HARD = 82,                          /*!< The highest possible index for any Structure. */
 
         STRUCTURE_INDEX_INVALID = 0xFFFF
     }

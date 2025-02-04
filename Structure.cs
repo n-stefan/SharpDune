@@ -61,6 +61,9 @@ enum StructureState
 [Flags]
 enum StructureFlag
 {
+    FLAG_STRUCTURE_NEVER = -1,                                /*!< Special flag to mark that certain buildings can never be built on a Construction Yard. */
+
+    FLAG_STRUCTURE_NONE = 0,
     FLAG_STRUCTURE_SLAB_1x1 = 1 << StructureType.STRUCTURE_SLAB_1x1,          /* 0x____01 */
     FLAG_STRUCTURE_SLAB_2x2 = 1 << StructureType.STRUCTURE_SLAB_2x2,          /* 0x____02 */
     FLAG_STRUCTURE_PALACE = 1 << StructureType.STRUCTURE_PALACE,            /* 0x____04 */
@@ -79,10 +82,7 @@ enum StructureFlag
     FLAG_STRUCTURE_TURRET = 1 << StructureType.STRUCTURE_TURRET,            /* 0x__80__ */
     FLAG_STRUCTURE_ROCKET_TURRET = 1 << StructureType.STRUCTURE_ROCKET_TURRET,     /* 0x01____ */
     FLAG_STRUCTURE_SILO = 1 << StructureType.STRUCTURE_SILO,              /* 0x02____ */
-    FLAG_STRUCTURE_OUTPOST = 1 << StructureType.STRUCTURE_OUTPOST,           /* 0x04____ */
-
-    FLAG_STRUCTURE_NONE = 0,
-    FLAG_STRUCTURE_NEVER = -1                                /*!< Special flag to mark that certain buildings can never be built on a Construction Yard. */
+    FLAG_STRUCTURE_OUTPOST = 1 << StructureType.STRUCTURE_OUTPOST           /* 0x04____ */
 }
 
 /*
