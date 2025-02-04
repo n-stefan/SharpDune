@@ -139,7 +139,7 @@ static class String
 
         if (g_config.language == (byte)Language.GERMAN)
         {
-            s_strings[Array.FindIndex(s_strings, s => s == "Ziel w\u0084hlen\rZeit-Minus: {0}")] = "Ziel w\u0084hlen\rZ-Minus: {0}";
+            s_strings[Array.FindIndex(s_strings, s => string.Equals(s, "Ziel w\u0084hlen\rZeit-Minus: {0}", StringComparison.Ordinal))] = "Ziel w\u0084hlen\rZ-Minus: {0}";
         }
     }
 

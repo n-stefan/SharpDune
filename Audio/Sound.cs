@@ -105,7 +105,7 @@ static class Sound
 
         currentMusicID = musicID;
 
-        if (g_table_musics[musicID].name != s_currentMusic)
+        if (!string.Equals(g_table_musics[musicID].name, s_currentMusic, StringComparison.Ordinal))
         {
             s_currentMusic = g_table_musics[musicID].name;
 
