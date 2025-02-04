@@ -1219,7 +1219,6 @@ static class ScriptUnit
 
                 while (packedNext != packedDst)
                 {
-
                     /* Find the first valid tile on the (direct) route. */
                     dir = (byte)(Tile_GetDirectionPacked(packedNext, packedDst) / 32);
                     packedNext += (ushort)s_mapDirection[dir];
