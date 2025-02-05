@@ -279,7 +279,6 @@ static class Widget
 
     internal static CWidget GUI_Widget_GetNext(CWidget w)
     {
-        if (w.next == null) return null;
         return w.next;
     }
 

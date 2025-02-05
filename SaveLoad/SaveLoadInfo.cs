@@ -132,9 +132,7 @@ static class SaveLoadInfo
      */
     internal static bool Info_LoadOld(BinaryReader fp)
     {
-        if (!SaveLoad_Load(s_saveInfoOld, fp, null)) return false;
-
-        return true;
+        return SaveLoad_Load(s_saveInfoOld, fp, null);
     }
 
     //static ushort savegameVersion = 0x0290;

@@ -152,9 +152,7 @@ static class SaveLoadUnit
 
             length -= SaveLoad_GetLength(s_saveUnitNew);
         }
-        if (length != 0) return false;
-
-        return true;
+        return length == 0;
     }
 
     /*

@@ -99,9 +99,7 @@ static class SaveLoadMap
                 g_mapTileID[i] |= 0x8000;
             }
         }
-        if (length != 0) return false;
-
-        return true;
+        return length == 0;
     }
 
     /*

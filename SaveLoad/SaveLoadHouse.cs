@@ -64,9 +64,7 @@ static class SaveLoadHouse
                 if (hl.starportLinkedID != 0xFFFF && hl.starportTimeLeft == 0) hl.starportTimeLeft = 1;
             }
         }
-        if (length != 0) return false;
-
-        return true;
+        return length == 0;
     }
 
     /*
@@ -93,9 +91,7 @@ static class SaveLoadHouse
 
             length -= SaveLoad_GetLength(s_saveHouse);
         }
-        if (length == 0) return false;
-
-        return true;
+        return length != 0;
     }
 
     /*

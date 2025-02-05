@@ -356,13 +356,10 @@ static class Structure
             if (s.upgradeLevel != 1) return true;
 
             h = House_Get_ByIndex(s.o.houseID);
-            if ((h.structuresBuilt & g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) return true;
-
-            return false;
+            return (h.structuresBuilt & g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_table_structureInfo[(int)StructureType.STRUCTURE_ROCKET_TURRET].o.structuresRequired;
         }
 
-        if (s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_WOR_TROOPER && s.upgradeLevel == 0 && g_campaignID > 3) return true;
-        return false;
+        return s.o.houseID == (byte)HouseType.HOUSE_HARKONNEN && s.o.type == (byte)StructureType.STRUCTURE_WOR_TROOPER && s.upgradeLevel == 0 && g_campaignID > 3;
     }
 
     /*
