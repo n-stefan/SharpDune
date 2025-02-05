@@ -151,7 +151,7 @@ static class Driver
     {
         Debug.Assert(buffer != null);
 
-        if (filename == null) return;
+        if (filename == default) return;
         if (g_driverVoice.index == 0xFFFF) return;
 
         File_ReadBlockFile(filename, buffer, length);

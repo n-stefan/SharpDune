@@ -476,7 +476,7 @@ static class Sound
 
         retFileSize = 0;
 
-        if (filename == null) return null;
+        if (filename == default) return null;
         if (!File_Exists_GetSize(filename, out var fileSize)) return null;
 
         fileSize++;

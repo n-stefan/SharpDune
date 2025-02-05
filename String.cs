@@ -235,7 +235,7 @@ static class String
      */
     internal static string String_TranslateSpecial(ReadOnlySpan<char> str)
     {
-        if (str == null) return null;
+        if (str == default) return null;
 
         var dest = new StringBuilder();
         var strPointer = 0;

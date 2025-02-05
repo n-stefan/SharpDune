@@ -251,7 +251,7 @@ static class SaveLoad
             ptr = null;
 
             member = sld[c].member;
-            if (type != null && member != null)
+            if (type != null && member != default)
             {
                 index = member.IndexOf('.');
 
@@ -461,7 +461,7 @@ static class SaveLoad
             value = 0;
 
             member = sld[c].member;
-            if (type != null && member != null)
+            if (type != null && member != default)
             {
                 index = member.IndexOf('.');
 

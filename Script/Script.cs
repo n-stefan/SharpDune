@@ -435,7 +435,7 @@ static class Script
 
         Script_ClearInfo(scriptInfo);
 
-        scriptInfo.isAllocated = (ushort)((data == null) ? 1 : 0);
+        scriptInfo.isAllocated = (ushort)((data == default) ? 1 : 0);
 
         scriptInfo.functions = functions;
 
@@ -448,7 +448,7 @@ static class Script
 
         if (length != 0)
         {
-            if (data != null)
+            if (data != default)
             {
                 scriptInfo.text = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
                 dataPointer += (int)length;
@@ -471,7 +471,7 @@ static class Script
             return 0;
         }
 
-        if (data != null)
+        if (data != default)
         {
             scriptInfo.offsets = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
             dataPointer += (int)length;
@@ -499,7 +499,7 @@ static class Script
             return 0;
         }
 
-        if (data != null)
+        if (data != default)
         {
             scriptInfo.start = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
             //dataPointer += (int)length;

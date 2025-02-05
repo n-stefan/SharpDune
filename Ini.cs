@@ -11,7 +11,7 @@ partial class Ini
     {
         var result = defaultValue;
 
-        if (source == null) return result;
+        if (source == default) return result;
 
         var start = source.IndexOf($"[{category}]", StringComparison.OrdinalIgnoreCase);
         if (start == -1) return result;
@@ -20,7 +20,7 @@ partial class Ini
         var end = section.IndexOf('[');
         if (end != -1) section = section.Slice(0, end);
 
-        if (key != null)
+        if (key != default)
         {
             var pattern = $"^{key}[\t ]*=[\t ]*(.*)$";
             var match = Regex.Match(section.ToString(), pattern, RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase);

@@ -84,7 +84,7 @@ static class Sprites
         ushort size;
         var spritePointer = 0;
 
-        if (sprite == null || g_mouseDisabled != 0) return;
+        if (sprite == default || g_mouseDisabled != 0) return;
 
         while (g_mouseLock != 0) SleepIdle();
 
@@ -335,7 +335,7 @@ static class Sprites
             byte[] dst = null;
 
             Debug.WriteLine($"DEBUG: Sprites {filename} {i} : {Read_LE_UInt16(src)} {Read_LE_UInt16(src.Slice(3)) /* flags */} {src[2] /* width */} {src[5] /* height */} {Read_LE_UInt16(src.Slice(6)) /* packed size */} {Read_LE_UInt16(src.Slice(8)) /* decoded size */}");
-            if (src != null)
+            if (src != default)
             {
                 if (g_unpackSHPonLoad && (src[0] & 0x2) == 0)
                 {
@@ -500,7 +500,7 @@ static class Sprites
         uint offset;
         var bufferPointer = 0;
 
-        if (buffer == null) return null;
+        if (buffer == default) return null;
         if (Read_LE_UInt16(buffer) <= index) return null;
 
         bufferPointer += 2;

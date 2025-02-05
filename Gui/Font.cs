@@ -47,7 +47,7 @@ static class Font
      * @return The width of the string in pixels.
      */
     internal static ushort Font_GetStringWidth(ReadOnlySpan<char> str) =>
-        (ushort)((str == null) ? 0 : str.ToString().Sum(c => Font_GetCharWidth(c)));
+        (ushort)((str == default) ? 0 : str.ToString().Sum(c => Font_GetCharWidth(c)));
 
     /*
      * Get the width of a char in pixels.

@@ -344,7 +344,7 @@ static class Gui
         var spriteSavePointer = 0;
         var apPointer = 0;
 
-        if (sprite == null) return;
+        if (sprite == default) return;
 
         /* read additional arguments according to the flags */
 
@@ -2805,7 +2805,7 @@ static class Gui
         var data = new byte[256 * 3];
         int i;
 
-        if (palette == null) return;
+        if (palette == default) return;
 
         Array.Copy(g_paletteActive, data, 256 * 3); //memcpy(data, g_paletteActive, 256 * 3);
 
