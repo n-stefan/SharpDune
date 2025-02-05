@@ -277,10 +277,8 @@ static class Widget
         return null;
     }
 
-    internal static CWidget GUI_Widget_GetNext(CWidget w)
-    {
-        return w.next;
-    }
+    internal static CWidget GUI_Widget_GetNext(CWidget w) =>
+        w.next;
 
     /*
      * Make the widget invisible.

@@ -130,10 +130,8 @@ static class SaveLoadInfo
      * @param length The length of the data chunk.
      * @return True if and only if all bytes were read successful.
      */
-    internal static bool Info_LoadOld(BinaryReader fp)
-    {
-        return SaveLoad_Load(s_saveInfoOld, fp, null);
-    }
+    internal static bool Info_LoadOld(BinaryReader fp) =>
+        SaveLoad_Load(s_saveInfoOld, fp, null);
 
     //static ushort savegameVersion = 0x0290;
     /*
