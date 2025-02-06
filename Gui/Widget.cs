@@ -286,7 +286,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeInvisible(CWidget w)
     {
-        if (w?.flags.invisible != false) return;
+        if (w?.flags.invisible == true) return;
         w.flags.invisible = true;
 
         GUI_Widget_Draw(w);
@@ -298,7 +298,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeVisible(CWidget w)
     {
-        if (w?.flags.invisible != true) return;
+        if (w?.flags.invisible == false) return;
         w.flags.invisible = false;
 
         GUI_Widget_Draw(w);
@@ -312,7 +312,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeNormal(CWidget w, bool clickProc)
     {
-        if (w?.flags.invisible != false) return;
+        if (w?.flags.invisible == true) return;
 
         w.state.selectedLast = w.state.selected;
         w.state.hover1Last = w.state.hover2;
@@ -478,7 +478,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeSelected(CWidget w, bool clickProc)
     {
-        if (w?.flags.invisible != false) return;
+        if (w?.flags.invisible == true) return;
 
         w.state.selectedLast = w.state.selected;
 

@@ -351,7 +351,7 @@ static class Unit
         CTile t;
         ushort radius;
 
-        if (unit?.o.flags.isNotOnMap != false || !unit.o.flags.used) return;
+        if (unit?.o.flags.isNotOnMap == true || !unit.o.flags.used) return;
 
         ui = g_table_unitInfo[unit.o.type];
 
@@ -1146,7 +1146,7 @@ static class Unit
         var alive = false;
         byte houseID;
 
-        if (unit?.o.flags.allocated != true) return false;
+        if (unit?.o.flags.allocated == false) return false;
 
         ui = g_table_unitInfo[unit.o.type];
 
@@ -2699,7 +2699,7 @@ static class Unit
         var isSpiceBloom = false;
         const bool isSpecialBloom = false;
 
-        if (unit?.o.flags.used != true) return false;
+        if (unit?.o.flags.used == false) return false;
 
         ui = g_table_unitInfo[unit.o.type];
 
