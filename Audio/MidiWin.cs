@@ -35,7 +35,7 @@ partial class MidiWin
     static /*HMIDIOUT*/nint s_midi = nint.Zero;
 
     [Flags]
-    public enum MidiOutOpenFlags
+    internal enum MidiOutOpenFlags
     {
         Null,
         Function,

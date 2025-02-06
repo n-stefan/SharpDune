@@ -43,7 +43,7 @@ partial class DspWin
     /// <summary>
     /// Used as a return result from many of the WinMM calls.
     /// </summary>
-    public enum MMSYSERROR
+    internal enum MMSYSERROR
     {
         /// <summary>
         /// No Error. (Success)
@@ -160,7 +160,7 @@ partial class DspWin
     /// Flags supplying information about the buffer. The following values are defined:
     /// </summary>
     [Flags]
-    public enum WaveHeaderFlags
+    internal enum WaveHeaderFlags
     {
         /// <summary>
         /// Set by the device driver to indicate that it is finished with the buffer and is returning it to the application.
@@ -191,7 +191,7 @@ partial class DspWin
     /// <summary>
     /// Indicates a wave data sample format.
     /// </summary>
-    public enum WaveFormatTag
+    internal enum WaveFormatTag
     {
         /// <summary>
         /// Indicates an invalid sample format.
@@ -228,7 +228,7 @@ partial class DspWin
     /// Used with the <see cref="NativeMethods.waveOutOpen"/> command.
     /// </summary>
     [Flags]
-    public enum WaveOpenFlags
+    internal enum WaveOpenFlags
     {
         /// <summary>
         /// No callback mechanism. This is the default setting.
@@ -280,7 +280,7 @@ partial class DspWin
     /// <summary>
     /// Indicates a WaveOut message.
     /// </summary>
-    public enum WaveOutMessage
+    internal enum WaveOutMessage
     {
         /// <summary>
         /// Not Used. Indicates that there is no message.
@@ -307,7 +307,7 @@ partial class DspWin
     /// Describes the full format of a wave formatted stream.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    public struct WAVEFORMATEX
+    internal struct WAVEFORMATEX
     {
         /// <summary>
         /// The wave format of the stream.
@@ -349,7 +349,7 @@ partial class DspWin
     /// The WAVEHDR structure defines the header used to identify a waveform-audio buffer.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    public struct WAVEHDR
+    internal struct WAVEHDR
     {
         /// <summary>
         /// Pointer to the waveform buffer.
@@ -392,7 +392,7 @@ partial class DspWin
         public int reserved;
     }
 
-    public delegate void WaveOutProc(nint handle, WaveOutMessage uMsg, nint dwInstance, nint dwParam1, nint dwParam2);
+    internal delegate void WaveOutProc(nint handle, WaveOutMessage uMsg, nint dwInstance, nint dwParam1, nint dwParam2);
 
     [LibraryImport(LibraryName, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.SafeDirectories)]
     private static partial MMSYSERROR waveOutReset(nint handle);
