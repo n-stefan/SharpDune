@@ -287,7 +287,7 @@ static class Unit
     {
         if (unit == g_unitSelected) return;
 
-        if (unit != null && !unit.o.flags.allocated && !g_debugGame)
+        if (unit?.o.flags.allocated == false && !g_debugGame)
         {
             unit = null;
         }
@@ -351,7 +351,7 @@ static class Unit
         CTile t;
         ushort radius;
 
-        if (unit == null || unit.o.flags.isNotOnMap || !unit.o.flags.used) return;
+        if (unit?.o.flags.isNotOnMap != false || !unit.o.flags.used) return;
 
         ui = g_table_unitInfo[unit.o.type];
 
@@ -1146,7 +1146,7 @@ static class Unit
         var alive = false;
         byte houseID;
 
-        if (unit == null || !unit.o.flags.allocated) return false;
+        if (unit?.o.flags.allocated != true) return false;
 
         ui = g_table_unitInfo[unit.o.type];
 
@@ -2699,7 +2699,7 @@ static class Unit
         var isSpiceBloom = false;
         const bool isSpecialBloom = false;
 
-        if (unit == null || !unit.o.flags.used) return false;
+        if (unit?.o.flags.used != true) return false;
 
         ui = g_table_unitInfo[unit.o.type];
 

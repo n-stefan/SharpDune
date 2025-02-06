@@ -313,7 +313,7 @@ static class General
 
         o = Tools_Index_GetObject(index);
 
-        if (o == null || o.flags.isNotOnMap || !o.flags.used) return 0;
+        if (o?.flags.isNotOnMap != false || !o.flags.used) return 0;
 
         res = Script_General_IsEnemy(script);
 

@@ -286,7 +286,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeInvisible(CWidget w)
     {
-        if (w == null || w.flags.invisible) return;
+        if (w?.flags.invisible != false) return;
         w.flags.invisible = true;
 
         GUI_Widget_Draw(w);
@@ -298,7 +298,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeVisible(CWidget w)
     {
-        if (w == null || !w.flags.invisible) return;
+        if (w?.flags.invisible != true) return;
         w.flags.invisible = false;
 
         GUI_Widget_Draw(w);
@@ -312,7 +312,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeNormal(CWidget w, bool clickProc)
     {
-        if (w == null || w.flags.invisible) return;
+        if (w?.flags.invisible != false) return;
 
         w.state.selectedLast = w.state.selected;
         w.state.hover1Last = w.state.hover2;
@@ -478,7 +478,7 @@ static class Widget
      */
     internal static void GUI_Widget_MakeSelected(CWidget w, bool clickProc)
     {
-        if (w == null || w.flags.invisible) return;
+        if (w?.flags.invisible != false) return;
 
         w.state.selectedLast = w.state.selected;
 
@@ -840,7 +840,7 @@ static class Widget
 
             /* Check if we should trigger the hover activation */
             triggerWidgetHover = widgetHover;
-            if (l_widget_selected != null && l_widget_selected.flags.loseSelect)
+            if (l_widget_selected?.flags.loseSelect == true)
             {
                 triggerWidgetHover = l_widget_selected == w;
             }

@@ -1379,8 +1379,8 @@ static class SharpDune
             var u = Unit_Get_ByPackedTile((ushort)i);
             s = Structure_Get_ByPackedTile((ushort)i);
 
-            if (u == null || !u.o.flags.used) t[tPointer].hasUnit = false;
-            if (s == null || !s.o.flags.used) t[tPointer].hasStructure = false;
+            if (u?.o.flags.used != true) t[tPointer].hasUnit = false;
+            if (s?.o.flags.used != true) t[tPointer].hasStructure = false;
             if (t[tPointer].isUnveiled) Map_UnveilTile((ushort)i, (byte)g_playerHouseID);
         }
 

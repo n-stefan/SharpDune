@@ -414,9 +414,9 @@ static class SaveLoad
                         break;
 
                     case SLDT_SLD:
-                        subPtr = (field != null && field.FieldType.IsArray) ?
+                        subPtr = (field?.FieldType.IsArray == true) ?
                             (field.GetValue(ptr) as Array).GetValue(i) :
-                            (field != null && field.FieldType.IsClass) ?
+                            (field?.FieldType.IsClass == true) ?
                             field.GetValue(ptr) :
                             ptr;
 
