@@ -1383,7 +1383,7 @@ static class ScriptUnit
         {
             var s = Tools_Index_GetStructure(Unit_Get_ByIndex(u.o.linkedID).originEncoded);
 
-            if (s?.state == (short)StructureState.STRUCTURE_STATE_IDLE && s.o.script.variables[4] == 0)
+            if (s != null && s.state == (short)StructureState.STRUCTURE_STATE_IDLE && s.o.script.variables[4] == 0)
             {
                 var encoded = Tools_Index_Encode(s.o.index, IndexType.IT_STRUCTURE);
 
