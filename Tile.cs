@@ -426,8 +426,8 @@ static class Tile
         roundingOffsetX = diffX < 0 ? -64 : 64;
         roundingOffsetY = diffY < 0 ? -64 : 64;
 
-        tile.x += (ushort)((diffX * distance + roundingOffsetX) / 128);
-        tile.y -= (ushort)((diffY * distance + roundingOffsetY) / 128);
+        tile.x += (ushort)(((diffX * distance) + roundingOffsetX) / 128);
+        tile.y -= (ushort)(((diffY * distance) + roundingOffsetY) / 128);
 
         return tile;
     }

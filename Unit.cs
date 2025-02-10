@@ -634,7 +634,7 @@ static class Unit
 
                             s = Structure_Find(find);
                             feedbackID = s != null
-                                ? (ushort)(((Orientation_Orientation256ToOrientation8((byte)Tile_GetDirection(s.o.position, unit.o.position)) + 1) & 7) / 2 + 2)
+                                ? (ushort)((((Orientation_Orientation256ToOrientation8((byte)Tile_GetDirection(s.o.position, unit.o.position)) + 1) & 7) / 2) + 2)
                                 : (ushort)1;
 
                             Sound_Output_Feedback(feedbackID);
@@ -960,7 +960,7 @@ static class Unit
         /* Check if the unit is travelling diagonally. */
         if ((orient8 & 1) != 0)
         {
-            res -= (ushort)(res / 4 + res / 8);
+            res -= (ushort)((res / 4) + (res / 8));
         }
 
         /* 'Invert' the speed to get a rough estimate of the time taken. */
@@ -2318,7 +2318,7 @@ static class Unit
 
                     if (ui.flags.notAccurate)
                     {
-                        bullet.currentDestination = Tile_MoveByRandom(tile, (ushort)((Tools_Random_256() & 0xF) != 0 ? Tile_GetDistance(position, tile) / 256 + 8 : Tools_Random_256() + 8), false);
+                        bullet.currentDestination = Tile_MoveByRandom(tile, (ushort)((Tools_Random_256() & 0xF) != 0 ? (Tile_GetDistance(position, tile) / 256) + 8 : Tools_Random_256() + 8), false);
                     }
 
                     bullet.fireDelay = (ushort)(ui.fireDistance & 0xFF);
@@ -2837,7 +2837,7 @@ static class Unit
                 {
                     unit.o.position = newPosition;
 
-                    Map_MakeExplosion((ushort)((ui.explosionType + unit.o.hitpoints / 10) & 3), unit.o.position, unit.o.hitpoints, unit.originEncoded);
+                    Map_MakeExplosion((ushort)((ui.explosionType + (unit.o.hitpoints / 10)) & 3), unit.o.position, unit.o.hitpoints, unit.originEncoded);
 
                     Unit_Remove(unit);
                     return true;
@@ -2880,7 +2880,7 @@ static class Unit
                             }
                             else
                             {
-                                Map_MakeExplosion((ushort)((ui.explosionType + unit.o.hitpoints / 20) & 3), newPosition, unit.o.hitpoints, unit.originEncoded);
+                                Map_MakeExplosion((ushort)((ui.explosionType + (unit.o.hitpoints / 20)) & 3), newPosition, unit.o.hitpoints, unit.originEncoded);
                             }
                         }
 

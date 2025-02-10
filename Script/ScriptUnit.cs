@@ -441,7 +441,7 @@ static class ScriptUnit
         diff = (short)Math.Abs(orientation - u.orientation[0].current);
         if (diff > 128) diff = (short)(256 - diff);
 
-        Unit_SetSpeed(u, (ushort)((Math.Max(Math.Min(distance / 8, 255), 25) * (255 - diff) + 128) / 256));
+        Unit_SetSpeed(u, (ushort)(((Math.Max(Math.Min(distance / 8, 255), 25) * (255 - diff)) + 128) / 256));
 
         delay = (ushort)Math.Max((short)distance / 1024, 1);
 
@@ -1155,7 +1155,7 @@ static class ScriptUnit
             if (data.packed == packedNext) return false;
 
             /* Now look at the next tile, starting 3 directions back */
-            directionStart = (byte)((direction - searchDirection * 3) & 0x7);
+            directionStart = (byte)((direction - (searchDirection * 3)) & 0x7);
             packedCur = packedNext;
         }
 

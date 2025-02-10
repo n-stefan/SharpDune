@@ -120,7 +120,7 @@ static class Wsa
         else
         {
             dst = new Array<byte>(GFX_Screen_Get_ByIndex(screenID));
-            dst += (ushort)(posX + posY * SCREEN_WIDTH);
+            dst += (ushort)(posX + (posY * SCREEN_WIDTH));
         }
 
         if (header.frameCurrent == header.frames)
@@ -491,7 +491,7 @@ static class Wsa
             width = (short)(right - x);
         }
 
-        dst += y * SCREEN_WIDTH + x;
+        dst += (y * SCREEN_WIDTH) + x;
 
         while (height-- != 0)
         {
@@ -537,7 +537,7 @@ static class Wsa
      */
     static uint WSA_GetFrameOffset_FromDisk(byte fileno, ushort frame)
     {
-        File_Seek(fileno, frame * 4 + 10, 0);
+        File_Seek(fileno, (frame * 4) + 10, 0);
         return File_Read_LE32(fileno);
     }
 }

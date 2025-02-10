@@ -688,10 +688,10 @@ static class Map
             mapScale = g_scenario.mapScale;
             mapInfo = g_mapInfos[mapScale];
 
-            left = (ushort)((Tile_GetPackedX(packed) - mapInfo.minX) * (mapScale + 1) + 256);
-            right = (ushort)(left + mapScale * 15 + 14);
-            top = (ushort)((Tile_GetPackedY(packed) - mapInfo.minY) * (mapScale + 1) + 136);
-            bottom = (ushort)(top + mapScale * 10 + 9);
+            left = (ushort)(((Tile_GetPackedX(packed) - mapInfo.minX) * (mapScale + 1)) + 256);
+            right = (ushort)(left + (mapScale * 15) + 14);
+            top = (ushort)(((Tile_GetPackedY(packed) - mapInfo.minY) * (mapScale + 1)) + 136);
+            bottom = (ushort)(top + (mapScale * 10) + 9);
 
             GUI_DrawWiredRectangle(left, top, right, bottom, 15);
 
@@ -1542,7 +1542,7 @@ static class Map
         {
             for (i = 0; i < 16; i++)
             {
-                g_map[Tile_PackXY((ushort)(i * 4), (ushort)(j * 4))].groundTileID = memory[j * 16 + i];
+                g_map[Tile_PackXY((ushort)(i * 4), (ushort)(j * 4))].groundTileID = memory[(j * 16) + i];
             }
         }
 
@@ -1559,14 +1559,14 @@ static class Map
                     ushort packed;
                     ushort sprite2;
 
-                    packed1 = Tile_PackXY((ushort)(i * 4 + offsets[0]), (ushort)(j * 4 + offsets[1]));
-                    packed2 = Tile_PackXY((ushort)(i * 4 + offsets[2]), (ushort)(j * 4 + offsets[3]));
+                    packed1 = Tile_PackXY((ushort)((i * 4) + offsets[0]), (ushort)((j * 4) + offsets[1]));
+                    packed2 = Tile_PackXY((ushort)((i * 4) + offsets[2]), (ushort)((j * 4) + offsets[3]));
                     packed = (ushort)((packed1 + packed2) / 2);
 
                     if (Tile_IsOutOfMap(packed)) continue;
 
-                    packed1 = Tile_PackXY((ushort)((i * 4 + offsets[0]) & 0x3F), (ushort)(j * 4 + offsets[1]));
-                    packed2 = Tile_PackXY((ushort)((i * 4 + offsets[2]) & 0x3F), (ushort)(j * 4 + offsets[3]));
+                    packed1 = Tile_PackXY((ushort)(((i * 4) + offsets[0]) & 0x3F), (ushort)((j * 4) + offsets[1]));
+                    packed2 = Tile_PackXY((ushort)(((i * 4) + offsets[2]) & 0x3F), (ushort)((j * 4) + offsets[3]));
                     Debug.Assert(packed1 < 64 * 64);
 
                     /* ENHANCEMENT -- use groundTileID=0 when out-of-bounds to generate the original maps. */

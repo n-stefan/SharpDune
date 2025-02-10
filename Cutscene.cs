@@ -246,7 +246,7 @@ static class Cutscene
 
         GFX_Screen_SetActive(Screen.NO0);
 
-        Buffer.BlockCopy(g_palette1, (144 + s_houseAnimation_subtitle[0].colour * 16) * 3, s_palettePartTarget, 0, 6 * 3); //memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->colour * 16) * 3], 6 * 3);
+        Buffer.BlockCopy(g_palette1, (144 + (s_houseAnimation_subtitle[0].colour * 16)) * 3, s_palettePartTarget, 0, 6 * 3); //memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->colour * 16) * 3], 6 * 3);
 
         Array.Fill<byte>(g_palette1, 0, 215 * 3, 6 * 3); //memset(&g_palette1[215 * 3], 0, 6 * 3);
 
@@ -270,7 +270,7 @@ static class Cutscene
             ushort frameCount;
             ushort posX;
             ushort posY;
-            var timeout = (uint)(g_timerGUI + animation[pointer].duration * 6);
+            var timeout = (uint)(g_timerGUI + (animation[pointer].duration * 6));
             var timeout2 = timeout + 30;   /* timeout + 0.5 s */
             uint timeLeftForFrame;
             uint timeLeft;
@@ -938,7 +938,7 @@ static class Cutscene
                     y = (ushort)strings[stringCount - 1].y;
                     if (strings[stringCount - 1].separator != 5)
                     {
-                        y += (ushort)(strings[stringCount - 1].charHeight + strings[stringCount - 1].charHeight / 8);
+                        y += (ushort)(strings[stringCount - 1].charHeight + (strings[stringCount - 1].charHeight / 8));
                     }
                 }
                 else
@@ -993,7 +993,7 @@ static class Cutscene
                     /* names on the right */
                     4 => 161,
                     /* centered strings */
-                    _ => (ushort)(1 + (SCREEN_WIDTH - Font_GetStringWidth(text)) / 2),
+                    _ => (ushort)(1 + ((SCREEN_WIDTH - Font_GetStringWidth(text)) / 2)),
                 };
 
                 strings[stringCount].y = (short)y;
@@ -1090,7 +1090,7 @@ static class Cutscene
                 Array.Copy(strings, 1, strings, 0, stringCount); //memmove(&strings[0], &strings[1], stringCount * sizeof(*strings));
             }
 
-            if ((g_curWidgetHeight / 6 + 2) > stringCount)
+            if (((g_curWidgetHeight / 6) + 2) > stringCount)
             {
                 if (strings[stringCount - 1].y + strings[stringCount - 1].charHeight < g_curWidgetYBase + g_curWidgetHeight) textEnd = true;
             }

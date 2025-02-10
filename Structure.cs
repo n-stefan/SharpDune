@@ -947,7 +947,7 @@ static class Structure
                     /* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
                     var repairCost = g_dune2_enhanced
                         ? (ushort)(si.o.buildCredits * 2 / si.o.hitpoints)
-                        : (ushort)((2 * 256 / si.o.hitpoints * si.o.buildCredits + 128) / 256);
+                        : (ushort)(((2 * 256 / si.o.hitpoints * si.o.buildCredits) + 128) / 256);
 
                     if (repairCost <= h.credits)
                     {
@@ -1005,7 +1005,7 @@ static class Structure
                         /* For AIs, we slow down building speed in all but the last campaign */
                         if ((byte)g_playerHouseID != s.o.houseID)
                         {
-                            if (buildSpeed > g_campaignID * 20 + 95) buildSpeed = (ushort)(g_campaignID * 20 + 95);
+                            if (buildSpeed > (g_campaignID * 20) + 95) buildSpeed = (ushort)((g_campaignID * 20) + 95);
                         }
 
                         buildCost = (ushort)(oi.buildCredits * 256 / oi.buildTime);

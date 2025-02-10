@@ -30,7 +30,7 @@ static class VideoFps
             }
             if (drawchar == null)
             {
-                for (i = 0; i < 5; i++) screen[x + 2 + i * bytes_per_row] = 0;
+                for (i = 0; i < 5; i++) screen[x + 2 + (i * bytes_per_row)] = 0;
             }
         }
         s_previousTimeStamps[s_previousTimeStampsIndex] = timeStamp;

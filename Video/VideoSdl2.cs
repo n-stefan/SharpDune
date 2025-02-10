@@ -645,7 +645,7 @@ static class VideoSdl2
             prect = rect;
             pixels = nint.Add(pixels, pitch * area.top);
             p = (uint*)pixels;
-            gfx_screen8Pointer += SCREEN_WIDTH * area.top + area.left;
+            gfx_screen8Pointer += (SCREEN_WIDTH * area.top) + area.left;
             for (y = area.top; y < area.bottom; y++)
             {
                 pPointer += area.left;

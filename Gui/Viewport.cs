@@ -73,7 +73,7 @@ static class Viewport
             {
                 if (mapScale > 1)
                 {
-                    spriteID = (ushort)(mapScale + g_map[packed].houseID * 2 + 29);
+                    spriteID = (ushort)(mapScale + (g_map[packed].houseID * 2) + 29);
                 }
                 else
                 {
@@ -87,7 +87,7 @@ static class Viewport
             {
                 if (mapScale > 1)
                 {
-                    spriteID = u.o.type == (byte)UnitType.UNIT_SANDWORM ? (ushort)(mapScale + 53) : (ushort)(mapScale + Unit_GetHouseID(u) * 2 + 29);
+                    spriteID = u.o.type == (byte)UnitType.UNIT_SANDWORM ? (ushort)(mapScale + 53) : (ushort)(mapScale + (Unit_GetHouseID(u) * 2) + 29);
                 }
                 else
                 {
@@ -103,7 +103,7 @@ static class Viewport
             {
                 if (mapScale > 1)
                 {
-                    spriteID = (ushort)(mapScale + s.o.houseID * 2 + 29);
+                    spriteID = (ushort)(mapScale + (s.o.houseID * 2) + 29);
                 }
                 else
                 {
@@ -888,8 +888,8 @@ static class Viewport
 
         if (w.index == 43)
         {
-            x = (ushort)(x / 16 + Tile_GetPackedX(g_minimapPosition));
-            y = (ushort)((y - 40) / 16 + Tile_GetPackedY(g_minimapPosition));
+            x = (ushort)((x / 16) + Tile_GetPackedX(g_minimapPosition));
+            y = (ushort)(((y - 40) / 16) + Tile_GetPackedY(g_minimapPosition));
         }
         else if (w.index == 44)
         {

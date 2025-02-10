@@ -203,7 +203,7 @@ static class Scenario
         //settings = split + 1;
         repeat = split[3].EndsWith('+'); //settings[strlen(settings) - 1] == '+') ? true : false;
         var value = repeat ? ushort.Parse(split[3].AsSpan(0, split[3].Length - 1), provider: Culture) : ushort.Parse(split[3], Culture);
-        timeBetween = (ushort)(value * 6 + 1);
+        timeBetween = (ushort)((value * 6) + 1);
         /* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
         if (!g_dune2_enhanced) repeat = false;
 

@@ -341,8 +341,8 @@ static class WidgetDraw
 
                                         GUI_DrawLine(261, 95, 312, 95, 16);
                                         GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_POWER_INFONEEDEDOUTPUT), 258, 88, 29, 0, 0x11);
-                                        GUI_DrawText_Wrapper("{0, 3}", 292, (short)(g_fontCurrent.height * 2 + 80), 29, 0, 0x11, powerAverage);
-                                        GUI_DrawText_Wrapper("{0, 3}", 292, (short)(g_fontCurrent.height * 3 + 80), (byte)((powerOutput >= powerAverage) ? 29 : 6), 0, 0x11, powerOutput);
+                                        GUI_DrawText_Wrapper("{0, 3}", 292, (short)((g_fontCurrent.height * 2) + 80), 29, 0, 0x11, powerAverage);
+                                        GUI_DrawText_Wrapper("{0, 3}", 292, (short)((g_fontCurrent.height * 3) + 80), (byte)((powerOutput >= powerAverage) ? 29 : 6), 0, 0x11, powerOutput);
                                     }
                                     break;
 
@@ -734,7 +734,7 @@ static class WidgetDraw
             colour = 0xEF;
         }
 
-        GUI_DrawText_Wrapper(String_Get_ByIndex(stringID), (short)(positionX + width / 2), (short)(positionY + 1), colour, 0, 0x121);
+        GUI_DrawText_Wrapper(String_Get_ByIndex(stringID), (short)(positionX + (width / 2)), (short)(positionY + 1), colour, 0, 0x121);
 
         w.shortcut = GUI_Widget_GetShortcut((byte)String_Get_ByIndex(stringID)[0]);
 
@@ -829,7 +829,7 @@ static class WidgetDraw
                     {
                         for (x = 0; x < g_table_structure_layoutSize[si.layout].width; x++)
                         {
-                            GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(positionX + x * spriteWidth + 38), (short)(positionY + y * spriteWidth + 6), 0, 0);
+                            GUI_DrawSprite(Screen.ACTIVE, sprite, (short)(positionX + (x * spriteWidth) + 38), (short)(positionY + (y * spriteWidth) + 6), 0, 0);
                         }
                     }
 
@@ -870,7 +870,7 @@ static class WidgetDraw
                 buildTime = ui.o.buildTime;
             }
 
-            timeLeft = (ushort)(buildTime - (s.countDown + 255) / 256);
+            timeLeft = (ushort)(buildTime - ((s.countDown + 255) / 256));
             percentDone = (ushort)(100 * timeLeft / buildTime);
         }
 
@@ -892,7 +892,7 @@ static class WidgetDraw
         {
             GUI_DrawText_Wrapper(
                 String_Get_ByIndex(g_productionStringID),
-                (short)(positionX + width / 2),
+                (short)(positionX + (width / 2)),
                 (short)(positionY + height - 9),
                 (byte)((g_productionStringID == (ushort)Text.STR_PLACE_IT) ? 0xEF : (buttonDown ? 0xE : 0xF)),
                 0,

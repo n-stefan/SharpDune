@@ -104,7 +104,7 @@ static class Tools
     static short Tools_RandomLCG()
     {
         /* Borland C/C++ 'a' and 'b' value, bits 30. . .16, as used by Dune2 */
-        s_randomLCG = 0x015A4E35 * s_randomLCG + 1;
+        s_randomLCG = (0x015A4E35 * s_randomLCG) + 1;
         return (short)((s_randomLCG >> 16) & 0x7FFF);
     }
 
@@ -126,7 +126,7 @@ static class Tools
 
         do
         {
-            var value = (ushort)(Tools_RandomLCG() * (max - min + 1) / 0x8000 + min);
+            var value = (ushort)((Tools_RandomLCG() * (max - min + 1) / 0x8000) + min);
             ret = value;
         } while (ret > max);
 
@@ -303,8 +303,8 @@ static class Tools
         return gameSpeed switch
         {
             0 => minimum,
-            1 => (ushort)(normal - (normal - minimum) / 2),
-            3 => (ushort)(normal + (maximum - normal) / 2),
+            1 => (ushort)(normal - ((normal - minimum) / 2)),
+            3 => (ushort)(normal + ((maximum - normal) / 2)),
             4 => maximum,
 
             /* Never reached, but avoids compiler errors */

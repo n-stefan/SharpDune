@@ -159,7 +159,7 @@ static class Animation
         var layoutPointer = 0;
         var iconMapPointer = 0;
 
-        iconMap = g_iconMap.AsSpan(g_iconMap[animation.iconGroup] + layoutTileCount * parameter);
+        iconMap = g_iconMap.AsSpan(g_iconMap[animation.iconGroup] + (layoutTileCount * parameter));
 
         /* Some special case for turrets */
         if ((parameter > 1) && (animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_DEFENSE_TURRET || animation.iconGroup == (byte)IconMapEntries.ICM_ICONGROUP_BASE_ROCKET_TURRET))

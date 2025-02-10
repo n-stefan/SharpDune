@@ -121,10 +121,10 @@ static class Font
             byte y;
 
             fc.width = buf[widthList + i];
-            fc.unusedLines = buf[lineList + i * 2];
-            fc.usedLines = buf[lineList + i * 2 + 1];
+            fc.unusedLines = buf[lineList + (i * 2)];
+            fc.usedLines = buf[lineList + (i * 2) + 1];
 
-            dataOffset = Read_LE_UInt16(buf.Slice(dataStart + i * 2));
+            dataOffset = Read_LE_UInt16(buf.Slice(dataStart + (i * 2)));
             if (dataOffset == 0) continue;
 
             fc.data = new byte[fc.usedLines * fc.width]; //(uint8*) malloc(fc->usedLines* fc->width);
@@ -133,9 +133,9 @@ static class Font
             {
                 for (x = 0; x < fc.width; x++)
                 {
-                    var data = buf[dataOffset + y * ((fc.width + 1) / 2) + x / 2];
+                    var data = buf[dataOffset + (y * ((fc.width + 1) / 2)) + (x / 2)];
                     if (x % 2 != 0) data >>= 4;
-                    fc.data[y * fc.width + x] = (byte)(data & 0xF);
+                    fc.data[(y * fc.width) + x] = (byte)(data & 0xF);
                 }
             }
         }

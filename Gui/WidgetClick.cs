@@ -1267,7 +1267,7 @@ static class WidgetClick
                 oi = g_factoryWindowItems[i].objectInfo;
                 GUI_DrawText_Wrapper(String_Get_ByIndex(oi.stringID_full), 128, (short)y, 8, 0, 0x11);
 
-                GUI_DrawText_Monospace(textBuffer, (ushort)(311 - (short)textBuffer.Length * 6), y, 15, 0, 6);
+                GUI_DrawText_Monospace(textBuffer, (ushort)(311 - ((short)textBuffer.Length * 6)), y, 15, 0, 6);
 
                 y += 8;
             }
@@ -1282,7 +1282,7 @@ static class WidgetClick
 
         textBuffer = total.ToString("D", Culture); //snprintf(textBuffer, sizeof(textBuffer), "%d", total);
 
-        x = (ushort)(311 - (short)textBuffer.Length * 6);
+        x = (ushort)(311 - ((short)textBuffer.Length * 6));
 
         /* "Total Cost :" */
         GUI_DrawText_Wrapper(GUI_String_Get_ByIndex((short)Text.STR_TOTAL_COST_), (short)(x - 3), 152, 11, 0, 0x211);

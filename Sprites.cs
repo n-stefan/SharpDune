@@ -505,7 +505,7 @@ static class Sprites
 
         bufferPointer += 2;
 
-        offset = Read_LE_UInt32(buffer.Slice(bufferPointer + 4 * index));
+        offset = Read_LE_UInt32(buffer.Slice(bufferPointer + (4 * index)));
 
         if (offset == 0) return null;
 

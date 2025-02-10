@@ -342,7 +342,7 @@ static class SharpDune
 
         for (i = 0; i < props.height; i++)
         {
-            var pos = (ushort)(top + g_fontCurrent.height * i);
+            var pos = (ushort)(top + (g_fontCurrent.height * i));
 
             if (i == props.fgColourBlink)
             {

@@ -124,7 +124,7 @@ static class Gfx
         if (height > SCREEN_HEIGHT - top) height = (ushort)(SCREEN_HEIGHT - top);
 
         screen = GFX_Screen_Get_ByIndex(Screen.NO0);
-        screenPointer += (ushort)(top * SCREEN_WIDTH + left);
+        screenPointer += (ushort)((top * SCREEN_WIDTH) + left);
 
         GFX_Screen_SetDirty(Screen.NO0, (ushort)left, (ushort)top, (ushort)(left + width), (ushort)(top + height));
 
@@ -163,7 +163,7 @@ static class Gfx
         if (height > SCREEN_HEIGHT - top) height = (ushort)(SCREEN_HEIGHT - top);
 
         screen = GFX_Screen_Get_ByIndex(Screen.NO0);
-        screenPointer += (ushort)(top * SCREEN_WIDTH + left);
+        screenPointer += (ushort)((top * SCREEN_WIDTH) + left);
 
         while (height-- != 0)
         {
@@ -240,7 +240,7 @@ static class Gfx
         }
 
         wArray = GFX_Screen_GetActive();
-        wPointer += (ushort)(y * SCREEN_WIDTH + x);
+        wPointer += (ushort)((y * SCREEN_WIDTH) + x);
         rArray = g_tilesPixels.AsSpan(tileID * s_tileByteSize);
 
         /* tiles with transparent pixels : [1 : 33] U [108 : 122] and 124
@@ -298,8 +298,8 @@ static class Gfx
         for (from = 0; from < 256; from++)
         {
             if (palette[from * 3] != g_paletteActive[from * 3] ||
-               palette[from * 3 + 1] != g_paletteActive[from * 3 + 1] ||
-               palette[from * 3 + 2] != g_paletteActive[from * 3 + 2])
+               palette[(from * 3) + 1] != g_paletteActive[(from * 3) + 1] ||
+               palette[(from * 3) + 2] != g_paletteActive[(from * 3) + 2])
             {
                 break;
             }
@@ -312,8 +312,8 @@ static class Gfx
         for (to = 255; to > from; to--)
         {
             if (palette[to * 3] != g_paletteActive[to * 3] ||
-               palette[to * 3 + 1] != g_paletteActive[to * 3 + 1] ||
-               palette[to * 3 + 2] != g_paletteActive[to * 3 + 2])
+               palette[(to * 3) + 1] != g_paletteActive[(to * 3) + 1] ||
+               palette[(to * 3) + 2] != g_paletteActive[(to * 3) + 2])
             {
                 break;
             }
@@ -334,7 +334,7 @@ static class Gfx
         if (y >= SCREEN_HEIGHT) return;
         if (x >= SCREEN_WIDTH) return;
 
-        GFX_Screen_GetActive()[y * SCREEN_WIDTH + x] = colour;
+        GFX_Screen_GetActive()[(y * SCREEN_WIDTH) + x] = colour;
     }
 
     /*
@@ -378,8 +378,8 @@ static class Gfx
         src = GFX_Screen_Get_ByIndex(screenSrc);
         dst = GFX_Screen_Get_ByIndex(screenDst);
 
-        srcPointer += (ushort)(xSrc + ySrc * SCREEN_WIDTH);
-        dstPointer += (ushort)(xDst + yDst * SCREEN_WIDTH);
+        srcPointer += (ushort)(xSrc + (ySrc * SCREEN_WIDTH));
+        dstPointer += (ushort)(xDst + (yDst * SCREEN_WIDTH));
 
         GFX_Screen_SetDirty(screenDst, (ushort)xDst, (ushort)yDst, (ushort)(xDst + width), (ushort)(yDst + height));
 
@@ -476,7 +476,7 @@ static class Gfx
         if (y >= SCREEN_HEIGHT) return 0;
         if (x >= SCREEN_WIDTH) return 0;
 
-        return GFX_Screen_GetActive()[y * SCREEN_WIDTH + x];
+        return GFX_Screen_GetActive()[(y * SCREEN_WIDTH) + x];
     }
 
     /*
@@ -547,8 +547,8 @@ static class Gfx
         src = GFX_Screen_Get_ByIndex(screenSrc);
         dst = GFX_Screen_Get_ByIndex(screenDst);
 
-        srcPointer += xSrc + ySrc * SCREEN_WIDTH;
-        dstPointer += xDst + yDst * SCREEN_WIDTH;
+        srcPointer += xSrc + (ySrc * SCREEN_WIDTH);
+        dstPointer += xDst + (yDst * SCREEN_WIDTH);
 
         while (height-- != 0)
         {

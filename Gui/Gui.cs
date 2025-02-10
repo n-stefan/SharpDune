@@ -544,7 +544,7 @@ static class Gui
         }
 
         /* move pointer to 1st pixel of 1st row to draw */
-        bufPointer += posY * SCREEN_WIDTH + posX;
+        bufPointer += (posY * SCREEN_WIDTH) + posX;
         if ((flags & DRAWSPRITE_FLAG_BOTTOMUP) != 0)
         {
             bufPointer += (spriteHeight - 1) * SCREEN_WIDTH;
@@ -1030,7 +1030,7 @@ static class Gui
         s_mouseSpriteTop = (ushort)((top < 0) ? 0 : top);
 
         s_mouseSpriteWidth = g_mouseWidth;
-        if ((left >> 3) + g_mouseWidth >= SCREEN_WIDTH / 8) s_mouseSpriteWidth -= (ushort)((left >> 3) + g_mouseWidth - SCREEN_WIDTH / 8);
+        if ((left >> 3) + g_mouseWidth >= SCREEN_WIDTH / 8) s_mouseSpriteWidth -= (ushort)((left >> 3) + g_mouseWidth - (SCREEN_WIDTH / 8));
 
         s_mouseSpriteHeight = g_mouseHeight;
         if (top + g_mouseHeight >= SCREEN_HEIGHT) s_mouseSpriteHeight -= (ushort)(top + g_mouseHeight - SCREEN_HEIGHT);
@@ -1127,7 +1127,7 @@ static class Gui
 
         oldWidgetId = Widget_SetCurrentWidget(1);
 
-        g_widgetProperties[1].height = (ushort)(g_fontCurrent.height * Math.Max(GUI_SplitText(ref textBuffer, (ushort)(((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6), '\r'), (ushort)3) + 18);
+        g_widgetProperties[1].height = (ushort)((g_fontCurrent.height * Math.Max(GUI_SplitText(ref textBuffer, (ushort)(((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6), '\r'), (ushort)3)) + 18);
 
         Widget_SetCurrentWidget(1);
 
@@ -1722,7 +1722,7 @@ static class Gui
         {
             for (i = 0; i < fc.width; i++)
             {
-                var data = fc.data[j * fc.width + i];
+                var data = fc.data[(j * fc.width) + i];
 
                 if (g_colours[data & 0xF] != 0) screen[x] = g_colours[data & 0xF];
                 x++;
@@ -1780,7 +1780,7 @@ static class Gui
         }
 
         screen = GFX_Screen_GetActive();
-        screenPointer += (ushort)(top * SCREEN_WIDTH + left);
+        screenPointer += (ushort)((top * SCREEN_WIDTH) + left);
 
         for (; height > 0; height--)
         {
@@ -1853,7 +1853,7 @@ static class Gui
         if (left > right) return;
         if (top > bottom) return;
 
-        screenPointer += (ushort)(left + top * SCREEN_WIDTH);
+        screenPointer += (ushort)(left + (top * SCREEN_WIDTH));
         width = (ushort)(right - left + 1);
         height = (ushort)(bottom - top + 1);
         for (y = 0; y < height; y++)
@@ -1899,7 +1899,7 @@ static class Gui
         if (left > right) return;
         if (top > bottom) return;
 
-        screenPointer += (ushort)(left + top * SCREEN_WIDTH);
+        screenPointer += (ushort)(left + (top * SCREEN_WIDTH));
         width = (ushort)(right - left + 1);
         height = (ushort)(bottom - top + 1);
         for (y = 0; y < height; y++)
@@ -2002,7 +2002,7 @@ static class Gui
 
             x2 -= (short)(x1 - 1);
 
-            screenPointer += y1 * SCREEN_WIDTH + x1;
+            screenPointer += (y1 * SCREEN_WIDTH) + x1;
 
             screen.AsSpan().Slice(screenPointer, x2).Fill(colour); //memset(screen, colour, x2);
 
@@ -2543,7 +2543,7 @@ static class Gui
         var screen = GFX_Screen_Get_ByIndex(screenID);
         var screenPointer = 0;
 
-        screenPointer += top * SCREEN_WIDTH + left;
+        screenPointer += (top * SCREEN_WIDTH) + left;
         for (; height > 0; height--)
         {
             int i;
@@ -2645,7 +2645,7 @@ static class Gui
 
         for (i = 0; i < 6; i++)
         {
-            var left = (ushort)(i * 10 + 4);
+            var left = (ushort)((i * 10) + 4);
             var spriteID = (ushort)((charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34);
 
             if (charCreditsOld[i] != charCreditsNew[i])
@@ -2753,7 +2753,7 @@ static class Gui
 
             for (xpos = 0; xpos < 14; xpos++)
             {
-                var v = (ushort)(g_minimapPosition + xpos + 6 * 64);
+                var v = (ushort)(g_minimapPosition + xpos + (6 * 64));
 
                 BitArray_Set(g_dirtyViewport, v);
                 BitArray_Set(g_dirtyMinimap, v);
@@ -2772,7 +2772,7 @@ static class Gui
 
             for (xpos = 0; xpos < 14; xpos++)
             {
-                Map_Update((ushort)(g_viewportPosition + xpos + 6 * 64), 0, true);
+                Map_Update((ushort)(g_viewportPosition + xpos + (6 * 64)), 0, true);
             }
         }
 
@@ -2945,7 +2945,7 @@ static class Gui
                 offsetX = offsetsX[x];
                 offsetY = offsetsY[y2];
 
-                GUI_Screen_Copy((short)(xSrc + offsetX), (short)(ySrc + offsetY * 2), (short)(xDst + offsetX), (short)(yDst + offsetY * 2), 1, 2, screenSrc, screenDst);
+                GUI_Screen_Copy((short)(xSrc + offsetX), (short)(ySrc + (offsetY * 2)), (short)(xDst + offsetX), (short)(yDst + (offsetY * 2)), 1, 2, screenSrc, screenDst);
 
                 y2++;
                 if (y2 == height) y2 = 0;
@@ -3008,9 +3008,9 @@ static class Gui
         for (index = 1; index < 256; index++)
         {
             ushort i;
-            var red = (byte)(palette[3 * index + 0] - (((palette[3 * index + 0] - palette[3 * reference + 0]) * (intensity / 2)) >> 7));
-            var blue = (byte)(palette[3 * index + 1] - (((palette[3 * index + 1] - palette[3 * reference + 1]) * (intensity / 2)) >> 7));
-            var green = (byte)(palette[3 * index + 2] - (((palette[3 * index + 2] - palette[3 * reference + 2]) * (intensity / 2)) >> 7));
+            var red = (byte)(palette[(3 * index) + 0] - (((palette[(3 * index) + 0] - palette[(3 * reference) + 0]) * (intensity / 2)) >> 7));
+            var blue = (byte)(palette[(3 * index) + 1] - (((palette[(3 * index) + 1] - palette[(3 * reference) + 1]) * (intensity / 2)) >> 7));
+            var green = (byte)(palette[(3 * index) + 2] - (((palette[(3 * index) + 2] - palette[(3 * reference) + 2]) * (intensity / 2)) >> 7));
             var colour = reference;
             ushort sumMin = 0xFFFF;
 
@@ -3018,9 +3018,9 @@ static class Gui
             {
                 ushort sum = 0;
 
-                sum += (ushort)((palette[3 * i + 0] - red) * (palette[3 * i + 0] - red));
-                sum += (ushort)((palette[3 * i + 1] - blue) * (palette[3 * i + 1] - blue));
-                sum += (ushort)((palette[3 * i + 2] - green) * (palette[3 * i + 2] - green));
+                sum += (ushort)((palette[(3 * i) + 0] - red) * (palette[(3 * i) + 0] - red));
+                sum += (ushort)((palette[(3 * i) + 1] - blue) * (palette[(3 * i) + 1] - blue));
+                sum += (ushort)((palette[(3 * i) + 2] - green) * (palette[(3 * i) + 2] - green));
 
                 if (sum > sumMin) continue;
                 if ((i != reference) && (i == index)) continue;
@@ -3301,7 +3301,7 @@ static class Gui
             GUI_Mouse_Show_Safe();
 
             //strncpy(g_readBuffer, String_Get_ByIndex(STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40), g_readBufferSize);
-            var text = String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)houseID * 40));
+            var text = String_Get_ByIndex((ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + ((byte)houseID * 40)));
             g_readBuffer = SharpDune.Encoding.GetBytes(text);
             GUI_Mentat_Show(text, House_GetWSAHouseFilename((byte)houseID), null);
 
@@ -3582,7 +3582,7 @@ static class Gui
             backupProperties = g_widgetProperties[19].Clone(); //memcpy(&backupProperties, &g_widgetProperties[19], sizeof(WidgetProperties));
 
             g_widgetProperties[19].xBase = 4;
-            g_widgetProperties[19].yBase = (ushort)((editLine - 1) * 11 + 90);
+            g_widgetProperties[19].yBase = (ushort)(((editLine - 1) * 11) + 90);
             g_widgetProperties[19].width = (ushort)(width / 8);
             g_widgetProperties[19].height = 11;
             g_widgetProperties[19].fgColourBlink = 6;
@@ -3654,7 +3654,7 @@ static class Gui
 
         s_palette1_houseColour.Curr += (byte)colouringDirection;
 
-        g_palette1[255 * 3 + s_palette1_houseColour.Ptr] = s_palette1_houseColour.Curr;
+        g_palette1[(255 * 3) + s_palette1_houseColour.Ptr] = s_palette1_houseColour.Curr;
 
         GFX_SetPalette(g_palette1);
 
@@ -3726,7 +3726,7 @@ static class Gui
 
         halfWidth = (ushort)((Font_GetStringWidth(str) / 2) + 4);
 
-        GUI_DrawFilledRectangle((short)(SCREEN_WIDTH / 2 - halfWidth), (short)top, (short)(SCREEN_WIDTH / 2 + halfWidth), (short)(top + 6), 116);
+        GUI_DrawFilledRectangle((short)((SCREEN_WIDTH / 2) - halfWidth), (short)top, (short)((SCREEN_WIDTH / 2) + halfWidth), (short)(top + 6), 116);
         GUI_DrawText_Wrapper(str, SCREEN_WIDTH / 2, (short)top, 0xF, 0, 0x121);
     }
 
@@ -3905,7 +3905,7 @@ static class Gui
         xSrc = 1;
         if (g_playerHouseID <= HouseType.HOUSE_ORDOS)
         {
-            xSrc = (ushort)(((byte)g_playerHouseID * 56 + 8) / 8);
+            xSrc = (ushort)((((byte)g_playerHouseID * 56) + 8) / 8);
         }
 
         GUI_Screen_Copy((short)xSrc, 136, 0, 8, 7, 56, Screen.NO1, Screen.NO1);
@@ -3999,8 +3999,8 @@ static class Gui
         battleString = String_Get_ByIndex(Text.STR_BATTLE);
         scoreString = String_Get_ByIndex(Text.STR_SCORE);
 
-        scoreX = (ushort)(320 - Font_GetStringWidth(scoreString) / 2 - 12);
-        battleX = (ushort)(scoreX - Font_GetStringWidth(scoreString) / 2 - 8 - Font_GetStringWidth(battleString) / 2);
+        scoreX = (ushort)(320 - (Font_GetStringWidth(scoreString) / 2) - 12);
+        battleX = (ushort)(scoreX - (Font_GetStringWidth(scoreString) / 2) - 8 - (Font_GetStringWidth(battleString) / 2));
         offsetY = 80;
 
         GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_NAME_AND_RANK), 32, (short)offsetY, 8, 0, 0x22);
@@ -4200,7 +4200,7 @@ static class Gui
 
         GUI_StrategicMap_AnimateSelected(region, data);
 
-        scenarioID += (ushort)((campaignID - 1) * 3 + 2);
+        scenarioID += (ushort)(((campaignID - 1) * 3) + 2);
 
         if (campaignID > 7) scenarioID--;
         if (campaignID > 8) scenarioID--;
@@ -4244,7 +4244,7 @@ static class Gui
         key = Input_WaitForValidInput();
         if (key is not 0xC6 and not 0xC7) return 0;
 
-        return g_fileRgnclkCPS.Span[(g_mouseClickY - 24) * 304 + g_mouseClickX - 8];
+        return g_fileRgnclkCPS.Span[((g_mouseClickY - 24) * 304) + g_mouseClickX - 8];
     }
 
     static void GUI_StrategicMap_AnimateArrows()
@@ -4611,7 +4611,7 @@ static class Gui
             paletteColour = 0;
             paletteChange = 8;
 
-            y = (ushort)(g_factoryWindowSelected * 32 + 24);
+            y = (ushort)((g_factoryWindowSelected * 32) + 24);
 
             GUI_Mouse_Hide_Safe();
             GUI_DrawWiredRectangle(71, (ushort)(y - 1), 104, (ushort)(y + 24), 255);
@@ -4636,18 +4636,18 @@ static class Gui
         switch (g_playerHouseID)
         {
             case HouseType.HOUSE_HARKONNEN:
-                g_palette1[255 * 3 + 1] = (byte)paletteColour;
-                g_palette1[255 * 3 + 2] = (byte)paletteColour;
+                g_palette1[(255 * 3) + 1] = (byte)paletteColour;
+                g_palette1[(255 * 3) + 2] = (byte)paletteColour;
                 break;
 
             case HouseType.HOUSE_ATREIDES:
-                g_palette1[255 * 3 + 0] = (byte)paletteColour;
-                g_palette1[255 * 3 + 1] = (byte)paletteColour;
+                g_palette1[(255 * 3) + 0] = (byte)paletteColour;
+                g_palette1[(255 * 3) + 1] = (byte)paletteColour;
                 break;
 
             case HouseType.HOUSE_ORDOS:
-                g_palette1[255 * 3 + 0] = (byte)paletteColour;
-                g_palette1[255 * 3 + 2] = (byte)paletteColour;
+                g_palette1[(255 * 3) + 0] = (byte)paletteColour;
+                g_palette1[(255 * 3) + 2] = (byte)paletteColour;
                 break;
 
             default: break;
@@ -4698,11 +4698,11 @@ static class Gui
             oi = item.objectInfo;
             if (oi.available == -1)
             {
-                GUI_DrawSprite(Screen.NO1, g_sprites[oi.spriteID], 72, (short)(24 + i * 32), 0, DRAWSPRITE_FLAG_REMAP, s_factoryWindowGraymapTbl, (short)1);
+                GUI_DrawSprite(Screen.NO1, g_sprites[oi.spriteID], 72, (short)(24 + (i * 32)), 0, DRAWSPRITE_FLAG_REMAP, s_factoryWindowGraymapTbl, (short)1);
             }
             else
             {
-                GUI_DrawSprite(Screen.NO1, g_sprites[oi.spriteID], 72, (short)(24 + i * 32), 0, 0);
+                GUI_DrawSprite(Screen.NO1, g_sprites[oi.spriteID], 72, (short)(24 + (i * 32)), 0, 0);
             }
         }
 
@@ -4839,7 +4839,7 @@ static class Gui
             {
                 for (i = 0; i < g_table_structure_layoutSize[si.layout].width; i++)
                 {
-                    GUI_DrawSprite(Screen.NO1, sprite, (short)(x + i * width), (short)(y + j * width), 0, 0);
+                    GUI_DrawSprite(Screen.NO1, sprite, (short)(x + (i * width)), (short)(y + (j * width)), 0, 0);
                 }
             }
         }
@@ -5157,7 +5157,7 @@ static class Gui
 
     static ushort GUI_FactoryWindow_CalculateStarportPrice(ushort credits)
     {
-        credits = (ushort)(credits / 10 * 4 + credits / 10 * (Tools_RandomLCG_Range(0, 6) + Tools_RandomLCG_Range(0, 6)));
+        credits = (ushort)((credits / 10 * 4) + (credits / 10 * (Tools_RandomLCG_Range(0, 6) + Tools_RandomLCG_Range(0, 6))));
 
         return Math.Min(credits, (ushort)999);
     }

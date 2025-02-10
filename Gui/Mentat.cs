@@ -59,19 +59,19 @@ static class Mentat
      * Show the briefing screen.
      */
     internal static void GUI_Mentat_ShowBriefing() =>
-        GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)(g_campaignID * 4 + 4), g_scenario.pictureBriefing, g_table_houseInfo[(int)g_playerHouseID].musicBriefing);
+        GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)((g_campaignID * 4) + 4), g_scenario.pictureBriefing, g_table_houseInfo[(int)g_playerHouseID].musicBriefing);
 
     /*
      * Show the win screen.
      */
     internal static void GUI_Mentat_ShowWin() =>
-        GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)(g_campaignID * 4 + 5), g_scenario.pictureWin, g_table_houseInfo[(int)g_playerHouseID].musicWin);
+        GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)((g_campaignID * 4) + 5), g_scenario.pictureWin, g_table_houseInfo[(int)g_playerHouseID].musicWin);
 
     /*
      * Show the lose screen.
      */
     internal static void GUI_Mentat_ShowLose() =>
-        GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)(g_campaignID * 4 + 6), g_scenario.pictureLose, g_table_houseInfo[(int)g_playerHouseID].musicLose);
+        GUI_Mentat_ShowDialog((byte)g_playerHouseID, (ushort)((g_campaignID * 4) + 6), g_scenario.pictureLose, g_table_houseInfo[(int)g_playerHouseID].musicLose);
 
     /*
      * Show the Mentat screen with a dialog (Proceed / Repeat).
@@ -101,7 +101,7 @@ static class Mentat
 
         Music_Play(musicID);
 
-        stringID += (ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + houseID * 40);
+        stringID += (ushort)(Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (houseID * 40));
 
         string text;
         do
@@ -144,7 +144,7 @@ static class Mentat
             WSA_Unload(wsa);
         }
 
-        GUI_DrawSprite(Screen.NO1, g_sprites[397 + (int)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+        GUI_DrawSprite(Screen.NO1, g_sprites[397 + ((int)g_playerHouseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);
         GFX_Screen_SetActive(Screen.NO0);
 
         GUI_Mouse_Hide_Safe();
@@ -212,7 +212,7 @@ static class Mentat
 
         for (i = 0; i < 5; i++)
         {
-            s_mentatSprites[0][i] = g_sprites[387 + houseID * 15 + i];
+            s_mentatSprites[0][i] = g_sprites[387 + (houseID * 15) + i];
         }
 
         s_eyesRight += Sprite_GetWidth(s_mentatSprites[0][0]);
@@ -223,7 +223,7 @@ static class Mentat
 
         for (i = 0; i < 5; i++)
         {
-            s_mentatSprites[1][i] = g_sprites[392 + houseID * 15 + i];
+            s_mentatSprites[1][i] = g_sprites[392 + (houseID * 15) + i];
         }
 
         s_mouthRight += Sprite_GetWidth(s_mentatSprites[1][0]);
@@ -234,7 +234,7 @@ static class Mentat
 
         for (i = 0; i < 4; i++)
         {
-            s_mentatSprites[2][i] = g_sprites[398 + houseID * 15 + i];
+            s_mentatSprites[2][i] = g_sprites[398 + (houseID * 15) + i];
         }
 
         g_shoulderLeft = s_mentatSpritePositions[houseID][6];
@@ -250,7 +250,7 @@ static class Mentat
             WSA_Unload(wsa);
         }
 
-        GUI_DrawSprite(Screen.NO1, g_sprites[397 + houseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+        GUI_DrawSprite(Screen.NO1, g_sprites[397 + (houseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);
         GFX_Screen_SetActive(oldScreenID);
     }
 
@@ -304,13 +304,13 @@ static class Mentat
             switch (g_playerHouseID)
             {
                 case HouseType.HOUSE_HARKONNEN:
-                    movingOtherTimer = g_timerGUI + 300 * 60;
+                    movingOtherTimer = g_timerGUI + (300 * 60);
                     break;
                 case HouseType.HOUSE_ATREIDES:
-                    movingOtherTimer = (uint)(g_timerGUI + 60 * Tools_RandomLCG_Range(1, 3));
+                    movingOtherTimer = (uint)(g_timerGUI + (60 * Tools_RandomLCG_Range(1, 3)));
                     break;
                 case HouseType.HOUSE_ORDOS:
-                    movingOtherTimer = otherSprite != 0 ? g_timerGUI + 6 : (uint)(g_timerGUI + 60 * Tools_RandomLCG_Range(10, 19));
+                    movingOtherTimer = otherSprite != 0 ? g_timerGUI + 6 : (uint)(g_timerGUI + (60 * Tools_RandomLCG_Range(10, 19)));
                     break;
                 default:
                     break;
@@ -728,7 +728,7 @@ static class Mentat
                     if (mentatSpeakingMode == 0 || textTick > g_timerGUI) break;
 
                     mentatSpeakingMode = 2;
-                    textTick += textDelay + textDelay / 2;
+                    textTick += textDelay + (textDelay / 2);
                     break;
 
                 case 4:
@@ -775,7 +775,7 @@ static class Mentat
 
             GUI_Mentat_DrawInfo(pictureDetails, (ushort)((g_curWidgetXBase << 3) + 5), (ushort)(g_curWidgetYBase + 3), 8, 0, (short)lines, 0x31);
 
-            GUI_DrawSprite(Screen.NO2, g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+            GUI_DrawSprite(Screen.NO2, g_sprites[397 + ((byte)g_playerHouseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);
             GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
             GUI_Screen_Copy((short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetWidth, (short)g_curWidgetHeight, Screen.NO2, Screen.NO0);
             GUI_Mouse_Show_InWidget();
@@ -785,7 +785,7 @@ static class Mentat
         if (wsa != (null, null)) WSA_Unload(wsa);
 
         GFX_Screen_SetActive(Screen.NO2);
-        GUI_DrawSprite(Screen.NO2, g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+        GUI_DrawSprite(Screen.NO2, g_sprites[397 + ((byte)g_playerHouseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);
         GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
         GUI_Screen_Copy((short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetWidth, (short)g_curWidgetHeight, Screen.NO2, Screen.NO0);
         GUI_Mouse_Show_InWidget();
@@ -1111,7 +1111,7 @@ static class Mentat
 
         Widget_SetAndPaintCurrentWidget(8);
 
-        GUI_DrawSprite(Screen.NO1, g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
+        GUI_DrawSprite(Screen.NO1, g_sprites[397 + ((byte)g_playerHouseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);
 
         GUI_DrawText_Wrapper(String_Get_ByIndex(Text.STR_SELECT_SUBJECT), (short)((g_curWidgetXBase << 3) + 16), (short)(g_curWidgetYBase + 2), 12, 0, 0x12);
         GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x11);
@@ -1398,7 +1398,7 @@ static class Mentat
             picture = g_scenario.pictureBriefing;
             desc = null;
 
-            var index = first - 44 + g_campaignID * 4 + Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + (byte)g_playerHouseID * 40;
+            var index = first - 44 + (g_campaignID * 4) + Text.STR_HOUSE_HARKONNENFROM_THE_DARK_WORLD_OF_GIEDI_PRIME_THE_SAVAGE_HOUSE_HARKONNEN_HAS_SPREAD_ACROSS_THE_UNIVERSE_A_CRUEL_PEOPLE_THE_HARKONNEN_ARE_RUTHLESS_TOWARDS_BOTH_FRIEND_AND_FOE_IN_THEIR_FANATICAL_PURSUIT_OF_POWER + ((byte)g_playerHouseID * 40);
 
             text = String_Get_ByIndex(index); //strncpy(g_readBuffer, String_Get_ByIndex(index), g_readBufferSize);
         }
