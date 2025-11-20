@@ -649,7 +649,7 @@ static class Unit
                 }
 
                 t = Team_Get_ByIndex(unit.team);
-                if (t != null) t.script.variables[4] = 1;
+                t?.script.variables[4] = 1;
             }
         }
 
@@ -1745,7 +1745,7 @@ static class Unit
             unit = Unit_Create((ushort)UnitIndex.UNIT_INDEX_INVALID, (byte)type, houseID, position, 96);
             g_validateStrictIfZero--;
 
-            if (unit != null) unit.o.flags.byScenario = true;
+            unit?.o.flags.byScenario = true;
         }
 
         if (unit != null)
@@ -3122,7 +3122,7 @@ static class Unit
             if (s.o.linkedID != 0xFF)
             {
                 var u = Unit_Get_ByIndex(s.o.linkedID);
-                if (u != null) u.o.houseID = Unit_GetHouseID(unit);
+                u?.o.houseID = Unit_GetHouseID(unit);
             }
 
             House_CalculatePowerAndCredit(House_Get_ByIndex(s.o.houseID));

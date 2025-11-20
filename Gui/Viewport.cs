@@ -948,7 +948,7 @@ static class Viewport
 
                 Unit_SetTarget(u, encoded);
                 target = Tools_Index_GetUnit(u.targetAttack);
-                if (target != null) target.blinkCounter = 8;
+                target?.blinkCounter = 8;
             }
 
             if (!g_enableVoices)
