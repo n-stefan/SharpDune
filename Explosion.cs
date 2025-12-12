@@ -108,8 +108,8 @@ static class Explosion
 
                 switch ((ExplosionCommand)command)
                 {
-                    default:
-                    case ExplosionCommand.EXPLOSION_STOP: Explosion_Func_Stop(e); break;
+                    case ExplosionCommand.EXPLOSION_STOP:
+                    default: Explosion_Func_Stop(e); break;
 
                     case ExplosionCommand.EXPLOSION_SET_SPRITE: Explosion_Func_SetSpriteID(e, parameter); break;
                     case ExplosionCommand.EXPLOSION_SET_TIMEOUT: Explosion_Func_SetTimeout(e, parameter); break;

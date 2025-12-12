@@ -360,8 +360,8 @@ static class Map
 
         switch (type)
         {
-            default:
             case 0:
+            default:
                 {
                     byte i;
                     ushort curPacked = 0;

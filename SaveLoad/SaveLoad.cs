@@ -586,8 +586,8 @@ static class SaveLoad
                         fp.Write(Convert.ToInt32(values[i], Culture)); //if (!CFile.fwrite_le_int32(v, fp)) return false;
                         break;
 
-                    default:
                     case SLDT_INVALID:
+                    default:
                         Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
                         return false;
                 }

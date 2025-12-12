@@ -97,8 +97,8 @@ static class Cutscene
                 sound = 0x1E;
                 break;
 
-            default:
             case HouseType.HOUSE_ATREIDES:
+            default:
                 animation = g_table_houseAnimation_animation[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
                 subtitle = g_table_houseAnimation_subtitle[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
                 soundEffect = g_table_houseAnimation_soundEffect[(int)HouseAnimationType.HOUSEANIMATION_LEVEL9_ARTREIDES];
