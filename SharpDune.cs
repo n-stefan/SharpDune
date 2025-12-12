@@ -726,7 +726,7 @@ static class SharpDune
             case Text.STR_REPLAY_INTRODUCTION:
                 Music_Play(0);
 
-                g_readBuffer = null; //free(g_readBuffer);
+                //g_readBuffer = null; //free(g_readBuffer);
                 g_readBufferSize = (uint)(!g_enableVoices ? 12000 : 28000);
                 g_readBuffer = new byte[g_readBufferSize]; //calloc(1, g_readBufferSize);
 
@@ -748,7 +748,7 @@ static class SharpDune
 
                 Music_Play(0);
 
-                g_readBuffer = null; //free(g_readBuffer);
+                //g_readBuffer = null; //free(g_readBuffer);
                 g_readBufferSize = (uint)(!g_enableVoices ? 12000 : 20000);
                 g_readBuffer = new byte[g_readBufferSize]; //calloc(1, g_readBufferSize);
 

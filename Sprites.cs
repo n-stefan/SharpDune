@@ -291,7 +291,7 @@ static class Sprites
 
         Tiles_LoadICNFile("ICON.ICN");
 
-        g_iconMap = null; //free(g_iconMap);
+        //g_iconMap = null; //free(g_iconMap);
         g_iconMap = File_ReadWholeFileLE16("ICON.MAP");
 
         g_veiledTileID = g_iconMap[g_iconMap[(int)IconMapEntries.ICM_ICONGROUP_FOG_OF_WAR] + 16];
