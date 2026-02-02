@@ -19,7 +19,7 @@ Sound: SDL2/WinMM (Windows), SDL2/PulseAudio/ALSA (Linux).
 
 Music: WinMM (Windows).
 
-IDE: latest Visual Studio Community 2022.
+IDE: Visual Studio 2022/2026.
 
 ## Screenshots
 
