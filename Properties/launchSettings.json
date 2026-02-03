@@ -10,7 +10,7 @@
       }
     },
     "WSL": {
-      "commandName": "WSL",
+      "commandName": "WSL2",
       "environmentVariables": {
         "DOTNET_GCDynamicAdaptationMode": "0",
         "DOTNET_HillClimbing_Disable": "1",
