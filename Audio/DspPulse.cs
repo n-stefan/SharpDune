@@ -6,27 +6,27 @@ namespace SharpDune.Audio;
 
 unsafe class DspPulse
 {
-    static pa_mainloop_api* s_mainloop_api;
-    static /* pa_mainloop* */ nint s_mainloop = nint.Zero;
-    static /* pa_context* */ nint s_context = nint.Zero;
-    static /* pa_stream* */ nint s_stream = nint.Zero;
-    static uint s_current_freq;
-    static bool s_playing;
+    static pa_mainloop_api* s_mainloop_api = null;
+    static pa_mainloop* s_mainloop = null;
+    static pa_context* s_context = null;
+    static pa_stream* s_stream = null;
+    static uint s_current_freq = 0;
+    static bool s_playing = false;
     static nint s_data = nint.Zero;
 
     [UnmanagedCallersOnly]
-    static void DSP_context_event_cb(/* pa_context* */ nint c, sbyte* name, /* pa_proplist* */ nint p, void* userdata) =>
-        Debug.WriteLine($"DEBUG: DSP_context_event_cb({c}, {Marshal.PtrToStringAuto((nint)name)}, {p}, {(nint)userdata})");
+    static void DSP_context_event_cb(pa_context* c, sbyte* name, pa_proplist* p, void* userdata) =>
+        Debug.WriteLine($"DEBUG: DSP_context_event_cb({(nint)c}, {Marshal.PtrToStringAuto((nint)name)}, {(nint)p}, {(nint)userdata})");
 
     [UnmanagedCallersOnly]
-    static void DSP_stream_state_cb(/* pa_stream* */ nint p, void* userdata)
+    static void DSP_stream_state_cb(pa_stream* p, void* userdata)
     {
         /*pa_operation * op;*/
         var state = pa_stream_get_state(p);
-        Debug.WriteLine($"DEBUG: DSP_stream_state_cb({p}, {(nint)userdata}) state={(int)state}");
+        Debug.WriteLine($"DEBUG: DSP_stream_state_cb({(nint)p}, {(nint)userdata}) state={(int)state}");
         switch (state)
         {
-            case pa_stream_state.PA_STREAM_READY:
+            case pa_stream_state_t.PA_STREAM_READY:
                 Debug.WriteLine("DEBUG: PA_STREAM_READY");
 //#if 0
 //			if (pa_stream_write(p, s_data, s_dataLen, NULL, 0, PA_SEEK_RELATIVE) < 0) {
@@ -37,33 +37,33 @@ unsafe class DspPulse
 //			pa_operation_unref(op);
 //#endif
                 break;
-            case pa_stream_state.PA_STREAM_FAILED:
+            case pa_stream_state_t.PA_STREAM_FAILED:
                 Trace.WriteLine("WARNING: PA_STREAM_FAILED");
                 break;
-            case pa_stream_state.PA_STREAM_TERMINATED:
+            case pa_stream_state_t.PA_STREAM_TERMINATED:
                 Debug.WriteLine("DEBUG: PA_STREAM_TERMINATED");
                 break;
             default:
-            case pa_stream_state.PA_STREAM_UNCONNECTED:
-            case pa_stream_state.PA_STREAM_CREATING:
+            case pa_stream_state_t.PA_STREAM_UNCONNECTED:
+            case pa_stream_state_t.PA_STREAM_CREATING:
                 break;
         }
     }
 
     [UnmanagedCallersOnly]
-    static void DSP_stream_underflow_cb(/* pa_stream* */ nint p, void* userdata)
+    static void DSP_stream_underflow_cb(pa_stream* p, void* userdata)
     {
-        Debug.WriteLine($"DEBUG: DSP_stream_underflow_cb({p}, {(nint)userdata})");
+        Debug.WriteLine($"DEBUG: DSP_stream_underflow_cb({(nint)p}, {(nint)userdata})");
         s_playing = false;
     }
 
     [UnmanagedCallersOnly]
-    static void DSP_stream_flush_cb(/* pa_stream* */ nint p, int success, void* userdata) =>
-        Debug.WriteLine($"DEBUG: DSP_stream_flush_cb({p}, {success}, {(nint)userdata})");
+    static void DSP_stream_flush_cb(pa_stream* p, int success, void* userdata) =>
+        Debug.WriteLine($"DEBUG: DSP_stream_flush_cb({(nint)p}, {success}, {(nint)userdata})");
 
     [UnmanagedCallersOnly]
-    static void DSP_stream_update_rate_cb(/* pa_stream* */ nint p, int success, void* userdata) =>
-        Debug.WriteLine($"DEBUG: DSP_stream_update_rate_cb({p}, {success}, {(nint)userdata})");
+    static void DSP_stream_update_rate_cb(pa_stream* p, int success, void* userdata) =>
+        Debug.WriteLine($"DEBUG: DSP_stream_update_rate_cb({(nint)p}, {success}, {(nint)userdata})");
 
     static void DSP_PulseAudio_Tick()
     {
@@ -74,15 +74,15 @@ unsafe class DspPulse
     internal static bool DSP_Init()
     {
         int retval;
-        pa_context_state state;
+        pa_context_state_t state;
         pa_sample_spec sample_spec;
 
-        if (s_context != nint.Zero)
+        if (s_context != null)
             return true;
 
         Debug.WriteLine($"DEBUG: DSP_Init() PulseAudio version {Marshal.PtrToStringAuto((nint)pa_get_library_version())}");
         s_mainloop = pa_mainloop_new();
-        if (s_mainloop == nint.Zero)
+        if (s_mainloop == null)
         {
             Trace.WriteLine("ERROR: PulseAudio pa_mainloop_new() failed");
             return false;
@@ -94,8 +94,8 @@ unsafe class DspPulse
                 return false;
             }
         */
-        s_context = pa_context_new_with_proplist(s_mainloop_api, (sbyte*)Marshal.StringToHGlobalAuto("SharpDUNE"), nint.Zero/*proplist*/);
-        if (s_context == nint.Zero)
+        s_context = pa_context_new_with_proplist(s_mainloop_api, (sbyte*)Marshal.StringToHGlobalAuto("SharpDUNE"), null/*proplist*/);
+        if (s_context == null)
         {
             Trace.WriteLine("ERROR: PulseAudio pa_context_new_with_proplist() failed");
             return false;
@@ -112,22 +112,22 @@ unsafe class DspPulse
         {
             pa_mainloop_iterate(s_mainloop, 1, &retval);
             state = pa_context_get_state(s_context);
-            if (state is pa_context_state.PA_CONTEXT_FAILED or pa_context_state.PA_CONTEXT_TERMINATED) return false;
-        } while (state != pa_context_state.PA_CONTEXT_READY);
+            if (state is pa_context_state_t.PA_CONTEXT_FAILED or pa_context_state_t.PA_CONTEXT_TERMINATED) return false;
+        } while (state != pa_context_state_t.PA_CONTEXT_READY);
         /* create stream */
         s_current_freq = 10989; /* default value */
-        sample_spec.format = pa_sample_format.PA_SAMPLE_U8;
+        sample_spec.format = pa_sample_format_t.PA_SAMPLE_U8;
         sample_spec.rate = s_current_freq;
         sample_spec.channels = 1;
         s_stream = pa_stream_new(s_context, (sbyte*)Marshal.StringToHGlobalAuto("DuneSpeech"), &sample_spec, null);
-        if (s_stream == nint.Zero)
+        if (s_stream == null)
         {
             Trace.WriteLine("ERROR: pa_stream_new() failed");
             return false;
         }
         pa_stream_set_state_callback(s_stream, &DSP_stream_state_cb, null);
         pa_stream_set_underflow_callback(s_stream, &DSP_stream_underflow_cb, null);
-        if (pa_stream_connect_playback(s_stream, null, null, pa_stream_flags.PA_STREAM_START_UNMUTED | pa_stream_flags.PA_STREAM_VARIABLE_RATE | pa_stream_flags.PA_STREAM_ADJUST_LATENCY, null, nint.Zero) < 0)
+        if (pa_stream_connect_playback(s_stream, null, null, pa_stream_flags_t.PA_STREAM_START_UNMUTED | pa_stream_flags_t.PA_STREAM_VARIABLE_RATE | pa_stream_flags_t.PA_STREAM_ADJUST_LATENCY, null, null) < 0)
         {
             Trace.WriteLine("ERROR: pa_stream_connect_playback() failed");
             return false;
@@ -142,13 +142,13 @@ unsafe class DspPulse
 
         pa_stream_disconnect(s_stream);
         pa_stream_unref(s_stream);
-        s_stream = nint.Zero;
+        s_stream = null;
         pa_context_unref(s_context);
-        s_context = nint.Zero;
+        s_context = null;
         pa_mainloop_quit(s_mainloop, 42);
         pa_mainloop_run(s_mainloop, &retval);
         pa_mainloop_free(s_mainloop);
-        s_mainloop = nint.Zero;
+        s_mainloop = null;
     }
 
     internal static byte DSP_GetStatus() =>
@@ -172,7 +172,7 @@ unsafe class DspPulse
         /* data[dataPointer + 5] = codec */
         dataPointer += 6;
 
-        s_data = Marshal.AllocHGlobal((nint)len);
+        s_data = Marshal.AllocHGlobal((int)len);
         Marshal.Copy(data, dataPointer, s_data, (int)len);
 
         Debug.WriteLine($"DEBUG: DSP_Play() data={s_data} freq={freq}");
@@ -185,13 +185,13 @@ unsafe class DspPulse
 
         if (freq != s_current_freq)
         {
-            /* pa_operation* */ nint operation;
+            pa_operation* operation;
             operation = pa_stream_update_sample_rate(s_stream, freq, &DSP_stream_update_rate_cb, null);
             s_current_freq = freq;
             pa_operation_unref(operation);
         }
 
-        if (pa_stream_write(s_stream, (void*)s_data, len, null, 0, pa_seek_mode.PA_SEEK_RELATIVE) < 0)
+        if (pa_stream_write(s_stream, (void*)s_data, len, null, 0, pa_seek_mode_t.PA_SEEK_RELATIVE) < 0)
         {
             Trace.WriteLine("ERROR: pa_stream_write() failed");
         }

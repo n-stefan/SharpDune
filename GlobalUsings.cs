@@ -22,8 +22,8 @@ global using static SharpDune.Audio.Driver;
 //global using static SharpDune.Audio.DspPulse;
 global using static SharpDune.Audio.DspSdl;
 global using static SharpDune.Audio.MidiNone;
-global using static TerraFX.Interop.Pulse;
-global using TerraFX.Interop;
+global using static TerraFX.Interop.PulseAudio.PulseAudio;
+global using TerraFX.Interop.PulseAudio;
 #else
 global using static SharpDune.Audio.DspSdl;
 global using static SharpDune.Audio.MidiWin;
