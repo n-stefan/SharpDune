@@ -2,7 +2,7 @@
 
 namespace SharpDune;
 
-partial class Ini
+static partial class Ini
 {
     [GeneratedRegex("^(.*)[\t ]*=[\t ]*.*$", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.IgnoreCase)]
     private static partial Regex IniRegex();
