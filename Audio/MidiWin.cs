@@ -158,7 +158,6 @@ partial class MidiWin
         if (midiOutShortMsg(s_midi, data) != MMSYSERR_NOERROR)
         {
             Trace.WriteLine("ERROR: midiOutShortMsg() failed");
-            return;
         }
     }
 
@@ -169,7 +168,6 @@ partial class MidiWin
         if (midiOutReset(s_midi) != MMSYSERR_NOERROR)
         {
             Trace.WriteLine("ERROR: midiOutReset() failed");
-            return;
         }
     }
 

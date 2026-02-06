@@ -237,7 +237,6 @@ static class Map
 
         Map_SetSelectionSize((ushort)StructureLayout.STRUCTURE_LAYOUT_1x1);
         g_selectionPosition = packed;
-        return;
     }
 
     /*

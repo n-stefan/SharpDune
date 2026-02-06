@@ -819,8 +819,6 @@ static class Mt32Mpu
         }
 
         locked = false;
-
-        return;
     }
 
     static ushort MPU_NoteOn(MSData data)

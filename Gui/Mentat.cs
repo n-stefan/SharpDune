@@ -1349,7 +1349,6 @@ static class Mentat
             {
                 s_helpSubjectsPointer = String_PrevString(s_helpSubjects.Span, s_helpSubjectsPointer);
             }
-            return;
         }
     }
 

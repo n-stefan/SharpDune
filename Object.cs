@@ -200,8 +200,6 @@ static class Object
 
         Object_Script_Variable4_Set(objectFrom, encodedTo);
         Object_Script_Variable4_Set(objectTo, encodedFrom);
-
-        return;
     }
 
     /*
