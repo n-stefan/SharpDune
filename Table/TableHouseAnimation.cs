@@ -4,6 +4,15 @@ namespace SharpDune.Table;
 
 static class TableHouseAnimation
 {
+    const string AFINALA = "AFINALA";
+    const string EFINALA = "EFINALA";
+    const string EFINALB = "EFINALB";
+    const string HFINALA = "HFINALA";
+    const string HFINALB = "HFINALB";
+    const string OFINALA = "OFINALA";
+    const string OFINALD = "OFINALD";
+    const string MEANWHIL = "MEANWHIL";
+
     internal static HouseAnimation_Animation[][] g_table_houseAnimation_animation = [ //[HOUSEANIMATION_MAX][32]
         [ /* 0 - intro */
         	new() { str = string.Empty, duration = 20, frameCount = 10, flags = 0x40 },
@@ -15,7 +24,7 @@ static class TableHouseAnimation
             new() { str = string.Empty, duration = 30, frameCount = 10, flags = 0x0 },
             new() { str = "INTRO9", duration = 200, frameCount = 0, flags = 0x8A },
             new() { str = "INTRO10", duration = 75, frameCount = 15, flags = 0x45 },
-            new() { str = "EFINALA", duration = 57, frameCount = 0, flags = 0x42 },
+            new() { str = EFINALA, duration = 57, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 1, frameCount = 2, flags = 0x0 },
             new() { str = "INTRO11", duration = 63, frameCount = 0, flags = 0x4A },
             new() { str = "INTRO4", duration = 130, frameCount = 0, flags = 0x4E },
@@ -33,89 +42,89 @@ static class TableHouseAnimation
 
         [ /* 1 - Level 4: Harkonnen */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
-            new() { str = "MEANWHIL", duration = 70, frameCount = 1, flags = 0x47 },
-            new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
-            new() { str = "MEANWHIL", duration = 70, frameCount = 1, flags = 0x4B },
+            new() { str = MEANWHIL, duration = 70, frameCount = 1, flags = 0x47 },
+            new() { str = EFINALA, duration = 60, frameCount = 0, flags = 0x42 },
+            new() { str = MEANWHIL, duration = 70, frameCount = 1, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 2 - Level 4: Atreides */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
-            new() { str = "MEANWHIL", duration = 75, frameCount = 2, flags = 0x47 },
-            new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
-            new() { str = "MEANWHIL", duration = 70, frameCount = 2, flags = 0x4B },
+            new() { str = MEANWHIL, duration = 75, frameCount = 2, flags = 0x47 },
+            new() { str = EFINALA, duration = 60, frameCount = 0, flags = 0x42 },
+            new() { str = MEANWHIL, duration = 70, frameCount = 2, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 3 - Level 4: Ordos */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
-            new() { str = "MEANWHIL", duration = 70, frameCount = 0, flags = 0x47 },
-            new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
-            new() { str = "MEANWHIL", duration = 70, frameCount = 0, flags = 0x4B },
+            new() { str = MEANWHIL, duration = 70, frameCount = 0, flags = 0x47 },
+            new() { str = EFINALA, duration = 60, frameCount = 0, flags = 0x42 },
+            new() { str = MEANWHIL, duration = 70, frameCount = 0, flags = 0x4B },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 4 - Level 8: Harkonnen */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
-            new() { str = "MEANWHIL", duration = 70, frameCount = 3, flags = 0x47 },
-            new() { str = "EFINALA", duration = 85, frameCount = 0, flags = 0x42 },
+            new() { str = MEANWHIL, duration = 70, frameCount = 3, flags = 0x47 },
+            new() { str = EFINALA, duration = 85, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 5 - Level 8: Atreides */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
-            new() { str = "MEANWHIL", duration = 90, frameCount = 5, flags = 0x47 },
-            new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
+            new() { str = MEANWHIL, duration = 90, frameCount = 5, flags = 0x47 },
+            new() { str = EFINALA, duration = 60, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 6 - Level 8: Ordos */
         	new() { str = string.Empty, duration = 50, frameCount = 10, flags = 0x0 },
-            new() { str = "MEANWHIL", duration = 70, frameCount = 4, flags = 0x47 },
-            new() { str = "EFINALA", duration = 75, frameCount = 0, flags = 0x42 },
+            new() { str = MEANWHIL, duration = 70, frameCount = 4, flags = 0x47 },
+            new() { str = EFINALA, duration = 75, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 7 - Level 9: Harkonnen */
-        	new() { str = "HFINALA", duration = 40, frameCount = 0, flags = 0x46 },
-            new() { str = "HFINALA", duration = 40, frameCount = 0, flags = 0x42 },
+        	new() { str = HFINALA, duration = 40, frameCount = 0, flags = 0x46 },
+            new() { str = HFINALA, duration = 40, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 20, frameCount = 10, flags = 0x0 },
-            new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
-            new() { str = "HFINALB", duration = 45, frameCount = 0, flags = 0x3 },
-            new() { str = "EFINALB", duration = 40, frameCount = 0, flags = 0x3 },
-            new() { str = "EFINALB", duration = 10, frameCount = 1, flags = 0x43 },
-            new() { str = "HFINALB", duration = 20, frameCount = 0, flags = 0x3 },
-            new() { str = "HFINALB", duration = 45, frameCount = 0, flags = 0x42 },
+            new() { str = EFINALA, duration = 60, frameCount = 0, flags = 0x42 },
+            new() { str = HFINALB, duration = 45, frameCount = 0, flags = 0x3 },
+            new() { str = EFINALB, duration = 40, frameCount = 0, flags = 0x3 },
+            new() { str = EFINALB, duration = 10, frameCount = 1, flags = 0x43 },
+            new() { str = HFINALB, duration = 20, frameCount = 0, flags = 0x3 },
+            new() { str = HFINALB, duration = 45, frameCount = 0, flags = 0x42 },
             new() { str = "HFINALC", duration = 45, frameCount = 0, flags = 0x2 },
             new() { str = string.Empty, duration = 10, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 8 - Level 9: Atreides */
-        	new() { str = "AFINALA", duration = 35, frameCount = 0, flags = 0x7 },
-            new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
-            new() { str = "AFINALA", duration = 40, frameCount = 0, flags = 0x42 },
+        	new() { str = AFINALA, duration = 35, frameCount = 0, flags = 0x7 },
+            new() { str = EFINALA, duration = 60, frameCount = 0, flags = 0x42 },
+            new() { str = AFINALA, duration = 40, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 16, frameCount = 10, flags = 0x0 },
-            new() { str = "EFINALB", duration = 55, frameCount = 0, flags = 0x3 },
-            new() { str = "EFINALB", duration = 20, frameCount = 1, flags = 0x43 },
+            new() { str = EFINALB, duration = 55, frameCount = 0, flags = 0x3 },
+            new() { str = EFINALB, duration = 20, frameCount = 1, flags = 0x43 },
             new() { str = "AFINALB", duration = 20, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 35, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ],
 
         [ /* 9 - Level 9: Ordos */
-        	new() { str = "OFINALA", duration = 65, frameCount = 0, flags = 0x7 },
-            new() { str = "EFINALA", duration = 60, frameCount = 0, flags = 0x42 },
-            new() { str = "OFINALA", duration = 20, frameCount = 0, flags = 0x42 },
+        	new() { str = OFINALA, duration = 65, frameCount = 0, flags = 0x7 },
+            new() { str = EFINALA, duration = 60, frameCount = 0, flags = 0x42 },
+            new() { str = OFINALA, duration = 20, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 19, frameCount = 10, flags = 0x0 },
             new() { str = "OFINALB", duration = 20, frameCount = 0, flags = 0x2 },
             new() { str = string.Empty, duration = 15, frameCount = 10, flags = 0x0 },
             new() { str = "OFINALC", duration = 20, frameCount = 0, flags = 0x2 },
             new() { str = string.Empty, duration = 22, frameCount = 10, flags = 0x0 },
-            new() { str = "EFINALB", duration = 25, frameCount = 0, flags = 0x3 },
-            new() { str = "EFINALB", duration = 15, frameCount = 1, flags = 0x43 },
-            new() { str = "OFINALD", duration = 10, frameCount = 0, flags = 0x3 },
-            new() { str = "OFINALD", duration = 16, frameCount = 0, flags = 0x42 },
+            new() { str = EFINALB, duration = 25, frameCount = 0, flags = 0x3 },
+            new() { str = EFINALB, duration = 15, frameCount = 1, flags = 0x43 },
+            new() { str = OFINALD, duration = 10, frameCount = 0, flags = 0x3 },
+            new() { str = OFINALD, duration = 16, frameCount = 0, flags = 0x42 },
             new() { str = string.Empty, duration = 20, frameCount = 10, flags = 0x8 },
             new() { str = string.Empty, duration = 0, frameCount = 0, flags = 0x0 }
         ]
