@@ -81,6 +81,8 @@ static class SaveLoad
     //internal static SaveLoadDesc SLD_GSLD<M>(M m, SaveLoadDesc[] s) =>
     //	new SaveLoadDesc { /*offset = 0,*/ type_disk = SaveLoadType.SLDT_SLD, type_memory = SaveLoadType.SLDT_SLD, count = 1, sld = s, /*size = Common.SizeOf(m),*/ callback = null, address = m };
 
+    const string ERROR = "ERROR: Error in Save/Load structure descriptions";
+
     /*
      * An empty entry. Just to pad bytes on disk.
      * @param t The type on disk.
@@ -306,7 +308,7 @@ static class SaveLoad
 
                     case SLDT_INVALID:
                     default:
-                        Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
+                        Trace.WriteLine(ERROR);
                         return false;
                 }
 
@@ -428,7 +430,7 @@ static class SaveLoad
                         break;
 
                     case SLDT_INVALID:
-                        Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
+                        Trace.WriteLine(ERROR);
                         return false;
                 }
             }
@@ -537,7 +539,7 @@ static class SaveLoad
                         break;
 
                     case SLDT_INVALID:
-                        Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
+                        Trace.WriteLine(ERROR);
                         return false;
                 }
 
@@ -588,7 +590,7 @@ static class SaveLoad
 
                     case SLDT_INVALID:
                     default:
-                        Trace.WriteLine("ERROR: Error in Save/Load structure descriptions");
+                        Trace.WriteLine(ERROR);
                         return false;
                 }
             }

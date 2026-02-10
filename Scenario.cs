@@ -44,6 +44,8 @@ class CScenario
 
 static class Scenario
 {
+    const string BASIC = "BASIC";
+
     internal static CScenario g_scenario = new();
 
     static /* void* */string s_scenarioBuffer = string.Empty;
@@ -64,17 +66,17 @@ static class Scenario
 
     static void Scenario_Load_General()
     {
-        g_scenario.winFlags = (ushort)Ini_GetInteger("BASIC", "WinFlags", 0, s_scenarioBuffer);
-        g_scenario.loseFlags = (ushort)Ini_GetInteger("BASIC", "LoseFlags", 0, s_scenarioBuffer);
+        g_scenario.winFlags = (ushort)Ini_GetInteger(BASIC, "WinFlags", 0, s_scenarioBuffer);
+        g_scenario.loseFlags = (ushort)Ini_GetInteger(BASIC, "LoseFlags", 0, s_scenarioBuffer);
         g_scenario.mapSeed = (uint)Ini_GetInteger("MAP", "Seed", 0, s_scenarioBuffer);
-        g_scenario.timeOut = (ushort)Ini_GetInteger("BASIC", "TimeOut", 0, s_scenarioBuffer);
-        g_minimapPosition = (ushort)Ini_GetInteger("BASIC", "TacticalPos", g_minimapPosition, s_scenarioBuffer);
-        g_selectionRectanglePosition = (ushort)Ini_GetInteger("BASIC", "CursorPos", g_selectionRectanglePosition, s_scenarioBuffer);
-        g_scenario.mapScale = (ushort)Ini_GetInteger("BASIC", "MapScale", 0, s_scenarioBuffer);
+        g_scenario.timeOut = (ushort)Ini_GetInteger(BASIC, "TimeOut", 0, s_scenarioBuffer);
+        g_minimapPosition = (ushort)Ini_GetInteger(BASIC, "TacticalPos", g_minimapPosition, s_scenarioBuffer);
+        g_selectionRectanglePosition = (ushort)Ini_GetInteger(BASIC, "CursorPos", g_selectionRectanglePosition, s_scenarioBuffer);
+        g_scenario.mapScale = (ushort)Ini_GetInteger(BASIC, "MapScale", 0, s_scenarioBuffer);
 
-        g_scenario.pictureBriefing = Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA", s_scenarioBuffer);
-        g_scenario.pictureWin = Ini_GetString("BASIC", "WinPicture", "WIN1.WSA", s_scenarioBuffer);
-        g_scenario.pictureLose = Ini_GetString("BASIC", "LosePicture", "LOSTBILD.WSA", s_scenarioBuffer);
+        g_scenario.pictureBriefing = Ini_GetString(BASIC, "BriefPicture", "HARVEST.WSA", s_scenarioBuffer);
+        g_scenario.pictureWin = Ini_GetString(BASIC, "WinPicture", "WIN1.WSA", s_scenarioBuffer);
+        g_scenario.pictureLose = Ini_GetString(BASIC, "LosePicture", "LOSTBILD.WSA", s_scenarioBuffer);
 
         g_viewportPosition = g_minimapPosition;
         g_selectionPosition = g_selectionRectanglePosition;

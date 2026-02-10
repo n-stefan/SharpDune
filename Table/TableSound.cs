@@ -4,6 +4,14 @@ namespace SharpDune.Table;
 
 static class TableSound
 {
+    const string DUNE0 = "dune0";
+    const string DUNE1 = "dune1";
+    const string DUNE7 = "dune7";
+    const string DUNE8 = "dune8";
+    const string DUNE9 = "dune9";
+    const string DUNE16 = "dune16";
+    const string DUNE19 = "dune19";
+
     /* Available voices.
      * Prefix :
      *  '+' : Don't include in voiceSet 0xFFFF
@@ -16,137 +24,137 @@ static class TableSound
      *           'H'arkonnen or Sardokar, 'M'ercenary)
      */
     internal static readonly VoiceData[] g_table_voices = [ //[NUM_VOICES]
-		new() { str = "+VSCREAM1.VOC",  priority = 11}, /*   0 */
-		new() { str = "+EXSAND.VOC",    priority = 10}, /*   1 */
-		new() { str = "+ROCKET.VOC",    priority = 11}, /*   2 */
-		new() { str = "+BUTTON.VOC",    priority = 10}, /*   3 */
-		new() { str = "+VSCREAM5.VOC",  priority = 11}, /*   4 */
-		new() { str = "+CRUMBLE.VOC",   priority = 15}, /*   5 */
-		new() { str = "+EXSMALL.VOC",   priority = 9}, /*   6 */
-		new() { str = "+EXMED.VOC",     priority = 10}, /*   7 */
-		new() { str = "+EXLARGE.VOC",   priority = 14}, /*   8 */
-		new() { str = "+EXCANNON.VOC",  priority = 11}, /*   9 */
-		new() { str = "+GUNMULTI.VOC",  priority = 9}, /*  10 */
-		new() { str = "+GUN.VOC",       priority = 10}, /*  11 */
-		new() { str = "+EXGAS.VOC",     priority = 10}, /*  12 */
-		new() { str = "+EXDUD.VOC",     priority = 10}, /*  13 */
-		new() { str = "+VSCREAM2.VOC",  priority = 11}, /*  14 */
-		new() { str = "+VSCREAM3.VOC",  priority = 11}, /*  15 */
-		new() { str = "+VSCREAM4.VOC",  priority = 11}, /*  16 */
-		new() { str = "+%cAFFIRM.VOC",  priority = 15}, /*  17 */
-		new() { str = "+%cREPORT1.VOC", priority = 15}, /*  18 */
-		new() { str = "+%cREPORT2.VOC", priority = 15}, /*  19 */
-		new() { str = "+%cREPORT3.VOC", priority = 15}, /*  20 */
-		new() { str = "+%cOVEROUT.VOC", priority = 15}, /*  21 */
-		new() { str = "+%cMOVEOUT.VOC", priority = 15}, /*  22 */
-		new() { str = "?POPPA.VOC",     priority = 15}, /*  23 */
-		new() { str = "?SANDBUG.VOC",   priority = 15}, /*  24 */
-		new() { str = "+STATICP.VOC",   priority = 10}, /*  25 */
-		new() { str = "+WORMET3P.VOC",  priority = 16}, /*  26 */
-		new() { str = "+MISLTINP.VOC",  priority = 10}, /*  27 */
-		new() { str = "+SQUISH2.VOC",   priority = 12}, /*  28 */
-		new() { str = "%cENEMY.VOC",    priority = 20}, /*  29 */
-		new() { str = "%cHARK.VOC",     priority = 20}, /*  30 */
-		new() { str = "%cATRE.VOC",     priority = 20}, /*  31 */
-		new() { str = "%cORDOS.VOC",    priority = 20}, /*  32 */
-		new() { str = "%cFREMEN.VOC",   priority = 20}, /*  33 */
-		new() { str = "%cSARD.VOC",     priority = 20}, /*  34 */
-		new() { str = "FILLER.VOC",     priority = 20}, /*  35 */
-		new() { str = "%cUNIT.VOC",     priority = 20}, /*  36 */
-		new() { str = "%cSTRUCT.VOC",   priority = 20}, /*  37 */
-		new() { str = "%cONE.VOC",      priority = 19}, /*  38 */
-		new() { str = "%cTWO.VOC",      priority = 19}, /*  39 */
-		new() { str = "%cTHREE.VOC",    priority = 19}, /*  40 */
-		new() { str = "%cFOUR.VOC",     priority = 19}, /*  41 */
-		new() { str = "%cFIVE.VOC",     priority = 19}, /*  42 */
-		new() { str = "%cCONST.VOC",    priority = 20}, /*  43 */
-		new() { str = "%cRADAR.VOC",    priority = 20}, /*  44 */
-		new() { str = "%cOFF.VOC",      priority = 20}, /*  45 */
-		new() { str = "%cON.VOC",       priority = 20}, /*  46 */
-		new() { str = "%cFRIGATE.VOC",  priority = 20}, /*  47 */
-		new() { str = "?%cARRIVE.VOC",  priority = 20}, /*  48 */
-		new() { str = "%cWARNING.VOC",  priority = 20}, /*  49 */
-		new() { str = "%cSABOT.VOC",    priority = 20}, /*  50 */
-		new() { str = "%cMISSILE.VOC",  priority = 20}, /*  51 */
-		new() { str = "%cBLOOM.VOC",    priority = 20}, /*  52 */
-		new() { str = "%cDESTROY.VOC",  priority = 20}, /*  53 */
-		new() { str = "%cDEPLOY.VOC",   priority = 20}, /*  54 */
-		new() { str = "%cAPPRCH.VOC",   priority = 20}, /*  55 */
-		new() { str = "%cLOCATED.VOC",  priority = 20}, /*  56 */
-		new() { str = "%cNORTH.VOC",    priority = 20}, /*  57 */
-		new() { str = "%cEAST.VOC",     priority = 20}, /*  58 */
-		new() { str = "%cSOUTH.VOC",    priority = 20}, /*  59 */
-		new() { str = "%cWEST.VOC",     priority = 20}, /*  60 */
-		new() { str = "?%cWIN.VOC",     priority = 20}, /*  61 */
-		new() { str = "?%cLOSE.VOC",    priority = 20}, /*  62 */
-		new() { str = "%cLAUNCH.VOC",   priority = 20}, /*  63 */
-		new() { str = "%cATTACK.VOC",   priority = 20}, /*  64 */
-		new() { str = "%cVEHICLE.VOC",  priority = 20}, /*  65 */
-		new() { str = "%cREPAIR.VOC",   priority = 20}, /*  66 */
-		new() { str = "%cHARVEST.VOC",  priority = 20}, /*  67 */
-		new() { str = "%cWORMY.VOC",    priority = 20}, /*  68 */
-		new() { str = "%cCAPTURE.VOC",  priority = 20}, /*  69 */
-		new() { str = "%cNEXT.VOC",     priority = 20}, /*  70 */
-		new() { str = "%cNEXT2.VOC",    priority = 20}, /*  71 */
-		new() { str = "/BLASTER.VOC",   priority = 10}, /*  72 */
-		new() { str = "/GLASS6.VOC",    priority = 10}, /*  73 */
-		new() { str = "/LIZARD1.VOC",   priority = 10}, /*  74 */
-		new() { str = "/FLESH.VOC",     priority = 10}, /*  75 */
-		new() { str = "/CLICK.VOC",     priority = 10}, /*  76 */
-		new() { str = "-3HOUSES.VOC",   priority = 12}, /*  77 */
-		new() { str = "-ANDNOW.VOC",    priority = 12}, /*  78 */
-		new() { str = "-ARRIVED.VOC",   priority = 12}, /*  79 */
-		new() { str = "-BATTLE.VOC",    priority = 12}, /*  80 */
-		new() { str = "-BEGINS.VOC",    priority = 12}, /*  81 */
-		new() { str = "-BLDING.VOC",    priority = 12}, /*  82 */
-		new() { str = "-CONTROL2.VOC",  priority = 12}, /*  83 */
-		new() { str = "-CONTROL3.VOC",  priority = 12}, /*  84 */
-		new() { str = "-CONTROL4.VOC",  priority = 12}, /*  85 */
-		new() { str = "-CONTROLS.VOC",  priority = 12}, /*  86 */
-		new() { str = "-DUNE.VOC",      priority = 12}, /*  87 */
-		new() { str = "-DYNASTY.VOC",   priority = 12}, /*  88 */
-		new() { str = "-EACHHOME.VOC",  priority = 12}, /*  89 */
-		new() { str = "-EANDNO.VOC",    priority = 12}, /*  90 */
-		new() { str = "-ECONTROL.VOC",  priority = 12}, /*  91 */
-		new() { str = "-EHOUSE.VOC",    priority = 12}, /*  92 */
-		new() { str = "-EMPIRE.VOC",    priority = 12}, /*  93 */
-		new() { str = "-EPRODUCE.VOC",  priority = 12}, /*  94 */
-		new() { str = "-ERULES.VOC",    priority = 12}, /*  95 */
-		new() { str = "-ETERRIT.VOC",   priority = 12}, /*  96 */
-		new() { str = "-EMOST.VOC",     priority = 12}, /*  97 */
-		new() { str = "-ENOSET.VOC",    priority = 12}, /*  98 */
-		new() { str = "-EVIL.VOC",      priority = 12}, /*  99 */
-		new() { str = "-HARK.VOC",      priority = 12}, /* 100 */
-		new() { str = "-HOME.VOC",      priority = 12}, /* 101 */
-		new() { str = "-HOUSE2.VOC",    priority = 12}, /* 102 */
-		new() { str = "-INSID.VOC",     priority = 12}, /* 103 */
-		new() { str = "-KING.VOC",      priority = 12}, /* 104 */
-		new() { str = "-KNOWN.VOC",     priority = 12}, /* 105 */
-		new() { str = "-MELANGE.VOC",   priority = 12}, /* 106 */
-		new() { str = "-NOBLE.VOC",     priority = 12}, /* 107 */
-		new() { str = "?NOW.VOC",       priority = 12}, /* 108 */
-		new() { str = "-OFDUNE.VOC",    priority = 12}, /* 109 */
-		new() { str = "-ORD.VOC",       priority = 12}, /* 110 */
-		new() { str = "-PLANET.VOC",    priority = 12}, /* 111 */
-		new() { str = "-PREVAIL.VOC",   priority = 12}, /* 112 */
-		new() { str = "-PROPOSED.VOC",  priority = 12}, /* 113 */
-		new() { str = "-SANDLAND.VOC",  priority = 12}, /* 114 */
-		new() { str = "-SPICE.VOC",     priority = 12}, /* 115 */
-		new() { str = "-SPICE2.VOC",    priority = 12}, /* 116 */
-		new() { str = "-VAST.VOC",      priority = 12}, /* 117 */
-		new() { str = "-WHOEVER.VOC",   priority = 12}, /* 118 */
-		new() { str = "?YOUR.VOC",      priority = 12}, /* 119 */
-		new() { str = "?FILLER.VOC",    priority = 12}, /* 120 */
-		new() { str = "-DROPEQ2P.VOC",  priority = 10}, /* 121 */
-		new() { str = "/EXTINY.VOC",    priority = 10}, /* 122 */
-		new() { str = "-WIND2BP.VOC",   priority = 10}, /* 123 */
-		new() { str = "-BRAKES2P.VOC",  priority = 11}, /* 124 */
-		new() { str = "-GUNSHOT.VOC",   priority = 10}, /* 125 */
-		new() { str = "-GLASS.VOC",     priority = 11}, /* 126 */
-		new() { str = "-MISSLE8.VOC",   priority = 10}, /* 127 */
-		new() { str = "-CLANK.VOC",     priority = 10}, /* 128 */
-		new() { str = "-BLOWUP1.VOC",   priority = 10}, /* 129 */
-		new() { str = "-BLOWUP2.VOC",   priority = 11}  /* 130 */
+		new() { str = "+VSCREAM1.VOC",  priority = 11 }, /*   0 */
+		new() { str = "+EXSAND.VOC",    priority = 10 }, /*   1 */
+		new() { str = "+ROCKET.VOC",    priority = 11 }, /*   2 */
+		new() { str = "+BUTTON.VOC",    priority = 10 }, /*   3 */
+		new() { str = "+VSCREAM5.VOC",  priority = 11 }, /*   4 */
+		new() { str = "+CRUMBLE.VOC",   priority = 15 }, /*   5 */
+		new() { str = "+EXSMALL.VOC",   priority = 9 }, /*   6 */
+		new() { str = "+EXMED.VOC",     priority = 10 }, /*   7 */
+		new() { str = "+EXLARGE.VOC",   priority = 14 }, /*   8 */
+		new() { str = "+EXCANNON.VOC",  priority = 11 }, /*   9 */
+		new() { str = "+GUNMULTI.VOC",  priority = 9 }, /*  10 */
+		new() { str = "+GUN.VOC",       priority = 10 }, /*  11 */
+		new() { str = "+EXGAS.VOC",     priority = 10 }, /*  12 */
+		new() { str = "+EXDUD.VOC",     priority = 10 }, /*  13 */
+		new() { str = "+VSCREAM2.VOC",  priority = 11 }, /*  14 */
+		new() { str = "+VSCREAM3.VOC",  priority = 11 }, /*  15 */
+		new() { str = "+VSCREAM4.VOC",  priority = 11 }, /*  16 */
+		new() { str = "+%cAFFIRM.VOC",  priority = 15 }, /*  17 */
+		new() { str = "+%cREPORT1.VOC", priority = 15 }, /*  18 */
+		new() { str = "+%cREPORT2.VOC", priority = 15 }, /*  19 */
+		new() { str = "+%cREPORT3.VOC", priority = 15 }, /*  20 */
+		new() { str = "+%cOVEROUT.VOC", priority = 15 }, /*  21 */
+		new() { str = "+%cMOVEOUT.VOC", priority = 15 }, /*  22 */
+		new() { str = "?POPPA.VOC",     priority = 15 }, /*  23 */
+		new() { str = "?SANDBUG.VOC",   priority = 15 }, /*  24 */
+		new() { str = "+STATICP.VOC",   priority = 10 }, /*  25 */
+		new() { str = "+WORMET3P.VOC",  priority = 16 }, /*  26 */
+		new() { str = "+MISLTINP.VOC",  priority = 10 }, /*  27 */
+		new() { str = "+SQUISH2.VOC",   priority = 12 }, /*  28 */
+		new() { str = "%cENEMY.VOC",    priority = 20 }, /*  29 */
+		new() { str = "%cHARK.VOC",     priority = 20 }, /*  30 */
+		new() { str = "%cATRE.VOC",     priority = 20 }, /*  31 */
+		new() { str = "%cORDOS.VOC",    priority = 20 }, /*  32 */
+		new() { str = "%cFREMEN.VOC",   priority = 20 }, /*  33 */
+		new() { str = "%cSARD.VOC",     priority = 20 }, /*  34 */
+		new() { str = "FILLER.VOC",     priority = 20 }, /*  35 */
+		new() { str = "%cUNIT.VOC",     priority = 20 }, /*  36 */
+		new() { str = "%cSTRUCT.VOC",   priority = 20 }, /*  37 */
+		new() { str = "%cONE.VOC",      priority = 19 }, /*  38 */
+		new() { str = "%cTWO.VOC",      priority = 19 }, /*  39 */
+		new() { str = "%cTHREE.VOC",    priority = 19 }, /*  40 */
+		new() { str = "%cFOUR.VOC",     priority = 19 }, /*  41 */
+		new() { str = "%cFIVE.VOC",     priority = 19 }, /*  42 */
+		new() { str = "%cCONST.VOC",    priority = 20 }, /*  43 */
+		new() { str = "%cRADAR.VOC",    priority = 20 }, /*  44 */
+		new() { str = "%cOFF.VOC",      priority = 20 }, /*  45 */
+		new() { str = "%cON.VOC",       priority = 20 }, /*  46 */
+		new() { str = "%cFRIGATE.VOC",  priority = 20 }, /*  47 */
+		new() { str = "?%cARRIVE.VOC",  priority = 20 }, /*  48 */
+		new() { str = "%cWARNING.VOC",  priority = 20 }, /*  49 */
+		new() { str = "%cSABOT.VOC",    priority = 20 }, /*  50 */
+		new() { str = "%cMISSILE.VOC",  priority = 20 }, /*  51 */
+		new() { str = "%cBLOOM.VOC",    priority = 20 }, /*  52 */
+		new() { str = "%cDESTROY.VOC",  priority = 20 }, /*  53 */
+		new() { str = "%cDEPLOY.VOC",   priority = 20 }, /*  54 */
+		new() { str = "%cAPPRCH.VOC",   priority = 20 }, /*  55 */
+		new() { str = "%cLOCATED.VOC",  priority = 20 }, /*  56 */
+		new() { str = "%cNORTH.VOC",    priority = 20 }, /*  57 */
+		new() { str = "%cEAST.VOC",     priority = 20 }, /*  58 */
+		new() { str = "%cSOUTH.VOC",    priority = 20 }, /*  59 */
+		new() { str = "%cWEST.VOC",     priority = 20 }, /*  60 */
+		new() { str = "?%cWIN.VOC",     priority = 20 }, /*  61 */
+		new() { str = "?%cLOSE.VOC",    priority = 20 }, /*  62 */
+		new() { str = "%cLAUNCH.VOC",   priority = 20 }, /*  63 */
+		new() { str = "%cATTACK.VOC",   priority = 20 }, /*  64 */
+		new() { str = "%cVEHICLE.VOC",  priority = 20 }, /*  65 */
+		new() { str = "%cREPAIR.VOC",   priority = 20 }, /*  66 */
+		new() { str = "%cHARVEST.VOC",  priority = 20 }, /*  67 */
+		new() { str = "%cWORMY.VOC",    priority = 20 }, /*  68 */
+		new() { str = "%cCAPTURE.VOC",  priority = 20 }, /*  69 */
+		new() { str = "%cNEXT.VOC",     priority = 20 }, /*  70 */
+		new() { str = "%cNEXT2.VOC",    priority = 20 }, /*  71 */
+		new() { str = "/BLASTER.VOC",   priority = 10 }, /*  72 */
+		new() { str = "/GLASS6.VOC",    priority = 10 }, /*  73 */
+		new() { str = "/LIZARD1.VOC",   priority = 10 }, /*  74 */
+		new() { str = "/FLESH.VOC",     priority = 10 }, /*  75 */
+		new() { str = "/CLICK.VOC",     priority = 10 }, /*  76 */
+		new() { str = "-3HOUSES.VOC",   priority = 12 }, /*  77 */
+		new() { str = "-ANDNOW.VOC",    priority = 12 }, /*  78 */
+		new() { str = "-ARRIVED.VOC",   priority = 12 }, /*  79 */
+		new() { str = "-BATTLE.VOC",    priority = 12 }, /*  80 */
+		new() { str = "-BEGINS.VOC",    priority = 12 }, /*  81 */
+		new() { str = "-BLDING.VOC",    priority = 12 }, /*  82 */
+		new() { str = "-CONTROL2.VOC",  priority = 12 }, /*  83 */
+		new() { str = "-CONTROL3.VOC",  priority = 12 }, /*  84 */
+		new() { str = "-CONTROL4.VOC",  priority = 12 }, /*  85 */
+		new() { str = "-CONTROLS.VOC",  priority = 12 }, /*  86 */
+		new() { str = "-DUNE.VOC",      priority = 12 }, /*  87 */
+		new() { str = "-DYNASTY.VOC",   priority = 12 }, /*  88 */
+		new() { str = "-EACHHOME.VOC",  priority = 12 }, /*  89 */
+		new() { str = "-EANDNO.VOC",    priority = 12 }, /*  90 */
+		new() { str = "-ECONTROL.VOC",  priority = 12 }, /*  91 */
+		new() { str = "-EHOUSE.VOC",    priority = 12 }, /*  92 */
+		new() { str = "-EMPIRE.VOC",    priority = 12 }, /*  93 */
+		new() { str = "-EPRODUCE.VOC",  priority = 12 }, /*  94 */
+		new() { str = "-ERULES.VOC",    priority = 12 }, /*  95 */
+		new() { str = "-ETERRIT.VOC",   priority = 12 }, /*  96 */
+		new() { str = "-EMOST.VOC",     priority = 12 }, /*  97 */
+		new() { str = "-ENOSET.VOC",    priority = 12 }, /*  98 */
+		new() { str = "-EVIL.VOC",      priority = 12 }, /*  99 */
+		new() { str = "-HARK.VOC",      priority = 12 }, /* 100 */
+		new() { str = "-HOME.VOC",      priority = 12 }, /* 101 */
+		new() { str = "-HOUSE2.VOC",    priority = 12 }, /* 102 */
+		new() { str = "-INSID.VOC",     priority = 12 }, /* 103 */
+		new() { str = "-KING.VOC",      priority = 12 }, /* 104 */
+		new() { str = "-KNOWN.VOC",     priority = 12 }, /* 105 */
+		new() { str = "-MELANGE.VOC",   priority = 12 }, /* 106 */
+		new() { str = "-NOBLE.VOC",     priority = 12 }, /* 107 */
+		new() { str = "?NOW.VOC",       priority = 12 }, /* 108 */
+		new() { str = "-OFDUNE.VOC",    priority = 12 }, /* 109 */
+		new() { str = "-ORD.VOC",       priority = 12 }, /* 110 */
+		new() { str = "-PLANET.VOC",    priority = 12 }, /* 111 */
+		new() { str = "-PREVAIL.VOC",   priority = 12 }, /* 112 */
+		new() { str = "-PROPOSED.VOC",  priority = 12 }, /* 113 */
+		new() { str = "-SANDLAND.VOC",  priority = 12 }, /* 114 */
+		new() { str = "-SPICE.VOC",     priority = 12 }, /* 115 */
+		new() { str = "-SPICE2.VOC",    priority = 12 }, /* 116 */
+		new() { str = "-VAST.VOC",      priority = 12 }, /* 117 */
+		new() { str = "-WHOEVER.VOC",   priority = 12 }, /* 118 */
+		new() { str = "?YOUR.VOC",      priority = 12 }, /* 119 */
+		new() { str = "?FILLER.VOC",    priority = 12 }, /* 120 */
+		new() { str = "-DROPEQ2P.VOC",  priority = 10 }, /* 121 */
+		new() { str = "/EXTINY.VOC",    priority = 10 }, /* 122 */
+		new() { str = "-WIND2BP.VOC",   priority = 10 }, /* 123 */
+		new() { str = "-BRAKES2P.VOC",  priority = 11 }, /* 124 */
+		new() { str = "-GUNSHOT.VOC",   priority = 10 }, /* 125 */
+		new() { str = "-GLASS.VOC",     priority = 11 }, /* 126 */
+		new() { str = "-MISSLE8.VOC",   priority = 10 }, /* 127 */
+		new() { str = "-CLANK.VOC",     priority = 10 }, /* 128 */
+		new() { str = "-BLOWUP1.VOC",   priority = 10 }, /* 129 */
+		new() { str = "-BLOWUP2.VOC",   priority = 11 }  /* 130 */
 	];
 
     /*
@@ -155,21 +163,21 @@ static class TableSound
      */
     internal static readonly MusicData[] g_table_musics = [
         new() { name = null, index = 0 }, /*  0 */
-		new() { name = "dune1", index = 2 }, /*  1 */
-		new() { name = "dune1", index = 3 }, /*  2 */
-		new() { name = "dune1", index = 4 }, /*  3 */
-		new() { name = "dune1", index = 5 }, /*  4 */
+		new() { name = DUNE1, index = 2 }, /*  1 */
+		new() { name = DUNE1, index = 3 }, /*  2 */
+		new() { name = DUNE1, index = 4 }, /*  3 */
+		new() { name = DUNE1, index = 5 }, /*  4 */
 		new() { name = "dune17", index = 4 }, /*  5 */
-		new() { name = "dune8", index = 3 }, /*  6 */
-		new() { name = "dune8", index = 2 }, /*  7 */
-		new() { name = "dune1", index = 6 }, /*  8 */
+		new() { name = DUNE8, index = 3 }, /*  6 */
+		new() { name = DUNE8, index = 2 }, /*  7 */
+		new() { name = DUNE1, index = 6 }, /*  8 */
 		new() { name = "dune2", index = 6 }, /*  9 */
 		new() { name = "dune3", index = 6 }, /* 10 */
 		new() { name = "dune4", index = 6 }, /* 11 */
 		new() { name = "dune5", index = 6 }, /* 12 */
 		new() { name = "dune6", index = 6 }, /* 13 */
-		new() { name = "dune9", index = 4 }, /* 14 */
-		new() { name = "dune9", index = 5 }, /* 15 */
+		new() { name = DUNE9, index = 4 }, /* 14 */
+		new() { name = DUNE9, index = 5 }, /* 15 */
 		new() { name = "dune18", index = 6 }, /* 16 */
 		new() { name = "dune10", index = 7 }, /* 17 */
 		new() { name = "dune11", index = 7 }, /* 18 */
@@ -177,21 +185,21 @@ static class TableSound
 		new() { name = "dune13", index = 7 }, /* 20 */
 		new() { name = "dune14", index = 7 }, /* 21 */
 		new() { name = "dune15", index = 7 }, /* 22 */
-		new() { name = "dune1", index = 8 }, /* 23 */
-		new() { name = "dune7", index = 2 }, /* 24 */
-		new() { name = "dune7", index = 3 }, /* 25 */
-		new() { name = "dune7", index = 4 }, /* 26 */
-		new() { name = "dune0", index = 2 }, /* 27 */
-		new() { name = "dune7", index = 6 }, /* 28 */
-		new() { name = "dune16", index = 7 }, /* 29 */
-		new() { name = "dune19", index = 4 }, /* 30 */
-		new() { name = "dune19", index = 2 }, /* 31 */
-		new() { name = "dune19", index = 3 }, /* 32 */
+		new() { name = DUNE1, index = 8 }, /* 23 */
+		new() { name = DUNE7, index = 2 }, /* 24 */
+		new() { name = DUNE7, index = 3 }, /* 25 */
+		new() { name = DUNE7, index = 4 }, /* 26 */
+		new() { name = DUNE0, index = 2 }, /* 27 */
+		new() { name = DUNE7, index = 6 }, /* 28 */
+		new() { name = DUNE16, index = 7 }, /* 29 */
+		new() { name = DUNE19, index = 4 }, /* 30 */
+		new() { name = DUNE19, index = 2 }, /* 31 */
+		new() { name = DUNE19, index = 3 }, /* 32 */
 		new() { name = "dune20", index = 2 }, /* 33 */
-		new() { name = "dune16", index = 8 }, /* 34 */
-		new() { name = "dune0", index = 3 }, /* 35 */
-		new() { name = "dune0", index = 4 }, /* 36 */
-		new() { name = "dune0", index = 5 }, /* 37 */
+		new() { name = DUNE16, index = 8 }, /* 34 */
+		new() { name = DUNE0, index = 3 }, /* 35 */
+		new() { name = DUNE0, index = 4 }, /* 36 */
+		new() { name = DUNE0, index = 5 }, /* 37 */
 	];
 
     /*

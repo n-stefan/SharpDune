@@ -28,6 +28,8 @@ class XYPosition
 static class SharpDune
 {
     internal const string window_caption = "SharpDUNE - v0.1";
+    const string COMBAT = "combat";
+    const string CONSTRUCT = "construct";
     internal static bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
     internal static bool g_starPortEnforceUnitLimit; /*!< If true, one cannot circumvent unit cap using starport */
     internal static bool g_unpackSHPonLoad = true; /*!< If true, Format80 encoded sprites from SHP files will be decoded on load. set to false to save memory */
@@ -561,7 +563,7 @@ static class SharpDune
         //*keys = '\0';
 
         sourceString = Encoding.GetString(source.Span);
-        keys = Ini_GetString("construct", null, keys, sourceString);
+        keys = Ini_GetString(CONSTRUCT, null, keys, sourceString);
 
         var keyPointer = 0;
         for (key = keys; key[keyPointer] != '\r'; keyPointer++)
@@ -591,7 +593,7 @@ static class SharpDune
 
             if (oi == null) continue;
 
-            buffer = Ini_GetString("construct", key, buffer, sourceString);
+            buffer = Ini_GetString(CONSTRUCT, key, buffer, sourceString);
             bufferStrings = buffer.Split(",");
             buildCredits = ushort.Parse(bufferStrings[0], Culture);
             buildTime = ushort.Parse(bufferStrings[1], Culture);
@@ -625,7 +627,7 @@ static class SharpDune
                 //	15 - (int)strlen(oi->name), string.Empty, oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
                 //	oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source.Span));
+                Ini_SetString(CONSTRUCT, oi.name, buffer, Encoding.GetString(source.Span));
             }
 
             for (locsi = 0; locsi < (ushort)StructureType.STRUCTURE_MAX; locsi++)
@@ -637,13 +639,13 @@ static class SharpDune
                 //	15 - (int)strlen(oi->name), string.Empty, oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
                 //	oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-                Ini_SetString("construct", oi.name, buffer, Encoding.GetString(source.Span));
+                Ini_SetString(CONSTRUCT, oi.name, buffer, Encoding.GetString(source.Span));
             }
         }
 
         //*keys = '\0';
 
-        keys = Ini_GetString("combat", null, keys, sourceString);
+        keys = Ini_GetString(COMBAT, null, keys, sourceString);
 
         for (key = keys; key[keyPointer] != '\r'; keyPointer++)
         { //key += strlen(key) + 1) {
@@ -652,7 +654,7 @@ static class SharpDune
             ushort fireDelay;
             ushort fireDistance;
 
-            buffer = Ini_GetString("combat", key, buffer, sourceString);
+            buffer = Ini_GetString(COMBAT, key, buffer, sourceString);
 
             bufferStrings = buffer.Trim().Split(","); //String_Trim(buffer);
             if (bufferStrings.Length < 4) continue;
@@ -685,7 +687,7 @@ static class SharpDune
 
             buffer = $"{ui.o.name.PadRight(15 - ui.o.name.Length, ' ')}{ui.fireDistance},{ui.damage},{ui.fireDelay},{ui.movingSpeedFactor}";
             //sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), string.Empty, ui->fireDistance, ui->damage, ui->fireDelay, ui->movingSpeedFactor);
-            Ini_SetString("combat", ui.o.name, buffer, Encoding.GetString(source.Span));
+            Ini_SetString(COMBAT, ui.o.name, buffer, Encoding.GetString(source.Span));
         }
     }
 

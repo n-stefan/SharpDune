@@ -76,6 +76,8 @@ static class Script
 
     const int SCRIPT_FUNCTIONS_COUNT = 64;                            /*!< There are never more than 64 functions for a script category. */
     internal const int SCRIPT_UNIT_OPCODES_PER_TICK = 50;             /*!< The amount of opcodes a unit can execute per tick. */
+    const string STACK_OVERFLOW = "Stack Overflow";
+    const string STACK_OVERFLOW_AT = "Stack Overflow at {0}:{1}";
 
     /*
      * Converted script functions for Structures.
@@ -331,9 +333,9 @@ static class Script
         if (script.stackPointer == 0)
         {
 #if DEBUG
-            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+            Script_Error(STACK_OVERFLOW_AT, filename, lineno);
 #else
-            Script_Error("Stack Overflow");
+            Script_Error(STACK_OVERFLOW);
 #endif
             script.script = null;
             return;
@@ -356,9 +358,9 @@ static class Script
         if (script.stackPointer >= 15)
         {
 #if DEBUG
-            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+            Script_Error(STACK_OVERFLOW_AT, filename, lineno);
 #else
-            Script_Error("Stack Overflow");
+            Script_Error(STACK_OVERFLOW);
 #endif
             script.script = null;
             return 0;
@@ -384,9 +386,9 @@ static class Script
         if (script.stackPointer >= 16 - position)
         {
 #if DEBUG
-            Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+            Script_Error(STACK_OVERFLOW_AT, filename, lineno);
 #else
-            Script_Error("Stack Overflow");
+            Script_Error(STACK_OVERFLOW);
 #endif
             script.script = null;
             return 0;
@@ -614,9 +616,9 @@ static class Script
                     if (script.framePointer - parameter - 2 >= 15)
                     {
 #if DEBUG
-                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error(STACK_OVERFLOW_AT, filename, lineno);
 #else
-                        Script_Error("Stack Overflow");
+                        Script_Error(STACK_OVERFLOW);
 #endif
                         script.script = null;
                         return false;
@@ -631,9 +633,9 @@ static class Script
                     if (script.framePointer + parameter - 1 >= 15)
                     {
 #if DEBUG
-                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error(STACK_OVERFLOW_AT, filename, lineno);
 #else
-                        Script_Error("Stack Overflow");
+                        Script_Error(STACK_OVERFLOW);
 #endif
                         script.script = null;
                         return false;
@@ -675,9 +677,9 @@ static class Script
                     if (script.framePointer - parameter - 2 >= 15)
                     {
 #if DEBUG
-                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error(STACK_OVERFLOW_AT, filename, lineno);
 #else
-                        Script_Error("Stack Overflow");
+                        Script_Error(STACK_OVERFLOW);
 #endif
                         script.script = null;
                         return false;
@@ -692,9 +694,9 @@ static class Script
                     if (script.framePointer + parameter - 1 >= 15)
                     {
 #if DEBUG
-                        Script_Error("Stack Overflow at {0}:{1}", filename, lineno);
+                        Script_Error(STACK_OVERFLOW_AT, filename, lineno);
 #else
-                        Script_Error("Stack Overflow");
+                        Script_Error(STACK_OVERFLOW);
 #endif
                         script.script = null;
                         return false;

@@ -182,6 +182,7 @@ static class Gui
     internal const ushort DRAWSPRITE_FLAG_WIDGETPOS = 0x4000;
     /* position posX,posY is relative to center of sprite */
     internal const ushort DRAWSPRITE_FLAG_CENTER = 0x8000;
+    const string SAVEFAME_DAT = "SAVEFAME.DAT";
 
     internal static ushort g_productionStringID;                /*!< Descriptive text of activity of the active structure. */
 
@@ -3536,7 +3537,7 @@ static class Gui
 
         if (score == 0xFFFF)
         {
-            if (!File_Exists_Personal("SAVEFAME.DAT"))
+            if (!File_Exists_Personal(SAVEFAME_DAT))
             {
                 GUI_Mouse_Show_Safe();
                 return;
@@ -3546,7 +3547,7 @@ static class Gui
 
         //data = (HallOfFameStruct[])Gfx.GFX_Screen_Get_ByIndex(Screen.NO2);
 
-        if (!File_Exists_Personal("SAVEFAME.DAT"))
+        if (!File_Exists_Personal(SAVEFAME_DAT))
         {
             ushort written;
 
@@ -3554,7 +3555,7 @@ static class Gui
 
             encodedBytes = GUI_HallOfFame_Encode(data);
 
-            fileID = File_Open_Personal("SAVEFAME.DAT", FileMode.FILE_MODE_WRITE);
+            fileID = File_Open_Personal(SAVEFAME_DAT, FileMode.FILE_MODE_WRITE);
             written = (ushort)File_Write(fileID, /*HallOfFameStruct.AllToBytes(data)*/encodedBytes, 128);
             File_Close(fileID);
 
@@ -3562,7 +3563,7 @@ static class Gui
         }
 
         encodedBytes = new byte[128];
-        File_ReadBlockFile_Personal("SAVEFAME.DAT", /*HallOfFameStruct.AllToBytes(data)*/encodedBytes, 128);
+        File_ReadBlockFile_Personal(SAVEFAME_DAT, /*HallOfFameStruct.AllToBytes(data)*/encodedBytes, 128);
 
         data = GUI_HallOfFame_Decode(/*data*/encodedBytes);
 
@@ -3609,7 +3610,7 @@ static class Gui
 
             encodedBytes = GUI_HallOfFame_Encode(data);
 
-            fileID = File_Open_Personal("SAVEFAME.DAT", FileMode.FILE_MODE_WRITE);
+            fileID = File_Open_Personal(SAVEFAME_DAT, FileMode.FILE_MODE_WRITE);
             File_Write(fileID, /*HallOfFameStruct.AllToBytes(data)*/encodedBytes, 128);
             File_Close(fileID);
         }
