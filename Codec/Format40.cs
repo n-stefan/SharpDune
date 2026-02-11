@@ -44,7 +44,7 @@ static class Format40
             {
                 /* last byte was 0x80 : read 16 bit value */
                 cmd = src.CurrInc;
-                cmd += (ushort)((src.CurrInc) << 8);
+                cmd += (ushort)(src.CurrInc << 8);
 
                 if (cmd == 0)
                     break;    /* 0x80 0x00 0x00 => exit code */
@@ -137,7 +137,7 @@ static class Format40
             {
                 /* last byte was 0x80 : read 16 bit value */
                 cmd = src.CurrInc;
-                cmd += (ushort)((src.CurrInc) << 8);
+                cmd += (ushort)(src.CurrInc << 8);
 
                 if (cmd == 0) break;    /* 0x80 0x00 0x00 => exit code */
 
@@ -247,7 +247,7 @@ static class Format40
             {
                 /* last byte was 0x80 : read 16 bit value */
                 cmd = src.CurrInc;
-                cmd += (ushort)((src.CurrInc) << 8);
+                cmd += (ushort)(src.CurrInc << 8);
 
                 if (cmd == 0) break;    /* 0x80 0x00 0x00 => exit code */
 

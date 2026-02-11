@@ -863,7 +863,7 @@ static class Unit
 
         score = Unit_GetTileEnterScore(unit, packed, (ushort)(orientation / 32));
 
-        if (score is > 255 or (-1)) return false;
+        if (score is > 255 or -1) return false;
 
         type = Map_GetLandscapeType(packed);
         if (type == (ushort)LandscapeType.LST_STRUCTURE) type = (ushort)LandscapeType.LST_CONCRETE_SLAB;
@@ -1645,7 +1645,7 @@ static class Unit
 
         diff = (short)(orientation - unit.orientation[level].current);
 
-        if (diff is > (-128) and < 0 or > 128)
+        if (diff is > -128 and < 0 or > 128)
         {
             unit.orientation[level].speed = (sbyte)-unit.orientation[level].speed;
         }
@@ -2697,7 +2697,7 @@ static class Unit
         bool ret;
         Tile32 currentDestination;
         var isSpiceBloom = false;
-        const bool isSpecialBloom = false;
+	    var isSpecialBloom = false;
 
         if (unit == null || !unit.o.flags.used) return false;
 
@@ -2955,12 +2955,12 @@ static class Unit
 
         unit.distanceToDestination = distance;
         unit.o.position = newPosition;
-
+        
         Unit_UpdateMap(1, unit);
-
+        
         if (isSpecialBloom) Map_Bloom_ExplodeSpecial(packed, Unit_GetHouseID(unit));
         if (isSpiceBloom) Map_Bloom_ExplodeSpice(packed, Unit_GetHouseID(unit));
-
+        
         return ret;
     }
 

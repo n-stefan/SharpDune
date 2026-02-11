@@ -44,7 +44,7 @@ static class Format80
             {
                 /* Long set */
                 size = source[sourcePointer++];
-                size += (ushort)((source[sourcePointer++]) << 8);
+                size += (ushort)(source[sourcePointer++] << 8);
                 if (size > end - destPointer) size = (ushort)(end - destPointer);
 
                 dest.Slice(destPointer, size).Fill(source[sourcePointer++]); //memset(dest, (*source++), size);
@@ -54,11 +54,11 @@ static class Format80
             {
                 /* Long move, absolute */
                 size = source[sourcePointer++];
-                size += (ushort)((source[sourcePointer++]) << 8);
+                size += (ushort)(source[sourcePointer++] << 8);
                 if (size > end - destPointer) size = (ushort)(end - destPointer);
 
                 offset = source[sourcePointer++];
-                offset += (ushort)((source[sourcePointer++]) << 8);
+                offset += (ushort)(source[sourcePointer++] << 8);
 
                 /* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
                 for (; size > 0; size--) dest[destPointer++] = dest[start + offset++]; //start[offset++];
@@ -70,7 +70,7 @@ static class Format80
                 if (size > end - destPointer) size = (ushort)(end - destPointer);
 
                 offset = source[sourcePointer++];
-                offset += (ushort)((source[sourcePointer++]) << 8);
+                offset += (ushort)(source[sourcePointer++] << 8);
 
                 /* This decoder assumes memcpy. As some platforms implement memcpy as memmove, this is much safer */
                 for (; size > 0; size--) dest[destPointer++] = dest[start + offset++]; //start[offset++];

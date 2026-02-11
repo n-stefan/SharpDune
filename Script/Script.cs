@@ -76,8 +76,11 @@ static class Script
 
     const int SCRIPT_FUNCTIONS_COUNT = 64;                            /*!< There are never more than 64 functions for a script category. */
     internal const int SCRIPT_UNIT_OPCODES_PER_TICK = 50;             /*!< The amount of opcodes a unit can execute per tick. */
-    const string STACK_OVERFLOW = "Stack Overflow";
+#if DEBUG
     const string STACK_OVERFLOW_AT = "Stack Overflow at {0}:{1}";
+#else
+    const string STACK_OVERFLOW = "Stack Overflow";
+#endif
 
     /*
      * Converted script functions for Structures.

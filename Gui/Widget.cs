@@ -810,8 +810,8 @@ static class Widget
                 key = 0;
 
                 buttonState = 0;
-                if ((key & 0x7F) == w.shortcut2) buttonState = (ushort)((w.flags.buttonFilterRight) << 12);
-                if (buttonState == 0) buttonState = (ushort)((w.flags.buttonFilterLeft) << 8);
+                if ((key & 0x7F) == w.shortcut2) buttonState = (ushort)(w.flags.buttonFilterRight << 12);
+                if (buttonState == 0) buttonState = (ushort)(w.flags.buttonFilterLeft << 8);
 
                 l_widget_selected = w;
             }
