@@ -1387,7 +1387,7 @@ static class Gui
      */
     internal static void GUI_DrawText_Wrapper(string str, short left, short top, byte fgColour, byte bgColour, int flags, params object[] ap)
     {
-        string textBuffer; //char[240]
+        string l_textBuffer; //char[240]
 
         var arg12low = (byte)(flags & 0x0F);   /* font : 1 => 6p, 2 => 8p */
         var arg2mid = (byte)(flags & 0xF0);    /* style */
@@ -1447,20 +1447,20 @@ static class Gui
 
         if (str == null) return;
 
-        textBuffer = new StringBuilder().AppendFormat(Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), string, ap);
+        l_textBuffer = new StringBuilder().AppendFormat(Culture, str, ap).ToString(); //vsnprintf(textBuffer, sizeof(textBuffer), string, ap);
 
         switch (flags & 0x0F00)
         {
             case 0x100:
-                left -= (short)(Font_GetStringWidth(textBuffer) / 2);
+                left -= (short)(Font_GetStringWidth(l_textBuffer) / 2);
                 break;
 
             case 0x200:
-                left -= (short)Font_GetStringWidth(textBuffer);
+                left -= (short)Font_GetStringWidth(l_textBuffer);
                 break;
         }
 
-        GUI_DrawText(textBuffer, left, top, fgColour, bgColour);
+        GUI_DrawText(l_textBuffer, left, top, fgColour, bgColour);
     }
 
     /*
@@ -3895,7 +3895,7 @@ static class Gui
     static void GUI_HallOfFame_DrawBackground(ushort score, bool hallOfFame)
     {
         Screen oldScreenID;
-        ushort xSrc;
+        ushort l_xSrc;
         ushort colour;
         ushort offset;
 
@@ -3903,20 +3903,20 @@ static class Gui
 
         Sprites_LoadImage("FAME.CPS", Screen.NO1, g_palette_998A);
 
-        xSrc = 1;
+        l_xSrc = 1;
         if (g_playerHouseID <= HouseType.HOUSE_ORDOS)
         {
-            xSrc = (ushort)((((byte)g_playerHouseID * 56) + 8) / 8);
+            l_xSrc = (ushort)((((byte)g_playerHouseID * 56) + 8) / 8);
         }
 
-        GUI_Screen_Copy((short)xSrc, 136, 0, 8, 7, 56, Screen.NO1, Screen.NO1);
+        GUI_Screen_Copy((short)l_xSrc, 136, 0, 8, 7, 56, Screen.NO1, Screen.NO1);
 
         if (g_playerHouseID > HouseType.HOUSE_ORDOS)
         {
-            xSrc += 7;
+            l_xSrc += 7;
         }
 
-        GUI_Screen_Copy((short)xSrc, 136, 33, 8, 7, 56, Screen.NO1, Screen.NO1);
+        GUI_Screen_Copy((short)l_xSrc, 136, 33, 8, 7, 56, Screen.NO1, Screen.NO1);
 
         GUI_DrawFilledRectangle(8, 136, 175, 191, 116);
 

@@ -45,19 +45,19 @@ static class Driver
     {
         //int len;
 
-        var filename = Drivers_GenerateFilename(musicName, driver);
+        var l_filename = Drivers_GenerateFilename(musicName, driver);
 
-        if (filename == null) return;
+        if (l_filename == null) return;
 
         Driver_UnloadFile(driver);
 
         //len = filename.Length; // + 1; /* String length including terminating \0 */
         //Debug.Assert(len <= driver.filename.Length);
-        driver.filename = filename; //memcpy(driver->filename, filename, len);
+        driver.filename = l_filename; //memcpy(driver->filename, filename, len);
 
-        driver.content = File_ReadWholeFile(filename);
+        driver.content = File_ReadWholeFile(l_filename);
         driver.contentMalloced = true;
-        Debug.WriteLine($"DEBUG: Driver_LoadFile({musicName}, {driver.extension}): {filename} loaded");
+        Debug.WriteLine($"DEBUG: Driver_LoadFile({musicName}, {driver.extension}): {l_filename} loaded");
     }
 
     internal static void Driver_UnloadFile(CDriver driver)
@@ -222,9 +222,9 @@ static class Driver
 
         if (music.filename != null)
         { //[0] != '\0') {
-            var filename = Drivers_GenerateFilename(musicName, sound);
+            var l_filename = Drivers_GenerateFilename(musicName, sound);
 
-            if (filename != null && string.Equals(filename, music.filename, StringComparison.OrdinalIgnoreCase))
+            if (l_filename != null && string.Equals(l_filename, music.filename, StringComparison.OrdinalIgnoreCase))
             { //strcasecmp(filename, music->filename) == 0) {
                 sound.content = music.content;
                 sound.filename = music.filename; //memcpy(sound->filename, music->filename, sizeof(music->filename));

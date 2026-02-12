@@ -1552,20 +1552,20 @@ static class Map
             {
                 for (k = 0; k < 21; k++)
                 {
-                    var offsets = _offsetTable[(i + 1) % 2][k];
+                    var l_offsets = _offsetTable[(i + 1) % 2][k];
                     ushort packed1;
                     ushort packed2;
                     ushort packed;
                     ushort sprite2;
 
-                    packed1 = Tile_PackXY((ushort)((i * 4) + offsets[0]), (ushort)((j * 4) + offsets[1]));
-                    packed2 = Tile_PackXY((ushort)((i * 4) + offsets[2]), (ushort)((j * 4) + offsets[3]));
+                    packed1 = Tile_PackXY((ushort)((i * 4) + l_offsets[0]), (ushort)((j * 4) + l_offsets[1]));
+                    packed2 = Tile_PackXY((ushort)((i * 4) + l_offsets[2]), (ushort)((j * 4) + l_offsets[3]));
                     packed = (ushort)((packed1 + packed2) / 2);
 
                     if (Tile_IsOutOfMap(packed)) continue;
 
-                    packed1 = Tile_PackXY((ushort)(((i * 4) + offsets[0]) & 0x3F), (ushort)((j * 4) + offsets[1]));
-                    packed2 = Tile_PackXY((ushort)(((i * 4) + offsets[2]) & 0x3F), (ushort)((j * 4) + offsets[3]));
+                    packed1 = Tile_PackXY((ushort)(((i * 4) + l_offsets[0]) & 0x3F), (ushort)((j * 4) + l_offsets[1]));
+                    packed2 = Tile_PackXY((ushort)(((i * 4) + l_offsets[2]) & 0x3F), (ushort)((j * 4) + l_offsets[3]));
                     Debug.Assert(packed1 < 64 * 64);
 
                     /* ENHANCEMENT -- use groundTileID=0 when out-of-bounds to generate the original maps. */
