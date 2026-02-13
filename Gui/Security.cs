@@ -96,7 +96,7 @@ static class Security
 
             var savedColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
-            Trace.WriteLine($"Answer : {String_Get_ByIndex((ushort)(questionIndex + 2))}");
+            Trace.TraceInformation($"Answer : {String_Get_ByIndex((ushort)(questionIndex + 2))}");
             Console.ForegroundColor = savedColor;
 
             GUI_EditBox(ref buffer, (ushort)(buffer.Length - 1), 9, null, GUI_Mentat_Tick, false);

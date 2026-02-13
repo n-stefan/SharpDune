@@ -308,7 +308,7 @@ static class SaveLoad
 
                     case SLDT_INVALID:
                     default:
-                        Trace.WriteLine(ERROR);
+                        Trace.TraceError(ERROR);
                         return false;
                 }
 
@@ -430,7 +430,7 @@ static class SaveLoad
                         break;
 
                     case SLDT_INVALID:
-                        Trace.WriteLine(ERROR);
+                        Trace.TraceError(ERROR);
                         return false;
                 }
             }
@@ -539,7 +539,7 @@ static class SaveLoad
                         break;
 
                     case SLDT_INVALID:
-                        Trace.WriteLine(ERROR);
+                        Trace.TraceError(ERROR);
                         return false;
                 }
 
@@ -590,7 +590,7 @@ static class SaveLoad
 
                     case SLDT_INVALID:
                     default:
-                        Trace.WriteLine(ERROR);
+                        Trace.TraceError(ERROR);
                         return false;
                 }
             }

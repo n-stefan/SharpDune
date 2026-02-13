@@ -416,7 +416,7 @@ static class Script
 
         buffer = new StringBuilder().AppendFormat(Culture, error, va).ToString(); //vsnprintf(buffer, sizeof(buffer), error, va);
 
-        Trace.WriteLine($"ERROR: [SCRIPT] {buffer}; Type: {type}; Index: {g_scriptCurrentObject.index}; Type: {g_scriptCurrentObject.type}");
+        Trace.TraceError($"ERROR: [SCRIPT] {buffer}; Type: {type}; Index: {g_scriptCurrentObject.index}; Type: {g_scriptCurrentObject.type}");
     }
 
     /*

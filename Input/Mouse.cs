@@ -207,7 +207,7 @@ static class Mouse
                     g_mouseFileID = File_Open_Personal(filename, FileMode.FILE_MODE_READ);
                     if (g_mouseFileID == (byte)FileMode.FILE_INVALID)
                     {
-                        Trace.WriteLine($"ERROR: Cannot open '{filename}', replay log is impossible.");
+                        Trace.TraceError($"ERROR: Cannot open '{filename}', replay log is impossible.");
                         return;
                     }
 

@@ -967,9 +967,9 @@ static class SharpDune
         g_selectionType = (ushort)SelectionType.MENTAT;
         g_selectionTypeNew = (ushort)SelectionType.MENTAT;
 
-        if (g_palette1 != null) Trace.WriteLine("WARNING: g_palette1");
+        if (g_palette1 != null) Trace.TraceWarning("WARNING: g_palette1");
         else g_palette1 = new byte[256 * 3]; //calloc(1, 256 * 3);
-        if (g_palette2 != null) Trace.WriteLine("WARNING: g_palette2");
+        if (g_palette2 != null) Trace.TraceWarning("WARNING: g_palette2");
         else g_palette2 = new byte[256 * 3]; //calloc(1, 256 * 3);
 
         g_readBufferSize = 12000;
@@ -1204,9 +1204,9 @@ static class SharpDune
     {
         if (!Font_Init())
         {
-            Trace.WriteLine("ERROR: --------------------------");
-            Trace.WriteLine("ERROR LOADING DATA FILE");
-            Trace.WriteLine("Did you copy the Dune2 1.07eu data files into the data directory ?");
+            Trace.TraceError("ERROR: --------------------------");
+            Trace.TraceError("ERROR LOADING DATA FILE");
+            Trace.TraceError("Did you copy the Dune2 1.07eu data files into the data directory ?");
 
             return false;
         }
@@ -1308,7 +1308,7 @@ static class SharpDune
         /* Writing config to dune.cfg */
         if (commit_dune_cfg && !Config_Write("dune.cfg", g_config))
         {
-            Trace.WriteLine("ERROR: Error writing to dune.cfg file.");
+            Trace.TraceError("ERROR: Error writing to dune.cfg file.");
             return 1;
         }
 
@@ -1333,7 +1333,7 @@ static class SharpDune
             }
             else
             {
-                Trace.WriteLine($"ERROR: unrecognized scalefilter value '{filter_text}'");
+                Trace.TraceError($"ERROR: unrecognized scalefilter value '{filter_text}'");
             }
         }
 
@@ -1345,7 +1345,7 @@ static class SharpDune
 
         GameLoop_Main();
 
-        Trace.WriteLine(String_Get_ByIndex(Text.STR_THANK_YOU_FOR_PLAYING_DUNE_II));
+        Trace.TraceInformation(String_Get_ByIndex(Text.STR_THANK_YOU_FOR_PLAYING_DUNE_II));
 
         PrepareEnd();
         Free_IniFile();

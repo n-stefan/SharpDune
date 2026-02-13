@@ -125,7 +125,7 @@ partial class MidiWin
         /* No callback to process messages related to the progress of the playback */
         if (midiOutOpen(out s_midi, devID, null, nint.Zero, MidiOutOpenFlags.Null) != MMSYSERR_NOERROR)
         {
-            Trace.WriteLine($"ERROR: Failed to initialize MIDI (Device ID = {devID})");
+            Trace.TraceError($"ERROR: Failed to initialize MIDI (Device ID = {devID})");
             s_midi = nint.Zero;
             return false;
         }
@@ -139,12 +139,12 @@ partial class MidiWin
 
         if (midiOutReset(s_midi) != MMSYSERR_NOERROR)
         {
-            Trace.WriteLine("ERROR: midiOutReset() failed");
+            Trace.TraceError("ERROR: midiOutReset() failed");
             return;
         }
         if (midiOutClose(s_midi) != MMSYSERR_NOERROR)
         {
-            Trace.WriteLine("ERROR: midiOutClose() failed");
+            Trace.TraceError("ERROR: midiOutClose() failed");
             return;
         }
 
@@ -157,7 +157,7 @@ partial class MidiWin
 
         if (midiOutShortMsg(s_midi, data) != MMSYSERR_NOERROR)
         {
-            Trace.WriteLine("ERROR: midiOutShortMsg() failed");
+            Trace.TraceError("ERROR: midiOutShortMsg() failed");
         }
     }
 
@@ -167,7 +167,7 @@ partial class MidiWin
 
         if (midiOutReset(s_midi) != MMSYSERR_NOERROR)
         {
-            Trace.WriteLine("ERROR: midiOutReset() failed");
+            Trace.TraceError("ERROR: midiOutReset() failed");
         }
     }
 
@@ -190,7 +190,7 @@ partial class MidiWin
 
             if (midiOutPrepareHeader(s_midi, ptr, hdrSize) != MMSYSERR_NOERROR)
             {
-                Trace.WriteLine("ERROR: midiOutPrepareHeader() failed");
+                Trace.TraceError("ERROR: midiOutPrepareHeader() failed");
             }
             else
             {
@@ -203,7 +203,7 @@ partial class MidiWin
             if (prepared)
             {
                 if (midiOutUnprepareHeader(s_midi, ptr, hdrSize) != MMSYSERR_NOERROR)
-                    Trace.WriteLine("ERROR: midiOutUnprepareHeader() failed");
+                    Trace.TraceError("ERROR: midiOutUnprepareHeader() failed");
             }
 
             if (header.Data != nint.Zero)

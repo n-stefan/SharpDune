@@ -82,21 +82,21 @@ static class IniFile
                 }
                 else
                 {
-                    Trace.WriteLine("WARNING: sharpdune.ini file not found.");
+                    Trace.TraceWarning("WARNING: sharpdune.ini file not found.");
                     return false;
                 }
             }
         }
         if (f.Seek(0, SeekOrigin.End) < 0)
         {
-            Trace.WriteLine("ERROR: Cannot get sharpdune.ini file size.");
+            Trace.TraceError("ERROR: Cannot get sharpdune.ini file size.");
             f.Close();
             return false;
         }
         fileSize = f.Position;
         if (fileSize < 0)
         {
-            Trace.WriteLine("ERROR: Cannot get sharpdune.ini file size.");
+            Trace.TraceError("ERROR: Cannot get sharpdune.ini file size.");
             f.Close();
             return false;
         }
@@ -111,7 +111,7 @@ static class IniFile
         g_sharpduneini = s.ReadToEnd();
         if (g_sharpduneini.Length != fileSize)
         {
-            Trace.WriteLine("ERROR: Failed to read sharpdune.ini");
+            Trace.TraceError("ERROR: Failed to read sharpdune.ini");
             f.Close();
             g_sharpduneini = null;
             return false;

@@ -163,13 +163,13 @@ static class VideoSdl2
          */
         if (SDL_RenderGetViewport(s_renderer, out var rect) < 0)
         {
-            Trace.WriteLine($"ERROR: SDL_RenderGetViewport failed: {SDL_GetError()}");
+            Trace.TraceError($"ERROR: SDL_RenderGetViewport failed: {SDL_GetError()}");
             return;
         }
 
         if (SDL_GetRendererOutputSize(s_renderer, out var w, out var h) != 0)
         {
-            Trace.WriteLine($"ERROR: SDL_GetRendererOutputSize failed: {SDL_GetError()}");
+            Trace.TraceError($"ERROR: SDL_GetRendererOutputSize failed: {SDL_GetError()}");
             return;
         }
 
@@ -287,7 +287,7 @@ static class VideoSdl2
                             if (keyup != 0) continue;   /* ignore key-up */
                             if (SDL_SetWindowFullscreen(s_window, s_full_screen ? 0 : (uint)SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP/*SDL_WINDOW_FULLSCREEN*/) < 0)
                             {
-                                Trace.WriteLine($"WARNING: Failed to toggle full screen : {SDL_GetError()}");
+                                Trace.TraceWarning($"WARNING: Failed to toggle full screen : {SDL_GetError()}");
                             }
                             s_full_screen = !s_full_screen;
                             continue;
@@ -316,7 +316,7 @@ static class VideoSdl2
                         }
                         if (code == 0)
                         {
-                            Trace.WriteLine($"WARNING: Unhandled key scancode={evt.key.keysym.scancode} sym={evt.key.keysym.sym} {SDL_GetKeyName(evt.key.keysym.sym)}");
+                            Trace.TraceWarning($"WARNING: Unhandled key scancode={evt.key.keysym.scancode} sym={evt.key.keysym.sym} {SDL_GetKeyName(evt.key.keysym.sym)}");
                             continue;
                         }
                         Video_Key_Callback((byte)(code | (keyup != 0 ? 0x80 : 0x0)));
@@ -329,13 +329,13 @@ static class VideoSdl2
                         /* Clear area outside the 4:3 logical screen, if any */
                         if (SDL_RenderClear(s_renderer) != 0)
                         {
-                            Trace.WriteLine($"ERROR: SDL_RenderClear failed : {SDL_GetError()}");
+                            Trace.TraceError($"ERROR: SDL_RenderClear failed : {SDL_GetError()}");
                         }
 
                         var rect = new SDL_Rect();
                         if (SDL_RenderCopy(s_renderer, s_texture, ref rect, ref rect) != 0)
                         {
-                            Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
+                            Trace.TraceError($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
                         }
 
                         SDL_RenderPresent(s_renderer);
@@ -370,7 +370,7 @@ static class VideoSdl2
         if (s_video_initialized) return true;
         if (screen_magnification is <= 0 or > 4)
         {
-            Trace.WriteLine($"ERROR: Incorrect screen magnification factor : {screen_magnification}");
+            Trace.TraceError($"ERROR: Incorrect screen magnification factor : {screen_magnification}");
             return false;
         }
         s_scale_filter = filter;
@@ -384,7 +384,7 @@ static class VideoSdl2
 
         if (err != 0)
         {
-            Trace.WriteLine($"ERROR: Could not initialize SDL: {SDL_GetError()}");
+            Trace.TraceError($"ERROR: Could not initialize SDL: {SDL_GetError()}");
             return false;
         }
 
@@ -403,7 +403,7 @@ static class VideoSdl2
 
         if (err != 0)
         {
-            Trace.WriteLine($"ERROR: Could not set resolution: {SDL_GetError()}");
+            Trace.TraceError($"ERROR: Could not set resolution: {SDL_GetError()}");
             return false;
         }
 
@@ -438,7 +438,7 @@ static class VideoSdl2
 
         if (err != 0)
         {
-            Trace.WriteLine($"ERROR: Could not set logical size: {SDL_GetError()}");
+            Trace.TraceError($"ERROR: Could not set logical size: {SDL_GetError()}");
             return false;
         }
 
@@ -449,20 +449,20 @@ static class VideoSdl2
 
         if (s_texture == nint.Zero)
         {
-            Trace.WriteLine($"ERROR: Could not create texture: {SDL_GetError()}");
+            Trace.TraceError($"ERROR: Could not create texture: {SDL_GetError()}");
             return false;
         }
 
         if (SDL_ShowCursor(SDL_DISABLE) < 0)
         {
-            Trace.WriteLine($"ERROR: SDL_ShowCursor failed : {SDL_GetError()}");
+            Trace.TraceError($"ERROR: SDL_ShowCursor failed : {SDL_GetError()}");
             return false;
         }
 
         /* Setup SDL_RenderClear */
         if (SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255) != 0)
         {
-            Trace.WriteLine($"ERROR: SDL_SetRenderDrawColor failed : {SDL_GetError()}");
+            Trace.TraceError($"ERROR: SDL_SetRenderDrawColor failed : {SDL_GetError()}");
             return false;
         }
 
@@ -605,7 +605,7 @@ static class VideoSdl2
                     //Video_DrawScreen_Hqx();
                     break;
                 default:
-                    Trace.WriteLine("ERROR: Unsupported scale filter");
+                    Trace.TraceError("ERROR: Unsupported scale filter");
                     break;
             }
         }
@@ -632,7 +632,7 @@ static class VideoSdl2
         gfx_screen8Pointer += s_screenOffset << 2;
         if (SDL_LockTexture(s_texture, nint.Zero, out var pixels, out var pitch) != 0)
         {
-            Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
+            Trace.TraceError($"ERROR: Could not set lock texture: {SDL_GetError()}");
             return;
         }
 
@@ -677,7 +677,7 @@ static class VideoSdl2
         SDL_UnlockTexture(s_texture);
         if (SDL_RenderCopy(s_renderer, s_texture, ref prect, ref prect) != 0)
         {
-            Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
+            Trace.TraceError($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
         }
     }
 

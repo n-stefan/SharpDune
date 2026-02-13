@@ -158,7 +158,7 @@ static class File
         if (buf.Length > len)
         {
             buf = buf.Slice(0, len);
-            Trace.WriteLine($"WARNING: output truncated : {buf} ({filenameStr})");
+            Trace.TraceWarning($"WARNING: output truncated : {buf} ({filenameStr})");
         }
 
         return buf.ToString();
@@ -233,7 +233,7 @@ static class File
         }
         if (fileIndex >= (byte)FileMode.FILE_MAX)
         {
-            Trace.WriteLine($"WARNING: Limit of {FileMode.FILE_MAX} open files reached.");
+            Trace.TraceWarning($"WARNING: Limit of {FileMode.FILE_MAX} open files reached.");
             return (byte)FileMode.FILE_INVALID;
         }
 
@@ -314,11 +314,11 @@ static class File
         {
             if (dir == SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR)
             {
-                Trace.WriteLine($"WARNING: Unable to open file '{filename}'.");
+                Trace.TraceWarning($"WARNING: Unable to open file '{filename}'.");
             }
             else
             {
-                Trace.WriteLine($"ERROR: Unable to open file '{filename}'.");
+                Trace.TraceError($"ERROR: Unable to open file '{filename}'.");
                 Environment.Exit(1);
             }
         }
@@ -514,11 +514,11 @@ static class File
         {
             if (e is null)
             {
-                Trace.WriteLine("ERROR: Read error");
+                Trace.TraceError("ERROR: Read error");
             }
             else
             {
-                Trace.WriteLine($"ERROR: Read error - {e.Message}");
+                Trace.TraceError($"ERROR: Read error - {e.Message}");
             }
             File_Close(index);
             length = 0;
@@ -623,7 +623,7 @@ static class File
         }
         catch (IOException e)
         {
-            Trace.WriteLine($"ERROR: Write error: {e.Message}");
+            Trace.TraceError($"ERROR: Write error: {e.Message}");
             File_Close(index);
 
             length = 0;
@@ -816,7 +816,7 @@ static class File
             /* %APPDATA%/SharpDUNE */
             if ((buf = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)).Length == 0) //SHGetFolderPath( NULL, CSIDL_APPDATA/*CSIDL_COMMON_APPDATA*/, NULL, 0, buf ) != S_OK)
             {
-                Trace.WriteLine("WARNING: Cannot find AppData directory.");
+                Trace.TraceWarning("WARNING: Cannot find AppData directory.");
                 g_personal_data_dir = "."; //snprintf(g_personal_data_dir, sizeof(g_personal_data_dir), ".");
             }
             else
@@ -828,7 +828,7 @@ static class File
 
         if (!File_MakeDirectory(g_personal_data_dir))
         {
-            Trace.WriteLine($"ERROR: Cannot open personal data directory {g_personal_data_dir}. Do you have sufficient permissions?");
+            Trace.TraceError($"ERROR: Cannot open personal data directory {g_personal_data_dir}. Do you have sufficient permissions?");
             return false;
         }
 
@@ -842,7 +842,7 @@ static class File
 
         if (!ReadDir_ProcessAllFiles(g_dune_data_dir, File_Init_Callback))
         {
-            Trace.WriteLine($"ERROR: Cannot initialize files. Does the directory {g_dune_data_dir} exist?");
+            Trace.TraceError($"ERROR: Cannot initialize files. Does the directory {g_dune_data_dir} exist?");
             return false;
         }
 
@@ -1066,7 +1066,7 @@ static class File
             }
             catch (IOException e)
             {
-                Trace.WriteLine($"ERROR: Couldn't delete file '{filenameComplete}'. Details: {e.Message}");
+                Trace.TraceError($"ERROR: Couldn't delete file '{filenameComplete}'. Details: {e.Message}");
             }
         }
     }
@@ -1133,7 +1133,7 @@ static class File
         { //(strcasecmp(ext, ".pak") == 0)
             if (!File_Init_ProcessPak(path, size, fileInfo))
             {
-                Trace.WriteLine($"WARNING: Failed to process PAK file {path}");
+                Trace.TraceWarning($"WARNING: Failed to process PAK file {path}");
                 return false;
             }
         }

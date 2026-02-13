@@ -306,7 +306,7 @@ static class Gfx
         }
         if (from >= 256)
         {
-            Trace.WriteLine("WARNING: Useless GFX_SetPalette() call");
+            Trace.TraceWarning("WARNING: Useless GFX_SetPalette() call");
             return;
         }
         for (to = 255; to > from; to--)

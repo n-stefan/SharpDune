@@ -65,7 +65,7 @@ static class Save
         fp = FOpenDataDir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "wb");
         if (fp == null)
         {
-            Trace.WriteLine($"ERROR: Failed to open file '{filename}' for writing.");
+            Trace.TraceError($"ERROR: Failed to open file '{filename}' for writing.");
             return false;
         }
 
@@ -78,7 +78,7 @@ static class Save
         if (!res)
         {
             /* TODO -- Also remove the savegame now */
-            Trace.WriteLine($"ERROR: Error while writing savegame '{filename}'.");
+            Trace.TraceError($"ERROR: Error while writing savegame '{filename}'.");
             return false;
         }
 
@@ -143,7 +143,7 @@ static class Save
         }
         catch (IOException e)
         {
-            Trace.WriteLine($"ERROR: {e.Message}");
+            Trace.TraceError($"ERROR: {e.Message}");
             return false;
         }
     }

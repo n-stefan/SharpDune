@@ -27,7 +27,7 @@ static class Load
         fp = FOpenDataDir(SearchDirectory.SEARCHDIR_PERSONAL_DATA_DIR, filename, "rb");
         if (fp == null)
         {
-            Trace.WriteLine($"ERROR: Failed to open file '{filename}' for reading.");
+            Trace.TraceError($"ERROR: Failed to open file '{filename}' for reading.");
             return false;
         }
 
@@ -41,7 +41,7 @@ static class Load
 
         if (!res)
         {
-            Trace.WriteLine($"ERROR: Error while loading savegame '{filename}'.");
+            Trace.TraceError($"ERROR: Error while loading savegame '{filename}'.");
             return false;
         }
 
@@ -64,7 +64,7 @@ static class Load
             header = br.ReadUInt32(); //if (fread(&header, sizeof(uint32), 1, fp) != 1) return false;
             if (BEToH32(header) != (uint)SharpDune.MultiChar[FourCC.FORM])
             {
-                Trace.WriteLine("ERROR: Invalid magic header in savegame. Not a SharpDUNE / Dune2 savegame.");
+                Trace.TraceError("ERROR: Invalid magic header in savegame. Not a SharpDUNE / Dune2 savegame.");
                 return false;
             }
 
@@ -154,7 +154,7 @@ static class Load
                 }
                 else
                 {
-                    Trace.WriteLine($"ERROR: Unknown chunk in savegame: {header}{header >> 8}{header >> 16}{header >> 24} (length: {length}). Skipped.");
+                    Trace.TraceError($"ERROR: Unknown chunk in savegame: {header}{header >> 8}{header >> 16}{header >> 24} (length: {length}). Skipped.");
                 }
 
                 /* Savegames are word aligned */
@@ -168,7 +168,7 @@ static class Load
         }
         catch (IOException e)
         {
-            Trace.WriteLine($"ERROR: {e.Message}");
+            Trace.TraceError($"ERROR: {e.Message}");
             return false;
         }
     }

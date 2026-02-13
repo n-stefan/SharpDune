@@ -717,7 +717,7 @@ static class Mt32Mpu
                                 }
                                 else
                                 {
-                                    Trace.WriteLine($"ERROR: Status = {status:X2}");
+                                    Trace.TraceError($"ERROR: Status = {status:X2}");
                                     nb = 1;
                                 }
                                 break;
@@ -1098,10 +1098,10 @@ static class Mt32Mpu
             default:
                 {
                     int i;
-                    Trace.WriteLine($"WARNING: MPU_XMIDIMeta() type={type:X2} len={len}");
-                    Trace.WriteLine("WARNING:   ignored data :");
-                    for (i = 0; i < len + data_len; i++) Trace.WriteLine($"WARNING:  {data.sound[data.sound.Ptr + i]:X2}");
-                    Trace.WriteLine('\n');
+                    Trace.TraceWarning($"WARNING: MPU_XMIDIMeta() type={type:X2} len={len}");
+                    Trace.TraceWarning("WARNING:   ignored data :");
+                    for (i = 0; i < len + data_len; i++) Trace.TraceWarning($"WARNING:  {data.sound[data.sound.Ptr + i]:X2}");
+                    Trace.TraceWarning("\n");
                 }
                 break;
         }

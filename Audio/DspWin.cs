@@ -486,7 +486,7 @@ partial class DspWin
         res = waveOutOpen(ref s_waveOut, WaveOutMapperDeviceId/*WAVE_MAPPER*/, ref waveFormat, DSP_Callback_Del, nint.Zero, WaveOpenFlags.CALLBACK_FUNCTION/*CALLBACK_FUNCTION*/);
         if (res != MMSYSERROR.MMSYSERR_NOERROR)
         {
-            Trace.WriteLine($"ERROR: waveOutOpen failed ({res})");
+            Trace.TraceError($"ERROR: waveOutOpen failed ({res})");
             s_waveOut = nint.Zero;
             return;
         }
@@ -505,14 +505,14 @@ partial class DspWin
         res = waveOutPrepareHeader(s_waveOut, s_waveHdrAddr, Marshal.SizeOf(typeof(WAVEHDR)));
         if (res != MMSYSERROR.MMSYSERR_NOERROR)
         {
-            Trace.WriteLine($"ERROR: waveOutPrepareHeader failed ({res})");
+            Trace.TraceError($"ERROR: waveOutPrepareHeader failed ({res})");
             return;
         }
 
         res = waveOutWrite(s_waveOut, s_waveHdrAddr, Marshal.SizeOf(typeof(WAVEHDR)));
         if (res != MMSYSERROR.MMSYSERR_NOERROR)
         {
-            Trace.WriteLine($"ERROR: waveOutWrite failed ({res})");
+            Trace.TraceError($"ERROR: waveOutWrite failed ({res})");
             return;
         }
 

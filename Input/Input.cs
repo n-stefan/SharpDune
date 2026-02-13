@@ -247,7 +247,7 @@ static class Input
 
         if (File_Read(g_mouseFileID, ref byteMouseBuffer, 4) != 4)
         {
-            Trace.WriteLine("WARNING: Input_ReadInputFromFile(): File_Read() error.");
+            Trace.TraceWarning("WARNING: Input_ReadInputFromFile(): File_Read() error.");
             return;
         }
         Debug.WriteLine($"DEBUG:  time={mouseBuffer[1]} value={mouseBuffer[0]}");
@@ -281,7 +281,7 @@ static class Input
 
         if (File_Read(g_mouseFileID, ref byteMouseBuffer, 4) != 4)
         {
-            Trace.WriteLine("WARNING: Input_ReadInputFromFile(): File_Read() error.");
+            Trace.TraceWarning("WARNING: Input_ReadInputFromFile(): File_Read() error.");
             return;
         }
         Debug.WriteLine($"DEBUG:  mouseX={mouseBuffer[0]} mouseY={mouseBuffer[1]}");
