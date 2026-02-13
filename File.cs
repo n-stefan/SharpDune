@@ -1188,6 +1188,7 @@ static class File
         uint size;
         var filename = new char[256];
         uint i;
+        int b;
 
         f = new FileStream(pakpath, System.IO.FileMode.Open, FileAccessFromString("rb")); //fopen(pakpath, "rb");
         if (!FRead_LE_UInt32(ref nextposition, f))
@@ -1200,10 +1201,14 @@ static class File
             position = nextposition;
             for (i = 0; i < filename.Length; i++)
             {
-                if ((filename[i] = (char)f.ReadByte()) == -1) //fread(filename + i, 1, 1, f) != 1)
+                if ((b = f.ReadByte()) == -1) //fread(filename + i, 1, 1, f) != 1)
                 {
                     f.Close();
                     return false;
+                }
+                else
+                {
+                    filename[i] = (char)b;
                 }
                 if (filename[i] == '\0') break;
             }
