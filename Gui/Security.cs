@@ -49,8 +49,7 @@ static class Security
 
         for (i = 0, valid = false; i < 3 && !valid; i++)
         {
-            /* void * *//*WSAObject*/
-            (WSAHeader header, Array<byte> buffer) wsa;
+            /* void* */ WSAStream wsa;
             ushort questionIndex;
             uint tickWaitTill;
             string buffer; //char[81];

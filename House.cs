@@ -344,8 +344,7 @@ static class House
      */
     internal static bool House_UpdateRadarState(CHouse h)
     {
-        /*WSAObject*/
-        (WSAHeader header, Array<byte> buffer) wsa;
+        WSAStream wsa;
         ushort frame;
         ushort frameCount;
         bool activate;

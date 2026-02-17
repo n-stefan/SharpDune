@@ -138,8 +138,7 @@ static class Mentat
 
         if (wsaFilename != null)
         {
-            /*WSAObject*/
-            (WSAHeader header, Array<byte> buffer) wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(Screen.NO2), GFX_Screen_GetSize_ByIndex(Screen.NO2), false);
+            var wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(Screen.NO2), GFX_Screen_GetSize_ByIndex(Screen.NO2), false);
             WSA_DisplayFrame(wsa, 0, (ushort)(g_curWidgetXBase * 8), g_curWidgetYBase, Screen.NO1);
             WSA_Unload(wsa);
         }
@@ -244,8 +243,7 @@ static class Mentat
 
         if (wsaFilename != null)
         {
-            /*WSAObject*/
-            (WSAHeader header, Array<byte> buffer) wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(Screen.NO2), GFX_Screen_GetSize_ByIndex(Screen.NO2), false);
+            var wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(Screen.NO2), GFX_Screen_GetSize_ByIndex(Screen.NO2), false);
             WSA_DisplayFrame(wsa, 0, (ushort)(g_curWidgetXBase * 8), g_curWidgetYBase, Screen.NO1);
             WSA_Unload(wsa);
         }
@@ -547,8 +545,7 @@ static class Mentat
     {
         Screen oldScreenID;
         ushort oldWidgetID;
-        /*WSAObject*/
-        (WSAHeader header, Array<byte> buffer) wsa;
+        WSAStream wsa;
         ushort descLines;
         bool dirty;
         bool done;
@@ -570,7 +567,7 @@ static class Mentat
         oldWidgetID = Widget_SetCurrentWidget(8);
         oldScreenID = GFX_Screen_SetActive(Screen.NO2);
 
-        wsa = (null, null);
+        wsa = null;
 
         if (wsaFilename != null)
         {
@@ -578,7 +575,7 @@ static class Mentat
         }
 
         step = 0;
-        if (wsa == (null, null))
+        if (wsa == null)
         {
             Widget_PaintCurrentWidget();
             step = 1;
@@ -745,7 +742,7 @@ static class Mentat
 
             GUI_Mentat_Animation(mentatSpeakingMode);
 
-            if (wsa != (null, null) && g_timerTimeout == 0)
+            if (wsa != null && g_timerTimeout == 0)
             {
                 g_timerTimeout = 7;
 
@@ -764,7 +761,7 @@ static class Mentat
                         else
                         {
                             WSA_Unload(wsa);
-                            wsa = (null, null);
+                            wsa = null;
                         }
                     }
                 } while (frame == 0);
@@ -782,7 +779,7 @@ static class Mentat
             dirty = false;
         }
 
-        if (wsa != (null, null)) WSA_Unload(wsa);
+        if (wsa != null) WSA_Unload(wsa);
 
         GFX_Screen_SetActive(Screen.NO2);
         GUI_DrawSprite(Screen.NO2, g_sprites[397 + ((byte)g_playerHouseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);

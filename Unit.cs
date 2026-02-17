@@ -2955,12 +2955,12 @@ static class Unit
 
         unit.distanceToDestination = distance;
         unit.o.position = newPosition;
-        
+
         Unit_UpdateMap(1, unit);
-        
+
         if (isSpecialBloom) Map_Bloom_ExplodeSpecial(packed, Unit_GetHouseID(unit));
         if (isSpiceBloom) Map_Bloom_ExplodeSpice(packed, Unit_GetHouseID(unit));
-        
+
         return ret;
     }
 

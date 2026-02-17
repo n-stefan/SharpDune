@@ -177,7 +177,7 @@ static class Timer
         /* timer signal SIGALRM has been triggered */
         if (s_timer_count > 1)
         {
-            Trace.WriteLine($"WARNING: s_timer_count = {s_timer_count}");
+            Trace.TraceWarning($"WARNING: s_timer_count = {s_timer_count}");
         }
         s_timer_count = 0;
         Timer_InterruptRun(0);

@@ -4669,8 +4669,7 @@ static class Gui
     static void GUI_FactoryWindow_Init()
     {
         Screen oldScreenID;
-        /* void* *//*WSAObject*/
-        (WSAHeader header, Array<byte> buffer) wsa;
+        /* void* */ WSAStream wsa;
         short i;
         ObjectInfo oi;
 
@@ -4809,8 +4808,7 @@ static class Gui
         Screen oldScreenID;
         var item = GUI_FactoryWindow_GetItem((short)g_factoryWindowSelected);
         var oi = item.objectInfo;
-        /* void* *//*WSAObject*/
-        (WSAHeader header, Array<byte> buffer) wsa;
+        /* void* */ WSAStream wsa;
 
         oldScreenID = GFX_Screen_SetActive(Screen.NO1);
 

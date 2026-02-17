@@ -277,8 +277,7 @@ static class Cutscene
             var mode = (ushort)(animation[pointer].flags & 0x3);
             ushort addFrameCount;   /* additional frame count */
             ushort frame;
-            /*WSAObject*/
-            (WSAHeader, Array<byte>) wsa;
+            WSAStream wsa;
 
             if ((animation[pointer].flags & HOUSEANIM_FLAGS_POS0_0) != 0)
             {
@@ -296,7 +295,7 @@ static class Cutscene
             Debug.WriteLine($"DEBUG: GameLoop_PlayAnimation() {animationStep} {animation[pointer].str} mode={mode} flags={animation[pointer].flags & ~3:X3}");
             if (mode == 0)
             {
-                wsa = (null, null);
+                wsa = null;
                 frame = 0;
             }
             else
@@ -321,7 +320,6 @@ static class Cutscene
                 {
                     GUI_ClearScreen(Screen.NO1);
 
-                    //wsa = new WSAObject();
                     wsaData = GFX_Screen_Get_ByIndex(Screen.NO2);
 
                     wsaSize = (uint)(GFX_Screen_GetSize_ByIndex(Screen.NO2) + GFX_Screen_GetSize_ByIndex(Screen.NO3));
@@ -329,7 +327,6 @@ static class Cutscene
                 }
                 else
                 {
-                    //wsa = new WSAObject();
                     wsaData = GFX_Screen_Get_ByIndex(Screen.NO1);
 
                     wsaSize = (uint)(GFX_Screen_GetSize_ByIndex(Screen.NO1) + GFX_Screen_GetSize_ByIndex(Screen.NO2) + GFX_Screen_GetSize_ByIndex(Screen.NO3));
@@ -667,8 +664,7 @@ static class Cutscene
     static void GameLoop_Logos()
     {
         Screen oldScreenID;
-        /* void* *//*WSAObject*/
-        (WSAHeader, Array<byte>) wsa;
+        /* void* */ WSAStream wsa;
         ushort frame;
 
         oldScreenID = GFX_Screen_SetActive(Screen.NO0);

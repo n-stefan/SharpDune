@@ -54,11 +54,17 @@ class WSAFileHeader
     internal uint secondFrameOffset;    /*!< Offset where animation ends. */
 }
 
-//class WSAObject
-//{
-//    internal WSAHeader header;
-//    internal Array<byte> data;
-//}
+class WSAStream
+{
+    internal WSAHeader header;
+    internal Array<byte> data;
+
+    internal WSAStream(WSAHeader header, Array<byte> data)
+    {
+        this.header = header;
+        this.data = data;
+    }
+}
 
 static class Wsa
 {
@@ -67,7 +73,7 @@ static class Wsa
     /*
      * Get the amount of frames a WSA has.
      */
-    internal static ushort WSA_GetFrameCount(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa)
+    internal static ushort WSA_GetFrameCount(WSAStream wsa)
     {
         var header = wsa.header;
 
@@ -79,15 +85,14 @@ static class Wsa
      * Unload the WSA.
      * @param wsa The pointer to the WSA.
      */
-    internal static void WSA_Unload(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa)
+    internal static void WSA_Unload(WSAStream wsa)
     {
+        if (wsa == null) return;
         var header = wsa.header;
-
-        if (wsa == (null, null)) return;
         if (!header.flags.malloced) return;
 
         wsa.header = null;
-        wsa.buffer = null; //free(wsa);
+        wsa.data = null; //free(wsa);
     }
 
     /*
@@ -99,23 +104,22 @@ static class Wsa
      * @param screenID The screenID to draw on.
      * @return False on failure, true on success.
      */
-    internal static bool WSA_DisplayFrame(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa, ushort frameNext, ushort posX, ushort posY, Screen screenID)
+    internal static bool WSA_DisplayFrame(WSAStream wsa, ushort frameNext, ushort posX, ushort posY, Screen screenID)
     {
+        if (wsa == null) return false;
         var header = wsa.header;
-        Array<byte> dst;
+        if (frameNext >= header.frames) return false;
 
+        Array<byte> dst;
         ushort i;
         ushort frame;
         short frameDiff;
         short direction;
         short frameCount;
 
-        if (wsa == (null, null)) return false;
-        if (frameNext >= header.frames) return false;
-
         if (header.flags.displayInBuffer)
         {
-            dst = new Array<byte>(wsa.buffer.Arr, wsa.buffer.Ptr + WSAHeaderSize);
+            dst = new Array<byte>(wsa.data.Arr, wsa.data.Ptr + WSAHeaderSize);
         }
         else
         {
@@ -209,7 +213,7 @@ static class Wsa
      * @param dst Destination buffer to write the animation to.
      * @return 1 on success, 0 on failure.
      */
-    static ushort WSA_GotoNextFrame(/*WSAObject*/(WSAHeader header, Array<byte> buffer) wsa, ushort frame, Array<byte> dst)
+    static ushort WSA_GotoNextFrame(WSAStream wsa, ushort frame, Array<byte> dst)
     {
         var header = wsa.header;
         ushort lengthPalette;
@@ -287,12 +291,11 @@ static class Wsa
      * @param reserveDisplayFrame True if we need to reserve the display frame.
      * @return Address of loaded WSA file, or NULL.
      */
-    internal static /*WSAObject*/(WSAHeader, Array<byte>) WSA_LoadFile(string filename, /*WSAObject*/Memory<byte> wsa, uint wsaSize, bool reserveDisplayFrame)
+    internal static WSAStream WSA_LoadFile(string filename, Memory<byte> wsa, uint wsaSize, bool reserveDisplayFrame)
     {
         var flags = new WSAFlags();
         var fileheader = new WSAFileHeader();
         var header = new WSAHeader();
-        //WSAObject result = new WSAObject();
         uint bufferSizeMinimal;
         uint bufferSizeOptimal;
         ushort lengthHeader;
@@ -350,7 +353,7 @@ static class Wsa
         {
             File_Close(fileno);
 
-            return (null, null);
+            return null;
         }
         if (wsaSize == 0) wsaSize = bufferSizeOptimal;
         if (wsaSize == 1) wsaSize = bufferSizeMinimal;
@@ -436,7 +439,7 @@ static class Wsa
 
             Format80_Decode(buffer.Span, b.Span, header.bufferLength);
         }
-        return (header, new Array<byte>(wsa));
+        return new WSAStream(header, new Array<byte>(wsa));
     }
 
     /*
