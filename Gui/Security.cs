@@ -174,9 +174,9 @@ static class Security
 
         GUI_Screen_Copy(0, 0, 0, 160, SCREEN_WIDTH / 8, 40, Screen.NO2, Screen.NO2);
 
-        var parts/*(parts, _)*/ = GUI_Mentat_SplitText(text, 304);
+        var textLines = GUI_Mentat_SplitText(text, 304);
 
-        GUI_DrawText_Wrapper(parts[0], 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
+        GUI_DrawText_Wrapper(textLines[0], 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
 
         GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
         GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, Screen.NO2, Screen.NO0);
