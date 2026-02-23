@@ -1630,6 +1630,7 @@ static class Gui
         ushort x;
         ushort y;
         string s;
+        var i = 0;
 
         if (g_fontCurrent == null) return;
 
@@ -1646,8 +1647,7 @@ static class Gui
         s = str;
         x = (ushort)left;
         y = (ushort)top;
-        var i = 0;
-        while (i < s.Length) //while (*s != '\0') {
+        while (i < s.Length && s[i] != '\0')
         {
             ushort width;
 
@@ -2325,11 +2325,12 @@ static class Gui
     internal static ushort GUI_SplitText(ref string text, ushort maxwidth, char delimiter)
     {
         ushort lines = 0;
+        char[] str;
         var i = 0;
 
         if (text == null) return 0;
 
-        var str = text.ToCharArray();
+        str = text.ToCharArray();
 
         while (i < str.Length && str[i] != '\0')
         {

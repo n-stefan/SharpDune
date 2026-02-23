@@ -557,8 +557,7 @@ static class Mentat
         uint textTick;
         uint textDelay;
         ushort lines;
-        string[] textLines;
-        var textLinesPos = 0;
+        ushort textLines;
         ushort step;
 
         dirty = false;
@@ -588,7 +587,7 @@ static class Mentat
 
         GUI_DrawText_Wrapper(null, 0, 0, 0, 0, 0x32);
 
-        textLines = GUI_Mentat_SplitText(text, 304);
+        textLines = GUI_Mentat_SplitText(ref text, 304);
 
         mentatSpeakingMode = 2;
         lines = 0;
@@ -661,7 +660,7 @@ static class Mentat
 
                     if (lines < descLines && lines <= 12) break;
 
-                    step = (ushort)((textLines?[textLinesPos] != null) ? 2 : 4);
+                    step = (ushort)((text != null) ? 2 : 4);
                     lines = descLines;
                     break;
 
@@ -694,21 +693,24 @@ static class Mentat
                     {
                         GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, Screen.NO2, Screen.NO2);
 
-                        if (textLinesPos < textLines.Length)
+                        if (textLines-- != 0)
                         {
                             GFX_Screen_SetActive(Screen.NO2);
-                            GUI_DrawText_Wrapper(textLines[textLinesPos], 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
+                            GUI_DrawText_Wrapper(text, 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
                             mentatSpeakingMode = 1;
-                            textDelay = (uint)textLines[textLinesPos].Length * 4;
+                            textDelay = (uint)text.Length * 4;
                             textTick = g_timerGUI + textDelay;
 
-                            textLinesPos++;
+                            if (textLines != 0)
+                            {
+                                text = text[(text.IndexOf('\0') + 1)..];
+                            }
+                            else
+                            {
+                                textDone = true;
+                            }
 
                             GFX_Screen_SetActive(Screen.NO0);
-                        }
-                        else
-                        {
-                            textDone = true;
                         }
 
                         GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
@@ -720,7 +722,7 @@ static class Mentat
                     if (mentatSpeakingMode == 0 || textTick > g_timerGUI) break;
 
                     mentatSpeakingMode = 2;
-                    textTick += textDelay + (textDelay / 2);
+                    textTick += textDelay + textDelay / 2;
                     break;
 
                 case 4:
@@ -767,7 +769,7 @@ static class Mentat
 
             GUI_Mentat_DrawInfo(pictureDetails, (ushort)((g_curWidgetXBase << 3) + 5), (ushort)(g_curWidgetYBase + 3), 8, 0, (short)lines, 0x31);
 
-            GUI_DrawSprite(Screen.NO2, g_sprites[397 + ((byte)g_playerHouseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);
+            GUI_DrawSprite(Screen.NO2, g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
             GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
             GUI_Screen_Copy((short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetWidth, (short)g_curWidgetHeight, Screen.NO2, Screen.NO0);
             GUI_Mouse_Show_InWidget();
@@ -777,7 +779,7 @@ static class Mentat
         if (wsa != null) WSA_Unload(wsa);
 
         GFX_Screen_SetActive(Screen.NO2);
-        GUI_DrawSprite(Screen.NO2, g_sprites[397 + ((byte)g_playerHouseID * 15)], g_shoulderLeft, g_shoulderTop, 0, 0);
+        GUI_DrawSprite(Screen.NO2, g_sprites[397 + (byte)g_playerHouseID * 15], g_shoulderLeft, g_shoulderTop, 0, 0);
         GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
         GUI_Screen_Copy((short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetXBase, (short)g_curWidgetYBase, (short)g_curWidgetWidth, (short)g_curWidgetHeight, Screen.NO2, Screen.NO0);
         GUI_Mouse_Show_InWidget();
@@ -789,14 +791,14 @@ static class Mentat
         return result;
     }
 
-    internal static string[] GUI_Mentat_SplitText(string text, ushort maxWidth)
+    internal static ushort GUI_Mentat_SplitText(ref string text, ushort maxWidth)
     {
-        //ushort lines = 0;
+        ushort lines = 0;
         ushort height = 0;
         char[] str;
         var i = 0;
 
-        if (text == null) return null;
+        if (text == null) return 0;
 
         str = text.ToCharArray();
 
@@ -822,13 +824,13 @@ static class Mentat
 
                 if (i < str.Length && str[i] != '\0') str[i - 1] = '\0';
                 height = 0;
-                //lines++;
+                lines++;
                 continue;
             }
 
             if (str[i] == '\0')
             {
-                //lines++;
+                lines++;
                 height = 0;
                 continue;
             }
@@ -836,7 +838,9 @@ static class Mentat
             str[i++] = '\r';
         }
 
-        return new string(str).Split('\0');
+        text = new string(str);
+
+        return lines;
     }
 
     /*
@@ -879,22 +883,18 @@ static class Mentat
     static bool GUI_Mentat_DrawInfo(string text, ushort left, ushort top, ushort height, ushort skip, short lines, ushort flags)
     {
         Screen oldScreenID;
-        string[] textLines;
-        var textLinesPos = 0;
 
         if (lines <= 0) return false;
 
         oldScreenID = GFX_Screen_SetActive(Screen.NO2);
 
-        textLines = text.Split('\0');
-
-        while (skip-- != 0) textLinesPos++;
+        while (skip-- != 0) text = text[(text.IndexOf('\0') + 1)..];
 
         while (lines-- != 0)
         {
-            GUI_DrawText_Wrapper(textLines[textLinesPos], (short)left, (short)top, g_curWidgetFGColourBlink, 0, flags);
+            if (text[0] != '\0') GUI_DrawText_Wrapper(text, (short)left, (short)top, g_curWidgetFGColourBlink, 0, flags);
             top += height;
-            textLinesPos++;
+            text = text[(text.IndexOf('\0') + 1)..];
         }
 
         GFX_Screen_SetActive(oldScreenID);
