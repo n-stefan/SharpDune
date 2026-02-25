@@ -1221,7 +1221,7 @@ static class Gui
     internal static void GUI_DisplayText(string str, int importance, params object[] ap)
     {
         var buffer = string.Empty; //char[80]		  /* Formatting buffer of new message. */
-                                      //buffer[0] = '\0';
+                                   //buffer[0] = '\0';
 
         if (str != null)
         {
@@ -1363,8 +1363,8 @@ static class Gui
         displayTimer = 0;
     }
 
-    static short displayedarg12low = -1;
-    static short displayedarg2mid = -1;
+	static ushort displayedarg12low = unchecked((ushort)-1);
+	static ushort displayedarg2mid = unchecked((ushort)-1);
     /*
      * Draw a string to the screen, and so some magic.
      *
@@ -1440,7 +1440,7 @@ static class Gui
             colours[1] = fgColour;
             colours[4] = 6;
 
-            GUI_InitColors(colours, 0, /*lengthof(colours)*/(byte)(colours.Length - 1));
+            GUI_InitColors(colours, 0, /*lengthof(colours)*/ (byte)(colours.Length - 1));
 
             displayedarg2mid = arg2mid;
         }
