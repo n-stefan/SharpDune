@@ -744,7 +744,7 @@ static class VideoSdl2
     //	var prectlockValue = prectlock.Value;
     //	if (SDL_LockTexture(s_texture, ref prectlockValue, out pixels, out pitch) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
+    //		Trace.TraceError($"ERROR: Could not set lock texture: {SDL_GetError()}");
     //		return;
     //	}
     //	if (prectlock != null)
@@ -756,7 +756,7 @@ static class VideoSdl2
     //	var prectValue = prect.Value;
     //	if (SDL_RenderCopy(s_renderer, s_texture, ref prectValue, ref prectValue) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
+    //		Trace.TraceError($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
     //	}
     //}
 
@@ -771,7 +771,7 @@ static class VideoSdl2
 
     //	if (SDL_LockTexture(s_texture, nint.Zero, out pixels, out pitch) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: Could not set lock texture: {SDL_GetError()}");
+    //		Trace.TraceError($"ERROR: Could not set lock texture: {SDL_GetError()}");
     //		return;
     //	}
     //	switch (s_screen_magnification)
@@ -795,7 +795,7 @@ static class VideoSdl2
     //	SDL_UnlockTexture(s_texture);
     //	if (SDL_RenderCopy(s_renderer, s_texture, nint.Zero, nint.Zero) != 0)
     //	{
-    //		Trace.WriteLine($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
+    //		Trace.TraceError($"ERROR: SDL_RenderCopy failed : {SDL_GetError()}");
     //	}
     //}
 }

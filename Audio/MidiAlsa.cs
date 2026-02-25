@@ -195,7 +195,7 @@ partial class MidiAlsa
 
         if (snd_seq_open(ref s_midi, Marshal.StringToHGlobalAuto("default"), SND_SEQ_OPEN_OUTPUT, 0) < 0)
         {
-            Trace.WriteLine("ERROR: Failed to initialize MIDI");
+            Trace.TraceError("ERROR: Failed to initialize MIDI");
             s_midi = nint.Zero;
             return false;
         }
@@ -205,7 +205,7 @@ partial class MidiAlsa
         s_midiPort = snd_seq_create_simple_port(s_midi, name, SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
         if (s_midiPort < 0)
         {
-            Trace.WriteLine("ERROR: Failed to initialize MIDI");
+            Trace.TraceError("ERROR: Failed to initialize MIDI");
             snd_seq_close(s_midi);
             s_midi = nint.Zero;
             return false;
@@ -240,7 +240,7 @@ partial class MidiAlsa
 
         if (!found)
         {
-            Trace.WriteLine("ERROR: No valid MIDI output ports.\n  Please install and start Timidity++ like: timidity -iA");
+            Trace.TraceError("ERROR: No valid MIDI output ports.\n  Please install and start Timidity++ like: timidity -iA");
             snd_seq_delete_port(s_midi, s_midiPort);
             snd_seq_close(s_midi);
             s_midi = nint.Zero;
@@ -265,7 +265,7 @@ partial class MidiAlsa
         snd_seq_port_subscribe_set_time_real(s_midiSubscription, 1);
         if (snd_seq_subscribe_port(s_midi, s_midiSubscription) < 0)
         {
-            Trace.WriteLine("ERROR: Failed to subscribe to MIDI output");
+            Trace.TraceError("ERROR: Failed to subscribe to MIDI output");
             snd_seq_delete_port(s_midi, s_midiPort);
             snd_seq_close(s_midi);
             s_midi = nint.Zero;
@@ -275,7 +275,7 @@ partial class MidiAlsa
         /* Start the MIDI decoder */
         if (snd_midi_event_new(4, ref s_midiCoder) < 0)
         {
-            Trace.WriteLine("ERROR: Failed to initialize MIDI decoder");
+            Trace.TraceError("ERROR: Failed to initialize MIDI decoder");
             snd_seq_delete_port(s_midi, s_midiPort);
             snd_seq_close(s_midi);
             s_midi = nint.Zero;
@@ -328,7 +328,7 @@ partial class MidiAlsa
         r = snd_midi_event_encode_byte(s_midiCoder, (int)(data & 0xff), evPtr);  /* status byte */
         if (r < 0)
         {
-            Trace.WriteLine($"WARNING: snd_midi_event_encode_byte() failed to send status byte {data & 0xff:X2}. err={r}");
+            Trace.TraceWarning($"WARNING: snd_midi_event_encode_byte() failed to send status byte {data & 0xff:X2}. err={r}");
         }
         else if (r == 0)
         {
@@ -336,18 +336,18 @@ partial class MidiAlsa
             r = snd_midi_event_encode_byte(s_midiCoder, (int)((data >> 8) & 0xff), evPtr);   /* 1st data byte */
             if (r < 0)
             {
-                Trace.WriteLine($"WARNING: snd_midi_event_encode_byte() failed to send 1st data byte {(data >> 8) & 0xff:X2}. err={r}");
+                Trace.TraceWarning($"WARNING: snd_midi_event_encode_byte() failed to send 1st data byte {(data >> 8) & 0xff:X2}. err={r}");
             }
             else if (r == 0)
             {
                 r = snd_midi_event_encode_byte(s_midiCoder, (int)((data >> 16) & 0xff), evPtr);  /* 2nd data byte */
                 if (r < 0)
                 {
-                    Trace.WriteLine($"WARNING: snd_midi_event_encode_byte() failed to send 2nd data byte {(data >> 16) & 0xff:X2}. err={r}");
+                    Trace.TraceWarning($"WARNING: snd_midi_event_encode_byte() failed to send 2nd data byte {(data >> 16) & 0xff:X2}. err={r}");
                 }
                 else if (r == 0)
                 {
-                    Trace.WriteLine($"WARNING: midi_send() no more data byte to send : {data & 0xff:X2} {(data >> 8) & 0xff:X2} {(data >> 16) & 0xff:X2}");
+                    Trace.TraceWarning($"WARNING: midi_send() no more data byte to send : {data & 0xff:X2} {(data >> 8) & 0xff:X2} {(data >> 16) & 0xff:X2}");
                 }
             }
         }

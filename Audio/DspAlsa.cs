@@ -217,12 +217,12 @@ partial class DspAlsa
         Marshal.Copy(data, dataPointer + 2, s_data, (int)len); //memcpy(s_data, data + 2, len);
 
         freq = (uint)(1000000 / (256 - data[dataPointer]));
-        if (data[dataPointer + 1] != 0) Trace.WriteLine($"WARNING: Unsupported VOC codec 0x{(int)data[dataPointer + 1]:X2}");
+        if (data[dataPointer + 1] != 0) Trace.TraceWarning($"WARNING: Unsupported VOC codec 0x{(int)data[dataPointer + 1]:X2}");
 
         /* Open device */
         if (snd_pcm_open(ref s_dsp, "default", snd_pcm_stream_t.SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK | SND_PCM_ASYNC) < 0)
         {
-            Trace.WriteLine("ERROR: Failed to initialize DSP");
+            Trace.TraceError("ERROR: Failed to initialize DSP");
             s_dsp = nint.Zero;
             return;
         }
@@ -230,14 +230,14 @@ partial class DspAlsa
         /* Set parameters */
         snd_pcm_hw_params_malloc(ref dspParams);
         Debug.Assert(dspParams != nint.Zero);
-        if (snd_pcm_hw_params_any(s_dsp, dspParams) < 0) Trace.WriteLine("WARNING: snd_pcm_hw_params_any() failed");
+        if (snd_pcm_hw_params_any(s_dsp, dspParams) < 0) Trace.TraceWarning("WARNING: snd_pcm_hw_params_any() failed");
         snd_pcm_hw_params_set_access(s_dsp, dspParams, snd_pcm_access_t.SND_PCM_ACCESS_RW_INTERLEAVED);
         snd_pcm_hw_params_set_format(s_dsp, dspParams, snd_pcm_format_t.SND_PCM_FORMAT_U8);
-        if (snd_pcm_hw_params_set_channels(s_dsp, dspParams, 1) < 0) Trace.WriteLine("WARNING: snd_pcm_hw_params_set_channels() failed");
-        if (snd_pcm_hw_params_set_rate(s_dsp, dspParams, freq, 0) < 0) Trace.WriteLine("WARNING: snd_pcm_hw_params_set_rate() failed");
+        if (snd_pcm_hw_params_set_channels(s_dsp, dspParams, 1) < 0) Trace.TraceWarning("WARNING: snd_pcm_hw_params_set_channels() failed");
+        if (snd_pcm_hw_params_set_rate(s_dsp, dspParams, freq, 0) < 0) Trace.TraceWarning("WARNING: snd_pcm_hw_params_set_rate() failed");
         if (snd_pcm_hw_params(s_dsp, dspParams) < 0)
         {
-            Trace.WriteLine("ERROR: Failed to set parameters for DSP");
+            Trace.TraceError("ERROR: Failed to set parameters for DSP");
             snd_pcm_hw_params_free(dspParams);
             snd_pcm_close(s_dsp);
             s_dsp = nint.Zero;
@@ -261,7 +261,7 @@ partial class DspAlsa
         {
             /* Async callbacks not supported. Fallback on a more ugly way to detect end-of-stream */
             s_bufferDone = (uint)snd_pcm_avail(s_dsp);
-            Trace.WriteLine($"WARNING: dsp_alsa: Async callbacks not supported. {(int)s_bufferDone} PCM bytes available");
+            Trace.TraceWarning($"WARNING: dsp_alsa: Async callbacks not supported. {(int)s_bufferDone} PCM bytes available");
         }
 
         /* Write as much as we can to start playback */

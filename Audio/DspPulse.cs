@@ -38,7 +38,7 @@ unsafe class DspPulse
 //#endif
                 break;
             case pa_stream_state_t.PA_STREAM_FAILED:
-                Trace.WriteLine("WARNING: PA_STREAM_FAILED");
+                Trace.TraceWarning("WARNING: PA_STREAM_FAILED");
                 break;
             case pa_stream_state_t.PA_STREAM_TERMINATED:
                 Debug.WriteLine("DEBUG: PA_STREAM_TERMINATED");
@@ -84,7 +84,7 @@ unsafe class DspPulse
         s_mainloop = pa_mainloop_new();
         if (s_mainloop == null)
         {
-            Trace.WriteLine("ERROR: PulseAudio pa_mainloop_new() failed");
+            Trace.TraceError("ERROR: PulseAudio pa_mainloop_new() failed");
             return false;
         }
         s_mainloop_api = pa_mainloop_get_api(s_mainloop);
@@ -97,14 +97,14 @@ unsafe class DspPulse
         s_context = pa_context_new_with_proplist(s_mainloop_api, (sbyte*)Marshal.StringToHGlobalAuto("SharpDUNE"), null/*proplist*/);
         if (s_context == null)
         {
-            Trace.WriteLine("ERROR: PulseAudio pa_context_new_with_proplist() failed");
+            Trace.TraceError("ERROR: PulseAudio pa_context_new_with_proplist() failed");
             return false;
         }
         /*pa_context_set_state_callback(s_context, DSP_context_state_cb, NULL);*/
         pa_context_set_event_callback(s_context, &DSP_context_event_cb, null/*userdata*/);
         if (pa_context_connect(s_context, null, 0/*PA_CONTEXT_NOAUTOSPAWN*/, null) != 0)
         {
-            Trace.WriteLine("ERROR: PulseAudio pa_context_connect() failed");
+            Trace.TraceError("ERROR: PulseAudio pa_context_connect() failed");
             return false;
         }
         /* Wait for context to be ready */
@@ -122,14 +122,14 @@ unsafe class DspPulse
         s_stream = pa_stream_new(s_context, (sbyte*)Marshal.StringToHGlobalAuto("DuneSpeech"), &sample_spec, null);
         if (s_stream == null)
         {
-            Trace.WriteLine("ERROR: pa_stream_new() failed");
+            Trace.TraceError("ERROR: pa_stream_new() failed");
             return false;
         }
         pa_stream_set_state_callback(s_stream, &DSP_stream_state_cb, null);
         pa_stream_set_underflow_callback(s_stream, &DSP_stream_underflow_cb, null);
         if (pa_stream_connect_playback(s_stream, null, null, pa_stream_flags_t.PA_STREAM_START_UNMUTED | pa_stream_flags_t.PA_STREAM_VARIABLE_RATE | pa_stream_flags_t.PA_STREAM_ADJUST_LATENCY, null, null) < 0)
         {
-            Trace.WriteLine("ERROR: pa_stream_connect_playback() failed");
+            Trace.TraceError("ERROR: pa_stream_connect_playback() failed");
             return false;
         }
         Timer_Add(DSP_PulseAudio_Tick, 1000000 / 100, false);
@@ -193,7 +193,7 @@ unsafe class DspPulse
 
         if (pa_stream_write(s_stream, (void*)s_data, len, null, 0, pa_seek_mode_t.PA_SEEK_RELATIVE) < 0)
         {
-            Trace.WriteLine("ERROR: pa_stream_write() failed");
+            Trace.TraceError("ERROR: pa_stream_write() failed");
         }
         s_playing = true;
     }
