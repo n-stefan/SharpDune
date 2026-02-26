@@ -63,7 +63,7 @@ static class SharpDune
 
     internal static short g_musicInBattle; /*!< 0 = no battle, 1 = fight is going on, -1 = music of fight is going on is active. */
 
-    internal static Encoding Encoding = Encoding.UTF7; //Encoding.ASCII
+    internal static Encoding Encoding = Encoding.Latin1; //Encoding.UTF7
 
     internal static CultureInfo Culture = CultureInfo.InvariantCulture;
 
