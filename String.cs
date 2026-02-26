@@ -79,13 +79,13 @@ static class String
             {
                 (decomp_buffer, _) = String_Decompress(src, 1024);
                 decomp_buffer = String_TranslateSpecial(decomp_buffer);
-                decomp_buffer = decomp_buffer.Trim(); //String_Trim(decomp_buffer);
+                decomp_buffer = decomp_buffer.TrimEnd(); //String_Trim(decomp_buffer);
                 dst = decomp_buffer; //strdup(decomp_buffer);
             }
             else
             {
                 dst = src; //strdup(src);
-                //dst = dst.Trim(); //String_Trim(dst);
+                dst = dst.TrimEnd(); //String_Trim(dst);
             }
 
             if (dst.Length == 0 && s_strings[0] != null)
