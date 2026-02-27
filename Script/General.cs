@@ -85,9 +85,8 @@ static class General
      */
     internal static ushort Script_General_DisplayText(ScriptEngine script)
     {
-        string text; //char *
         var offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
-        text = script.scriptInfo.text[offset..].Cast<char>().ToString();
+        var text = UshortArrayToString(script.scriptInfo.text, offset);
 
         GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
 
@@ -116,9 +115,8 @@ static class General
      */
     internal static ushort Script_General_DisplayModalMessage(ScriptEngine script)
     {
-        string text; //char *
         var offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
-        text = script.scriptInfo.text[offset..].Cast<char>().ToString();
+        var text = UshortArrayToString(script.scriptInfo.text, offset);
 
         return GUI_DisplayModalMessage(text, 0xFFFF);
     }

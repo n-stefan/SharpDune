@@ -394,15 +394,11 @@ static class ScriptTeam
      */
     internal static ushort Script_Team_DisplayText(ScriptEngine script)
     {
-        CTeam t;
-        string text; //char *
-        ushort offset;
-
-        t = g_scriptCurrentTeam;
+        var t = g_scriptCurrentTeam;
         if (t.houseID == (byte)g_playerHouseID) return 0;
 
-        offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
-        text = script.scriptInfo.text[offset..].Cast<char>().ToString();
+        var offset = BEToH16(script.scriptInfo.text[STACK_PEEK(script, 1)]);
+        var text = UshortArrayToString(script.scriptInfo.text, offset);
 
         GUI_DisplayText(text, 0, STACK_PEEK(script, 2), STACK_PEEK(script, 3), STACK_PEEK(script, 4));
 

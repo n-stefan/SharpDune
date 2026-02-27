@@ -29,6 +29,14 @@ static class Common
         return to;
     }
 
+    internal static string UshortArrayToString(ushort[] array, int offset)
+    {
+        var index = Array.FindIndex(array, offset, x => x == '\0');
+        var bytes = new byte[(index - offset) * sizeof(ushort)];
+        Buffer.BlockCopy(array, offset, bytes, 0, bytes.Length);
+        return SharpDune.Encoding.GetString(bytes);
+    }
+
     internal static int SizeOf<T>(T value) =>
         value switch
         {
