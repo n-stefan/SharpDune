@@ -455,7 +455,7 @@ static class Script
         {
             if (data != default)
             {
-                scriptInfo.text = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
+                scriptInfo.text = ByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
                 dataPointer += (int)length;
             }
             else
@@ -478,7 +478,7 @@ static class Script
 
         if (data != default)
         {
-            scriptInfo.offsets = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
+            scriptInfo.offsets = ByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
             dataPointer += (int)length;
         }
         else
@@ -506,7 +506,7 @@ static class Script
 
         if (data != default)
         {
-            scriptInfo.start = FromByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
+            scriptInfo.start = ByteArrayToUshortArray(data.Slice(dataPointer, (int)length));
             //dataPointer += (int)length;
         }
         else

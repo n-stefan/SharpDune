@@ -15,7 +15,7 @@ static class Common
         return true;
     }
 
-    internal static ushort[] FromByteArrayToUshortArray(Span<byte> from)
+    internal static ushort[] ByteArrayToUshortArray(Span<byte> from)
     {
         var i = 0;
         var j = 0;
@@ -27,6 +27,10 @@ static class Common
             j++;
         }
         return to;
+
+        //var to = new ushort[from.Length / 2];
+        //Buffer.BlockCopy(from.ToArray(), 0, to, 0, from.Length);
+        //return to;
     }
 
     internal static string UshortArrayToString(ushort[] array, int offset)
@@ -40,33 +44,19 @@ static class Common
     internal static int SizeOf<T>(T value) =>
         value switch
         {
-            sbyte _ => 1,
-            byte _ => 1,
-            short _ => 2,
-            ushort _ => 2,
-            int _ => 4,
-            uint _ => 4,
-            long _ => 8,
-            ulong _ => 8,
-            char _ => 2,
-            float _ => 4,
-            double _ => 8,
-            decimal _ => 16,
-            bool _ => 1,
-
-            Type t when string.Equals(t.Name, "SByte", StringComparison.Ordinal) => 1,
-            Type t when string.Equals(t.Name, "Byte", StringComparison.Ordinal) => 1,
-            Type t when string.Equals(t.Name, "Int16", StringComparison.Ordinal) => 2,
-            Type t when string.Equals(t.Name, "UInt16", StringComparison.Ordinal) => 2,
-            Type t when string.Equals(t.Name, "Int32", StringComparison.Ordinal) => 4,
-            Type t when string.Equals(t.Name, "UInt32", StringComparison.Ordinal) => 4,
-            Type t when string.Equals(t.Name, "Int64", StringComparison.Ordinal) => 8,
-            Type t when string.Equals(t.Name, "UInt64", StringComparison.Ordinal) => 8,
-            Type t when string.Equals(t.Name, "Char", StringComparison.Ordinal) => 2,
-            Type t when string.Equals(t.Name, "Single", StringComparison.Ordinal) => 4,
-            Type t when string.Equals(t.Name, "Double", StringComparison.Ordinal) => 8,
-            Type t when string.Equals(t.Name, "Decimal", StringComparison.Ordinal) => 16,
-            Type t when string.Equals(t.Name, "Boolean", StringComparison.Ordinal) => 1,
+            Type t when string.Equals(t.Name, "SByte", StringComparison.Ordinal) => sizeof(sbyte),
+            Type t when string.Equals(t.Name, "Byte", StringComparison.Ordinal) => sizeof(byte),
+            Type t when string.Equals(t.Name, "Int16", StringComparison.Ordinal) => sizeof(short),
+            Type t when string.Equals(t.Name, "UInt16", StringComparison.Ordinal) => sizeof(ushort),
+            Type t when string.Equals(t.Name, "Int32", StringComparison.Ordinal) => sizeof(int),
+            Type t when string.Equals(t.Name, "UInt32", StringComparison.Ordinal) => sizeof(uint),
+            Type t when string.Equals(t.Name, "Int64", StringComparison.Ordinal) => sizeof(long),
+            Type t when string.Equals(t.Name, "UInt64", StringComparison.Ordinal) => sizeof(ulong),
+            Type t when string.Equals(t.Name, "Char", StringComparison.Ordinal) => sizeof(char),
+            Type t when string.Equals(t.Name, "Single", StringComparison.Ordinal) => sizeof(float),
+            Type t when string.Equals(t.Name, "Double", StringComparison.Ordinal) => sizeof(double),
+            Type t when string.Equals(t.Name, "Decimal", StringComparison.Ordinal) => sizeof(decimal),
+            Type t when string.Equals(t.Name, "Boolean", StringComparison.Ordinal) => sizeof(bool),
             Type t when t.GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Length > 0 =>
                 t.GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Sum(f => SizeOf(f.FieldType)),
 

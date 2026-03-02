@@ -469,7 +469,7 @@ static class File
             }
             else
             {
-                buffer = (T)(object)FromByteArrayToUshortArray(bytes);
+                buffer = (T)(object)ByteArrayToUshortArray(bytes);
             }
         }
         else if (buffer is uint)

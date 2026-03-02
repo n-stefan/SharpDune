@@ -483,7 +483,7 @@ static class Sprites
         g_fileRegionINI = SharpDune.Encoding.GetString(buf.Span.Slice(bufPointer, length));
         bufPointer += length;
 
-        g_regions = FromByteArrayToUshortArray(buf.Span.Slice(bufPointer));
+        g_regions = ByteArrayToUshortArray(buf.Span.Slice(bufPointer));
 
         InitRegions();
     }
