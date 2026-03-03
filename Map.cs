@@ -1583,7 +1583,7 @@ static class Map
         {
             var t = g_map.AsSpan(j * 64);
 
-            Buffer.BlockCopy(currentRow, 0, previousRow, 0, 128); //memcpy(previousRow, currentRow, 128);
+            Array.Copy(currentRow, 0, previousRow, 0, 64); //memcpy(previousRow, currentRow, 128);
 
             for (i = 0; i < 64; i++) currentRow[i] = t[i].groundTileID;
 
@@ -1674,7 +1674,7 @@ static class Map
         {
             var t = g_map.AsSpan(j * 64);
 
-            Buffer.BlockCopy(currentRow, 0, previousRow, 0, 128); //memcpy(previousRow, currentRow, 128);
+            Array.Copy(currentRow, 0, previousRow, 0, 64); //memcpy(previousRow, currentRow, 128);
 
             for (i = 0; i < 64; i++) currentRow[i] = t[i].groundTileID;
 

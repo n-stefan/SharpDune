@@ -1,7 +1,6 @@
 ﻿/* Gameloop and other main routines */
 
 // Master TODO list:
-// - Buffer.BlockCopy => Array.Copy
 // - reduce casts
 // - clean up
 // - use Array<T> where appropriate

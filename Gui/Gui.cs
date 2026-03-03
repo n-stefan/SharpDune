@@ -4545,7 +4545,7 @@ static class Gui
 
         oldScreenID = GFX_Screen_SetActive(Screen.NO0);
 
-        Buffer.BlockCopy(g_palette1, 255 * 3, backup, 0, 3); //memcpy(backup, g_palette1 + 255 * 3, 3);
+        Array.Copy(g_palette1, 255 * 3, backup, 0, 3); //memcpy(backup, g_palette1 + 255 * 3, 3);
 
         g_factoryWindowConstructionYard = isConstructionYard; /* always same value as g_factoryWindowConstructionYard */
         g_factoryWindowStarport = isStarPort;
@@ -4577,7 +4577,7 @@ static class Gui
 
         GUI_FactoryWindow_B495_0F30();
 
-        Buffer.BlockCopy(backup, 0, g_palette1, 255 * 3, 3); //memcpy(g_palette1 + 255 * 3, backup, 3);
+        Array.Copy(backup, 0, g_palette1, 255 * 3, 3); //memcpy(g_palette1 + 255 * 3, backup, 3);
 
         GFX_SetPalette(g_palette1);
 

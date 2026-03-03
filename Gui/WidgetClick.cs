@@ -1338,7 +1338,7 @@ static class WidgetClick
 
         Sprites_UnloadTiles();
 
-        Buffer.BlockCopy(g_paletteActive, 0, g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_paletteActive, 256 * 3);
+        Array.Copy(g_paletteActive, 0, g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_paletteActive, 256 * 3);
 
         Driver_Voice_Play(null, 0xFF);
 
@@ -1450,7 +1450,7 @@ static class WidgetClick
     {
         ushort i;
 
-        Buffer.BlockCopy(g_palette1, 0, g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_palette1, 256 * 3);
+        Array.Copy(g_palette1, 0, g_palette_998A, 0, 256 * 3); //memmove(g_palette_998A, g_palette1, 256 * 3);
 
         for (i = 0; i < 231 * 3; i++) g_palette1[i] = (byte)(g_palette1[i] / 2);
         for (i = 239 * 3; i < 256 * 3; i++) g_palette1[i] = (byte)(g_palette1[i] / 2);
@@ -1460,7 +1460,7 @@ static class WidgetClick
 
     static void UnshadeScreen()
     {
-        Buffer.BlockCopy(g_palette_998A, 0, g_palette1, 0, 256 * 3); //memmove(g_palette1, g_palette_998A, 256 * 3);
+        Array.Copy(g_palette_998A, 0, g_palette1, 0, 256 * 3); //memmove(g_palette1, g_palette_998A, 256 * 3);
 
         GFX_SetPalette(g_palette1);
     }

@@ -1269,7 +1269,7 @@ static class ScriptUnit
                     if (routeSize <= 0) break;
 
                     /* Copy the rest into our own buffer */
-                    Buffer.BlockCopy(bestRoute.buffer, 0, res.buffer, res.routeSize, routeSize); //memcpy(&res.buffer[res.routeSize], bestRoute->buffer, routeSize);
+                    Array.Copy(bestRoute.buffer, 0, res.buffer, res.routeSize, routeSize); //memcpy(&res.buffer[res.routeSize], bestRoute->buffer, routeSize);
                     res.routeSize += (ushort)routeSize;
                     res.score += bestRoute.score;
                 }
@@ -1327,7 +1327,7 @@ static class ScriptUnit
 
             res = Script_Unit_Pathfinder(packedSrc, packedDst, buffer, 40);
 
-            Buffer.BlockCopy(res.buffer, 0, u.route, 0, Math.Min(res.routeSize, (ushort)14)); //memcpy(u->route, res.buffer, min(res.routeSize, 14));
+            Array.Copy(res.buffer, 0, u.route, 0, Math.Min(res.routeSize, (ushort)14)); //memcpy(u->route, res.buffer, min(res.routeSize, 14));
 
             if (u.route[0] == 0xFF)
             {
@@ -1358,7 +1358,7 @@ static class ScriptUnit
             return 0;
         }
 
-        Buffer.BlockCopy(u.route, 1, u.route, 0, 13); //memmove(&u->route[0], &u->route[1], 13);
+        Array.Copy(u.route, 1, u.route, 0, 13); //memmove(&u->route[0], &u->route[1], 13);
         u.route[13] = 0xFF;
         return 1;
     }

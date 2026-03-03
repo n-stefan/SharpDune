@@ -1806,7 +1806,7 @@ static class Structure
 
                 Sprites_UnloadTiles();
 
-                Buffer.BlockCopy(g_paletteActive, 0, g_palette1, 0, 256 * 3); //memmove(g_palette1, g_paletteActive, 256 * 3);
+                Array.Copy(g_paletteActive, 0, g_palette1, 0, 256 * 3); //memmove(g_palette1, g_paletteActive, 256 * 3);
 
                 GUI_ChangeSelectionType((ushort)SelectionType.MENTAT);
 

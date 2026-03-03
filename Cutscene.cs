@@ -240,17 +240,17 @@ static class Cutscene
 
         File_ReadBlockFile("INTRO.PAL", g_palette1, 256 * 3);
 
-        Buffer.BlockCopy(g_palette1, 0, g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
+        Array.Copy(g_palette1, 0, g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
 
         Font_Select(g_fontIntro);
 
         GFX_Screen_SetActive(Screen.NO0);
 
-        Buffer.BlockCopy(g_palette1, (144 + (s_houseAnimation_subtitle[0].colour * 16)) * 3, s_palettePartTarget, 0, 6 * 3); //memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->colour * 16) * 3], 6 * 3);
+        Array.Copy(g_palette1, (144 + (s_houseAnimation_subtitle[0].colour * 16)) * 3, s_palettePartTarget, 0, 6 * 3); //memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->colour * 16) * 3], 6 * 3);
 
         Array.Fill<byte>(g_palette1, 0, 215 * 3, 6 * 3); //memset(&g_palette1[215 * 3], 0, 6 * 3);
 
-        Buffer.BlockCopy(s_palettePartTarget, 0, s_palettePartCurrent, 0, 6 * 3); //memcpy(s_palettePartCurrent, s_palettePartTarget, 6 * 3);
+        Array.Copy(s_palettePartTarget, 0, s_palettePartCurrent, 0, 6 * 3); //memcpy(s_palettePartCurrent, s_palettePartTarget, 6 * 3);
 
         Array.Fill<byte>(s_palettePartChange, 0, 0, 6 * 3); //memset(s_palettePartChange, 0, 6 * 3);
 
@@ -354,7 +354,7 @@ static class Cutscene
                 WSA_DisplayFrame(wsa, frame++, posX, posY, Screen.NO0);
                 GameLoop_PalettePart_Update(true);
 
-                Buffer.BlockCopy(s_palettePartCurrent, 0, g_palette1, 215 * 3, 18); //memcpy(&g_palette1[215 * 3], s_palettePartCurrent, 18);
+                Array.Copy(s_palettePartCurrent, 0, g_palette1, 215 * 3, 18); //memcpy(&g_palette1[215 * 3], s_palettePartCurrent, 18);
 
                 GUI_SetPaletteAnimated(g_palette1, 45);
 
@@ -455,18 +455,18 @@ static class Cutscene
             {
                 Array.Fill<byte>(g_palette_998A, 63, 3 * 1, 255 * 3); //memset(&g_palette_998A[3 * 1], 63, 255 * 3);
 
-                Buffer.BlockCopy(s_palettePartCurrent, 0, g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
+                Array.Copy(s_palettePartCurrent, 0, g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
                 GUI_SetPaletteAnimated(g_palette_998A, 15);
 
-                Buffer.BlockCopy(g_palette1, 0, g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
+                Array.Copy(g_palette1, 0, g_palette_998A, 0, 256 * 3); //memcpy(g_palette_998A, g_palette1, 256 * 3);
             }
 
             if ((animation[pointer].flags & HOUSEANIM_FLAGS_FADEOUTTEXT) != 0)
             {
                 GameLoop_PalettePart_Update(true);
 
-                Buffer.BlockCopy(s_palettePartCurrent, 0, g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
+                Array.Copy(s_palettePartCurrent, 0, g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
                 GUI_SetPaletteAnimated(g_palette_998A, 45);
             }
@@ -500,7 +500,7 @@ static class Cutscene
         {
             if (s_palettePartDirection == PalettePartDirection.PPD_TO_NEW_PALETTE)
             {
-                Buffer.BlockCopy(s_palettePartTarget, 0, s_palettePartCurrent, 0, 18); //memcpy(s_palettePartCurrent, s_palettePartTarget, 18);
+                Array.Copy(s_palettePartTarget, 0, s_palettePartCurrent, 0, 18); //memcpy(s_palettePartCurrent, s_palettePartTarget, 18);
             }
             else
             {
@@ -523,7 +523,7 @@ static class Cutscene
 
         if (finishNow) return (ushort)s_palettePartDirection;
 
-        Buffer.BlockCopy(s_palettePartCurrent, 0, g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
+        Array.Copy(s_palettePartCurrent, 0, g_palette_998A, 215 * 3, 18); //memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
         GFX_SetPalette(g_palette_998A);
 
@@ -566,7 +566,7 @@ static class Cutscene
                 return;
             }
 
-            Buffer.BlockCopy(s_palettePartTarget, 0, s_palettePartChange, 0, 18); //memcpy(s_palettePartChange, s_palettePartTarget, 18);
+            Array.Copy(s_palettePartTarget, 0, s_palettePartChange, 0, 18); //memcpy(s_palettePartChange, s_palettePartTarget, 18);
             s_palettePartCount = 1;
             return;
         }
@@ -574,7 +574,7 @@ static class Cutscene
         if (s_subtitleWait == 0xFFFF) s_subtitleWait = subtitle.waitFadein;
         if (s_subtitleWait-- != 0) return;
 
-        Buffer.BlockCopy(g_palette1, (144 + (subtitle.colour * 16)) * 3, s_palettePartTarget, 0, 18); //memcpy(s_palettePartTarget, &g_palette1[(144 + (subtitle.colour * 16)) * 3], 18);
+        Array.Copy(g_palette1, (144 + (subtitle.colour * 16)) * 3, s_palettePartTarget, 0, 18); //memcpy(s_palettePartTarget, &g_palette1[(144 + (subtitle.colour * 16)) * 3], 18);
 
         s_subtitleActive = true;
 
@@ -616,7 +616,7 @@ static class Cutscene
         }
         else
         {
-            Buffer.BlockCopy(s_palettePartTarget, 0, s_palettePartChange, 0, 18); //memcpy(s_palettePartChange, s_palettePartTarget, 18);
+            Array.Copy(s_palettePartTarget, 0, s_palettePartChange, 0, 18); //memcpy(s_palettePartChange, s_palettePartTarget, 18);
             s_palettePartCount = 1;
         }
 
