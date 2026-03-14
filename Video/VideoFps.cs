@@ -37,8 +37,8 @@ static class VideoFps
         s_previousTimeStampsIndex = (byte)((s_previousTimeStampsIndex + 1) & 0x0f);
     }
 
-    static readonly byte[] fontdigits = [0167, 044, 0135, 0155, 056, 0153, 0173, 045, 0177, 0157];
-    static readonly byte[] fonttestsegments = [03, 01, 05, 02, 0, 04, 032, 010, 054, 020, 0, 040, 0120, 0100, 0140];
+    static readonly byte[] fontdigits = [119, 36, 93, 109, 46, 107, 123, 37, 127, 111];
+    static readonly byte[] fonttestsegments = [3, 1, 5, 2, 0, 4, 26, 8, 44, 16, 0, 32, 80, 64, 96];
     static void Video_ShowFPS_DrawChar(Span<byte> screen, int bytes_per_row, ushort x, byte digit)
     {
         int i;
@@ -46,7 +46,7 @@ static class VideoFps
         var offset = 0;
         for (i = 0; i < 15; i++)
         {
-            screen[x + offset] = (byte)(((segments & fonttestsegments[i]) == fonttestsegments[i]) ? 15 : 0);
+            screen[x + offset] = (byte)(((segments & fonttestsegments[i]) != 0) ? 15 : 0);
             offset++;
             if ((i % 3) == 2)
             {
