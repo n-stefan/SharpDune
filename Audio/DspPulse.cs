@@ -161,9 +161,8 @@ unsafe class DspPulse
         uint freq;
         uint len;
         /*pa_buffer_attr attr;*/
-        var dataPointer = 0;
 
-        dataPointer += Read_LE_UInt16(data.AsSpan(20));  /* Skip VOC header */
+        var dataPointer = Read_LE_UInt16(data.AsSpan(20));  /* Skip VOC header */
 
         if (data[dataPointer] != 1) return;   /* if not a Sound Data block, return */
         len = (uint)(data[dataPointer + 1] | (data[dataPointer + 2] << 8) | (data[dataPointer + 3] << 16));

@@ -69,11 +69,9 @@ static class DspSdl
 
     internal static void DSP_Play(byte[] data)
     {
-        var dataPointer = 0;
-
         DSP_Stop();
 
-        dataPointer += Read_LE_UInt16(data.AsSpan(20));
+        var dataPointer = Read_LE_UInt16(data.AsSpan(20));
 
         if (data[dataPointer] != 1) return;
 

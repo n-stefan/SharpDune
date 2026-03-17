@@ -185,11 +185,10 @@ partial class DspAlsa
         uint len;
         uint freq;
         /* snd_pcm_hw_params_t* */ var dspParams = nint.Zero;
-        var dataPointer = 0;
 
         DSP_Stop();
 
-        dataPointer += Read_LE_UInt16(data.AsSpan(20));  /* skip Create Voice File header */
+        var dataPointer = Read_LE_UInt16(data.AsSpan(20));  /* skip Create Voice File header */
 
         /* first byte is Block Type :
 	     * 0x00: Terminator
