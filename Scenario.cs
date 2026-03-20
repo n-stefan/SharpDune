@@ -161,7 +161,7 @@ static class Scenario
         CUnit u;
         string[] split;
 
-        key = key.Replace(";", string.Empty, Comparison);
+        key = key.TrimStart(';');
         index = byte.Parse(key, Culture);
         index--;
 

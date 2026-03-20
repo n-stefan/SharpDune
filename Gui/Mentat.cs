@@ -806,7 +806,7 @@ static class Mentat
         {
             ushort width = 0;
 
-            while (width < maxWidth && str[i] != '.' && str[i] != '!' && str[i] != '?' && str[i] != '\0' && str[i] != '\r')
+            while (i < str.Length && width < maxWidth && str[i] != '.' && str[i] != '!' && str[i] != '?' && str[i] != '\0' && str[i] != '\r')
             {
                 width += Font_GetCharWidth(str[i++]);
             }
@@ -818,7 +818,7 @@ static class Mentat
 
             height++;
 
-            if ((str[i] != '\0' && (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '\r')) || height >= 3)
+            if ((i < str.Length && str[i] != '\0' && (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '\r')) || height >= 3)
             {
                 while (i < str.Length && str[i] != '\0' && (str[i] == ' ' || str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '\r')) i++;
 
@@ -828,7 +828,7 @@ static class Mentat
                 continue;
             }
 
-            if (str[i] == '\0')
+            if (i == str.Length) //str[i] == '\0'
             {
                 lines++;
                 height = 0;
