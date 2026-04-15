@@ -13,7 +13,7 @@ static class VideoSdl2
 {
     /* Set DUNE_ICON_DIR at compile time.  e.g. */
     /* #define DUNE_ICON_DIR "/usr/local/share/icons/hicolor/32x32/apps/" */
-    //static readonly string DUNE_ICON_DIR = Path.Combine(".", "Images");
+    static readonly string DUNE_ICON_DIR = Path.Combine(".", "Images");
 
     static VideoScaleFilter s_scale_filter;
 
@@ -361,10 +361,6 @@ static class VideoSdl2
         int err;
         int render_width;
         int render_height;
-#if !WITHOUT_SDLIMAGE
-        /*SDL_Surface*/
-        nint icon;
-#endif //WITHOUT_SDLIMAGE
         uint window_flags = 0;
 
         if (s_video_initialized) return true;
@@ -410,14 +406,14 @@ static class VideoSdl2
         SDL_SetWindowTitle(s_window, window_caption);
 
 #if !WITHOUT_SDLIMAGE
-        icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune_32x32.png")); //"sharpdune.png"
+        /*SDL_Surface*/ var icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune_32x32.png")); //sharpdune.png
         //if (icon == nint.Zero) icon = IMG_Load(Path.Combine(DUNE_ICON_DIR, "sharpdune.ico")); //sharpdune_32x32.png
         if (icon != nint.Zero)
         {
             SDL_SetWindowIcon(s_window, icon);
             SDL_FreeSurface(icon);
         }
-#endif //WITHOUT_SDLIMAGE
+#endif
 
         switch (s_scale_filter)
         {

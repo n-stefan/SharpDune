@@ -12,20 +12,20 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;WITH_SDL2;WITHOUT_SDLIMAGE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;WITH_SDL2</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWSL|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;WITH_SDL2;WITHOUT_SDLIMAGE;LINUX</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;WITH_SDL2;LINUX</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;WITH_SDL2;WITHOUT_SDLIMAGE</DefineConstants>
+    <DefineConstants>TRACE;WITH_SDL2</DefineConstants>
     <Optimize>True</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWSL|AnyCPU'">
-    <DefineConstants>TRACE;WITH_SDL2;WITHOUT_SDLIMAGE;LINUX</DefineConstants>
+    <DefineConstants>TRACE;WITH_SDL2;LINUX</DefineConstants>
     <Optimize>True</Optimize>
   </PropertyGroup>
 
@@ -47,6 +47,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="runtimes\linux-x64\native\libSDL2_image.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="runtimes\win-x64\native\SDL2_image.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="sharpdune.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
